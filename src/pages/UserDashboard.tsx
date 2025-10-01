@@ -8,30 +8,33 @@ import { toast } from 'sonner';
 import { QuestionRenderer } from '@/components/survey/QuestionRenderer';
 import { Progress } from '@/components/ui/progress';
 
+interface Questionnaire {
+  title: string;
+  description: string;
+  questions: {
+    structure: string;
+    demographics: any;
+    branch_selector: any;
+    branches: any;
+  };
+}
+
 interface Audit {
   id: string;
   company_name: string;
   is_active: boolean;
   expires_at: string | null;
-  questionnaire: {
-    title: string;
-    description: string;
-    questions: any;
-  };
+  questionnaire: Questionnaire;
 }
-
-type SurveyStep = 'demographics' | 'branch_selector' | 'branch_questions' | 'completed' | 'redirect';
 
 const UserDashboard = () => {
   const { token } = useParams<{ token: string }>();
   const [audit, setAudit] = useState<Audit | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-
-  // Survey state
-  const [step, setStep] = useState<SurveyStep>('demographics');
   const [responses, setResponses] = useState<Record<string, any>>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [currentStep, setCurrentStep] = useState<'demographics' | 'branch_selector' | 'branch_questions'>('demographics');
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
   const [currentBlockIndex, setCurrentBlockIndex] = useState(0);
 
@@ -92,84 +95,80 @@ const UserDashboard = () => {
     }));
   };
 
-  const validateCurrentStep = (): boolean => {
-    if (!audit) return false;
-
-    const questions = audit.questionnaire.questions;
-
-    if (step === 'demographics') {
-      const demoQuestions = questions.demographics.questions;
-      return demoQuestions.every((q: any) => 
-        !q.required || responses[q.id] !== undefined
-      );
-    }
-
-    if (step === 'branch_selector') {
-      return responses[questions.branch_selector.id] !== undefined;
-    }
-
-    if (step === 'branch_questions' && selectedBranch) {
-      const branch = questions.branches[selectedBranch];
-      if (currentBlockIndex < branch.blocks.length) {
-        const currentBlock = branch.blocks[currentBlockIndex];
-        return currentBlock.questions.every((q: any) =>
-          !q.required || responses[q.id] !== undefined
-        );
+  const validateCurrentQuestions = (questions: any[]): boolean => {
+    for (const q of questions) {
+      if (q.required && !responses[q.id]) {
+        return false;
       }
     }
-
-    return false;
+    return true;
   };
 
-  const handleNext = () => {
-    if (!validateCurrentStep()) {
+  const handleDemographicsNext = () => {
+    const demoQuestions = audit?.questionnaire.questions.demographics.questions || [];
+    if (!validateCurrentQuestions(demoQuestions)) {
+      toast.error('Kérjük válaszolj minden kötelező kérdésre!');
+      return;
+    }
+    setCurrentStep('branch_selector');
+  };
+
+  const handleBranchSelection = () => {
+    const branchAnswer = responses['eap_knowledge'];
+    if (!branchAnswer) {
+      toast.error('Kérjük válaszd ki az egyik opciót!');
+      return;
+    }
+
+    const branches = audit?.questionnaire.questions.branch_selector.branches;
+    const branchKey = branches[branchAnswer];
+
+    if (branchKey === 'redirect') {
+      // Handle redirect - submit minimal data
+      toast.info('Átirányítás az EAP információs oldalra...');
+      handleSubmit(new Event('submit') as any);
+      return;
+    }
+
+    setSelectedBranch(branchKey);
+    setCurrentStep('branch_questions');
+    setCurrentBlockIndex(0);
+  };
+
+  const handleBlockNext = () => {
+    if (!audit || !selectedBranch) return;
+
+    const branch = audit.questionnaire.questions.branches[selectedBranch];
+    const currentBlock = branch.blocks[currentBlockIndex];
+    
+    if (!validateCurrentQuestions(currentBlock.questions)) {
       toast.error('Kérjük válaszolj minden kötelező kérdésre!');
       return;
     }
 
-    if (step === 'demographics') {
-      setStep('branch_selector');
-    } else if (step === 'branch_selector') {
-      const branchAnswer = responses[audit!.questionnaire.questions.branch_selector.id];
-      const branches = audit!.questionnaire.questions.branch_selector.branches;
-      const branchKey = branches[branchAnswer];
-      
-      if (branchKey === 'redirect') {
-        setStep('redirect');
-        // TODO: Implement redirect to HR-provided URL
-        toast.info('Átirányítás...');
-      } else {
-        setSelectedBranch(branchKey);
-        setStep('branch_questions');
-        setCurrentBlockIndex(0);
-      }
-    } else if (step === 'branch_questions' && selectedBranch) {
-      const branch = audit!.questionnaire.questions.branches[selectedBranch];
-      if (currentBlockIndex < branch.blocks.length - 1) {
-        setCurrentBlockIndex(currentBlockIndex + 1);
-      } else {
-        handleSubmit();
-      }
+    if (currentBlockIndex < branch.blocks.length - 1) {
+      setCurrentBlockIndex(currentBlockIndex + 1);
+    } else {
+      // Last block, submit
+      handleSubmit(new Event('submit') as any);
     }
   };
 
-  const handleBack = () => {
-    if (step === 'branch_questions' && currentBlockIndex > 0) {
+  const handleBlockPrevious = () => {
+    if (currentBlockIndex > 0) {
       setCurrentBlockIndex(currentBlockIndex - 1);
-    } else if (step === 'branch_questions') {
-      setStep('branch_selector');
-      setSelectedBranch(null);
-      setCurrentBlockIndex(0);
-    } else if (step === 'branch_selector') {
-      setStep('demographics');
+    } else {
+      setCurrentStep('branch_selector');
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
     if (!audit) return;
-
+    
     setSubmitting(true);
-
+    
     try {
       const { error } = await supabase
         .from('audit_responses')
@@ -178,16 +177,14 @@ const UserDashboard = () => {
           responses,
           employee_metadata: {
             submitted_at: new Date().toISOString(),
-            branch: selectedBranch,
-            gender: responses.gender,
-            age: responses.age,
+            branch: selectedBranch || 'redirect',
           },
         });
 
       if (error) throw error;
 
       toast.success('Köszönjük a kitöltést!');
-      setStep('completed');
+      setAudit(null);
     } catch (err) {
       console.error('Error submitting response:', err);
       toast.error('Hiba történt a válaszok mentésekor');
@@ -196,24 +193,19 @@ const UserDashboard = () => {
     }
   };
 
-  const calculateProgress = (): number => {
-    if (!audit) return 0;
+  const getTotalProgress = () => {
+    if (!audit || !selectedBranch) return 0;
     
-    const questions = audit.questionnaire.questions;
-    let totalSteps = 2; // demographics + branch_selector
+    const branch = audit.questionnaire.questions.branches[selectedBranch];
+    if (!branch) return 0;
     
-    if (selectedBranch) {
-      const branch = questions.branches[selectedBranch];
-      totalSteps += branch.blocks.length;
-    }
-
-    let currentStep = 0;
-    if (step === 'demographics') currentStep = 0;
-    else if (step === 'branch_selector') currentStep = 1;
-    else if (step === 'branch_questions') currentStep = 2 + currentBlockIndex;
-    else if (step === 'completed') currentStep = totalSteps;
-
-    return (currentStep / totalSteps) * 100;
+    const totalBlocks = branch.blocks.length + 2; // +2 for demographics and branch selector
+    let completedSteps = 0;
+    
+    if (currentStep === 'branch_selector') completedSteps = 1;
+    else if (currentStep === 'branch_questions') completedSteps = 2 + currentBlockIndex;
+    
+    return (completedSteps / totalBlocks) * 100;
   };
 
   if (loading) {
@@ -241,105 +233,128 @@ const UserDashboard = () => {
     );
   }
 
-  if (step === 'completed') {
+  if (!audit.questionnaire.questions.structure) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Köszönjük!</CardTitle>
+            <CardTitle>Hiba</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground">
-              A kérdőív kitöltése sikeresen megtörtént. Válaszaid segítenek javítani az EAP programot.
-            </p>
+            <Alert variant="destructive">
+              <AlertDescription>Érvénytelen kérdőív struktúra</AlertDescription>
+            </Alert>
           </CardContent>
         </Card>
       </div>
     );
   }
 
-  if (step === 'redirect') {
+  const renderDemographics = () => {
+    const demoQuestions = audit.questionnaire.questions.demographics.questions;
+    
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle>Átirányítás</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">
-              Átirányítunk az EAP programról szóló információkhoz...
-            </p>
-          </CardContent>
-        </Card>
+      <div className="space-y-6">
+        <div>
+          <h3 className="text-lg font-semibold mb-4">
+            {audit.questionnaire.questions.demographics.title}
+          </h3>
+        </div>
+        {demoQuestions.map((q: any) => (
+          <QuestionRenderer
+            key={q.id}
+            question={q}
+            value={responses[q.id]}
+            onChange={(value) => handleResponseChange(q.id, value)}
+          />
+        ))}
+        <Button onClick={handleDemographicsNext} className="w-full">
+          Tovább
+        </Button>
       </div>
     );
-  }
+  };
 
-  const questions = audit.questionnaire.questions;
-  let currentQuestions: any[] = [];
-  let currentTitle = '';
+  const renderBranchSelector = () => {
+    const branchSelector = audit.questionnaire.questions.branch_selector;
+    
+    return (
+      <div className="space-y-6">
+        <QuestionRenderer
+          question={branchSelector}
+          value={responses[branchSelector.id]}
+          onChange={(value) => handleResponseChange(branchSelector.id, value)}
+        />
+        <Button onClick={handleBranchSelection} className="w-full">
+          Tovább
+        </Button>
+      </div>
+    );
+  };
 
-  if (step === 'demographics') {
-    currentQuestions = questions.demographics.questions;
-    currentTitle = questions.demographics.title;
-  } else if (step === 'branch_selector') {
-    currentQuestions = [questions.branch_selector];
-    currentTitle = 'Ágválasztó kérdés';
-  } else if (step === 'branch_questions' && selectedBranch) {
-    const branch = questions.branches[selectedBranch];
+  const renderBranchQuestions = () => {
+    if (!selectedBranch) return null;
+    
+    const branch = audit.questionnaire.questions.branches[selectedBranch];
     const currentBlock = branch.blocks[currentBlockIndex];
-    currentQuestions = currentBlock.questions;
-    currentTitle = currentBlock.title;
-  }
+    const isLastBlock = currentBlockIndex === branch.blocks.length - 1;
+    
+    return (
+      <div className="space-y-6">
+        <div>
+          <h3 className="text-lg font-semibold mb-1">{currentBlock.title}</h3>
+          <p className="text-sm text-muted-foreground">
+            Blokk {currentBlockIndex + 1} / {branch.blocks.length}
+          </p>
+        </div>
+        
+        {currentBlock.questions.map((q: any) => (
+          <QuestionRenderer
+            key={q.id}
+            question={q}
+            value={responses[q.id]}
+            onChange={(value) => handleResponseChange(q.id, value)}
+          />
+        ))}
+        
+        <div className="flex gap-4">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleBlockPrevious}
+            className="flex-1"
+          >
+            Vissza
+          </Button>
+          <Button
+            onClick={handleBlockNext}
+            disabled={submitting}
+            className="flex-1"
+          >
+            {submitting ? 'Küldés...' : isLastBlock ? 'Befejezés' : 'Tovább'}
+          </Button>
+        </div>
+      </div>
+    );
+  };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <div className="min-h-screen bg-background p-8">
       <div className="max-w-3xl mx-auto">
         <Card>
           <CardHeader>
             <CardTitle>{audit.questionnaire.title}</CardTitle>
             <CardDescription>
-              {audit.company_name}
+              {audit.company_name} - {audit.questionnaire.description}
             </CardDescription>
-            <Progress value={calculateProgress()} className="mt-4" />
+            {currentStep === 'branch_questions' && (
+              <Progress value={getTotalProgress()} className="mt-4" />
+            )}
           </CardHeader>
           <CardContent>
-            <div className="space-y-8">
-              <h3 className="text-lg font-semibold">{currentTitle}</h3>
-              
-              {currentQuestions.map((question: any) => (
-                <QuestionRenderer
-                  key={question.id}
-                  question={question}
-                  value={responses[question.id]}
-                  onChange={(value) => handleResponseChange(question.id, value)}
-                />
-              ))}
-
-              <div className="flex gap-4 justify-between">
-                {(step !== 'demographics') && (
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={handleBack}
-                  >
-                    Vissza
-                  </Button>
-                )}
-                <Button 
-                  type="button" 
-                  onClick={handleNext}
-                  disabled={submitting}
-                  className="ml-auto"
-                >
-                  {submitting ? 'Küldés...' : 
-                   step === 'branch_questions' && selectedBranch && 
-                   currentBlockIndex === questions.branches[selectedBranch].blocks.length - 1 
-                     ? 'Befejezés' 
-                     : 'Tovább'}
-                </Button>
-              </div>
-            </div>
+            {currentStep === 'demographics' && renderDemographics()}
+            {currentStep === 'branch_selector' && renderBranchSelector()}
+            {currentStep === 'branch_questions' && renderBranchQuestions()}
           </CardContent>
         </Card>
       </div>
