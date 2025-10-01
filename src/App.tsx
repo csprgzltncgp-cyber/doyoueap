@@ -10,6 +10,7 @@ import Auth from "./pages/Auth";
 import AdminDashboard from "./pages/AdminDashboard";
 import HRDashboard from "./pages/HRDashboard";
 import CreateAudit from "./pages/hr/CreateAudit";
+import UserCategories from "./pages/hr/UserCategories";
 import UserDashboard from "./pages/UserDashboard";
 import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
@@ -66,6 +67,16 @@ const App = () => (
               <ProtectedRoute allowedRoles={['hr']}>
                 <HRLayout>
                   <CreateAudit />
+                </HRLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/hr/categories" 
+            element={
+              <ProtectedRoute allowedRoles={['hr']}>
+                <HRLayout>
+                  <UserCategories />
                 </HRLayout>
               </ProtectedRoute>
             } 
