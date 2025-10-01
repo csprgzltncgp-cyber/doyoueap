@@ -11,16 +11,10 @@ const Index = () => {
   useEffect(() => {
     if (!loading && user && role) {
       // Redirect authenticated users to their dashboard
-      switch (role) {
-        case 'admin':
-          navigate('/admin');
-          break;
-        case 'hr':
-          navigate('/hr');
-          break;
-        case 'user':
-          navigate('/user');
-          break;
+      if (role === 'admin') {
+        navigate('/admin');
+      } else if (role === 'hr') {
+        navigate('/hr');
       }
     }
   }, [user, role, loading, navigate]);
@@ -85,13 +79,13 @@ const Index = () => {
             <Card>
               <CardHeader>
                 <CardTitle>Dolgozói Felület</CardTitle>
-                <CardDescription>Személyes támogatás</CardDescription>
+                <CardDescription>Nyilvános hozzáférés link/QR-on keresztül</CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>• Mentális egészség kérdőívek</li>
-                  <li>• Egyéni eredmények követése</li>
-                  <li>• Szakember kapcsolatfelvétel</li>
+                  <li>• Audit link alapú kérdőív kitöltés</li>
+                  <li>• Anonim válaszadás lehetősége</li>
+                  <li>• Egyszerű, gyors kitöltés</li>
                 </ul>
               </CardContent>
             </Card>

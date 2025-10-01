@@ -39,14 +39,7 @@ const App = () => (
               </ProtectedRoute>
             } 
           />
-          <Route 
-            path="/user" 
-            element={
-              <ProtectedRoute allowedRoles={['user']}>
-                <UserDashboard />
-              </ProtectedRoute>
-            } 
-          />
+          <Route path="/survey/:token" element={<UserDashboard />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-export type AppRole = 'admin' | 'hr' | 'user';
+export type AppRole = 'admin' | 'hr';
 
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -57,13 +57,13 @@ export const useAuth = () => {
 
       if (error) {
         console.error('Error fetching role:', error);
-        setRole('user'); // Default role
+        setRole(null);
       } else {
         setRole(data?.role as AppRole);
       }
     } catch (error) {
       console.error('Error fetching role:', error);
-      setRole('user');
+      setRole(null);
     } finally {
       setLoading(false);
     }
