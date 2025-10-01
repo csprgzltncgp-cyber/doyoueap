@@ -22,10 +22,13 @@ export const MultipleChoiceQuestion = ({ question, value = [], onChange }: Multi
 
   return (
     <div className="space-y-3">
-      <Label className="text-base font-medium">
-        {question.question}
-        {question.required && <span className="text-destructive ml-1">*</span>}
-      </Label>
+      <div className="space-y-1">
+        <Label className="text-base font-medium">
+          {question.question}
+          {question.required && <span className="text-destructive ml-1">*</span>}
+        </Label>
+        <p className="text-sm text-muted-foreground italic">Több válasz lehetséges</p>
+      </div>
       <div className="space-y-2">
         {question.options.map((option) => (
           <div key={option} className="flex items-center space-x-2">

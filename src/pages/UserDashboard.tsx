@@ -34,7 +34,7 @@ const UserDashboard = () => {
   const [error, setError] = useState<string | null>(null);
   const [responses, setResponses] = useState<Record<string, any>>({});
   const [submitting, setSubmitting] = useState(false);
-  const [currentStep, setCurrentStep] = useState<'demographics' | 'branch_selector' | 'branch_questions'>('demographics');
+  const [currentStep, setCurrentStep] = useState<'welcome' | 'demographics' | 'branch_selector' | 'branch_questions' | 'eap_info' | 'thank_you'>('welcome');
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
   const [currentBlockIndex, setCurrentBlockIndex] = useState(0);
 
@@ -124,9 +124,8 @@ const UserDashboard = () => {
     const branchKey = branches[branchAnswer];
 
     if (branchKey === 'redirect') {
-      // Handle redirect - submit minimal data
-      toast.info('Átirányítás az EAP információs oldalra...');
-      handleSubmit(new Event('submit') as any);
+      // Show EAP info page
+      setCurrentStep('eap_info');
       return;
     }
 
@@ -183,8 +182,7 @@ const UserDashboard = () => {
 
       if (error) throw error;
 
-      toast.success('Köszönjük a kitöltést!');
-      setAudit(null);
+      setCurrentStep('thank_you');
     } catch (err) {
       console.error('Error submitting response:', err);
       toast.error('Hiba történt a válaszok mentésekor');
@@ -301,12 +299,6 @@ const UserDashboard = () => {
     
     return (
       <div className="space-y-6">
-        <div>
-          <h3 className="text-lg font-semibold mb-1">{currentBlock.title}</h3>
-          <p className="text-sm text-muted-foreground">
-            Blokk {currentBlockIndex + 1} / {branch.blocks.length}
-          </p>
-        </div>
         
         {currentBlock.questions.map((q: any) => (
           <QuestionRenderer
@@ -338,23 +330,90 @@ const UserDashboard = () => {
     );
   };
 
+  const renderWelcome = () => (
+    <div className="space-y-6 text-center">
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold">Üdvözlünk!</h2>
+        <p className="text-muted-foreground">
+          Ez a felmérés anonim, a kitöltés kb. 6–9 perc. A válaszok kizárólag összesítve, 
+          statisztikai formában jelennek meg.
+        </p>
+      </div>
+      <Button onClick={() => setCurrentStep('demographics')} className="w-full">
+        Kezdés
+      </Button>
+    </div>
+  );
+
+  const renderEapInfo = () => (
+    <div className="space-y-6">
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold">Mi az EAP?</h2>
+        <p className="text-foreground">
+          Az EAP (Employee Assistance Program) egy munkavállalói segítő program, amely 
+          különböző élethelyzetekben nyújt támogatást.
+        </p>
+        <p className="text-foreground">
+          A program keretében hozzáférhetsz pszichológiai tanácsadáshoz, jogi segítséghez, 
+          és számos más szolgáltatáshoz, amelyek segíthetnek a munkahelyi és magánéleti 
+          kihívások kezelésében.
+        </p>
+        <div className="p-4 bg-secondary rounded-lg">
+          <p className="font-semibold mb-2">Cégünk EAP programja:</p>
+          <a 
+            href="https://doyoueap.hu" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+          >
+            doyoueap.hu
+          </a>
+        </div>
+      </div>
+      <Button onClick={() => handleSubmit(new Event('submit') as any)} className="w-full">
+        Befejezés
+      </Button>
+    </div>
+  );
+
+  const renderThankYou = () => (
+    <div className="space-y-6 text-center">
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold">Köszönjük a részvételt!</h2>
+        <p className="text-muted-foreground">
+          Válaszaid segítenek abban, hogy munkáltatód még jobb munkahelyi környezetet 
+          alakíthasson ki.
+        </p>
+        <p className="text-muted-foreground">
+          Ez az ablak most bezárható.
+        </p>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="min-h-screen bg-background p-4 sm:p-8">
       <div className="max-w-3xl mx-auto">
         <Card>
           <CardHeader>
-            <CardTitle>{audit.questionnaire.title}</CardTitle>
-            <CardDescription>
-              {audit.company_name} - {audit.questionnaire.description}
-            </CardDescription>
+            <div className="flex justify-center mb-4">
+              <img 
+                src="/lovable-uploads/dc85e0c0-6d33-40f5-8cf7-38ea4d06e3b9.png" 
+                alt="Logo" 
+                className="h-12 object-contain"
+              />
+            </div>
             {currentStep === 'branch_questions' && (
               <Progress value={getTotalProgress()} className="mt-4" />
             )}
           </CardHeader>
           <CardContent>
+            {currentStep === 'welcome' && renderWelcome()}
             {currentStep === 'demographics' && renderDemographics()}
             {currentStep === 'branch_selector' && renderBranchSelector()}
             {currentStep === 'branch_questions' && renderBranchQuestions()}
+            {currentStep === 'eap_info' && renderEapInfo()}
+            {currentStep === 'thank_you' && renderThankYou()}
           </CardContent>
         </Card>
       </div>
