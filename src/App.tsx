@@ -3,16 +3,35 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { HRSidebar } from "@/components/hr/HRSidebar";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import AdminDashboard from "./pages/AdminDashboard";
 import HRDashboard from "./pages/HRDashboard";
+import CreateAudit from "./pages/hr/CreateAudit";
 import UserDashboard from "./pages/UserDashboard";
 import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
+
+const HRLayout = ({ children }: { children: React.ReactNode }) => (
+  <SidebarProvider>
+    <div className="min-h-screen flex w-full">
+      <HRSidebar />
+      <div className="flex-1 flex flex-col">
+        <header className="h-14 border-b flex items-center px-4">
+          <SidebarTrigger />
+        </header>
+        <main className="flex-1">
+          {children}
+        </main>
+      </div>
+    </div>
+  </SidebarProvider>
+);
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -35,7 +54,19 @@ const App = () => (
             path="/hr" 
             element={
               <ProtectedRoute allowedRoles={['hr']}>
-                <HRDashboard />
+                <HRLayout>
+                  <HRDashboard />
+                </HRLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/hr/create-audit" 
+            element={
+              <ProtectedRoute allowedRoles={['hr']}>
+                <HRLayout>
+                  <CreateAudit />
+                </HRLayout>
               </ProtectedRoute>
             } 
           />
