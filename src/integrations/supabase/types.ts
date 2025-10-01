@@ -14,6 +14,82 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_responses: {
+        Row: {
+          audit_id: string
+          employee_metadata: Json | null
+          id: string
+          responses: Json
+          submitted_at: string
+        }
+        Insert: {
+          audit_id: string
+          employee_metadata?: Json | null
+          id?: string
+          responses?: Json
+          submitted_at?: string
+        }
+        Update: {
+          audit_id?: string
+          employee_metadata?: Json | null
+          id?: string
+          responses?: Json
+          submitted_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_responses_audit_id_fkey"
+            columns: ["audit_id"]
+            isOneToOne: false
+            referencedRelation: "audits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audits: {
+        Row: {
+          access_token: string
+          company_name: string
+          created_at: string
+          expires_at: string | null
+          hr_user_id: string
+          id: string
+          is_active: boolean | null
+          questionnaire_id: string
+          updated_at: string
+        }
+        Insert: {
+          access_token: string
+          company_name: string
+          created_at?: string
+          expires_at?: string | null
+          hr_user_id: string
+          id?: string
+          is_active?: boolean | null
+          questionnaire_id: string
+          updated_at?: string
+        }
+        Update: {
+          access_token?: string
+          company_name?: string
+          created_at?: string
+          expires_at?: string | null
+          hr_user_id?: string
+          id?: string
+          is_active?: boolean | null
+          questionnaire_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audits_questionnaire_id_fkey"
+            columns: ["questionnaire_id"]
+            isOneToOne: false
+            referencedRelation: "questionnaires"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           company_name: string | null
@@ -37,6 +113,36 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      questionnaires: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean | null
+          questions: Json
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          questions?: Json
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          questions?: Json
+          title?: string
           updated_at?: string
         }
         Relationships: []
@@ -67,6 +173,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_access_token: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
@@ -80,7 +190,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "hr" | "user"
+      app_role: "admin" | "hr"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -208,7 +318,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "hr", "user"],
+      app_role: ["admin", "hr"],
     },
   },
 } as const
