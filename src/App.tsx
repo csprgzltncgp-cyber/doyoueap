@@ -17,6 +17,7 @@ import Usage from "./pages/hr/Usage";
 import Impact from "./pages/hr/Impact";
 import Motivation from "./pages/hr/Motivation";
 import Demographics from "./pages/hr/Demographics";
+import Trends from "./pages/hr/Trends";
 import UserDashboard from "./pages/UserDashboard";
 import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
@@ -143,6 +144,16 @@ const App = () => (
               <ProtectedRoute allowedRoles={['hr']}>
                 <HRLayout>
                   <Demographics />
+                </HRLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/hr/trends" 
+            element={
+              <ProtectedRoute allowedRoles={['hr']}>
+                <HRLayout>
+                  <Trends />
                 </HRLayout>
               </ProtectedRoute>
             } 
