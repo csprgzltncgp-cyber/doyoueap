@@ -7,6 +7,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import { QuestionRenderer } from '@/components/survey/QuestionRenderer';
 import { Progress } from '@/components/ui/progress';
+import logo from '@/assets/doyoueap-logo.png';
 
 interface Questionnaire {
   title: string;
@@ -398,8 +399,8 @@ const UserDashboard = () => {
           <CardHeader>
             <div className="flex justify-center mb-4">
               <img 
-                src="/lovable-uploads/dc85e0c0-6d33-40f5-8cf7-38ea4d06e3b9.png" 
-                alt="Logo" 
+                src={logo} 
+                alt="DoYouEAP Logo" 
                 className="h-12 object-contain"
               />
             </div>
