@@ -1,14 +1,14 @@
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Copy, QrCode } from 'lucide-react';
+import { QrCode, Plus, ExternalLink } from 'lucide-react';
 
 interface Questionnaire {
   id: string;
@@ -16,79 +16,121 @@ interface Questionnaire {
   description: string;
 }
 
+interface Audit {
+  id: string;
+  company_name: string;
+  access_token: string;
+  is_active: boolean;
+  created_at: string;
+  questionnaire: Questionnaire;
+}
+
 const HRDashboard = () => {
   const { user, signOut } = useAuth();
+  const [audits, setAudits] = useState<Audit[]>([]);
   const [questionnaires, setQuestionnaires] = useState<Questionnaire[]>([]);
-  const [selectedQuestionnaire, setSelectedQuestionnaire] = useState('');
-  const [companyName, setCompanyName] = useState('');
-  const [isCreating, setIsCreating] = useState(false);
-  const [generatedLink, setGeneratedLink] = useState('');
-  const [showLinkDialog, setShowLinkDialog] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [newAudit, setNewAudit] = useState({
+    companyName: '',
+    questionnaireId: '',
+  });
 
   useEffect(() => {
-    fetchQuestionnaires();
+    fetchData();
   }, []);
 
-  const fetchQuestionnaires = async () => {
+  const fetchData = async () => {
     try {
-      const { data, error } = await supabase
+      // Fetch questionnaires
+      const { data: questionnairesData } = await supabase
         .from('questionnaires')
         .select('id, title, description')
         .eq('is_active', true);
 
-      if (error) throw error;
-      setQuestionnaires(data || []);
+      if (questionnairesData) {
+        setQuestionnaires(questionnairesData);
+      }
+
+      // Fetch audits
+      const { data: auditsData } = await supabase
+        .from('audits')
+        .select(`
+          id,
+          company_name,
+          access_token,
+          is_active,
+          created_at,
+          questionnaire:questionnaires (
+            id,
+            title,
+            description
+          )
+        `)
+        .order('created_at', { ascending: false });
+
+      if (auditsData) {
+        setAudits(auditsData as any);
+      }
     } catch (error) {
-      console.error('Error fetching questionnaires:', error);
-      toast.error('Nem sikerült betölteni a kérdőíveket');
+      console.error('Error fetching data:', error);
+      toast.error('Hiba történt az adatok betöltésekor');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const createAudit = async () => {
-    if (!selectedQuestionnaire || !companyName || !user) return;
+  const handleCreateAudit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-    setIsCreating(true);
+    if (!newAudit.companyName || !newAudit.questionnaireId) {
+      toast.error('Kérlek töltsd ki az összes mezőt');
+      return;
+    }
+
     try {
-      // Generate token using database function
-      const { data: tokenData, error: tokenError } = await supabase
-        .rpc('generate_access_token');
+      // Generate token via function
+      const { data: tokenData, error: tokenError } = await supabase.rpc(
+        'generate_access_token'
+      );
 
       if (tokenError) throw tokenError;
 
-      const { data, error } = await supabase
-        .from('audits')
-        .insert({
-          hr_user_id: user.id,
-          company_name: companyName,
-          questionnaire_id: selectedQuestionnaire,
-          access_token: tokenData,
-          is_active: true,
-        })
-        .select()
-        .single();
+      const { error } = await supabase.from('audits').insert({
+        hr_user_id: user?.id,
+        company_name: newAudit.companyName,
+        questionnaire_id: newAudit.questionnaireId,
+        access_token: tokenData,
+      });
 
       if (error) throw error;
 
-      const link = `${window.location.origin}/survey/${tokenData}`;
-      setGeneratedLink(link);
-      setShowLinkDialog(true);
       toast.success('Audit sikeresen létrehozva!');
-      
-      // Reset form
-      setSelectedQuestionnaire('');
-      setCompanyName('');
-    } catch (error: any) {
+      setIsCreateDialogOpen(false);
+      setNewAudit({ companyName: '', questionnaireId: '' });
+      fetchData();
+    } catch (error) {
       console.error('Error creating audit:', error);
       toast.error('Hiba történt az audit létrehozásakor');
-    } finally {
-      setIsCreating(false);
     }
   };
 
-  const copyLink = () => {
-    navigator.clipboard.writeText(generatedLink);
-    toast.success('Link másolva!');
+  const getSurveyUrl = (token: string) => {
+    return `${window.location.origin}/survey/${token}`;
   };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success('Link vágólapra másolva!');
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>Betöltés...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -100,95 +142,102 @@ const HRDashboard = () => {
           </Button>
         </div>
 
-        <div className="grid gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Új Audit indítása</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="company">Cég neve</Label>
-                <Input
-                  id="company"
-                  value={companyName}
-                  onChange={(e) => setCompanyName(e.target.value)}
-                  placeholder="Pl. Acme Corporation"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="questionnaire">Kérdőív kiválasztása</Label>
-                <Select value={selectedQuestionnaire} onValueChange={setSelectedQuestionnaire}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Válasszon kérdőívet" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {questionnaires.map((q) => (
-                      <SelectItem key={q.id} value={q.id}>
-                        {q.title}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <Button 
-                onClick={createAudit}
-                disabled={!selectedQuestionnaire || !companyName || isCreating}
-                className="w-full"
-              >
-                {isCreating ? 'Létrehozás...' : 'Audit indítása és Link generálása'}
+        <div className="mb-8">
+          <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                Új Audit Indítása
               </Button>
-            </CardContent>
-          </Card>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Új Audit Létrehozása</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleCreateAudit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="companyName">Cég neve</Label>
+                  <Input
+                    id="companyName"
+                    value={newAudit.companyName}
+                    onChange={(e) =>
+                      setNewAudit({ ...newAudit, companyName: e.target.value })
+                    }
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="questionnaire">Kérdőív</Label>
+                  <Select
+                    value={newAudit.questionnaireId}
+                    onValueChange={(value) =>
+                      setNewAudit({ ...newAudit, questionnaireId: value })
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Válassz kérdőívet" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {questionnaires.map((q) => (
+                        <SelectItem key={q.id} value={q.id}>
+                          {q.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <Button type="submit" className="w-full">
+                  Audit Létrehozása
+                </Button>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
+        <div className="space-y-4">
+          <h2 className="text-2xl font-bold">Auditok</h2>
+          
+          {audits.length === 0 ? (
             <Card>
-              <CardHeader>
-                <CardTitle>Dashboard</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Statisztikák és grafikonok (hamarosan)
-                </p>
+              <CardContent className="py-8 text-center text-muted-foreground">
+                Még nincs audit létrehozva
               </CardContent>
             </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Auditok</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Korábbi auditok listája (hamarosan)
-                </p>
-              </CardContent>
-            </Card>
-          </div>
+          ) : (
+            audits.map((audit) => (
+              <Card key={audit.id}>
+                <CardHeader>
+                  <CardTitle>
+                    {audit.company_name} - {audit.questionnaire.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Input
+                      value={getSurveyUrl(audit.access_token)}
+                      readOnly
+                      className="flex-1"
+                    />
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => copyToClipboard(getSurveyUrl(audit.access_token))}
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                    </Button>
+                    <Button variant="outline" size="icon">
+                      <QrCode className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Létrehozva: {new Date(audit.created_at).toLocaleDateString('hu-HU')}
+                  </p>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
       </div>
-
-      <Dialog open={showLinkDialog} onOpenChange={setShowLinkDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Audit Link Generálva</DialogTitle>
-            <DialogDescription>
-              Küldd el ezt a linket a dolgozóknak a kérdőív kitöltéséhez
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="flex gap-2">
-              <Input value={generatedLink} readOnly />
-              <Button onClick={copyLink} size="icon">
-                <Copy className="h-4 w-4" />
-              </Button>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              QR kód generálás hamarosan elérhető lesz
-            </p>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

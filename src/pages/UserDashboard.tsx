@@ -1,8 +1,9 @@
-import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
 
 interface Audit {
@@ -10,7 +11,7 @@ interface Audit {
   company_name: string;
   is_active: boolean;
   expires_at: string | null;
-  questionnaires: {
+  questionnaire: {
     title: string;
     description: string;
     questions: any[];
@@ -18,11 +19,12 @@ interface Audit {
 }
 
 const UserDashboard = () => {
-  const { token } = useParams();
+  const { token } = useParams<{ token: string }>();
   const [audit, setAudit] = useState<Audit | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [responses, setResponses] = useState<Record<string, any>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (token) {
@@ -39,7 +41,7 @@ const UserDashboard = () => {
           company_name,
           is_active,
           expires_at,
-          questionnaires (
+          questionnaire:questionnaires (
             title,
             description,
             questions
@@ -50,47 +52,57 @@ const UserDashboard = () => {
 
       if (error) throw error;
 
+      if (!data) {
+        setError('Érvénytelen audit link');
+        return;
+      }
+
       if (!data.is_active) {
-        toast.error('Ez az audit már nem aktív');
+        setError('Ez az audit már nem aktív');
         return;
       }
 
       if (data.expires_at && new Date(data.expires_at) < new Date()) {
-        toast.error('Ez az audit lejárt');
+        setError('Ez az audit lejárt');
         return;
       }
 
       setAudit(data as any);
-    } catch (error: any) {
-      console.error('Error fetching audit:', error);
-      toast.error('Nem sikerült betölteni a kérdőívet');
+    } catch (err) {
+      console.error('Error fetching audit:', err);
+      setError('Hiba történt az audit betöltésekor');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
     if (!audit) return;
-
+    
+    setSubmitting(true);
+    
     try {
       const { error } = await supabase
         .from('audit_responses')
         .insert({
           audit_id: audit.id,
-          responses: responses,
+          responses,
           employee_metadata: {
             submitted_at: new Date().toISOString(),
-            user_agent: navigator.userAgent,
           },
         });
 
       if (error) throw error;
 
-      toast.success('Köszönjük a válaszokat!');
-      setSubmitted(true);
-    } catch (error: any) {
-      console.error('Error submitting response:', error);
-      toast.error('Hiba történt a küldés során');
+      toast.success('Köszönjük a kitöltést!');
+      setResponses({});
+    } catch (err) {
+      console.error('Error submitting response:', err);
+      toast.error('Hiba történt a válaszok mentésekor');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -102,34 +114,17 @@ const UserDashboard = () => {
     );
   }
 
-  if (!audit) {
+  if (error || !audit) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Érvénytelen kérdőív</CardTitle>
+            <CardTitle>Hiba történt</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground">
-              Ez a kérdőív link érvénytelen vagy lejárt.
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  if (submitted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle>Köszönjük!</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">
-              Válaszai sikeresen elküldve. Ezt az ablakot most bezárhatja.
-            </p>
+            <Alert variant="destructive">
+              <AlertDescription>{error || 'Audit nem található'}</AlertDescription>
+            </Alert>
           </CardContent>
         </Card>
       </div>
@@ -139,25 +134,24 @@ const UserDashboard = () => {
   return (
     <div className="min-h-screen bg-background p-8">
       <div className="max-w-3xl mx-auto">
-        <Card className="mb-6">
+        <Card>
           <CardHeader>
-            <CardTitle>{audit.questionnaires.title}</CardTitle>
+            <CardTitle>{audit.questionnaire.title}</CardTitle>
             <CardDescription>
-              {audit.company_name} • {audit.questionnaires.description}
+              {audit.company_name} - {audit.questionnaire.description}
             </CardDescription>
           </CardHeader>
-        </Card>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* TODO: Render questions dynamically */}
+              <p className="text-muted-foreground">
+                A kérdőív hamarosan elérhető lesz...
+              </p>
 
-        <Card>
-          <CardContent className="pt-6 space-y-6">
-            <p className="text-muted-foreground">
-              Kérdőív kérdések itt jelennek meg...
-              (A kérdések struktúrája később kerül implementálásra)
-            </p>
-
-            <Button onClick={handleSubmit} className="w-full">
-              Válaszok beküldése
-            </Button>
+              <Button type="submit" disabled={submitting} className="w-full">
+                {submitting ? 'Küldés...' : 'Válaszok küldése'}
+              </Button>
+            </form>
           </CardContent>
         </Card>
       </div>
