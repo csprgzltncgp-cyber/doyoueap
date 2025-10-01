@@ -48,42 +48,66 @@ export type Database = {
       }
       audits: {
         Row: {
+          access_mode: string | null
           access_token: string
+          available_languages: string[] | null
+          communication_text: string | null
           company_name: string
           created_at: string
+          custom_colors: Json | null
           eap_program_url: string | null
+          email_template: Json | null
           expires_at: string | null
           hr_user_id: string
           id: string
           is_active: boolean | null
           logo_url: string | null
+          program_name: string | null
           questionnaire_id: string
+          recurrence_config: Json | null
+          start_date: string | null
           updated_at: string
         }
         Insert: {
+          access_mode?: string | null
           access_token: string
+          available_languages?: string[] | null
+          communication_text?: string | null
           company_name: string
           created_at?: string
+          custom_colors?: Json | null
           eap_program_url?: string | null
+          email_template?: Json | null
           expires_at?: string | null
           hr_user_id: string
           id?: string
           is_active?: boolean | null
           logo_url?: string | null
+          program_name?: string | null
           questionnaire_id: string
+          recurrence_config?: Json | null
+          start_date?: string | null
           updated_at?: string
         }
         Update: {
+          access_mode?: string | null
           access_token?: string
+          available_languages?: string[] | null
+          communication_text?: string | null
           company_name?: string
           created_at?: string
+          custom_colors?: Json | null
           eap_program_url?: string | null
+          email_template?: Json | null
           expires_at?: string | null
           hr_user_id?: string
           id?: string
           is_active?: boolean | null
           logo_url?: string | null
+          program_name?: string | null
           questionnaire_id?: string
+          recurrence_config?: Json | null
+          start_date?: string | null
           updated_at?: string
         }
         Relationships: [

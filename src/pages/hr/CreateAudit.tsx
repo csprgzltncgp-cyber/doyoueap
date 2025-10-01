@@ -2,63 +2,57 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
 import { toast } from 'sonner';
-import { Upload } from 'lucide-react';
-
-interface Questionnaire {
-  id: string;
-  title: string;
-  description: string;
-}
+import { Step1AccessMode } from '@/components/audit/Step1AccessMode';
+import { Step2Communication } from '@/components/audit/Step2Communication';
+import { Step3Branding } from '@/components/audit/Step3Branding';
+import { Step4Timing } from '@/components/audit/Step4Timing';
+import { Step5Languages } from '@/components/audit/Step5Languages';
+import { Step6ProgramName } from '@/components/audit/Step6ProgramName';
+import { Step7Summary } from '@/components/audit/Step7Summary';
 
 const CreateAudit = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [questionnaires, setQuestionnaires] = useState<Questionnaire[]>([]);
+  const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  // Audit data state
+  const [companyName, setCompanyName] = useState('');
+  const [programName, setProgramName] = useState('DoYouEAP');
+  const [accessMode, setAccessMode] = useState('public_link');
+  const [communicationText, setCommunicationText] = useState('');
   const [logoFile, setLogoFile] = useState<File | null>(null);
-  const [newAudit, setNewAudit] = useState({
-    companyName: '',
-    questionnaireId: '',
-    eapProgramUrl: 'https://doyoueap.hu',
-    expiresAt: '',
+  const [customColors, setCustomColors] = useState({
+    primary: '#3b82f6',
+    secondary: '#8b5cf6',
+    accent: '#10b981',
+    background: '#f3f4f6',
   });
+  const [startDate, setStartDate] = useState('');
+  const [expiresAt, setExpiresAt] = useState('');
+  const [enableRecurrence, setEnableRecurrence] = useState(false);
+  const [recurrenceFrequency, setRecurrenceFrequency] = useState('quarterly');
+  const [selectedLanguages, setSelectedLanguages] = useState(['HU']);
 
-  useEffect(() => {
-    fetchQuestionnaires();
-  }, []);
+  const totalSteps = 7;
 
-  const fetchQuestionnaires = async () => {
-    const { data } = await supabase
-      .from('questionnaires')
-      .select('id, title, description')
-      .eq('is_active', true);
-
-    if (data) {
-      setQuestionnaires(data);
+  const handleNext = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1);
     }
   };
 
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        toast.error('A fájl mérete maximum 2MB lehet');
-        return;
-      }
-      setLogoFile(file);
+  const handleBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
     }
   };
 
-  const handleCreateAudit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!newAudit.companyName || !newAudit.questionnaireId) {
+  const handleSubmit = async () => {
+    if (!companyName || !startDate || !expiresAt) {
       toast.error('Kérlek töltsd ki az összes kötelező mezőt');
       return;
     }
@@ -94,20 +88,40 @@ const CreateAudit = () => {
 
       if (tokenError) throw tokenError;
 
+      // Get the first active questionnaire
+      const { data: questionnaires } = await supabase
+        .from('questionnaires')
+        .select('id')
+        .eq('is_active', true)
+        .limit(1);
+
+      if (!questionnaires || questionnaires.length === 0) {
+        throw new Error('Nincs aktív kérdőív');
+      }
+
       // Create audit
       const { error } = await supabase.from('audits').insert({
         hr_user_id: user?.id,
-        company_name: newAudit.companyName,
-        questionnaire_id: newAudit.questionnaireId,
+        company_name: companyName,
+        program_name: programName,
+        questionnaire_id: questionnaires[0].id,
         access_token: tokenData,
+        access_mode: accessMode,
+        communication_text: communicationText,
         logo_url: logoUrl,
-        eap_program_url: newAudit.eapProgramUrl,
-        expires_at: newAudit.expiresAt || null,
+        custom_colors: customColors,
+        start_date: startDate,
+        expires_at: expiresAt,
+        recurrence_config: enableRecurrence
+          ? { enabled: true, frequency: recurrenceFrequency }
+          : { enabled: false },
+        available_languages: selectedLanguages,
+        eap_program_url: 'https://doyoueap.hu',
       });
 
       if (error) throw error;
 
-      toast.success('Audit sikeresen létrehozva!');
+      toast.success('Audit sikeresen létrehozva és elindítva!');
       navigate('/hr');
     } catch (error) {
       console.error('Error creating audit:', error);
@@ -117,110 +131,104 @@ const CreateAudit = () => {
     }
   };
 
+  const auditData = {
+    companyName,
+    programName,
+    accessMode,
+    communicationText,
+    logoFile,
+    customColors,
+    startDate,
+    expiresAt,
+    enableRecurrence,
+    recurrenceFrequency,
+    selectedLanguages,
+  };
+
   return (
-    <div className="p-8">
-      <Card className="max-w-2xl mx-auto">
-        <CardHeader>
-          <CardTitle>Új Audit Létrehozása</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleCreateAudit} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="companyName">Cég neve *</Label>
-              <Input
-                id="companyName"
-                value={newAudit.companyName}
-                onChange={(e) =>
-                  setNewAudit({ ...newAudit, companyName: e.target.value })
-                }
-                required
-              />
-            </div>
+    <div className="p-8 max-w-4xl mx-auto">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">Új Audit Indítása</h1>
+        <p className="text-muted-foreground">
+          Lépés {currentStep} / {totalSteps}
+        </p>
+        <Progress value={(currentStep / totalSteps) * 100} className="mt-4" />
+      </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="questionnaire">Kérdőív *</Label>
-              <Select
-                value={newAudit.questionnaireId}
-                onValueChange={(value) =>
-                  setNewAudit({ ...newAudit, questionnaireId: value })
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Válassz kérdőívet" />
-                </SelectTrigger>
-                <SelectContent>
-                  {questionnaires.map((q) => (
-                    <SelectItem key={q.id} value={q.id}>
-                      {q.title}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+      <Card>
+        <CardContent className="pt-6">
+          {currentStep === 1 && (
+            <Step1AccessMode
+              accessMode={accessMode}
+              onAccessModeChange={setAccessMode}
+              onNext={handleNext}
+            />
+          )}
 
-            <div className="space-y-2">
-              <Label htmlFor="logo">Cég logó (opcionális, max 2MB)</Label>
-              <div className="flex items-center gap-4">
-                <Input
-                  id="logo"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleLogoChange}
-                  className="hidden"
-                />
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => document.getElementById('logo')?.click()}
-                >
-                  <Upload className="mr-2 h-4 w-4" />
-                  {logoFile ? logoFile.name : 'Logo feltöltése'}
-                </Button>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Ha nem töltesz fel logót, az alapértelmezett DoYouEAP logó jelenik meg
-              </p>
-            </div>
+          {currentStep === 2 && (
+            <Step2Communication
+              communicationText={communicationText}
+              onCommunicationTextChange={setCommunicationText}
+              accessMode={accessMode}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          )}
 
-            <div className="space-y-2">
-              <Label htmlFor="eapUrl">EAP program weboldal</Label>
-              <Input
-                id="eapUrl"
-                type="url"
-                value={newAudit.eapProgramUrl}
-                onChange={(e) =>
-                  setNewAudit({ ...newAudit, eapProgramUrl: e.target.value })
-                }
-                placeholder="https://doyoueap.hu"
-              />
-            </div>
+          {currentStep === 3 && (
+            <Step3Branding
+              logoFile={logoFile}
+              customColors={customColors}
+              onLogoChange={setLogoFile}
+              onColorsChange={setCustomColors}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          )}
 
-            <div className="space-y-2">
-              <Label htmlFor="expiresAt">Lejárat dátuma (opcionális)</Label>
-              <Input
-                id="expiresAt"
-                type="datetime-local"
-                value={newAudit.expiresAt}
-                onChange={(e) =>
-                  setNewAudit({ ...newAudit, expiresAt: e.target.value })
-                }
-              />
-            </div>
+          {currentStep === 4 && (
+            <Step4Timing
+              startDate={startDate}
+              expiresAt={expiresAt}
+              enableRecurrence={enableRecurrence}
+              recurrenceFrequency={recurrenceFrequency}
+              onStartDateChange={setStartDate}
+              onExpiresAtChange={setExpiresAt}
+              onEnableRecurrenceChange={setEnableRecurrence}
+              onRecurrenceFrequencyChange={setRecurrenceFrequency}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          )}
 
-            <div className="flex gap-4">
-              <Button 
-                type="button" 
-                variant="outline" 
-                onClick={() => navigate('/hr')}
-                className="flex-1"
-              >
-                Mégse
-              </Button>
-              <Button type="submit" disabled={loading} className="flex-1">
-                {loading ? 'Létrehozás...' : 'Audit Létrehozása'}
-              </Button>
-            </div>
-          </form>
+          {currentStep === 5 && (
+            <Step5Languages
+              selectedLanguages={selectedLanguages}
+              onLanguagesChange={setSelectedLanguages}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          )}
+
+          {currentStep === 6 && (
+            <Step6ProgramName
+              programName={programName}
+              companyName={companyName}
+              onProgramNameChange={setProgramName}
+              onCompanyNameChange={setCompanyName}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          )}
+
+          {currentStep === 7 && (
+            <Step7Summary
+              auditData={auditData}
+              onSubmit={handleSubmit}
+              onBack={handleBack}
+              loading={loading}
+            />
+          )}
         </CardContent>
       </Card>
     </div>
