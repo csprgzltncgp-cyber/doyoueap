@@ -4,6 +4,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 
 interface Audit {
@@ -76,10 +79,27 @@ const UserDashboard = () => {
     }
   };
 
+  const handleResponseChange = (questionId: number, value: any) => {
+    setResponses(prev => ({
+      ...prev,
+      [questionId]: value,
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!audit) return;
+
+    // Validate all questions are answered
+    const unansweredQuestions = audit.questionnaire.questions.filter(
+      (q: any) => !responses[q.id]
+    );
+
+    if (unansweredQuestions.length > 0) {
+      toast.error('Kérjük válaszolj minden kérdésre!');
+      return;
+    }
     
     setSubmitting(true);
     
@@ -97,12 +117,82 @@ const UserDashboard = () => {
       if (error) throw error;
 
       toast.success('Köszönjük a kitöltést!');
-      setResponses({});
+      // Disable form after successful submission
+      setAudit(null);
     } catch (err) {
       console.error('Error submitting response:', err);
       toast.error('Hiba történt a válaszok mentésekor');
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const renderQuestion = (question: any) => {
+    const { id, question: text, type } = question;
+
+    switch (type) {
+      case 'scale':
+        const scale = question.scale || 5;
+        return (
+          <div key={id} className="space-y-3">
+            <Label className="text-base font-medium">{text}</Label>
+            <RadioGroup
+              value={responses[id]?.toString()}
+              onValueChange={(value) => handleResponseChange(id, parseInt(value))}
+              className="flex justify-between"
+            >
+              {Array.from({ length: scale }, (_, i) => i + 1).map((value) => (
+                <div key={value} className="flex flex-col items-center space-y-2">
+                  <RadioGroupItem value={value.toString()} id={`q${id}-${value}`} />
+                  <Label htmlFor={`q${id}-${value}`} className="text-sm font-normal">
+                    {value}
+                  </Label>
+                </div>
+              ))}
+            </RadioGroup>
+            <div className="flex justify-between text-xs text-muted-foreground">
+              <span>Egyáltalán nem</span>
+              <span>Teljes mértékben</span>
+            </div>
+          </div>
+        );
+
+      case 'yesno':
+        return (
+          <div key={id} className="space-y-3">
+            <Label className="text-base font-medium">{text}</Label>
+            <RadioGroup
+              value={responses[id]}
+              onValueChange={(value) => handleResponseChange(id, value)}
+              className="flex gap-4"
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="yes" id={`q${id}-yes`} />
+                <Label htmlFor={`q${id}-yes`} className="font-normal">Igen</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="no" id={`q${id}-no`} />
+                <Label htmlFor={`q${id}-no`} className="font-normal">Nem</Label>
+              </div>
+            </RadioGroup>
+          </div>
+        );
+
+      case 'text':
+        return (
+          <div key={id} className="space-y-3">
+            <Label className="text-base font-medium">{text}</Label>
+            <Textarea
+              value={responses[id] || ''}
+              onChange={(e) => handleResponseChange(id, e.target.value)}
+              placeholder="Írd ide a válaszod..."
+              className="min-h-[100px]"
+            />
+          </div>
+        );
+
+      default:
+        return null;
     }
   };
 
@@ -142,11 +232,10 @@ const UserDashboard = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* TODO: Render questions dynamically */}
-              <p className="text-muted-foreground">
-                A kérdőív hamarosan elérhető lesz...
-              </p>
+            <form onSubmit={handleSubmit} className="space-y-8">
+              {audit.questionnaire.questions.map((question: any) => 
+                renderQuestion(question)
+              )}
 
               <Button type="submit" disabled={submitting} className="w-full">
                 {submitting ? 'Küldés...' : 'Válaszok küldése'}
