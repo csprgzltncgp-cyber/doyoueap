@@ -51,10 +51,12 @@ export type Database = {
           access_token: string
           company_name: string
           created_at: string
+          eap_program_url: string | null
           expires_at: string | null
           hr_user_id: string
           id: string
           is_active: boolean | null
+          logo_url: string | null
           questionnaire_id: string
           updated_at: string
         }
@@ -62,10 +64,12 @@ export type Database = {
           access_token: string
           company_name: string
           created_at?: string
+          eap_program_url?: string | null
           expires_at?: string | null
           hr_user_id: string
           id?: string
           is_active?: boolean | null
+          logo_url?: string | null
           questionnaire_id: string
           updated_at?: string
         }
@@ -73,10 +77,12 @@ export type Database = {
           access_token?: string
           company_name?: string
           created_at?: string
+          eap_program_url?: string | null
           expires_at?: string | null
           hr_user_id?: string
           id?: string
           is_active?: boolean | null
+          logo_url?: string | null
           questionnaire_id?: string
           updated_at?: string
         }

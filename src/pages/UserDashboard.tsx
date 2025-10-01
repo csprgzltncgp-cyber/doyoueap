@@ -25,6 +25,8 @@ interface Audit {
   company_name: string;
   is_active: boolean;
   expires_at: string | null;
+  logo_url: string | null;
+  eap_program_url: string | null;
   questionnaire: Questionnaire;
 }
 
@@ -54,6 +56,8 @@ const UserDashboard = () => {
           company_name,
           is_active,
           expires_at,
+          logo_url,
+          eap_program_url,
           questionnaire:questionnaires (
             title,
             description,
@@ -362,12 +366,12 @@ const UserDashboard = () => {
         <div className="p-4 bg-secondary rounded-lg">
           <p className="font-semibold mb-2">Kattints az alábbi linkre és látogasd meg a program hivatalos weboldalát!</p>
           <a 
-            href="https://doyoueap.hu" 
+            href={audit?.eap_program_url || 'https://doyoueap.hu'} 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-primary hover:underline"
           >
-            doyoueap.hu
+            {audit?.eap_program_url || 'doyoueap.hu'}
           </a>
         </div>
       </div>
@@ -399,8 +403,8 @@ const UserDashboard = () => {
           <CardHeader>
             <div className="flex justify-center mb-4">
               <img 
-                src={logo} 
-                alt="DoYouEAP Logo" 
+                src={audit?.logo_url || logo} 
+                alt="Logo" 
                 className="h-12 object-contain"
               />
             </div>
