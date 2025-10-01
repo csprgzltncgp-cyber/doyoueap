@@ -15,6 +15,7 @@ import Awareness from "./pages/hr/Awareness";
 import TrustWillingness from "./pages/hr/TrustWillingness";
 import Usage from "./pages/hr/Usage";
 import Impact from "./pages/hr/Impact";
+import Motivation from "./pages/hr/Motivation";
 import UserDashboard from "./pages/UserDashboard";
 import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
@@ -121,6 +122,16 @@ const App = () => (
               <ProtectedRoute allowedRoles={['hr']}>
                 <HRLayout>
                   <Impact />
+                </HRLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/hr/motivation" 
+            element={
+              <ProtectedRoute allowedRoles={['hr']}>
+                <HRLayout>
+                  <Motivation />
                 </HRLayout>
               </ProtectedRoute>
             } 
