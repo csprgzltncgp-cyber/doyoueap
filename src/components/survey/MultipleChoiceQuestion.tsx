@@ -25,7 +25,6 @@ export const MultipleChoiceQuestion = ({ question, value = [], onChange }: Multi
       <div className="space-y-1">
         <Label className="text-base font-medium">
           {question.question}
-          {question.required && <span className="text-destructive ml-1">*</span>}
         </Label>
         <p className="text-sm text-muted-foreground italic">Több válasz lehetséges</p>
       </div>

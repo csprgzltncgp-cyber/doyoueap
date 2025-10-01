@@ -16,7 +16,6 @@ export const YesNoQuestion = ({ question, value, onChange }: YesNoQuestionProps)
     <div className="space-y-3">
       <Label className="text-base font-medium">
         {question.question}
-        {question.required && <span className="text-destructive ml-1">*</span>}
       </Label>
       <RadioGroup value={value} onValueChange={onChange} className="flex gap-4">
         <div className="flex items-center space-x-2">

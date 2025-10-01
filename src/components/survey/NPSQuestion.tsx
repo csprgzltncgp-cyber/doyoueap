@@ -20,7 +20,6 @@ export const NPSQuestion = ({ question, value, onChange }: NPSQuestionProps) => 
     <div className="space-y-3">
       <Label className="text-base font-medium">
         {text}
-        {question.required && <span className="text-destructive ml-1">*</span>}
       </Label>
       <RadioGroup
         value={value?.toString()}

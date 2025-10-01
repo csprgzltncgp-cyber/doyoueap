@@ -17,7 +17,6 @@ export const SingleChoiceQuestion = ({ question, value, onChange }: SingleChoice
     <div className="space-y-3">
       <Label className="text-base font-medium">
         {question.question}
-        {question.required && <span className="text-destructive ml-1">*</span>}
       </Label>
       <RadioGroup value={value} onValueChange={onChange} className="space-y-2">
         {question.options.map((option) => (
