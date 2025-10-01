@@ -360,7 +360,7 @@ const UserDashboard = () => {
           kihívások kezelésében.
         </p>
         <div className="p-4 bg-secondary rounded-lg">
-          <p className="font-semibold mb-2">Cégünk EAP programja:</p>
+          <p className="font-semibold mb-2">Kattints az alábbi linkre és látogasd meg a program hivatalos weboldalát!</p>
           <a 
             href="https://doyoueap.hu" 
             target="_blank" 
