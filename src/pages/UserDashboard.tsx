@@ -4,10 +4,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
+import { QuestionRenderer } from '@/components/survey/QuestionRenderer';
+import { Progress } from '@/components/ui/progress';
 
 interface Audit {
   id: string;
@@ -17,17 +16,24 @@ interface Audit {
   questionnaire: {
     title: string;
     description: string;
-    questions: any[];
+    questions: any;
   };
 }
+
+type SurveyStep = 'demographics' | 'branch_selector' | 'branch_questions' | 'completed' | 'redirect';
 
 const UserDashboard = () => {
   const { token } = useParams<{ token: string }>();
   const [audit, setAudit] = useState<Audit | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [responses, setResponses] = useState<Record<string, any>>({});
   const [submitting, setSubmitting] = useState(false);
+
+  // Survey state
+  const [step, setStep] = useState<SurveyStep>('demographics');
+  const [responses, setResponses] = useState<Record<string, any>>({});
+  const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
+  const [currentBlockIndex, setCurrentBlockIndex] = useState(0);
 
   useEffect(() => {
     if (token) {
@@ -79,30 +85,91 @@ const UserDashboard = () => {
     }
   };
 
-  const handleResponseChange = (questionId: number, value: any) => {
+  const handleResponseChange = (questionId: string, value: any) => {
     setResponses(prev => ({
       ...prev,
       [questionId]: value,
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!audit) return;
+  const validateCurrentStep = (): boolean => {
+    if (!audit) return false;
 
-    // Validate all questions are answered
-    const unansweredQuestions = audit.questionnaire.questions.filter(
-      (q: any) => !responses[q.id]
-    );
+    const questions = audit.questionnaire.questions;
 
-    if (unansweredQuestions.length > 0) {
-      toast.error('Kérjük válaszolj minden kérdésre!');
+    if (step === 'demographics') {
+      const demoQuestions = questions.demographics.questions;
+      return demoQuestions.every((q: any) => 
+        !q.required || responses[q.id] !== undefined
+      );
+    }
+
+    if (step === 'branch_selector') {
+      return responses[questions.branch_selector.id] !== undefined;
+    }
+
+    if (step === 'branch_questions' && selectedBranch) {
+      const branch = questions.branches[selectedBranch];
+      if (currentBlockIndex < branch.blocks.length) {
+        const currentBlock = branch.blocks[currentBlockIndex];
+        return currentBlock.questions.every((q: any) =>
+          !q.required || responses[q.id] !== undefined
+        );
+      }
+    }
+
+    return false;
+  };
+
+  const handleNext = () => {
+    if (!validateCurrentStep()) {
+      toast.error('Kérjük válaszolj minden kötelező kérdésre!');
       return;
     }
-    
+
+    if (step === 'demographics') {
+      setStep('branch_selector');
+    } else if (step === 'branch_selector') {
+      const branchAnswer = responses[audit!.questionnaire.questions.branch_selector.id];
+      const branches = audit!.questionnaire.questions.branch_selector.branches;
+      const branchKey = branches[branchAnswer];
+      
+      if (branchKey === 'redirect') {
+        setStep('redirect');
+        // TODO: Implement redirect to HR-provided URL
+        toast.info('Átirányítás...');
+      } else {
+        setSelectedBranch(branchKey);
+        setStep('branch_questions');
+        setCurrentBlockIndex(0);
+      }
+    } else if (step === 'branch_questions' && selectedBranch) {
+      const branch = audit!.questionnaire.questions.branches[selectedBranch];
+      if (currentBlockIndex < branch.blocks.length - 1) {
+        setCurrentBlockIndex(currentBlockIndex + 1);
+      } else {
+        handleSubmit();
+      }
+    }
+  };
+
+  const handleBack = () => {
+    if (step === 'branch_questions' && currentBlockIndex > 0) {
+      setCurrentBlockIndex(currentBlockIndex - 1);
+    } else if (step === 'branch_questions') {
+      setStep('branch_selector');
+      setSelectedBranch(null);
+      setCurrentBlockIndex(0);
+    } else if (step === 'branch_selector') {
+      setStep('demographics');
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!audit) return;
+
     setSubmitting(true);
-    
+
     try {
       const { error } = await supabase
         .from('audit_responses')
@@ -111,14 +178,16 @@ const UserDashboard = () => {
           responses,
           employee_metadata: {
             submitted_at: new Date().toISOString(),
+            branch: selectedBranch,
+            gender: responses.gender,
+            age: responses.age,
           },
         });
 
       if (error) throw error;
 
       toast.success('Köszönjük a kitöltést!');
-      // Disable form after successful submission
-      setAudit(null);
+      setStep('completed');
     } catch (err) {
       console.error('Error submitting response:', err);
       toast.error('Hiba történt a válaszok mentésekor');
@@ -127,73 +196,24 @@ const UserDashboard = () => {
     }
   };
 
-  const renderQuestion = (question: any) => {
-    const { id, question: text, type } = question;
-
-    switch (type) {
-      case 'scale':
-        const scale = question.scale || 5;
-        return (
-          <div key={id} className="space-y-3">
-            <Label className="text-base font-medium">{text}</Label>
-            <RadioGroup
-              value={responses[id]?.toString()}
-              onValueChange={(value) => handleResponseChange(id, parseInt(value))}
-              className="flex justify-between"
-            >
-              {Array.from({ length: scale }, (_, i) => i + 1).map((value) => (
-                <div key={value} className="flex flex-col items-center space-y-2">
-                  <RadioGroupItem value={value.toString()} id={`q${id}-${value}`} />
-                  <Label htmlFor={`q${id}-${value}`} className="text-sm font-normal">
-                    {value}
-                  </Label>
-                </div>
-              ))}
-            </RadioGroup>
-            <div className="flex justify-between text-xs text-muted-foreground">
-              <span>Egyáltalán nem</span>
-              <span>Teljes mértékben</span>
-            </div>
-          </div>
-        );
-
-      case 'yesno':
-        return (
-          <div key={id} className="space-y-3">
-            <Label className="text-base font-medium">{text}</Label>
-            <RadioGroup
-              value={responses[id]}
-              onValueChange={(value) => handleResponseChange(id, value)}
-              className="flex gap-4"
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="yes" id={`q${id}-yes`} />
-                <Label htmlFor={`q${id}-yes`} className="font-normal">Igen</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="no" id={`q${id}-no`} />
-                <Label htmlFor={`q${id}-no`} className="font-normal">Nem</Label>
-              </div>
-            </RadioGroup>
-          </div>
-        );
-
-      case 'text':
-        return (
-          <div key={id} className="space-y-3">
-            <Label className="text-base font-medium">{text}</Label>
-            <Textarea
-              value={responses[id] || ''}
-              onChange={(e) => handleResponseChange(id, e.target.value)}
-              placeholder="Írd ide a válaszod..."
-              className="min-h-[100px]"
-            />
-          </div>
-        );
-
-      default:
-        return null;
+  const calculateProgress = (): number => {
+    if (!audit) return 0;
+    
+    const questions = audit.questionnaire.questions;
+    let totalSteps = 2; // demographics + branch_selector
+    
+    if (selectedBranch) {
+      const branch = questions.branches[selectedBranch];
+      totalSteps += branch.blocks.length;
     }
+
+    let currentStep = 0;
+    if (step === 'demographics') currentStep = 0;
+    else if (step === 'branch_selector') currentStep = 1;
+    else if (step === 'branch_questions') currentStep = 2 + currentBlockIndex;
+    else if (step === 'completed') currentStep = totalSteps;
+
+    return (currentStep / totalSteps) * 100;
   };
 
   if (loading) {
@@ -221,26 +241,105 @@ const UserDashboard = () => {
     );
   }
 
+  if (step === 'completed') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Köszönjük!</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">
+              A kérdőív kitöltése sikeresen megtörtént. Válaszaid segítenek javítani az EAP programot.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (step === 'redirect') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Átirányítás</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">
+              Átirányítunk az EAP programról szóló információkhoz...
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  const questions = audit.questionnaire.questions;
+  let currentQuestions: any[] = [];
+  let currentTitle = '';
+
+  if (step === 'demographics') {
+    currentQuestions = questions.demographics.questions;
+    currentTitle = questions.demographics.title;
+  } else if (step === 'branch_selector') {
+    currentQuestions = [questions.branch_selector];
+    currentTitle = 'Ágválasztó kérdés';
+  } else if (step === 'branch_questions' && selectedBranch) {
+    const branch = questions.branches[selectedBranch];
+    const currentBlock = branch.blocks[currentBlockIndex];
+    currentQuestions = currentBlock.questions;
+    currentTitle = currentBlock.title;
+  }
+
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-3xl mx-auto">
         <Card>
           <CardHeader>
             <CardTitle>{audit.questionnaire.title}</CardTitle>
             <CardDescription>
-              {audit.company_name} - {audit.questionnaire.description}
+              {audit.company_name}
             </CardDescription>
+            <Progress value={calculateProgress()} className="mt-4" />
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-8">
-              {audit.questionnaire.questions.map((question: any) => 
-                renderQuestion(question)
-              )}
+            <div className="space-y-8">
+              <h3 className="text-lg font-semibold">{currentTitle}</h3>
+              
+              {currentQuestions.map((question: any) => (
+                <QuestionRenderer
+                  key={question.id}
+                  question={question}
+                  value={responses[question.id]}
+                  onChange={(value) => handleResponseChange(question.id, value)}
+                />
+              ))}
 
-              <Button type="submit" disabled={submitting} className="w-full">
-                {submitting ? 'Küldés...' : 'Válaszok küldése'}
-              </Button>
-            </form>
+              <div className="flex gap-4 justify-between">
+                {(step !== 'demographics') && (
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={handleBack}
+                  >
+                    Vissza
+                  </Button>
+                )}
+                <Button 
+                  type="button" 
+                  onClick={handleNext}
+                  disabled={submitting}
+                  className="ml-auto"
+                >
+                  {submitting ? 'Küldés...' : 
+                   step === 'branch_questions' && selectedBranch && 
+                   currentBlockIndex === questions.branches[selectedBranch].blocks.length - 1 
+                     ? 'Befejezés' 
+                     : 'Tovább'}
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
