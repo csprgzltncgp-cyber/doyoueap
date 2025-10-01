@@ -18,6 +18,9 @@ import Impact from "./pages/hr/Impact";
 import Motivation from "./pages/hr/Motivation";
 import Demographics from "./pages/hr/Demographics";
 import Trends from "./pages/hr/Trends";
+import Export from "./pages/hr/Export";
+import Compare from "./pages/hr/Compare";
+import HRInput from "./pages/hr/HRInput";
 import UserDashboard from "./pages/UserDashboard";
 import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
@@ -154,6 +157,36 @@ const App = () => (
               <ProtectedRoute allowedRoles={['hr']}>
                 <HRLayout>
                   <Trends />
+                </HRLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/hr/export" 
+            element={
+              <ProtectedRoute allowedRoles={['hr']}>
+                <HRLayout>
+                  <Export />
+                </HRLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/hr/compare" 
+            element={
+              <ProtectedRoute allowedRoles={['hr']}>
+                <HRLayout>
+                  <Compare />
+                </HRLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/hr/input" 
+            element={
+              <ProtectedRoute allowedRoles={['hr']}>
+                <HRLayout>
+                  <HRInput />
                 </HRLayout>
               </ProtectedRoute>
             } 
