@@ -21,6 +21,7 @@ import Trends from "./pages/hr/Trends";
 import Export from "./pages/hr/Export";
 import Compare from "./pages/hr/Compare";
 import HRInput from "./pages/hr/HRInput";
+import Settings from "./pages/hr/Settings";
 import UserDashboard from "./pages/UserDashboard";
 import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
@@ -187,6 +188,16 @@ const App = () => (
               <ProtectedRoute allowedRoles={['hr']}>
                 <HRLayout>
                   <HRInput />
+                </HRLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/hr/settings" 
+            element={
+              <ProtectedRoute allowedRoles={['hr']}>
+                <HRLayout>
+                  <Settings />
                 </HRLayout>
               </ProtectedRoute>
             } 
