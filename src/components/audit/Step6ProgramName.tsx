@@ -58,7 +58,7 @@ export const Step6ProgramName = ({
               value={programName}
               onChange={(e) => onProgramNameChange(e.target.value)}
               maxLength={60}
-              placeholder="pl. DoYouEAP, Dolgozói Támogatási Program"
+              placeholder="pl. Munkavállalói Támogatási Program"
             />
           </div>
           
@@ -69,7 +69,7 @@ export const Step6ProgramName = ({
               type="url"
               value={eapProgramUrl}
               onChange={(e) => onEapProgramUrlChange(e.target.value)}
-              placeholder="https://doyoueap.hu"
+              placeholder="http://"
             />
             <p className="text-sm text-muted-foreground">
               Erre a weboldalra irányítjuk azokat a munkavállalókat, akik még nem ismerik a programot.
