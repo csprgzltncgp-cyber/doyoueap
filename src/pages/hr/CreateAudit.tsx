@@ -210,6 +210,8 @@ const CreateAudit = () => {
               communicationText={communicationText}
               onCommunicationTextChange={setCommunicationText}
               accessMode={accessMode}
+              programName={programName}
+              companyName={companyName}
               onNext={handleNext}
               onBack={handleBack}
             />

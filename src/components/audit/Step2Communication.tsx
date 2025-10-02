@@ -9,6 +9,8 @@ interface Step2Props {
   communicationText: string;
   onCommunicationTextChange: (text: string) => void;
   accessMode: string;
+  programName: string;
+  companyName: string;
   onNext: () => void;
   onBack: () => void;
 }
@@ -17,15 +19,20 @@ export const Step2Communication = ({
   communicationText,
   onCommunicationTextChange,
   accessMode,
+  programName,
+  companyName,
   onNext,
   onBack,
 }: Step2Props) => {
   const getDefaultCommunicationText = () => {
+    const program = programName || 'DoYouEAP';
+    const company = companyName || '[Cég neve]';
+    
     if (accessMode === 'tokenes') {
-      return `Tárgy: Segítsd jobbá tenni a {{program_név}} programot!
+      return `Tárgy: Segítsd jobbá tenni a ${program} programot!
 Helló!
 
-A {{program_név}} azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
+A ${program} azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
 
 Kérjük, töltsd ki rövid kérdőívünket, amelyet az alábbi linken érsz el:
 
@@ -33,14 +40,14 @@ Link
 
 A kitöltés csak néhány percet vesz igénybe. A válaszadás teljesen anonim, és az eredményeket kizárólag összesítve, statisztikai célokra használjuk.
 
-Előre is köszönjük, hogy segítesz jobbá tenni a {{program_név}} programot!
+Előre is köszönjük, hogy segítesz jobbá tenni a ${program} programot!
 
 Üdvözlettel,
-{{cég_név}}`;
+${company}`;
     } else if (accessMode === 'qr_code') {
-      return `Segítsd jobbá tenni a {{program_név}} programot!
+      return `Segítsd jobbá tenni a ${program} programot!
 
-A {{program_név}} azért van, hogy támogasson – akár stresszről, jogi vagy pénzügyi kérdésekről, akár pszichológiai segítségről van szó.
+A ${program} azért van, hogy támogasson – akár stresszről, jogi vagy pénzügyi kérdésekről, akár pszichológiai segítségről van szó.
 
 Most rajtad a sor: töltsd ki rövid kérdőívünket, és mondd el a véleményed!
 
@@ -50,11 +57,11 @@ Néhány perc az egész
 Teljesen anonim
 Csak statisztikai céllal használjuk
 
-Köszönjük, hogy segítesz fejleszteni a {{program_név}} programot!`;
+Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
     } else {
       return `Helló!
 
-A {{program_név}} azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
+A ${program} azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
 
 Kérjük, töltsd ki rövid kérdőívünket, amelyet az alábbi linken érsz el:
 
@@ -62,10 +69,10 @@ Link
 
 A kitöltés csak néhány percet vesz igénybe. A válaszadás teljesen anonim, és az eredményeket kizárólag összesítve, statisztikai célokra használjuk.
 
-Előre is köszönjük, hogy segítesz jobbá tenni a {{program_név}} programot!
+Előre is köszönjük, hogy segítesz jobbá tenni a ${program} programot!
 
 Üdvözlettel,
-{{cég_név}}`;
+${company}`;
     }
   };
 
@@ -78,6 +85,13 @@ Előre is köszönjük, hogy segítesz jobbá tenni a {{program_név}} programot
         </p>
       </div>
 
+      <Alert>
+        <InfoIcon className="h-4 w-4" />
+        <AlertDescription>
+          A szövegben automatikusan behelyettesítettük a program nevét ({programName || 'DoYouEAP'}) és a cég nevét ({companyName || '[Cég neve]'}).
+        </AlertDescription>
+      </Alert>
+
       <Card>
         <CardHeader>
           <CardTitle>
@@ -86,7 +100,7 @@ Előre is köszönjük, hogy segítesz jobbá tenni a {{program_név}} programot
              'Belső kommunikációs szöveg'}
           </CardTitle>
           <CardDescription>
-            Használhat változókat: {'{'}{'{'} cég_név {'}'}{'}'},  {'{'}{'{'} program_név {'}'}{'}'},  {'{'}{'{'} audit_link {'}'}{'}'} 
+            A szöveg szabadon szerkeszthető.
           </CardDescription>
         </CardHeader>
         <CardContent>
