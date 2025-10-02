@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { PlayCircle, Activity, Eye } from 'lucide-react';
 import CreateAudit from './CreateAudit';
 import RunningAudits from './RunningAudits';
 import AuditQuestionnaire from './AuditQuestionnaire';
@@ -49,9 +50,18 @@ const EAPAudit = () => {
 
       <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="create">Audit Indítása</TabsTrigger>
-          <TabsTrigger value="running">Futó Auditok</TabsTrigger>
-          <TabsTrigger value="demo">Demo Audit</TabsTrigger>
+          <TabsTrigger value="create" className="flex items-center gap-2">
+            <PlayCircle className="h-4 w-4" />
+            <span className="hidden sm:inline">Audit Indítása</span>
+          </TabsTrigger>
+          <TabsTrigger value="running" className="flex items-center gap-2">
+            <Activity className="h-4 w-4" />
+            <span className="hidden sm:inline">Futó Auditok</span>
+          </TabsTrigger>
+          <TabsTrigger value="demo" className="flex items-center gap-2">
+            <Eye className="h-4 w-4" />
+            <span className="hidden sm:inline">Demo Audit</span>
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="create" className="mt-6">
