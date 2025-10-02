@@ -31,7 +31,10 @@ const CreateAudit = () => {
     accent: '#10b981',
     background: '#f3f4f6',
   });
-  const [startDate, setStartDate] = useState('');
+  const [startDate, setStartDate] = useState(() => {
+    const now = new Date();
+    return new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+  });
   const [expiresAt, setExpiresAt] = useState('');
   const [enableRecurrence, setEnableRecurrence] = useState(false);
   const [recurrenceFrequency, setRecurrenceFrequency] = useState('quarterly');
@@ -52,7 +55,7 @@ const CreateAudit = () => {
   };
 
   const handleSubmit = async () => {
-    if (!companyName || !startDate || !expiresAt) {
+    if (!companyName || !expiresAt) {
       toast.error('Kérlek töltsd ki az összes kötelező mezőt');
       return;
     }

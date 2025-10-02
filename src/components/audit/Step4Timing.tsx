@@ -116,7 +116,7 @@ export const Step4Timing = ({
         <Button variant="outline" onClick={onBack}>
           Vissza
         </Button>
-        <Button onClick={onNext} disabled={!startDate || !expiresAt}>
+        <Button onClick={onNext} disabled={!expiresAt}>
           Következő lépés
         </Button>
       </div>
