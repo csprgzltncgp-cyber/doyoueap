@@ -51,6 +51,16 @@ const UserDashboard = () => {
     }
   }, [token]);
 
+  // Auto-skip language selection if only one language is available
+  useEffect(() => {
+    if (audit && currentStep === 'language_select') {
+      if (audit.available_languages && audit.available_languages.length === 1) {
+        setSelectedLanguage(audit.available_languages[0]);
+        setCurrentStep('welcome');
+      }
+    }
+  }, [audit, currentStep]);
+
   const fetchAudit = async () => {
     try {
       const { data, error } = await supabase
