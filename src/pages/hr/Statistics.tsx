@@ -778,8 +778,11 @@ const Statistics = () => {
                             <div className="flex items-center gap-2">
                               <div className="w-32 bg-muted rounded-full h-2">
                                 <div
-                                  className="bg-primary h-2 rounded-full"
-                                  style={{ width: `${formatPercentage(count, usedBranch)}%` }}
+                                  className="h-2 rounded-full"
+                                  style={{ 
+                                    width: `${formatPercentage(count, usedBranch)}%`,
+                                    backgroundColor: '#3366ff'
+                                  }}
                                 />
                               </div>
                               <span className="text-sm font-medium w-12 text-right">{count}</span>
@@ -940,8 +943,11 @@ const Statistics = () => {
                               <div className="flex items-center gap-2">
                                 <div className="w-32 bg-muted rounded-full h-2">
                                   <div
-                                    className="bg-primary h-2 rounded-full"
-                                    style={{ width: `${formatPercentage(count as number, notUsedBranch)}%` }}
+                                    className="h-2 rounded-full"
+                                    style={{ 
+                                      width: `${formatPercentage(count as number, notUsedBranch)}%`,
+                                      backgroundColor: '#3366ff'
+                                    }}
                                   />
                                 </div>
                                 <span className="text-sm font-medium w-12 text-right">{count as number}</span>
@@ -1040,8 +1046,11 @@ const Statistics = () => {
                             <div className="flex items-center gap-2">
                               <div className="w-32 bg-muted rounded-full h-2">
                                 <div
-                                  className="bg-primary h-2 rounded-full"
-                                  style={{ width: `${formatPercentage(count as number, totalResponses)}%` }}
+                                  className="h-2 rounded-full"
+                                  style={{ 
+                                    width: `${formatPercentage(count as number, totalResponses)}%`,
+                                    backgroundColor: '#3366ff'
+                                  }}
                                 />
                               </div>
                               <span className="text-sm font-medium w-12 text-right">{count as number}</span>
@@ -1069,8 +1078,11 @@ const Statistics = () => {
                             <div className="flex items-center gap-2">
                               <div className="w-32 bg-muted rounded-full h-2">
                                 <div
-                                  className="bg-primary h-2 rounded-full"
-                                  style={{ width: `${formatPercentage(count as number, totalResponses)}%` }}
+                                  className="h-2 rounded-full"
+                                  style={{ 
+                                    width: `${formatPercentage(count as number, totalResponses)}%`,
+                                    backgroundColor: '#3366ff'
+                                  }}
                                 />
                               </div>
                               <span className="text-sm font-medium w-12 text-right">{count as number}</span>
