@@ -177,7 +177,7 @@ export const RegistrationWizard = () => {
       });
 
       // Step 5: Redirect to HR Dashboard
-      navigate('/hr-dashboard');
+      navigate('/hr');
       
     } catch (error: any) {
       console.error('Registration error:', error);
