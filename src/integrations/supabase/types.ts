@@ -147,6 +147,30 @@ export type Database = {
         }
         Relationships: []
       }
+      notification_emails: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          is_verified: boolean | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          is_verified?: boolean | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          is_verified?: boolean | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           address: string | null
@@ -161,12 +185,14 @@ export type Database = {
           contact_phone: string | null
           country: string | null
           created_at: string
+          data_retention_days: number | null
           email: string | null
           employee_count: string | null
           full_name: string | null
           id: string
           industry: string | null
           postal_code: string | null
+          preferred_languages: string[] | null
           selected_package: string | null
           updated_at: string
           vat_id: string | null
@@ -184,12 +210,14 @@ export type Database = {
           contact_phone?: string | null
           country?: string | null
           created_at?: string
+          data_retention_days?: number | null
           email?: string | null
           employee_count?: string | null
           full_name?: string | null
           id: string
           industry?: string | null
           postal_code?: string | null
+          preferred_languages?: string[] | null
           selected_package?: string | null
           updated_at?: string
           vat_id?: string | null
@@ -207,12 +235,14 @@ export type Database = {
           contact_phone?: string | null
           country?: string | null
           created_at?: string
+          data_retention_days?: number | null
           email?: string | null
           employee_count?: string | null
           full_name?: string | null
           id?: string
           industry?: string | null
           postal_code?: string | null
+          preferred_languages?: string[] | null
           selected_package?: string | null
           updated_at?: string
           vat_id?: string | null
@@ -249,6 +279,42 @@ export type Database = {
         }
         Relationships: []
       }
+      user_invitations: {
+        Row: {
+          accepted: boolean | null
+          company_id: string
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string
+          role: Database["public"]["Enums"]["app_role"]
+          token: string
+        }
+        Insert: {
+          accepted?: boolean | null
+          company_id: string
+          created_at?: string
+          email: string
+          expires_at: string
+          id?: string
+          invited_by: string
+          role?: Database["public"]["Enums"]["app_role"]
+          token: string
+        }
+        Update: {
+          accepted?: boolean | null
+          company_id?: string
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          invited_by?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          token?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -278,6 +344,15 @@ export type Database = {
       generate_access_token: {
         Args: Record<PropertyKey, never>
         Returns: string
+      }
+      get_company_users: {
+        Args: { company_name_param: string }
+        Returns: {
+          email: string
+          full_name: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }[]
       }
       get_user_role: {
         Args: { _user_id: string }
