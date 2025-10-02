@@ -825,9 +825,19 @@ const Statistics = () => {
               ) : (
                 <div className="space-y-6">
                   <div className="grid grid-cols-3 gap-4">
-                    <Card>
+                    <Card id="trust-users-anonymity-card">
                       <CardHeader>
-                        <CardTitle className="text-sm">Bizalom az anonimitásban - Használók (1-5 skála)</CardTitle>
+                        <div className="flex justify-between items-start">
+                          <CardTitle className="text-sm">Bizalom az anonimitásban - Használók (1-5 skála)</CardTitle>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => exportCardToPNG('trust-users-anonymity-card', 'használók-anonimitás')}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
@@ -843,9 +853,19 @@ const Statistics = () => {
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire bíznak a használók abban, hogy névtelenségük megmarad</p>
                       </CardContent>
                     </Card>
-                    <Card>
+                    <Card id="trust-users-employer-card">
                       <CardHeader>
-                        <CardTitle className="text-sm">Munkaadói félelem (1-5 skála)</CardTitle>
+                        <div className="flex justify-between items-start">
+                          <CardTitle className="text-sm">Munkaadói félelem (1-5 skála)</CardTitle>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => exportCardToPNG('trust-users-employer-card', 'használók-munkaadói-félelem')}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
@@ -861,9 +881,19 @@ const Statistics = () => {
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire félnek attól, hogy a munkaadó megtudja a használatot</p>
                       </CardContent>
                     </Card>
-                    <Card>
+                    <Card id="trust-users-likelihood-card">
                       <CardHeader>
-                        <CardTitle className="text-sm">Használati hajlandóság (1-5 skála)</CardTitle>
+                        <div className="flex justify-between items-start">
+                          <CardTitle className="text-sm">Használati hajlandóság (1-5 skála)</CardTitle>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => exportCardToPNG('trust-users-likelihood-card', 'használók-hajlandóság')}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
@@ -880,9 +910,19 @@ const Statistics = () => {
                       </CardContent>
                     </Card>
                   </div>
-                  <Card>
+                  <Card id="trust-non-users-card">
                     <CardHeader>
-                      <CardTitle className="text-sm">Nem használók bizalmi indexei</CardTitle>
+                      <div className="flex justify-between items-start">
+                        <CardTitle className="text-sm">Nem használók bizalmi indexei</CardTitle>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => exportCardToPNG('trust-non-users-card', 'nem-használók-bizalom')}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </CardHeader>
                     <CardContent>
                       <div className="grid grid-cols-3 gap-4">
@@ -1288,10 +1328,22 @@ const Statistics = () => {
                 <div className="text-center py-12 text-muted-foreground">Még nincs nem használó adat</div>
               ) : (
                 <div className="space-y-6">
-                  <Card>
+                  <Card id="motivation-what-card">
                     <CardHeader>
-                      <CardTitle className="text-sm">Mi kellene a használathoz? (Top motivátorok)</CardTitle>
-                      <CardDescription>Mi motiválná a nem használókat a program igénybevételére</CardDescription>
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <CardTitle className="text-sm">Mi kellene a használathoz? (Top motivátorok)</CardTitle>
+                          <CardDescription>Mi motiválná a nem használókat a program igénybevételére</CardDescription>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => exportCardToPNG('motivation-what-card', 'motivátorok')}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
@@ -1327,10 +1379,22 @@ const Statistics = () => {
                     </CardContent>
                   </Card>
                   <div className="grid grid-cols-2 gap-4">
-                    <Card>
+                    <Card id="motivation-expert-card">
                       <CardHeader>
-                        <CardTitle className="text-sm">Preferált szakértő típus</CardTitle>
-                        <CardDescription>Milyen típusú szakértőt preferálnának a nem használók</CardDescription>
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <CardTitle className="text-sm">Preferált szakértő típus</CardTitle>
+                            <CardDescription>Milyen típusú szakértőt preferálnának a nem használók</CardDescription>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => exportCardToPNG('motivation-expert-card', 'szakértő-típus')}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-1">
@@ -1352,10 +1416,22 @@ const Statistics = () => {
                         </div>
                       </CardContent>
                     </Card>
-                    <Card>
+                    <Card id="motivation-channel-card">
                       <CardHeader>
-                        <CardTitle className="text-sm">Preferált kommunikációs csatorna</CardTitle>
-                        <CardDescription>Milyen elérhetőségi módot preferálnának (telefon, online chat, stb.)</CardDescription>
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <CardTitle className="text-sm">Preferált kommunikációs csatorna</CardTitle>
+                            <CardDescription>Milyen elérhetőségi módot preferálnának (telefon, online chat, stb.)</CardDescription>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => exportCardToPNG('motivation-channel-card', 'kommunikációs-csatorna')}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-1">
