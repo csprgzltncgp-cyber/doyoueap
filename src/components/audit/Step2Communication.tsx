@@ -43,7 +43,7 @@ A kitöltés csak néhány percet vesz igénybe. A válaszadás teljesen anonim,
 Előre is köszönjük, hogy segítesz jobbá tenni a ${program} programot!
 
 Üdvözlettel,
-${company}`;
+HR osztály`;
     } else if (accessMode === 'qr_code') {
       return `Segítsd jobbá tenni a ${program} programot!
 
@@ -72,7 +72,7 @@ A kitöltés csak néhány percet vesz igénybe. A válaszadás teljesen anonim,
 Előre is köszönjük, hogy segítesz jobbá tenni a ${program} programot!
 
 Üdvözlettel,
-${company}`;
+HR osztály`;
     }
   };
 
@@ -88,7 +88,7 @@ ${company}`;
       <Alert>
         <InfoIcon className="h-4 w-4" />
         <AlertDescription>
-          A szövegben automatikusan behelyettesítettük a program nevét ({programName || 'DoYouEAP'}) és a cég nevét ({companyName || '[Cég neve]'}).
+          A szövegben automatikusan behelyettesítettük a program nevét ({programName || 'DoYouEAP'}).
         </AlertDescription>
       </Alert>
 
