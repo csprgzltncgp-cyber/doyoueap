@@ -6,12 +6,9 @@ import { Label } from '@/components/ui/label';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { toast } from 'sonner';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { formatAuditName, StandardAudit, AUDIT_SELECT_FIELDS } from '@/lib/auditUtils';
 
-interface Audit {
-  id: string;
-  company_name: string;
-  created_at: string;
-}
+type Audit = StandardAudit;
 
 interface TrendData {
   date: string;
@@ -49,9 +46,8 @@ const Trends = () => {
     try {
       const { data } = await supabase
         .from('audits')
-        .select('id, company_name, created_at')
-        .eq('is_active', true)
-        .order('created_at', { ascending: true });
+        .select(AUDIT_SELECT_FIELDS)
+        .order('start_date', { ascending: true });
 
       if (data && data.length > 0) {
         setAudits(data);
@@ -97,7 +93,7 @@ const Trends = () => {
         if (error) throw error;
         if (!data || data.length === 0) continue;
 
-        const date = new Date(audit.created_at).toLocaleDateString('hu-HU', { 
+        const date = new Date(audit.start_date).toLocaleDateString('hu-HU', { 
           year: 'numeric', 
           month: 'short' 
         });
@@ -203,7 +199,7 @@ const Trends = () => {
                   onCheckedChange={() => toggleAudit(audit.id)}
                 />
                 <Label htmlFor={audit.id} className="cursor-pointer">
-                  {audit.company_name} - {new Date(audit.created_at).toLocaleDateString('hu-HU')}
+                  {formatAuditName(audit)}
                 </Label>
               </div>
             ))}

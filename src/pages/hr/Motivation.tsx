@@ -4,12 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { toast } from 'sonner';
+import { formatAuditName, StandardAudit, AUDIT_SELECT_FIELDS } from '@/lib/auditUtils';
 
-interface Audit {
-  id: string;
-  company_name: string;
-  created_at: string;
-}
+type Audit = StandardAudit;
 
 interface ChartData {
   name: string;
@@ -44,9 +41,8 @@ const Motivation = () => {
     try {
       const { data } = await supabase
         .from('audits')
-        .select('id, company_name, created_at')
-        .eq('is_active', true)
-        .order('created_at', { ascending: false });
+        .select(AUDIT_SELECT_FIELDS)
+        .order('start_date', { ascending: false });
 
       if (data && data.length > 0) {
         setAudits(data);
@@ -162,7 +158,7 @@ const Motivation = () => {
           <SelectContent>
             {audits.map((audit) => (
               <SelectItem key={audit.id} value={audit.id}>
-                {audit.company_name} - {new Date(audit.created_at).toLocaleDateString('hu-HU')}
+                {formatAuditName(audit)}
               </SelectItem>
             ))}
           </SelectContent>

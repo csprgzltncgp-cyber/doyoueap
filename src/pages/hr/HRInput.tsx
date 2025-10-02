@@ -6,12 +6,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { formatAuditName, StandardAudit, AUDIT_SELECT_FIELDS } from '@/lib/auditUtils';
 
-interface Audit {
-  id: string;
-  company_name: string;
-  created_at: string;
-}
+type Audit = StandardAudit;
 
 interface HRInputData {
   total_employees: number;
@@ -62,9 +59,8 @@ const HRInput = () => {
     try {
       const { data } = await supabase
         .from('audits')
-        .select('id, company_name, created_at')
-        .eq('is_active', true)
-        .order('created_at', { ascending: false });
+        .select(AUDIT_SELECT_FIELDS)
+        .order('start_date', { ascending: false });
 
       if (data && data.length > 0) {
         setAudits(data);
@@ -134,7 +130,7 @@ const HRInput = () => {
             <SelectContent>
               {audits.map((audit) => (
                 <SelectItem key={audit.id} value={audit.id}>
-                  {audit.company_name} - {new Date(audit.created_at).toLocaleDateString('hu-HU')}
+                  {formatAuditName(audit)}
                 </SelectItem>
               ))}
             </SelectContent>

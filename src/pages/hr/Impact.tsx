@@ -4,11 +4,16 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 import { toast } from 'sonner';
+import { formatAuditName } from '@/lib/auditUtils';
 
 interface Audit {
   id: string;
-  company_name: string;
-  created_at: string;
+  start_date: string;
+  program_name: string;
+  access_mode: string;
+  recurrence_config: any;
+  is_active: boolean;
+  expires_at: string | null;
 }
 
 interface ImpactMetric {
@@ -45,9 +50,8 @@ const Impact = () => {
     try {
       const { data } = await supabase
         .from('audits')
-        .select('id, company_name, created_at')
-        .eq('is_active', true)
-        .order('created_at', { ascending: false });
+        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at')
+        .order('start_date', { ascending: false });
 
       if (data && data.length > 0) {
         setAudits(data);
@@ -176,7 +180,7 @@ const Impact = () => {
           <SelectContent>
             {audits.map((audit) => (
               <SelectItem key={audit.id} value={audit.id}>
-                {audit.company_name} - {new Date(audit.created_at).toLocaleDateString('hu-HU')}
+                {formatAuditName(audit)}
               </SelectItem>
             ))}
           </SelectContent>

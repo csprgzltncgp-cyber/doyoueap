@@ -5,11 +5,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { ArrowRight, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { formatAuditName } from '@/lib/auditUtils';
 
 interface Audit {
   id: string;
-  company_name: string;
-  created_at: string;
+  start_date: string;
+  program_name: string;
+  access_mode: string;
+  recurrence_config: any;
+  is_active: boolean;
+  expires_at: string | null;
 }
 
 interface ComparisonMetrics {
@@ -35,9 +40,8 @@ const Compare = () => {
     try {
       const { data } = await supabase
         .from('audits')
-        .select('id, company_name, created_at')
-        .eq('is_active', true)
-        .order('created_at', { ascending: true });
+        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at')
+        .order('start_date', { ascending: true });
 
       if (data && data.length > 0) {
         setAudits(data);
@@ -202,7 +206,7 @@ const Compare = () => {
                 <SelectContent>
                   {audits.map((audit) => (
                     <SelectItem key={audit.id} value={audit.id}>
-                      {audit.company_name} - {new Date(audit.created_at).toLocaleDateString('hu-HU')}
+                      {formatAuditName(audit)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -222,7 +226,7 @@ const Compare = () => {
                 <SelectContent>
                   {audits.map((audit) => (
                     <SelectItem key={audit.id} value={audit.id}>
-                      {audit.company_name} - {new Date(audit.created_at).toLocaleDateString('hu-HU')}
+                      {formatAuditName(audit)}
                     </SelectItem>
                   ))}
                 </SelectContent>
