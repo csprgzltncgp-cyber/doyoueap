@@ -87,46 +87,131 @@ const Export = () => {
   const handleExportPDF = async () => {
     setExporting(true);
     try {
-      // Dynamic import to avoid build issues
       const jsPDF = (await import('jspdf')).default;
+      const html2canvas = (await import('html2canvas')).default;
       
       const selectedAudit = audits.find(a => a.id === selectedAuditId);
       if (!selectedAudit) return;
 
-      const { data: responses, error } = await supabase
-        .from('audit_responses')
-        .select('responses, employee_metadata, submitted_at')
-        .eq('audit_id', selectedAuditId);
-
-      if (error) throw error;
-
-      if (!responses || responses.length === 0) {
-        toast.error('Nincs adat az exportáláshoz');
-        return;
-      }
+      toast.info('PDF generálása folyamatban... Ez eltarthat egy kis ideig.');
 
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
       
+      // Title page
       pdf.setFontSize(24);
       pdf.text('Audit Jelentés', pageWidth / 2, 40, { align: 'center' });
       pdf.setFontSize(16);
       pdf.text(formatAuditName(selectedAudit), pageWidth / 2, 55, { align: 'center' });
       pdf.setFontSize(12);
       pdf.text(`Generálva: ${new Date().toLocaleDateString('hu-HU')}`, pageWidth / 2, 70, { align: 'center' });
-      pdf.text(`Összes válasz: ${responses.length}`, pageWidth / 2, 80, { align: 'center' });
 
-      const usedBranch = responses.filter(r => r.employee_metadata?.branch === 'used').length;
-      const notUsedBranch = responses.filter(r => r.employee_metadata?.branch === 'not_used').length;
-      const redirectBranch = responses.filter(r => r.employee_metadata?.branch === 'redirect').length;
+      // Define all tabs and their card IDs
+      const tabsToExport = [
+        {
+          name: 'Összefoglaló',
+          url: '/hr/statistics?tab=overview',
+          cardIds: ['utilization-card', 'satisfaction-card', 'awareness-card', 'trust-card', 'usage-card', 'impact-card']
+        },
+        {
+          name: 'Ismertség',
+          url: '/hr/statistics?tab=awareness',
+          cardIds: ['awareness-pie-card', 'awareness-bar-card']
+        },
+        {
+          name: 'Bizalom & Hajlandóság',
+          url: '/hr/statistics?tab=trust',
+          cardIds: ['trust-users-anonymity-card', 'trust-users-employer-card', 'trust-users-likelihood-card', 'trust-non-users-card', 'trust-nu-anonymity-card', 'trust-nu-employer-card', 'trust-nu-colleagues-card']
+        },
+        {
+          name: 'Használat',
+          url: '/hr/statistics?tab=usage',
+          cardIds: ['usage-satisfaction-card', 'usage-problem-solving-card', 'usage-nps-card', 'usage-consistency-card']
+        },
+        {
+          name: 'Hatás',
+          url: '/hr/statistics?tab=impact',
+          cardIds: ['impact-performance-card', 'impact-problem-solving-card', 'impact-wellbeing-card', 'impact-satisfaction-card', 'impact-consistency-card']
+        },
+        {
+          name: 'Motiváció',
+          url: '/hr/statistics?tab=motivation',
+          cardIds: ['motivation-what-card', 'motivation-expert-card', 'motivation-channel-card']
+        },
+        {
+          name: 'Demográfia',
+          url: '/hr/statistics?tab=demographics',
+          cardIds: ['demographics-gender-card', 'demographics-age-card']
+        }
+      ];
 
-      pdf.addPage();
-      pdf.setFontSize(18);
-      pdf.text('Összefoglaló Statisztikák', 20, 20);
-      pdf.setFontSize(12);
-      pdf.text(`Használók: ${usedBranch} (${((usedBranch / responses.length) * 100).toFixed(1)}%)`, 20, 35);
-      pdf.text(`Nem használók: ${notUsedBranch} (${((notUsedBranch / responses.length) * 100).toFixed(1)}%)`, 20, 45);
-      pdf.text(`Nem tudtak róla: ${redirectBranch} (${((redirectBranch / responses.length) * 100).toFixed(1)}%)`, 20, 55);
+      // Capture each tab
+      for (let i = 0; i < tabsToExport.length; i++) {
+        const tab = tabsToExport[i];
+        
+        // Add new page for each tab (except first)
+        if (i > 0) {
+          pdf.addPage();
+        } else {
+          pdf.addPage();
+        }
+
+        // Add tab title
+        pdf.setFontSize(18);
+        pdf.text(tab.name, 20, 20);
+        
+        let yPosition = 30;
+
+        // Create hidden iframe to load the page
+        const iframe = document.createElement('iframe');
+        iframe.style.position = 'absolute';
+        iframe.style.width = '1200px';
+        iframe.style.height = '2000px';
+        iframe.style.left = '-9999px';
+        iframe.src = tab.url;
+        document.body.appendChild(iframe);
+
+        // Wait for iframe to load
+        await new Promise<void>((resolve) => {
+          iframe.onload = () => {
+            setTimeout(() => resolve(), 2000); // Wait for data to load
+          };
+        });
+
+        // Capture each card
+        for (const cardId of tab.cardIds) {
+          const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+          if (!iframeDoc) continue;
+
+          const element = iframeDoc.getElementById(cardId);
+          if (!element) continue;
+
+          const canvas = await html2canvas(element, {
+            backgroundColor: '#ffffff',
+            scale: 2,
+            allowTaint: true,
+            useCORS: true,
+            windowWidth: 1200,
+          });
+
+          const imgData = canvas.toDataURL('image/png');
+          const imgWidth = pageWidth - 40; // 20mm margin on each side
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+          // Check if we need a new page
+          if (yPosition + imgHeight > pageHeight - 20) {
+            pdf.addPage();
+            yPosition = 20;
+          }
+
+          pdf.addImage(imgData, 'PNG', 20, yPosition, imgWidth, imgHeight);
+          yPosition += imgHeight + 10; // 10mm spacing between cards
+        }
+
+        // Remove iframe
+        document.body.removeChild(iframe);
+      }
 
       pdf.save(`audit_jelentés_${formatAuditName(selectedAudit)}_${Date.now()}.pdf`);
       toast.success('PDF sikeresen exportálva!');
@@ -315,10 +400,13 @@ const Export = () => {
             <div className="text-sm space-y-2">
               <p><strong>Tartalom:</strong></p>
               <ul className="list-disc list-inside ml-4 space-y-1">
-                <li>Összefoglaló statisztikák</li>
-                <li>Válaszadók megoszlása (Használók/Nem használók)</li>
-                <li>Alapvető metrikák</li>
-                <li>Dátum és audit információk</li>
+                <li>Összefoglaló - 6 kártya</li>
+                <li>Ismertség - 2 kártya (kördiagram, részletes)</li>
+                <li>Bizalom & Hajlandóság - 7 kártya</li>
+                <li>Használat - 4 kártya</li>
+                <li>Hatás - 5 kártya</li>
+                <li>Motiváció - 3 kártya</li>
+                <li>Demográfia - 2 kártya</li>
               </ul>
             </div>
             <Button 
