@@ -258,25 +258,13 @@ const Statistics = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col items-center">
-                      <ResponsiveContainer width="100%" height={200}>
-                        <RadialBarChart 
-                          innerRadius="70%" 
-                          outerRadius="100%" 
-                          data={[{ name: 'Utilization', value: utilization, fill: utilization >= 70 ? '#22c55e' : utilization >= 30 ? '#eab308' : '#ef4444' }]}
-                          startAngle={180}
-                          endAngle={0}
-                        >
-                          <RadialBar
-                            background
-                            dataKey="value"
-                            cornerRadius={10}
-                          />
-                          <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" className="fill-foreground">
-                            <tspan x="50%" dy="-0.5em" className="text-4xl font-bold">{utilization.toFixed(1)}%</tspan>
-                            <tspan x="50%" dy="1.5em" className="text-sm text-muted-foreground">{usedBranch} / {employeeCount}</tspan>
-                          </text>
-                        </RadialBarChart>
-                      </ResponsiveContainer>
+                      <GaugeChart
+                        value={utilization}
+                        maxValue={100}
+                        size={200}
+                        label={`${utilization.toFixed(1)}%`}
+                        sublabel={`${usedBranch} / ${employeeCount}`}
+                      />
                       
                       {/* Detailed breakdown */}
                       <div className="w-full mt-6 space-y-3">
@@ -311,25 +299,13 @@ const Statistics = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col items-center">
-                      <ResponsiveContainer width="100%" height={200}>
-                        <RadialBarChart 
-                          innerRadius="70%" 
-                          outerRadius="100%" 
-                          data={[{ name: 'Satisfaction', value: satisfactionIndex, fill: satisfactionIndex >= 70 ? '#22c55e' : satisfactionIndex >= 50 ? '#eab308' : '#ef4444' }]}
-                          startAngle={180}
-                          endAngle={0}
-                        >
-                          <RadialBar
-                            background
-                            dataKey="value"
-                            cornerRadius={10}
-                          />
-                          <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" className="fill-foreground">
-                            <tspan x="50%" dy="-0.5em" className="text-4xl font-bold">{satisfactionIndex.toFixed(0)}%</tspan>
-                            <tspan x="50%" dy="1.5em" className="text-sm text-muted-foreground">{satisfactionScore}/5</tspan>
-                          </text>
-                        </RadialBarChart>
-                      </ResponsiveContainer>
+                      <GaugeChart
+                        value={satisfactionIndex}
+                        maxValue={100}
+                        size={200}
+                        label={`${satisfactionIndex.toFixed(0)}%`}
+                        sublabel={`${satisfactionScore}/5`}
+                      />
                       
                       {/* Detailed breakdown */}
                       <div className="w-full mt-6 space-y-3">
