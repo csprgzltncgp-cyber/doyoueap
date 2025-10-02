@@ -243,6 +243,21 @@ export default function AuditQuestionnaire() {
     if (!selectedBranch) return null;
     
     const branch = questionnaire.questions.branches[selectedBranch];
+    if (!branch || !branch.blocks) {
+      return (
+        <div className="space-y-6">
+          <Alert variant="destructive">
+            <AlertDescription>
+              A kiválasztott ág ({selectedBranch}) nem található a kérdőívben.
+            </AlertDescription>
+          </Alert>
+          <Button onClick={() => setCurrentStep('branch_selector')} className="w-full">
+            Vissza
+          </Button>
+        </div>
+      );
+    }
+    
     const currentBlock = branch.blocks[currentBlockIndex];
     const isLastBlock = currentBlockIndex === branch.blocks.length - 1;
     
