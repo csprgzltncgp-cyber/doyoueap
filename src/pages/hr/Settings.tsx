@@ -89,7 +89,10 @@ const WORLD_LANGUAGES = [
 function Settings() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+  const [savingProfile, setSavingProfile] = useState(false);
+  const [savingCompany, setSavingCompany] = useState(false);
+  const [savingBilling, setSavingBilling] = useState(false);
+  const [savingPackage, setSavingPackage] = useState(false);
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [notificationEmails, setNotificationEmails] = useState<NotificationEmail[]>([]);
   const [newNotificationEmail, setNewNotificationEmail] = useState("");
@@ -235,7 +238,7 @@ function Settings() {
   const handleSaveProfile = async () => {
     if (!user || !profileData) return;
 
-    setSaving(true);
+    setSavingProfile(true);
     const { error } = await supabase
       .from("profiles")
       .update({
@@ -252,13 +255,13 @@ function Settings() {
         description: "A profil adatok sikeresen mentésre kerültek.",
       });
     }
-    setSaving(false);
+    setSavingProfile(false);
   };
 
   const handleSaveCompanyData = async () => {
     if (!user || !profileData) return;
 
-    setSaving(true);
+    setSavingCompany(true);
     const { error } = await supabase
       .from("profiles")
       .update({
@@ -282,7 +285,7 @@ function Settings() {
         description: "A cégadatok sikeresen mentésre kerültek.",
       });
     }
-    setSaving(false);
+    setSavingCompany(false);
   };
 
   const handleAddNotificationEmail = async () => {
@@ -397,7 +400,7 @@ function Settings() {
   const handleSaveBillingData = async () => {
     if (!user || !profileData) return;
 
-    setSaving(true);
+    setSavingBilling(true);
     const { error } = await supabase
       .from("profiles")
       .update({
@@ -415,13 +418,13 @@ function Settings() {
         description: "A számlázási adatok sikeresen mentésre kerültek.",
       });
     }
-    setSaving(false);
+    setSavingBilling(false);
   };
 
   const handleSavePackage = async () => {
     if (!user || !selectedPackageTemp) return;
 
-    setSaving(true);
+    setSavingPackage(true);
     const { error } = await supabase
       .from("profiles")
       .update({
@@ -442,7 +445,7 @@ function Settings() {
       });
       setShowPackageConfirm(false);
     }
-    setSaving(false);
+    setSavingPackage(false);
   };
 
   const handlePackageClick = (pkg: string) => {
@@ -547,8 +550,8 @@ function Settings() {
               onChange={(e) => setProfileData({...profileData, contact_phone: e.target.value})}
             />
           </div>
-          <Button onClick={handleSaveProfile} disabled={saving}>
-            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Button onClick={handleSaveProfile} disabled={savingProfile}>
+            {savingProfile && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Mentés
           </Button>
         </CardContent>
@@ -627,8 +630,8 @@ function Settings() {
               />
             </div>
           </div>
-          <Button onClick={handleSaveCompanyData} disabled={saving}>
-            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Button onClick={handleSaveCompanyData} disabled={savingCompany}>
+            {savingCompany && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Mentés
           </Button>
         </CardContent>
@@ -769,8 +772,8 @@ function Settings() {
               />
             </div>
           </div>
-          <Button onClick={handleSaveBillingData} disabled={saving}>
-            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Button onClick={handleSaveBillingData} disabled={savingBilling}>
+            {savingBilling && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Mentés
           </Button>
         </CardContent>
@@ -967,8 +970,8 @@ function Settings() {
               <Button onClick={handleCancelPackageChange} variant="outline" size="lg" className="flex-1">
                 Mégse
               </Button>
-              <Button onClick={handleSavePackage} disabled={saving} size="lg" className="flex-1">
-                {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              <Button onClick={handleSavePackage} disabled={savingPackage} size="lg" className="flex-1">
+                {savingPackage && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Módosítás megerősítése
               </Button>
             </div>
@@ -1141,8 +1144,7 @@ function Settings() {
               </SelectContent>
             </Select>
           </div>
-          <Button onClick={handleSaveDataRetention} disabled={saving}>
-            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Button onClick={handleSaveDataRetention} disabled={false}>
             Mentés
           </Button>
         </CardContent>
@@ -1175,7 +1177,7 @@ function Settings() {
           <AlertDialogFooter>
             <AlertDialogCancel onClick={handleCancelPackageChange}>Mégse</AlertDialogCancel>
             <AlertDialogAction onClick={handleSavePackage}>
-              {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+              {savingPackage ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
               Módosítás megerősítése
             </AlertDialogAction>
           </AlertDialogFooter>

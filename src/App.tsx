@@ -69,7 +69,7 @@ const App = () => (
             element={
               <ProtectedRoute allowedRoles={['hr']}>
                 <HRLayout>
-                  <HRDashboard />
+                  <CreateAudit />
                 </HRLayout>
               </ProtectedRoute>
             } 
