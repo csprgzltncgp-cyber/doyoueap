@@ -90,7 +90,7 @@ const CreateAudit = () => {
         .from('profiles')
         .select('company_name')
         .eq('id', user?.id)
-        .single();
+        .maybeSingle();
 
       if (!profileData?.company_name) {
         toast.error('Nem található cég név a profilodban');
