@@ -157,12 +157,27 @@ export const RegistrationWizard = () => {
         return;
       }
 
-      // Step 3: Update the user's profile with company data
+      // Step 3: Update the user's profile with all registration data
       const { error: updateError } = await supabase
         .from('profiles')
         .update({
           company_name: data.companyName,
           full_name: data.contactName,
+          country: data.country,
+          vat_id: data.vatId,
+          address: data.address,
+          city: data.city,
+          postal_code: data.postalCode,
+          industry: data.industry,
+          employee_count: data.employeeCount,
+          contact_phone: data.contactPhone,
+          company_domain: data.companyDomain,
+          billing_address_same_as_company: data.billingAddressSameAsCompany,
+          billing_address: data.billingAddress,
+          billing_city: data.billingCity,
+          billing_postal_code: data.billingPostalCode,
+          selected_package: data.selectedPackage,
+          billing_cycle: data.billingCycle,
         })
         .eq('id', signInData.user.id);
 

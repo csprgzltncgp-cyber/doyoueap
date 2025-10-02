@@ -149,28 +149,73 @@ export type Database = {
       }
       profiles: {
         Row: {
+          address: string | null
+          billing_address: string | null
+          billing_address_same_as_company: boolean | null
+          billing_city: string | null
+          billing_cycle: string | null
+          billing_postal_code: string | null
+          city: string | null
+          company_domain: string | null
           company_name: string | null
+          contact_phone: string | null
+          country: string | null
           created_at: string
           email: string | null
+          employee_count: string | null
           full_name: string | null
           id: string
+          industry: string | null
+          postal_code: string | null
+          selected_package: string | null
           updated_at: string
+          vat_id: string | null
         }
         Insert: {
+          address?: string | null
+          billing_address?: string | null
+          billing_address_same_as_company?: boolean | null
+          billing_city?: string | null
+          billing_cycle?: string | null
+          billing_postal_code?: string | null
+          city?: string | null
+          company_domain?: string | null
           company_name?: string | null
+          contact_phone?: string | null
+          country?: string | null
           created_at?: string
           email?: string | null
+          employee_count?: string | null
           full_name?: string | null
           id: string
+          industry?: string | null
+          postal_code?: string | null
+          selected_package?: string | null
           updated_at?: string
+          vat_id?: string | null
         }
         Update: {
+          address?: string | null
+          billing_address?: string | null
+          billing_address_same_as_company?: boolean | null
+          billing_city?: string | null
+          billing_cycle?: string | null
+          billing_postal_code?: string | null
+          city?: string | null
+          company_domain?: string | null
           company_name?: string | null
+          contact_phone?: string | null
+          country?: string | null
           created_at?: string
           email?: string | null
+          employee_count?: string | null
           full_name?: string | null
           id?: string
+          industry?: string | null
+          postal_code?: string | null
+          selected_package?: string | null
           updated_at?: string
+          vat_id?: string | null
         }
         Relationships: []
       }
