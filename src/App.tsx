@@ -15,6 +15,7 @@ import RunningAudits from "./pages/hr/RunningAudits";
 import AuditQuestionnaire from "./pages/hr/AuditQuestionnaire";
 import Statistics from "./pages/hr/Statistics";
 import Export from "./pages/hr/Export";
+import CustomSurvey from "./pages/hr/CustomSurvey";
 import Settings from "./pages/hr/Settings";
 import UserDashboard from "./pages/UserDashboard";
 import Unauthorized from "./pages/Unauthorized";
@@ -113,6 +114,16 @@ const App = () => (
               <ProtectedRoute allowedRoles={['hr']}>
                 <HRLayout>
                   <Export />
+                </HRLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/hr/custom-survey" 
+            element={
+              <ProtectedRoute allowedRoles={['hr']}>
+                <HRLayout>
+                  <CustomSurvey />
                 </HRLayout>
               </ProtectedRoute>
             } 
