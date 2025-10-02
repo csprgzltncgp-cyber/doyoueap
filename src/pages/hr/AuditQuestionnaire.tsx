@@ -160,7 +160,7 @@ export default function AuditQuestionnaire() {
 
   const renderBranchSelector = () => {
     const branchSelector = questionnaire.questions.branch_selector;
-    const programName = 'DoYouEAP';
+    const programName = 'doyoueap';
     
     const modifiedQuestion = {
       ...branchSelector,

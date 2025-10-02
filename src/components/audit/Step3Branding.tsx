@@ -71,7 +71,7 @@ export const Step3Branding = ({
               {logoFile ? logoFile.name : 'Logo feltöltése'}
             </Button>
             <p className="text-sm text-muted-foreground">
-              Ha nem tölt fel logót, az alapértelmezett DoYouEAP logó jelenik meg
+              Ha nem tölt fel logót, az alapértelmezett doyoueap logó jelenik meg
             </p>
           </div>
         </CardContent>

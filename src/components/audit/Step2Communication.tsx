@@ -23,7 +23,7 @@ export const Step2Communication = ({
   onBack,
 }: Step2Props) => {
   const getDefaultCommunicationText = () => {
-    const program = programName || 'DoYouEAP';
+    const program = programName || 'doyoueap';
     
     if (accessMode === 'tokenes') {
       return `Tárgy: Segítsd jobbá tenni a ${program} programot!
@@ -85,7 +85,7 @@ HR osztály`;
       <Alert>
         <InfoIcon className="h-4 w-4" />
         <AlertDescription>
-          A szövegben automatikusan behelyettesítettük a program nevét ({programName || 'DoYouEAP'}).
+          A szövegben automatikusan behelyettesítettük a program nevét ({programName || 'doyoueap'}).
         </AlertDescription>
       </Alert>
 
