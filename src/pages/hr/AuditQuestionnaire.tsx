@@ -198,8 +198,8 @@ export default function AuditQuestionnaire() {
           <Button 
             variant="outline"
             onClick={() => {
-              // Use "aware" branch directly
-              setSelectedBranch('aware');
+              // Use "not_used" branch directly
+              setSelectedBranch('not_used');
               setCurrentStep('branch_questions');
               setCurrentBlockIndex(0);
             }}
@@ -214,8 +214,8 @@ export default function AuditQuestionnaire() {
           <Button 
             variant="outline"
             onClick={() => {
-              // Use "user" branch directly
-              setSelectedBranch('user');
+              // Use "used" branch directly
+              setSelectedBranch('used');
               setCurrentStep('branch_questions');
               setCurrentBlockIndex(0);
             }}
