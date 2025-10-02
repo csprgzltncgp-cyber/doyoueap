@@ -7,6 +7,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { HRSidebar } from "@/components/hr/HRSidebar";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import VerifyEmail from "./pages/VerifyEmail";
 import AdminDashboard from "./pages/AdminDashboard";
 import HRDashboard from "./pages/HRDashboard";
 import CreateAudit from "./pages/hr/CreateAudit";
@@ -54,7 +55,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
-          <Route 
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route
             path="/admin" 
             element={
               <ProtectedRoute allowedRoles={['admin']}>

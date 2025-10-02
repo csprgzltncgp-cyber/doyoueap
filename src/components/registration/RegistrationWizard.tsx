@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { EmailValidationStep } from './EmailValidationStep';
 import { CompanyDataStep } from './CompanyDataStep';
 import { PackageSelectionStep } from './PackageSelectionStep';
 import { PaymentStep } from './PaymentStep';
@@ -53,9 +54,16 @@ const initialData: RegistrationData = {
 };
 
 export const RegistrationWizard = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0); // Start at 0 for email validation
   const [data, setData] = useState<RegistrationData>(initialData);
+  const [verifiedEmail, setVerifiedEmail] = useState<string>('');
   const totalSteps = 3;
+
+  const handleEmailVerified = (email: string) => {
+    setVerifiedEmail(email);
+    updateData({ contactEmail: email });
+    setStep(1);
+  };
 
   const updateData = (updates: Partial<RegistrationData>) => {
     setData(prev => ({ ...prev, ...updates }));
@@ -68,12 +76,24 @@ export const RegistrationWizard = () => {
   };
 
   const prevStep = () => {
-    if (step > 1) {
+    if (step > 0) {
       setStep(step - 1);
     }
   };
 
-  const progress = (step / totalSteps) * 100;
+  // Only show progress for steps 1-3, not email validation
+  const progress = step > 0 ? (step / totalSteps) * 100 : 0;
+
+  if (step === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background p-4">
+        <EmailValidationStep 
+          onEmailVerified={handleEmailVerified}
+          onBack={() => window.history.back()}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
