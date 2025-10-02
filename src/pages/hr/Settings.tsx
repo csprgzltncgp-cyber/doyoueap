@@ -537,8 +537,12 @@ function Settings() {
   }
 
   return (
-    <div className="container mx-auto py-8 space-y-6">
+    <div className="container mx-auto py-8 space-y-8">
       <h1 className="text-3xl font-bold">Beállítások</h1>
+
+      {/* SZEMÉLYES ÉS CÉGES INFORMÁCIÓK */}
+      <div className="space-y-6">
+        <h2 className="text-xl font-semibold text-muted-foreground">Személyes és céges információk</h2>
 
       {/* Profil adatok */}
       <Card>
@@ -650,137 +654,13 @@ function Settings() {
           </Button>
         </CardContent>
       </Card>
+      </div>
 
-      {/* Értesítési emailek */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Értesítési email címek</CardTitle>
-          <CardDescription>Többféle email címre is kaphatsz értesítéseket</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {notificationEmails.map((email) => (
-            <div key={email.id} className="flex items-center justify-between">
-              <span>{email.email}</span>
-              <Button 
-                variant="destructive" 
-                size="sm"
-                onClick={() => handleDeleteNotificationEmail(email.id)}
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </div>
-          ))}
-          <div className="flex gap-2">
-            <Input 
-              type="email"
-              placeholder="Új email cím"
-              value={newNotificationEmail}
-              onChange={(e) => setNewNotificationEmail(e.target.value)}
-            />
-            <Button onClick={handleAddNotificationEmail}>
-              <Plus className="h-4 w-4" />
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Adatmegőrzés */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Adatmegőrzés</CardTitle>
-          <CardDescription>Adatok megőrzési idejének beállítása</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <Label>Megőrzési idő (napokban)</Label>
-            <Select 
-              value={String(profileData.data_retention_days || 365)}
-              onValueChange={(value) => setProfileData({...profileData, data_retention_days: parseInt(value)})}
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="30">30 nap</SelectItem>
-                <SelectItem value="90">90 nap</SelectItem>
-                <SelectItem value="180">180 nap</SelectItem>
-                <SelectItem value="365">1 év</SelectItem>
-                <SelectItem value="730">2 év</SelectItem>
-                <SelectItem value="1825">5 év</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <Button onClick={handleSaveDataRetention} disabled={saving}>
-            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Mentés
-          </Button>
-        </CardContent>
-      </Card>
-
-      {/* Nyelvi beállítások */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Nyelvi beállítások</CardTitle>
-          <CardDescription>Választható nyelvek az auditokhoz</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-3 gap-4">
-            {WORLD_LANGUAGES.map((lang) => (
-              <div key={lang.code} className="flex items-center space-x-2">
-                <Checkbox
-                  checked={profileData.preferred_languages?.includes(lang.code)}
-                  onCheckedChange={() => handleLanguageToggle(lang.code)}
-                />
-                <label>{lang.name}</label>
-              </div>
-            ))}
-          </div>
-          <Button onClick={handleSaveLanguages} disabled={saving}>
-            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Mentés
-          </Button>
-        </CardContent>
-      </Card>
-
-      {/* Jelszó módosítás */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Jelszó módosítás</CardTitle>
-          <CardDescription>Bejelentkezési jelszó megváltoztatása</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <Label>Jelenlegi jelszó</Label>
-            <Input 
-              type="password"
-              value={oldPassword}
-              onChange={(e) => setOldPassword(e.target.value)}
-              placeholder="Add meg a jelenlegi jelszavad"
-            />
-          </div>
-          <div>
-            <Label>Új jelszó</Label>
-            <Input 
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              placeholder="Legalább 6 karakter"
-            />
-          </div>
-          <div>
-            <Label>Új jelszó megerősítése</Label>
-            <Input 
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Írd be újra az új jelszót"
-            />
-          </div>
-          <Button onClick={handleChangePassword}>
-            Jelszó módosítása
-          </Button>
-        </CardContent>
-      </Card>
+      {/* ELŐFIZETÉS ÉS PÉNZÜGYEK */}
+      <div className="space-y-6">
+        <h2 className="text-xl font-semibold text-muted-foreground">Előfizetés és pénzügyek</h2>
+      
+      {/* Előfizetési csomag - ez lesz az első a pénzügyek között */}
 
       {/* Fizetési mód */}
       <Card>
@@ -1171,6 +1051,148 @@ function Settings() {
           </div>
         </CardContent>
       </Card>
+      </div>
+
+      {/* BIZTONSÁG */}
+      <div className="space-y-6">
+        <h2 className="text-xl font-semibold text-muted-foreground">Biztonság</h2>
+
+      {/* Jelszó módosítás */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Jelszó módosítás</CardTitle>
+          <CardDescription>Bejelentkezési jelszó megváltoztatása</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <Label>Jelenlegi jelszó</Label>
+            <Input 
+              type="password"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+              placeholder="Add meg a jelenlegi jelszavad"
+            />
+          </div>
+          <div>
+            <Label>Új jelszó</Label>
+            <Input 
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="Legalább 6 karakter"
+            />
+          </div>
+          <div>
+            <Label>Új jelszó megerősítése</Label>
+            <Input 
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Írd be újra az új jelszót"
+            />
+          </div>
+          <Button onClick={handleChangePassword}>
+            Jelszó módosítása
+          </Button>
+        </CardContent>
+      </Card>
+      </div>
+
+      {/* PREFERENCIÁK */}
+      <div className="space-y-6">
+        <h2 className="text-xl font-semibold text-muted-foreground">Preferenciák és beállítások</h2>
+
+      {/* Értesítési emailek */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Értesítési email címek</CardTitle>
+          <CardDescription>Többféle email címre is kaphatsz értesítéseket</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {notificationEmails.map((email) => (
+            <div key={email.id} className="flex items-center justify-between">
+              <span>{email.email}</span>
+              <Button 
+                variant="destructive" 
+                size="sm"
+                onClick={() => handleDeleteNotificationEmail(email.id)}
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
+          ))}
+          <div className="flex gap-2">
+            <Input 
+              type="email"
+              placeholder="Új email cím"
+              value={newNotificationEmail}
+              onChange={(e) => setNewNotificationEmail(e.target.value)}
+            />
+            <Button onClick={handleAddNotificationEmail}>
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Nyelvi beállítások */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Nyelvi beállítások</CardTitle>
+          <CardDescription>Választható nyelvek az auditokhoz</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-3 gap-4">
+            {WORLD_LANGUAGES.map((lang) => (
+              <div key={lang.code} className="flex items-center space-x-2">
+                <Checkbox
+                  checked={profileData.preferred_languages?.includes(lang.code)}
+                  onCheckedChange={() => handleLanguageToggle(lang.code)}
+                />
+                <label>{lang.name}</label>
+              </div>
+            ))}
+          </div>
+          <Button onClick={handleSaveLanguages} disabled={saving}>
+            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Mentés
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Adatmegőrzés */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Adatmegőrzés</CardTitle>
+          <CardDescription>Adatok megőrzési idejének beállítása</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <Label>Megőrzési idő (napokban)</Label>
+            <Select 
+              value={String(profileData.data_retention_days || 365)}
+              onValueChange={(value) => setProfileData({...profileData, data_retention_days: parseInt(value)})}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="30">30 nap</SelectItem>
+                <SelectItem value="90">90 nap</SelectItem>
+                <SelectItem value="180">180 nap</SelectItem>
+                <SelectItem value="365">1 év</SelectItem>
+                <SelectItem value="730">2 év</SelectItem>
+                <SelectItem value="1825">5 év</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <Button onClick={handleSaveDataRetention} disabled={saving}>
+            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Mentés
+          </Button>
+        </CardContent>
+      </Card>
+      </div>
 
       {/* Confirmation Dialog */}
       <AlertDialog open={showPackageConfirm} onOpenChange={setShowPackageConfirm}>
