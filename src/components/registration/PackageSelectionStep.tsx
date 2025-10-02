@@ -46,8 +46,8 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="flex-1 flex flex-col">
-                  <ul className="space-y-2 flex-1">
+                <CardContent className="flex-1 flex flex-col justify-between">
+                  <ul className="space-y-2 mb-4">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                       <span>Évente max. 1 audit</span>
@@ -92,8 +92,8 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="flex-1 flex flex-col">
-                  <ul className="space-y-2 flex-1">
+                <CardContent className="flex-1 flex flex-col justify-between">
+                  <ul className="space-y-2 mb-4">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                       <span>Negyedévente audit (ismétlés funkcióval)</span>
@@ -140,8 +140,8 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="flex-1 flex flex-col">
-                  <ul className="space-y-2 flex-1">
+                <CardContent className="flex-1 flex flex-col justify-between">
+                  <ul className="space-y-2 mb-4">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                       <span>Korlátlan audit</span>
