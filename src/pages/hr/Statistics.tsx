@@ -80,6 +80,20 @@ const Statistics = () => {
   const notUsedBranch = responses.filter(r => r.employee_metadata?.branch === 'not_used').length;
   const redirectBranch = responses.filter(r => r.employee_metadata?.branch === 'redirect').length;
 
+  // Helper function to calculate average
+  const calculateAverage = (values: number[]) => {
+    if (values.length === 0) return 0;
+    return (values.reduce((a, b) => a + b, 0) / values.length).toFixed(1);
+  };
+
+  // Helper function to count occurrences
+  const countOccurrences = (items: string[]) => {
+    return items.reduce((acc, item) => {
+      acc[item] = (acc[item] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -236,13 +250,110 @@ const Statistics = () => {
             <CardHeader>
               <CardTitle>Bizalom & Hajlandóság Riport</CardTitle>
               <CardDescription>
-                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
+                Anonimitásba vetett bizalom és használati hajlandóság
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12 text-muted-foreground">
-                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
-              </div>
+              {loadingResponses ? (
+                <div className="text-center py-12 text-muted-foreground">Adatok betöltése...</div>
+              ) : totalResponses === 0 ? (
+                <div className="text-center py-12 text-muted-foreground">Még nincs adat</div>
+              ) : (
+                <div className="space-y-6">
+                  <div className="grid grid-cols-3 gap-4">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-sm">Bizalom az anonimitásban (Használók)</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-2xl font-bold">
+                          {calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_trust_anonymity)
+                              .filter(v => v !== undefined)
+                          )}
+                        </p>
+                        <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-sm">Munkaadói félelem</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-2xl font-bold">
+                          {calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_trust_employer)
+                              .filter(v => v !== undefined)
+                          )}
+                        </p>
+                        <p className="text-xs text-muted-foreground">átlag (1-5, magasabb = nagyobb félelem)</p>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-sm">Használati hajlandóság</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-2xl font-bold">
+                          {calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_trust_likelihood)
+                              .filter(v => v !== undefined)
+                          )}
+                        </p>
+                        <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Nem használók bizalmi indexei</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-3 gap-4">
+                        <div>
+                          <p className="text-lg font-bold">
+                            {calculateAverage(
+                              responses
+                                .filter(r => r.employee_metadata?.branch === 'not_used')
+                                .map(r => r.responses?.nu_trust_anonymity)
+                                .filter(v => v !== undefined)
+                            )}
+                          </p>
+                          <p className="text-xs text-muted-foreground">Anonimitás</p>
+                        </div>
+                        <div>
+                          <p className="text-lg font-bold">
+                            {calculateAverage(
+                              responses
+                                .filter(r => r.employee_metadata?.branch === 'not_used')
+                                .map(r => r.responses?.nu_trust_employer)
+                                .filter(v => v !== undefined)
+                            )}
+                          </p>
+                          <p className="text-xs text-muted-foreground">Munkaadói félelem</p>
+                        </div>
+                        <div>
+                          <p className="text-lg font-bold">
+                            {calculateAverage(
+                              responses
+                                .filter(r => r.employee_metadata?.branch === 'not_used')
+                                .map(r => r.responses?.nu_trust_colleagues)
+                                .filter(v => v !== undefined)
+                            )}
+                          </p>
+                          <p className="text-xs text-muted-foreground">Kollégai megítéléstől félelem</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -251,14 +362,112 @@ const Statistics = () => {
           <Card>
             <CardHeader>
               <CardTitle>Használat Riport</CardTitle>
-              <CardDescription>
-                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
-              </CardDescription>
+              <CardDescription>Használók aktivitása és elégedettsége</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12 text-muted-foreground">
-                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
-              </div>
+              {loadingResponses ? (
+                <div className="text-center py-12 text-muted-foreground">Adatok betöltése...</div>
+              ) : usedBranch === 0 ? (
+                <div className="text-center py-12 text-muted-foreground">Még nincs használó adat</div>
+              ) : (
+                <div className="space-y-6">
+                  <div className="grid grid-cols-4 gap-4">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-sm">Elégedettség</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-2xl font-bold">
+                          {calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_usage_satisfaction)
+                              .filter(v => v !== undefined)
+                          )}
+                        </p>
+                        <p className="text-xs text-muted-foreground">átlag (1-5)</p>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-sm">Célok elérése</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-2xl font-bold">
+                          {calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_usage_achievement)
+                              .filter(v => v !== undefined)
+                          )}
+                        </p>
+                        <p className="text-xs text-muted-foreground">átlag (1-5)</p>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-sm">NPS átlag</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-2xl font-bold">
+                          {calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_usage_nps)
+                              .filter(v => v !== undefined)
+                          )}
+                        </p>
+                        <p className="text-xs text-muted-foreground">0-10 skála</p>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-sm">Ajánlanák</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-2xl font-bold">
+                          {Math.round(
+                            (responses
+                              .filter(r => r.employee_metadata?.branch === 'used' && r.responses?.u_usage_recommend === 'yes')
+                              .length / usedBranch) * 100
+                          )}%
+                        </p>
+                        <p className="text-xs text-muted-foreground">igen válaszok</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Használati gyakoriság eloszlása</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        {Object.entries(
+                          countOccurrences(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_usage_frequency)
+                              .filter(Boolean)
+                          )
+                        ).map(([freq, count]) => (
+                          <div key={freq} className="flex justify-between items-center">
+                            <span className="text-sm">{freq}</span>
+                            <div className="flex items-center gap-2">
+                              <div className="w-32 bg-muted rounded-full h-2">
+                                <div
+                                  className="bg-primary h-2 rounded-full"
+                                  style={{ width: `${(count / usedBranch) * 100}%` }}
+                                />
+                              </div>
+                              <span className="text-sm font-medium w-12 text-right">{count}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -267,14 +476,97 @@ const Statistics = () => {
           <Card>
             <CardHeader>
               <CardTitle>Hatás Riport</CardTitle>
-              <CardDescription>
-                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
-              </CardDescription>
+              <CardDescription>A program hatása a munkavállalókra</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12 text-muted-foreground">
-                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
-              </div>
+              {loadingResponses ? (
+                <div className="text-center py-12 text-muted-foreground">Adatok betöltése...</div>
+              ) : usedBranch === 0 ? (
+                <div className="text-center py-12 text-muted-foreground">Még nincs használó adat</div>
+              ) : (
+                <div className="grid grid-cols-2 gap-4">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Munkavégzésre gyakorolt hatás</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-3xl font-bold">
+                        {calculateAverage(
+                          responses
+                            .filter(r => r.employee_metadata?.branch === 'used')
+                            .map(r => r.responses?.u_impact_work)
+                            .filter(v => v !== undefined)
+                        )}
+                      </p>
+                      <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Stresszcsökkentés</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-3xl font-bold">
+                        {calculateAverage(
+                          responses
+                            .filter(r => r.employee_metadata?.branch === 'used')
+                            .map(r => r.responses?.u_impact_stress)
+                            .filter(v => v !== undefined)
+                        )}
+                      </p>
+                      <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Általános jóllét</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-3xl font-bold">
+                        {calculateAverage(
+                          responses
+                            .filter(r => r.employee_metadata?.branch === 'used')
+                            .map(r => r.responses?.u_impact_wellbeing)
+                            .filter(v => v !== undefined)
+                        )}
+                      </p>
+                      <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Produktivitás</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-3xl font-bold">
+                        {calculateAverage(
+                          responses
+                            .filter(r => r.employee_metadata?.branch === 'used')
+                            .map(r => r.responses?.u_impact_productivity)
+                            .filter(v => v !== undefined)
+                        )}
+                      </p>
+                      <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="col-span-2">
+                    <CardHeader>
+                      <CardTitle className="text-sm">Munkahely megítélése</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-3xl font-bold">
+                        {calculateAverage(
+                          responses
+                            .filter(r => r.employee_metadata?.branch === 'used')
+                            .map(r => r.responses?.u_impact_workplace)
+                            .filter(v => v !== undefined)
+                        )}
+                      </p>
+                      <p className="text-xs text-muted-foreground">átlag (1-5 skála) - mennyire javult a munkahely megítélése</p>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -283,14 +575,101 @@ const Statistics = () => {
           <Card>
             <CardHeader>
               <CardTitle>Motiváció Riport</CardTitle>
-              <CardDescription>
-                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
-              </CardDescription>
+              <CardDescription>Mi motiválná a nem használókat?</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12 text-muted-foreground">
-                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
-              </div>
+              {loadingResponses ? (
+                <div className="text-center py-12 text-muted-foreground">Adatok betöltése...</div>
+              ) : notUsedBranch === 0 ? (
+                <div className="text-center py-12 text-muted-foreground">Még nincs nem használó adat</div>
+              ) : (
+                <div className="space-y-6">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Mi kellene a használathoz? (Top motivátorok)</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        {Object.entries(
+                          responses
+                            .filter(r => r.employee_metadata?.branch === 'not_used')
+                            .flatMap(r => r.responses?.nu_motivation_what || [])
+                            .reduce((acc, item) => {
+                              acc[item] = (acc[item] || 0) + 1;
+                              return acc;
+                            }, {} as Record<string, number>)
+                        )
+                          .sort(([, a], [, b]) => (b as number) - (a as number))
+                          .slice(0, 5)
+                          .map(([motivation, count]) => (
+                            <div key={motivation} className="flex justify-between items-center">
+                              <span className="text-sm">{motivation}</span>
+                              <div className="flex items-center gap-2">
+                                <div className="w-32 bg-muted rounded-full h-2">
+                                  <div
+                                    className="bg-primary h-2 rounded-full"
+                                    style={{ width: `${((count as number) / notUsedBranch) * 100}%` }}
+                                  />
+                                </div>
+                                <span className="text-sm font-medium w-12 text-right">{count as number}</span>
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <div className="grid grid-cols-2 gap-4">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-sm">Preferált szakértő típus</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-1">
+                          {Object.entries(
+                            countOccurrences(
+                              responses
+                                .filter(r => r.employee_metadata?.branch === 'not_used')
+                                .map(r => r.responses?.nu_motivation_expert)
+                                .filter(Boolean)
+                            )
+                          )
+                            .sort(([, a], [, b]) => b - a)
+                            .map(([expert, count]) => (
+                              <div key={expert} className="flex justify-between text-sm">
+                                <span>{expert}</span>
+                                <span className="font-medium">{count}</span>
+                              </div>
+                            ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-sm">Preferált kommunikációs csatorna</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-1">
+                          {Object.entries(
+                            countOccurrences(
+                              responses
+                                .filter(r => r.employee_metadata?.branch === 'not_used')
+                                .map(r => r.responses?.nu_motivation_channel)
+                                .filter(Boolean)
+                            )
+                          )
+                            .sort(([, a], [, b]) => b - a)
+                            .map(([channel, count]) => (
+                              <div key={channel} className="flex justify-between text-sm">
+                                <span>{channel}</span>
+                                <span className="font-medium">{count}</span>
+                              </div>
+                            ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -299,14 +678,133 @@ const Statistics = () => {
           <Card>
             <CardHeader>
               <CardTitle>Demográfia Riport</CardTitle>
-              <CardDescription>
-                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
-              </CardDescription>
+              <CardDescription>Válaszadók demográfiai megoszlása</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12 text-muted-foreground">
-                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
-              </div>
+              {loadingResponses ? (
+                <div className="text-center py-12 text-muted-foreground">Adatok betöltése...</div>
+              ) : totalResponses === 0 ? (
+                <div className="text-center py-12 text-muted-foreground">Még nincs adat</div>
+              ) : (
+                <div className="grid grid-cols-2 gap-4">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Nem szerinti megoszlás</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        {Object.entries(
+                          countOccurrences(
+                            responses
+                              .map(r => r.employee_metadata?.gender)
+                              .filter(Boolean)
+                          )
+                        ).map(([gender, count]) => (
+                          <div key={gender} className="flex justify-between items-center">
+                            <span className="text-sm">{gender}</span>
+                            <div className="flex items-center gap-2">
+                              <div className="w-32 bg-muted rounded-full h-2">
+                                <div
+                                  className="bg-primary h-2 rounded-full"
+                                  style={{ width: `${((count as number) / totalResponses) * 100}%` }}
+                                />
+                              </div>
+                              <span className="text-sm font-medium w-12 text-right">{count as number}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Korcsoport megoszlás</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        {Object.entries(
+                          countOccurrences(
+                            responses
+                              .map(r => r.employee_metadata?.age_group)
+                              .filter(Boolean)
+                          )
+                        ).map(([age, count]) => (
+                          <div key={age} className="flex justify-between items-center">
+                            <span className="text-sm">{age}</span>
+                            <div className="flex items-center gap-2">
+                              <div className="w-32 bg-muted rounded-full h-2">
+                                <div
+                                  className="bg-primary h-2 rounded-full"
+                                  style={{ width: `${((count as number) / totalResponses) * 100}%` }}
+                                />
+                              </div>
+                              <span className="text-sm font-medium w-12 text-right">{count as number}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Részleg megoszlás</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        {Object.entries(
+                          countOccurrences(
+                            responses
+                              .map(r => r.employee_metadata?.department)
+                              .filter(Boolean)
+                          )
+                        ).map(([dept, count]) => (
+                          <div key={dept} className="flex justify-between items-center">
+                            <span className="text-sm">{dept}</span>
+                            <div className="flex items-center gap-2">
+                              <div className="w-32 bg-muted rounded-full h-2">
+                                <div
+                                  className="bg-primary h-2 rounded-full"
+                                  style={{ width: `${((count as number) / totalResponses) * 100}%` }}
+                                />
+                              </div>
+                              <span className="text-sm font-medium w-12 text-right">{count as number}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Pozíció megoszlás</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        {Object.entries(
+                          countOccurrences(
+                            responses
+                              .map(r => r.employee_metadata?.position)
+                              .filter(Boolean)
+                          )
+                        ).map(([pos, count]) => (
+                          <div key={pos} className="flex justify-between items-center">
+                            <span className="text-sm">{pos}</span>
+                            <div className="flex items-center gap-2">
+                              <div className="w-32 bg-muted rounded-full h-2">
+                                <div
+                                  className="bg-primary h-2 rounded-full"
+                                  style={{ width: `${((count as number) / totalResponses) * 100}%` }}
+                                />
+                              </div>
+                              <span className="text-sm font-medium w-12 text-right">{count as number}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -315,14 +813,18 @@ const Statistics = () => {
           <Card>
             <CardHeader>
               <CardTitle>Trendek Riport</CardTitle>
-              <CardDescription>
-                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
-              </CardDescription>
+              <CardDescription>Időbeli változások elemzése (több audit szükséges)</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12 text-muted-foreground">
-                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
-              </div>
+              {audits.length < 2 ? (
+                <div className="text-center py-12 text-muted-foreground">
+                  A trendek megjelenítéséhez legalább 2 audit szükséges
+                </div>
+              ) : (
+                <div className="text-center py-12 text-muted-foreground">
+                  Trend elemzés fejlesztés alatt - hamarosan elérhető!
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -331,14 +833,18 @@ const Statistics = () => {
           <Card>
             <CardHeader>
               <CardTitle>Összehasonlítás Riport</CardTitle>
-              <CardDescription>
-                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
-              </CardDescription>
+              <CardDescription>Auditek összehasonlítása (több audit szükséges)</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12 text-muted-foreground">
-                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
-              </div>
+              {audits.length < 2 ? (
+                <div className="text-center py-12 text-muted-foreground">
+                  Az összehasonlításhoz legalább 2 audit szükséges
+                </div>
+              ) : (
+                <div className="text-center py-12 text-muted-foreground">
+                  Összehasonlító elemzés fejlesztés alatt - hamarosan elérhető!
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
