@@ -11,6 +11,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import AdminDashboard from "./pages/AdminDashboard";
 import HRDashboard from "./pages/HRDashboard";
 import CreateAudit from "./pages/hr/CreateAudit";
+import RunningAudits from "./pages/hr/RunningAudits";
 import Statistics from "./pages/hr/Statistics";
 import Export from "./pages/hr/Export";
 import Settings from "./pages/hr/Settings";
@@ -71,6 +72,16 @@ const App = () => (
               <ProtectedRoute allowedRoles={['hr']}>
                 <HRLayout>
                   <CreateAudit />
+                </HRLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/hr/running-audits" 
+            element={
+              <ProtectedRoute allowedRoles={['hr']}>
+                <HRLayout>
+                  <RunningAudits />
                 </HRLayout>
               </ProtectedRoute>
             } 

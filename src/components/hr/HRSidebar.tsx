@@ -1,4 +1,4 @@
-import { QrCode, BarChart3, FileText, Settings as SettingsIcon, LogOut } from "lucide-react";
+import { QrCode, BarChart3, FileText, Settings as SettingsIcon, LogOut, Activity } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   Sidebar,
@@ -15,6 +15,7 @@ import {
 
 const menuItems = [
   { title: "Audit Indítása", url: "/hr/create-audit", icon: QrCode },
+  { title: "Futó Auditok", url: "/hr/running-audits", icon: Activity },
   { title: "Statisztikák", url: "/hr/statistics", icon: BarChart3 },
   { title: "Export & Jelentések", url: "/hr/export", icon: FileText },
   { title: "Beállítások", url: "/hr/settings", icon: SettingsIcon },
