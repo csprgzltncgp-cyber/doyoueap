@@ -97,7 +97,7 @@ const Index = () => {
             <a href="#elonyok" className="text-sm hover:text-primary transition-colors">Előnyök</a>
             <a href="#arak" className="text-sm hover:text-primary transition-colors">Árak</a>
           </nav>
-          <Button onClick={() => navigate('/auth')}>
+          <Button onClick={() => window.location.href = '/auth'}>
             Bejelentkezés
           </Button>
         </div>
