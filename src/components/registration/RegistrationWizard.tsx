@@ -99,6 +99,15 @@ export const RegistrationWizard = () => {
     }
   };
 
+  const handleFinishRegistration = async () => {
+    // TODO: Itt kell majd implementálni a végleges regisztrációt
+    // - Adatok mentése a Supabase-be
+    // - Fizetés inicializálása
+    // - Átirányítás a dashboard-ra
+    console.log('Regisztráció befejezése:', data);
+    alert('Regisztráció sikeres! (Fejlesztés alatt)');
+  };
+
   // Only show progress for actual registration steps (2-4)
   const progress = step >= 2 ? ((step - 1) / totalSteps) * 100 : 0;
 
@@ -180,7 +189,7 @@ export const RegistrationWizard = () => {
                 <ChevronRight className="h-4 w-4 ml-2" />
               </Button>
             ) : (
-              <Button>
+              <Button onClick={handleFinishRegistration}>
                 Regisztráció befejezése
               </Button>
             )}
