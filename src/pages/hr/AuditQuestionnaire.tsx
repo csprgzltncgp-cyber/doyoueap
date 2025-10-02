@@ -198,14 +198,10 @@ export default function AuditQuestionnaire() {
           <Button 
             variant="outline"
             onClick={() => {
-              const branches = questionnaire.questions.branch_selector.branches;
-              // Find the "aware" branch (hallott róla, de nem használta)
-              const awareBranch = Object.entries(branches).find(([key, value]) => value === 'aware')?.[1] as string;
-              if (awareBranch && awareBranch !== 'redirect') {
-                setSelectedBranch(awareBranch);
-                setCurrentStep('branch_questions');
-                setCurrentBlockIndex(0);
-              }
+              // Use "aware" branch directly
+              setSelectedBranch('aware');
+              setCurrentStep('branch_questions');
+              setCurrentBlockIndex(0);
             }}
             className="w-full justify-start h-auto py-4"
           >
@@ -218,14 +214,10 @@ export default function AuditQuestionnaire() {
           <Button 
             variant="outline"
             onClick={() => {
-              const branches = questionnaire.questions.branch_selector.branches;
-              // Find the "user" branch (használta már)
-              const userBranch = Object.entries(branches).find(([key, value]) => value === 'user')?.[1] as string;
-              if (userBranch && userBranch !== 'redirect') {
-                setSelectedBranch(userBranch);
-                setCurrentStep('branch_questions');
-                setCurrentBlockIndex(0);
-              }
+              // Use "user" branch directly
+              setSelectedBranch('user');
+              setCurrentStep('branch_questions');
+              setCurrentBlockIndex(0);
             }}
             className="w-full justify-start h-auto py-4"
           >
