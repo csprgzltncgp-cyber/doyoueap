@@ -58,17 +58,17 @@ const handler = async (req: Request): Promise<Response> => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "DoYouEAP <no-reply@doyoueap.com>",
+        from: "doyoueap <no-reply@doyoueap.com>",
         to: [email],
-        subject: "Email cím megerősítése - DoYouEAP",
+        subject: "Email cím megerősítése - doyoueap",
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2>Email cím megerősítése</h2>
-            <p>Köszönjük, hogy regisztrálni szeretne a DoYouEAP rendszerbe!</p>
+            <p>Köszönjük, hogy regisztrálni szeretne a doyoueap rendszerbe!</p>
             <p>Kérjük, kattintson az alábbi gombra az email címe megerősítéséhez:</p>
             <div style="margin: 30px 0;">
               <a href="${verificationUrl}" 
-                 style="background-color: #7c3aed; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
+                 style="background-color: #3366ff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
                 Email cím megerősítése
               </a>
             </div>
