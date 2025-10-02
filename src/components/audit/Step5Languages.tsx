@@ -11,12 +11,31 @@ interface Step5Props {
 }
 
 const AVAILABLE_LANGUAGES = [
-  { code: 'HU', name: 'Magyar' },
-  { code: 'EN', name: 'English' },
-  { code: 'DE', name: 'Deutsch' },
-  { code: 'SK', name: 'Slovenčina' },
-  { code: 'RO', name: 'Română' },
-  { code: 'HR', name: 'Hrvatski' },
+  { code: "HU", name: "Magyar" },
+  { code: "EN", name: "English" },
+  { code: "DE", name: "Deutsch" },
+  { code: "FR", name: "Français" },
+  { code: "ES", name: "Español" },
+  { code: "IT", name: "Italiano" },
+  { code: "PT", name: "Português" },
+  { code: "RO", name: "Română" },
+  { code: "PL", name: "Polski" },
+  { code: "NL", name: "Nederlands" },
+  { code: "SV", name: "Svenska" },
+  { code: "DA", name: "Dansk" },
+  { code: "FI", name: "Suomi" },
+  { code: "NO", name: "Norsk" },
+  { code: "CS", name: "Čeština" },
+  { code: "SK", name: "Slovenčina" },
+  { code: "BG", name: "Български" },
+  { code: "HR", name: "Hrvatski" },
+  { code: "EL", name: "Ελληνικά" },
+  { code: "ZH", name: "中文" },
+  { code: "JA", name: "日本語" },
+  { code: "KO", name: "한국어" },
+  { code: "AR", name: "العربية" },
+  { code: "RU", name: "Русский" },
+  { code: "TR", name: "Türkçe" },
 ];
 
 export const Step5Languages = ({
@@ -27,8 +46,8 @@ export const Step5Languages = ({
 }: Step5Props) => {
   const toggleLanguage = (langCode: string) => {
     if (selectedLanguages.includes(langCode)) {
-      // Magyar nem távolítható el (minimum 1 nyelv kell)
-      if (langCode === 'HU' && selectedLanguages.length === 1) return;
+      // Minimum 1 nyelv kell
+      if (selectedLanguages.length === 1) return;
       onLanguagesChange(selectedLanguages.filter((l) => l !== langCode));
     } else {
       onLanguagesChange([...selectedLanguages, langCode]);
@@ -59,7 +78,7 @@ export const Step5Languages = ({
                   id={`lang-${lang.code}`}
                   checked={selectedLanguages.includes(lang.code)}
                   onCheckedChange={() => toggleLanguage(lang.code)}
-                  disabled={lang.code === 'HU' && selectedLanguages.length === 1}
+                  disabled={selectedLanguages.length === 1 && selectedLanguages.includes(lang.code)}
                 />
                 <Label htmlFor={`lang-${lang.code}`} className="cursor-pointer flex-1">
                   {lang.name} ({lang.code})
@@ -67,7 +86,7 @@ export const Step5Languages = ({
               </div>
             ))}
             <p className="text-sm text-muted-foreground mt-4">
-              * A magyar nyelv kötelező és nem távolítható el
+              * Legalább egy nyelv kiválasztása kötelező
             </p>
           </div>
         </CardContent>
