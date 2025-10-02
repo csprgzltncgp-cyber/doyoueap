@@ -261,12 +261,10 @@ const Statistics = () => {
                       <GaugeChart
                         value={utilization}
                         maxValue={100}
-                        minValue={0}
                         size={200}
                         label={`${utilization.toFixed(1)}%`}
                         sublabel={`${usedBranch} / ${employeeCount}`}
                         cornerRadius={0}
-                        showScale={true}
                       />
                       
                       {/* Detailed breakdown */}
@@ -305,12 +303,10 @@ const Statistics = () => {
                       <GaugeChart
                         value={satisfactionIndex}
                         maxValue={100}
-                        minValue={0}
                         size={200}
                         label={`${satisfactionIndex.toFixed(0)}%`}
                         sublabel={`${satisfactionScore}/5`}
                         cornerRadius={0}
-                        showScale={true}
                       />
                       
                       {/* Detailed breakdown */}
@@ -408,7 +404,7 @@ const Statistics = () => {
                       <CardHeader className="pb-3">
                         <CardTitle className="text-sm flex items-center gap-2">
                           <Eye className="h-4 w-4" />
-                          Ismertség
+                          Ismertség (1-5 skála)
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
@@ -420,14 +416,8 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
-                          minValue={1}
                           size={150}
-                          label={calculateAverage(
-                            responses
-                              .filter(r => r.employee_metadata?.branch === 'used')
-                              .map(r => r.responses?.u_awareness_understanding)
-                              .filter(v => v !== undefined)
-                          )}
+                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire értik a munkavállalók a szolgáltatást</p>
                       </CardContent>
@@ -438,7 +428,7 @@ const Statistics = () => {
                       <CardHeader className="pb-3">
                         <CardTitle className="text-sm flex items-center gap-2">
                           <Shield className="h-4 w-4" />
-                          Bizalom
+                          Bizalom (1-5 skála)
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
@@ -450,14 +440,8 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
-                          minValue={1}
                           size={150}
-                          label={calculateAverage(
-                            responses
-                              .filter(r => r.employee_metadata?.branch === 'used')
-                              .map(r => r.responses?.u_trust_anonymity)
-                              .filter(v => v !== undefined)
-                          )}
+                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire bíznak az anonimitás védelmében</p>
                       </CardContent>
@@ -486,7 +470,7 @@ const Statistics = () => {
                       <CardHeader className="pb-3">
                         <CardTitle className="text-sm flex items-center gap-2">
                           <Target className="h-4 w-4" />
-                          Hatás
+                          Hatás (1-5 skála)
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
@@ -498,14 +482,8 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
-                          minValue={1}
                           size={150}
-                          label={calculateAverage(
-                            responses
-                              .filter(r => r.employee_metadata?.branch === 'used')
-                              .map(r => r.responses?.u_impact_wellbeing)
-                              .filter(v => v !== undefined)
-                          )}
+                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Jóllét javulása a program használata után</p>
                       </CardContent>
@@ -593,7 +571,7 @@ const Statistics = () => {
                   <div className="grid grid-cols-3 gap-4">
                     <Card>
                       <CardHeader>
-                        <CardTitle className="text-sm">Bizalom az anonimitásban (Használók)</CardTitle>
+                        <CardTitle className="text-sm">Bizalom az anonimitásban - Használók (1-5 skála)</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
@@ -604,21 +582,15 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
-                          minValue={1}
                           size={150}
-                          label={calculateAverage(
-                            responses
-                              .filter(r => r.employee_metadata?.branch === 'used')
-                              .map(r => r.responses?.u_trust_anonymity)
-                              .filter(v => v !== undefined)
-                          )}
+                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire bíznak a használók abban, hogy névtelenségük megmarad</p>
                       </CardContent>
                     </Card>
                     <Card>
                       <CardHeader>
-                        <CardTitle className="text-sm">Munkaadói félelem</CardTitle>
+                        <CardTitle className="text-sm">Munkaadói félelem (1-5 skála)</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
@@ -629,21 +601,15 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
-                          minValue={1}
                           size={150}
-                          label={calculateAverage(
-                            responses
-                              .filter(r => r.employee_metadata?.branch === 'used')
-                              .map(r => r.responses?.u_trust_employer)
-                              .filter(v => v !== undefined)
-                          )}
+                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire félnek attól, hogy a munkaadó megtudja a használatot</p>
                       </CardContent>
                     </Card>
                     <Card>
                       <CardHeader>
-                        <CardTitle className="text-sm">Használati hajlandóság</CardTitle>
+                        <CardTitle className="text-sm">Használati hajlandóság (1-5 skála)</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
@@ -654,14 +620,8 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
-                          minValue={1}
                           size={150}
-                          label={calculateAverage(
-                            responses
-                              .filter(r => r.employee_metadata?.branch === 'used')
-                              .map(r => r.responses?.u_trust_likelihood)
-                              .filter(v => v !== undefined)
-                          )}
+                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire valószínű, hogy újra használnák a szolgáltatást</p>
                       </CardContent>
@@ -734,7 +694,7 @@ const Statistics = () => {
                   <div className="grid grid-cols-4 gap-4">
                     <Card>
                       <CardHeader>
-                        <CardTitle className="text-sm">Elégedettség</CardTitle>
+                        <CardTitle className="text-sm">Elégedettség (1-5 skála)</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
@@ -745,20 +705,14 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
-                          minValue={1}
                           size={120}
-                          label={calculateAverage(
-                            responses
-                              .filter(r => r.employee_metadata?.branch === 'used')
-                              .map(r => r.responses?.u_impact_satisfaction)
-                              .filter(v => v !== undefined)
-                          )}
+                          sublabel="/ 5"
                         />
                       </CardContent>
                     </Card>
                     <Card>
                       <CardHeader>
-                        <CardTitle className="text-sm">Problémamegoldás</CardTitle>
+                        <CardTitle className="text-sm">Problémamegoldás (1-5 skála)</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
@@ -769,21 +723,15 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
-                          minValue={1}
                           size={120}
-                          label={calculateAverage(
-                            responses
-                              .filter(r => r.employee_metadata?.branch === 'used')
-                              .map(r => r.responses?.u_impact_problem_solving)
-                              .filter(v => v !== undefined)
-                          )}
+                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire segített a program a problémák kezelésében</p>
                       </CardContent>
                     </Card>
                     <Card>
                       <CardHeader>
-                        <CardTitle className="text-sm">NPS átlag</CardTitle>
+                        <CardTitle className="text-sm">NPS átlag (0-10 skála)</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
@@ -794,21 +742,15 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={10}
-                          minValue={0}
                           size={120}
-                          label={calculateAverage(
-                            responses
-                              .filter(r => r.employee_metadata?.branch === 'used')
-                              .map(r => r.responses?.u_impact_nps)
-                              .filter(v => v !== undefined)
-                          )}
+                          sublabel="/ 10"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Net Promoter Score: ajánlási hajlandóság másoknak</p>
                       </CardContent>
                     </Card>
                     <Card>
                       <CardHeader>
-                        <CardTitle className="text-sm">Konzisztencia</CardTitle>
+                        <CardTitle className="text-sm">Konzisztencia (1-5 skála)</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
@@ -819,14 +761,8 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
-                          minValue={1}
                           size={120}
-                          label={calculateAverage(
-                            responses
-                              .filter(r => r.employee_metadata?.branch === 'used')
-                              .map(r => r.responses?.u_impact_consistency)
-                              .filter(v => v !== undefined)
-                          )}
+                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Szolgáltatás minőségének egyenletessége alkalmanként</p>
                       </CardContent>
@@ -884,7 +820,7 @@ const Statistics = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-sm">Teljesítményre gyakorolt hatás</CardTitle>
+                      <CardTitle className="text-sm">Teljesítményre gyakorolt hatás (1-5 skála)</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <GaugeChart
@@ -895,21 +831,15 @@ const Statistics = () => {
                             .filter(v => v !== undefined)
                         ))}
                         maxValue={5}
-                        minValue={1}
                         size={150}
-                        label={calculateAverage(
-                          responses
-                            .filter(r => r.employee_metadata?.branch === 'used')
-                            .map(r => r.responses?.u_impact_performance)
-                            .filter(v => v !== undefined)
-                        )}
+                        sublabel="/ 5"
                       />
                       <p className="text-xs text-muted-foreground mt-2 text-center">A program hatása a munkahelyi teljesítményre és produktivitásra</p>
                     </CardContent>
                   </Card>
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-sm">Problémamegoldás</CardTitle>
+                      <CardTitle className="text-sm">Problémamegoldás (1-5 skála)</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <GaugeChart
@@ -920,21 +850,15 @@ const Statistics = () => {
                             .filter(v => v !== undefined)
                         ))}
                         maxValue={5}
-                        minValue={1}
                         size={150}
-                        label={calculateAverage(
-                          responses
-                            .filter(r => r.employee_metadata?.branch === 'used')
-                            .map(r => r.responses?.u_impact_problem_solving)
-                            .filter(v => v !== undefined)
-                        )}
+                        sublabel="/ 5"
                       />
                       <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire hatékonyan segített a program a problémák megoldásában</p>
                     </CardContent>
                   </Card>
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-sm">Általános jóllét</CardTitle>
+                      <CardTitle className="text-sm">Általános jóllét (1-5 skála)</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <GaugeChart
@@ -945,21 +869,15 @@ const Statistics = () => {
                             .filter(v => v !== undefined)
                         ))}
                         maxValue={5}
-                        minValue={1}
                         size={150}
-                        label={calculateAverage(
-                          responses
-                            .filter(r => r.employee_metadata?.branch === 'used')
-                            .map(r => r.responses?.u_impact_wellbeing)
-                            .filter(v => v !== undefined)
-                        )}
+                        sublabel="/ 5"
                       />
                       <p className="text-xs text-muted-foreground mt-2 text-center">A program hatása az általános jóllétre és mentális egészségre</p>
                     </CardContent>
                   </Card>
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-sm">Elégedettség</CardTitle>
+                      <CardTitle className="text-sm">Elégedettség (1-5 skála)</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <GaugeChart
@@ -970,20 +888,14 @@ const Statistics = () => {
                             .filter(v => v !== undefined)
                         ))}
                         maxValue={5}
-                        minValue={1}
                         size={150}
-                        label={calculateAverage(
-                          responses
-                            .filter(r => r.employee_metadata?.branch === 'used')
-                            .map(r => r.responses?.u_impact_satisfaction)
-                            .filter(v => v !== undefined)
-                        )}
+                        sublabel="/ 5"
                       />
                     </CardContent>
                   </Card>
                   <Card className="col-span-2">
                     <CardHeader>
-                      <CardTitle className="text-sm">Szolgáltatás konzisztencia</CardTitle>
+                      <CardTitle className="text-sm">Szolgáltatás konzisztencia (1-5 skála)</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <GaugeChart
@@ -994,14 +906,8 @@ const Statistics = () => {
                             .filter(v => v !== undefined)
                         ))}
                         maxValue={5}
-                        minValue={1}
                         size={150}
-                        label={calculateAverage(
-                          responses
-                            .filter(r => r.employee_metadata?.branch === 'used')
-                            .map(r => r.responses?.u_impact_consistency)
-                            .filter(v => v !== undefined)
-                        )}
+                        sublabel="/ 5"
                       />
                       <p className="text-xs text-muted-foreground mt-2 text-center">Szolgáltatás minőségének konzisztenciája</p>
                     </CardContent>

@@ -76,12 +76,6 @@ export const GaugeChart = ({
           )}
         </RadialBarChart>
       </ResponsiveContainer>
-      {showScale && (
-        <div className="flex justify-between w-full px-4 mt-2">
-          <span className="text-sm text-muted-foreground">{minValue}</span>
-          <span className="text-sm text-muted-foreground">{maxValue}</span>
-        </div>
-      )}
     </div>
   );
 };
