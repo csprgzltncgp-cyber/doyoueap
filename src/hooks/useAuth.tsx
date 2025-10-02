@@ -53,13 +53,13 @@ export const useAuth = () => {
         .from('user_roles')
         .select('role')
         .eq('user_id', userId)
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error('Error fetching role:', error);
         setRole(null);
       } else {
-        setRole(data?.role as AppRole);
+        setRole(data?.role as AppRole || null);
       }
     } catch (error) {
       console.error('Error fetching role:', error);
