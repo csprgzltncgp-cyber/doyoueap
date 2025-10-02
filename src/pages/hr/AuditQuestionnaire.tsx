@@ -173,32 +173,76 @@ export default function AuditQuestionnaire() {
             onChange={(value) => handleResponseChange(branchSelector.id, value)}
           />
         </div>
-        <div className="flex gap-4">
+        
+        <Alert className="border-info/50 bg-info/10">
+          <Info className="h-4 w-4" />
+          <AlertDescription>
+            <strong>Demo mód:</strong> Válaszd ki, melyik válasz ágát szeretnéd megnézni. A munkavállalók válasza alapján különböző kérdéseket kapnak.
+          </AlertDescription>
+        </Alert>
+
+        <div className="grid grid-cols-1 gap-3">
           <Button 
             variant="outline"
-            onClick={() => setCurrentStep('demographics')} 
-            className="flex-1"
-          >
-            Vissza
-          </Button>
-          <Button 
             onClick={() => {
-              // Auto-select first branch for demo
+              setCurrentStep('eap_info');
+            }}
+            className="w-full justify-start h-auto py-4"
+          >
+            <div className="text-left">
+              <div className="font-semibold">1. ág: "Nem tudom / Nem, tudok róla és nem használtam"</div>
+              <div className="text-sm text-muted-foreground">EAP információs oldal megjelenítése</div>
+            </div>
+          </Button>
+
+          <Button 
+            variant="outline"
+            onClick={() => {
               const branches = questionnaire.questions.branch_selector.branches;
-              const firstBranchKey = Object.values(branches)[0] as string;
-              if (firstBranchKey === 'redirect') {
-                setCurrentStep('eap_info');
-              } else {
-                setSelectedBranch(firstBranchKey);
+              // Find the "aware" branch (hallott róla, de nem használta)
+              const awareBranch = Object.entries(branches).find(([key, value]) => value === 'aware')?.[1] as string;
+              if (awareBranch && awareBranch !== 'redirect') {
+                setSelectedBranch(awareBranch);
                 setCurrentStep('branch_questions');
                 setCurrentBlockIndex(0);
               }
-            }} 
-            className="flex-1"
+            }}
+            className="w-full justify-start h-auto py-4"
           >
-            Tovább (Demo - első ág)
+            <div className="text-left">
+              <div className="font-semibold">2. ág: "Igen, tudok róla de nem használtam"</div>
+              <div className="text-sm text-muted-foreground">Tudatosság és motiváció kérdések</div>
+            </div>
+          </Button>
+
+          <Button 
+            variant="outline"
+            onClick={() => {
+              const branches = questionnaire.questions.branch_selector.branches;
+              // Find the "user" branch (használta már)
+              const userBranch = Object.entries(branches).find(([key, value]) => value === 'user')?.[1] as string;
+              if (userBranch && userBranch !== 'redirect') {
+                setSelectedBranch(userBranch);
+                setCurrentStep('branch_questions');
+                setCurrentBlockIndex(0);
+              }
+            }}
+            className="w-full justify-start h-auto py-4"
+          >
+            <div className="text-left">
+              <div className="font-semibold">3. ág: "Igen, tudok róla és használtam is"</div>
+              <div className="text-sm text-muted-foreground">Használati tapasztalatok és elégedettség</div>
+            </div>
           </Button>
         </div>
+
+        <Button 
+          variant="outline"
+          onClick={() => setCurrentStep('demographics')} 
+          className="w-full"
+        >
+          Vissza
+        </Button>
       </div>
     );
   };
