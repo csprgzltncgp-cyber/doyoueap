@@ -178,9 +178,10 @@ const Motivation = () => {
       </Card>
 
       {notUsedCount === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center text-muted-foreground">
-            Még nincs nem használó válaszadó ehhez az audithoz
+        <Card className="p-12">
+          <CardContent className="text-center text-muted-foreground">
+            <p className="text-lg mb-2">Nincs megjeleníthető adat</p>
+            <p className="text-sm">Ehhez az audithoz még nincsenek olyan válaszok, ahol a kitöltők tudtak a programról, de nem használták. Csak "Nem tudtam róla" vagy "Használtam" válaszok érkeztek eddig.</p>
           </CardContent>
         </Card>
       ) : (

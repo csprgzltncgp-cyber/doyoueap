@@ -164,49 +164,58 @@ const Awareness = () => {
         </Select>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Használók</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">{responseCount.used}</p>
-            <p className="text-sm text-muted-foreground">válaszadó</p>
+      {responseCount.used === 0 && responseCount.notUsed === 0 ? (
+        <Card className="p-12">
+          <CardContent className="text-center text-muted-foreground">
+            <p className="text-lg mb-2">Nincs megjeleníthető adat</p>
+            <p className="text-sm">Ehhez az audithoz még nincsenek olyan válaszok, ahol a kitöltők tudtak a programról vagy használták azt. Csak "Nem tudtam róla" válaszok érkeztek eddig.</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Nem használók</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">{responseCount.notUsed}</p>
-            <p className="text-sm text-muted-foreground">válaszadó</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Összes</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">{responseCount.used + responseCount.notUsed}</p>
-            <p className="text-sm text-muted-foreground">válaszadó</p>
-          </CardContent>
-        </Card>
-      </div>
+      ) : (
+        <>
+          <div className="grid grid-cols-3 gap-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Használók</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-3xl font-bold">{responseCount.used}</p>
+                <p className="text-sm text-muted-foreground">válaszadó</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Nem használók</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-3xl font-bold">{responseCount.notUsed}</p>
+                <p className="text-sm text-muted-foreground">válaszadó</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Összes</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-3xl font-bold">{responseCount.used + responseCount.notUsed}</p>
+                <p className="text-sm text-muted-foreground">válaszadó</p>
+              </CardContent>
+            </Card>
+          </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Awareness Mutatók</CardTitle>
-          <CardDescription>
-            Likert skála átlagok (1-5), ahol 5 = teljes mértékben
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {awarenessData.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
-              Még nincs adat ehhez az audithoz
-            </div>
-          ) : (
+          <Card>
+            <CardHeader>
+              <CardTitle>Awareness Mutatók</CardTitle>
+              <CardDescription>
+                Likert skála átlagok (1-5), ahol 5 = teljes mértékben
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {awarenessData.length === 0 ? (
+                <div className="text-center py-12 text-muted-foreground">
+                  Még nincs adat ehhez az audithoz
+                </div>
+              ) : (
             <div className="space-y-8">
               <ResponsiveContainer width="100%" height={400}>
                 <BarChart data={awarenessData}>
@@ -253,9 +262,11 @@ const Awareness = () => {
                 ))}
               </div>
             </div>
-          )}
-        </CardContent>
-      </Card>
+              )}
+            </CardContent>
+          </Card>
+        </>
+      )}
     </div>
   );
 };

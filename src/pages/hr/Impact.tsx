@@ -187,26 +187,27 @@ const Impact = () => {
         </Select>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Használók száma</CardTitle>
-          <CardDescription>
-            Csak azok, akik használták az EAP programot
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-4xl font-bold">{usedCount}</p>
-        </CardContent>
-      </Card>
-
       {usedCount === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center text-muted-foreground">
-            Még nincs használó ehhez az audithoz
+        <Card className="p-12">
+          <CardContent className="text-center text-muted-foreground">
+            <p className="text-lg mb-2">Nincs megjeleníthető adat</p>
+            <p className="text-sm">Ehhez az audithoz még nincsenek olyan válaszok, ahol a kitöltők használták a programot. Csak "Nem tudtam róla" vagy "Nem használtam" válaszok érkeztek eddig.</p>
           </CardContent>
         </Card>
       ) : (
         <>
+          <Card>
+            <CardHeader>
+              <CardTitle>Használók száma</CardTitle>
+              <CardDescription>
+                Csak azok, akik használták az EAP programot
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-4xl font-bold">{usedCount}</p>
+            </CardContent>
+          </Card>
+          
           <div className="grid grid-cols-2 gap-6">
             <Card>
               <CardHeader>
