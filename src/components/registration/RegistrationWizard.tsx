@@ -24,7 +24,6 @@ export interface RegistrationData {
   employeeCount: string;
   contactName: string;
   contactPhone: string;
-  companyDomain: string;
   
   // Billing address
   billingAddressSameAsCompany: boolean;
@@ -53,7 +52,6 @@ const initialData: RegistrationData = {
   employeeCount: '',
   contactName: '',
   contactPhone: '',
-  companyDomain: '',
   billingAddressSameAsCompany: true,
   billingAddress: '',
   billingCity: '',
@@ -171,7 +169,6 @@ export const RegistrationWizard = () => {
           industry: data.industry,
           employee_count: data.employeeCount,
           contact_phone: data.contactPhone,
-          company_domain: data.companyDomain,
           billing_address_same_as_company: data.billingAddressSameAsCompany,
           billing_address: data.billingAddress,
           billing_city: data.billingCity,

@@ -34,7 +34,6 @@ interface ProfileData {
   industry: string | null;
   employee_count: string | null;
   contact_phone: string | null;
-  company_domain: string | null;
   billing_address_same_as_company: boolean | null;
   billing_address: string | null;
   billing_city: string | null;
@@ -263,7 +262,6 @@ function Settings() {
         postal_code: profileData.postal_code,
         industry: profileData.industry,
         employee_count: profileData.employee_count,
-        company_domain: profileData.company_domain,
       })
       .eq("id", user.id);
 
@@ -592,13 +590,6 @@ function Settings() {
               />
             </div>
             <div>
-              <Label>Cég domain</Label>
-              <Input 
-                value={profileData.company_domain || ""} 
-                onChange={(e) => setProfileData({...profileData, company_domain: e.target.value})}
-              />
-            </div>
-            <div className="col-span-2">
               <Label>Cím</Label>
               <Input 
                 value={profileData.address || ""} 
