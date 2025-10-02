@@ -75,11 +75,12 @@ const Statistics = () => {
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent">
+          {/* Awareness – mennyien tudnak a program létezéséről */}
           <TabsTrigger 
             value="awareness" 
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
           >
-            Tájékozottság
+            Ismertség
           </TabsTrigger>
           <TabsTrigger 
             value="trust" 
@@ -128,7 +129,8 @@ const Statistics = () => {
         <TabsContent value="awareness" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Tájékozottság Riport</CardTitle>
+              {/* Awareness – mennyien tudnak a program létezéséről */}
+              <CardTitle>Ismertség Riport</CardTitle>
               <CardDescription>
                 {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
               </CardDescription>
