@@ -202,6 +202,7 @@ const CreateAudit = () => {
               accessMode={accessMode}
               onAccessModeChange={setAccessMode}
               onNext={handleNext}
+              onBack={handleBack}
             />
           )}
 
