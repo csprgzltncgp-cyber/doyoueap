@@ -1,4 +1,4 @@
-import { ResponsiveContainer, RadialBarChart, RadialBar, PolarAngleAxis } from 'recharts';
+import { ResponsiveContainer, RadialBarChart, RadialBar } from 'recharts';
 
 interface GaugeChartProps {
   value: number;
@@ -24,25 +24,31 @@ export const GaugeChart = ({
     return '#ef4444'; // red
   };
 
-  const data = [{ value: percentage }];
+  const data = [
+    { 
+      name: 'value',
+      value: percentage,
+      fill: getColor()
+    }
+  ];
 
   return (
     <div className="flex flex-col items-center">
       <ResponsiveContainer width="100%" height={size}>
         <RadialBarChart 
+          cx="50%"
+          cy="50%"
           innerRadius="70%" 
           outerRadius="100%" 
           data={data}
           startAngle={180}
           endAngle={0}
+          barSize={20}
         >
-          <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
           <RadialBar
-            background
+            background={{ fill: 'hsl(var(--muted))' }}
             dataKey="value"
             cornerRadius={10}
-            fill={getColor()}
-            angleAxisId={0}
           />
           <text 
             x="50%" 
