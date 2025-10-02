@@ -27,15 +27,12 @@ export const Step6ProgramName = ({
           <CardTitle>Program neve</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-2">
-            <Label htmlFor="program-name">Program neve</Label>
-            <Input
-              id="program-name"
-              value={programName}
-              onChange={(e) => onProgramNameChange(e.target.value)}
-              maxLength={60}
-            />
-          </div>
+          <Input
+            id="program-name"
+            value={programName}
+            onChange={(e) => onProgramNameChange(e.target.value)}
+            maxLength={60}
+          />
         </CardContent>
       </Card>
 
