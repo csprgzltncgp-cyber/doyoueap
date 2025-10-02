@@ -23,13 +23,6 @@ export const GaugeChart = ({
 }: GaugeChartProps) => {
   const percentage = ((value - minValue) / (maxValue - minValue)) * 100;
   
-  // Determine color based on percentage
-  const getColor = () => {
-    if (percentage >= 70) return '#22c55e'; // green
-    if (percentage >= 40) return '#eab308'; // yellow
-    return '#ef4444'; // red
-  };
-
   const data = [{ value: percentage }];
 
   return (
@@ -49,7 +42,7 @@ export const GaugeChart = ({
             background={{ fill: 'hsl(var(--muted))' }}
             dataKey="value"
             cornerRadius={cornerRadius}
-            fill={getColor()}
+            fill="#3366ff"
             isAnimationActive={false}
           />
           <text 
