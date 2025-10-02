@@ -75,6 +75,11 @@ const CreateAudit = () => {
   };
 
   const handleSubmit = async () => {
+    console.log('handleSubmit called');
+    console.log('expiresAt:', expiresAt);
+    console.log('startDate:', startDate);
+    console.log('programName:', programName);
+    
     if (!expiresAt) {
       toast.error('A záró dátum megadása kötelező');
       return;
