@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { toast } from "sonner";
-import { BarChart3, Eye, Shield, Activity, Target, Heart, Users, TrendingUp, GitCompare, Wrench, Briefcase, Sparkles, RotateCw } from "lucide-react";
+import { BarChart3, Eye, Shield, Activity, Target, Heart, Users, TrendingUp, GitCompare, Wrench, Briefcase, Sparkles, RotateCw, CheckCircle, XCircle, Bell, Star } from "lucide-react";
 import { formatAuditName } from "@/lib/auditUtils";
 import { RadialBarChart, RadialBar, Legend, ResponsiveContainer, Cell, PieChart, Pie, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip } from "recharts";
 import { GaugeChart } from "@/components/ui/gauge-chart";
@@ -270,19 +270,31 @@ const Statistics = () => {
                       {/* Detailed breakdown */}
                       <div className="w-full mt-6 space-y-3">
                         <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">📊 Részvételi arány</span>
+                          <span className="text-sm text-muted-foreground flex items-center gap-2">
+                            <BarChart3 className="h-4 w-4" />
+                            Részvételi arány
+                          </span>
                           <span className="font-semibold">{participationRate.toFixed(1)}%</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">✅ Használók (a kitöltőkből)</span>
+                          <span className="text-sm text-muted-foreground flex items-center gap-2">
+                            <CheckCircle className="h-4 w-4" />
+                            Használók (a kitöltőkből)
+                          </span>
                           <span className="font-semibold">{usageRateFromRespondents.toFixed(1)}%</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">❌ Nem használók</span>
+                          <span className="text-sm text-muted-foreground flex items-center gap-2">
+                            <XCircle className="h-4 w-4" />
+                            Nem használók
+                          </span>
                           <span className="font-semibold">{((notUsedBranch / totalResponses) * 100).toFixed(1)}%</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">🔔 Nem tudtak róla</span>
+                          <span className="text-sm text-muted-foreground flex items-center gap-2">
+                            <Bell className="h-4 w-4" />
+                            Nem tudtak róla
+                          </span>
                           <span className="font-semibold">{((redirectBranch / totalResponses) * 100).toFixed(1)}%</span>
                         </div>
                       </div>
@@ -312,7 +324,10 @@ const Statistics = () => {
                       {/* Detailed breakdown */}
                       <div className="w-full mt-6 space-y-3">
                         <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">⭐ Általános elégedettség</span>
+                          <span className="text-sm text-muted-foreground flex items-center gap-2">
+                            <Star className="h-4 w-4" />
+                            Általános elégedettség
+                          </span>
                           <span className="font-semibold">{satisfactionScore}/5</span>
                         </div>
                           <div>
