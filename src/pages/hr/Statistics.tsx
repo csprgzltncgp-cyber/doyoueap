@@ -783,16 +783,20 @@ const Statistics = () => {
         </TabsContent>
 
         <TabsContent value="awareness" className="mt-6">
-          <Card>
-            <CardHeader>
-              {/* Awareness – mennyien tudnak a program létezéséről */}
-              <CardTitle>Ismertség Riport</CardTitle>
-              <CardDescription>
-                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-3 gap-4 mb-6">
+          {loadingResponses ? (
+            <div className="text-center py-12 text-muted-foreground">
+              Adatok betöltése...
+            </div>
+          ) : totalResponses === 0 ? (
+            <Card className="p-12">
+              <CardContent className="text-center text-muted-foreground">
+                <p className="text-lg mb-2">Nincs megjeleníthető adat</p>
+                <p className="text-sm">Ehhez az audithoz még nincsenek olyan válaszok, ahol a kitöltők tudtak a programról vagy használták azt. Csak "Nem tudtam róla" válaszok érkeztek eddig.</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-6">
+              <div className="grid grid-cols-3 gap-4">
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-lg">Használók</CardTitle>
@@ -807,7 +811,7 @@ const Statistics = () => {
                     <CardTitle className="text-lg">Nem használók</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-3xl font-bold">{notUsedBranch + redirectBranch}</p>
+                    <p className="text-3xl font-bold">{notUsedBranch}</p>
                     <p className="text-sm text-muted-foreground">válaszadó</p>
                   </CardContent>
                 </Card>
@@ -816,28 +820,214 @@ const Statistics = () => {
                     <CardTitle className="text-lg">Összes</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-3xl font-bold">{totalResponses}</p>
+                    <p className="text-3xl font-bold">{usedBranch + notUsedBranch}</p>
                     <p className="text-sm text-muted-foreground">válaszadó</p>
                   </CardContent>
                 </Card>
               </div>
-              {loadingResponses ? (
-                <div className="text-center py-12 text-muted-foreground">
-                  Adatok betöltése...
-                </div>
-              ) : totalResponses === 0 ? (
-                <div className="text-center py-12 text-muted-foreground">
-                  {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <p className="text-sm text-muted-foreground">
-                    Részletes statisztikák hamarosan...
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+
+              <Card id="awareness-pie-card">
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <CardTitle>Awareness Mutatók - Összesített</CardTitle>
+                      <CardDescription>
+                        Válaszadók megoszlása
+                      </CardDescription>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => exportCardToPNG('awareness-pie-card', 'awareness-megoszlas')}
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      PNG letöltés
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={400}>
+                    <PieChart>
+                      <Pie
+                        data={[
+                          { name: 'Használók', value: usedBranch, color: '#10b981' },
+                          { name: 'Nem használók', value: notUsedBranch, color: '#f59e0b' },
+                        ]}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                        outerRadius={120}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        <Cell fill="#10b981" />
+                        <Cell fill="#f59e0b" />
+                      </Pie>
+                      <RechartsTooltip />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+
+              <Card id="awareness-bar-card">
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <CardTitle>Awareness Mutatók - Részletes</CardTitle>
+                      <CardDescription>
+                        Likert skála átlagok (1-5), ahol 5 = teljes mértékben
+                      </CardDescription>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => exportCardToPNG('awareness-bar-card', 'awareness-reszletes')}
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      PNG letöltés
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-8">
+                    <ResponsiveContainer width="100%" height={400}>
+                      <BarChart data={[
+                        {
+                          metric: 'Szolgáltatás megértése',
+                          used: parseFloat(calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_awareness_understanding)
+                              .filter(v => v !== undefined)
+                          )),
+                          notUsed: parseFloat(calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'not_used')
+                              .map(r => r.responses?.nu_awareness_understanding)
+                              .filter(v => v !== undefined)
+                          )),
+                        },
+                        {
+                          metric: 'Igénybevételi tudás',
+                          used: parseFloat(calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_awareness_how_to_use)
+                              .filter(v => v !== undefined)
+                          )),
+                          notUsed: 0,
+                        },
+                        {
+                          metric: 'Elérhetőség érzete',
+                          used: parseFloat(calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_awareness_accessibility)
+                              .filter(v => v !== undefined)
+                          )),
+                          notUsed: 0,
+                        },
+                      ]}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="metric" />
+                        <YAxis domain={[0, 5]} />
+                        <RechartsTooltip />
+                        <Legend />
+                        <Bar dataKey="used" name="Használók" fill="#10b981" />
+                        <Bar dataKey="notUsed" name="Nem használók" fill="#f59e0b" />
+                      </BarChart>
+                    </ResponsiveContainer>
+
+                    <div className="grid grid-cols-1 gap-4">
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-lg">Szolgáltatás megértése</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <p className="text-sm text-muted-foreground">Használók</p>
+                              <p className="text-2xl font-bold text-green-600">
+                                {calculateAverage(
+                                  responses
+                                    .filter(r => r.employee_metadata?.branch === 'used')
+                                    .map(r => r.responses?.u_awareness_understanding)
+                                    .filter(v => v !== undefined)
+                                ) || 'N/A'}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-sm text-muted-foreground">Nem használók</p>
+                              <p className="text-2xl font-bold text-orange-600">
+                                {calculateAverage(
+                                  responses
+                                    .filter(r => r.employee_metadata?.branch === 'not_used')
+                                    .map(r => r.responses?.nu_awareness_understanding)
+                                    .filter(v => v !== undefined)
+                                ) || 'N/A'}
+                              </p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-lg">Igénybevételi tudás</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <p className="text-sm text-muted-foreground">Használók</p>
+                              <p className="text-2xl font-bold text-green-600">
+                                {calculateAverage(
+                                  responses
+                                    .filter(r => r.employee_metadata?.branch === 'used')
+                                    .map(r => r.responses?.u_awareness_how_to_use)
+                                    .filter(v => v !== undefined)
+                                ) || 'N/A'}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-sm text-muted-foreground">Nem használók</p>
+                              <p className="text-2xl font-bold text-orange-600">N/A</p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-lg">Elérhetőség érzete</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <p className="text-sm text-muted-foreground">Használók</p>
+                              <p className="text-2xl font-bold text-green-600">
+                                {calculateAverage(
+                                  responses
+                                    .filter(r => r.employee_metadata?.branch === 'used')
+                                    .map(r => r.responses?.u_awareness_accessibility)
+                                    .filter(v => v !== undefined)
+                                ) || 'N/A'}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-sm text-muted-foreground">Nem használók</p>
+                              <p className="text-2xl font-bold text-orange-600">N/A</p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </TabsContent>
 
         <TabsContent value="trust" className="mt-6">
