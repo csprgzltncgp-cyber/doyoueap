@@ -864,7 +864,7 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
-                          size={120}
+                          size={150}
                         />
                       </CardContent>
                     </Card>
@@ -881,7 +881,7 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
-                          size={120}
+                          size={150}
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire segített a program a problémák kezelésében</p>
                       </CardContent>
@@ -899,7 +899,7 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={10}
-                          size={120}
+                          size={150}
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Net Promoter Score: ajánlási hajlandóság másoknak</p>
                       </CardContent>
@@ -917,7 +917,7 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
-                          size={120}
+                          size={150}
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Szolgáltatás minőségének egyenletessége alkalmanként</p>
                       </CardContent>
