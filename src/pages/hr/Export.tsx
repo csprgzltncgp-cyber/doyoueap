@@ -34,6 +34,14 @@ const Export = () => {
     const handleMessage = (event: MessageEvent) => {
       if (event.data.type === 'EXPORT_COMPLETE') {
         setExporting(false);
+        
+        // Download the image from the data URL
+        const { imageData, fileName } = event.data;
+        const link = document.createElement('a');
+        link.download = `${fileName}.png`;
+        link.href = imageData;
+        link.click();
+        
         toast.success('PNG sikeresen letöltve!');
         
         // Remove the iframe

@@ -50,21 +50,7 @@ const Statistics = () => {
     if (autoExport && exportFileName && !loadingResponses && responses.length > 0) {
       // Wait a bit for the DOM to render
       setTimeout(async () => {
-        try {
-          await exportCardToPNG(autoExport, exportFileName);
-          
-          // Notify parent window if in iframe
-          if (inIframe && window.parent) {
-            window.parent.postMessage({ type: 'EXPORT_COMPLETE' }, '*');
-          }
-        } catch (error) {
-          console.error('Export error:', error);
-          
-          // Notify parent window of error if in iframe
-          if (inIframe && window.parent) {
-            window.parent.postMessage({ type: 'EXPORT_ERROR' }, '*');
-          }
-        }
+        await exportCardToPNG(autoExport, exportFileName, inIframe);
       }, 1500);
     }
   }, [autoExport, exportFileName, loadingResponses, responses, inIframe]);
@@ -167,13 +153,16 @@ const Statistics = () => {
 
 
   // PNG Export function for individual cards
-  const exportCardToPNG = async (cardId: string, fileName: string) => {
+  const exportCardToPNG = async (cardId: string, fileName: string, sendToParent: boolean = false) => {
     try {
       const html2canvas = (await import('html2canvas')).default;
       const element = document.getElementById(cardId);
       
       if (!element) {
         toast.error('Panel nem található');
+        if (sendToParent && window.parent) {
+          window.parent.postMessage({ type: 'EXPORT_ERROR' }, '*');
+        }
         return;
       }
 
@@ -182,15 +171,29 @@ const Statistics = () => {
         scale: 2,
       });
 
-      const link = document.createElement('a');
-      link.download = `${fileName}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      const dataUrl = canvas.toDataURL('image/png');
 
-      toast.success('PNG sikeresen letöltve!');
+      if (sendToParent && window.parent) {
+        // Send image data to parent window
+        window.parent.postMessage({ 
+          type: 'EXPORT_COMPLETE', 
+          imageData: dataUrl,
+          fileName: fileName 
+        }, '*');
+      } else {
+        // Download directly
+        const link = document.createElement('a');
+        link.download = `${fileName}.png`;
+        link.href = dataUrl;
+        link.click();
+        toast.success('PNG sikeresen letöltve!');
+      }
     } catch (error) {
       console.error('Error exporting PNG:', error);
       toast.error('Hiba a PNG exportálás során');
+      if (sendToParent && window.parent) {
+        window.parent.postMessage({ type: 'EXPORT_ERROR' }, '*');
+      }
     }
   };
 
