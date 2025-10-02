@@ -2,7 +2,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RegistrationData } from './RegistrationWizard';
-import { CreditCard } from 'lucide-react';
+import { CreditCard, Link2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 
 interface PaymentStepProps {
   data: RegistrationData;
@@ -10,6 +12,8 @@ interface PaymentStepProps {
 }
 
 export const PaymentStep = ({ data }: PaymentStepProps) => {
+  const [useStripeLink, setUseStripeLink] = useState(false);
+
   const getPackagePrice = () => {
     if (data.selectedPackage === 'starter') {
       return data.billingCycle === 'monthly' ? '149 €/hó' : '1 490 €/év';
@@ -74,39 +78,61 @@ export const PaymentStep = ({ data }: PaymentStepProps) => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="cardNumber">Kártyaszám</Label>
-              <Input
-                id="cardNumber"
-                placeholder="1234 5678 9012 3456"
-                maxLength={19}
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="expiry">Lejárat</Label>
-                <Input
-                  id="expiry"
-                  placeholder="MM/ÉÉ"
-                  maxLength={5}
-                />
+            {/* Stripe Link option */}
+            <div className="flex items-center justify-between p-4 border rounded-lg">
+              <div className="flex items-center gap-3">
+                <Link2 className="h-5 w-5 text-primary" />
+                <div>
+                  <p className="font-medium">Link fiók használata</p>
+                  <p className="text-sm text-muted-foreground">Gyors fizetés mentett Link fiókkal</p>
+                </div>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="cvc">CVC</Label>
-                <Input
-                  id="cvc"
-                  placeholder="123"
-                  maxLength={3}
-                />
-              </div>
+              <Button 
+                variant={useStripeLink ? "default" : "outline"}
+                onClick={() => setUseStripeLink(!useStripeLink)}
+              >
+                {useStripeLink ? 'Használatban' : 'Használom'}
+              </Button>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="cardName">Kártyabirtokos neve</Label>
-              <Input
-                id="cardName"
-                placeholder="Ahogy a kártyán szerepel"
-              />
-            </div>
+
+            {!useStripeLink && (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="cardNumber">Kártyaszám</Label>
+                  <Input
+                    id="cardNumber"
+                    placeholder="1234 5678 9012 3456"
+                    maxLength={19}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="expiry">Lejárat</Label>
+                    <Input
+                      id="expiry"
+                      placeholder="MM/ÉÉ"
+                      maxLength={5}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="cvc">CVC</Label>
+                    <Input
+                      id="cvc"
+                      placeholder="123"
+                      maxLength={3}
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="cardName">Kártyabirtokos neve</Label>
+                  <Input
+                    id="cardName"
+                    placeholder="Ahogy a kártyán szerepel"
+                  />
+                </div>
+              </>
+            )}
+
             <p className="text-xs text-muted-foreground">
               A fizetési adatokat biztonságosan tároljuk és titkosítjuk. 
               {data.billingCycle === 'yearly' && ' Az éves előfizetés egyszeri terheléssel kerül felszámolásra.'}
@@ -118,7 +144,7 @@ export const PaymentStep = ({ data }: PaymentStepProps) => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Céges adatok</CardTitle>
+          <CardTitle>Számlázási adatok</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 text-sm">
           <div className="grid grid-cols-2 gap-2">
@@ -128,8 +154,17 @@ export const PaymentStep = ({ data }: PaymentStepProps) => {
             <span className="text-muted-foreground">Ország:</span>
             <span className="font-medium">{data.country}</span>
             
-            <span className="text-muted-foreground">VAT ID:</span>
+            <span className="text-muted-foreground">Adószám / VAT ID:</span>
             <span className="font-medium">{data.vatId}</span>
+            
+            <span className="text-muted-foreground">Székhely címe:</span>
+            <span className="font-medium">{data.address}</span>
+            
+            <span className="text-muted-foreground">Város:</span>
+            <span className="font-medium">{data.city}</span>
+            
+            <span className="text-muted-foreground">Irányítószám:</span>
+            <span className="font-medium">{data.postalCode}</span>
             
             <span className="text-muted-foreground">Kapcsolattartó:</span>
             <span className="font-medium">{data.contactName}</span>

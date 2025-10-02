@@ -114,15 +114,15 @@ export const CompanyDataStep = ({ data, updateData }: CompanyDataStepProps) => {
         </div>
 
         <div className="space-y-2 md:col-span-2">
-          <Label htmlFor="companyDomain">Céges domain</Label>
+          <Label htmlFor="companyDomain">EAP weboldal</Label>
           <Input
             id="companyDomain"
             value={data.companyDomain}
             onChange={(e) => updateData({ companyDomain: e.target.value })}
-            placeholder="pelda.com (opcionális)"
+            placeholder="https://pelda.com (opcionális)"
           />
           <p className="text-sm text-muted-foreground">
-            Ha van EAP programhoz használt weboldal domain, adja meg itt.
+            Ha van EAP programhoz használt weboldal, adja meg itt.
           </p>
         </div>
 

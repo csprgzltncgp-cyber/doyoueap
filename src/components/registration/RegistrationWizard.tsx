@@ -162,21 +162,16 @@ export const RegistrationWizard = () => {
               <ChevronLeft className="h-4 w-4 mr-2" />
               Vissza
             </Button>
-            <div className="flex gap-2">
-              <Button variant="ghost">
-                Folytatom később
+            {step < 4 ? (
+              <Button onClick={nextStep}>
+                Tovább
+                <ChevronRight className="h-4 w-4 ml-2" />
               </Button>
-              {step < 4 ? (
-                <Button onClick={nextStep}>
-                  Tovább
-                  <ChevronRight className="h-4 w-4 ml-2" />
-                </Button>
-              ) : (
-                <Button>
-                  Regisztráció befejezése
-                </Button>
-              )}
-            </div>
+            ) : (
+              <Button>
+                Regisztráció befejezése
+              </Button>
+            )}
           </div>
         </CardContent>
       </Card>
