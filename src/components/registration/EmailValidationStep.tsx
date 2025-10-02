@@ -25,6 +25,7 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
     return () => {
       if (checkingInterval) {
         clearInterval(checkingInterval);
+        setCheckingInterval(null);
       }
     };
   }, []);
@@ -66,20 +67,6 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
   const startCheckingVerification = (emailToCheck: string): NodeJS.Timeout => {
     return setInterval(async () => {
       try {
-        // First check if user is already logged in
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
-          if (checkingInterval) {
-            clearInterval(checkingInterval);
-          }
-          toast({
-            title: "Már be van jelentkezve!",
-            description: "Folytathatja a regisztrációt.",
-          });
-          onEmailVerified();
-          return;
-        }
-
         const { data, error } = await supabase
           .from('email_verifications')
           .select('verified')
@@ -90,15 +77,16 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
         if (data && data.verified) {
           if (checkingInterval) {
             clearInterval(checkingInterval);
+            setCheckingInterval(null);
           }
           
           toast({
             title: "Email megerősítve! ✓",
-            description: "Fiók létrehozása folyamatban...",
+            description: "Folytathatja a regisztrációt.",
           });
 
-          // Create Supabase user account
-          await createUserAccount();
+          // Don't create account, just proceed to next step
+          onEmailVerified();
         }
       } catch (error) {
         // Verification not yet complete, continue checking
@@ -106,49 +94,6 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
     }, 3000); // Check every 3 seconds
   };
 
-  const createUserAccount = async () => {
-    try {
-      // First try to sign up
-      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/`,
-        },
-      });
-
-      // If user already exists, sign in instead
-      if (signUpError && signUpError.message.includes('already registered')) {
-        const { error: signInError } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-
-        if (signInError) throw signInError;
-
-        toast({
-          title: "Bejelentkezve!",
-          description: "Már létező fiókkal folytatja a regisztrációt.",
-        });
-      } else if (signUpError) {
-        throw signUpError;
-      } else {
-        toast({
-          title: "Fiók sikeresen létrehozva!",
-          description: "Most folytathatja a regisztrációt a céges adatokkal.",
-        });
-      }
-
-      onEmailVerified();
-    } catch (error: any) {
-      console.error('Error creating user:', error);
-      toast({
-        title: "Hiba a fiók létrehozása során",
-        description: error.message || "Kérjük, próbálja újra.",
-        variant: "destructive",
-      });
-    }
-  };
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
