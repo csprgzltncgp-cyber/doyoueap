@@ -184,12 +184,12 @@ const Export = () => {
             <div className="text-sm space-y-2">
               <p><strong>Tartalom:</strong></p>
               <ul className="list-disc list-inside ml-4 space-y-1">
-                <li>1. oldal: Fő mutatók + user kategória arány</li>
-                <li>2. oldal: Awareness & Trust részletezők</li>
-                <li>3. oldal: Usage & Impact riportok</li>
-                <li>4. oldal: Motivációs faktorok</li>
-                <li>5. oldal: Demográfiai bontás</li>
-                <li>6. oldal: Trendek & összefoglaló</li>
+                <li>1. oldal: Összefoglaló - Igénybevétel & Elégedettségi Index</li>
+                <li>2. oldal: 4 fő téma áttekintése (Awareness, Trust, Usage, Impact)</li>
+                <li>3. oldal: Awareness & Trust részletezők</li>
+                <li>4. oldal: Usage & Impact riportok</li>
+                <li>5. oldal: Motivációs faktorok & Demográfiai bontás</li>
+                <li>6. oldal: Trendek & User kategóriák</li>
               </ul>
             </div>
             <Button 
@@ -248,6 +248,27 @@ const Export = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Button 
+              variant="outline" 
+              onClick={() => handleExportPNG('Összefoglaló')}
+              disabled={exporting || !selectedAuditId}
+            >
+              Összefoglaló
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => handleExportPNG('Igénybevétel')}
+              disabled={exporting || !selectedAuditId}
+            >
+              Igénybevétel
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => handleExportPNG('Elégedettség')}
+              disabled={exporting || !selectedAuditId}
+            >
+              Elégedettség
+            </Button>
             <Button 
               variant="outline" 
               onClick={() => handleExportPNG('Kategóriák')}
