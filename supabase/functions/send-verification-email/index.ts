@@ -58,7 +58,7 @@ const handler = async (req: Request): Promise<Response> => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "DoYouEAP <onboarding@resend.dev>",
+        from: "DoYouEAP <no-reply@doyoueap.com>",
         to: [email],
         subject: "Email cím megerősítése - DoYouEAP",
         html: `
