@@ -76,7 +76,7 @@ const CreateAudit = () => {
 
   const handleSubmit = async () => {
     if (!expiresAt) {
-      toast.error('Kérlek töltsd ki az összes kötelező mezőt');
+      toast.error('A záró dátum megadása kötelező');
       return;
     }
 
