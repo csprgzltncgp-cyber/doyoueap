@@ -850,8 +850,8 @@ const Statistics = () => {
                     <PieChart>
                       <Pie
                         data={[
-                          { name: 'Használók', value: usedBranch, color: '#10b981' },
-                          { name: 'Nem használók', value: notUsedBranch, color: '#f59e0b' },
+                          { name: 'Használók', value: usedBranch, color: '#3366ff' },
+                          { name: 'Nem használók', value: notUsedBranch, color: '#3abef9' },
                         ]}
                         cx="50%"
                         cy="50%"
@@ -861,8 +861,8 @@ const Statistics = () => {
                         fill="#8884d8"
                         dataKey="value"
                       >
-                        <Cell fill="#10b981" />
-                        <Cell fill="#f59e0b" />
+                        <Cell fill="#3366ff" />
+                        <Cell fill="#3abef9" />
                       </Pie>
                       <RechartsTooltip />
                       <Legend />
@@ -935,8 +935,8 @@ const Statistics = () => {
                         <YAxis domain={[0, 5]} />
                         <RechartsTooltip />
                         <Legend />
-                        <Bar dataKey="used" name="Használók" fill="#10b981" />
-                        <Bar dataKey="notUsed" name="Nem használók" fill="#f59e0b" />
+                        <Bar dataKey="used" name="Használók" fill="#3366ff" />
+                        <Bar dataKey="notUsed" name="Nem használók" fill="#3abef9" />
                       </BarChart>
                     </ResponsiveContainer>
 
@@ -949,7 +949,7 @@ const Statistics = () => {
                           <div className="grid grid-cols-2 gap-4">
                             <div>
                               <p className="text-sm text-muted-foreground">Használók</p>
-                              <p className="text-2xl font-bold text-green-600">
+                              <p className="text-2xl font-bold" style={{ color: '#3366ff' }}>
                                 {calculateAverage(
                                   responses
                                     .filter(r => r.employee_metadata?.branch === 'used')
@@ -960,7 +960,7 @@ const Statistics = () => {
                             </div>
                             <div>
                               <p className="text-sm text-muted-foreground">Nem használók</p>
-                              <p className="text-2xl font-bold text-orange-600">
+                              <p className="text-2xl font-bold" style={{ color: '#3abef9' }}>
                                 {calculateAverage(
                                   responses
                                     .filter(r => r.employee_metadata?.branch === 'not_used')
@@ -981,7 +981,7 @@ const Statistics = () => {
                           <div className="grid grid-cols-2 gap-4">
                             <div>
                               <p className="text-sm text-muted-foreground">Használók</p>
-                              <p className="text-2xl font-bold text-green-600">
+                              <p className="text-2xl font-bold" style={{ color: '#3366ff' }}>
                                 {calculateAverage(
                                   responses
                                     .filter(r => r.employee_metadata?.branch === 'used')
@@ -992,7 +992,7 @@ const Statistics = () => {
                             </div>
                             <div>
                               <p className="text-sm text-muted-foreground">Nem használók</p>
-                              <p className="text-2xl font-bold text-orange-600">N/A</p>
+                              <p className="text-2xl font-bold" style={{ color: '#3abef9' }}>N/A</p>
                             </div>
                           </div>
                         </CardContent>
@@ -1006,7 +1006,7 @@ const Statistics = () => {
                           <div className="grid grid-cols-2 gap-4">
                             <div>
                               <p className="text-sm text-muted-foreground">Használók</p>
-                              <p className="text-2xl font-bold text-green-600">
+                              <p className="text-2xl font-bold" style={{ color: '#3366ff' }}>
                                 {calculateAverage(
                                   responses
                                     .filter(r => r.employee_metadata?.branch === 'used')
@@ -1017,7 +1017,7 @@ const Statistics = () => {
                             </div>
                             <div>
                               <p className="text-sm text-muted-foreground">Nem használók</p>
-                              <p className="text-2xl font-bold text-orange-600">N/A</p>
+                              <p className="text-2xl font-bold" style={{ color: '#3abef9' }}>N/A</p>
                             </div>
                           </div>
                         </CardContent>
