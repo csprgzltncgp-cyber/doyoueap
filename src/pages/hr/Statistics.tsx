@@ -3,8 +3,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { toast } from "sonner";
+import { AwarenessTab } from "@/components/statistics/AwarenessTab";
 
 interface Audit {
   id: string;
@@ -133,17 +133,7 @@ const Statistics = () => {
         </TabsList>
 
         <TabsContent value="awareness" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Tudatosság Riport</CardTitle>
-              <CardDescription>Hamarosan elérhető</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Az adatok betöltése folyamatban van az audit ID alapján: {selectedAuditId}
-              </p>
-            </CardContent>
-          </Card>
+          <AwarenessTab auditId={selectedAuditId} />
         </TabsContent>
 
         <TabsContent value="trust" className="mt-6">
