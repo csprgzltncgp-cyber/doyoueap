@@ -67,6 +67,7 @@ export interface StandardAudit {
   recurrence_config: any;
   is_active: boolean;
   expires_at: string | null;
+  access_token?: string;
 }
 
 // Standard query string for fetching audits

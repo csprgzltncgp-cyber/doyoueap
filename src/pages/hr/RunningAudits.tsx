@@ -3,9 +3,10 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
-import { Calendar, Mail, MousePointerClick, CheckCircle, Clock } from 'lucide-react';
+import { Calendar, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink } from 'lucide-react';
 
 interface AuditMetrics {
   audit: StandardAudit;
@@ -30,7 +31,7 @@ const RunningAudits = () => {
       // Fetch active audits
       const { data: auditsData, error: auditsError } = await supabase
         .from('audits')
-        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at')
+        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, access_token')
         .eq('is_active', true)
         .order('start_date', { ascending: false });
 
@@ -112,6 +113,15 @@ const RunningAudits = () => {
     }
   };
 
+  const getSurveyUrl = (accessToken: string) => {
+    return `${window.location.origin}/survey/${accessToken}`;
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success('Link vágólapra másolva!');
+  };
+
   if (loading) {
     return (
       <div className="p-8 flex items-center justify-center h-96">
@@ -165,6 +175,27 @@ const RunningAudits = () => {
                   </div>
                 </div>
               </div>
+              {metrics.audit.access_token && (
+                <div className="flex items-center gap-2 mt-4">
+                  <code className="flex-1 px-3 py-2 bg-muted rounded text-sm">
+                    {getSurveyUrl(metrics.audit.access_token)}
+                  </code>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => copyToClipboard(getSurveyUrl(metrics.audit.access_token))}
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => window.open(getSurveyUrl(metrics.audit.access_token), '_blank')}
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
             </CardHeader>
             <CardContent className="space-y-6">
               {/* Email metrics - only for tokenes mode */}

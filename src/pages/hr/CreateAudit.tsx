@@ -150,7 +150,7 @@ const CreateAudit = () => {
       if (error) throw error;
 
       toast.success('Audit sikeresen létrehozva és elindítva!');
-      navigate('/hr');
+      navigate('/hr/running-audits');
     } catch (error) {
       console.error('Error creating audit:', error);
       toast.error('Hiba történt az audit létrehozásakor');
