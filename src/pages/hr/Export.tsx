@@ -5,7 +5,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { formatAuditName } from '@/lib/auditUtils';
-import { FileText, Image as ImageIcon, Download } from 'lucide-react';
+import { FileText, Image as ImageIcon, Download, FileSpreadsheet } from 'lucide-react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import * as XLSX from 'xlsx';
 
 interface Audit {
   id: string;
@@ -52,14 +55,49 @@ const Export = () => {
       const selectedAudit = audits.find(a => a.id === selectedAuditId);
       if (!selectedAudit) return;
 
-      // Note: In a real implementation, you would call an edge function
-      // that generates a PDF using a library like pdfmake or puppeteer
-      toast.info('PDF export funkció fejlesztés alatt...');
+      // Fetch data for the selected audit
+      const { data: responses, error } = await supabase
+        .from('audit_responses')
+        .select('responses, employee_metadata, submitted_at')
+        .eq('audit_id', selectedAuditId);
+
+      if (error) throw error;
+
+      if (!responses || responses.length === 0) {
+        toast.error('Nincs adat az exportáláshoz');
+        return;
+      }
+
+      // Create PDF
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
       
-      // Placeholder for future implementation
-      // const { data, error } = await supabase.functions.invoke('generate-report-pdf', {
-      //   body: { auditId: selectedAuditId }
-      // });
+      // Add title page
+      pdf.setFontSize(24);
+      pdf.text('Audit Jelentés', pageWidth / 2, 40, { align: 'center' });
+      pdf.setFontSize(16);
+      pdf.text(formatAuditName(selectedAudit), pageWidth / 2, 55, { align: 'center' });
+      pdf.setFontSize(12);
+      pdf.text(`Generálva: ${new Date().toLocaleDateString('hu-HU')}`, pageWidth / 2, 70, { align: 'center' });
+      pdf.text(`Összes válasz: ${responses.length}`, pageWidth / 2, 80, { align: 'center' });
+
+      // Calculate basic stats
+      const usedBranch = responses.filter(r => r.employee_metadata?.branch === 'used').length;
+      const notUsedBranch = responses.filter(r => r.employee_metadata?.branch === 'not_used').length;
+      const redirectBranch = responses.filter(r => r.employee_metadata?.branch === 'redirect').length;
+
+      pdf.addPage();
+      pdf.setFontSize(18);
+      pdf.text('Összefoglaló Statisztikák', 20, 20);
+      pdf.setFontSize(12);
+      pdf.text(`Használók: ${usedBranch} (${((usedBranch / responses.length) * 100).toFixed(1)}%)`, 20, 35);
+      pdf.text(`Nem használók: ${notUsedBranch} (${((notUsedBranch / responses.length) * 100).toFixed(1)}%)`, 20, 45);
+      pdf.text(`Nem tudtak róla: ${redirectBranch} (${((redirectBranch / responses.length) * 100).toFixed(1)}%)`, 20, 55);
+
+      // Save PDF
+      pdf.save(`audit_jelentés_${formatAuditName(selectedAudit)}_${Date.now()}.pdf`);
+      toast.success('PDF sikeresen exportálva!');
     } catch (error) {
       console.error('Error exporting PDF:', error);
       toast.error('Hiba történt a PDF exportálás során');
@@ -71,13 +109,72 @@ const Export = () => {
   const handleExportPNG = async (section: string) => {
     setExporting(true);
     try {
-      toast.info(`${section} PNG export funkció fejlesztés alatt...`);
+      // Navigate to Statistics page and wait for it to load
+      window.open(`/hr/statistics?tab=${section.toLowerCase()}`, '_blank');
       
-      // Placeholder for future implementation using html2canvas
-      // This would capture specific chart elements and download as PNG
+      toast.info(`Kérlek, nyisd meg a Statistics oldalt, majd használd a böngésző "Mentés képként" funkcióját vagy screenshot eszközt a ${section} grafikon mentéséhez.`);
     } catch (error) {
       console.error('Error exporting PNG:', error);
       toast.error('Hiba történt a PNG exportálás során');
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const handleExportExcel = async () => {
+    setExporting(true);
+    try {
+      const { data, error } = await supabase
+        .from('audit_responses')
+        .select('responses, employee_metadata, submitted_at')
+        .eq('audit_id', selectedAuditId);
+
+      if (error) throw error;
+
+      if (!data || data.length === 0) {
+        toast.error('Nincs adat az exportáláshoz');
+        return;
+      }
+
+      // Prepare data for Excel
+      const excelData = data.map(r => ({
+        'Beküldés ideje': new Date(r.submitted_at).toLocaleString('hu-HU'),
+        'Ág': r.employee_metadata?.branch || '',
+        'Nem': r.responses?.gender || '',
+        'Életkor': r.responses?.age || '',
+        'Ismertség': r.responses?.awareness_heard || '',
+        'Használat': r.employee_metadata?.branch === 'used' ? 'Igen' : 'Nem',
+        'Elégedettség': r.responses?.u_impact_satisfaction || '',
+        'NPS': r.responses?.u_impact_nps || '',
+        'Bizalom': r.responses?.u_trust_anonymity || r.responses?.nu_trust_anonymity || '',
+      }));
+
+      // Create workbook and worksheet
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.json_to_sheet(excelData);
+
+      // Set column widths
+      ws['!cols'] = [
+        { wch: 20 }, // Beküldés ideje
+        { wch: 15 }, // Ág
+        { wch: 10 }, // Nem
+        { wch: 12 }, // Életkor
+        { wch: 15 }, // Ismertség
+        { wch: 10 }, // Használat
+        { wch: 12 }, // Elégedettség
+        { wch: 8 },  // NPS
+        { wch: 12 }, // Bizalom
+      ];
+
+      XLSX.utils.book_append_sheet(wb, ws, 'Válaszok');
+
+      // Generate Excel file
+      XLSX.writeFile(wb, `audit_export_${selectedAuditId}_${Date.now()}.xlsx`);
+
+      toast.success('Excel sikeresen exportálva!');
+    } catch (error) {
+      console.error('Error exporting Excel:', error);
+      toast.error('Hiba történt az Excel exportálás során');
     } finally {
       setExporting(false);
     }
@@ -169,7 +266,7 @@ const Export = () => {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -177,19 +274,17 @@ const Export = () => {
               PDF Jelentés
             </CardTitle>
             <CardDescription>
-              Komplett jelentés 6 oldalon
+              Komplett jelentés alapstatisztikákkal
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="text-sm space-y-2">
               <p><strong>Tartalom:</strong></p>
               <ul className="list-disc list-inside ml-4 space-y-1">
-                <li>1. oldal: Összefoglaló - Igénybevétel & Elégedettségi Index</li>
-                <li>2. oldal: 4 fő téma áttekintése (Awareness, Trust, Usage, Impact)</li>
-                <li>3. oldal: Awareness & Trust részletezők</li>
-                <li>4. oldal: Usage & Impact riportok</li>
-                <li>5. oldal: Motivációs faktorok & Demográfiai bontás</li>
-                <li>6. oldal: Trendek & User kategóriák</li>
+                <li>Összefoglaló statisztikák</li>
+                <li>Válaszadók megoszlása (Használók/Nem használók)</li>
+                <li>Alapvető metrikák</li>
+                <li>Dátum és audit információk</li>
               </ul>
             </div>
             <Button 
@@ -199,6 +294,38 @@ const Export = () => {
             >
               <Download className="mr-2 h-4 w-4" />
               PDF Letöltése
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <FileSpreadsheet className="h-5 w-5" />
+              Excel Export
+            </CardTitle>
+            <CardDescription>
+              Strukturált adatok táblázatban
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="text-sm space-y-2">
+              <p><strong>Tartalom:</strong></p>
+              <ul className="list-disc list-inside ml-4 space-y-1">
+                <li>Minden válasz strukturált formában</li>
+                <li>Demográfiai adatok oszlopokban</li>
+                <li>Kulcs metrikák (Elégedettség, NPS, stb.)</li>
+                <li>Szűrhető és elemezhető táblázat</li>
+              </ul>
+            </div>
+            <Button 
+              onClick={handleExportExcel} 
+              disabled={exporting || !selectedAuditId}
+              variant="outline"
+              className="w-full"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Excel Letöltése
             </Button>
           </CardContent>
         </Card>
@@ -334,9 +461,10 @@ const Export = () => {
           <CardTitle>💡 Export Tippek</CardTitle>
         </CardHeader>
         <CardContent className="text-sm space-y-2">
-          <p><strong>PDF jelentés:</strong> Készíts komplett prezentációt vezetőségnek egyetlen gombnyomással</p>
-          <p><strong>CSV export:</strong> Elemezd tovább az adatokat Excel-ben vagy más eszközökkel</p>
-          <p><strong>PNG grafikonok:</strong> Illeszd be a grafikonokat prezentációkba vagy dokumentumokba</p>
+          <p><strong>PDF jelentés:</strong> Készíts gyors összefoglalót alapstatisztikákkal és audit információkkal</p>
+          <p><strong>Excel export:</strong> Elemezd tovább az adatokat strukturált táblázatban szűrési lehetőségekkel</p>
+          <p><strong>CSV export:</strong> Import nyers adatokat más elemző eszközökbe</p>
+          <p><strong>PNG grafikonok:</strong> Kattints a Statistics oldalon található grafikonokra, majd használd a böngésző screenshot funkcióját</p>
         </CardContent>
       </Card>
     </div>
