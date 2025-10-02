@@ -16,7 +16,7 @@ interface Questionnaire {
 
 interface Audit {
   id: string;
-  company_name: string;
+  program_name: string;
   access_token: string;
   is_active: boolean;
   created_at: string;
@@ -40,7 +40,7 @@ const HRDashboard = () => {
         .from('audits')
         .select(`
           id,
-          company_name,
+          program_name,
           access_token,
           is_active,
           created_at,
@@ -112,7 +112,7 @@ const HRDashboard = () => {
               <Card key={audit.id}>
                 <CardHeader>
                   <CardTitle>
-                    {audit.company_name} - {audit.questionnaire.title}
+                    {audit.program_name} - {audit.questionnaire.title}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
