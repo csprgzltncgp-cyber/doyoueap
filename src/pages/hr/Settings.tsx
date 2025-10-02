@@ -10,6 +10,16 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { Loader2, Plus, Trash2, Send, CreditCard, Link2, Check } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface ProfileData {
   id: string;
@@ -93,6 +103,9 @@ function Settings() {
   const [paymentMethods, setPaymentMethods] = useState([
     { id: "1", type: "visa", last4: "4242", isDefault: true },
   ]);
+  const [selectedPackageTemp, setSelectedPackageTemp] = useState<string | null>(null);
+  const [selectedCycleTemp, setSelectedCycleTemp] = useState<string | null>(null);
+  const [showPackageConfirm, setShowPackageConfirm] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -126,6 +139,18 @@ function Settings() {
     }
 
     setProfileData(data);
+    setSelectedPackageTemp(data.selected_package);
+    setSelectedCycleTemp(data.billing_cycle);
+    
+    // Fill billing address from company address if empty
+    if (!data.billing_address && data.address) {
+      setProfileData({
+        ...data,
+        billing_address: data.address,
+        billing_city: data.city,
+        billing_postal_code: data.postal_code,
+      });
+    }
   };
 
   const fetchNotificationEmails = async () => {
@@ -390,14 +415,14 @@ function Settings() {
   };
 
   const handleSavePackage = async () => {
-    if (!user || !profileData) return;
+    if (!user || !selectedPackageTemp) return;
 
     setSaving(true);
     const { error } = await supabase
       .from("profiles")
       .update({
-        selected_package: profileData.selected_package,
-        billing_cycle: profileData.billing_cycle,
+        selected_package: selectedPackageTemp,
+        billing_cycle: selectedCycleTemp,
       })
       .eq("id", user.id);
 
@@ -406,8 +431,34 @@ function Settings() {
       console.error(error);
     } else {
       toast.success("Csomag sikeresen módosítva");
+      setProfileData({
+        ...profileData!,
+        selected_package: selectedPackageTemp,
+        billing_cycle: selectedCycleTemp || "yearly",
+      });
+      setShowPackageConfirm(false);
     }
     setSaving(false);
+  };
+
+  const handlePackageClick = (pkg: string) => {
+    if (pkg !== profileData?.selected_package) {
+      setSelectedPackageTemp(pkg);
+      setShowPackageConfirm(true);
+    }
+  };
+
+  const handleCycleChange = (cycle: string) => {
+    if (cycle !== profileData?.billing_cycle) {
+      setSelectedCycleTemp(cycle);
+      setShowPackageConfirm(true);
+    }
+  };
+
+  const handleCancelPackageChange = () => {
+    setSelectedPackageTemp(profileData?.selected_package || null);
+    setSelectedCycleTemp(profileData?.billing_cycle || null);
+    setShowPackageConfirm(false);
   };
 
   const handleAddPaymentMethod = () => {
@@ -576,7 +627,7 @@ function Settings() {
         <CardContent className="space-y-4">
           {notificationEmails.map((email) => (
             <div key={email.id} className="flex items-center justify-between">
-              <span>{email.email} {!email.is_verified && "(nincs validálva)"}</span>
+              <span>{email.email}</span>
               <Button 
                 variant="destructive" 
                 size="sm"
@@ -840,11 +891,13 @@ function Settings() {
           <CardDescription>Csomag váltása és számlázási ciklus kezelése</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Current package */}
-          <div className="p-4 border-2 border-primary rounded-lg bg-primary/5">
+          {/* Current package - saved state */}
+          <div className={`p-4 border-2 rounded-lg ${
+            showPackageConfirm ? "border-amber-500 bg-amber-50 dark:bg-amber-950/20" : "border-primary bg-primary/5"
+          }`}>
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-lg font-semibold">
-                Jelenlegi csomag: {
+                {showPackageConfirm ? "Váltás előtti csomag: " : "Jelenlegi csomag: "}{
                   profileData.selected_package === "starter" ? "Starter" :
                   profileData.selected_package === "pro" ? "Pro" :
                   profileData.selected_package === "enterprise" ? "Enterprise" : "Nincs kiválasztva"
@@ -892,10 +945,10 @@ function Settings() {
           <div>
             <Label>Számlázási ciklus</Label>
             <Select 
-              value={profileData.billing_cycle || "yearly"}
-              onValueChange={(value) => setProfileData({...profileData, billing_cycle: value})}
+              value={selectedCycleTemp || "yearly"}
+              onValueChange={handleCycleChange}
             >
-              <SelectTrigger>
+              <SelectTrigger className={showPackageConfirm && selectedCycleTemp !== profileData.billing_cycle ? "border-amber-500" : ""}>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -911,18 +964,28 @@ function Settings() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Starter */}
               <div 
-                className={`p-4 border rounded-lg cursor-pointer transition-all ${
-                  profileData.selected_package === "starter" 
-                    ? "border-primary bg-primary/5" 
+                className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                  selectedPackageTemp === "starter" 
+                    ? "border-primary bg-primary/10 ring-2 ring-primary" 
+                    : profileData.selected_package === "starter"
+                    ? "border-green-500 bg-green-50 dark:bg-green-950/20"
                     : "hover:border-primary/50"
                 }`}
-                onClick={() => setProfileData({...profileData, selected_package: "starter"})}
+                onClick={() => handlePackageClick("starter")}
               >
-                <h4 className="font-semibold mb-1">Starter</h4>
+                <div className="flex items-center justify-between mb-1">
+                  <h4 className="font-semibold">Starter</h4>
+                  {profileData.selected_package === "starter" && selectedPackageTemp !== "starter" && (
+                    <span className="text-xs bg-green-500 text-white px-2 py-1 rounded">Aktív</span>
+                  )}
+                  {selectedPackageTemp === "starter" && selectedPackageTemp !== profileData.selected_package && (
+                    <span className="text-xs bg-amber-500 text-white px-2 py-1 rounded">Kiválasztva</span>
+                  )}
+                </div>
                 <p className="text-2xl font-bold mb-2">
-                  {profileData.billing_cycle === "monthly" ? "149 €" : "1 490 €"}
+                  {(selectedCycleTemp || profileData.billing_cycle) === "monthly" ? "149 €" : "1 490 €"}
                   <span className="text-sm font-normal text-muted-foreground">
-                    /{profileData.billing_cycle === "monthly" ? "hó" : "év"}
+                    /{(selectedCycleTemp || profileData.billing_cycle) === "monthly" ? "hó" : "év"}
                   </span>
                 </p>
                 <ul className="text-xs space-y-1">
@@ -934,18 +997,28 @@ function Settings() {
 
               {/* Pro */}
               <div 
-                className={`p-4 border rounded-lg cursor-pointer transition-all ${
-                  profileData.selected_package === "pro" 
-                    ? "border-primary bg-primary/5" 
+                className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                  selectedPackageTemp === "pro" 
+                    ? "border-primary bg-primary/10 ring-2 ring-primary" 
+                    : profileData.selected_package === "pro"
+                    ? "border-green-500 bg-green-50 dark:bg-green-950/20"
                     : "hover:border-primary/50"
                 }`}
-                onClick={() => setProfileData({...profileData, selected_package: "pro"})}
+                onClick={() => handlePackageClick("pro")}
               >
-                <h4 className="font-semibold mb-1">Pro</h4>
+                <div className="flex items-center justify-between mb-1">
+                  <h4 className="font-semibold">Pro</h4>
+                  {profileData.selected_package === "pro" && selectedPackageTemp !== "pro" && (
+                    <span className="text-xs bg-green-500 text-white px-2 py-1 rounded">Aktív</span>
+                  )}
+                  {selectedPackageTemp === "pro" && selectedPackageTemp !== profileData.selected_package && (
+                    <span className="text-xs bg-amber-500 text-white px-2 py-1 rounded">Kiválasztva</span>
+                  )}
+                </div>
                 <p className="text-2xl font-bold mb-2">
-                  {profileData.billing_cycle === "monthly" ? "399 €" : "3 990 €"}
+                  {(selectedCycleTemp || profileData.billing_cycle) === "monthly" ? "399 €" : "3 990 €"}
                   <span className="text-sm font-normal text-muted-foreground">
-                    /{profileData.billing_cycle === "monthly" ? "hó" : "év"}
+                    /{(selectedCycleTemp || profileData.billing_cycle) === "monthly" ? "hó" : "év"}
                   </span>
                 </p>
                 <ul className="text-xs space-y-1">
@@ -957,14 +1030,24 @@ function Settings() {
 
               {/* Enterprise */}
               <div 
-                className={`p-4 border rounded-lg cursor-pointer transition-all ${
-                  profileData.selected_package === "enterprise" 
-                    ? "border-primary bg-primary/5" 
+                className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                  selectedPackageTemp === "enterprise" 
+                    ? "border-primary bg-primary/10 ring-2 ring-primary" 
+                    : profileData.selected_package === "enterprise"
+                    ? "border-green-500 bg-green-50 dark:bg-green-950/20"
                     : "hover:border-primary/50"
                 }`}
-                onClick={() => setProfileData({...profileData, selected_package: "enterprise"})}
+                onClick={() => handlePackageClick("enterprise")}
               >
-                <h4 className="font-semibold mb-1">Enterprise</h4>
+                <div className="flex items-center justify-between mb-1">
+                  <h4 className="font-semibold">Enterprise</h4>
+                  {profileData.selected_package === "enterprise" && selectedPackageTemp !== "enterprise" && (
+                    <span className="text-xs bg-green-500 text-white px-2 py-1 rounded">Aktív</span>
+                  )}
+                  {selectedPackageTemp === "enterprise" && selectedPackageTemp !== profileData.selected_package && (
+                    <span className="text-xs bg-amber-500 text-white px-2 py-1 rounded">Kiválasztva</span>
+                  )}
+                </div>
                 <p className="text-2xl font-bold mb-2">
                   Egyedi
                 </p>
@@ -977,12 +1060,56 @@ function Settings() {
             </div>
           </div>
 
-          <Button onClick={handleSavePackage} disabled={saving} size="lg" className="w-full">
-            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Csomag módosítása
-          </Button>
+          {showPackageConfirm ? (
+            <div className="flex gap-2">
+              <Button onClick={handleCancelPackageChange} variant="outline" size="lg" className="flex-1">
+                Mégse
+              </Button>
+              <Button onClick={handleSavePackage} disabled={saving} size="lg" className="flex-1">
+                {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Módosítás megerősítése
+              </Button>
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground text-center">
+              Kattints egy másik csomagra a váltáshoz
+            </p>
+          )}
         </CardContent>
       </Card>
+
+      {/* Confirmation Dialog */}
+      <AlertDialog open={showPackageConfirm} onOpenChange={setShowPackageConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Csomag módosítása</AlertDialogTitle>
+            <AlertDialogDescription>
+              Biztosan át szeretnél váltani a{" "}
+              <strong>
+                {selectedPackageTemp === "starter" ? "Starter" : selectedPackageTemp === "pro" ? "Pro" : "Enterprise"}
+              </strong>{" "}
+              csomagra{" "}
+              <strong>{selectedCycleTemp === "monthly" ? "havi" : "éves"}</strong> számlázással?
+              <br /><br />
+              Az új ár:{" "}
+              <strong>
+                {selectedPackageTemp === "starter" && selectedCycleTemp === "monthly" && "149 €/hó"}
+                {selectedPackageTemp === "starter" && selectedCycleTemp === "yearly" && "1 490 €/év"}
+                {selectedPackageTemp === "pro" && selectedCycleTemp === "monthly" && "399 €/hó"}
+                {selectedPackageTemp === "pro" && selectedCycleTemp === "yearly" && "3 990 €/év"}
+                {selectedPackageTemp === "enterprise" && "Egyedi ajánlat"}
+              </strong>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleCancelPackageChange}>Mégse</AlertDialogCancel>
+            <AlertDialogAction onClick={handleSavePackage}>
+              {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+              Módosítás megerősítése
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
