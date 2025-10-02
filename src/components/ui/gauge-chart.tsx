@@ -27,8 +27,8 @@ export const GaugeChart = ({
   const data = [{ value: percentage }];
 
   return (
-    <div className="flex flex-col items-center">
-      <ResponsiveContainer width="100%" height={size}>
+    <div className="flex flex-col items-center" style={{ width: '100%', height: size }}>
+      <ResponsiveContainer width="100%" height="100%">
         <RadialBarChart 
           cx="50%"
           cy="50%"
