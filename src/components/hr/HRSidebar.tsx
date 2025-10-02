@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/sidebar";
 
 const menuItems = [
-  { title: "Fő Dashboard", url: "/hr", icon: LayoutDashboard },
+  { title: "Audit Indítása", url: "/hr/create-audit", icon: QrCode },
   { title: "User Kategóriák", url: "/hr/categories", icon: Users },
   { title: "Awareness", url: "/hr/awareness", icon: Eye },
   { title: "Trust & Willingness", url: "/hr/trust", icon: Shield },
@@ -25,8 +25,6 @@ const menuItems = [
   { title: "History & Trends", url: "/hr/trends", icon: Calendar },
   { title: "Export & Jelentések", url: "/hr/export", icon: FileText },
   { title: "Összehasonlítás", url: "/hr/compare", icon: GitCompare },
-  { title: "HR Input", url: "/hr/input", icon: SettingsIcon },
-  { title: "Audit Indítása", url: "/hr/create-audit", icon: QrCode },
   { title: "Beállítások", url: "/hr/settings", icon: SettingsIcon },
 ];
 
