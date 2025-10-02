@@ -54,7 +54,6 @@ export const Step4Timing = ({
               type="datetime-local"
               value={startDate}
               onChange={(e) => onStartDateChange(e.target.value)}
-              required
             />
           </div>
 
@@ -65,7 +64,6 @@ export const Step4Timing = ({
               type="datetime-local"
               value={expiresAt}
               onChange={(e) => onExpiresAtChange(e.target.value)}
-              required
             />
           </div>
         </CardContent>
