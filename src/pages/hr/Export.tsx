@@ -3,8 +3,10 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import { formatAuditName } from '@/lib/auditUtils';
+import { exportableCharts } from '@/lib/exportUtils';
 import { FileText, Image as ImageIcon, Download, FileSpreadsheet } from 'lucide-react';
 
 interface Audit {
@@ -100,20 +102,46 @@ const Export = () => {
     }
   };
 
-  const handleExportPNG = async (section: string) => {
+  const handleExportPNG = async (cardId: string, fileName: string) => {
+    // First navigate to statistics page with the appropriate tab
+    const chart = exportableCharts.find(c => c.id === cardId);
+    if (!chart) return;
+
+    const currentUrl = window.location.href;
+    const isOnStatsPage = currentUrl.includes('/hr/statistics');
+    
+    if (!isOnStatsPage) {
+      // Navigate to statistics page
+      window.location.href = `/hr/statistics?tab=${chart.tab}`;
+      toast.info(`Navigálás a Statisztikák oldalra... Nyomd meg újra a gombot a letöltéshez!`);
+      return;
+    }
+
+    // If already on stats page, do the export
     setExporting(true);
     try {
-      // Navigate to Statistics page in a new window
-      const statsWindow = window.open(`/hr/statistics?tab=${section.toLowerCase()}`, '_blank');
+      const html2canvas = (await import('html2canvas')).default;
+      const element = document.getElementById(cardId);
       
-      if (statsWindow) {
-        toast.success(`${section} oldal megnyitva - használd a panel melletti letöltés gombokat!`);
-      } else {
-        toast.error('Nem sikerült megnyitni az új ablakot. Kérlek, engedélyezd a felugró ablakokat.');
+      if (!element) {
+        toast.error('Panel nem található - győződj meg róla, hogy a megfelelő tabon vagy!');
+        return;
       }
+
+      const canvas = await html2canvas(element, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+      });
+
+      const link = document.createElement('a');
+      link.download = `${fileName}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+
+      toast.success('PNG sikeresen letöltve!');
     } catch (error) {
       console.error('Error exporting PNG:', error);
-      toast.error('Hiba történt a PNG exportálás során');
+      toast.error('Hiba a PNG exportálás során');
     } finally {
       setExporting(false);
     }
@@ -359,89 +387,128 @@ const Export = () => {
             PNG Grafikonok
           </CardTitle>
           <CardDescription>
-            Nyisd meg a Statistics oldalt és használd a böngésző screenshot funkcióját (Ctrl+Shift+S vagy Cmd+Shift+S)
+            Letölthető grafikonok témakörök szerint
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Button 
-              variant="outline" 
-              onClick={() => handleExportPNG('Összefoglaló')}
-              disabled={exporting || !selectedAuditId}
-            >
-              Összefoglaló
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => handleExportPNG('Igénybevétel')}
-              disabled={exporting || !selectedAuditId}
-            >
-              Igénybevétel
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => handleExportPNG('Elégedettség')}
-              disabled={exporting || !selectedAuditId}
-            >
-              Elégedettség
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => handleExportPNG('Kategóriák')}
-              disabled={exporting || !selectedAuditId}
-            >
-              Kategóriák
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => handleExportPNG('Awareness')}
-              disabled={exporting || !selectedAuditId}
-            >
-              Awareness
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => handleExportPNG('Trust')}
-              disabled={exporting || !selectedAuditId}
-            >
-              Trust
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => handleExportPNG('Usage')}
-              disabled={exporting || !selectedAuditId}
-            >
-              Usage
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => handleExportPNG('Impact')}
-              disabled={exporting || !selectedAuditId}
-            >
-              Impact
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => handleExportPNG('Motiváció')}
-              disabled={exporting || !selectedAuditId}
-            >
-              Motiváció
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => handleExportPNG('Demográfia')}
-              disabled={exporting || !selectedAuditId}
-            >
-              Demográfia
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => handleExportPNG('Trendek')}
-              disabled={exporting || !selectedAuditId}
-            >
-              Trendek
-            </Button>
-          </div>
+          <Tabs defaultValue="overview" className="w-full">
+            <TabsList className="grid grid-cols-6 mb-4">
+              <TabsTrigger value="overview">Összefoglaló</TabsTrigger>
+              <TabsTrigger value="trust">Bizalom</TabsTrigger>
+              <TabsTrigger value="usage">Használat</TabsTrigger>
+              <TabsTrigger value="impact">Hatás</TabsTrigger>
+              <TabsTrigger value="motivation">Motiváció</TabsTrigger>
+              <TabsTrigger value="demographics">Demográfia</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="overview" className="space-y-2">
+              <p className="text-sm text-muted-foreground mb-4">Gyors áttekintés - főbb mutatók</p>
+              <div className="grid grid-cols-2 gap-2">
+                {exportableCharts.filter(c => c.tab === 'overview').map(chart => (
+                  <Button 
+                    key={chart.id}
+                    variant="outline" 
+                    onClick={() => handleExportPNG(chart.id, chart.fileName)}
+                    disabled={exporting || !selectedAuditId}
+                    className="justify-start"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    {chart.name}
+                  </Button>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="trust" className="space-y-2">
+              <p className="text-sm text-muted-foreground mb-4">Bizalom és hajlandóság mutatók</p>
+              <div className="grid grid-cols-2 gap-2">
+                {exportableCharts.filter(c => c.tab === 'trust').map(chart => (
+                  <Button 
+                    key={chart.id}
+                    variant="outline" 
+                    onClick={() => handleExportPNG(chart.id, chart.fileName)}
+                    disabled={exporting || !selectedAuditId}
+                    className="justify-start"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    {chart.name}
+                  </Button>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="usage" className="space-y-2">
+              <p className="text-sm text-muted-foreground mb-4">Használati statisztikák</p>
+              <div className="grid grid-cols-2 gap-2">
+                {exportableCharts.filter(c => c.tab === 'usage').map(chart => (
+                  <Button 
+                    key={chart.id}
+                    variant="outline" 
+                    onClick={() => handleExportPNG(chart.id, chart.fileName)}
+                    disabled={exporting || !selectedAuditId}
+                    className="justify-start"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    {chart.name}
+                  </Button>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="impact" className="space-y-2">
+              <p className="text-sm text-muted-foreground mb-4">Hatás mutatók</p>
+              <div className="grid grid-cols-2 gap-2">
+                {exportableCharts.filter(c => c.tab === 'impact').map(chart => (
+                  <Button 
+                    key={chart.id}
+                    variant="outline" 
+                    onClick={() => handleExportPNG(chart.id, chart.fileName)}
+                    disabled={exporting || !selectedAuditId}
+                    className="justify-start"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    {chart.name}
+                  </Button>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="motivation" className="space-y-2">
+              <p className="text-sm text-muted-foreground mb-4">Motivációs tényezők</p>
+              <div className="grid grid-cols-2 gap-2">
+                {exportableCharts.filter(c => c.tab === 'motivation').map(chart => (
+                  <Button 
+                    key={chart.id}
+                    variant="outline" 
+                    onClick={() => handleExportPNG(chart.id, chart.fileName)}
+                    disabled={exporting || !selectedAuditId}
+                    className="justify-start"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    {chart.name}
+                  </Button>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="demographics" className="space-y-2">
+              <p className="text-sm text-muted-foreground mb-4">Demográfiai megoszlások</p>
+              <div className="grid grid-cols-2 gap-2">
+                {exportableCharts.filter(c => c.tab === 'demographics').map(chart => (
+                  <Button 
+                    key={chart.id}
+                    variant="outline" 
+                    onClick={() => handleExportPNG(chart.id, chart.fileName)}
+                    disabled={exporting || !selectedAuditId}
+                    className="justify-start"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    {chart.name}
+                  </Button>
+                ))}
+              </div>
+            </TabsContent>
+          </Tabs>
         </CardContent>
       </Card>
 
