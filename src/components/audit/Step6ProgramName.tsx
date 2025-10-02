@@ -31,31 +31,9 @@ export const Step6ProgramName = ({
 
       <Card>
         <CardHeader>
-          <CardTitle>Cég neve</CardTitle>
+          <CardTitle>Program neve</CardTitle>
           <CardDescription>
-            A cég neve, amely számára az audittot végzi
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <Label htmlFor="company-name">Cég neve *</Label>
-            <Input
-              id="company-name"
-              value={companyName}
-              onChange={(e) => onCompanyNameChange(e.target.value)}
-              placeholder="pl. Példa Kft."
-              maxLength={100}
-              required
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Program elnevezése</CardTitle>
-          <CardDescription>
-            A program saját elnevezése a cégnél (max. 60 karakter)
+            Ez az elnevezés jelenik meg az első kérdésben: „Tudta, hogy a cégénél elérhető a &lt;program név&gt; program?" (max. 60 karakter)
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -65,12 +43,8 @@ export const Step6ProgramName = ({
               id="program-name"
               value={programName}
               onChange={(e) => onProgramNameChange(e.target.value)}
-              placeholder="pl. Számíthatsz Ránk! vagy DoYouEAP"
               maxLength={60}
             />
-            <p className="text-sm text-muted-foreground">
-              Ez az elnevezés jelenik meg az első kérdésben: „Tudta, hogy a cégénél elérhető a <strong>{programName || 'DoYouEAP'}</strong> program?"
-            </p>
           </div>
         </CardContent>
       </Card>
@@ -79,7 +53,7 @@ export const Step6ProgramName = ({
         <Button variant="outline" onClick={onBack}>
           Vissza
         </Button>
-        <Button onClick={onNext} disabled={!companyName}>
+        <Button onClick={onNext}>
           Következő lépés
         </Button>
       </div>
