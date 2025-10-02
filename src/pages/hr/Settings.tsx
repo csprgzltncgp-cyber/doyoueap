@@ -135,22 +135,6 @@ function Settings() {
     },
   ]);
 
-  // HR Input data
-  const [hrInputData, setHrInputData] = useState({
-    total_employees: 0,
-    gender_distribution: { male: 0, female: 0, other: 0 },
-    age_distribution: {
-      under_18: 0,
-      age_18_24: 0,
-      age_25_36: 0,
-      age_37_44: 0,
-      age_45_58: 0,
-      age_58_plus: 0
-    },
-    communication_frequency: 'quarterly',
-    budget_per_employee: 0,
-    notes: ''
-  });
 
   useEffect(() => {
     if (user) {
@@ -473,12 +457,6 @@ function Settings() {
   };
 
 
-  const handleSaveHRInput = async () => {
-    setSaving(true);
-    // In real implementation, this would save to database
-    toast.success("HR adatok sikeresen mentve");
-    setSaving(false);
-  };
 
   const handleDownloadInvoice = (invoiceId: string) => {
     toast.success(`Számla letöltése: ${invoiceId}`);
@@ -587,8 +565,9 @@ function Settings() {
               />
             </div>
             <div>
-              <Label>Alkalmazottak száma</Label>
+              <Label>Munkavállalói létszám</Label>
               <Input 
+                type="number"
                 value={profileData.employee_count || ""} 
                 onChange={(e) => setProfileData({...profileData, employee_count: e.target.value})}
               />
@@ -1109,183 +1088,6 @@ function Settings() {
         </CardContent>
       </Card>
 
-      {/* HR Input Adatok */}
-      <Card>
-        <CardHeader>
-          <CardTitle>HR Input Adatok</CardTitle>
-          <CardDescription>Cégspecifikus adatok az indexek pontosításához</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Létszám */}
-          <div>
-            <Label>Teljes létszám</Label>
-            <Input
-              type="number"
-              value={hrInputData.total_employees}
-              onChange={(e) => setHrInputData({ ...hrInputData, total_employees: Number(e.target.value) })}
-            />
-          </div>
-
-          {/* Nemek megoszlása */}
-          <div className="space-y-2">
-            <Label>Nemek megoszlása</Label>
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <Label className="text-sm">Férfi</Label>
-                <Input
-                  type="number"
-                  value={hrInputData.gender_distribution.male}
-                  onChange={(e) => setHrInputData({
-                    ...hrInputData,
-                    gender_distribution: { ...hrInputData.gender_distribution, male: Number(e.target.value) }
-                  })}
-                />
-              </div>
-              <div>
-                <Label className="text-sm">Nő</Label>
-                <Input
-                  type="number"
-                  value={hrInputData.gender_distribution.female}
-                  onChange={(e) => setHrInputData({
-                    ...hrInputData,
-                    gender_distribution: { ...hrInputData.gender_distribution, female: Number(e.target.value) }
-                  })}
-                />
-              </div>
-              <div>
-                <Label className="text-sm">Egyéb</Label>
-                <Input
-                  type="number"
-                  value={hrInputData.gender_distribution.other}
-                  onChange={(e) => setHrInputData({
-                    ...hrInputData,
-                    gender_distribution: { ...hrInputData.gender_distribution, other: Number(e.target.value) }
-                  })}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Életkori megoszlás */}
-          <div className="space-y-2">
-            <Label>Életkori megoszlás</Label>
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <Label className="text-sm">&lt;18 év</Label>
-                <Input
-                  type="number"
-                  value={hrInputData.age_distribution.under_18}
-                  onChange={(e) => setHrInputData({
-                    ...hrInputData,
-                    age_distribution: { ...hrInputData.age_distribution, under_18: Number(e.target.value) }
-                  })}
-                />
-              </div>
-              <div>
-                <Label className="text-sm">18-24 év</Label>
-                <Input
-                  type="number"
-                  value={hrInputData.age_distribution.age_18_24}
-                  onChange={(e) => setHrInputData({
-                    ...hrInputData,
-                    age_distribution: { ...hrInputData.age_distribution, age_18_24: Number(e.target.value) }
-                  })}
-                />
-              </div>
-              <div>
-                <Label className="text-sm">25-36 év</Label>
-                <Input
-                  type="number"
-                  value={hrInputData.age_distribution.age_25_36}
-                  onChange={(e) => setHrInputData({
-                    ...hrInputData,
-                    age_distribution: { ...hrInputData.age_distribution, age_25_36: Number(e.target.value) }
-                  })}
-                />
-              </div>
-              <div>
-                <Label className="text-sm">37-44 év</Label>
-                <Input
-                  type="number"
-                  value={hrInputData.age_distribution.age_37_44}
-                  onChange={(e) => setHrInputData({
-                    ...hrInputData,
-                    age_distribution: { ...hrInputData.age_distribution, age_37_44: Number(e.target.value) }
-                  })}
-                />
-              </div>
-              <div>
-                <Label className="text-sm">45-58 év</Label>
-                <Input
-                  type="number"
-                  value={hrInputData.age_distribution.age_45_58}
-                  onChange={(e) => setHrInputData({
-                    ...hrInputData,
-                    age_distribution: { ...hrInputData.age_distribution, age_45_58: Number(e.target.value) }
-                  })}
-                />
-              </div>
-              <div>
-                <Label className="text-sm">58+ év</Label>
-                <Input
-                  type="number"
-                  value={hrInputData.age_distribution.age_58_plus}
-                  onChange={(e) => setHrInputData({
-                    ...hrInputData,
-                    age_distribution: { ...hrInputData.age_distribution, age_58_plus: Number(e.target.value) }
-                  })}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Egyéb paraméterek */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label>Kommunikációs gyakoriság</Label>
-              <Select
-                value={hrInputData.communication_frequency}
-                onValueChange={(value) => setHrInputData({ ...hrInputData, communication_frequency: value })}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="monthly">Havonta</SelectItem>
-                  <SelectItem value="quarterly">Negyedévente</SelectItem>
-                  <SelectItem value="biannually">Félévente</SelectItem>
-                  <SelectItem value="annually">Évente</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label>Költségkeret / fő (Ft/év)</Label>
-              <Input
-                type="number"
-                value={hrInputData.budget_per_employee}
-                onChange={(e) => setHrInputData({ ...hrInputData, budget_per_employee: Number(e.target.value) })}
-              />
-            </div>
-          </div>
-
-          {/* Jegyzetek */}
-          <div>
-            <Label>Jegyzetek / Megjegyzések</Label>
-            <textarea
-              value={hrInputData.notes}
-              onChange={(e) => setHrInputData({ ...hrInputData, notes: e.target.value })}
-              className="w-full min-h-[100px] p-2 border rounded-md"
-              placeholder="További megjegyzések..."
-            />
-          </div>
-
-          <Button onClick={handleSaveHRInput} disabled={saving}>
-            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Mentés
-          </Button>
-        </CardContent>
-      </Card>
 
       {/* Adatmegőrzés */}
       <Card>
