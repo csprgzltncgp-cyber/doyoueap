@@ -58,7 +58,7 @@ const initialData: RegistrationData = {
   billingAddress: '',
   billingCity: '',
   billingPostalCode: '',
-  selectedPackage: null,
+  selectedPackage: 'pro',
   billingCycle: 'yearly',
   termsAccepted: false,
   privacyAccepted: false,
@@ -282,7 +282,10 @@ export const RegistrationWizard = () => {
               </Button>
             )}
             {step < 4 ? (
-              <Button onClick={nextStep}>
+              <Button 
+                onClick={nextStep}
+                disabled={step === 3 && !data.selectedPackage}
+              >
                 Tovább
                 <ChevronRight className="h-4 w-4 ml-2" />
               </Button>
