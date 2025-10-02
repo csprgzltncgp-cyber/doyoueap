@@ -98,19 +98,21 @@ export const CompanyDataStep = ({ data, updateData }: CompanyDataStepProps) => {
           </Select>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="employeeCount">Létszám-kategória *</Label>
-          <Select value={data.employeeCount} onValueChange={(value) => updateData({ employeeCount: value })}>
-            <SelectTrigger>
-              <SelectValue placeholder="Válasszon kategóriát" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1-49">1-49 fő</SelectItem>
-              <SelectItem value="50-249">50-249 fő</SelectItem>
-              <SelectItem value="250-999">250-999 fő</SelectItem>
-              <SelectItem value="1000+">1000+ fő</SelectItem>
-            </SelectContent>
-          </Select>
+        <div className="space-y-2 md:col-span-2">
+          <Label htmlFor="employeeCount">Munkavállalói létszám *</Label>
+          <Input
+            id="employeeCount"
+            type="number"
+            min="1"
+            value={data.employeeCount}
+            onChange={(e) => updateData({ employeeCount: e.target.value })}
+            placeholder="Pl. 150"
+            required
+          />
+          <p className="text-sm text-muted-foreground">
+            A teljesebb értékelés érdekében szükséges ez az adat, mivel ennek tükrében lehet megállapítani, 
+            hogy hány kitöltött kérdőívre van szükség a hiteles audithoz.
+          </p>
         </div>
 
         <div className="space-y-2 md:col-span-2">

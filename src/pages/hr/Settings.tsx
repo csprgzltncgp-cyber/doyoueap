@@ -228,7 +228,9 @@ function Settings() {
       toast.error("Hiba a profil mentésekor");
       console.error(error);
     } else {
-      toast.success("Profil sikeresen mentve");
+      toast.success("Sikeres mentés", {
+        description: "A profil adatok sikeresen mentésre kerültek.",
+      });
     }
     setSaving(false);
   };
@@ -256,7 +258,9 @@ function Settings() {
       toast.error("Hiba a cégadatok mentésekor");
       console.error(error);
     } else {
-      toast.success("Cégadatok sikeresen mentve");
+      toast.success("Sikeres mentés", {
+        description: "A cégadatok sikeresen mentésre kerültek.",
+      });
     }
     setSaving(false);
   };
@@ -387,7 +391,9 @@ function Settings() {
       toast.error("Hiba a számlázási adatok mentésekor");
       console.error(error);
     } else {
-      toast.success("Számlázási adatok sikeresen mentve");
+      toast.success("Sikeres mentés", {
+        description: "A számlázási adatok sikeresen mentésre kerültek.",
+      });
     }
     setSaving(false);
   };
