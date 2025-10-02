@@ -66,8 +66,11 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
   };
 
   const startCheckingVerification = (emailToCheck: string): NodeJS.Timeout => {
-    return setInterval(async () => {
-      if (isVerified) return; // Skip if already verified
+    const interval = setInterval(async () => {
+      if (isVerified) {
+        clearInterval(interval);
+        return;
+      }
       
       try {
         const { data, error } = await supabase
@@ -77,26 +80,27 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
           .eq('verified', true)
           .maybeSingle();
 
-        if (data && data.verified) {
+        if (data && data.verified && !isVerified) {
           setIsVerified(true);
-          
-          if (checkingInterval) {
-            clearInterval(checkingInterval);
-            setCheckingInterval(null);
-          }
+          clearInterval(interval);
+          setCheckingInterval(null);
           
           toast({
             title: "Email megerősítve! ✓",
             description: "Folytathatja a regisztrációt.",
           });
 
-          // Proceed to next step
-          onEmailVerified();
+          // Proceed to next step after a brief delay
+          setTimeout(() => {
+            onEmailVerified();
+          }, 500);
         }
       } catch (error) {
         // Verification not yet complete, continue checking
       }
     }, 3000); // Check every 3 seconds
+    
+    return interval;
   };
 
 
