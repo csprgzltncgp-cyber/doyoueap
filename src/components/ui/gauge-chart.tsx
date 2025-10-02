@@ -6,6 +6,7 @@ interface GaugeChartProps {
   size?: number;
   label?: string;
   sublabel?: string;
+  cornerRadius?: number;
 }
 
 export const GaugeChart = ({ 
@@ -13,7 +14,8 @@ export const GaugeChart = ({
   maxValue, 
   size = 200,
   label,
-  sublabel
+  sublabel,
+  cornerRadius = 30
 }: GaugeChartProps) => {
   const percentage = (value / maxValue) * 100;
   
@@ -42,7 +44,7 @@ export const GaugeChart = ({
           <RadialBar
             background={{ fill: 'hsl(var(--muted))' }}
             dataKey="value"
-            cornerRadius={30}
+            cornerRadius={cornerRadius}
             fill={getColor()}
             isAnimationActive={false}
           />

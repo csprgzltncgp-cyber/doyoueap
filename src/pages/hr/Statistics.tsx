@@ -264,6 +264,7 @@ const Statistics = () => {
                         size={200}
                         label={`${utilization.toFixed(1)}%`}
                         sublabel={`${usedBranch} / ${employeeCount}`}
+                        cornerRadius={0}
                       />
                       
                       {/* Detailed breakdown */}
@@ -305,6 +306,7 @@ const Statistics = () => {
                         size={200}
                         label={`${satisfactionIndex.toFixed(0)}%`}
                         sublabel={`${satisfactionScore}/5`}
+                        cornerRadius={0}
                       />
                       
                       {/* Detailed breakdown */}
