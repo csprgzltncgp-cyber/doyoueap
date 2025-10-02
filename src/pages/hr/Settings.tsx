@@ -917,25 +917,30 @@ function Settings() {
             <ul className="text-sm space-y-1">
               {profileData.selected_package === "starter" && (
                 <>
-                  <li>✓ 100 válaszadó/hó</li>
-                  <li>✓ Alapvető jelentések</li>
-                  <li>✓ Email támogatás</li>
+                  <li>✓ Évente max. 1 audit</li>
+                  <li>✓ Alap KPI-k (Awareness, Trust, Usage, Impact)</li>
+                  <li>✓ PDF export</li>
+                  <li>✓ Email support</li>
                 </>
               )}
               {profileData.selected_package === "pro" && (
                 <>
-                  <li>✓ 500 válaszadó/hó</li>
-                  <li>✓ Haladó elemzések</li>
-                  <li>✓ Prioritási támogatás</li>
-                  <li>✓ Egyedi brandingolás</li>
+                  <li>✓ Negyedévente audit (ismétlés funkcióval)</li>
+                  <li>✓ Demográfiai bontás, trendek, összehasonlítás</li>
+                  <li>✓ PDF + Excel export</li>
+                  <li>✓ Brandelhető User App (logó + 4 szín)</li>
+                  <li>✓ Kommunikációs támogatás (sablonok, QR generátor)</li>
+                  <li>✓ Email + chat support</li>
                 </>
               )}
               {profileData.selected_package === "enterprise" && (
                 <>
-                  <li>✓ Korlátlan válaszadó</li>
-                  <li>✓ Egyedi integráció</li>
-                  <li>✓ Dedikált ügyfélmenedzser</li>
-                  <li>✓ SLA garancia</li>
+                  <li>✓ Korlátlan audit</li>
+                  <li>✓ Teljes funkcionalitás (KPI-k, trendek, benchmark, motivációk)</li>
+                  <li>✓ PDF, Excel, PowerPoint export</li>
+                  <li>✓ Teljes brandelés + saját domain opció</li>
+                  <li>✓ SSO integráció, jogosultságkezelés</li>
+                  <li>✓ Dedikált account manager, SLA</li>
                 </>
               )}
             </ul>
@@ -989,9 +994,10 @@ function Settings() {
                   </span>
                 </p>
                 <ul className="text-xs space-y-1">
-                  <li>100 válaszadó/hó</li>
-                  <li>Alapvető jelentések</li>
-                  <li>Email támogatás</li>
+                  <li>✓ Évente max. 1 audit</li>
+                  <li>✓ Alap KPI-k</li>
+                  <li>✓ PDF export</li>
+                  <li>✓ Email support</li>
                 </ul>
               </div>
 
@@ -1022,9 +1028,11 @@ function Settings() {
                   </span>
                 </p>
                 <ul className="text-xs space-y-1">
-                  <li>500 válaszadó/hó</li>
-                  <li>Haladó elemzések</li>
-                  <li>Egyedi branding</li>
+                  <li>✓ Negyedévente audit</li>
+                  <li>✓ Demográfia, trendek</li>
+                  <li>✓ PDF + Excel export</li>
+                  <li>✓ Brandelhető app</li>
+                  <li>✓ Email + chat support</li>
                 </ul>
               </div>
 
@@ -1052,9 +1060,11 @@ function Settings() {
                   Egyedi
                 </p>
                 <ul className="text-xs space-y-1">
-                  <li>Korlátlan válaszadó</li>
-                  <li>Egyedi integráció</li>
-                  <li>SLA garancia</li>
+                  <li>✓ Korlátlan audit</li>
+                  <li>✓ Teljes funkcionalitás</li>
+                  <li>✓ PDF, Excel, PPT export</li>
+                  <li>✓ Teljes brandelés</li>
+                  <li>✓ SSO, dedikált manager</li>
                 </ul>
               </div>
             </div>
