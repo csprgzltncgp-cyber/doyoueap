@@ -193,7 +193,7 @@ export default function AuditQuestionnaire() {
           >
             <div className="text-left">
               <div className="font-semibold">1. ág: "Nem tudom / Nem, tudok róla és nem használtam"</div>
-              <div className="text-sm opacity-90">EAP információs oldal megjelenítése</div>
+              <div className="text-sm opacity-90">Program információs oldal megjelenítése</div>
             </div>
           </Button>
 
@@ -312,10 +312,9 @@ export default function AuditQuestionnaire() {
   const renderEapInfo = () => (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold">Mi az EAP?</h2>
+        <h2 className="text-2xl font-bold">Mi a program?</h2>
         <p className="text-foreground">
-          Az EAP (Employee Assistance Program) egy munkavállalói segítő program, amely 
-          különböző élethelyzetekben nyújt támogatást.
+          A munkavállalói segítő program különböző élethelyzetekben nyújt támogatást.
         </p>
         <p className="text-foreground">
           A program keretében hozzáférhetsz pszichológiai tanácsadáshoz, jogi segítséghez, 
