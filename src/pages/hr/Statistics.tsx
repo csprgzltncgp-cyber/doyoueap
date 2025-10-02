@@ -261,10 +261,12 @@ const Statistics = () => {
                       <GaugeChart
                         value={utilization}
                         maxValue={100}
+                        minValue={0}
                         size={200}
                         label={`${utilization.toFixed(1)}%`}
                         sublabel={`${usedBranch} / ${employeeCount}`}
                         cornerRadius={0}
+                        showScale={true}
                       />
                       
                       {/* Detailed breakdown */}
@@ -303,10 +305,12 @@ const Statistics = () => {
                       <GaugeChart
                         value={satisfactionIndex}
                         maxValue={100}
+                        minValue={0}
                         size={200}
                         label={`${satisfactionIndex.toFixed(0)}%`}
                         sublabel={`${satisfactionScore}/5`}
                         cornerRadius={0}
+                        showScale={true}
                       />
                       
                       {/* Detailed breakdown */}
@@ -416,8 +420,14 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
+                          minValue={1}
                           size={150}
-                          sublabel="/ 5"
+                          label={calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_awareness_understanding)
+                              .filter(v => v !== undefined)
+                          )}
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire értik a munkavállalók a szolgáltatást</p>
                       </CardContent>
@@ -440,8 +450,14 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
+                          minValue={1}
                           size={150}
-                          sublabel="/ 5"
+                          label={calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_trust_anonymity)
+                              .filter(v => v !== undefined)
+                          )}
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire bíznak az anonimitás védelmében</p>
                       </CardContent>
@@ -482,8 +498,14 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
+                          minValue={1}
                           size={150}
-                          sublabel="/ 5"
+                          label={calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_impact_wellbeing)
+                              .filter(v => v !== undefined)
+                          )}
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Jóllét javulása a program használata után</p>
                       </CardContent>
@@ -582,8 +604,14 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
+                          minValue={1}
                           size={150}
-                          sublabel="/ 5"
+                          label={calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_trust_anonymity)
+                              .filter(v => v !== undefined)
+                          )}
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire bíznak a használók abban, hogy névtelenségük megmarad</p>
                       </CardContent>
@@ -601,8 +629,14 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
+                          minValue={1}
                           size={150}
-                          sublabel="/ 5"
+                          label={calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_trust_employer)
+                              .filter(v => v !== undefined)
+                          )}
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire félnek attól, hogy a munkaadó megtudja a használatot</p>
                       </CardContent>
@@ -620,8 +654,14 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
+                          minValue={1}
                           size={150}
-                          sublabel="/ 5"
+                          label={calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_trust_likelihood)
+                              .filter(v => v !== undefined)
+                          )}
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire valószínű, hogy újra használnák a szolgáltatást</p>
                       </CardContent>
@@ -705,8 +745,14 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
+                          minValue={1}
                           size={120}
-                          sublabel="/ 5"
+                          label={calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_impact_satisfaction)
+                              .filter(v => v !== undefined)
+                          )}
                         />
                       </CardContent>
                     </Card>
@@ -723,8 +769,14 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
+                          minValue={1}
                           size={120}
-                          sublabel="/ 5"
+                          label={calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_impact_problem_solving)
+                              .filter(v => v !== undefined)
+                          )}
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire segített a program a problémák kezelésében</p>
                       </CardContent>
@@ -742,8 +794,14 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={10}
+                          minValue={0}
                           size={120}
-                          sublabel="/ 10"
+                          label={calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_impact_nps)
+                              .filter(v => v !== undefined)
+                          )}
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Net Promoter Score: ajánlási hajlandóság másoknak</p>
                       </CardContent>
@@ -761,8 +819,14 @@ const Statistics = () => {
                               .filter(v => v !== undefined)
                           ))}
                           maxValue={5}
+                          minValue={1}
                           size={120}
-                          sublabel="/ 5"
+                          label={calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_impact_consistency)
+                              .filter(v => v !== undefined)
+                          )}
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Szolgáltatás minőségének egyenletessége alkalmanként</p>
                       </CardContent>
@@ -831,8 +895,14 @@ const Statistics = () => {
                             .filter(v => v !== undefined)
                         ))}
                         maxValue={5}
+                        minValue={1}
                         size={150}
-                        sublabel="/ 5"
+                        label={calculateAverage(
+                          responses
+                            .filter(r => r.employee_metadata?.branch === 'used')
+                            .map(r => r.responses?.u_impact_performance)
+                            .filter(v => v !== undefined)
+                        )}
                       />
                       <p className="text-xs text-muted-foreground mt-2 text-center">A program hatása a munkahelyi teljesítményre és produktivitásra</p>
                     </CardContent>
@@ -850,8 +920,14 @@ const Statistics = () => {
                             .filter(v => v !== undefined)
                         ))}
                         maxValue={5}
+                        minValue={1}
                         size={150}
-                        sublabel="/ 5"
+                        label={calculateAverage(
+                          responses
+                            .filter(r => r.employee_metadata?.branch === 'used')
+                            .map(r => r.responses?.u_impact_problem_solving)
+                            .filter(v => v !== undefined)
+                        )}
                       />
                       <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire hatékonyan segített a program a problémák megoldásában</p>
                     </CardContent>
@@ -869,8 +945,14 @@ const Statistics = () => {
                             .filter(v => v !== undefined)
                         ))}
                         maxValue={5}
+                        minValue={1}
                         size={150}
-                        sublabel="/ 5"
+                        label={calculateAverage(
+                          responses
+                            .filter(r => r.employee_metadata?.branch === 'used')
+                            .map(r => r.responses?.u_impact_wellbeing)
+                            .filter(v => v !== undefined)
+                        )}
                       />
                       <p className="text-xs text-muted-foreground mt-2 text-center">A program hatása az általános jóllétre és mentális egészségre</p>
                     </CardContent>
@@ -888,8 +970,14 @@ const Statistics = () => {
                             .filter(v => v !== undefined)
                         ))}
                         maxValue={5}
+                        minValue={1}
                         size={150}
-                        sublabel="/ 5"
+                        label={calculateAverage(
+                          responses
+                            .filter(r => r.employee_metadata?.branch === 'used')
+                            .map(r => r.responses?.u_impact_satisfaction)
+                            .filter(v => v !== undefined)
+                        )}
                       />
                     </CardContent>
                   </Card>
@@ -906,8 +994,14 @@ const Statistics = () => {
                             .filter(v => v !== undefined)
                         ))}
                         maxValue={5}
+                        minValue={1}
                         size={150}
-                        sublabel="/ 5"
+                        label={calculateAverage(
+                          responses
+                            .filter(r => r.employee_metadata?.branch === 'used')
+                            .map(r => r.responses?.u_impact_consistency)
+                            .filter(v => v !== undefined)
+                        )}
                       />
                       <p className="text-xs text-muted-foreground mt-2 text-center">Szolgáltatás minőségének konzisztenciája</p>
                     </CardContent>

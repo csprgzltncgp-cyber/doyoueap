@@ -3,21 +3,25 @@ import { ResponsiveContainer, RadialBarChart, RadialBar, PolarAngleAxis } from '
 interface GaugeChartProps {
   value: number;
   maxValue: number;
+  minValue?: number;
   size?: number;
   label?: string;
   sublabel?: string;
   cornerRadius?: number;
+  showScale?: boolean;
 }
 
 export const GaugeChart = ({ 
   value, 
-  maxValue, 
+  maxValue,
+  minValue = 0,
   size = 200,
   label,
   sublabel,
-  cornerRadius = 30
+  cornerRadius = 30,
+  showScale = true
 }: GaugeChartProps) => {
-  const percentage = (value / maxValue) * 100;
+  const percentage = ((value - minValue) / (maxValue - minValue)) * 100;
   
   // Determine color based on percentage
   const getColor = () => {
@@ -72,6 +76,12 @@ export const GaugeChart = ({
           )}
         </RadialBarChart>
       </ResponsiveContainer>
+      {showScale && (
+        <div className="flex justify-between w-full px-4 mt-2">
+          <span className="text-sm text-muted-foreground">{minValue}</span>
+          <span className="text-sm text-muted-foreground">{maxValue}</span>
+        </div>
+      )}
     </div>
   );
 };
