@@ -85,18 +85,6 @@ const CreateAudit = () => {
     setLoading(true);
 
     try {
-      // Get company name from user profile
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('company_name')
-        .eq('id', user?.id)
-        .maybeSingle();
-
-      if (!profileData?.company_name) {
-        toast.error('Nem található cég név a profilodban');
-        setLoading(false);
-        return;
-      }
 
       let logoUrl = null;
 
@@ -143,7 +131,6 @@ const CreateAudit = () => {
       // Create audit
       const { error } = await supabase.from('audits').insert({
         hr_user_id: user?.id,
-        company_name: profileData.company_name,
         program_name: programName,
         questionnaire_id: questionnaires[0].id,
         access_token: accessToken,
