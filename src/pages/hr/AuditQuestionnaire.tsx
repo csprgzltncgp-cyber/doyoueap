@@ -104,7 +104,7 @@ export default function AuditQuestionnaire() {
           <strong>Előnézet mód:</strong> Ez az oldal csak olvasható előnézetet nyújt. A kérdőív nem módosítható, 
           így biztosítva az adatok összehasonlíthatóságát a korábbi auditokkal. 
           <br /><br />
-          <strong>Navigáció:</strong> A kék (#3366ff) gombok segítenek a különböző kérdőív szakaszok között navigálni. 
+          <strong>Navigáció:</strong> A kék gombok segítenek a különböző kérdőív szakaszok között navigálni. 
           Ezek jelzik a kattintható területeket a demo során.
         </AlertDescription>
       </Alert>
