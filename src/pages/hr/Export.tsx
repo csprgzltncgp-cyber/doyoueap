@@ -6,9 +6,6 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { formatAuditName } from '@/lib/auditUtils';
 import { FileText, Image as ImageIcon, Download, FileSpreadsheet } from 'lucide-react';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import * as XLSX from 'xlsx';
 
 interface Audit {
   id: string;
@@ -52,10 +49,12 @@ const Export = () => {
   const handleExportPDF = async () => {
     setExporting(true);
     try {
+      // Dynamic import to avoid build issues
+      const jsPDF = (await import('jspdf')).default;
+      
       const selectedAudit = audits.find(a => a.id === selectedAuditId);
       if (!selectedAudit) return;
 
-      // Fetch data for the selected audit
       const { data: responses, error } = await supabase
         .from('audit_responses')
         .select('responses, employee_metadata, submitted_at')
@@ -68,12 +67,9 @@ const Export = () => {
         return;
       }
 
-      // Create PDF
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
       
-      // Add title page
       pdf.setFontSize(24);
       pdf.text('Audit Jelentés', pageWidth / 2, 40, { align: 'center' });
       pdf.setFontSize(16);
@@ -82,7 +78,6 @@ const Export = () => {
       pdf.text(`Generálva: ${new Date().toLocaleDateString('hu-HU')}`, pageWidth / 2, 70, { align: 'center' });
       pdf.text(`Összes válasz: ${responses.length}`, pageWidth / 2, 80, { align: 'center' });
 
-      // Calculate basic stats
       const usedBranch = responses.filter(r => r.employee_metadata?.branch === 'used').length;
       const notUsedBranch = responses.filter(r => r.employee_metadata?.branch === 'not_used').length;
       const redirectBranch = responses.filter(r => r.employee_metadata?.branch === 'redirect').length;
@@ -95,7 +90,6 @@ const Export = () => {
       pdf.text(`Nem használók: ${notUsedBranch} (${((notUsedBranch / responses.length) * 100).toFixed(1)}%)`, 20, 45);
       pdf.text(`Nem tudtak róla: ${redirectBranch} (${((redirectBranch / responses.length) * 100).toFixed(1)}%)`, 20, 55);
 
-      // Save PDF
       pdf.save(`audit_jelentés_${formatAuditName(selectedAudit)}_${Date.now()}.pdf`);
       toast.success('PDF sikeresen exportálva!');
     } catch (error) {
@@ -109,10 +103,8 @@ const Export = () => {
   const handleExportPNG = async (section: string) => {
     setExporting(true);
     try {
-      // Navigate to Statistics page and wait for it to load
       window.open(`/hr/statistics?tab=${section.toLowerCase()}`, '_blank');
-      
-      toast.info(`Kérlek, nyisd meg a Statistics oldalt, majd használd a böngésző "Mentés képként" funkcióját vagy screenshot eszközt a ${section} grafikon mentéséhez.`);
+      toast.info(`Kérlek, nyisd meg a Statistics oldalt, majd használd a böngésző "Mentés képként" funkcióját a ${section} grafikon mentéséhez.`);
     } catch (error) {
       console.error('Error exporting PNG:', error);
       toast.error('Hiba történt a PNG exportálás során');
@@ -124,6 +116,9 @@ const Export = () => {
   const handleExportExcel = async () => {
     setExporting(true);
     try {
+      // Dynamic import to avoid build issues
+      const XLSX = await import('xlsx');
+      
       const { data, error } = await supabase
         .from('audit_responses')
         .select('responses, employee_metadata, submitted_at')
@@ -136,7 +131,6 @@ const Export = () => {
         return;
       }
 
-      // Prepare data for Excel
       const excelData = data.map(r => ({
         'Beküldés ideje': new Date(r.submitted_at).toLocaleString('hu-HU'),
         'Ág': r.employee_metadata?.branch || '',
@@ -149,26 +143,15 @@ const Export = () => {
         'Bizalom': r.responses?.u_trust_anonymity || r.responses?.nu_trust_anonymity || '',
       }));
 
-      // Create workbook and worksheet
       const wb = XLSX.utils.book_new();
       const ws = XLSX.utils.json_to_sheet(excelData);
 
-      // Set column widths
       ws['!cols'] = [
-        { wch: 20 }, // Beküldés ideje
-        { wch: 15 }, // Ág
-        { wch: 10 }, // Nem
-        { wch: 12 }, // Életkor
-        { wch: 15 }, // Ismertség
-        { wch: 10 }, // Használat
-        { wch: 12 }, // Elégedettség
-        { wch: 8 },  // NPS
-        { wch: 12 }, // Bizalom
+        { wch: 20 }, { wch: 15 }, { wch: 10 }, { wch: 12 },
+        { wch: 15 }, { wch: 10 }, { wch: 12 }, { wch: 8 }, { wch: 12 }
       ];
 
       XLSX.utils.book_append_sheet(wb, ws, 'Válaszok');
-
-      // Generate Excel file
       XLSX.writeFile(wb, `audit_export_${selectedAuditId}_${Date.now()}.xlsx`);
 
       toast.success('Excel sikeresen exportálva!');
