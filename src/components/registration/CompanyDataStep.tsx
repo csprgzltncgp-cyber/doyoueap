@@ -3,35 +3,15 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RegistrationData } from './RegistrationWizard';
-import { AlertCircle } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface CompanyDataStepProps {
   data: RegistrationData;
   updateData: (updates: Partial<RegistrationData>) => void;
 }
 
-const BLOCKED_DOMAINS = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com'];
-
 export const CompanyDataStep = ({ data, updateData }: CompanyDataStepProps) => {
-  const isEmailBlocked = data.contactEmail && BLOCKED_DOMAINS.some(domain => 
-    data.contactEmail.toLowerCase().endsWith(`@${domain}`)
-  );
-
-  const domainMismatch = data.companyDomain && data.contactEmail && 
-    !data.contactEmail.toLowerCase().endsWith(`@${data.companyDomain.toLowerCase()}`);
-
   return (
     <div className="space-y-6">
-      {isEmailBlocked && (
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
-            Kérjük, céges email címmel regisztráljon. Privát email szolgáltatók (@gmail, @yahoo, stb.) nem engedélyezettek.
-          </AlertDescription>
-        </Alert>
-      )}
-
       <div className="grid md:grid-cols-2 gap-4">
         <div className="space-y-2 md:col-span-2">
           <Label htmlFor="companyName">Cég neve *</Label>
@@ -134,14 +114,16 @@ export const CompanyDataStep = ({ data, updateData }: CompanyDataStepProps) => {
         </div>
 
         <div className="space-y-2 md:col-span-2">
-          <Label htmlFor="companyDomain">Céges domain *</Label>
+          <Label htmlFor="companyDomain">Céges domain</Label>
           <Input
             id="companyDomain"
             value={data.companyDomain}
             onChange={(e) => updateData({ companyDomain: e.target.value })}
-            placeholder="pelda.com"
-            required
+            placeholder="pelda.com (opcionális)"
           />
+          <p className="text-sm text-muted-foreground">
+            Ha van EAP programhoz használt weboldal domain, adja meg itt.
+          </p>
         </div>
 
         <div className="space-y-2 md:col-span-2">
@@ -156,22 +138,6 @@ export const CompanyDataStep = ({ data, updateData }: CompanyDataStepProps) => {
             onChange={(e) => updateData({ contactName: e.target.value })}
             required
           />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="contactEmail">Céges email *</Label>
-          <Input
-            id="contactEmail"
-            type="email"
-            value={data.contactEmail}
-            onChange={(e) => updateData({ contactEmail: e.target.value })}
-            required
-          />
-          {domainMismatch && (
-            <p className="text-sm text-yellow-600">
-              A kapcsolattartó email domain-je nem egyezik a céges domain-nel. Kérjük, magyarázza meg az eltérést, vagy módosítsa az email címet.
-            </p>
-          )}
         </div>
 
         <div className="space-y-2">

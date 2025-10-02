@@ -134,8 +134,8 @@ export const PaymentStep = ({ data }: PaymentStepProps) => {
             <span className="text-muted-foreground">Kapcsolattartó:</span>
             <span className="font-medium">{data.contactName}</span>
             
-            <span className="text-muted-foreground">Email:</span>
-            <span className="font-medium">{data.contactEmail}</span>
+            <span className="text-muted-foreground">Telefonszám:</span>
+            <span className="font-medium">{data.contactPhone}</span>
           </div>
         </CardContent>
       </Card>

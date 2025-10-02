@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { EmailPasswordStep } from './EmailPasswordStep';
 import { EmailValidationStep } from './EmailValidationStep';
 import { CompanyDataStep } from './CompanyDataStep';
 import { PackageSelectionStep } from './PackageSelectionStep';
@@ -19,7 +20,6 @@ export interface RegistrationData {
   industry: string;
   employeeCount: string;
   contactName: string;
-  contactEmail: string;
   contactPhone: string;
   companyDomain: string;
   
@@ -43,7 +43,6 @@ const initialData: RegistrationData = {
   industry: '',
   employeeCount: '',
   contactName: '',
-  contactEmail: '',
   contactPhone: '',
   companyDomain: '',
   selectedPackage: null,
@@ -54,15 +53,24 @@ const initialData: RegistrationData = {
 };
 
 export const RegistrationWizard = () => {
-  const [step, setStep] = useState(0); // Start at 0 for email validation
+  const [step, setStep] = useState(0); // 0: email+password, 1: validation, 2-4: registration steps
   const [data, setData] = useState<RegistrationData>(initialData);
-  const [verifiedEmail, setVerifiedEmail] = useState<string>('');
-  const totalSteps = 3;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const totalSteps = 3; // Only count actual registration steps
 
-  const handleEmailVerified = (email: string) => {
-    setVerifiedEmail(email);
-    updateData({ contactEmail: email });
-    setStep(1);
+  const handleContinueToValidation = (userEmail: string, userPassword: string) => {
+    setEmail(userEmail);
+    setPassword(userPassword);
+    setStep(1); // Move to email validation
+  };
+
+  const handleEmailVerified = () => {
+    setStep(2); // Move to first registration step (company data)
+  };
+
+  const handleBackFromValidation = () => {
+    setStep(0); // Back to email/password step
   };
 
   const updateData = (updates: Partial<RegistrationData>) => {
@@ -70,30 +78,48 @@ export const RegistrationWizard = () => {
   };
 
   const nextStep = () => {
-    if (step < totalSteps) {
+    if (step < 4) { // 0,1: pre-reg, 2,3,4: actual steps
       setStep(step + 1);
     }
   };
 
   const prevStep = () => {
-    if (step > 0) {
+    if (step > 2) { // Can't go back from company data (step 2)
       setStep(step - 1);
     }
   };
 
-  // Only show progress for steps 1-3, not email validation
-  const progress = step > 0 ? (step / totalSteps) * 100 : 0;
+  // Only show progress for actual registration steps (2-4)
+  const progress = step >= 2 ? ((step - 1) / totalSteps) * 100 : 0;
 
+  // Step 0: Email + Password
   if (step === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <EmailValidationStep 
-          onEmailVerified={handleEmailVerified}
+        <EmailPasswordStep 
+          onContinue={handleContinueToValidation}
           onBack={() => window.history.back()}
         />
       </div>
     );
   }
+
+  // Step 1: Email Validation
+  if (step === 1) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background p-4">
+        <EmailValidationStep 
+          email={email}
+          password={password}
+          onEmailVerified={handleEmailVerified}
+          onBack={handleBackFromValidation}
+        />
+      </div>
+    );
+  }
+
+  // Steps 2-4: Actual registration
+  const currentRegistrationStep = step - 1; // 2->1, 3->2, 4->3
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
@@ -104,26 +130,26 @@ export const RegistrationWizard = () => {
           </div>
           <CardTitle>Céges regisztráció</CardTitle>
           <CardDescription>
-            {step === 1 && 'Cégadatok megadása'}
-            {step === 2 && 'Csomag kiválasztása'}
-            {step === 3 && 'Fizetési adatok'}
+            {step === 2 && 'Cégadatok megadása'}
+            {step === 3 && 'Csomag kiválasztása'}
+            {step === 4 && 'Fizetési adatok'}
           </CardDescription>
           <div className="mt-4 space-y-2">
             <div className="flex justify-between text-sm text-muted-foreground">
-              <span>{step}. lépés / {totalSteps}</span>
+              <span>{currentRegistrationStep}. lépés / {totalSteps}</span>
               <span>{Math.round(progress)}%</span>
             </div>
             <Progress value={progress} />
           </div>
         </CardHeader>
         <CardContent>
-          {step === 1 && (
+          {step === 2 && (
             <CompanyDataStep data={data} updateData={updateData} />
           )}
-          {step === 2 && (
+          {step === 3 && (
             <PackageSelectionStep data={data} updateData={updateData} />
           )}
-          {step === 3 && (
+          {step === 4 && (
             <PaymentStep data={data} updateData={updateData} />
           )}
 
@@ -131,7 +157,7 @@ export const RegistrationWizard = () => {
             <Button
               variant="outline"
               onClick={prevStep}
-              disabled={step === 1}
+              disabled={step === 2}
             >
               <ChevronLeft className="h-4 w-4 mr-2" />
               Vissza
@@ -140,7 +166,7 @@ export const RegistrationWizard = () => {
               <Button variant="ghost">
                 Folytatom később
               </Button>
-              {step < totalSteps ? (
+              {step < 4 ? (
                 <Button onClick={nextStep}>
                   Tovább
                   <ChevronRight className="h-4 w-4 ml-2" />

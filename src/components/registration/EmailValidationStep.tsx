@@ -1,34 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { Mail, CheckCircle, Clock, RefreshCw } from 'lucide-react';
 
 interface EmailValidationStepProps {
-  onEmailVerified: (email: string) => void;
+  email: string;
+  password: string;
+  onEmailVerified: () => void;
   onBack: () => void;
 }
 
-export const EmailValidationStep = ({ onEmailVerified, onBack }: EmailValidationStepProps) => {
-  const [email, setEmail] = useState('');
+export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }: EmailValidationStepProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [checkingInterval, setCheckingInterval] = useState<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
 
-  const handleSendVerification = async (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    // Automatically send verification email when component mounts
+    handleSendVerification();
     
-    if (!email || !email.includes('@')) {
-      toast({
-        title: "Hibás email cím",
-        description: "Kérjük, adjon meg egy érvényes email címet.",
-        variant: "destructive",
-      });
-      return;
-    }
+    return () => {
+      if (checkingInterval) {
+        clearInterval(checkingInterval);
+      }
+    };
+  }, []);
 
+  const handleSendVerification = async () => {
     setIsLoading(true);
 
     try {
@@ -40,12 +41,13 @@ export const EmailValidationStep = ({ onEmailVerified, onBack }: EmailValidation
 
       setEmailSent(true);
       toast({
-        title: "Email elküldve!",
-        description: "Kérjük, ellenőrizze a postafiókját és kattintson a megerősítő linkre.",
+        title: "Megerősítő email elküldve!",
+        description: `Ellenőrizze postafiókját: ${email}`,
       });
 
       // Start checking verification status
-      checkVerificationStatus(email);
+      const interval = startCheckingVerification(email);
+      setCheckingInterval(interval);
     } catch (error: any) {
       console.error('Error sending verification email:', error);
       toast({
@@ -58,8 +60,8 @@ export const EmailValidationStep = ({ onEmailVerified, onBack }: EmailValidation
     }
   };
 
-  const checkVerificationStatus = async (emailToCheck: string) => {
-    const interval = setInterval(async () => {
+  const startCheckingVerification = (emailToCheck: string): NodeJS.Timeout => {
+    return setInterval(async () => {
       try {
         const { data, error } = await supabase
           .from('email_verifications')
@@ -69,89 +71,125 @@ export const EmailValidationStep = ({ onEmailVerified, onBack }: EmailValidation
           .single();
 
         if (data && data.verified) {
-          clearInterval(interval);
+          if (checkingInterval) {
+            clearInterval(checkingInterval);
+          }
+          
           toast({
-            title: "Email megerősítve!",
-            description: "Most folytathatja a regisztrációt.",
+            title: "Email megerősítve! ✓",
+            description: "Fiók létrehozása folyamatban...",
           });
-          onEmailVerified(emailToCheck);
+
+          // Create Supabase user account
+          await createUserAccount();
         }
       } catch (error) {
         // Verification not yet complete, continue checking
       }
     }, 3000); // Check every 3 seconds
+  };
 
-    // Stop checking after 10 minutes
-    setTimeout(() => clearInterval(interval), 600000);
+  const createUserAccount = async () => {
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/`,
+        },
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Fiók sikeresen létrehozva!",
+        description: "Most folytathatja a regisztrációt a céges adatokkal.",
+      });
+
+      onEmailVerified();
+    } catch (error: any) {
+      console.error('Error creating user:', error);
+      toast({
+        title: "Hiba a fiók létrehozása során",
+        description: error.message || "Kérjük, próbálja újra.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
-        <CardTitle>Email cím megerősítése</CardTitle>
+        <div className="flex items-center gap-2 mb-4">
+          <img src="/src/assets/doyoueap-logo.png" alt="doyoueap" className="h-8" />
+        </div>
+        <CardTitle className="flex items-center gap-2">
+          <Mail className="h-6 w-6" />
+          Email cím megerősítése
+        </CardTitle>
         <CardDescription>
-          A regisztráció első lépéseként kérjük, erősítse meg email címét.
+          Megerősítő emailt küldtünk a következő címre: <strong>{email}</strong>
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        {!emailSent ? (
-          <form onSubmit={handleSendVerification} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email cím</Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="pelda@ceges.email.com"
-                required
-              />
+      <CardContent className="space-y-6">
+        {/* Status indicator */}
+        <div className="bg-primary/10 border border-primary/20 rounded-lg p-6 space-y-4">
+          <div className="flex items-start gap-3">
+            <Clock className="h-5 w-5 text-primary mt-1 animate-pulse" />
+            <div className="flex-1">
+              <h4 className="font-medium mb-1">Várakozás az email megerősítésére...</h4>
               <p className="text-sm text-muted-foreground">
-                Erre az email címre küldünk egy megerősítő linket.
-              </p>
-            </div>
-
-            <div className="flex gap-2">
-              <Button type="button" variant="outline" onClick={onBack}>
-                Vissza
-              </Button>
-              <Button type="submit" disabled={isLoading} className="flex-1">
-                {isLoading ? 'Küldés...' : 'Megerősítő email küldése'}
-              </Button>
-            </div>
-          </form>
-        ) : (
-          <div className="space-y-4">
-            <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
-              <p className="text-sm">
-                <strong>Email elküldve:</strong> {email}
-              </p>
-              <p className="text-sm text-muted-foreground mt-2">
-                Kérjük, ellenőrizze a postafiókját és kattintson a megerősítő linkre. 
+                Kérjük, nyissa meg postafiókját és kattintson a megerősítő linkre. 
                 Az oldal automatikusan továbblép, amint megerősíti az email címét.
               </p>
             </div>
+          </div>
 
-            <div className="flex gap-2">
-              <Button 
-                variant="outline" 
-                onClick={() => {
-                  setEmailSent(false);
-                  setEmail('');
-                }}
-              >
-                Új email cím használata
-              </Button>
-              <Button 
-                variant="outline"
-                onClick={handleSendVerification}
-                disabled={isLoading}
-              >
-                Email újraküldése
-              </Button>
+          <div className="flex items-start gap-3 border-t pt-4">
+            <CheckCircle className="h-5 w-5 text-muted-foreground mt-1" />
+            <div className="flex-1">
+              <h4 className="font-medium mb-1 text-muted-foreground">Mi történik ezután?</h4>
+              <p className="text-sm text-muted-foreground">
+                Email megerősítés után automatikusan létrehozzuk fiókját, és folytathatja 
+                a regisztrációt a céges adatok megadásával.
+              </p>
             </div>
           </div>
-        )}
+        </div>
+
+        {/* Help section */}
+        <div className="border rounded-lg p-4 space-y-3">
+          <h4 className="font-medium text-sm">Nem kapta meg az emailt?</h4>
+          <ul className="text-sm text-muted-foreground space-y-2 list-disc list-inside">
+            <li>Ellenőrizze a spam/levélszemét mappát</li>
+            <li>Várjon néhány percet - az email kézbesítés eltarthat egy ideig</li>
+            <li>Ellenőrizze, hogy helyesen írta-e be az email címet</li>
+          </ul>
+        </div>
+
+        {/* Action buttons */}
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            onClick={onBack}
+            className="flex-1"
+          >
+            Új email cím használata
+          </Button>
+          <Button 
+            variant="outline"
+            onClick={handleSendVerification}
+            disabled={isLoading}
+            className="flex items-center gap-2"
+          >
+            <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+            Email újraküldése
+          </Button>
+        </div>
+
+        <p className="text-xs text-center text-muted-foreground">
+          A megerősítő link 24 órán belül lejár.
+        </p>
       </CardContent>
     </Card>
   );
