@@ -30,6 +30,9 @@ const Statistics = () => {
   const [loadingResponses, setLoadingResponses] = useState(false);
   const [employeeCount, setEmployeeCount] = useState<number>(0);
   const activeTab = searchParams.get("tab") || "overview";
+  const autoExport = searchParams.get("autoExport");
+  const exportFileName = searchParams.get("fileName");
+  const returnTo = searchParams.get("returnTo");
 
   useEffect(() => {
     fetchAudits();
@@ -41,6 +44,23 @@ const Statistics = () => {
       fetchResponses();
     }
   }, [selectedAuditId]);
+
+  // Auto-export effect
+  useEffect(() => {
+    if (autoExport && exportFileName && !loadingResponses && responses.length > 0) {
+      // Wait a bit for the DOM to render
+      setTimeout(async () => {
+        await exportCardToPNG(autoExport, exportFileName);
+        
+        // Navigate back if returnTo is specified
+        if (returnTo === 'export') {
+          setTimeout(() => {
+            window.location.href = '/hr/export';
+          }, 1000);
+        }
+      }, 1500);
+    }
+  }, [autoExport, exportFileName, loadingResponses, responses, returnTo]);
 
   const fetchEmployeeCount = async () => {
     try {

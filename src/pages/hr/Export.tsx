@@ -103,48 +103,12 @@ const Export = () => {
   };
 
   const handleExportPNG = async (cardId: string, fileName: string) => {
-    // First navigate to statistics page with the appropriate tab
     const chart = exportableCharts.find(c => c.id === cardId);
     if (!chart) return;
 
-    const currentUrl = window.location.href;
-    const isOnStatsPage = currentUrl.includes('/hr/statistics');
-    
-    if (!isOnStatsPage) {
-      // Navigate to statistics page
-      window.location.href = `/hr/statistics?tab=${chart.tab}`;
-      toast.info(`Navigálás a Statisztikák oldalra... Nyomd meg újra a gombot a letöltéshez!`);
-      return;
-    }
-
-    // If already on stats page, do the export
-    setExporting(true);
-    try {
-      const html2canvas = (await import('html2canvas')).default;
-      const element = document.getElementById(cardId);
-      
-      if (!element) {
-        toast.error('Panel nem található - győződj meg róla, hogy a megfelelő tabon vagy!');
-        return;
-      }
-
-      const canvas = await html2canvas(element, {
-        backgroundColor: '#ffffff',
-        scale: 2,
-      });
-
-      const link = document.createElement('a');
-      link.download = `${fileName}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-
-      toast.success('PNG sikeresen letöltve!');
-    } catch (error) {
-      console.error('Error exporting PNG:', error);
-      toast.error('Hiba a PNG exportálás során');
-    } finally {
-      setExporting(false);
-    }
+    // Navigate to statistics page with auto-export parameter
+    window.location.href = `/hr/statistics?tab=${chart.tab}&autoExport=${cardId}&fileName=${fileName}&returnTo=export`;
+    toast.info('Grafikon exportálása folyamatban...');
   };
 
   const handleExportExcel = async () => {
