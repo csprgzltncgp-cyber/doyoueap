@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
-import { Loader2, Plus, Trash2, Send, CreditCard, Link2, Check } from "lucide-react";
+import { Loader2, Plus, Trash2, Send, CreditCard, Link2, Check, Download, FileText } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   AlertDialog,
@@ -106,6 +106,34 @@ function Settings() {
   const [selectedPackageTemp, setSelectedPackageTemp] = useState<string | null>(null);
   const [selectedCycleTemp, setSelectedCycleTemp] = useState<string | null>(null);
   const [showPackageConfirm, setShowPackageConfirm] = useState(false);
+  
+  // Dummy invoices data
+  const [invoices] = useState([
+    {
+      id: "INV-2025-001",
+      date: "2025-01-01",
+      amount: "3 990 €",
+      status: "paid",
+      period: "2025.01.01 - 2025.12.31",
+      package: "Pro - Éves"
+    },
+    {
+      id: "INV-2024-012",
+      date: "2024-12-01",
+      amount: "399 €",
+      status: "paid",
+      period: "2024.12.01 - 2024.12.31",
+      package: "Pro - Havi"
+    },
+    {
+      id: "INV-2024-011",
+      date: "2024-11-01",
+      amount: "399 €",
+      status: "paid",
+      period: "2024.11.01 - 2024.11.30",
+      package: "Pro - Havi"
+    },
+  ]);
 
   useEffect(() => {
     if (user) {
@@ -476,6 +504,11 @@ function Settings() {
       isDefault: pm.id === id
     })));
     toast.success("Alapértelmezett fizetési mód beállítva");
+  };
+
+  const handleDownloadInvoice = (invoiceId: string) => {
+    toast.success(`Számla letöltése: ${invoiceId}`);
+    // In real app, this would download the PDF
   };
 
   const handleDeletePaymentMethod = (id: string) => {
@@ -1085,6 +1118,57 @@ function Settings() {
               Kattints egy másik csomagra a váltáshoz
             </p>
           )}
+        </CardContent>
+      </Card>
+
+      {/* Számlák */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Számlák</CardTitle>
+          <CardDescription>Korábbi számlák megtekintése és letöltése</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {invoices.map((invoice) => (
+              <div 
+                key={invoice.id} 
+                className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent/50 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <FileText className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <p className="font-medium">{invoice.id}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {invoice.package} · {invoice.period}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Kiállítva: {new Date(invoice.date).toLocaleDateString('hu-HU')}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="text-right">
+                    <p className="font-bold">{invoice.amount}</p>
+                    <span className={`text-xs px-2 py-1 rounded ${
+                      invoice.status === 'paid' 
+                        ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' 
+                        : 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
+                    }`}>
+                      {invoice.status === 'paid' ? 'Fizetve' : 'Függőben'}
+                    </span>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => handleDownloadInvoice(invoice.id)}
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    Letöltés
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
         </CardContent>
       </Card>
 
