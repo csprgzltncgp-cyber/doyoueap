@@ -11,6 +11,10 @@ interface Step3Props {
   accessMode: string;
   accessToken: string;
   communicationText: string;
+  emailSubject?: string;
+  emailFrom?: string;
+  onEmailSubjectChange?: (subject: string) => void;
+  onEmailFromChange?: (from: string) => void;
   onEmailListUpload?: (file: File) => void;
   onNext: () => void;
   onBack: () => void;
@@ -20,6 +24,10 @@ export const Step3Distribution = ({
   accessMode,
   accessToken,
   communicationText,
+  emailSubject,
+  emailFrom,
+  onEmailSubjectChange,
+  onEmailFromChange,
   onEmailListUpload,
   onNext,
   onBack,
@@ -79,11 +87,51 @@ export const Step3Distribution = ({
   const renderTokenesMode = () => (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold mb-2">Email lista feltöltése</h2>
+        <h2 className="text-2xl font-bold mb-2">Email beállítások és lista feltöltése</h2>
         <p className="text-muted-foreground">
-          Töltsd fel a munkavállalók email címeit tartalmazó táblázatot
+          Állítsd be az email paramétereit, majd töltsd fel a munkavállalók adatait
         </p>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Email feladó és tárgy</CardTitle>
+          <CardDescription>
+            Ezek az adatok fognak megjelenni az emailben
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <Label htmlFor="email-from">Feladó email címe</Label>
+            <Input
+              id="email-from"
+              type="email"
+              value={emailFrom || 'noreply@doyoueap.com'}
+              onChange={(e) => onEmailFromChange?.(e.target.value)}
+              placeholder="noreply@doyoueap.com"
+              className="mt-2"
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Alapértelmezett: noreply@doyoueap.com
+            </p>
+          </div>
+
+          <div>
+            <Label htmlFor="email-subject">Email tárgya</Label>
+            <Input
+              id="email-subject"
+              type="text"
+              value={emailSubject || 'Fontos információ a munkavállalói támogatási programról'}
+              onChange={(e) => onEmailSubjectChange?.(e.target.value)}
+              placeholder="Email tárgya"
+              className="mt-2"
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Rövid, informatív tárgy, amely felkelti a figyelmet
+            </p>
+          </div>
+        </CardContent>
+      </Card>
 
       <Alert className="border-info/50 bg-info/10">
         <Info className="h-4 w-4" />

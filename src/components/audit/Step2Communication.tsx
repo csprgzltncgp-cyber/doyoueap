@@ -28,25 +28,25 @@ Ez egy bizalmas támogatási szolgáltatás, amely különféle élethelyzetekbe
 
 A szolgáltatás teljesen ingyenes, anonim és bizalmas. Pszichológusok, jogászok, pénzügyi tanácsadók és más szakemberek állnak rendelkezésedre.
 
-📋 Kérjük, töltsd ki az alábbi rövid, anonim kérdőívet (kb. 5-8 perc):
+Kérjük, töltsd ki az alábbi rövid, anonim kérdőívet (kb. 5-8 perc):
 {{audit_link}}
 
-A válaszaid segítenek nekünk abban, hogy még jobban támogathassuk a munkavállalókat.
+A válaszaid rendkívül fontosak számunkra. Segítenek megérteni, hogyan tudnánk még jobban támogatni téged és kollégáidat. A visszajelzéseid alapján folyamatosan fejlesztjük a programot, hogy még hasznosabb és elérhetőbb legyen mindenki számára.
 
 Köszönjük a részvételed!
 {{cég_név}}`;
     } else if (accessMode === 'qr_code') {
       return `Kedves Kollégák!
 
-📱 Szkenneld be a QR kódot és ismerd meg a {{program_név}} programot!
+Szkenneld be a QR kódot és ismerd meg a {{program_név}} programot!
 
 Ez egy bizalmas támogatási szolgáltatás, amely különféle élethelyzetekben nyújt segítséget – legyen szó munkával kapcsolatos kihívásokról, magánéleti nehézségekről, stresszről vagy bármilyen más témáról.
 
-A szolgáltatás teljesen ingyenes, anonim és bizalmas. Pszichológusok, jogászok, pénzügyi tanácsadók és más szakemberek állnak rendelkezésedre.
+A szolgáltatás teljesen ingyenes, anonim és bizalmas. Pszichológusok, jogászok, pénzügyi tanácsadók és más szakemberek állnak rendelkezésetekre.
 
-⏱️ A kérdőív kitöltése mindössze 5-8 percet vesz igénybe, és teljesen anonim.
+A kérdőív kitöltése mindössze 5-8 percet vesz igénybe, és teljesen anonim.
 
-A válaszaid segítenek nekünk abban, hogy még jobban támogathassuk a munkavállalókat.
+A válaszaitok rendkívül fontosak számunkra. Segítenek megérteni, hogyan tudnánk még jobban támogatni benneteket. A visszajelzéseitek alapján folyamatosan fejlesztjük a programot, hogy még hasznosabb és elérhetőbb legyen mindenki számára.
 
 Köszönjük!`;
     } else {
@@ -58,10 +58,10 @@ Ez egy bizalmas támogatási szolgáltatás, amely különféle élethelyzetekbe
 
 A szolgáltatás teljesen ingyenes, anonim és bizalmas. Pszichológusok, jogászok, pénzügyi tanácsadók és más szakemberek állnak rendelkezésetekre.
 
-📋 Kérjük, töltsé tek ki az alábbi rövid, anonim kérdőívet (kb. 5-8 perc):
+Kérjük, töltsé tek ki az alábbi rövid, anonim kérdőívet (kb. 5-8 perc):
 {{audit_link}}
 
-A válaszaitok segítenek nekünk abban, hogy még jobban támogathassuk a munkavállalókat.
+A válaszaitok rendkívül fontosak számunkra. Segítenek megérteni, hogyan tudnánk még jobban támogatni benneteket. A visszajelzéseitek alapján folyamatosan fejlesztjük a programot, hogy még hasznosabb és elérhetőbb legyen mindenki számára.
 
 Köszönjük a részvételt!`;
     }
