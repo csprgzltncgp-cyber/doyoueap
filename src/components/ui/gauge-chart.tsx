@@ -42,7 +42,7 @@ export const GaugeChart = ({
           <RadialBar
             background={{ fill: 'hsl(var(--muted))' }}
             dataKey="value"
-            cornerRadius={10}
+            cornerRadius={15}
             fill={getColor()}
           />
           <text 
