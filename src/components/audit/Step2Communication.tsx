@@ -22,29 +22,48 @@ export const Step2Communication = ({
     if (accessMode === 'tokenes') {
       return `Kedves {{név}}!
 
-Szeretnénk felhívni a figyelmedet a {{cég_név}} által biztosított {{program_név}} programra.
+Szeretnénk felhívni a figyelmedet egy fontos lehetőségre: cégednek köszönhetően most hozzáférhetsz a {{program_név}} programhoz.
 
-Kérjük, töltsd ki az alábbi rövid kérdőívet:
+Ez egy bizalmas támogatási szolgáltatás, amely különféle élethelyzetekben nyújt segítséget – legyen szó munkával kapcsolatos kihívásokról, magánéleti nehézségekről, stresszről vagy bármilyen más témáról, ahol támogatásra van szükséged.
+
+A szolgáltatás teljesen ingyenes, anonim és bizalmas. Pszichológusok, jogászok, pénzügyi tanácsadók és más szakemberek állnak rendelkezésedre.
+
+📋 Kérjük, töltsd ki az alábbi rövid, anonim kérdőívet (kb. 5-8 perc):
 {{audit_link}}
 
-Köszönjük!`;
+A válaszaid segítenek nekünk abban, hogy még jobban támogathassuk a munkavállalókat.
+
+Köszönjük a részvételed!
+{{cég_név}}`;
     } else if (accessMode === 'qr_code') {
       return `Kedves Kollégák!
 
-Szeretnénk felhívni a figyelmeteket a {{program_név}} programra.
+📱 Szkenneld be a QR kódot és ismerd meg a {{program_név}} programot!
 
-Kérjük, töltsétek ki az alábbi QR kód beolvasásával elérhető kérdőívet!
+Ez egy bizalmas támogatási szolgáltatás, amely különféle élethelyzetekben nyújt segítséget – legyen szó munkával kapcsolatos kihívásokról, magánéleti nehézségekről, stresszről vagy bármilyen más témáról.
+
+A szolgáltatás teljesen ingyenes, anonim és bizalmas. Pszichológusok, jogászok, pénzügyi tanácsadók és más szakemberek állnak rendelkezésedre.
+
+⏱️ A kérdőív kitöltése mindössze 5-8 percet vesz igénybe, és teljesen anonim.
+
+A válaszaid segítenek nekünk abban, hogy még jobban támogathassuk a munkavállalókat.
 
 Köszönjük!`;
     } else {
       return `Kedves Kollégák!
 
-Szeretnénk felhívni a figyelmeteket a {{program_név}} programra.
+Szeretnénk felhívni a figyelmeteket egy fontos lehetőségre: cégünknek köszönhetően most hozzáférhettek a {{program_név}} programhoz.
 
-Kérjük, töltsétek ki az alábbi linken elérhető kérdőívet:
+Ez egy bizalmas támogatási szolgáltatás, amely különféle élethelyzetekben nyújt segítséget – legyen szó munkával kapcsolatos kihívásokról, magánéleti nehézségekről, stresszről vagy bármilyen más témáról, ahol támogatásra van szükség.
+
+A szolgáltatás teljesen ingyenes, anonim és bizalmas. Pszichológusok, jogászok, pénzügyi tanácsadók és más szakemberek állnak rendelkezésetekre.
+
+📋 Kérjük, töltsé tek ki az alábbi rövid, anonim kérdőívet (kb. 5-8 perc):
 {{audit_link}}
 
-Köszönjük!`;
+A válaszaitok segítenek nekünk abban, hogy még jobban támogathassuk a munkavállalókat.
+
+Köszönjük a részvételt!`;
     }
   };
 

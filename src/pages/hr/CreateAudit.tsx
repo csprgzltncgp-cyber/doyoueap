@@ -7,6 +7,7 @@ import { Progress } from '@/components/ui/progress';
 import { toast } from 'sonner';
 import { Step1AccessMode } from '@/components/audit/Step1AccessMode';
 import { Step2Communication } from '@/components/audit/Step2Communication';
+import { Step3Distribution } from '@/components/audit/Step3Distribution';
 import { Step3Branding } from '@/components/audit/Step3Branding';
 import { Step4Timing } from '@/components/audit/Step4Timing';
 import { Step5Languages } from '@/components/audit/Step5Languages';
@@ -39,10 +40,27 @@ const CreateAudit = () => {
   const [enableRecurrence, setEnableRecurrence] = useState(false);
   const [recurrenceFrequency, setRecurrenceFrequency] = useState('quarterly');
   const [selectedLanguages, setSelectedLanguages] = useState(['HU']);
+  const [emailListFile, setEmailListFile] = useState<File | null>(null);
+  const [accessToken, setAccessToken] = useState('');
 
-  const totalSteps = 7;
+  const totalSteps = 8;
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    // Generate token after step 2 (before step 3)
+    if (currentStep === 2 && !accessToken) {
+      try {
+        const { data: tokenData, error: tokenError } = await supabase.rpc(
+          'generate_access_token'
+        );
+        if (tokenError) throw tokenError;
+        setAccessToken(tokenData);
+      } catch (error) {
+        console.error('Error generating token:', error);
+        toast.error('Hiba történt a token generálásakor');
+        return;
+      }
+    }
+    
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     }
@@ -84,12 +102,15 @@ const CreateAudit = () => {
         logoUrl = publicUrl;
       }
 
-      // Generate token
-      const { data: tokenData, error: tokenError } = await supabase.rpc(
-        'generate_access_token'
-      );
+      // Generate token early so it can be shown in step 3
+      if (!accessToken) {
+        const { data: tokenData, error: tokenError } = await supabase.rpc(
+          'generate_access_token'
+        );
 
-      if (tokenError) throw tokenError;
+        if (tokenError) throw tokenError;
+        setAccessToken(tokenData);
+      }
 
       // Get the first active questionnaire
       const { data: questionnaires } = await supabase
@@ -108,7 +129,7 @@ const CreateAudit = () => {
         company_name: companyName,
         program_name: programName,
         questionnaire_id: questionnaires[0].id,
-        access_token: tokenData,
+        access_token: accessToken,
         access_mode: accessMode,
         communication_text: communicationText,
         logo_url: logoUrl,
@@ -179,6 +200,17 @@ const CreateAudit = () => {
           )}
 
           {currentStep === 3 && (
+            <Step3Distribution
+              accessMode={accessMode}
+              accessToken={accessToken}
+              communicationText={communicationText}
+              onEmailListUpload={setEmailListFile}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          )}
+
+          {currentStep === 4 && (
             <Step3Branding
               logoFile={logoFile}
               customColors={customColors}
@@ -189,7 +221,7 @@ const CreateAudit = () => {
             />
           )}
 
-          {currentStep === 4 && (
+          {currentStep === 5 && (
             <Step4Timing
               startDate={startDate}
               expiresAt={expiresAt}
@@ -204,7 +236,7 @@ const CreateAudit = () => {
             />
           )}
 
-          {currentStep === 5 && (
+          {currentStep === 6 && (
             <Step5Languages
               selectedLanguages={selectedLanguages}
               onLanguagesChange={setSelectedLanguages}
@@ -213,7 +245,7 @@ const CreateAudit = () => {
             />
           )}
 
-          {currentStep === 6 && (
+          {currentStep === 7 && (
             <Step6ProgramName
               programName={programName}
               companyName={companyName}
@@ -224,7 +256,7 @@ const CreateAudit = () => {
             />
           )}
 
-          {currentStep === 7 && (
+          {currentStep === 8 && (
             <Step7Summary
               auditData={auditData}
               onSubmit={handleSubmit}
