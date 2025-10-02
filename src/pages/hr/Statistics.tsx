@@ -698,7 +698,7 @@ const Statistics = () => {
                           {calculateAverage(
                             responses
                               .filter(r => r.employee_metadata?.branch === 'used')
-                              .map(r => r.responses?.u_usage_satisfaction)
+                              .map(r => r.responses?.u_impact_satisfaction)
                               .filter(v => v !== undefined)
                           )}
                         </p>
@@ -707,14 +707,14 @@ const Statistics = () => {
                     </Card>
                     <Card>
                       <CardHeader>
-                        <CardTitle className="text-sm">Célok elérése</CardTitle>
+                        <CardTitle className="text-sm">Problémamegoldás</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <p className="text-2xl font-bold">
                           {calculateAverage(
                             responses
                               .filter(r => r.employee_metadata?.branch === 'used')
-                              .map(r => r.responses?.u_usage_achievement)
+                              .map(r => r.responses?.u_impact_problem_solving)
                               .filter(v => v !== undefined)
                           )}
                         </p>
@@ -730,7 +730,7 @@ const Statistics = () => {
                           {calculateAverage(
                             responses
                               .filter(r => r.employee_metadata?.branch === 'used')
-                              .map(r => r.responses?.u_usage_nps)
+                              .map(r => r.responses?.u_impact_nps)
                               .filter(v => v !== undefined)
                           )}
                         </p>
@@ -739,18 +739,18 @@ const Statistics = () => {
                     </Card>
                     <Card>
                       <CardHeader>
-                        <CardTitle className="text-sm">Ajánlanák</CardTitle>
+                        <CardTitle className="text-sm">Konzisztencia</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <p className="text-2xl font-bold">
-                          {formatPercentage(
+                          {calculateAverage(
                             responses
-                              .filter(r => r.employee_metadata?.branch === 'used' && r.responses?.u_usage_recommend === 'yes')
-                              .length,
-                            usedBranch
-                          )}%
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_impact_consistency)
+                              .filter(v => v !== undefined)
+                          )}
                         </p>
-                        <p className="text-xs text-muted-foreground">igen válaszok</p>
+                        <p className="text-xs text-muted-foreground">átlag (1-5)</p>
                       </CardContent>
                     </Card>
                   </div>
@@ -805,14 +805,14 @@ const Statistics = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-sm">Munkavégzésre gyakorolt hatás</CardTitle>
+                      <CardTitle className="text-sm">Teljesítményre gyakorolt hatás</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-3xl font-bold">
                         {calculateAverage(
                           responses
                             .filter(r => r.employee_metadata?.branch === 'used')
-                            .map(r => r.responses?.u_impact_work)
+                            .map(r => r.responses?.u_impact_performance)
                             .filter(v => v !== undefined)
                         )}
                       </p>
@@ -821,14 +821,14 @@ const Statistics = () => {
                   </Card>
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-sm">Stresszcsökkentés</CardTitle>
+                      <CardTitle className="text-sm">Problémamegoldás</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-3xl font-bold">
                         {calculateAverage(
                           responses
                             .filter(r => r.employee_metadata?.branch === 'used')
-                            .map(r => r.responses?.u_impact_stress)
+                            .map(r => r.responses?.u_impact_problem_solving)
                             .filter(v => v !== undefined)
                         )}
                       </p>
@@ -853,14 +853,14 @@ const Statistics = () => {
                   </Card>
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-sm">Produktivitás</CardTitle>
+                      <CardTitle className="text-sm">Elégedettség</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-3xl font-bold">
                         {calculateAverage(
                           responses
                             .filter(r => r.employee_metadata?.branch === 'used')
-                            .map(r => r.responses?.u_impact_productivity)
+                            .map(r => r.responses?.u_impact_satisfaction)
                             .filter(v => v !== undefined)
                         )}
                       </p>
@@ -869,18 +869,18 @@ const Statistics = () => {
                   </Card>
                   <Card className="col-span-2">
                     <CardHeader>
-                      <CardTitle className="text-sm">Munkahely megítélése</CardTitle>
+                      <CardTitle className="text-sm">Szolgáltatás konzisztencia</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-3xl font-bold">
                         {calculateAverage(
                           responses
                             .filter(r => r.employee_metadata?.branch === 'used')
-                            .map(r => r.responses?.u_impact_workplace)
+                            .map(r => r.responses?.u_impact_consistency)
                             .filter(v => v !== undefined)
                         )}
                       </p>
-                      <p className="text-xs text-muted-foreground">átlag (1-5 skála) - mennyire javult a munkahely megítélése</p>
+                      <p className="text-xs text-muted-foreground">átlag (1-5 skála) - szolgáltatás minőségének konzisztenciája</p>
                     </CardContent>
                   </Card>
                 </div>
@@ -1014,7 +1014,7 @@ const Statistics = () => {
                         {Object.entries(
                           countOccurrences(
                             responses
-                              .map(r => r.employee_metadata?.gender)
+                              .map(r => r.responses?.gender)
                               .filter(Boolean)
                           )
                         ).map(([gender, count]) => (
@@ -1043,70 +1043,12 @@ const Statistics = () => {
                         {Object.entries(
                           countOccurrences(
                             responses
-                              .map(r => r.employee_metadata?.age_group)
+                              .map(r => r.responses?.age)
                               .filter(Boolean)
                           )
                         ).map(([age, count]) => (
                           <div key={age} className="flex justify-between items-center">
                             <span className="text-sm">{age}</span>
-                            <div className="flex items-center gap-2">
-                              <div className="w-32 bg-muted rounded-full h-2">
-                                <div
-                                  className="bg-primary h-2 rounded-full"
-                                  style={{ width: `${formatPercentage(count as number, totalResponses)}%` }}
-                                />
-                              </div>
-                              <span className="text-sm font-medium w-12 text-right">{count as number}</span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-sm">Részleg megoszlás</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-2">
-                        {Object.entries(
-                          countOccurrences(
-                            responses
-                              .map(r => r.employee_metadata?.department)
-                              .filter(Boolean)
-                          )
-                        ).map(([dept, count]) => (
-                          <div key={dept} className="flex justify-between items-center">
-                            <span className="text-sm">{dept}</span>
-                            <div className="flex items-center gap-2">
-                              <div className="w-32 bg-muted rounded-full h-2">
-                                <div
-                                  className="bg-primary h-2 rounded-full"
-                                  style={{ width: `${formatPercentage(count as number, totalResponses)}%` }}
-                                />
-                              </div>
-                              <span className="text-sm font-medium w-12 text-right">{count as number}</span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-sm">Pozíció megoszlás</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-2">
-                        {Object.entries(
-                          countOccurrences(
-                            responses
-                              .map(r => r.employee_metadata?.position)
-                              .filter(Boolean)
-                          )
-                        ).map(([pos, count]) => (
-                          <div key={pos} className="flex justify-between items-center">
-                            <span className="text-sm">{pos}</span>
                             <div className="flex items-center gap-2">
                               <div className="w-32 bg-muted rounded-full h-2">
                                 <div
