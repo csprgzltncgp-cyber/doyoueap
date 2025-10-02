@@ -38,7 +38,7 @@ export const GaugeChart = ({
         >
           <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
           <RadialBar
-            background={{ fill: 'hsl(var(--muted))' }}
+            background
             dataKey="value"
             cornerRadius={10}
             fill={getColor()}
