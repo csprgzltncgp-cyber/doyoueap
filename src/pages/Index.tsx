@@ -81,8 +81,7 @@ const Index = () => {
       <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <img src="/src/assets/doyoueap-logo.png" alt="DoYouEAP" className="h-8" />
-            <span className="font-bold text-xl">DoYouEAP</span>
+            <img src="/src/assets/doyoueap-logo.png" alt="doyoueap" className="h-8" />
           </div>
           <nav className="hidden md:flex gap-6">
             <a href="#home" className="text-sm hover:text-primary transition-colors">Főoldal</a>
@@ -91,7 +90,8 @@ const Index = () => {
             <a href="#elonyok" className="text-sm hover:text-primary transition-colors">Előnyök</a>
             <a href="#arak" className="text-sm hover:text-primary transition-colors">Árak</a>
           </nav>
-          <Button onClick={() => navigate('/auth')}>
+          <Button onClick={() => navigate('/auth')} className="flex items-center gap-2">
+            <img src="/src/assets/doyoueap-logo.png" alt="doyoueap" className="h-5" />
             Bejelentkezés
           </Button>
         </div>
@@ -219,6 +219,164 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Pricing Section */}
+      <section id="arak" className="py-16 px-4 bg-muted/30">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Árak és csomagok</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Válassza ki a cégének megfelelő csomagot
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Starter */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl">Starter</CardTitle>
+                <CardDescription>Kis cégeknek, 50-250 fő</CardDescription>
+                <div className="mt-4">
+                  <div className="text-3xl font-bold">149 €<span className="text-lg font-normal text-muted-foreground">/hó</span></div>
+                  <div className="text-sm text-muted-foreground mt-1">vagy 1 490 €/év</div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <div>
+                      <p className="font-medium">Évente max. 1 audit</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <div>
+                      <p className="font-medium">Alap KPI-k</p>
+                      <p className="text-sm text-muted-foreground">Awareness, Trust, Usage, Impact</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <p className="font-medium">PDF export</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <p className="font-medium">Alap kinézet</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <p className="font-medium">Email support</p>
+                  </div>
+                </div>
+                <Button className="w-full" onClick={() => navigate('/auth')}>
+                  Válassza ezt a csomagot
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Pro */}
+            <Card className="border-primary shadow-lg">
+              <CardHeader>
+                <div className="text-xs font-medium text-primary mb-2">NÉPSZERŰ</div>
+                <CardTitle className="text-2xl">Pro</CardTitle>
+                <CardDescription>Közepes cégeknek, 250-1000 fő</CardDescription>
+                <div className="mt-4">
+                  <div className="text-3xl font-bold">399 €<span className="text-lg font-normal text-muted-foreground">/hó</span></div>
+                  <div className="text-sm text-muted-foreground mt-1">vagy 3 990 €/év</div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <div>
+                      <p className="font-medium">Negyedévente audit</p>
+                      <p className="text-sm text-muted-foreground">Ismétlés funkcióval</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <div>
+                      <p className="font-medium">Bővített riportok</p>
+                      <p className="text-sm text-muted-foreground">Demográfia, trendek, összehasonlítás</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <p className="font-medium">PDF + Excel export</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <div>
+                      <p className="font-medium">Brandelhető User App</p>
+                      <p className="text-sm text-muted-foreground">Logó + 4 szín módosítható</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <p className="font-medium">Kommunikációs támogatás</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <p className="font-medium">Email + chat support</p>
+                  </div>
+                </div>
+                <Button className="w-full" onClick={() => navigate('/auth')}>
+                  Válassza ezt a csomagot
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Enterprise */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl">Enterprise</CardTitle>
+                <CardDescription>Nagyvállalatoknak, &gt;1000 fő</CardDescription>
+                <div className="mt-4">
+                  <div className="text-3xl font-bold">Egyedi ajánlat</div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <p className="font-medium">Korlátlan audit</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <div>
+                      <p className="font-medium">Teljes funkcionalitás</p>
+                      <p className="text-sm text-muted-foreground">KPI-k, trendek, benchmark, motivációk</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <p className="font-medium">PDF, Excel, PowerPoint export</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <div>
+                      <p className="font-medium">Teljes brandelés</p>
+                      <p className="text-sm text-muted-foreground">Saját domain opció</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <p className="font-medium">SSO integráció</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <p className="font-medium">Dedikált account manager</p>
+                  </div>
+                </div>
+                <Button className="w-full" variant="outline">
+                  Vegye fel velünk a kapcsolatot
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Magazine Feed */}
       <section id="magazin" className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
@@ -278,7 +436,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <h3 className="font-bold mb-4">DoYouEAP</h3>
+              <h3 className="font-bold mb-4">doyoueap</h3>
               <p className="text-sm text-muted-foreground">
                 EAP audit platform a dolgozói jóllét méréséhez
               </p>
@@ -308,7 +466,7 @@ const Index = () => {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-            © 2025 DoYouEAP. Minden jog fenntartva.
+            © 2025 doyoueap. Minden jog fenntartva.
           </div>
         </div>
       </footer>
