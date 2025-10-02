@@ -21,7 +21,7 @@ const CreateAudit = () => {
 
   // Audit data state
   const [companyName, setCompanyName] = useState('');
-  const [programName, setProgramName] = useState('DoYouEAP');
+  const [programName, setProgramName] = useState('');
   const [accessMode, setAccessMode] = useState('public_link');
   const [communicationText, setCommunicationText] = useState('');
   const [logoFile, setLogoFile] = useState<File | null>(null);
