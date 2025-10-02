@@ -41,7 +41,7 @@ const UserDashboard = () => {
   const [responses, setResponses] = useState<Record<string, any>>({});
   const [submitting, setSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState<'language_select' | 'welcome' | 'demographics' | 'branch_selector' | 'branch_questions' | 'eap_info' | 'thank_you'>('language_select');
-  const [selectedLanguage, setSelectedLanguage] = useState<string>('HU');
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('');
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
   const [currentBlockIndex, setCurrentBlockIndex] = useState(0);
 
@@ -398,13 +398,6 @@ const UserDashboard = () => {
 
   const renderLanguageSelect = () => (
     <div className="space-y-6">
-      <div className="text-center space-y-4">
-        <Globe className="h-12 w-12 mx-auto text-primary" />
-        <h2 className="text-2xl font-bold">Válassz nyelvet / Choose Language</h2>
-        <p className="text-muted-foreground">
-          Kérjük válassz nyelvet a felmérés kitöltéséhez
-        </p>
-      </div>
       <div className="grid gap-3">
         {audit?.available_languages?.map((langCode) => (
           <Button
