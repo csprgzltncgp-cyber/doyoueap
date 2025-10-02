@@ -16,6 +16,7 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [checkingInterval, setCheckingInterval] = useState<NodeJS.Timeout | null>(null);
+  const [isVerified, setIsVerified] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -66,6 +67,8 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
 
   const startCheckingVerification = (emailToCheck: string): NodeJS.Timeout => {
     return setInterval(async () => {
+      if (isVerified) return; // Skip if already verified
+      
       try {
         const { data, error } = await supabase
           .from('email_verifications')
@@ -75,6 +78,8 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
           .maybeSingle();
 
         if (data && data.verified) {
+          setIsVerified(true);
+          
           if (checkingInterval) {
             clearInterval(checkingInterval);
             setCheckingInterval(null);
@@ -85,7 +90,7 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
             description: "Folytathatja a regisztrációt.",
           });
 
-          // Don't create account, just proceed to next step
+          // Proceed to next step
           onEmailVerified();
         }
       } catch (error) {
