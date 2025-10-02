@@ -4,7 +4,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { toast } from "sonner";
-import { AwarenessTab } from "@/components/statistics/AwarenessTab";
 
 interface Audit {
   id: string;
@@ -50,34 +49,28 @@ const Statistics = () => {
     );
   }
 
-  if (!selectedAuditId) {
-    return (
-      <div className="p-8">
-        <Card>
-          <CardContent className="py-12 text-center">
-            <p className="text-muted-foreground">Nincs aktív audit. Először hozz létre egy audit-ot!</p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
   return (
     <div className="p-8 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Statisztikák</h1>
-        <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-          <SelectTrigger className="w-80">
-            <SelectValue placeholder="Válassz auditot" />
-          </SelectTrigger>
-          <SelectContent>
-            {audits.map((audit) => (
-              <SelectItem key={audit.id} value={audit.id}>
-                {audit.company_name} - {new Date(audit.created_at).toLocaleDateString('hu-HU')}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        {audits.length > 0 ? (
+          <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
+            <SelectTrigger className="w-80">
+              <SelectValue placeholder="Válassz auditot" />
+            </SelectTrigger>
+            <SelectContent>
+              {audits.map((audit) => (
+                <SelectItem key={audit.id} value={audit.id}>
+                  {audit.company_name} - {new Date(audit.created_at).toLocaleDateString('hu-HU')}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        ) : (
+          <div className="text-sm text-muted-foreground">
+            Nincs aktív audit - hozz létre egyet az adatok megjelenítéséhez
+          </div>
+        )}
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -133,19 +126,62 @@ const Statistics = () => {
         </TabsList>
 
         <TabsContent value="awareness" className="mt-6">
-          <AwarenessTab auditId={selectedAuditId} />
+          <Card>
+            <CardHeader>
+              <CardTitle>Tudatosság Riport</CardTitle>
+              <CardDescription>
+                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Használók</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-bold">0</p>
+                    <p className="text-sm text-muted-foreground">válaszadó</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Nem használók</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-bold">0</p>
+                    <p className="text-sm text-muted-foreground">válaszadó</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Összes</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-bold">0</p>
+                    <p className="text-sm text-muted-foreground">válaszadó</p>
+                  </CardContent>
+                </Card>
+              </div>
+              <div className="text-center py-12 text-muted-foreground">
+                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="trust" className="mt-6">
           <Card>
             <CardHeader>
               <CardTitle>Bizalom & Hajlandóság Riport</CardTitle>
-              <CardDescription>Hamarosan elérhető</CardDescription>
+              <CardDescription>
+                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                Az adatok betöltése folyamatban van az audit ID alapján: {selectedAuditId}
-              </p>
+              <div className="text-center py-12 text-muted-foreground">
+                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -154,12 +190,14 @@ const Statistics = () => {
           <Card>
             <CardHeader>
               <CardTitle>Használat Riport</CardTitle>
-              <CardDescription>Hamarosan elérhető</CardDescription>
+              <CardDescription>
+                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                Az adatok betöltése folyamatban van az audit ID alapján: {selectedAuditId}
-              </p>
+              <div className="text-center py-12 text-muted-foreground">
+                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -168,12 +206,14 @@ const Statistics = () => {
           <Card>
             <CardHeader>
               <CardTitle>Hatás Riport</CardTitle>
-              <CardDescription>Hamarosan elérhető</CardDescription>
+              <CardDescription>
+                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                Az adatok betöltése folyamatban van az audit ID alapján: {selectedAuditId}
-              </p>
+              <div className="text-center py-12 text-muted-foreground">
+                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -182,12 +222,14 @@ const Statistics = () => {
           <Card>
             <CardHeader>
               <CardTitle>Motiváció Riport</CardTitle>
-              <CardDescription>Hamarosan elérhető</CardDescription>
+              <CardDescription>
+                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                Az adatok betöltése folyamatban van az audit ID alapján: {selectedAuditId}
-              </p>
+              <div className="text-center py-12 text-muted-foreground">
+                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -196,12 +238,14 @@ const Statistics = () => {
           <Card>
             <CardHeader>
               <CardTitle>Demográfia Riport</CardTitle>
-              <CardDescription>Hamarosan elérhető</CardDescription>
+              <CardDescription>
+                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                Az adatok betöltése folyamatban van az audit ID alapján: {selectedAuditId}
-              </p>
+              <div className="text-center py-12 text-muted-foreground">
+                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -210,12 +254,14 @@ const Statistics = () => {
           <Card>
             <CardHeader>
               <CardTitle>Trendek Riport</CardTitle>
-              <CardDescription>Hamarosan elérhető</CardDescription>
+              <CardDescription>
+                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                Az adatok betöltése folyamatban van az audit ID alapján: {selectedAuditId}
-              </p>
+              <div className="text-center py-12 text-muted-foreground">
+                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -224,12 +270,14 @@ const Statistics = () => {
           <Card>
             <CardHeader>
               <CardTitle>Összehasonlítás Riport</CardTitle>
-              <CardDescription>Hamarosan elérhető</CardDescription>
+              <CardDescription>
+                {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                Az adatok betöltése folyamatban van az audit ID alapján: {selectedAuditId}
-              </p>
+              <div className="text-center py-12 text-muted-foreground">
+                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
