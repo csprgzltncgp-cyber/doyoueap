@@ -9,6 +9,8 @@ import { formatAuditName } from '@/lib/auditUtils';
 import { exportableCharts } from '@/lib/exportUtils';
 import { FileText, Image as ImageIcon, Download, FileSpreadsheet } from 'lucide-react';
 
+let exportIframe: HTMLIFrameElement | null = null;
+
 interface Audit {
   id: string;
   start_date: string;
@@ -27,6 +29,32 @@ const Export = () => {
 
   useEffect(() => {
     fetchAudits();
+
+    // Listen for messages from the iframe
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data.type === 'EXPORT_COMPLETE') {
+        setExporting(false);
+        toast.success('PNG sikeresen letöltve!');
+        
+        // Remove the iframe
+        if (exportIframe && exportIframe.parentNode) {
+          exportIframe.parentNode.removeChild(exportIframe);
+          exportIframe = null;
+        }
+      } else if (event.data.type === 'EXPORT_ERROR') {
+        setExporting(false);
+        toast.error('Hiba a PNG exportálás során');
+        
+        // Remove the iframe
+        if (exportIframe && exportIframe.parentNode) {
+          exportIframe.parentNode.removeChild(exportIframe);
+          exportIframe = null;
+        }
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
   }, []);
 
   const fetchAudits = async () => {
@@ -106,8 +134,25 @@ const Export = () => {
     const chart = exportableCharts.find(c => c.id === cardId);
     if (!chart) return;
 
-    // Navigate to statistics page with auto-export parameter
-    window.location.href = `/hr/statistics?tab=${chart.tab}&autoExport=${cardId}&fileName=${fileName}&returnTo=export`;
+    setExporting(true);
+    
+    // Create hidden iframe
+    if (exportIframe && exportIframe.parentNode) {
+      exportIframe.parentNode.removeChild(exportIframe);
+    }
+    
+    exportIframe = document.createElement('iframe');
+    exportIframe.style.position = 'absolute';
+    exportIframe.style.width = '0';
+    exportIframe.style.height = '0';
+    exportIframe.style.border = 'none';
+    exportIframe.style.visibility = 'hidden';
+    
+    // Set the source to the statistics page with auto-export parameters
+    exportIframe.src = `/hr/statistics?tab=${chart.tab}&autoExport=${cardId}&fileName=${fileName}&inIframe=true`;
+    
+    document.body.appendChild(exportIframe);
+    
     toast.info('Grafikon exportálása folyamatban...');
   };
 

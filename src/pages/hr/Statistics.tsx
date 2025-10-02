@@ -32,7 +32,7 @@ const Statistics = () => {
   const activeTab = searchParams.get("tab") || "overview";
   const autoExport = searchParams.get("autoExport");
   const exportFileName = searchParams.get("fileName");
-  const returnTo = searchParams.get("returnTo");
+  const inIframe = searchParams.get("inIframe") === 'true';
 
   useEffect(() => {
     fetchAudits();
@@ -50,17 +50,24 @@ const Statistics = () => {
     if (autoExport && exportFileName && !loadingResponses && responses.length > 0) {
       // Wait a bit for the DOM to render
       setTimeout(async () => {
-        await exportCardToPNG(autoExport, exportFileName);
-        
-        // Navigate back if returnTo is specified
-        if (returnTo === 'export') {
-          setTimeout(() => {
-            window.location.href = '/hr/export';
-          }, 1000);
+        try {
+          await exportCardToPNG(autoExport, exportFileName);
+          
+          // Notify parent window if in iframe
+          if (inIframe && window.parent) {
+            window.parent.postMessage({ type: 'EXPORT_COMPLETE' }, '*');
+          }
+        } catch (error) {
+          console.error('Export error:', error);
+          
+          // Notify parent window of error if in iframe
+          if (inIframe && window.parent) {
+            window.parent.postMessage({ type: 'EXPORT_ERROR' }, '*');
+          }
         }
       }, 1500);
     }
-  }, [autoExport, exportFileName, loadingResponses, responses, returnTo]);
+  }, [autoExport, exportFileName, loadingResponses, responses, inIframe]);
 
   const fetchEmployeeCount = async () => {
     try {
