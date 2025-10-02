@@ -10,6 +10,7 @@ const corsHeaders = {
 
 interface VerificationEmailRequest {
   email: string;
+  origin: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -18,7 +19,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { email }: VerificationEmailRequest = await req.json();
+    const { email, origin }: VerificationEmailRequest = await req.json();
     
     console.log("Sending verification email to:", email);
 
@@ -47,8 +48,8 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error("Failed to store verification token");
     }
 
-    // Create verification URL
-    const verificationUrl = `${Deno.env.get("SUPABASE_URL")?.replace('.supabase.co', '.lovable.app')}/verify-email?token=${token}`;
+    // Create verification URL using the frontend origin
+    const verificationUrl = `${origin}/verify-email?token=${token}`;
 
     // Send email via Resend API
     const emailResponse = await fetch("https://api.resend.com/emails", {

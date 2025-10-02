@@ -34,7 +34,10 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
 
     try {
       const { data, error } = await supabase.functions.invoke('send-verification-email', {
-        body: { email },
+        body: { 
+          email,
+          origin: window.location.origin 
+        },
       });
 
       if (error) throw error;
