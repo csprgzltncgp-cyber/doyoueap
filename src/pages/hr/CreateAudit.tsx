@@ -193,7 +193,7 @@ const CreateAudit = () => {
               onCompanyNameChange={setCompanyName}
               onEapProgramUrlChange={setEapProgramUrl}
               onNext={handleNext}
-              onBack={handleBack}
+              onBack={() => {}} 
             />
           )}
 

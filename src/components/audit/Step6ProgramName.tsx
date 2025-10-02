@@ -81,10 +81,7 @@ export const Step6ProgramName = ({
         </CardContent>
       </Card>
 
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onBack}>
-          Vissza
-        </Button>
+      <div className="flex justify-end">
         <Button onClick={onNext} disabled={!companyName.trim()}>
           Következő lépés
         </Button>
