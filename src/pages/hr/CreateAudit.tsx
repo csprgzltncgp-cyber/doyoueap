@@ -42,7 +42,7 @@ const CreateAudit = () => {
   const [selectedLanguages, setSelectedLanguages] = useState(['HU']);
   const [emailListFile, setEmailListFile] = useState<File | null>(null);
   const [accessToken, setAccessToken] = useState('');
-  const [emailSubject, setEmailSubject] = useState('Fontos információ a munkavállalói támogatási programról');
+  const [emailSubject, setEmailSubject] = useState('Segítsd jobbá tenni a {{program_név}} programot!');
   const [emailFrom, setEmailFrom] = useState('noreply@doyoueap.com');
 
   const totalSteps = 8;

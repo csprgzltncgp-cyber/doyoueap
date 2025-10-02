@@ -20,20 +20,20 @@ export const Step2Communication = ({
 }: Step2Props) => {
   const getTemplate = () => {
     if (accessMode === 'tokenes') {
-      return `Hello!
+      return `Kedves {{név}}!
 
-Segíts még jobbá tenni a {{program_név}} programot!
+Céged biztosítja számodra a {{program_név}} programot – egy olyan szolgáltatást, amely támogatást nyújt a mindennapok kihívásaiban. Legyen szó stresszről, jogi vagy pénzügyi kérdésekről, esetleg pszichológiai támogatásról, szakembereink mindig rendelkezésedre állnak.
 
-Biztosan tudod, hogy céged biztosítja számodra a {{program_név}} programot – egy olyan támogatási szolgáltatást, amely segítséget nyújt különféle munkahelyi és magánéleti helyzetekben. Legyen szó stresszről, jogi, pénzügyi kérdésekről vagy pszichológiai támogatásról, szakembereink rendelkezésedre állnak.
+Most szeretnénk, ha Te is segítenél abban, hogy a program még jobb legyen!
 
-Most itt a lehetőség, hogy pár kérdés megválaszolásával segíts nekünk még jobbá tenni ezt a programot!
-
-Kattints a linkre és töltsd ki a kérdőívet:
+Ehhez csak annyit kell tenned, hogy kitöltöd rövid kérdőívünket:
 {{audit_link}}
 
-Pár perc az egész, és tényleg sokat jelent nekünk, ha segítesz ebben. A kitöltés és a részvétel teljesen anonim, semmilyen regisztráció nem szükséges. A válaszokat csak statisztikai adatként kezeljük, összesítve.
+A kitöltés mindössze néhány percet vesz igénybe, teljesen anonim, és az eredményeket kizárólag összesítve, statisztikai célra használjuk fel.
 
-Köszönjük!
+Előre is köszönjük, hogy segítesz a {{program_név}} fejlesztésében!
+
+Üdvözlettel,
 {{cég_név}}`;
     } else if (accessMode === 'qr_code') {
       return `Kedves Kollégák!
@@ -83,7 +83,7 @@ Köszönjük a részvételt!`;
           </CardTitle>
           <CardDescription>
             {accessMode === 'tokenes' 
-              ? 'Használhat változókat: {{cég_név}}, {{program_név}}, {{audit_link}}'
+              ? 'Használhat változókat: {{név}}, {{cég_név}}, {{program_név}}, {{audit_link}}'
               : 'Használhat változókat: {{cég_név}}, {{program_név}}, {{audit_link}}'}
           </CardDescription>
         </CardHeader>
