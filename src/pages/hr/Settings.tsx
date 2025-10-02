@@ -144,8 +144,8 @@ function Settings() {
 
   const fetchAllData = async () => {
     setLoading(true);
+    await fetchProfile();
     await Promise.all([
-      fetchProfile(),
       fetchNotificationEmails(),
       fetchCompanyUsers()
     ]);
@@ -159,11 +159,16 @@ function Settings() {
       .from("profiles")
       .select("*")
       .eq("id", user.id)
-      .single();
+      .maybeSingle();
 
     if (error) {
       toast.error("Hiba a profil betöltésekor");
       console.error(error);
+      return;
+    }
+
+    if (!data) {
+      toast.error("Nincs profiladat");
       return;
     }
 
