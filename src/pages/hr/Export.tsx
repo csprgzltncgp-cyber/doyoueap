@@ -103,8 +103,14 @@ const Export = () => {
   const handleExportPNG = async (section: string) => {
     setExporting(true);
     try {
-      window.open(`/hr/statistics?tab=${section.toLowerCase()}`, '_blank');
-      toast.info(`Kérlek, nyisd meg a Statistics oldalt, majd használd a böngésző "Mentés képként" funkcióját a ${section} grafikon mentéséhez.`);
+      // Navigate to Statistics page in a new window
+      const statsWindow = window.open(`/hr/statistics?tab=${section.toLowerCase()}`, '_blank');
+      
+      if (statsWindow) {
+        toast.success(`${section} oldal megnyitva - használd a panel melletti letöltés gombokat!`);
+      } else {
+        toast.error('Nem sikerült megnyitni az új ablakot. Kérlek, engedélyezd a felugró ablakokat.');
+      }
     } catch (error) {
       console.error('Error exporting PNG:', error);
       toast.error('Hiba történt a PNG exportálás során');
@@ -353,7 +359,7 @@ const Export = () => {
             PNG Grafikonok
           </CardTitle>
           <CardDescription>
-            Egyedi grafikonok exportálása képként
+            Nyisd meg a Statistics oldalt és használd a böngésző screenshot funkcióját (Ctrl+Shift+S vagy Cmd+Shift+S)
           </CardDescription>
         </CardHeader>
         <CardContent>
