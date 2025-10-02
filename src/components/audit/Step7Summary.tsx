@@ -78,12 +78,8 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
         </CardHeader>
         <CardContent className="space-y-3">
           <div>
-            <p className="text-sm text-muted-foreground">Cég neve</p>
-            <p className="font-medium">{auditData.companyName}</p>
-          </div>
-          <div>
             <p className="text-sm text-muted-foreground">Program elnevezése</p>
-            <p className="font-medium">{auditData.programName || 'DoYouEAP'}</p>
+            <p className="font-medium">{auditData.programName || 'EAP'}</p>
           </div>
         </CardContent>
       </Card>
