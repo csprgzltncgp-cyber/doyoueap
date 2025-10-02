@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { toast } from "sonner";
-import { BarChart3, Eye, Shield, Activity, Target, Heart, Users, TrendingUp, GitCompare } from "lucide-react";
+import { BarChart3, Eye, Shield, Activity, Target, Heart, Users, TrendingUp, GitCompare, Wrench, Briefcase, Sparkles, RotateCw } from "lucide-react";
 import { formatAuditName } from "@/lib/auditUtils";
 import { RadialBarChart, RadialBar, Legend, ResponsiveContainer, Cell, PieChart, Pie, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip } from "recharts";
 import { GaugeChart } from "@/components/ui/gauge-chart";
@@ -315,76 +315,91 @@ const Statistics = () => {
                           <span className="text-sm text-muted-foreground">⭐ Általános elégedettség</span>
                           <span className="font-semibold">{satisfactionScore}/5</span>
                         </div>
-                        <div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm text-muted-foreground">📊 NPS átlag</span>
-                            <span className="font-semibold">
-                              {calculateAverage(
-                                responses
-                                  .filter(r => r.employee_metadata?.branch === 'used')
-                                  .map(r => r.responses?.u_impact_nps)
-                                  .filter(v => v !== undefined)
-                              )}/10
-                            </span>
+                          <div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-muted-foreground flex items-center gap-2">
+                                <TrendingUp className="h-4 w-4" />
+                                NPS átlag
+                              </span>
+                              <span className="font-semibold">
+                                {calculateAverage(
+                                  responses
+                                    .filter(r => r.employee_metadata?.branch === 'used')
+                                    .map(r => r.responses?.u_impact_nps)
+                                    .filter(v => v !== undefined)
+                                )}/10
+                              </span>
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-1">Ajánlási hajlandóság: mennyire ajánlaná másoknak a programot</p>
                           </div>
-                          <p className="text-xs text-muted-foreground mt-1">Ajánlási hajlandóság: mennyire ajánlaná másoknak a programot</p>
-                        </div>
-                        <div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm text-muted-foreground">🔧 Problémamegoldás</span>
-                            <span className="font-semibold">
-                              {calculateAverage(
-                                responses
-                                  .filter(r => r.employee_metadata?.branch === 'used')
-                                  .map(r => r.responses?.u_impact_problem_solving)
-                                  .filter(v => v !== undefined)
-                              )}/5
-                            </span>
+                          <div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-muted-foreground flex items-center gap-2">
+                                <Wrench className="h-4 w-4" />
+                                Problémamegoldás
+                              </span>
+                              <span className="font-semibold">
+                                {calculateAverage(
+                                  responses
+                                    .filter(r => r.employee_metadata?.branch === 'used')
+                                    .map(r => r.responses?.u_impact_problem_solving)
+                                    .filter(v => v !== undefined)
+                                )}/5
+                              </span>
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-1">Mennyire segített a program a probléma megoldásában</p>
                           </div>
-                          <p className="text-xs text-muted-foreground mt-1">Mennyire segített a program a probléma megoldásában</p>
-                        </div>
-                        <div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm text-muted-foreground">💼 Teljesítmény hatás</span>
-                            <span className="font-semibold">
-                              {calculateAverage(
-                                responses
-                                  .filter(r => r.employee_metadata?.branch === 'used')
-                                  .map(r => r.responses?.u_impact_performance)
-                                  .filter(v => v !== undefined)
-                              )}/5
-                            </span>
+                          <div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-muted-foreground flex items-center gap-2">
+                                <Briefcase className="h-4 w-4" />
+                                Teljesítmény hatás
+                              </span>
+                              <span className="font-semibold">
+                                {calculateAverage(
+                                  responses
+                                    .filter(r => r.employee_metadata?.branch === 'used')
+                                    .map(r => r.responses?.u_impact_performance)
+                                    .filter(v => v !== undefined)
+                                )}/5
+                              </span>
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-1">A program hatása a munkahelyi teljesítményre</p>
                           </div>
-                          <p className="text-xs text-muted-foreground mt-1">A program hatása a munkahelyi teljesítményre</p>
-                        </div>
-                        <div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm text-muted-foreground">🧘 Wellbeing hatás</span>
-                            <span className="font-semibold">
-                              {calculateAverage(
-                                responses
-                                  .filter(r => r.employee_metadata?.branch === 'used')
-                                  .map(r => r.responses?.u_impact_wellbeing)
-                                  .filter(v => v !== undefined)
-                              )}/5
-                            </span>
+                          <div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-muted-foreground flex items-center gap-2">
+                                <Sparkles className="h-4 w-4" />
+                                Wellbeing hatás
+                              </span>
+                              <span className="font-semibold">
+                                {calculateAverage(
+                                  responses
+                                    .filter(r => r.employee_metadata?.branch === 'used')
+                                    .map(r => r.responses?.u_impact_wellbeing)
+                                    .filter(v => v !== undefined)
+                                )}/5
+                              </span>
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-1">A program hatása az általános jóllétre és mentális egészségre</p>
                           </div>
-                          <p className="text-xs text-muted-foreground mt-1">A program hatása az általános jóllétre és mentális egészségre</p>
-                        </div>
-                        <div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm text-muted-foreground">🔄 Konzisztencia</span>
-                            <span className="font-semibold">
-                              {calculateAverage(
-                                responses
-                                  .filter(r => r.employee_metadata?.branch === 'used')
-                                  .map(r => r.responses?.u_impact_consistency)
-                                  .filter(v => v !== undefined)
-                              )}/5
-                            </span>
+                          <div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-muted-foreground flex items-center gap-2">
+                                <RotateCw className="h-4 w-4" />
+                                Konzisztencia
+                              </span>
+                              <span className="font-semibold">
+                                {calculateAverage(
+                                  responses
+                                    .filter(r => r.employee_metadata?.branch === 'used')
+                                    .map(r => r.responses?.u_impact_consistency)
+                                    .filter(v => v !== undefined)
+                                )}/5
+                              </span>
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-1">Mennyire volt konzisztens a szolgáltatás minősége minden alkalommal</p>
                           </div>
-                          <p className="text-xs text-muted-foreground mt-1">Mennyire volt konzisztens a szolgáltatás minősége minden alkalommal</p>
-                        </div>
                       </div>
                     </div>
                   </CardContent>
