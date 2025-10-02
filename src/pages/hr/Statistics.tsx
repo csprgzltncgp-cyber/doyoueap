@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { toast } from "sonner";
+import { Eye, Shield, Activity, Target, Heart, Users, TrendingUp, GitCompare } from "lucide-react";
 
 interface Audit {
   id: string;
@@ -80,50 +81,58 @@ const Statistics = () => {
           {/* Awareness – mennyien tudnak a program létezéséről */}
           <TabsTrigger 
             value="awareness" 
-            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
+            <Eye className="h-4 w-4" />
             Ismertség
           </TabsTrigger>
           <TabsTrigger 
             value="trust" 
-            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
+            <Shield className="h-4 w-4" />
             Bizalom & Hajlandóság
           </TabsTrigger>
           <TabsTrigger 
             value="usage" 
-            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
+            <Activity className="h-4 w-4" />
             Használat
           </TabsTrigger>
           <TabsTrigger 
             value="impact" 
-            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
+            <Target className="h-4 w-4" />
             Hatás
           </TabsTrigger>
           <TabsTrigger 
             value="motivation" 
-            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
+            <Heart className="h-4 w-4" />
             Motiváció
           </TabsTrigger>
           <TabsTrigger 
             value="demographics" 
-            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
+            <Users className="h-4 w-4" />
             Demográfia
           </TabsTrigger>
           <TabsTrigger 
             value="trends" 
-            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
+            <TrendingUp className="h-4 w-4" />
             Trendek
           </TabsTrigger>
           <TabsTrigger 
             value="compare" 
-            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
+            <GitCompare className="h-4 w-4" />
             Összehasonlítás
           </TabsTrigger>
         </TabsList>
