@@ -274,28 +274,72 @@ const Statistics = () => {
                             <BarChart3 className="h-4 w-4" />
                             Részvételi arány
                           </span>
-                          <span className="font-semibold">{participationRate.toFixed(1)}%</span>
+                          <div className="flex items-center gap-2">
+                            <div className="w-32 bg-muted rounded-full h-2">
+                              <div
+                                className="h-2 rounded-full"
+                                style={{ 
+                                  width: `${participationRate}%`,
+                                  backgroundColor: '#3366ff'
+                                }}
+                              />
+                            </div>
+                            <span className="font-semibold w-16 text-right">{participationRate.toFixed(1)}%</span>
+                          </div>
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-muted-foreground flex items-center gap-2">
                             <CheckCircle className="h-4 w-4" />
                             Használók (a kitöltőkből)
                           </span>
-                          <span className="font-semibold">{usageRateFromRespondents.toFixed(1)}%</span>
+                          <div className="flex items-center gap-2">
+                            <div className="w-32 bg-muted rounded-full h-2">
+                              <div
+                                className="h-2 rounded-full"
+                                style={{ 
+                                  width: `${usageRateFromRespondents}%`,
+                                  backgroundColor: '#3366ff'
+                                }}
+                              />
+                            </div>
+                            <span className="font-semibold w-16 text-right">{usageRateFromRespondents.toFixed(1)}%</span>
+                          </div>
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-muted-foreground flex items-center gap-2">
                             <XCircle className="h-4 w-4" />
                             Nem használók
                           </span>
-                          <span className="font-semibold">{((notUsedBranch / totalResponses) * 100).toFixed(1)}%</span>
+                          <div className="flex items-center gap-2">
+                            <div className="w-32 bg-muted rounded-full h-2">
+                              <div
+                                className="h-2 rounded-full"
+                                style={{ 
+                                  width: `${((notUsedBranch / totalResponses) * 100)}%`,
+                                  backgroundColor: '#3366ff'
+                                }}
+                              />
+                            </div>
+                            <span className="font-semibold w-16 text-right">{((notUsedBranch / totalResponses) * 100).toFixed(1)}%</span>
+                          </div>
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-muted-foreground flex items-center gap-2">
                             <Bell className="h-4 w-4" />
                             Nem tudtak róla
                           </span>
-                          <span className="font-semibold">{((redirectBranch / totalResponses) * 100).toFixed(1)}%</span>
+                          <div className="flex items-center gap-2">
+                            <div className="w-32 bg-muted rounded-full h-2">
+                              <div
+                                className="h-2 rounded-full"
+                                style={{ 
+                                  width: `${((redirectBranch / totalResponses) * 100)}%`,
+                                  backgroundColor: '#3366ff'
+                                }}
+                              />
+                            </div>
+                            <span className="font-semibold w-16 text-right">{((redirectBranch / totalResponses) * 100).toFixed(1)}%</span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -328,7 +372,18 @@ const Statistics = () => {
                             <Star className="h-4 w-4" />
                             Általános elégedettség
                           </span>
-                          <span className="font-semibold">{satisfactionScore}/5</span>
+                          <div className="flex items-center gap-2">
+                            <div className="w-32 bg-muted rounded-full h-2">
+                              <div
+                                className="h-2 rounded-full"
+                                style={{ 
+                                  width: `${(parseFloat(satisfactionScore) / 5) * 100}%`,
+                                  backgroundColor: '#3366ff'
+                                }}
+                              />
+                            </div>
+                            <span className="font-semibold w-16 text-right">{satisfactionScore}/5</span>
+                          </div>
                         </div>
                           <div>
                             <div className="flex justify-between items-center">
@@ -336,14 +391,30 @@ const Statistics = () => {
                                 <TrendingUp className="h-4 w-4" />
                                 NPS átlag
                               </span>
-                              <span className="font-semibold">
-                                {calculateAverage(
-                                  responses
-                                    .filter(r => r.employee_metadata?.branch === 'used')
-                                    .map(r => r.responses?.u_impact_nps)
-                                    .filter(v => v !== undefined)
-                                )}/10
-                              </span>
+                              <div className="flex items-center gap-2">
+                                <div className="w-32 bg-muted rounded-full h-2">
+                                  <div
+                                    className="h-2 rounded-full"
+                                    style={{ 
+                                      width: `${(parseFloat(calculateAverage(
+                                        responses
+                                          .filter(r => r.employee_metadata?.branch === 'used')
+                                          .map(r => r.responses?.u_impact_nps)
+                                          .filter(v => v !== undefined)
+                                      )) / 10) * 100}%`,
+                                      backgroundColor: '#3366ff'
+                                    }}
+                                  />
+                                </div>
+                                <span className="font-semibold w-16 text-right">
+                                  {calculateAverage(
+                                    responses
+                                      .filter(r => r.employee_metadata?.branch === 'used')
+                                      .map(r => r.responses?.u_impact_nps)
+                                      .filter(v => v !== undefined)
+                                  )}/10
+                                </span>
+                              </div>
                             </div>
                             <p className="text-xs text-muted-foreground mt-1">Ajánlási hajlandóság: mennyire ajánlaná másoknak a programot</p>
                           </div>
@@ -353,14 +424,30 @@ const Statistics = () => {
                                 <Wrench className="h-4 w-4" />
                                 Problémamegoldás
                               </span>
-                              <span className="font-semibold">
-                                {calculateAverage(
-                                  responses
-                                    .filter(r => r.employee_metadata?.branch === 'used')
-                                    .map(r => r.responses?.u_impact_problem_solving)
-                                    .filter(v => v !== undefined)
-                                )}/5
-                              </span>
+                              <div className="flex items-center gap-2">
+                                <div className="w-32 bg-muted rounded-full h-2">
+                                  <div
+                                    className="h-2 rounded-full"
+                                    style={{ 
+                                      width: `${(parseFloat(calculateAverage(
+                                        responses
+                                          .filter(r => r.employee_metadata?.branch === 'used')
+                                          .map(r => r.responses?.u_impact_problem_solving)
+                                          .filter(v => v !== undefined)
+                                      )) / 5) * 100}%`,
+                                      backgroundColor: '#3366ff'
+                                    }}
+                                  />
+                                </div>
+                                <span className="font-semibold w-16 text-right">
+                                  {calculateAverage(
+                                    responses
+                                      .filter(r => r.employee_metadata?.branch === 'used')
+                                      .map(r => r.responses?.u_impact_problem_solving)
+                                      .filter(v => v !== undefined)
+                                  )}/5
+                                </span>
+                              </div>
                             </div>
                             <p className="text-xs text-muted-foreground mt-1">Mennyire segített a program a probléma megoldásában</p>
                           </div>
@@ -370,14 +457,30 @@ const Statistics = () => {
                                 <Briefcase className="h-4 w-4" />
                                 Teljesítmény hatás
                               </span>
-                              <span className="font-semibold">
-                                {calculateAverage(
-                                  responses
-                                    .filter(r => r.employee_metadata?.branch === 'used')
-                                    .map(r => r.responses?.u_impact_performance)
-                                    .filter(v => v !== undefined)
-                                )}/5
-                              </span>
+                              <div className="flex items-center gap-2">
+                                <div className="w-32 bg-muted rounded-full h-2">
+                                  <div
+                                    className="h-2 rounded-full"
+                                    style={{ 
+                                      width: `${(parseFloat(calculateAverage(
+                                        responses
+                                          .filter(r => r.employee_metadata?.branch === 'used')
+                                          .map(r => r.responses?.u_impact_performance)
+                                          .filter(v => v !== undefined)
+                                      )) / 5) * 100}%`,
+                                      backgroundColor: '#3366ff'
+                                    }}
+                                  />
+                                </div>
+                                <span className="font-semibold w-16 text-right">
+                                  {calculateAverage(
+                                    responses
+                                      .filter(r => r.employee_metadata?.branch === 'used')
+                                      .map(r => r.responses?.u_impact_performance)
+                                      .filter(v => v !== undefined)
+                                  )}/5
+                                </span>
+                              </div>
                             </div>
                             <p className="text-xs text-muted-foreground mt-1">A program hatása a munkahelyi teljesítményre</p>
                           </div>
@@ -387,14 +490,30 @@ const Statistics = () => {
                                 <Sparkles className="h-4 w-4" />
                                 Wellbeing hatás
                               </span>
-                              <span className="font-semibold">
-                                {calculateAverage(
-                                  responses
-                                    .filter(r => r.employee_metadata?.branch === 'used')
-                                    .map(r => r.responses?.u_impact_wellbeing)
-                                    .filter(v => v !== undefined)
-                                )}/5
-                              </span>
+                              <div className="flex items-center gap-2">
+                                <div className="w-32 bg-muted rounded-full h-2">
+                                  <div
+                                    className="h-2 rounded-full"
+                                    style={{ 
+                                      width: `${(parseFloat(calculateAverage(
+                                        responses
+                                          .filter(r => r.employee_metadata?.branch === 'used')
+                                          .map(r => r.responses?.u_impact_wellbeing)
+                                          .filter(v => v !== undefined)
+                                      )) / 5) * 100}%`,
+                                      backgroundColor: '#3366ff'
+                                    }}
+                                  />
+                                </div>
+                                <span className="font-semibold w-16 text-right">
+                                  {calculateAverage(
+                                    responses
+                                      .filter(r => r.employee_metadata?.branch === 'used')
+                                      .map(r => r.responses?.u_impact_wellbeing)
+                                      .filter(v => v !== undefined)
+                                  )}/5
+                                </span>
+                              </div>
                             </div>
                             <p className="text-xs text-muted-foreground mt-1">A program hatása az általános jóllétre és mentális egészségre</p>
                           </div>
@@ -404,14 +523,30 @@ const Statistics = () => {
                                 <RotateCw className="h-4 w-4" />
                                 Konzisztencia
                               </span>
-                              <span className="font-semibold">
-                                {calculateAverage(
-                                  responses
-                                    .filter(r => r.employee_metadata?.branch === 'used')
-                                    .map(r => r.responses?.u_impact_consistency)
-                                    .filter(v => v !== undefined)
-                                )}/5
-                              </span>
+                              <div className="flex items-center gap-2">
+                                <div className="w-32 bg-muted rounded-full h-2">
+                                  <div
+                                    className="h-2 rounded-full"
+                                    style={{ 
+                                      width: `${(parseFloat(calculateAverage(
+                                        responses
+                                          .filter(r => r.employee_metadata?.branch === 'used')
+                                          .map(r => r.responses?.u_impact_consistency)
+                                          .filter(v => v !== undefined)
+                                      )) / 5) * 100}%`,
+                                      backgroundColor: '#3366ff'
+                                    }}
+                                  />
+                                </div>
+                                <span className="font-semibold w-16 text-right">
+                                  {calculateAverage(
+                                    responses
+                                      .filter(r => r.employee_metadata?.branch === 'used')
+                                      .map(r => r.responses?.u_impact_consistency)
+                                      .filter(v => v !== undefined)
+                                  )}/5
+                                </span>
+                              </div>
                             </div>
                             <p className="text-xs text-muted-foreground mt-1">Mennyire volt konzisztens a szolgáltatás minősége minden alkalommal</p>
                           </div>
