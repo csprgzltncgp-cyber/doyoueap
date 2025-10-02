@@ -20,18 +20,16 @@ export const Step2Communication = ({
 }: Step2Props) => {
   const getTemplate = () => {
     if (accessMode === 'tokenes') {
-      return `Kedves {{név}}!
+      return `Helló!
 
-Céged biztosítja számodra a {{program_név}} programot – egy olyan szolgáltatást, amely támogatást nyújt a mindennapok kihívásaiban. Legyen szó stresszről, jogi vagy pénzügyi kérdésekről, esetleg pszichológiai támogatásról, szakembereink mindig rendelkezésedre állnak.
+A {{program_név}} azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
 
-Most szeretnénk, ha Te is segítenél abban, hogy a program még jobb legyen!
-
-Ehhez csak annyit kell tenned, hogy kitöltöd rövid kérdőívünket:
+Kérjük, töltsd ki rövid kérdőívünket, amelyet az alábbi linken érsz el:
 {{audit_link}}
 
-A kitöltés mindössze néhány percet vesz igénybe, teljesen anonim, és az eredményeket kizárólag összesítve, statisztikai célra használjuk fel.
+A kitöltés csak néhány percet vesz igénybe. A válaszadás teljesen anonim, és az eredményeket kizárólag összesítve, statisztikai célokra használjuk.
 
-Előre is köszönjük, hogy segítesz a {{program_név}} fejlesztésében!
+Előre is köszönjük, hogy segítesz jobbá tenni a {{program_név}} programot!
 
 Üdvözlettel,
 {{cég_név}}`;
@@ -48,20 +46,19 @@ Szkenneld be a QR kódot és töltsd ki a kérdőívet – pár perc az egész, 
 
 Köszönjük!`;
     } else {
-      return `Kedves Kollégák!
+      return `Helló!
 
-Segítsetek még jobbá tenni a {{program_név}} programot!
+A {{program_név}} azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
 
-Biztosan tudjátok, hogy cégünk biztosítja számotokra a {{program_név}} programot – egy olyan támogatási szolgáltatást, amely segítséget nyújt különféle munkahelyi és magánéleti helyzetekben. Legyen szó stresszről, jogi, pénzügyi kérdésekről vagy pszichológiai támogatásról, szakembereink rendelkezésetekre állnak.
-
-Most itt a lehetőség, hogy pár kérdés megválaszolásával segítsetek nekünk még jobbá tenni ezt a programot!
-
-Kattintsatok a linkre és töltsétek ki a kérdőívet:
+Kérjük, töltsd ki rövid kérdőívünket, amelyet az alábbi linken érsz el:
 {{audit_link}}
 
-Pár perc az egész, és tényleg sokat jelent nekünk, ha segítetek ebben. A kitöltés és a részvétel teljesen anonim, semmilyen regisztráció nem szükséges. A válaszokat csak statisztikai adatként kezeljük, összesítve.
+A kitöltés csak néhány percet vesz igénybe. A válaszadás teljesen anonim, és az eredményeket kizárólag összesítve, statisztikai célokra használjuk.
 
-Köszönjük a részvételt!`;
+Előre is köszönjük, hogy segítesz jobbá tenni a {{program_név}} programot!
+
+Üdvözlettel,
+{{cég_név}}`;
     }
   };
 
@@ -82,9 +79,7 @@ Köszönjük a részvételt!`;
              'Belső kommunikációs szöveg'}
           </CardTitle>
           <CardDescription>
-            {accessMode === 'tokenes' 
-              ? 'Használhat változókat: {{név}}, {{cég_név}}, {{program_név}}, {{audit_link}}'
-              : 'Használhat változókat: {{cég_név}}, {{program_név}}, {{audit_link}}'}
+            Használhat változókat: {'{'}{'{'} cég_név {'}'}{'}'},  {'{'}{'{'} program_név {'}'}{'}'},  {'{'}{'{'} audit_link {'}'}{'}'} 
           </CardDescription>
         </CardHeader>
         <CardContent>

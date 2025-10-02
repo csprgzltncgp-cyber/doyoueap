@@ -136,7 +136,7 @@ export const Step3Distribution = ({
       <Alert className="border-info/50 bg-info/10">
         <Info className="h-4 w-4" />
         <AlertDescription>
-          <strong>Fontos:</strong> A táblázatnak tartalmaznia kell egy "email" és egy "név" oszlopot. 
+          <strong>Fontos:</strong> A táblázatnak tartalmaznia kell egy "email" oszlopot. 
           Támogatott formátumok: CSV, Excel (.xlsx)
         </AlertDescription>
       </Alert>
@@ -150,7 +150,7 @@ export const Step3Distribution = ({
         </CardHeader>
         <CardContent>
           <Button variant="outline" className="w-full" onClick={() => {
-            const csvContent = "email,név\npelda@ceg.hu,Kovács János\npelda2@ceg.hu,Nagy Anna\npelda3@ceg.hu,Kiss Péter";
+            const csvContent = "email\npelda@ceg.hu\npelda2@ceg.hu\npelda3@ceg.hu";
             const blob = new Blob([csvContent], { type: 'text/csv' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
