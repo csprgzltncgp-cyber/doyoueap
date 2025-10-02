@@ -12,6 +12,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import HRDashboard from "./pages/HRDashboard";
 import CreateAudit from "./pages/hr/CreateAudit";
 import RunningAudits from "./pages/hr/RunningAudits";
+import AuditQuestionnaire from "./pages/hr/AuditQuestionnaire";
 import Statistics from "./pages/hr/Statistics";
 import Export from "./pages/hr/Export";
 import Settings from "./pages/hr/Settings";
@@ -87,7 +88,17 @@ const App = () => (
             } 
           />
           <Route 
-            path="/hr/statistics" 
+            path="/hr/audit-questionnaire" 
+            element={
+              <ProtectedRoute allowedRoles={['hr']}>
+                <HRLayout>
+                  <AuditQuestionnaire />
+                </HRLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/hr/statistics"
             element={
               <ProtectedRoute allowedRoles={['hr']}>
                 <HRLayout>
