@@ -25,12 +25,26 @@ export const Step6ProgramName = ({
       <Card>
         <CardHeader>
           <CardTitle>Program neve</CardTitle>
-          <CardDescription>
-            Add meg az EAP program cégeden belüli elnevezését (maximum 60 karakter). 
-            Ez az elnevezés csak a kérdőív legelső kérdésében fog megjelenni: „Tudtad, hogy a munkahelyeden elérhető egy támogatási program, amit &lt;program neve&gt; néven ismerhetsz? Ez a szolgáltatás segítséget nyújt neked és családodnak különböző munkahelyi vagy magánéleti kihívások kezeléséhez, például stresszhelyzetekben, konfliktusok megoldásában vagy akár pénzügyi tanácsadásban is."
-            A kérdőív további részében mindig általános „program" megnevezéssel hivatkozunk rá, így biztosítva az egységes és könnyen érthető kommunikációt.
-            Ha üresen hagyod, akkor „EAP" lesz az alapértelmezett elnevezés.
-          </CardDescription>
+          <div className="space-y-3 mt-4 text-foreground">
+            <p className="leading-relaxed">
+              Add meg az EAP program cégeden belüli elnevezését (maximum 60 karakter).
+            </p>
+            <p className="leading-relaxed">
+              Ez az elnevezés csak a kérdőív legelső kérdésében fog megjelenni:
+            </p>
+            <p className="italic leading-relaxed pl-4 border-l-2 border-primary/30">
+              „Tudtad, hogy a munkahelyeden elérhető egy támogatási program, amit &lt;program neve&gt; néven ismerhetsz? 
+              Ez a szolgáltatás segítséget nyújt neked és családodnak különböző munkahelyi vagy magánéleti kihívások kezeléséhez, 
+              például stresszhelyzetekben, konfliktusok megoldásában vagy akár pénzügyi tanácsadásban is."
+            </p>
+            <p className="leading-relaxed">
+              A kérdőív további részében mindig általános „program" megnevezéssel hivatkozunk rá, 
+              így biztosítva az egységes és könnyen érthető kommunikációt.
+            </p>
+            <p className="leading-relaxed text-sm">
+              Ha üresen hagyod, akkor „EAP" lesz az alapértelmezett elnevezés.
+            </p>
+          </div>
         </CardHeader>
         <CardContent>
           <Input
