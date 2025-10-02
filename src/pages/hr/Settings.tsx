@@ -146,7 +146,6 @@ function Settings() {
   }, [user]);
 
   const fetchAllData = async () => {
-    console.log("fetchAllData started, user:", user?.id);
     setLoading(true);
     try {
       await fetchProfile();
@@ -157,25 +156,18 @@ function Settings() {
     } catch (err) {
       console.error("Error in fetchAllData:", err);
     } finally {
-      console.log("fetchAllData finished");
       setLoading(false);
     }
   };
 
   const fetchProfile = async () => {
-    if (!user) {
-      console.log("fetchProfile: no user");
-      return;
-    }
+    if (!user) return;
 
-    console.log("fetchProfile: fetching for user", user.id);
     const { data, error } = await supabase
       .from("profiles")
       .select("*")
       .eq("id", user.id)
       .maybeSingle();
-
-    console.log("fetchProfile result:", { data, error });
 
     if (error) {
       toast.error("Hiba a profil betöltésekor");
@@ -184,12 +176,10 @@ function Settings() {
     }
 
     if (!data) {
-      console.log("fetchProfile: no data found");
       toast.error("Nincs profiladat");
       return;
     }
 
-    console.log("fetchProfile: setting profile data");
     setProfileData(data);
     setSelectedPackageTemp(data.selected_package);
     setSelectedCycleTemp(data.billing_cycle);
