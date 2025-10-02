@@ -20,7 +20,7 @@ export const Step2Communication = ({
 }: Step2Props) => {
   const getTemplate = () => {
     if (accessMode === 'tokenes') {
-      return `Kedves {{név}}!
+      return `Hello!
 
 Segíts még jobbá tenni a {{program_név}} programot!
 
@@ -82,7 +82,9 @@ Köszönjük a részvételt!`;
              'Belső kommunikációs szöveg'}
           </CardTitle>
           <CardDescription>
-            Használhat változókat: {'{'}{'{'} név{'}'}{'}'},  {'{'}{'{'} cég_név{'}'}{'}'},  {'{'}{'{'} program_név{'}'}{'}'},  {'{'}{'{'} audit_link{'}'}{'}'} 
+            {accessMode === 'tokenes' 
+              ? 'Használhat változókat: {{cég_név}}, {{program_név}}, {{audit_link}}'
+              : 'Használhat változókat: {{cég_név}}, {{program_név}}, {{audit_link}}'}
           </CardDescription>
         </CardHeader>
         <CardContent>
