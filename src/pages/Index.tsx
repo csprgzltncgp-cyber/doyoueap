@@ -6,8 +6,15 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { ArrowRight, CheckCircle, TrendingUp, Users, FileText, Award } from 'lucide-react';
 
 const Index = () => {
-  const { user, role, loading } = useAuth();
+  const { user, role, loading, signOut } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Sign out on homepage to ensure clean state
+    if (user) {
+      signOut();
+    }
+  }, []);
 
   useEffect(() => {
     if (!loading && user && role) {
