@@ -69,7 +69,7 @@ export const Step6ProgramName = ({
               type="url"
               value={eapProgramUrl}
               onChange={(e) => onEapProgramUrlChange(e.target.value)}
-              placeholder="http://"
+              placeholder="https://"
             />
             <p className="text-sm text-muted-foreground">
               Erre a weboldalra irányítjuk azokat a munkavállalókat, akik még nem ismerik a programot.
