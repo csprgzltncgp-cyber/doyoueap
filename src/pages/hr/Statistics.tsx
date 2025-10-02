@@ -832,16 +832,16 @@ const Statistics = () => {
                     <div>
                       <CardTitle>Awareness Mutatók - Összesített</CardTitle>
                       <CardDescription>
-                        Válaszadók megoszlása
+                        Válaszadók megoszlása - használók vs. nem használók
                       </CardDescription>
                     </div>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => exportCardToPNG('awareness-pie-card', 'awareness-megoszlas')}
+                      className="h-8 w-8 p-0"
                     >
-                      <Download className="h-4 w-4 mr-2" />
-                      PNG letöltés
+                      <Download className="h-4 w-4" />
                     </Button>
                   </div>
                 </CardHeader>
@@ -877,16 +877,16 @@ const Statistics = () => {
                     <div>
                       <CardTitle>Awareness Mutatók - Részletes</CardTitle>
                       <CardDescription>
-                        Likert skála átlagok (1-5), ahol 5 = teljes mértékben
+                        Likert skála átlagok (1-5), ahol 1 = egyáltalán nem, 5 = teljes mértékben
                       </CardDescription>
                     </div>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => exportCardToPNG('awareness-bar-card', 'awareness-reszletes')}
+                      className="h-8 w-8 p-0"
                     >
-                      <Download className="h-4 w-4 mr-2" />
-                      PNG letöltés
+                      <Download className="h-4 w-4" />
                     </Button>
                   </div>
                 </CardHeader>
@@ -944,6 +944,7 @@ const Statistics = () => {
                       <Card>
                         <CardHeader>
                           <CardTitle className="text-lg">Szolgáltatás megértése</CardTitle>
+                          <CardDescription>Mennyire értik a munkavállalók, hogy mit nyújt az EAP program (1-5 skála)</CardDescription>
                         </CardHeader>
                         <CardContent>
                           <div className="grid grid-cols-2 gap-4">
@@ -976,6 +977,7 @@ const Statistics = () => {
                       <Card>
                         <CardHeader>
                           <CardTitle className="text-lg">Igénybevételi tudás</CardTitle>
+                          <CardDescription>Mennyire tudják a használók, hogyan vehetik igénybe a szolgáltatást (1-5 skála)</CardDescription>
                         </CardHeader>
                         <CardContent>
                           <div className="grid grid-cols-2 gap-4">
@@ -1001,6 +1003,7 @@ const Statistics = () => {
                       <Card>
                         <CardHeader>
                           <CardTitle className="text-lg">Elérhetőség érzete</CardTitle>
+                          <CardDescription>Mennyire érzik elérhetőnek a használók az EAP szolgáltatást (1-5 skála)</CardDescription>
                         </CardHeader>
                         <CardContent>
                           <div className="grid grid-cols-2 gap-4">
