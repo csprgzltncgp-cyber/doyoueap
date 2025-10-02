@@ -7,6 +7,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import { QuestionRenderer } from '@/components/survey/QuestionRenderer';
 import { Progress } from '@/components/ui/progress';
+import { Globe } from 'lucide-react';
 import logo from '@/assets/doyoueap-logo.png';
 
 interface Questionnaire {
@@ -27,6 +28,7 @@ interface Audit {
   expires_at: string | null;
   logo_url: string | null;
   eap_program_url: string | null;
+  available_languages: string[];
   questionnaire: Questionnaire;
 }
 
@@ -37,7 +39,8 @@ const UserDashboard = () => {
   const [error, setError] = useState<string | null>(null);
   const [responses, setResponses] = useState<Record<string, any>>({});
   const [submitting, setSubmitting] = useState(false);
-  const [currentStep, setCurrentStep] = useState<'welcome' | 'demographics' | 'branch_selector' | 'branch_questions' | 'eap_info' | 'thank_you'>('welcome');
+  const [currentStep, setCurrentStep] = useState<'language_select' | 'welcome' | 'demographics' | 'branch_selector' | 'branch_questions' | 'eap_info' | 'thank_you'>('language_select');
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('HU');
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
   const [currentBlockIndex, setCurrentBlockIndex] = useState(0);
 
@@ -58,6 +61,7 @@ const UserDashboard = () => {
           expires_at,
           logo_url,
           eap_program_url,
+          available_languages,
           questionnaire:questionnaires (
             title,
             description,
@@ -342,6 +346,61 @@ const UserDashboard = () => {
     );
   };
 
+  const LANGUAGE_NAMES: Record<string, string> = {
+    HU: 'Magyar',
+    EN: 'English',
+    DE: 'Deutsch',
+    FR: 'Français',
+    ES: 'Español',
+    IT: 'Italiano',
+    PT: 'Português',
+    RO: 'Română',
+    PL: 'Polski',
+    NL: 'Nederlands',
+    SV: 'Svenska',
+    DA: 'Dansk',
+    FI: 'Suomi',
+    NO: 'Norsk',
+    CS: 'Čeština',
+    SK: 'Slovenčina',
+    BG: 'Български',
+    HR: 'Hrvatski',
+    EL: 'Ελληνικά',
+    ZH: '中文',
+    JA: '日本語',
+    KO: '한국어',
+    AR: 'العربية',
+    RU: 'Русский',
+    TR: 'Türkçe',
+  };
+
+  const renderLanguageSelect = () => (
+    <div className="space-y-6">
+      <div className="text-center space-y-4">
+        <Globe className="h-12 w-12 mx-auto text-primary" />
+        <h2 className="text-2xl font-bold">Válassz nyelvet / Choose Language</h2>
+        <p className="text-muted-foreground">
+          Kérjük válassz nyelvet a felmérés kitöltéséhez
+        </p>
+      </div>
+      <div className="grid gap-3">
+        {audit?.available_languages?.map((langCode) => (
+          <Button
+            key={langCode}
+            variant={selectedLanguage === langCode ? "default" : "outline"}
+            className="w-full justify-start text-lg py-6"
+            onClick={() => {
+              setSelectedLanguage(langCode);
+              setCurrentStep('welcome');
+            }}
+          >
+            {LANGUAGE_NAMES[langCode] || langCode}
+          </Button>
+        ))}
+      </div>
+    </div>
+  );
+
   const renderWelcome = () => (
     <div className="space-y-6 text-center">
       <div className="space-y-4">
@@ -420,6 +479,7 @@ const UserDashboard = () => {
             )}
           </CardHeader>
           <CardContent>
+            {currentStep === 'language_select' && renderLanguageSelect()}
             {currentStep === 'welcome' && renderWelcome()}
             {currentStep === 'demographics' && renderDemographics()}
             {currentStep === 'branch_selector' && renderBranchSelector()}
