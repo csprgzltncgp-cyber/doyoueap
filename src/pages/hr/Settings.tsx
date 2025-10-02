@@ -298,57 +298,6 @@ function Settings() {
   };
 
   const handleSaveDataRetention = async () => {
-    if (!user || !profileData) return;
-
-    setSaving(true);
-    const { error } = await supabase
-      .from("profiles")
-      .update({
-        data_retention_days: profileData.data_retention_days,
-      })
-      .eq("id", user.id);
-
-    if (error) {
-      toast.error("Hiba az adatmegőrzés mentésekor");
-      console.error(error);
-    } else {
-      toast.success("Adatmegőrzés sikeresen mentve");
-    }
-    setSaving(false);
-  };
-
-  const handleSaveLanguages = async () => {
-    if (!user || !profileData) return;
-
-    setSaving(true);
-    const { error } = await supabase
-      .from("profiles")
-      .update({
-        preferred_languages: profileData.preferred_languages,
-      })
-      .eq("id", user.id);
-
-    if (error) {
-      toast.error("Hiba a nyelvek mentésekor");
-      console.error(error);
-    } else {
-      toast.success("Nyelvek sikeresen mentve");
-    }
-    setSaving(false);
-  };
-
-  const handleLanguageToggle = (langCode: string) => {
-    if (!profileData) return;
-    
-    const currentLangs = profileData.preferred_languages || [];
-    const newLangs = currentLangs.includes(langCode)
-      ? currentLangs.filter(l => l !== langCode)
-      : [...currentLangs, langCode];
-    
-    setProfileData({ ...profileData, preferred_languages: newLangs });
-  };
-
-  const handleInviteUser = async () => {
     if (!user || !newUserEmail || !profileData?.company_name) return;
 
     const token = Math.random().toString(36).substring(2, 15);
@@ -1132,31 +1081,6 @@ function Settings() {
               <Plus className="h-4 w-4" />
             </Button>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Nyelvi beállítások */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Nyelvi beállítások</CardTitle>
-          <CardDescription>Választható nyelvek az auditokhoz</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-3 gap-4">
-            {WORLD_LANGUAGES.map((lang) => (
-              <div key={lang.code} className="flex items-center space-x-2">
-                <Checkbox
-                  checked={profileData.preferred_languages?.includes(lang.code)}
-                  onCheckedChange={() => handleLanguageToggle(lang.code)}
-                />
-                <label>{lang.name}</label>
-              </div>
-            ))}
-          </div>
-          <Button onClick={handleSaveLanguages} disabled={saving}>
-            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Mentés
-          </Button>
         </CardContent>
       </Card>
 
