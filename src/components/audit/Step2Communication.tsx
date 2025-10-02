@@ -29,7 +29,7 @@ export const Step2Communication = ({
       return `Tárgy: Segítsd jobbá tenni a ${program} programot!
 Helló!
 
-A ${program} azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
+A ${program} program azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
 
 Kérjük, töltsd ki rövid kérdőívünket, amelyet az alábbi linken érsz el:
 
@@ -58,7 +58,7 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
     } else {
       return `Helló!
 
-A ${program} azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
+A ${program} program azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
 
 Kérjük, töltsd ki rövid kérdőívünket, amelyet az alábbi linken érsz el:
 
