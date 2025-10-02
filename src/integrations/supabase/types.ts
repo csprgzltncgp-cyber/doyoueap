@@ -52,7 +52,6 @@ export type Database = {
           access_token: string
           available_languages: string[] | null
           communication_text: string | null
-          company_name: string | null
           created_at: string
           custom_colors: Json | null
           eap_program_url: string | null
@@ -73,7 +72,6 @@ export type Database = {
           access_token: string
           available_languages?: string[] | null
           communication_text?: string | null
-          company_name?: string | null
           created_at?: string
           custom_colors?: Json | null
           eap_program_url?: string | null
@@ -94,7 +92,6 @@ export type Database = {
           access_token?: string
           available_languages?: string[] | null
           communication_text?: string | null
-          company_name?: string | null
           created_at?: string
           custom_colors?: Json | null
           eap_program_url?: string | null
