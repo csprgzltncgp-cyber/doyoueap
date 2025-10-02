@@ -94,7 +94,8 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
 
   const createUserAccount = async () => {
     try {
-      const { data, error } = await supabase.auth.signUp({
+      // First try to sign up
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -102,12 +103,27 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
         },
       });
 
-      if (error) throw error;
+      // If user already exists, sign in instead
+      if (signUpError && signUpError.message.includes('already registered')) {
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
-      toast({
-        title: "Fiók sikeresen létrehozva!",
-        description: "Most folytathatja a regisztrációt a céges adatokkal.",
-      });
+        if (signInError) throw signInError;
+
+        toast({
+          title: "Bejelentkezve!",
+          description: "Már létező fiókkal folytatja a regisztrációt.",
+        });
+      } else if (signUpError) {
+        throw signUpError;
+      } else {
+        toast({
+          title: "Fiók sikeresen létrehozva!",
+          description: "Most folytathatja a regisztrációt a céges adatokkal.",
+        });
+      }
 
       onEmailVerified();
     } catch (error: any) {
