@@ -1,4 +1,4 @@
-import { ResponsiveContainer, RadialBarChart, RadialBar } from 'recharts';
+import { ResponsiveContainer, RadialBarChart, RadialBar, PolarAngleAxis } from 'recharts';
 
 interface GaugeChartProps {
   value: number;
@@ -36,11 +36,13 @@ export const GaugeChart = ({
           startAngle={180}
           endAngle={0}
         >
+          <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
           <RadialBar
             background={{ fill: 'hsl(var(--muted))' }}
             dataKey="value"
             cornerRadius={10}
             fill={getColor()}
+            angleAxisId={0}
           />
           <text 
             x="50%" 
