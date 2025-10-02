@@ -227,9 +227,9 @@ const Index = () => {
               Válassza ki a cégének megfelelő csomagot
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8 items-stretch">
             {/* Starter */}
-            <Card>
+            <Card className="flex flex-col">
               <CardHeader>
                 <CardTitle className="text-2xl">Starter</CardTitle>
                 <CardDescription>Kis cégeknek, 50-250 fő</CardDescription>
@@ -238,8 +238,8 @@ const Index = () => {
                   <div className="text-sm text-muted-foreground mt-1">vagy 1 490 €/év</div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
+              <CardContent className="flex-1 flex flex-col justify-between">
+                <div className="space-y-2 mb-4">
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <div>
@@ -273,7 +273,7 @@ const Index = () => {
             </Card>
 
             {/* Pro */}
-            <Card className="border-primary shadow-lg">
+            <Card className="border-primary shadow-lg flex flex-col">
               <CardHeader>
                 <div className="text-xs font-medium text-primary mb-2">NÉPSZERŰ</div>
                 <CardTitle className="text-2xl">Pro</CardTitle>
@@ -283,8 +283,8 @@ const Index = () => {
                   <div className="text-sm text-muted-foreground mt-1">vagy 3 990 €/év</div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
+              <CardContent className="flex-1 flex flex-col justify-between">
+                <div className="space-y-2 mb-4">
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <div>
@@ -326,7 +326,7 @@ const Index = () => {
             </Card>
 
             {/* Enterprise */}
-            <Card>
+            <Card className="flex flex-col">
               <CardHeader>
                 <CardTitle className="text-2xl">Enterprise</CardTitle>
                 <CardDescription>Nagyvállalatoknak, &gt;1000 fő</CardDescription>
@@ -334,8 +334,8 @@ const Index = () => {
                   <div className="text-3xl font-bold">Egyedi ajánlat</div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
+              <CardContent className="flex-1 flex flex-col justify-between">
+                <div className="space-y-2 mb-4">
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <p className="font-medium">Korlátlan audit</p>
