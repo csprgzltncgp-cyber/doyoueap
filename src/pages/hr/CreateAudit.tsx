@@ -49,8 +49,8 @@ const CreateAudit = () => {
   const totalSteps = 8;
 
   const handleNext = async () => {
-    // Generate token after step 2 (before step 3)
-    if (currentStep === 2 && !accessToken) {
+    // Generate token after step 3 (communication step, before distribution)
+    if (currentStep === 3 && !accessToken) {
       try {
         const { data: tokenData, error: tokenError } = await supabase.rpc(
           'generate_access_token'
@@ -185,6 +185,19 @@ const CreateAudit = () => {
       <Card>
         <CardContent className="pt-6">
           {currentStep === 1 && (
+            <Step6ProgramName
+              programName={programName}
+              companyName={companyName}
+              eapProgramUrl={eapProgramUrl}
+              onProgramNameChange={setProgramName}
+              onCompanyNameChange={setCompanyName}
+              onEapProgramUrlChange={setEapProgramUrl}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          )}
+
+          {currentStep === 2 && (
             <Step1AccessMode
               accessMode={accessMode}
               onAccessModeChange={setAccessMode}
@@ -192,7 +205,7 @@ const CreateAudit = () => {
             />
           )}
 
-          {currentStep === 2 && (
+          {currentStep === 3 && (
             <Step2Communication
               communicationText={communicationText}
               onCommunicationTextChange={setCommunicationText}
@@ -202,7 +215,7 @@ const CreateAudit = () => {
             />
           )}
 
-          {currentStep === 3 && (
+          {currentStep === 4 && (
             <Step3Distribution
               accessMode={accessMode}
               accessToken={accessToken}
@@ -217,7 +230,7 @@ const CreateAudit = () => {
             />
           )}
 
-          {currentStep === 4 && (
+          {currentStep === 5 && (
             <Step3Branding
               logoFile={logoFile}
               customColors={customColors}
@@ -228,7 +241,7 @@ const CreateAudit = () => {
             />
           )}
 
-          {currentStep === 5 && (
+          {currentStep === 6 && (
             <Step4Timing
               startDate={startDate}
               expiresAt={expiresAt}
@@ -243,23 +256,10 @@ const CreateAudit = () => {
             />
           )}
 
-          {currentStep === 6 && (
+          {currentStep === 7 && (
             <Step5Languages
               selectedLanguages={selectedLanguages}
               onLanguagesChange={setSelectedLanguages}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
-
-          {currentStep === 7 && (
-            <Step6ProgramName
-              programName={programName}
-              companyName={companyName}
-              eapProgramUrl={eapProgramUrl}
-              onProgramNameChange={setProgramName}
-              onCompanyNameChange={setCompanyName}
-              onEapProgramUrlChange={setEapProgramUrl}
               onNext={handleNext}
               onBack={handleBack}
             />
