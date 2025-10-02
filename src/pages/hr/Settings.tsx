@@ -76,7 +76,7 @@ const WORLD_LANGUAGES = [
   { code: "TR", name: "Türkçe" },
 ];
 
-export default function Settings() {
+function Settings() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -738,3 +738,5 @@ export default function Settings() {
     </div>
   );
 }
+
+export default Settings;
