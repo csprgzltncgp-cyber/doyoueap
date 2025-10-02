@@ -90,8 +90,7 @@ const Index = () => {
             <a href="#elonyok" className="text-sm hover:text-primary transition-colors">Előnyök</a>
             <a href="#arak" className="text-sm hover:text-primary transition-colors">Árak</a>
           </nav>
-          <Button onClick={() => navigate('/auth')} className="flex items-center gap-2">
-            <img src="/src/assets/doyoueap-logo.png" alt="doyoueap" className="h-5" />
+          <Button onClick={() => navigate('/auth')}>
             Bejelentkezés
           </Button>
         </div>
