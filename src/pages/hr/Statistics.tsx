@@ -926,9 +926,19 @@ const Statistics = () => {
                     </CardHeader>
                     <CardContent>
                       <div className="grid grid-cols-3 gap-4">
-                        <Card>
+                        <Card id="trust-nu-anonymity-card">
                           <CardHeader className="pb-3">
-                            <CardTitle className="text-sm">Anonimitás (1-5 skála)</CardTitle>
+                            <div className="flex justify-between items-start">
+                              <CardTitle className="text-sm">Anonimitás (1-5 skála)</CardTitle>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => exportCardToPNG('trust-nu-anonymity-card', 'nem-használók-anonimitás')}
+                                className="h-8 w-8 p-0"
+                              >
+                                <Download className="h-4 w-4" />
+                              </Button>
+                            </div>
                           </CardHeader>
                           <CardContent>
                             <GaugeChart
@@ -945,9 +955,19 @@ const Statistics = () => {
                           </CardContent>
                         </Card>
 
-                        <Card>
+                        <Card id="trust-nu-employer-card">
                           <CardHeader className="pb-3">
-                            <CardTitle className="text-sm">Munkaadói félelem (1-5 skála)</CardTitle>
+                            <div className="flex justify-between items-start">
+                              <CardTitle className="text-sm">Munkaadói félelem (1-5 skála)</CardTitle>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => exportCardToPNG('trust-nu-employer-card', 'nem-használók-munkaadói-félelem')}
+                                className="h-8 w-8 p-0"
+                              >
+                                <Download className="h-4 w-4" />
+                              </Button>
+                            </div>
                           </CardHeader>
                           <CardContent>
                             <GaugeChart
@@ -964,9 +984,19 @@ const Statistics = () => {
                           </CardContent>
                         </Card>
 
-                        <Card>
+                        <Card id="trust-nu-colleagues-card">
                           <CardHeader className="pb-3">
-                            <CardTitle className="text-sm">Kollégai megítéléstől félelem (1-5 skála)</CardTitle>
+                            <div className="flex justify-between items-start">
+                              <CardTitle className="text-sm">Kollégai megítéléstől félelem (1-5 skála)</CardTitle>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => exportCardToPNG('trust-nu-colleagues-card', 'nem-használók-kollégák')}
+                                className="h-8 w-8 p-0"
+                              >
+                                <Download className="h-4 w-4" />
+                              </Button>
+                            </div>
                           </CardHeader>
                           <CardContent>
                             <GaugeChart
