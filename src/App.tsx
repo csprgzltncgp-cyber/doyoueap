@@ -10,9 +10,7 @@ import Auth from "./pages/Auth";
 import VerifyEmail from "./pages/VerifyEmail";
 import AdminDashboard from "./pages/AdminDashboard";
 import HRDashboard from "./pages/HRDashboard";
-import CreateAudit from "./pages/hr/CreateAudit";
-import RunningAudits from "./pages/hr/RunningAudits";
-import AuditQuestionnaire from "./pages/hr/AuditQuestionnaire";
+import EAPAudit from "./pages/hr/EAPAudit";
 import Statistics from "./pages/hr/Statistics";
 import Export from "./pages/hr/Export";
 import CustomSurvey from "./pages/hr/CustomSurvey";
@@ -63,7 +61,17 @@ const App = () => (
             element={
               <ProtectedRoute allowedRoles={['hr']}>
                 <HRLayout>
-                  <CreateAudit />
+                  <EAPAudit />
+                </HRLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/hr/eap-audit" 
+            element={
+              <ProtectedRoute allowedRoles={['hr']}>
+                <HRLayout>
+                  <EAPAudit />
                 </HRLayout>
               </ProtectedRoute>
             } 
@@ -73,7 +81,7 @@ const App = () => (
             element={
               <ProtectedRoute allowedRoles={['hr']}>
                 <HRLayout>
-                  <CreateAudit />
+                  <EAPAudit />
                 </HRLayout>
               </ProtectedRoute>
             } 
@@ -83,7 +91,7 @@ const App = () => (
             element={
               <ProtectedRoute allowedRoles={['hr']}>
                 <HRLayout>
-                  <RunningAudits />
+                  <EAPAudit />
                 </HRLayout>
               </ProtectedRoute>
             } 
@@ -93,7 +101,7 @@ const App = () => (
             element={
               <ProtectedRoute allowedRoles={['hr']}>
                 <HRLayout>
-                  <AuditQuestionnaire />
+                  <EAPAudit />
                 </HRLayout>
               </ProtectedRoute>
             } 

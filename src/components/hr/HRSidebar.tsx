@@ -1,4 +1,4 @@
-import { QrCode, BarChart3, FileText, Settings as SettingsIcon, LogOut, Activity, FileQuestion, ClipboardList, ChevronRight } from "lucide-react";
+import { QrCode, BarChart3, FileText, Settings as SettingsIcon, LogOut, ClipboardList } from "lucide-react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -9,25 +9,11 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubItem,
-  SidebarMenuSubButton,
-  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-} from "@/components/ui/collapsible";
 
-const auditMenuItems = [
-  { title: "Audit Indítása", url: "/hr/create-audit", icon: QrCode },
-  { title: "Futó Auditok", url: "/hr/running-audits", icon: Activity },
-  { title: "Demo Audit", url: "/hr/audit-questionnaire", icon: FileQuestion },
-];
-
-const otherMenuItems = [
+const menuItems = [
+  { title: "EAP Audit", url: "/hr/eap-audit", icon: QrCode },
   { title: "Egyedi közvélemény-kutatás", url: "/hr/custom-survey", icon: ClipboardList },
   { title: "Statisztikák", url: "/hr/statistics", icon: BarChart3 },
   { title: "Export & Jelentések", url: "/hr/export", icon: FileText },
@@ -45,8 +31,12 @@ export function HRSidebar() {
     navigate("/");
   };
 
-  // Check if any audit route is active
-  const isAuditActive = auditMenuItems.some(item => location.pathname === item.url);
+  // Check if EAP Audit routes are active
+  const isEAPAuditActive = 
+    location.pathname.includes('/hr/eap-audit') ||
+    location.pathname === '/hr/create-audit' ||
+    location.pathname === '/hr/running-audits' ||
+    location.pathname === '/hr/audit-questionnaire';
 
   return (
     <Sidebar collapsible="icon" className={open ? "w-60" : "w-14"}>
@@ -55,51 +45,20 @@ export function HRSidebar() {
           <SidebarGroupLabel>HR Menü</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {/* EAP Audit collapsible group */}
-              <Collapsible defaultOpen={isAuditActive} className="group/collapsible">
-                <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton>
-                      <QrCode className="h-4 w-4" />
-                      {open && <span>EAP Audit</span>}
-                      {open && (
-                        <ChevronRight className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
-                      )}
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {auditMenuItems.map((item) => (
-                        <SidebarMenuSubItem key={item.title}>
-                          <SidebarMenuSubButton asChild>
-                            <NavLink
-                              to={item.url}
-                              end
-                              className={({ isActive }) =>
-                                isActive ? "bg-muted text-primary font-medium" : "hover:bg-muted/50"
-                              }
-                            >
-                              <item.icon className="h-4 w-4" />
-                              {open && <span>{item.title}</span>}
-                            </NavLink>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                </SidebarMenuItem>
-              </Collapsible>
-
-              {/* Other menu items */}
-              {otherMenuItems.map((item) => (
+              {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink 
                       to={item.url} 
-                      end
-                      className={({ isActive }) => 
-                        isActive ? "bg-muted text-primary font-medium" : "hover:bg-muted/50"
-                      }
+                      className={({ isActive }) => {
+                        // Special handling for EAP Audit to show active state for sub-routes
+                        const shouldBeActive = item.url === '/hr/eap-audit' 
+                          ? isEAPAuditActive 
+                          : isActive;
+                        return shouldBeActive 
+                          ? "bg-muted text-primary font-medium" 
+                          : "hover:bg-muted/50";
+                      }}
                     >
                       <item.icon className="h-4 w-4" />
                       {open && <span>{item.title}</span>}
