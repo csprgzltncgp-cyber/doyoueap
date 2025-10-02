@@ -38,6 +38,7 @@ export const Step6ProgramName = ({
             value={programName}
             onChange={(e) => onProgramNameChange(e.target.value)}
             maxLength={60}
+            placeholder="Program neve"
           />
         </CardContent>
       </Card>
