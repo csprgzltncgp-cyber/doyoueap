@@ -67,4 +67,8 @@ export const exportableCharts = [
   // Demographics tab
   { id: 'demographics-gender-card', name: 'Demográfia - Nem', tab: 'demographics', fileName: 'nem-megoszlás' },
   { id: 'demographics-age-card', name: 'Demográfia - Korcsoport', tab: 'demographics', fileName: 'korcsoport-megoszlás' },
+  
+  // Awareness page charts
+  { id: 'awareness-pie-card', name: 'Awareness - Megoszlás', tab: 'awareness', fileName: 'awareness-megoszlas' },
+  { id: 'awareness-bar-card', name: 'Awareness - Részletes', tab: 'awareness', fileName: 'awareness-reszletes' },
 ];

@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { toast } from 'sonner';
 import { formatAuditName } from '@/lib/auditUtils';
+import { Button } from '@/components/ui/button';
+import { Download } from 'lucide-react';
+import { exportCardToPNG } from '@/lib/exportUtils';
 
 interface Audit {
   id: string;
@@ -203,12 +206,75 @@ const Awareness = () => {
             </Card>
           </div>
 
-          <Card>
+          <Card id="awareness-pie-card">
             <CardHeader>
-              <CardTitle>Awareness Mutatók</CardTitle>
-              <CardDescription>
-                Likert skála átlagok (1-5), ahol 5 = teljes mértékben
-              </CardDescription>
+              <div className="flex justify-between items-center">
+                <div>
+                  <CardTitle>Awareness Mutatók - Összesített</CardTitle>
+                  <CardDescription>
+                    Válaszadók megoszlása
+                  </CardDescription>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => exportCardToPNG('awareness-pie-card', 'awareness-megoszlas')}
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  PNG letöltés
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {awarenessData.length === 0 ? (
+                <div className="text-center py-12 text-muted-foreground">
+                  Még nincs adat ehhez az audithoz
+                </div>
+              ) : (
+                <ResponsiveContainer width="100%" height={400}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'Használók', value: responseCount.used, color: '#10b981' },
+                        { name: 'Nem használók', value: responseCount.notUsed, color: '#f59e0b' },
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={120}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      <Cell fill="#10b981" />
+                      <Cell fill="#f59e0b" />
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card id="awareness-bar-card">
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <div>
+                  <CardTitle>Awareness Mutatók - Részletes</CardTitle>
+                  <CardDescription>
+                    Likert skála átlagok (1-5), ahol 5 = teljes mértékben
+                  </CardDescription>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => exportCardToPNG('awareness-bar-card', 'awareness-reszletes')}
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  PNG letöltés
+                </Button>
+              </div>
             </CardHeader>
             <CardContent>
               {awarenessData.length === 0 ? (
