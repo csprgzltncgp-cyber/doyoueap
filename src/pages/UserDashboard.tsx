@@ -23,6 +23,7 @@ interface Questionnaire {
 interface Audit {
   id: string;
   company_name: string;
+  program_name: string;
   is_active: boolean;
   expires_at: string | null;
   logo_url: string | null;
@@ -54,6 +55,7 @@ const UserDashboard = () => {
         .select(`
           id,
           company_name,
+          program_name,
           is_active,
           expires_at,
           logo_url,
@@ -280,11 +282,18 @@ const UserDashboard = () => {
 
   const renderBranchSelector = () => {
     const branchSelector = audit.questionnaire.questions.branch_selector;
+    const programName = audit.program_name || 'EAP';
+    
+    // Create modified question with dynamic program name
+    const modifiedQuestion = {
+      ...branchSelector,
+      text: `Tudtad, hogy a munkahelyeden elérhető egy támogatási program, amit ${programName} néven ismerhetsz? Ez a szolgáltatás segítséget nyújt neked és családodnak különböző munkahelyi vagy magánéleti kihívások kezeléséhez, például stresszhelyzetekben, konfliktusok megoldásában vagy akár pénzügyi tanácsadásban is.`
+    };
     
     return (
       <div className="space-y-6">
         <QuestionRenderer
-          question={branchSelector}
+          question={modifiedQuestion}
           value={responses[branchSelector.id]}
           onChange={(value) => handleResponseChange(branchSelector.id, value)}
         />
