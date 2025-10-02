@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
-import { Loader2, Plus, Trash2, Send } from "lucide-react";
+import { Loader2, Plus, Trash2, Send, CreditCard, Link2, Check } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface ProfileData {
@@ -86,8 +86,13 @@ function Settings() {
   const [companyUsers, setCompanyUsers] = useState<CompanyUser[]>([]);
   const [newUserEmail, setNewUserEmail] = useState("");
   const [newUserRole, setNewUserRole] = useState("hr");
+  const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [useStripeLink, setUseStripeLink] = useState(false);
+  const [paymentMethods, setPaymentMethods] = useState([
+    { id: "1", type: "visa", last4: "4242", isDefault: true },
+  ]);
 
   useEffect(() => {
     if (user) {
@@ -319,11 +324,33 @@ function Settings() {
   };
 
   const handleChangePassword = async () => {
+    if (!oldPassword) {
+      toast.error("Add meg a jelenlegi jelszavad");
+      return;
+    }
+    
     if (newPassword !== confirmPassword) {
-      toast.error("A jelszavak nem egyeznek");
+      toast.error("Az új jelszavak nem egyeznek");
       return;
     }
 
+    if (newPassword.length < 6) {
+      toast.error("Az új jelszónak legalább 6 karakter hosszúnak kell lennie");
+      return;
+    }
+
+    // First verify old password by trying to sign in
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: profileData?.email || "",
+      password: oldPassword,
+    });
+
+    if (signInError) {
+      toast.error("Hibás jelenlegi jelszó");
+      return;
+    }
+
+    // If old password is correct, update to new password
     const { error } = await supabase.auth.updateUser({
       password: newPassword
     });
@@ -335,6 +362,7 @@ function Settings() {
     }
 
     toast.success("Jelszó sikeresen módosítva");
+    setOldPassword("");
     setNewPassword("");
     setConfirmPassword("");
   };
@@ -346,12 +374,9 @@ function Settings() {
     const { error } = await supabase
       .from("profiles")
       .update({
-        billing_address_same_as_company: profileData.billing_address_same_as_company,
         billing_address: profileData.billing_address,
         billing_city: profileData.billing_city,
         billing_postal_code: profileData.billing_postal_code,
-        selected_package: profileData.selected_package,
-        billing_cycle: profileData.billing_cycle,
       })
       .eq("id", user.id);
 
@@ -362,6 +387,53 @@ function Settings() {
       toast.success("Számlázási adatok sikeresen mentve");
     }
     setSaving(false);
+  };
+
+  const handleSavePackage = async () => {
+    if (!user || !profileData) return;
+
+    setSaving(true);
+    const { error } = await supabase
+      .from("profiles")
+      .update({
+        selected_package: profileData.selected_package,
+        billing_cycle: profileData.billing_cycle,
+      })
+      .eq("id", user.id);
+
+    if (error) {
+      toast.error("Hiba a csomag mentésekor");
+      console.error(error);
+    } else {
+      toast.success("Csomag sikeresen módosítva");
+    }
+    setSaving(false);
+  };
+
+  const handleAddPaymentMethod = () => {
+    const newId = String(paymentMethods.length + 1);
+    setPaymentMethods([
+      ...paymentMethods.map(pm => ({ ...pm, isDefault: false })),
+      { id: newId, type: "visa", last4: "0000", isDefault: true }
+    ]);
+    toast.success("Új fizetési mód hozzáadva");
+  };
+
+  const handleSetDefaultPayment = (id: string) => {
+    setPaymentMethods(paymentMethods.map(pm => ({
+      ...pm,
+      isDefault: pm.id === id
+    })));
+    toast.success("Alapértelmezett fizetési mód beállítva");
+  };
+
+  const handleDeletePaymentMethod = (id: string) => {
+    if (paymentMethods.length === 1) {
+      toast.error("Legalább egy fizetési módnak lennie kell");
+      return;
+    }
+    setPaymentMethods(paymentMethods.filter(pm => pm.id !== id));
+    toast.success("Fizetési mód törölve");
   };
 
   if (loading) {
@@ -586,46 +658,6 @@ function Settings() {
         </CardContent>
       </Card>
 
-      {/* Jogosultság kezelés */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Jogosultság kezelés</CardTitle>
-          <CardDescription>Felhasználók meghívása és szerepkörök kezelése</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            {companyUsers.map((companyUser) => (
-              <div key={companyUser.user_id} className="flex items-center justify-between p-2 border rounded">
-                <div>
-                  <p className="font-medium">{companyUser.full_name || companyUser.email}</p>
-                  <p className="text-sm text-muted-foreground">{companyUser.role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="flex gap-2">
-            <Input 
-              type="email"
-              placeholder="Email cím"
-              value={newUserEmail}
-              onChange={(e) => setNewUserEmail(e.target.value)}
-            />
-            <Select value={newUserRole} onValueChange={setNewUserRole}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="admin">Admin</SelectItem>
-                <SelectItem value="hr">HR</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button onClick={handleInviteUser}>
-              <Send className="h-4 w-4" />
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Jelszó módosítás */}
       <Card>
         <CardHeader>
@@ -634,11 +666,21 @@ function Settings() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
+            <Label>Jelenlegi jelszó</Label>
+            <Input 
+              type="password"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+              placeholder="Add meg a jelenlegi jelszavad"
+            />
+          </div>
+          <div>
             <Label>Új jelszó</Label>
             <Input 
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="Legalább 6 karakter"
             />
           </div>
           <div>
@@ -647,6 +689,7 @@ function Settings() {
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Írd be újra az új jelszót"
             />
           </div>
           <Button onClick={handleChangePassword}>
@@ -655,29 +698,197 @@ function Settings() {
         </CardContent>
       </Card>
 
+      {/* Fizetési mód */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Fizetési mód</CardTitle>
+          <CardDescription>Fizetési módok kezelése</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {/* Stripe Link option */}
+          <div className="flex items-center justify-between p-4 border rounded-lg">
+            <div className="flex items-center gap-3">
+              <Link2 className="h-5 w-5 text-primary" />
+              <div>
+                <p className="font-medium">Link fiók</p>
+                <p className="text-sm text-muted-foreground">
+                  {useStripeLink ? "example@email.com" : "Gyors fizetés Link fiókkal"}
+                </p>
+              </div>
+            </div>
+            <Button 
+              variant={useStripeLink ? "default" : "outline"}
+              onClick={() => setUseStripeLink(!useStripeLink)}
+              size="sm"
+            >
+              {useStripeLink ? 'Használatban' : 'Váltás Link-re'}
+            </Button>
+          </div>
+
+          {!useStripeLink && (
+            <>
+              <div className="space-y-2">
+                <Label>Mentett bankkártyák</Label>
+                {paymentMethods.map((method) => (
+                  <div key={method.id} className="flex items-center justify-between p-3 border rounded-lg">
+                    <div className="flex items-center gap-3">
+                      <CreditCard className="h-5 w-5" />
+                      <div>
+                        <p className="font-medium">
+                          {method.type === "visa" ? "Visa" : method.type === "mastercard" ? "Mastercard" : "Kártya"} •••• {method.last4}
+                        </p>
+                        {method.isDefault && (
+                          <p className="text-sm text-muted-foreground flex items-center gap-1">
+                            <Check className="h-3 w-3" /> Alapértelmezett
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      {!method.isDefault && (
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => handleSetDefaultPayment(method.id)}
+                        >
+                          Alapértelmezés
+                        </Button>
+                      )}
+                      <Button 
+                        variant="destructive" 
+                        size="sm"
+                        onClick={() => handleDeletePaymentMethod(method.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Button onClick={handleAddPaymentMethod} variant="outline" className="w-full">
+                <Plus className="h-4 w-4 mr-2" />
+                Új bankkártya hozzáadása
+              </Button>
+            </>
+          )}
+        </CardContent>
+      </Card>
+
       {/* Számlázási adatok */}
       <Card>
         <CardHeader>
           <CardTitle>Számlázási adatok</CardTitle>
-          <CardDescription>Csomag és számlázási információk</CardDescription>
+          <CardDescription>Számlázási cím információk</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div>
-            <Label>Csomag</Label>
-            <Select 
-              value={profileData.selected_package || "basic"}
-              onValueChange={(value) => setProfileData({...profileData, selected_package: value})}
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="basic">Alap</SelectItem>
-                <SelectItem value="professional">Professzionális</SelectItem>
-                <SelectItem value="enterprise">Vállalati</SelectItem>
-              </SelectContent>
-            </Select>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label>Cégnév (számlázáshoz)</Label>
+              <Input 
+                value={profileData.company_name || ""} 
+                onChange={(e) => setProfileData({...profileData, company_name: e.target.value})}
+              />
+            </div>
+            <div>
+              <Label>Adószám / VAT ID</Label>
+              <Input 
+                value={profileData.vat_id || ""} 
+                onChange={(e) => setProfileData({...profileData, vat_id: e.target.value})}
+              />
+            </div>
+            <div className="col-span-2">
+              <Label>Számlázási cím</Label>
+              <Input 
+                value={profileData.billing_address || ""} 
+                onChange={(e) => setProfileData({...profileData, billing_address: e.target.value})}
+                placeholder="Utca, házszám"
+              />
+            </div>
+            <div>
+              <Label>Város</Label>
+              <Input 
+                value={profileData.billing_city || ""} 
+                onChange={(e) => setProfileData({...profileData, billing_city: e.target.value})}
+              />
+            </div>
+            <div>
+              <Label>Irányítószám</Label>
+              <Input 
+                value={profileData.billing_postal_code || ""} 
+                onChange={(e) => setProfileData({...profileData, billing_postal_code: e.target.value})}
+              />
+            </div>
+            <div>
+              <Label>Ország</Label>
+              <Input 
+                value={profileData.country || ""} 
+                onChange={(e) => setProfileData({...profileData, country: e.target.value})}
+              />
+            </div>
           </div>
+          <Button onClick={handleSaveBillingData} disabled={saving}>
+            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Mentés
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Csomag és számlázási ciklus */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Előfizetési csomag</CardTitle>
+          <CardDescription>Csomag váltása és számlázási ciklus kezelése</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Current package */}
+          <div className="p-4 border-2 border-primary rounded-lg bg-primary/5">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-lg font-semibold">
+                Jelenlegi csomag: {
+                  profileData.selected_package === "starter" ? "Starter" :
+                  profileData.selected_package === "pro" ? "Pro" :
+                  profileData.selected_package === "enterprise" ? "Enterprise" : "Nincs kiválasztva"
+                }
+              </h3>
+              <span className="text-lg font-bold">
+                {profileData.selected_package === "starter" && profileData.billing_cycle === "monthly" && "149 €/hó"}
+                {profileData.selected_package === "starter" && profileData.billing_cycle === "yearly" && "1 490 €/év"}
+                {profileData.selected_package === "pro" && profileData.billing_cycle === "monthly" && "399 €/hó"}
+                {profileData.selected_package === "pro" && profileData.billing_cycle === "yearly" && "3 990 €/év"}
+                {profileData.selected_package === "enterprise" && "Egyedi"}
+              </span>
+            </div>
+            <p className="text-sm text-muted-foreground mb-3">
+              Számlázási ciklus: {profileData.billing_cycle === "monthly" ? "Havi" : "Éves"}
+            </p>
+            <ul className="text-sm space-y-1">
+              {profileData.selected_package === "starter" && (
+                <>
+                  <li>✓ 100 válaszadó/hó</li>
+                  <li>✓ Alapvető jelentések</li>
+                  <li>✓ Email támogatás</li>
+                </>
+              )}
+              {profileData.selected_package === "pro" && (
+                <>
+                  <li>✓ 500 válaszadó/hó</li>
+                  <li>✓ Haladó elemzések</li>
+                  <li>✓ Prioritási támogatás</li>
+                  <li>✓ Egyedi brandingolás</li>
+                </>
+              )}
+              {profileData.selected_package === "enterprise" && (
+                <>
+                  <li>✓ Korlátlan válaszadó</li>
+                  <li>✓ Egyedi integráció</li>
+                  <li>✓ Dedikált ügyfélmenedzser</li>
+                  <li>✓ SLA garancia</li>
+                </>
+              )}
+            </ul>
+          </div>
+
+          {/* Billing cycle selector */}
           <div>
             <Label>Számlázási ciklus</Label>
             <Select 
@@ -689,49 +900,86 @@ function Settings() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="monthly">Havi</SelectItem>
-                <SelectItem value="yearly">Éves</SelectItem>
+                <SelectItem value="yearly">Éves (2 hónap megtakarítás)</SelectItem>
               </SelectContent>
             </Select>
           </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              checked={profileData.billing_address_same_as_company || false}
-              onCheckedChange={(checked) => 
-                setProfileData({...profileData, billing_address_same_as_company: checked as boolean})
-              }
-            />
-            <label>Számlázási cím megegyezik a céges címmel</label>
-          </div>
-          {!profileData.billing_address_same_as_company && (
-            <div className="space-y-4">
-              <div>
-                <Label>Számlázási cím</Label>
-                <Input 
-                  value={profileData.billing_address || ""} 
-                  onChange={(e) => setProfileData({...profileData, billing_address: e.target.value})}
-                />
+
+          {/* Available packages */}
+          <div className="space-y-3">
+            <Label>Elérhető csomagok</Label>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Starter */}
+              <div 
+                className={`p-4 border rounded-lg cursor-pointer transition-all ${
+                  profileData.selected_package === "starter" 
+                    ? "border-primary bg-primary/5" 
+                    : "hover:border-primary/50"
+                }`}
+                onClick={() => setProfileData({...profileData, selected_package: "starter"})}
+              >
+                <h4 className="font-semibold mb-1">Starter</h4>
+                <p className="text-2xl font-bold mb-2">
+                  {profileData.billing_cycle === "monthly" ? "149 €" : "1 490 €"}
+                  <span className="text-sm font-normal text-muted-foreground">
+                    /{profileData.billing_cycle === "monthly" ? "hó" : "év"}
+                  </span>
+                </p>
+                <ul className="text-xs space-y-1">
+                  <li>100 válaszadó/hó</li>
+                  <li>Alapvető jelentések</li>
+                  <li>Email támogatás</li>
+                </ul>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label>Város</Label>
-                  <Input 
-                    value={profileData.billing_city || ""} 
-                    onChange={(e) => setProfileData({...profileData, billing_city: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <Label>Irányítószám</Label>
-                  <Input 
-                    value={profileData.billing_postal_code || ""} 
-                    onChange={(e) => setProfileData({...profileData, billing_postal_code: e.target.value})}
-                  />
-                </div>
+
+              {/* Pro */}
+              <div 
+                className={`p-4 border rounded-lg cursor-pointer transition-all ${
+                  profileData.selected_package === "pro" 
+                    ? "border-primary bg-primary/5" 
+                    : "hover:border-primary/50"
+                }`}
+                onClick={() => setProfileData({...profileData, selected_package: "pro"})}
+              >
+                <h4 className="font-semibold mb-1">Pro</h4>
+                <p className="text-2xl font-bold mb-2">
+                  {profileData.billing_cycle === "monthly" ? "399 €" : "3 990 €"}
+                  <span className="text-sm font-normal text-muted-foreground">
+                    /{profileData.billing_cycle === "monthly" ? "hó" : "év"}
+                  </span>
+                </p>
+                <ul className="text-xs space-y-1">
+                  <li>500 válaszadó/hó</li>
+                  <li>Haladó elemzések</li>
+                  <li>Egyedi branding</li>
+                </ul>
+              </div>
+
+              {/* Enterprise */}
+              <div 
+                className={`p-4 border rounded-lg cursor-pointer transition-all ${
+                  profileData.selected_package === "enterprise" 
+                    ? "border-primary bg-primary/5" 
+                    : "hover:border-primary/50"
+                }`}
+                onClick={() => setProfileData({...profileData, selected_package: "enterprise"})}
+              >
+                <h4 className="font-semibold mb-1">Enterprise</h4>
+                <p className="text-2xl font-bold mb-2">
+                  Egyedi
+                </p>
+                <ul className="text-xs space-y-1">
+                  <li>Korlátlan válaszadó</li>
+                  <li>Egyedi integráció</li>
+                  <li>SLA garancia</li>
+                </ul>
               </div>
             </div>
-          )}
-          <Button onClick={handleSaveBillingData} disabled={saving}>
+          </div>
+
+          <Button onClick={handleSavePackage} disabled={saving} size="lg" className="w-full">
             {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Mentés
+            Csomag módosítása
           </Button>
         </CardContent>
       </Card>
