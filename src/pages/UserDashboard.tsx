@@ -29,6 +29,7 @@ interface Audit {
   logo_url: string | null;
   eap_program_url: string | null;
   available_languages: string[];
+  custom_colors: { primary?: string };
   questionnaire: Questionnaire;
 }
 
@@ -62,6 +63,7 @@ const UserDashboard = () => {
           logo_url,
           eap_program_url,
           available_languages,
+          custom_colors,
           questionnaire:questionnaires (
             title,
             description,
@@ -275,7 +277,14 @@ const UserDashboard = () => {
             onChange={(value) => handleResponseChange(q.id, value)}
           />
         ))}
-        <Button onClick={handleDemographicsNext} className="w-full">
+        <Button 
+          onClick={handleDemographicsNext} 
+          className="w-full"
+          style={{
+            backgroundColor: primaryColor,
+            borderColor: primaryColor,
+          }}
+        >
           Tovább
         </Button>
       </div>
@@ -299,7 +308,14 @@ const UserDashboard = () => {
           value={responses[branchSelector.id]}
           onChange={(value) => handleResponseChange(branchSelector.id, value)}
         />
-        <Button onClick={handleBranchSelection} className="w-full">
+        <Button 
+          onClick={handleBranchSelection} 
+          className="w-full"
+          style={{
+            backgroundColor: primaryColor,
+            borderColor: primaryColor,
+          }}
+        >
           Tovább
         </Button>
       </div>
@@ -338,6 +354,10 @@ const UserDashboard = () => {
             onClick={handleBlockNext}
             disabled={submitting}
             className="flex-1"
+            style={{
+              backgroundColor: primaryColor,
+              borderColor: primaryColor,
+            }}
           >
             {submitting ? 'Küldés...' : isLastBlock ? 'Befejezés' : 'Tovább'}
           </Button>
@@ -345,6 +365,8 @@ const UserDashboard = () => {
       </div>
     );
   };
+
+  const primaryColor = audit.custom_colors?.primary || '#3b82f6';
 
   const LANGUAGE_NAMES: Record<string, string> = {
     HU: 'Magyar',
@@ -393,6 +415,10 @@ const UserDashboard = () => {
               setSelectedLanguage(langCode);
               setCurrentStep('welcome');
             }}
+            style={selectedLanguage === langCode ? {
+              backgroundColor: primaryColor,
+              borderColor: primaryColor,
+            } : undefined}
           >
             {LANGUAGE_NAMES[langCode] || langCode}
           </Button>
@@ -410,7 +436,14 @@ const UserDashboard = () => {
           statisztikai formában jelennek meg.
         </p>
       </div>
-      <Button onClick={() => setCurrentStep('demographics')} className="w-full">
+      <Button 
+        onClick={() => setCurrentStep('demographics')} 
+        className="w-full"
+        style={{
+          backgroundColor: primaryColor,
+          borderColor: primaryColor,
+        }}
+      >
         Kezdés
       </Button>
     </div>
@@ -441,7 +474,14 @@ const UserDashboard = () => {
           </a>
         </div>
       </div>
-      <Button onClick={() => handleSubmit(new Event('submit') as any)} className="w-full">
+      <Button 
+        onClick={() => handleSubmit(new Event('submit') as any)} 
+        className="w-full"
+        style={{
+          backgroundColor: primaryColor,
+          borderColor: primaryColor,
+        }}
+      >
         Befejezés
       </Button>
     </div>
@@ -475,7 +515,13 @@ const UserDashboard = () => {
               />
             </div>
             {currentStep === 'branch_questions' && (
-              <Progress value={getTotalProgress()} className="mt-4" />
+              <Progress 
+                value={getTotalProgress()} 
+                className="mt-4"
+                style={{
+                  '--progress-background': primaryColor
+                } as React.CSSProperties}
+              />
             )}
           </CardHeader>
           <CardContent>

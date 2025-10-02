@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 interface Step3Props {
   logoFile: File | null;
-  customColors: { primary?: string; secondary?: string; accent?: string; background?: string };
+  customColors: { primary?: string };
   onLogoChange: (file: File | null) => void;
   onColorsChange: (colors: any) => void;
   onNext: () => void;
@@ -79,87 +79,28 @@ export const Step3Branding = ({
 
       <Card>
         <CardHeader>
-          <CardTitle>Színek testreszabása</CardTitle>
+          <CardTitle>Szín testreszabása</CardTitle>
           <CardDescription>
-            4 szín módosítható (a fekete szín kivételével)
+            Válassza ki a kérdőív fő színét (gombok és státuszcsík)
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="primary-color">Elsődleges szín</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="primary-color"
-                  type="color"
-                  value={customColors.primary || '#3b82f6'}
-                  onChange={(e) => handleColorChange('primary', e.target.value)}
-                  className="w-16 h-10"
-                />
-                <Input
-                  type="text"
-                  value={customColors.primary || '#3b82f6'}
-                  onChange={(e) => handleColorChange('primary', e.target.value)}
-                  placeholder="#3b82f6"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="secondary-color">Másodlagos szín</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="secondary-color"
-                  type="color"
-                  value={customColors.secondary || '#8b5cf6'}
-                  onChange={(e) => handleColorChange('secondary', e.target.value)}
-                  className="w-16 h-10"
-                />
-                <Input
-                  type="text"
-                  value={customColors.secondary || '#8b5cf6'}
-                  onChange={(e) => handleColorChange('secondary', e.target.value)}
-                  placeholder="#8b5cf6"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="accent-color">Kiemelő szín</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="accent-color"
-                  type="color"
-                  value={customColors.accent || '#10b981'}
-                  onChange={(e) => handleColorChange('accent', e.target.value)}
-                  className="w-16 h-10"
-                />
-                <Input
-                  type="text"
-                  value={customColors.accent || '#10b981'}
-                  onChange={(e) => handleColorChange('accent', e.target.value)}
-                  placeholder="#10b981"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="background-color">Háttérszín</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="background-color"
-                  type="color"
-                  value={customColors.background || '#f3f4f6'}
-                  onChange={(e) => handleColorChange('background', e.target.value)}
-                  className="w-16 h-10"
-                />
-                <Input
-                  type="text"
-                  value={customColors.background || '#f3f4f6'}
-                  onChange={(e) => handleColorChange('background', e.target.value)}
-                  placeholder="#f3f4f6"
-                />
-              </div>
+          <div className="space-y-2">
+            <Label htmlFor="primary-color">Elsődleges szín</Label>
+            <div className="flex gap-2">
+              <Input
+                id="primary-color"
+                type="color"
+                value={customColors.primary || '#3b82f6'}
+                onChange={(e) => handleColorChange('primary', e.target.value)}
+                className="w-16 h-10"
+              />
+              <Input
+                type="text"
+                value={customColors.primary || '#3b82f6'}
+                onChange={(e) => handleColorChange('primary', e.target.value)}
+                placeholder="#3b82f6"
+              />
             </div>
           </div>
         </CardContent>
