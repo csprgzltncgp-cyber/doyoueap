@@ -66,12 +66,26 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
   const startCheckingVerification = (emailToCheck: string): NodeJS.Timeout => {
     return setInterval(async () => {
       try {
+        // First check if user is already logged in
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          if (checkingInterval) {
+            clearInterval(checkingInterval);
+          }
+          toast({
+            title: "Már be van jelentkezve!",
+            description: "Folytathatja a regisztrációt.",
+          });
+          onEmailVerified();
+          return;
+        }
+
         const { data, error } = await supabase
           .from('email_verifications')
           .select('verified')
           .eq('email', emailToCheck)
           .eq('verified', true)
-          .single();
+          .maybeSingle();
 
         if (data && data.verified) {
           if (checkingInterval) {
