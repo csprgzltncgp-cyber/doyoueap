@@ -44,6 +44,7 @@ const CreateAudit = () => {
   const [accessToken, setAccessToken] = useState('');
   const [emailSubject, setEmailSubject] = useState('Segítsd jobbá tenni a {{program_név}} programot!');
   const [emailFrom, setEmailFrom] = useState('noreply@doyoueap.com');
+  const [eapProgramUrl, setEapProgramUrl] = useState('https://doyoueap.hu');
 
   const totalSteps = 8;
 
@@ -142,7 +143,7 @@ const CreateAudit = () => {
           ? { enabled: true, frequency: recurrenceFrequency }
           : { enabled: false },
         available_languages: selectedLanguages,
-        eap_program_url: 'https://doyoueap.hu',
+        eap_program_url: eapProgramUrl,
       });
 
       if (error) throw error;
@@ -255,8 +256,10 @@ const CreateAudit = () => {
             <Step6ProgramName
               programName={programName}
               companyName={companyName}
+              eapProgramUrl={eapProgramUrl}
               onProgramNameChange={setProgramName}
               onCompanyNameChange={setCompanyName}
+              onEapProgramUrlChange={setEapProgramUrl}
               onNext={handleNext}
               onBack={handleBack}
             />

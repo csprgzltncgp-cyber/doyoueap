@@ -6,8 +6,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 interface Step6Props {
   programName: string;
   companyName: string;
+  eapProgramUrl: string;
   onProgramNameChange: (name: string) => void;
   onCompanyNameChange: (name: string) => void;
+  onEapProgramUrlChange: (url: string) => void;
   onNext: () => void;
   onBack: () => void;
 }
@@ -15,8 +17,10 @@ interface Step6Props {
 export const Step6ProgramName = ({
   programName,
   companyName,
+  eapProgramUrl,
   onProgramNameChange,
   onCompanyNameChange,
+  onEapProgramUrlChange,
   onNext,
   onBack,
 }: Step6Props) => {
@@ -24,7 +28,7 @@ export const Step6ProgramName = ({
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Program neve</CardTitle>
+          <CardTitle>Program adatai</CardTitle>
           <div className="space-y-3 mt-4 text-foreground">
             <p className="leading-relaxed">
               Add meg az EAP program cégeden belüli elnevezését (maximum 60 karakter).
@@ -46,14 +50,31 @@ export const Step6ProgramName = ({
             </p>
           </div>
         </CardHeader>
-        <CardContent>
-          <Input
-            id="program-name"
-            value={programName}
-            onChange={(e) => onProgramNameChange(e.target.value)}
-            maxLength={60}
-            placeholder="Program neve"
-          />
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="program-name">Program neve</Label>
+            <Input
+              id="program-name"
+              value={programName}
+              onChange={(e) => onProgramNameChange(e.target.value)}
+              maxLength={60}
+              placeholder="pl. DoYouEAP, Dolgozói Támogatási Program"
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="program-url">Program weboldala</Label>
+            <Input
+              id="program-url"
+              type="url"
+              value={eapProgramUrl}
+              onChange={(e) => onEapProgramUrlChange(e.target.value)}
+              placeholder="https://doyoueap.hu"
+            />
+            <p className="text-sm text-muted-foreground">
+              Erre a weboldalra irányítjuk azokat a munkavállalókat, akik még nem ismerik a programot.
+            </p>
+          </div>
         </CardContent>
       </Card>
 
