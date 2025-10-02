@@ -139,9 +139,18 @@ export default function AuditQuestionnaire() {
             </div>
           ))}
         </div>
-        <Button onClick={() => setCurrentStep('branch_selector')} className="w-full">
-          Tovább (Demo)
-        </Button>
+        <div className="flex gap-4">
+          <Button 
+            variant="outline"
+            onClick={() => setCurrentStep('welcome')} 
+            className="flex-1"
+          >
+            Vissza
+          </Button>
+          <Button onClick={() => setCurrentStep('branch_selector')} className="flex-1">
+            Tovább (Demo)
+          </Button>
+        </div>
       </div>
     );
   };
