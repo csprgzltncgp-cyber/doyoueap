@@ -279,12 +279,24 @@ const Statistics = () => {
               {/* Main KPIs */}
               <div className="grid md:grid-cols-2 gap-6">
                 {/* UTILIZATION */}
-                <Card>
+                <Card id="utilization-card">
                   <CardHeader>
-                    <CardTitle className="text-2xl">Igénybevétel (Utilization)</CardTitle>
-                    <CardDescription>
-                      Hány munkavállaló használja a programot
-                    </CardDescription>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="text-2xl">Igénybevétel (Utilization)</CardTitle>
+                        <CardDescription>
+                          Hány munkavállaló használja a programot
+                        </CardDescription>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => exportCardToPNG('utilization-card', 'igénybevétel')}
+                        className="h-8 w-8 p-0"
+                      >
+                        <Download className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col items-center">
@@ -377,12 +389,24 @@ const Statistics = () => {
                 </Card>
 
                 {/* SATISFACTION INDEX */}
-                <Card>
+                <Card id="satisfaction-card">
                   <CardHeader>
-                    <CardTitle className="text-2xl">Elégedettségi Index</CardTitle>
-                    <CardDescription>
-                      Általános elégedettség a használók körében
-                    </CardDescription>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="text-2xl">Elégedettségi Index</CardTitle>
+                        <CardDescription>
+                          Általános elégedettség a használók körében
+                        </CardDescription>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => exportCardToPNG('satisfaction-card', 'elégedettség')}
+                        className="h-8 w-8 p-0"
+                      >
+                        <Download className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col items-center">
@@ -628,12 +652,22 @@ const Statistics = () => {
                     </Card>
 
                     {/* Trust */}
-                    <Card>
+                    <Card id="trust-card">
                       <CardHeader className="pb-3">
-                        <CardTitle className="text-sm flex items-center gap-2">
-                          <Shield className="h-4 w-4" />
-                          Bizalom (1-5 skála)
-                        </CardTitle>
+                        <div className="flex justify-between items-center">
+                          <CardTitle className="text-sm flex items-center gap-2">
+                            <Shield className="h-4 w-4" />
+                            Bizalom (1-5 skála)
+                          </CardTitle>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => exportCardToPNG('trust-card', 'bizalom')}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
@@ -651,12 +685,22 @@ const Statistics = () => {
                     </Card>
 
                     {/* Usage */}
-                    <Card>
+                    <Card id="usage-card">
                       <CardHeader className="pb-3">
-                        <CardTitle className="text-sm flex items-center gap-2">
-                          <Activity className="h-4 w-4" />
-                          Használat
-                        </CardTitle>
+                        <div className="flex justify-between items-center">
+                          <CardTitle className="text-sm flex items-center gap-2">
+                            <Activity className="h-4 w-4" />
+                            Használat
+                          </CardTitle>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => exportCardToPNG('usage-card', 'használat')}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-2">
@@ -669,12 +713,22 @@ const Statistics = () => {
                     </Card>
 
                     {/* Impact */}
-                    <Card>
+                    <Card id="impact-card">
                       <CardHeader className="pb-3">
-                        <CardTitle className="text-sm flex items-center gap-2">
-                          <Target className="h-4 w-4" />
-                          Hatás (1-5 skála)
-                        </CardTitle>
+                        <div className="flex justify-between items-center">
+                          <CardTitle className="text-sm flex items-center gap-2">
+                            <Target className="h-4 w-4" />
+                            Hatás (1-5 skála)
+                          </CardTitle>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => exportCardToPNG('impact-card', 'hatás')}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
