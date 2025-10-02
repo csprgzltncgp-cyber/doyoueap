@@ -4,8 +4,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { BarChart3, Eye, Shield, Activity, Target, Heart, Users, TrendingUp, GitCompare, Wrench, Briefcase, Sparkles, RotateCw, CheckCircle, XCircle, Bell, Star } from "lucide-react";
+import { BarChart3, Eye, Shield, Activity, Target, Heart, Users, TrendingUp, GitCompare, Wrench, Briefcase, Sparkles, RotateCw, CheckCircle, XCircle, Bell, Star, Download } from "lucide-react";
 import { formatAuditName } from "@/lib/auditUtils";
 import { RadialBarChart, RadialBar, Legend, ResponsiveContainer, Cell, PieChart, Pie, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip } from "recharts";
 import { GaugeChart } from "@/components/ui/gauge-chart";
@@ -137,6 +138,34 @@ const Statistics = () => {
     return Math.round((count / total) * 100);
   };
 
+
+  // PNG Export function for individual cards
+  const exportCardToPNG = async (cardId: string, fileName: string) => {
+    try {
+      const html2canvas = (await import('html2canvas')).default;
+      const element = document.getElementById(cardId);
+      
+      if (!element) {
+        toast.error('Panel nem található');
+        return;
+      }
+
+      const canvas = await html2canvas(element, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+      });
+
+      const link = document.createElement('a');
+      link.download = `${fileName}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+
+      toast.success('PNG sikeresen letöltve!');
+    } catch (error) {
+      console.error('Error exporting PNG:', error);
+      toast.error('Hiba a PNG exportálás során');
+    }
+  };
 
   if (loading) {
     return (
@@ -566,12 +595,22 @@ const Statistics = () => {
                 <CardContent>
                   <div className="grid md:grid-cols-4 gap-4">
                     {/* Awareness */}
-                    <Card>
+                    <Card id="awareness-card">
                       <CardHeader className="pb-3">
-                        <CardTitle className="text-sm flex items-center gap-2">
-                          <Eye className="h-4 w-4" />
-                          Ismertség (1-5 skála)
-                        </CardTitle>
+                        <div className="flex justify-between items-center">
+                          <CardTitle className="text-sm flex items-center gap-2">
+                            <Eye className="h-4 w-4" />
+                            Ismertség (1-5 skála)
+                          </CardTitle>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => exportCardToPNG('awareness-card', 'ismertség')}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
