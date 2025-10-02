@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { BarChart3, Eye, Shield, Activity, Target, Heart, Users, TrendingUp, GitCompare } from "lucide-react";
 import { formatAuditName } from "@/lib/auditUtils";
 import { RadialBarChart, RadialBar, Legend, ResponsiveContainer, Cell, PieChart, Pie, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip } from "recharts";
+import { GaugeChart } from "@/components/ui/gauge-chart";
 
 interface Audit {
   id: string;
@@ -429,20 +430,18 @@ const Statistics = () => {
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="space-y-2">
-                          <div>
-                            <p className="text-2xl font-bold">
-                              {calculateAverage(
-                                responses
-                                  .filter(r => r.employee_metadata?.branch === 'used')
-                                  .map(r => r.responses?.u_awareness_understanding)
-                                  .filter(v => v !== undefined)
-                              )}/5
-                            </p>
-                            <p className="text-xs text-muted-foreground">Megértés</p>
-                            <p className="text-xs text-muted-foreground mt-1">Mennyire értik a munkavállalók a szolgáltatást</p>
-                          </div>
-                        </div>
+                        <GaugeChart
+                          value={parseFloat(calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_awareness_understanding)
+                              .filter(v => v !== undefined)
+                          ))}
+                          maxValue={5}
+                          size={150}
+                          sublabel="/ 5"
+                        />
+                        <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire értik a munkavállalók a szolgáltatást</p>
                       </CardContent>
                     </Card>
 
@@ -455,20 +454,18 @@ const Statistics = () => {
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="space-y-2">
-                          <div>
-                            <p className="text-2xl font-bold">
-                              {calculateAverage(
-                                responses
-                                  .filter(r => r.employee_metadata?.branch === 'used')
-                                  .map(r => r.responses?.u_trust_anonymity)
-                                  .filter(v => v !== undefined)
-                              )}/5
-                            </p>
-                            <p className="text-xs text-muted-foreground">Anonimitás</p>
-                            <p className="text-xs text-muted-foreground mt-1">Mennyire bíznak az anonimitás védelmében</p>
-                          </div>
-                        </div>
+                        <GaugeChart
+                          value={parseFloat(calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_trust_anonymity)
+                              .filter(v => v !== undefined)
+                          ))}
+                          maxValue={5}
+                          size={150}
+                          sublabel="/ 5"
+                        />
+                        <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire bíznak az anonimitás védelmében</p>
                       </CardContent>
                     </Card>
 
@@ -499,20 +496,18 @@ const Statistics = () => {
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="space-y-2">
-                          <div>
-                            <p className="text-2xl font-bold">
-                              {calculateAverage(
-                                responses
-                                  .filter(r => r.employee_metadata?.branch === 'used')
-                                  .map(r => r.responses?.u_impact_wellbeing)
-                                  .filter(v => v !== undefined)
-                              )}/5
-                            </p>
-                            <p className="text-xs text-muted-foreground">Wellbeing</p>
-                            <p className="text-xs text-muted-foreground mt-1">Jóllét javulása a program használata után</p>
-                          </div>
-                        </div>
+                        <GaugeChart
+                          value={parseFloat(calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_impact_wellbeing)
+                              .filter(v => v !== undefined)
+                          ))}
+                          maxValue={5}
+                          size={150}
+                          sublabel="/ 5"
+                        />
+                        <p className="text-xs text-muted-foreground mt-2 text-center">Jóllét javulása a program használata után</p>
                       </CardContent>
                     </Card>
                   </div>
@@ -601,16 +596,18 @@ const Statistics = () => {
                         <CardTitle className="text-sm">Bizalom az anonimitásban (Használók)</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-2xl font-bold">
-                          {calculateAverage(
+                        <GaugeChart
+                          value={parseFloat(calculateAverage(
                             responses
                               .filter(r => r.employee_metadata?.branch === 'used')
                               .map(r => r.responses?.u_trust_anonymity)
                               .filter(v => v !== undefined)
-                          )}
-                        </p>
-                        <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
-                        <p className="text-xs text-muted-foreground mt-2">Mennyire bíznak a használók abban, hogy névtelenségük megmarad</p>
+                          ))}
+                          maxValue={5}
+                          size={150}
+                          sublabel="/ 5"
+                        />
+                        <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire bíznak a használók abban, hogy névtelenségük megmarad</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -618,16 +615,18 @@ const Statistics = () => {
                         <CardTitle className="text-sm">Munkaadói félelem</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-2xl font-bold">
-                          {calculateAverage(
+                        <GaugeChart
+                          value={parseFloat(calculateAverage(
                             responses
                               .filter(r => r.employee_metadata?.branch === 'used')
                               .map(r => r.responses?.u_trust_employer)
                               .filter(v => v !== undefined)
-                          )}
-                        </p>
-                        <p className="text-xs text-muted-foreground">átlag (1-5, magasabb = nagyobb félelem)</p>
-                        <p className="text-xs text-muted-foreground mt-2">Mennyire félnek attól, hogy a munkaadó megtudja a használatot</p>
+                          ))}
+                          maxValue={5}
+                          size={150}
+                          sublabel="/ 5"
+                        />
+                        <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire félnek attól, hogy a munkaadó megtudja a használatot</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -635,16 +634,18 @@ const Statistics = () => {
                         <CardTitle className="text-sm">Használati hajlandóság</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-2xl font-bold">
-                          {calculateAverage(
+                        <GaugeChart
+                          value={parseFloat(calculateAverage(
                             responses
                               .filter(r => r.employee_metadata?.branch === 'used')
                               .map(r => r.responses?.u_trust_likelihood)
                               .filter(v => v !== undefined)
-                          )}
-                        </p>
-                        <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
-                        <p className="text-xs text-muted-foreground mt-2">Mennyire valószínű, hogy újra használnák a szolgáltatást</p>
+                          ))}
+                          maxValue={5}
+                          size={150}
+                          sublabel="/ 5"
+                        />
+                        <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire valószínű, hogy újra használnák a szolgáltatást</p>
                       </CardContent>
                     </Card>
                   </div>
@@ -718,15 +719,17 @@ const Statistics = () => {
                         <CardTitle className="text-sm">Elégedettség</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-2xl font-bold">
-                          {calculateAverage(
+                        <GaugeChart
+                          value={parseFloat(calculateAverage(
                             responses
                               .filter(r => r.employee_metadata?.branch === 'used')
                               .map(r => r.responses?.u_impact_satisfaction)
                               .filter(v => v !== undefined)
-                          )}
-                        </p>
-                        <p className="text-xs text-muted-foreground">átlag (1-5)</p>
+                          ))}
+                          maxValue={5}
+                          size={120}
+                          sublabel="/ 5"
+                        />
                       </CardContent>
                     </Card>
                     <Card>
@@ -734,16 +737,18 @@ const Statistics = () => {
                         <CardTitle className="text-sm">Problémamegoldás</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-2xl font-bold">
-                          {calculateAverage(
+                        <GaugeChart
+                          value={parseFloat(calculateAverage(
                             responses
                               .filter(r => r.employee_metadata?.branch === 'used')
                               .map(r => r.responses?.u_impact_problem_solving)
                               .filter(v => v !== undefined)
-                          )}
-                        </p>
-                        <p className="text-xs text-muted-foreground">átlag (1-5)</p>
-                        <p className="text-xs text-muted-foreground mt-2">Mennyire segített a program a problémák kezelésében</p>
+                          ))}
+                          maxValue={5}
+                          size={120}
+                          sublabel="/ 5"
+                        />
+                        <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire segített a program a problémák kezelésében</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -751,16 +756,18 @@ const Statistics = () => {
                         <CardTitle className="text-sm">NPS átlag</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-2xl font-bold">
-                          {calculateAverage(
+                        <GaugeChart
+                          value={parseFloat(calculateAverage(
                             responses
                               .filter(r => r.employee_metadata?.branch === 'used')
                               .map(r => r.responses?.u_impact_nps)
                               .filter(v => v !== undefined)
-                          )}
-                        </p>
-                        <p className="text-xs text-muted-foreground">0-10 skála</p>
-                        <p className="text-xs text-muted-foreground mt-2">Net Promoter Score: ajánlási hajlandóság másoknak</p>
+                          ))}
+                          maxValue={10}
+                          size={120}
+                          sublabel="/ 10"
+                        />
+                        <p className="text-xs text-muted-foreground mt-2 text-center">Net Promoter Score: ajánlási hajlandóság másoknak</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -768,16 +775,18 @@ const Statistics = () => {
                         <CardTitle className="text-sm">Konzisztencia</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-2xl font-bold">
-                          {calculateAverage(
+                        <GaugeChart
+                          value={parseFloat(calculateAverage(
                             responses
                               .filter(r => r.employee_metadata?.branch === 'used')
                               .map(r => r.responses?.u_impact_consistency)
                               .filter(v => v !== undefined)
-                          )}
-                        </p>
-                        <p className="text-xs text-muted-foreground">átlag (1-5)</p>
-                        <p className="text-xs text-muted-foreground mt-2">Szolgáltatás minőségének egyenletessége alkalmanként</p>
+                          ))}
+                          maxValue={5}
+                          size={120}
+                          sublabel="/ 5"
+                        />
+                        <p className="text-xs text-muted-foreground mt-2 text-center">Szolgáltatás minőségének egyenletessége alkalmanként</p>
                       </CardContent>
                     </Card>
                   </div>
@@ -836,16 +845,18 @@ const Statistics = () => {
                       <CardTitle className="text-sm">Teljesítményre gyakorolt hatás</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-3xl font-bold">
-                        {calculateAverage(
+                      <GaugeChart
+                        value={parseFloat(calculateAverage(
                           responses
                             .filter(r => r.employee_metadata?.branch === 'used')
                             .map(r => r.responses?.u_impact_performance)
                             .filter(v => v !== undefined)
-                        )}
-                      </p>
-                      <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
-                      <p className="text-xs text-muted-foreground mt-2">A program hatása a munkahelyi teljesítményre és produktivitásra</p>
+                        ))}
+                        maxValue={5}
+                        size={150}
+                        sublabel="/ 5"
+                      />
+                      <p className="text-xs text-muted-foreground mt-2 text-center">A program hatása a munkahelyi teljesítményre és produktivitásra</p>
                     </CardContent>
                   </Card>
                   <Card>
@@ -853,16 +864,18 @@ const Statistics = () => {
                       <CardTitle className="text-sm">Problémamegoldás</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-3xl font-bold">
-                        {calculateAverage(
+                      <GaugeChart
+                        value={parseFloat(calculateAverage(
                           responses
                             .filter(r => r.employee_metadata?.branch === 'used')
                             .map(r => r.responses?.u_impact_problem_solving)
                             .filter(v => v !== undefined)
-                        )}
-                      </p>
-                      <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
-                      <p className="text-xs text-muted-foreground mt-2">Mennyire hatékonyan segített a program a problémák megoldásában</p>
+                        ))}
+                        maxValue={5}
+                        size={150}
+                        sublabel="/ 5"
+                      />
+                      <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire hatékonyan segített a program a problémák megoldásában</p>
                     </CardContent>
                   </Card>
                   <Card>
@@ -870,16 +883,18 @@ const Statistics = () => {
                       <CardTitle className="text-sm">Általános jóllét</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-3xl font-bold">
-                        {calculateAverage(
+                      <GaugeChart
+                        value={parseFloat(calculateAverage(
                           responses
                             .filter(r => r.employee_metadata?.branch === 'used')
                             .map(r => r.responses?.u_impact_wellbeing)
                             .filter(v => v !== undefined)
-                        )}
-                      </p>
-                      <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
-                      <p className="text-xs text-muted-foreground mt-2">A program hatása az általános jóllétre és mentális egészségre</p>
+                        ))}
+                        maxValue={5}
+                        size={150}
+                        sublabel="/ 5"
+                      />
+                      <p className="text-xs text-muted-foreground mt-2 text-center">A program hatása az általános jóllétre és mentális egészségre</p>
                     </CardContent>
                   </Card>
                   <Card>
@@ -887,15 +902,17 @@ const Statistics = () => {
                       <CardTitle className="text-sm">Elégedettség</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-3xl font-bold">
-                        {calculateAverage(
+                      <GaugeChart
+                        value={parseFloat(calculateAverage(
                           responses
                             .filter(r => r.employee_metadata?.branch === 'used')
                             .map(r => r.responses?.u_impact_satisfaction)
                             .filter(v => v !== undefined)
-                        )}
-                      </p>
-                      <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
+                        ))}
+                        maxValue={5}
+                        size={150}
+                        sublabel="/ 5"
+                      />
                     </CardContent>
                   </Card>
                   <Card className="col-span-2">
@@ -903,15 +920,18 @@ const Statistics = () => {
                       <CardTitle className="text-sm">Szolgáltatás konzisztencia</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-3xl font-bold">
-                        {calculateAverage(
+                      <GaugeChart
+                        value={parseFloat(calculateAverage(
                           responses
                             .filter(r => r.employee_metadata?.branch === 'used')
                             .map(r => r.responses?.u_impact_consistency)
                             .filter(v => v !== undefined)
-                        )}
-                      </p>
-                      <p className="text-xs text-muted-foreground">átlag (1-5 skála) - szolgáltatás minőségének konzisztenciája</p>
+                        ))}
+                        maxValue={5}
+                        size={150}
+                        sublabel="/ 5"
+                      />
+                      <p className="text-xs text-muted-foreground mt-2 text-center">Szolgáltatás minőségének konzisztenciája</p>
                     </CardContent>
                   </Card>
                 </div>
