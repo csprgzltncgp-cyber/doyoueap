@@ -153,15 +153,17 @@ export const RegistrationWizard = () => {
             <PaymentStep data={data} updateData={updateData} />
           )}
 
-          <div className="flex justify-between mt-6">
-            <Button
-              variant="outline"
-              onClick={prevStep}
-              disabled={step === 2}
-            >
-              <ChevronLeft className="h-4 w-4 mr-2" />
-              Vissza
-            </Button>
+          <div className="flex justify-end mt-6">
+            {step > 2 && (
+              <Button
+                variant="outline"
+                onClick={prevStep}
+                className="mr-auto"
+              >
+                <ChevronLeft className="h-4 w-4 mr-2" />
+                Vissza
+              </Button>
+            )}
             {step < 4 ? (
               <Button onClick={nextStep}>
                 Tovább

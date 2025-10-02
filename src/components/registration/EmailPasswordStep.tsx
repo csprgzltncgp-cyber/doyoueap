@@ -207,11 +207,14 @@ export const EmailPasswordStep = ({ onContinue, onBack }: EmailPasswordStepProps
           </div>
 
           {/* Action buttons */}
-          <div className="pt-4">
+          <div className="flex gap-2 pt-4">
+            <Button type="button" variant="outline" onClick={onBack}>
+              Vissza
+            </Button>
             <Button 
               type="submit" 
               disabled={isLoading || !email || !password || !confirmPassword || password !== confirmPassword}
-              className="w-full"
+              className="flex-1"
             >
               {isLoading ? 'Folyamatban...' : 'Tovább az email megerősítéshez'}
             </Button>
