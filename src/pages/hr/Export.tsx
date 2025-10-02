@@ -270,7 +270,6 @@ const Export = () => {
   const handleExportExcel = async () => {
     setExporting(true);
     try {
-      // Dynamic import to avoid build issues
       const XLSX = await import('xlsx');
       
       const { data, error } = await supabase
@@ -282,32 +281,134 @@ const Export = () => {
 
       if (!data || data.length === 0) {
         toast.error('Nincs adat az exportáláshoz');
+        setExporting(false);
         return;
       }
 
-      const excelData = data.map(r => ({
+      const wb = XLSX.utils.book_new();
+
+      // Sheet 1: Demográfia
+      const demographicsData = data.map(r => ({
         'Beküldés ideje': new Date(r.submitted_at).toLocaleString('hu-HU'),
-        'Ág': r.employee_metadata?.branch || '',
+        'Kategória': r.employee_metadata?.branch === 'used' ? 'Használó' : r.employee_metadata?.branch === 'not_used' ? 'Nem használó' : 'Nem tudott róla',
         'Nem': r.responses?.gender || '',
         'Életkor': r.responses?.age || '',
-        'Ismertség': r.responses?.awareness_heard || '',
-        'Használat': r.employee_metadata?.branch === 'used' ? 'Igen' : 'Nem',
-        'Elégedettség': r.responses?.u_impact_satisfaction || '',
-        'NPS': r.responses?.u_impact_nps || '',
-        'Bizalom': r.responses?.u_trust_anonymity || r.responses?.nu_trust_anonymity || '',
+        'EAP Ismertség': r.responses?.eap_knowledge || '',
       }));
+      const wsDemo = XLSX.utils.json_to_sheet(demographicsData);
+      wsDemo['!cols'] = [{ wch: 20 }, { wch: 15 }, { wch: 10 }, { wch: 12 }, { wch: 30 }];
+      XLSX.utils.book_append_sheet(wb, wsDemo, 'Demográfia');
 
-      const wb = XLSX.utils.book_new();
-      const ws = XLSX.utils.json_to_sheet(excelData);
+      // Sheet 2: Használók - Awareness
+      const usersAwareness = data
+        .filter(r => r.employee_metadata?.branch === 'used')
+        .map(r => ({
+          'Beküldés ideje': new Date(r.submitted_at).toLocaleString('hu-HU'),
+          'Szolgáltatás megértése (1-5)': r.responses?.u_awareness_understanding || '',
+          'Igénybevételi tudás (1-5)': r.responses?.u_awareness_how_to_use || '',
+          'Elérhetőség érzete (1-5)': r.responses?.u_awareness_accessibility || '',
+          'Tájékoztatás gyakorisága': r.responses?.u_awareness_frequency || '',
+          'Honnan hallott róla': Array.isArray(r.responses?.u_awareness_source) ? r.responses.u_awareness_source.join(', ') : '',
+        }));
+      if (usersAwareness.length > 0) {
+        const wsUserAware = XLSX.utils.json_to_sheet(usersAwareness);
+        wsUserAware['!cols'] = [{ wch: 20 }, { wch: 25 }, { wch: 25 }, { wch: 25 }, { wch: 20 }, { wch: 30 }];
+        XLSX.utils.book_append_sheet(wb, wsUserAware, 'Használók - Awareness');
+      }
 
-      ws['!cols'] = [
-        { wch: 20 }, { wch: 15 }, { wch: 10 }, { wch: 12 },
-        { wch: 15 }, { wch: 10 }, { wch: 12 }, { wch: 8 }, { wch: 12 }
-      ];
+      // Sheet 3: Használók - Bizalom
+      const usersTrust = data
+        .filter(r => r.employee_metadata?.branch === 'used')
+        .map(r => ({
+          'Beküldés ideje': new Date(r.submitted_at).toLocaleString('hu-HU'),
+          'Bizalom anonimitásban (1-5)': r.responses?.u_trust_anonymity || '',
+          'Munkaadói félelem (1-5)': r.responses?.u_trust_employer || '',
+          'Kollégák tudomása (1-5)': r.responses?.u_trust_colleagues || '',
+          'Hajlandóság jövőben (1-5)': r.responses?.u_trust_likelihood || '',
+          'Akadályok': r.responses?.u_trust_barriers || '',
+        }));
+      if (usersTrust.length > 0) {
+        const wsUserTrust = XLSX.utils.json_to_sheet(usersTrust);
+        wsUserTrust['!cols'] = [{ wch: 20 }, { wch: 25 }, { wch: 25 }, { wch: 25 }, { wch: 25 }, { wch: 20 }];
+        XLSX.utils.book_append_sheet(wb, wsUserTrust, 'Használók - Bizalom');
+      }
 
-      XLSX.utils.book_append_sheet(wb, ws, 'Válaszok');
+      // Sheet 4: Használók - Használat
+      const usersUsage = data
+        .filter(r => r.employee_metadata?.branch === 'used')
+        .map(r => ({
+          'Beküldés ideje': new Date(r.submitted_at).toLocaleString('hu-HU'),
+          'Használat gyakorisága': r.responses?.u_usage_frequency || '',
+          'Témakör': Array.isArray(r.responses?.u_usage_topic) ? r.responses.u_usage_topic.join(', ') : '',
+          'Csatorna': Array.isArray(r.responses?.u_usage_channel) ? r.responses.u_usage_channel.join(', ') : '',
+          'Család is használta': r.responses?.u_usage_family === 'yes' ? 'Igen' : 'Nem',
+          'Időtartam gondoskodásig': r.responses?.u_usage_time_to_care || '',
+        }));
+      if (usersUsage.length > 0) {
+        const wsUserUsage = XLSX.utils.json_to_sheet(usersUsage);
+        wsUserUsage['!cols'] = [{ wch: 20 }, { wch: 20 }, { wch: 30 }, { wch: 25 }, { wch: 20 }, { wch: 25 }];
+        XLSX.utils.book_append_sheet(wb, wsUserUsage, 'Használók - Használat');
+      }
+
+      // Sheet 5: Használók - Hatás
+      const usersImpact = data
+        .filter(r => r.employee_metadata?.branch === 'used')
+        .map(r => ({
+          'Beküldés ideje': new Date(r.submitted_at).toLocaleString('hu-HU'),
+          'Teljesítmény javulás (1-5)': r.responses?.u_impact_performance || '',
+          'Problémamegoldás (1-5)': r.responses?.u_impact_problem_solving || '',
+          'Jóllét javulás (1-5)': r.responses?.u_impact_wellbeing || '',
+          'Elégedettség (1-5)': r.responses?.u_impact_satisfaction || '',
+          'Konzisztencia (1-5)': r.responses?.u_impact_consistency || '',
+          'NPS (0-10)': r.responses?.u_impact_nps || '',
+        }));
+      if (usersImpact.length > 0) {
+        const wsUserImpact = XLSX.utils.json_to_sheet(usersImpact);
+        wsUserImpact['!cols'] = [{ wch: 20 }, { wch: 25 }, { wch: 25 }, { wch: 25 }, { wch: 20 }, { wch: 20 }, { wch: 12 }];
+        XLSX.utils.book_append_sheet(wb, wsUserImpact, 'Használók - Hatás');
+      }
+
+      // Sheet 6: Használók - Preferenciák
+      const usersPref = data
+        .filter(r => r.employee_metadata?.branch === 'used')
+        .map(r => ({
+          'Beküldés ideje': new Date(r.submitted_at).toLocaleString('hu-HU'),
+          'Preferált szakértő': r.responses?.u_pref_expert || '',
+          'Preferált csatorna': r.responses?.u_pref_channel || '',
+          'Preferált elérhetőség': r.responses?.u_pref_availability || '',
+          'Preferált tartalom típus': r.responses?.u_pref_content_type || '',
+          'Kommunikáció gyakorisága': r.responses?.u_pref_comm_frequency || '',
+        }));
+      if (usersPref.length > 0) {
+        const wsUserPref = XLSX.utils.json_to_sheet(usersPref);
+        wsUserPref['!cols'] = [{ wch: 20 }, { wch: 20 }, { wch: 20 }, { wch: 20 }, { wch: 25 }, { wch: 25 }];
+        XLSX.utils.book_append_sheet(wb, wsUserPref, 'Használók - Preferenciák');
+      }
+
+      // Sheet 7: Nem használók
+      const nonUsers = data
+        .filter(r => r.employee_metadata?.branch === 'not_used')
+        .map(r => ({
+          'Beküldés ideje': new Date(r.submitted_at).toLocaleString('hu-HU'),
+          'Megértés (1-5)': r.responses?.nu_awareness_understanding || '',
+          'Hasznossági észlelés (1-5)': r.responses?.nu_usefulness_perception || '',
+          'Honnan hallott róla': Array.isArray(r.responses?.nu_awareness_source) ? r.responses.nu_awareness_source.join(', ') : '',
+          'Bizalom anonimitásban (1-5)': r.responses?.nu_trust_anonymity || '',
+          'Munkaadói félelem (1-5)': r.responses?.nu_trust_employer || '',
+          'Kollégák tudomása (1-5)': r.responses?.nu_trust_colleagues || '',
+          'Mi motiválná': Array.isArray(r.responses?.nu_motivation_what) ? r.responses.nu_motivation_what.join(', ') : '',
+          'Preferált szakértő': r.responses?.nu_motivation_expert || '',
+          'Preferált csatorna': r.responses?.nu_motivation_channel || '',
+          'Preferált elérhetőség': r.responses?.nu_motivation_availability || '',
+          'Preferált kommunikáció': r.responses?.nu_motivation_communication || '',
+        }));
+      if (nonUsers.length > 0) {
+        const wsNonUsers = XLSX.utils.json_to_sheet(nonUsers);
+        wsNonUsers['!cols'] = [{ wch: 20 }, { wch: 15 }, { wch: 20 }, { wch: 30 }, { wch: 25 }, { wch: 25 }, { wch: 25 }, { wch: 40 }, { wch: 20 }, { wch: 20 }, { wch: 25 }, { wch: 25 }];
+        XLSX.utils.book_append_sheet(wb, wsNonUsers, 'Nem használók');
+      }
+
       XLSX.writeFile(wb, `audit_export_${selectedAuditId}_${Date.now()}.xlsx`);
-
       toast.success('Excel sikeresen exportálva!');
     } catch (error) {
       console.error('Error exporting Excel:', error);
@@ -452,10 +553,11 @@ const Export = () => {
             <div className="text-sm space-y-2">
               <p><strong>Tartalom:</strong></p>
               <ul className="list-disc list-inside ml-4 space-y-1">
-                <li>Minden válasz strukturált formában</li>
-                <li>Demográfiai adatok oszlopokban</li>
-                <li>Kulcs metrikák (Elégedettség, NPS, stb.)</li>
-                <li>Szűrhető és elemezhető táblázat</li>
+                <li>7 munkalap témakörök szerint</li>
+                <li>Demográfia</li>
+                <li>Használók - Awareness, Bizalom, Használat, Hatás, Preferenciák</li>
+                <li>Nem használók - teljes válaszok</li>
+                <li>Minden kérdés külön oszlopban</li>
               </ul>
             </div>
             <Button 
