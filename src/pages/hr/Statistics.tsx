@@ -792,41 +792,91 @@ const Statistics = () => {
                       <CardTitle className="text-sm">Nem használók bizalmi indexei</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="grid grid-cols-3 gap-4">
+                      <div className="space-y-4">
                         <div>
-                          <p className="text-lg font-bold">
-                            {calculateAverage(
-                              responses
-                                .filter(r => r.employee_metadata?.branch === 'not_used')
-                                .map(r => r.responses?.nu_trust_anonymity)
-                                .filter(v => v !== undefined)
-                            )}
-                          </p>
-                          <p className="text-xs text-muted-foreground">Anonimitás</p>
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-sm text-muted-foreground">Anonimitás (1-5 skála)</span>
+                            <span className="text-lg font-bold">
+                              {calculateAverage(
+                                responses
+                                  .filter(r => r.employee_metadata?.branch === 'not_used')
+                                  .map(r => r.responses?.nu_trust_anonymity)
+                                  .filter(v => v !== undefined)
+                              )}
+                            </span>
+                          </div>
+                          <div className="w-full bg-muted rounded-full h-2">
+                            <div
+                              className="h-2 rounded-full"
+                              style={{ 
+                                width: `${(parseFloat(calculateAverage(
+                                  responses
+                                    .filter(r => r.employee_metadata?.branch === 'not_used')
+                                    .map(r => r.responses?.nu_trust_anonymity)
+                                    .filter(v => v !== undefined)
+                                )) / 5) * 100}%`,
+                                backgroundColor: '#3366ff'
+                              }}
+                            />
+                          </div>
                           <p className="text-xs text-muted-foreground mt-1">Bizalom az anonimitás védelmében</p>
                         </div>
+
                         <div>
-                          <p className="text-lg font-bold">
-                            {calculateAverage(
-                              responses
-                                .filter(r => r.employee_metadata?.branch === 'not_used')
-                                .map(r => r.responses?.nu_trust_employer)
-                                .filter(v => v !== undefined)
-                            )}
-                          </p>
-                          <p className="text-xs text-muted-foreground">Munkaadói félelem</p>
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-sm text-muted-foreground">Munkaadói félelem (1-5 skála)</span>
+                            <span className="text-lg font-bold">
+                              {calculateAverage(
+                                responses
+                                  .filter(r => r.employee_metadata?.branch === 'not_used')
+                                  .map(r => r.responses?.nu_trust_employer)
+                                  .filter(v => v !== undefined)
+                              )}
+                            </span>
+                          </div>
+                          <div className="w-full bg-muted rounded-full h-2">
+                            <div
+                              className="h-2 rounded-full"
+                              style={{ 
+                                width: `${(parseFloat(calculateAverage(
+                                  responses
+                                    .filter(r => r.employee_metadata?.branch === 'not_used')
+                                    .map(r => r.responses?.nu_trust_employer)
+                                    .filter(v => v !== undefined)
+                                )) / 5) * 100}%`,
+                                backgroundColor: '#3366ff'
+                              }}
+                            />
+                          </div>
                           <p className="text-xs text-muted-foreground mt-1">Félelem a munkaadó tudomásától</p>
                         </div>
+
                         <div>
-                          <p className="text-lg font-bold">
-                            {calculateAverage(
-                              responses
-                                .filter(r => r.employee_metadata?.branch === 'not_used')
-                                .map(r => r.responses?.nu_trust_colleagues)
-                                .filter(v => v !== undefined)
-                            )}
-                          </p>
-                          <p className="text-xs text-muted-foreground">Kollégai megítéléstől félelem</p>
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-sm text-muted-foreground">Kollégai megítéléstől félelem (1-5 skála)</span>
+                            <span className="text-lg font-bold">
+                              {calculateAverage(
+                                responses
+                                  .filter(r => r.employee_metadata?.branch === 'not_used')
+                                  .map(r => r.responses?.nu_trust_colleagues)
+                                  .filter(v => v !== undefined)
+                              )}
+                            </span>
+                          </div>
+                          <div className="w-full bg-muted rounded-full h-2">
+                            <div
+                              className="h-2 rounded-full"
+                              style={{ 
+                                width: `${(parseFloat(calculateAverage(
+                                  responses
+                                    .filter(r => r.employee_metadata?.branch === 'not_used')
+                                    .map(r => r.responses?.nu_trust_colleagues)
+                                    .filter(v => v !== undefined)
+                                )) / 5) * 100}%`,
+                                backgroundColor: '#3366ff'
+                              }}
+                            />
+                          </div>
                           <p className="text-xs text-muted-foreground mt-1">Félelem a kollégák negatív véleményétől</p>
                         </div>
                       </div>
