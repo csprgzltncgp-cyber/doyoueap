@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { RegistrationWizard } from '@/components/registration/RegistrationWizard';
+import logo from '@/assets/doyoueap-logo.png';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -37,7 +38,7 @@ const Auth = () => {
       <Card className="w-full max-w-md">
         <CardHeader>
           <div className="flex items-center gap-2 mb-4">
-            <img src="/src/assets/doyoueap-logo.png" alt="doyoueap" className="h-8" />
+            <img src={logo} alt="doyoueap" className="h-8" />
           </div>
           <CardTitle>Bejelentkezés</CardTitle>
           <CardDescription>
