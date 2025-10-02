@@ -50,10 +50,12 @@ export default function AuditQuestionnaire() {
         .from("questionnaires")
         .select("*")
         .eq("is_active", true)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
-      setQuestionnaire(data);
+      if (data) {
+        setQuestionnaire(data);
+      }
     } catch (error) {
       console.error("Error fetching questionnaire:", error);
     } finally {
@@ -73,12 +75,12 @@ export default function AuditQuestionnaire() {
     );
   }
 
-  if (!questionnaire) {
+  if (!questionnaire || !questionnaire.questions || !questionnaire.questions.blocks || questionnaire.questions.blocks.length === 0) {
     return (
       <div className="container mx-auto p-6">
         <Card>
           <CardContent className="p-6">
-            <p className="text-center">Nem található aktív kérdőív.</p>
+            <p className="text-center">Nem található aktív kérdőív vagy a kérdőív nem tartalmaz kérdésblokkokat.</p>
           </CardContent>
         </Card>
       </div>
