@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { InfoIcon } from "lucide-react";
 
-interface Step3Props {
+interface Step2Props {
   communicationText: string;
   onCommunicationTextChange: (text: string) => void;
   accessMode: string;
@@ -15,7 +15,7 @@ interface Step3Props {
   onBack: () => void;
 }
 
-export const Step3Communication = ({
+export const Step2Communication = ({
   communicationText,
   onCommunicationTextChange,
   accessMode,
@@ -23,7 +23,7 @@ export const Step3Communication = ({
   companyName,
   onNext,
   onBack,
-}: Step3Props) => {
+}: Step2Props) => {
   const getDefaultCommunicationText = () => {
     const program = programName || 'DoYouEAP';
     const company = companyName || '[Cég neve]';

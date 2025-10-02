@@ -1,17 +1,16 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Upload, Link as LinkIcon, QrCode } from "lucide-react";
+import { Link, Mail, QrCode } from "lucide-react";
 
-interface Step2Props {
+interface Step1Props {
   accessMode: string;
   onAccessModeChange: (mode: string) => void;
   onNext: () => void;
-  onBack: () => void;
 }
 
-export const Step2AccessMode = ({ accessMode, onAccessModeChange, onNext, onBack }: Step2Props) => {
+export const Step1AccessMode = ({ accessMode, onAccessModeChange, onNext }: Step1Props) => {
   return (
     <div className="space-y-6">
       <div>
@@ -27,7 +26,7 @@ export const Step2AccessMode = ({ accessMode, onAccessModeChange, onNext, onBack
             <div className="flex items-center space-x-4">
               <RadioGroupItem value="tokenes" id="tokenes" />
               <div className="flex items-center gap-2">
-                <Upload className="h-5 w-5" />
+                <Mail className="h-5 w-5" />
                 <Label htmlFor="tokenes" className="cursor-pointer">
                   <CardTitle className="text-lg">Egyedi tokenes link minden munkatársnak</CardTitle>
                 </Label>
@@ -47,7 +46,7 @@ export const Step2AccessMode = ({ accessMode, onAccessModeChange, onNext, onBack
             <div className="flex items-center space-x-4">
               <RadioGroupItem value="public_link" id="public_link" />
               <div className="flex items-center gap-2">
-                <LinkIcon className="h-5 w-5" />
+                <Link className="h-5 w-5" />
                 <Label htmlFor="public_link" className="cursor-pointer">
                   <CardTitle className="text-lg">Egységes nyilvános link</CardTitle>
                 </Label>
@@ -81,11 +80,8 @@ export const Step2AccessMode = ({ accessMode, onAccessModeChange, onNext, onBack
         </Card>
       </RadioGroup>
 
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onBack}>
-          Vissza
-        </Button>
-        <Button onClick={onNext} disabled={!accessMode}>
+      <div className="flex justify-end">
+        <Button onClick={onNext}>
           Következő lépés
         </Button>
       </div>

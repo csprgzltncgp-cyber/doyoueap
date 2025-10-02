@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-interface Step1Props {
+interface Step6Props {
   programName: string;
   companyName: string;
   eapProgramUrl: string;
@@ -11,9 +11,10 @@ interface Step1Props {
   onCompanyNameChange: (name: string) => void;
   onEapProgramUrlChange: (url: string) => void;
   onNext: () => void;
+  onBack: () => void;
 }
 
-export const Step1ProgramName = ({
+export const Step6ProgramName = ({
   programName,
   companyName,
   eapProgramUrl,
@@ -21,7 +22,8 @@ export const Step1ProgramName = ({
   onCompanyNameChange,
   onEapProgramUrlChange,
   onNext,
-}: Step1Props) => {
+  onBack,
+}: Step6Props) => {
   return (
     <div className="space-y-6">
       <Card>
@@ -79,7 +81,10 @@ export const Step1ProgramName = ({
         </CardContent>
       </Card>
 
-      <div className="flex justify-end">
+      <div className="flex justify-between">
+        <Button variant="outline" onClick={onBack}>
+          Vissza
+        </Button>
         <Button onClick={onNext} disabled={!companyName.trim()}>
           Következő lépés
         </Button>
