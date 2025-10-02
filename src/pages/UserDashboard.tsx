@@ -22,7 +22,6 @@ interface Questionnaire {
 
 interface Audit {
   id: string;
-  company_name: string;
   program_name: string;
   is_active: boolean;
   expires_at: string | null;
@@ -54,7 +53,6 @@ const UserDashboard = () => {
         .from('audits')
         .select(`
           id,
-          company_name,
           program_name,
           is_active,
           expires_at,
@@ -67,7 +65,7 @@ const UserDashboard = () => {
           )
         `)
         .eq('access_token', token)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
 
