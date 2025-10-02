@@ -29,7 +29,7 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
           <div className="relative">
             <RadioGroupItem value="starter" id="starter" className="peer sr-only" />
             <Label htmlFor="starter" className="cursor-pointer">
-              <Card className="peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-2 peer-data-[state=checked]:ring-primary">
+              <Card className="peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-2 peer-data-[state=checked]:ring-primary h-full flex flex-col">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div>
@@ -46,8 +46,8 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
+                <CardContent className="flex-1 flex flex-col">
+                  <ul className="space-y-2 flex-1">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                       <span>Évente max. 1 audit</span>
@@ -74,7 +74,7 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
           <div className="relative">
             <RadioGroupItem value="pro" id="pro" className="peer sr-only" />
             <Label htmlFor="pro" className="cursor-pointer">
-              <Card className="peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-2 peer-data-[state=checked]:ring-primary border-primary">
+              <Card className="peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-2 peer-data-[state=checked]:ring-primary border-primary h-full flex flex-col">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div>
@@ -92,8 +92,8 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
+                <CardContent className="flex-1 flex flex-col">
+                  <ul className="space-y-2 flex-1">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                       <span>Negyedévente audit (ismétlés funkcióval)</span>
@@ -128,7 +128,7 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
           <div className="relative">
             <RadioGroupItem value="enterprise" id="enterprise" className="peer sr-only" />
             <Label htmlFor="enterprise" className="cursor-pointer">
-              <Card className="peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-2 peer-data-[state=checked]:ring-primary">
+              <Card className="peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-2 peer-data-[state=checked]:ring-primary h-full flex flex-col">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div>
@@ -140,8 +140,8 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
+                <CardContent className="flex-1 flex flex-col">
+                  <ul className="space-y-2 flex-1">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                       <span>Korlátlan audit</span>
