@@ -28,32 +28,29 @@ export const Step6ProgramName = ({
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Alapadatok</CardTitle>
-          <CardDescription>Add meg a cég nevét és a program alapinformációit</CardDescription>
+          <CardTitle>Program adatai</CardTitle>
           <div className="space-y-3 mt-4 text-foreground">
             <p className="leading-relaxed">
               Add meg az EAP program cégeden belüli elnevezését (maximum 60 karakter).
             </p>
             <p className="leading-relaxed">
-              Ez az elnevezés a kérdőív legelső kérdésében és a kommunikációs szövegekben fog megjelenni.
+              Ez az elnevezés csak a kérdőív legelső kérdésében fog megjelenni:
+            </p>
+            <p className="italic leading-relaxed pl-4 border-l-2 border-primary/30">
+              „Tudtad, hogy a munkahelyeden elérhető egy támogatási program, amit &lt;program neve&gt; néven ismerhetsz? 
+              Ez a szolgáltatás segítséget nyújt neked és családodnak különböző munkahelyi vagy magánéleti kihívások kezeléséhez, 
+              például stresszhelyzetekben, konfliktusok megoldásában vagy akár pénzügyi tanácsadásban is."
+            </p>
+            <p className="leading-relaxed">
+              A kérdőív további részében mindig általános „program" megnevezéssel hivatkozunk rá, 
+              így biztosítva az egységes és könnyen érthető kommunikációt.
             </p>
             <p className="leading-relaxed text-sm">
-              Ha üresen hagyod, akkor „DoYouEAP" lesz az alapértelmezett elnevezés.
+              Ha üresen hagyod, akkor „EAP" lesz az alapértelmezett elnevezés.
             </p>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="company-name">Cég neve *</Label>
-            <Input
-              id="company-name"
-              value={companyName}
-              onChange={(e) => onCompanyNameChange(e.target.value)}
-              placeholder="pl. Példa Kft."
-              required
-            />
-          </div>
-
           <div className="space-y-2">
             <Label htmlFor="program-name">Program neve</Label>
             <Input
@@ -81,8 +78,11 @@ export const Step6ProgramName = ({
         </CardContent>
       </Card>
 
-      <div className="flex justify-end">
-        <Button onClick={onNext} disabled={!companyName.trim()}>
+      <div className="flex justify-between">
+        <Button variant="outline" onClick={onBack}>
+          Vissza
+        </Button>
+        <Button onClick={onNext}>
           Következő lépés
         </Button>
       </div>
