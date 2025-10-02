@@ -48,7 +48,7 @@ export const Step4Timing = ({
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="start-date">Kezdő dátum *</Label>
+            <Label htmlFor="start-date">Kezdő dátum</Label>
             <Input
               id="start-date"
               type="datetime-local"
@@ -59,7 +59,7 @@ export const Step4Timing = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="expires-at">Záró dátum *</Label>
+            <Label htmlFor="expires-at">Záró dátum</Label>
             <Input
               id="expires-at"
               type="datetime-local"
