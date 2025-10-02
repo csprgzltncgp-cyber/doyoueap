@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, Eye, Shield, TrendingUp, BarChart3, Target, Calendar, FileText, GitCompare, Settings as SettingsIcon, QrCode } from "lucide-react";
+import { QrCode, BarChart3, FileText, Settings as SettingsIcon } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import {
   Sidebar,
@@ -15,16 +15,8 @@ import {
 
 const menuItems = [
   { title: "Audit Indítása", url: "/hr/create-audit", icon: QrCode },
-  { title: "User Kategóriák", url: "/hr/categories", icon: Users },
-  { title: "Awareness", url: "/hr/awareness", icon: Eye },
-  { title: "Trust & Willingness", url: "/hr/trust", icon: Shield },
-  { title: "Usage", url: "/hr/usage", icon: TrendingUp },
-  { title: "Impact", url: "/hr/impact", icon: BarChart3 },
-  { title: "Motiváció", url: "/hr/motivation", icon: Target },
-  { title: "Demográfia", url: "/hr/demographics", icon: Users },
-  { title: "History & Trends", url: "/hr/trends", icon: Calendar },
+  { title: "Statisztikák", url: "/hr/statistics", icon: BarChart3 },
   { title: "Export & Jelentések", url: "/hr/export", icon: FileText },
-  { title: "Összehasonlítás", url: "/hr/compare", icon: GitCompare },
   { title: "Beállítások", url: "/hr/settings", icon: SettingsIcon },
 ];
 
