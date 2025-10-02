@@ -9,42 +9,58 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
+interface ProfileData {
+  full_name: string | null;
+  email: string | null;
+  company_name: string | null;
+  country: string | null;
+  vat_id: string | null;
+  address: string | null;
+  city: string | null;
+  postal_code: string | null;
+  industry: string | null;
+  employee_count: string | null;
+  contact_phone: string | null;
+  company_domain: string | null;
+  billing_address_same_as_company: boolean | null;
+  billing_address: string | null;
+  billing_city: string | null;
+  billing_postal_code: string | null;
+  selected_package: string | null;
+  billing_cycle: string | null;
+}
 
 const Settings = () => {
-  const { toast } = useToast();
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<any>(null);
-  const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
-    fetchProfileData();
+    fetchProfile();
   }, []);
 
-  const fetchProfileData = async () => {
+  const fetchProfile = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       
-      if (user) {
-        setUserEmail(user.email || "");
-        
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', user.id)
-          .single();
-
-        if (error) throw error;
-        setProfile(data);
+      if (!user) {
+        toast.error('Nincs bejelentkezett felhasználó');
+        return;
       }
-    } catch (error) {
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (error) throw error;
+      
+      setProfileData(data);
+    } catch (error: any) {
       console.error('Error fetching profile:', error);
-      toast({
-        title: "Hiba",
-        description: "Nem sikerült betölteni a profil adatokat",
-        variant: "destructive",
-      });
+      toast.error('Hiba történt a profil betöltésekor');
     } finally {
       setLoading(false);
     }
@@ -67,12 +83,11 @@ const Settings = () => {
         </p>
       </div>
 
-
-      {!profile && (
+      {!profileData && (
         <Alert>
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>
-            <strong>Figyelem:</strong> A profil adatok még nincsenek kitöltve. Kérjük, töltse ki a regisztráció során megadott adatokat.
+            <strong>Megjegyzés:</strong> Még nem töltötte ki a regisztrációs adatokat.
           </AlertDescription>
         </Alert>
       )}
@@ -92,11 +107,15 @@ const Settings = () => {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="fullName">Teljes név</Label>
-              <Input id="fullName" value={profile?.full_name || ""} readOnly />
+              <Input id="fullName" value={profileData?.full_name || ''} readOnly />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email cím</Label>
+              <Input id="email" value={profileData?.email || ''} readOnly />
             </div>
             <div className="space-y-2">
               <Label htmlFor="contactPhone">Telefonszám</Label>
-              <Input id="contactPhone" value={profile?.contact_phone || ""} readOnly />
+              <Input id="contactPhone" value={profileData?.contact_phone || ''} readOnly />
             </div>
           </CardContent>
         </Card>
@@ -113,43 +132,43 @@ const Settings = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="companyName">Cégnév</Label>
+              <Input id="companyName" value={profileData?.company_name || ''} readOnly />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="country">Ország</Label>
+              <Input id="country" value={profileData?.country || ''} readOnly />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="vatId">Adószám / VAT ID</Label>
+              <Input id="vatId" value={profileData?.vat_id || ''} readOnly />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="address">Székhely címe</Label>
+              <Input id="address" value={profileData?.address || ''} readOnly />
+            </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="companyName">Cégnév</Label>
-                <Input id="companyName" value={profile?.company_name || ""} readOnly />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="country">Ország</Label>
-                <Input id="country" value={profile?.country || ""} readOnly />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="vatId">Adószám / VAT ID</Label>
-                <Input id="vatId" value={profile?.vat_id || ""} readOnly />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="companyDomain">Céges domain</Label>
-                <Input id="companyDomain" value={profile?.company_domain || ""} readOnly />
-              </div>
-              <div className="space-y-2 col-span-2">
-                <Label htmlFor="address">Székhely címe</Label>
-                <Input id="address" value={profile?.address || ""} readOnly />
-              </div>
-              <div className="space-y-2">
                 <Label htmlFor="city">Város</Label>
-                <Input id="city" value={profile?.city || ""} readOnly />
+                <Input id="city" value={profileData?.city || ''} readOnly />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="postalCode">Irányítószám</Label>
-                <Input id="postalCode" value={profile?.postal_code || ""} readOnly />
+                <Input id="postalCode" value={profileData?.postal_code || ''} readOnly />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="industry">Iparág</Label>
-                <Input id="industry" value={profile?.industry || ""} readOnly />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="employeeCount">Létszám</Label>
-                <Input id="employeeCount" value={profile?.employee_count || ""} readOnly />
-              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="companySize">Létszám</Label>
+              <Input id="companySize" value={profileData?.employee_count || ''} readOnly />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="industry">Iparág</Label>
+              <Input id="industry" value={profileData?.industry || ''} readOnly />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="companyDomain">Cég domain</Label>
+              <Input id="companyDomain" value={profileData?.company_domain || ''} readOnly />
             </div>
           </CardContent>
         </Card>
@@ -303,11 +322,43 @@ const Settings = () => {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="currentEmail">Jelenlegi email</Label>
-              <Input id="currentEmail" type="email" value={userEmail} readOnly />
+              <Input id="currentEmail" type="email" value={profileData?.email || ''} readOnly />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="newEmail">Új email</Label>
+              <Input id="newEmail" type="email" placeholder="uj.email@example.com" disabled />
+            </div>
+            <Button disabled>Email módosítása</Button>
           </CardContent>
         </Card>
 
+        {/* Jelszó módosítás */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Lock className="h-5 w-5" />
+              Jelszó módosítása
+            </CardTitle>
+            <CardDescription>
+              Bejelentkezési jelszó megváltoztatása
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="currentPassword">Jelenlegi jelszó</Label>
+              <Input id="currentPassword" type="password" placeholder="••••••••" disabled />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="newPassword">Új jelszó</Label>
+              <Input id="newPassword" type="password" placeholder="••••••••" disabled />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Új jelszó megerősítése</Label>
+              <Input id="confirmPassword" type="password" placeholder="••••••••" disabled />
+            </div>
+            <Button disabled>Jelszó módosítása</Button>
+          </CardContent>
+        </Card>
 
         {/* Számlázási adatok */}
         <Card>
@@ -321,57 +372,53 @@ const Settings = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2 col-span-2">
-                <Label htmlFor="selectedPackage">Kiválasztott csomag</Label>
-                <Input 
-                  id="selectedPackage" 
-                  value={profile?.selected_package ? 
-                    (profile.selected_package === 'starter' ? 'Starter' : 
-                     profile.selected_package === 'pro' ? 'Pro' : 'Enterprise') : ''} 
-                  readOnly 
-                />
-              </div>
-              <div className="space-y-2 col-span-2">
-                <Label htmlFor="billingCycle">Számlázási ciklus</Label>
-                <Input 
-                  id="billingCycle" 
-                  value={profile?.billing_cycle === 'monthly' ? 'Havi' : 'Éves'} 
-                  readOnly 
-                />
-              </div>
-              <div className="space-y-2 col-span-2">
-                <Label htmlFor="billingCompany">Cégnév (számlázási)</Label>
-                <Input id="billingCompany" value={profile?.company_name || ""} readOnly />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="taxNumber">Adószám</Label>
-                <Input id="taxNumber" value={profile?.vat_id || ""} readOnly />
-              </div>
-              <div className="space-y-2">
-                <Label>Számlázási cím</Label>
-                <Input 
-                  value={profile?.billing_address_same_as_company ? 
-                    "Megegyezik a székhellyel" : "Eltérő cím"} 
-                  readOnly 
-                />
-              </div>
-              {!profile?.billing_address_same_as_company && (
-                <>
-                  <div className="space-y-2 col-span-2">
-                    <Label htmlFor="billingAddress">Számlázási cím (eltérő)</Label>
-                    <Input id="billingAddress" value={profile?.billing_address || ""} readOnly />
-                  </div>
+            <div className="space-y-2">
+              <Label htmlFor="billingCompany">Cégnév (számlázási)</Label>
+              <Input id="billingCompany" value={profileData?.company_name || ''} readOnly />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="taxNumber">Adószám</Label>
+              <Input id="taxNumber" value={profileData?.vat_id || ''} readOnly />
+            </div>
+            <div className="space-y-2">
+              <Label>Számlázási cím típusa</Label>
+              <p className="text-sm text-muted-foreground">
+                {profileData?.billing_address_same_as_company 
+                  ? 'Megegyezik a székhellyel' 
+                  : 'Eltérő számlázási cím'}
+              </p>
+            </div>
+            {!profileData?.billing_address_same_as_company && (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="billingAddress">Számlázási cím</Label>
+                  <Input id="billingAddress" value={profileData?.billing_address || ''} readOnly />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="billingCity">Város</Label>
-                    <Input id="billingCity" value={profile?.billing_city || ""} readOnly />
+                    <Input id="billingCity" value={profileData?.billing_city || ''} readOnly />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="billingPostalCode">Irányítószám</Label>
-                    <Input id="billingPostalCode" value={profile?.billing_postal_code || ""} readOnly />
+                    <Input id="billingPostalCode" value={profileData?.billing_postal_code || ''} readOnly />
                   </div>
-                </>
-              )}
+                </div>
+              </>
+            )}
+            <div className="space-y-2">
+              <Label>Csomag</Label>
+              <p className="text-sm">
+                {profileData?.selected_package === 'starter' && 'Starter'}
+                {profileData?.selected_package === 'pro' && 'Pro'}
+                {profileData?.selected_package === 'enterprise' && 'Enterprise'}
+              </p>
+            </div>
+            <div className="space-y-2">
+              <Label>Számlázási ciklus</Label>
+              <p className="text-sm">
+                {profileData?.billing_cycle === 'monthly' ? 'Havi' : 'Éves'}
+              </p>
             </div>
           </CardContent>
         </Card>
