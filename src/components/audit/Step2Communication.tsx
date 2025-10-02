@@ -22,14 +22,21 @@ export const Step2Communication = ({
   onNext,
   onBack,
 }: Step2Props) => {
+  const getArticle = (word: string) => {
+    const firstChar = word.charAt(0).toLowerCase();
+    const vowels = ['a', 'á', 'e', 'é', 'i', 'í', 'o', 'ó', 'ö', 'ő', 'u', 'ú', 'ü', 'ű'];
+    return vowels.includes(firstChar) ? 'az' : 'a';
+  };
+
   const getDefaultCommunicationText = () => {
     const program = programName || 'EAP';
+    const article = getArticle(program);
     
     if (accessMode === 'tokenes') {
       return `Tárgy: Segítsd jobbá tenni a ${program} programot!
 Helló!
 
-A ${program} program azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
+${article.charAt(0).toUpperCase() + article.slice(1)} ${program} program azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
 
 Kérjük, töltsd ki rövid kérdőívünket, amelyet az alábbi linken érsz el:
 
@@ -44,7 +51,7 @@ HR osztály`;
     } else if (accessMode === 'qr_code') {
       return `Segítsd jobbá tenni a ${program} programot!
 
-A ${program} azért van, hogy támogasson – akár stresszről, jogi vagy pénzügyi kérdésekről, akár pszichológiai segítségről van szó.
+${article.charAt(0).toUpperCase() + article.slice(1)} ${program} program azért van, hogy támogasson – akár stresszről, jogi vagy pénzügyi kérdésekről, akár pszichológiai segítségről van szó.
 
 Most rajtad a sor: töltsd ki rövid kérdőívünket, és mondd el a véleményed!
 
@@ -58,7 +65,7 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
     } else {
       return `Helló!
 
-A ${program} program azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
+${article.charAt(0).toUpperCase() + article.slice(1)} ${program} program azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
 
 Kérjük, töltsd ki rövid kérdőívünket, amelyet az alábbi linken érsz el:
 
