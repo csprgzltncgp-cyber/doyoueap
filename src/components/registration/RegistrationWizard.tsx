@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -8,6 +9,8 @@ import { CompanyDataStep } from './CompanyDataStep';
 import { PackageSelectionStep } from './PackageSelectionStep';
 import { PaymentStep } from './PaymentStep';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 export interface RegistrationData {
   // Company data
@@ -63,10 +66,13 @@ const initialData: RegistrationData = {
 };
 
 export const RegistrationWizard = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [step, setStep] = useState(0); // 0: email+password, 1: validation, 2-4: registration steps
   const [data, setData] = useState<RegistrationData>(initialData);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const totalSteps = 3; // Only count actual registration steps
 
   const handleContinueToValidation = (userEmail: string, userPassword: string) => {
@@ -100,12 +106,72 @@ export const RegistrationWizard = () => {
   };
 
   const handleFinishRegistration = async () => {
-    // TODO: Itt kell majd implementálni a végleges regisztrációt
-    // - Adatok mentése a Supabase-be
-    // - Fizetés inicializálása
-    // - Átirányítás a dashboard-ra
-    console.log('Regisztráció befejezése:', data);
-    alert('Regisztráció sikeres! (Fejlesztés alatt)');
+    setIsSubmitting(true);
+    
+    try {
+      // Sign in the user with email and password
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (signInError) {
+        toast({
+          title: "Bejelentkezési hiba",
+          description: signInError.message,
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (!signInData.user) {
+        toast({
+          title: "Hiba",
+          description: "Nem sikerült bejelentkezni",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Update the user's profile with company data
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({
+          company_name: data.companyName,
+          full_name: data.contactName,
+        })
+        .eq('id', signInData.user.id);
+
+      if (updateError) {
+        console.error('Error updating profile:', updateError);
+        toast({
+          title: "Figyelmeztetés",
+          description: "A profil frissítése nem sikerült teljesen, de folytathatja.",
+          variant: "default",
+        });
+      }
+
+      // Show success message
+      toast({
+        title: "Sikeres regisztráció!",
+        description: "Üdvözöljük a rendszerben.",
+      });
+
+      // Redirect to HR Dashboard
+      navigate('/hr-dashboard');
+      
+    } catch (error: any) {
+      console.error('Registration error:', error);
+      toast({
+        title: "Hiba történt",
+        description: "Kérjük, próbálja újra később.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Only show progress for actual registration steps (2-4)
@@ -189,8 +255,8 @@ export const RegistrationWizard = () => {
                 <ChevronRight className="h-4 w-4 ml-2" />
               </Button>
             ) : (
-              <Button onClick={handleFinishRegistration}>
-                Regisztráció befejezése
+              <Button onClick={handleFinishRegistration} disabled={isSubmitting}>
+                {isSubmitting ? 'Feldolgozás...' : 'Regisztráció befejezése'}
               </Button>
             )}
           </div>
