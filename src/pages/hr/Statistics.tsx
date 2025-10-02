@@ -23,11 +23,19 @@ const Statistics = () => {
   const [audits, setAudits] = useState<Audit[]>([]);
   const [selectedAuditId, setSelectedAuditId] = useState<string>('');
   const [loading, setLoading] = useState(true);
+  const [responses, setResponses] = useState<any[]>([]);
+  const [loadingResponses, setLoadingResponses] = useState(false);
   const activeTab = searchParams.get("tab") || "awareness";
 
   useEffect(() => {
     fetchAudits();
   }, []);
+
+  useEffect(() => {
+    if (selectedAuditId) {
+      fetchResponses();
+    }
+  }, [selectedAuditId]);
 
   const fetchAudits = async () => {
     try {
@@ -47,6 +55,30 @@ const Statistics = () => {
       setLoading(false);
     }
   };
+
+  const fetchResponses = async () => {
+    setLoadingResponses(true);
+    try {
+      const { data, error } = await supabase
+        .from('audit_responses')
+        .select('*')
+        .eq('audit_id', selectedAuditId);
+
+      if (error) throw error;
+      setResponses(data || []);
+    } catch (error) {
+      console.error('Error fetching responses:', error);
+      toast.error('Hiba történt a válaszok betöltésekor');
+    } finally {
+      setLoadingResponses(false);
+    }
+  };
+
+  // Calculate statistics
+  const totalResponses = responses.length;
+  const usedBranch = responses.filter(r => r.employee_metadata?.branch === 'used').length;
+  const notUsedBranch = responses.filter(r => r.employee_metadata?.branch === 'not_used').length;
+  const redirectBranch = responses.filter(r => r.employee_metadata?.branch === 'redirect').length;
 
   if (loading) {
     return (
@@ -157,7 +189,7 @@ const Statistics = () => {
                     <CardTitle className="text-lg">Használók</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-3xl font-bold">0</p>
+                    <p className="text-3xl font-bold">{usedBranch}</p>
                     <p className="text-sm text-muted-foreground">válaszadó</p>
                   </CardContent>
                 </Card>
@@ -166,7 +198,7 @@ const Statistics = () => {
                     <CardTitle className="text-lg">Nem használók</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-3xl font-bold">0</p>
+                    <p className="text-3xl font-bold">{notUsedBranch + redirectBranch}</p>
                     <p className="text-sm text-muted-foreground">válaszadó</p>
                   </CardContent>
                 </Card>
@@ -175,14 +207,26 @@ const Statistics = () => {
                     <CardTitle className="text-lg">Összes</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-3xl font-bold">0</p>
+                    <p className="text-3xl font-bold">{totalResponses}</p>
                     <p className="text-sm text-muted-foreground">válaszadó</p>
                   </CardContent>
                 </Card>
               </div>
-              <div className="text-center py-12 text-muted-foreground">
-                {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
-              </div>
+              {loadingResponses ? (
+                <div className="text-center py-12 text-muted-foreground">
+                  Adatok betöltése...
+                </div>
+              ) : totalResponses === 0 ? (
+                <div className="text-center py-12 text-muted-foreground">
+                  {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Részletes statisztikák hamarosan...
+                  </p>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
