@@ -87,44 +87,13 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
           
           toast({
             title: "Email megerősítve! ✓",
-            description: "Fiók létrehozása folyamatban...",
+            description: "Folytathatja a regisztrációt.",
           });
 
-          // Create Supabase Auth user
-          try {
-            const { error: signUpError } = await supabase.auth.signUp({
-              email: emailToCheck,
-              password: password,
-              options: {
-                emailRedirectTo: `${window.location.origin}/`,
-              },
-            });
-
-            if (signUpError) {
-              toast({
-                title: "Hiba történt",
-                description: signUpError.message,
-                variant: "destructive",
-              });
-              return;
-            }
-
-            toast({
-              title: "Fiók sikeresen létrehozva!",
-              description: "Folytathatja a regisztrációt.",
-            });
-
-            // Proceed to next step after a brief delay
-            setTimeout(() => {
-              onEmailVerified();
-            }, 500);
-          } catch (error: any) {
-            toast({
-              title: "Hiba történt",
-              description: "Nem sikerült létrehozni a fiókot.",
-              variant: "destructive",
-            });
-          }
+          // Proceed to next step after a brief delay
+          setTimeout(() => {
+            onEmailVerified();
+          }, 500);
         }
       } catch (error) {
         // Verification not yet complete, continue checking

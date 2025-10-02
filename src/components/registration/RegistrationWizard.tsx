@@ -109,7 +109,39 @@ export const RegistrationWizard = () => {
     setIsSubmitting(true);
     
     try {
-      // Sign in the user with email and password
+      // Step 1: Create Supabase Auth user
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/`,
+          data: {
+            full_name: data.contactName,
+          }
+        },
+      });
+
+      if (signUpError) {
+        toast({
+          title: "Regisztrációs hiba",
+          description: signUpError.message,
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (!signUpData.user) {
+        toast({
+          title: "Hiba",
+          description: "Nem sikerült létrehozni a fiókot",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Step 2: Sign in the user
       const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -125,17 +157,7 @@ export const RegistrationWizard = () => {
         return;
       }
 
-      if (!signInData.user) {
-        toast({
-          title: "Hiba",
-          description: "Nem sikerült bejelentkezni",
-          variant: "destructive",
-        });
-        setIsSubmitting(false);
-        return;
-      }
-
-      // Update the user's profile with company data
+      // Step 3: Update the user's profile with company data
       const { error: updateError } = await supabase
         .from('profiles')
         .update({
@@ -146,20 +168,15 @@ export const RegistrationWizard = () => {
 
       if (updateError) {
         console.error('Error updating profile:', updateError);
-        toast({
-          title: "Figyelmeztetés",
-          description: "A profil frissítése nem sikerült teljesen, de folytathatja.",
-          variant: "default",
-        });
       }
 
-      // Show success message
+      // Step 4: Show success message
       toast({
         title: "Sikeres regisztráció!",
         description: "Üdvözöljük a rendszerben.",
       });
 
-      // Redirect to HR Dashboard
+      // Step 5: Redirect to HR Dashboard
       navigate('/hr-dashboard');
       
     } catch (error: any) {
