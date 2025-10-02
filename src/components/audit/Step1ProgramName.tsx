@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-interface Step6Props {
+interface Step1Props {
   programName: string;
   companyName: string;
   eapProgramUrl: string;
@@ -11,10 +11,9 @@ interface Step6Props {
   onCompanyNameChange: (name: string) => void;
   onEapProgramUrlChange: (url: string) => void;
   onNext: () => void;
-  onBack: () => void;
 }
 
-export const Step6ProgramName = ({
+export const Step1ProgramName = ({
   programName,
   companyName,
   eapProgramUrl,
@@ -22,35 +21,37 @@ export const Step6ProgramName = ({
   onCompanyNameChange,
   onEapProgramUrlChange,
   onNext,
-  onBack,
-}: Step6Props) => {
+}: Step1Props) => {
   return (
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Program adatai</CardTitle>
+          <CardTitle>Alapadatok</CardTitle>
+          <CardDescription>Add meg a cég nevét és a program alapinformációit</CardDescription>
           <div className="space-y-3 mt-4 text-foreground">
             <p className="leading-relaxed">
               Add meg az EAP program cégeden belüli elnevezését (maximum 60 karakter).
             </p>
             <p className="leading-relaxed">
-              Ez az elnevezés csak a kérdőív legelső kérdésében fog megjelenni:
-            </p>
-            <p className="italic leading-relaxed pl-4 border-l-2 border-primary/30">
-              „Tudtad, hogy a munkahelyeden elérhető egy támogatási program, amit &lt;program neve&gt; néven ismerhetsz? 
-              Ez a szolgáltatás segítséget nyújt neked és családodnak különböző munkahelyi vagy magánéleti kihívások kezeléséhez, 
-              például stresszhelyzetekben, konfliktusok megoldásában vagy akár pénzügyi tanácsadásban is."
-            </p>
-            <p className="leading-relaxed">
-              A kérdőív további részében mindig általános „program" megnevezéssel hivatkozunk rá, 
-              így biztosítva az egységes és könnyen érthető kommunikációt.
+              Ez az elnevezés a kérdőív legelső kérdésében és a kommunikációs szövegekben fog megjelenni.
             </p>
             <p className="leading-relaxed text-sm">
-              Ha üresen hagyod, akkor „EAP" lesz az alapértelmezett elnevezés.
+              Ha üresen hagyod, akkor „DoYouEAP" lesz az alapértelmezett elnevezés.
             </p>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="company-name">Cég neve *</Label>
+            <Input
+              id="company-name"
+              value={companyName}
+              onChange={(e) => onCompanyNameChange(e.target.value)}
+              placeholder="pl. Példa Kft."
+              required
+            />
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="program-name">Program neve</Label>
             <Input
@@ -78,11 +79,8 @@ export const Step6ProgramName = ({
         </CardContent>
       </Card>
 
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onBack}>
-          Vissza
-        </Button>
-        <Button onClick={onNext}>
+      <div className="flex justify-end">
+        <Button onClick={onNext} disabled={!companyName.trim()}>
           Következő lépés
         </Button>
       </div>

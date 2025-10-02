@@ -5,13 +5,13 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { toast } from 'sonner';
-import { Step1AccessMode } from '@/components/audit/Step1AccessMode';
-import { Step2Communication } from '@/components/audit/Step2Communication';
+import { Step1ProgramName } from '@/components/audit/Step1ProgramName';
+import { Step2AccessMode } from '@/components/audit/Step2AccessMode';
+import { Step3Communication } from '@/components/audit/Step3Communication';
 import { Step3Distribution } from '@/components/audit/Step3Distribution';
 import { Step3Branding } from '@/components/audit/Step3Branding';
 import { Step4Timing } from '@/components/audit/Step4Timing';
 import { Step5Languages } from '@/components/audit/Step5Languages';
-import { Step6ProgramName } from '@/components/audit/Step6ProgramName';
 import { Step7Summary } from '@/components/audit/Step7Summary';
 
 const CreateAudit = () => {
@@ -46,11 +46,11 @@ const CreateAudit = () => {
   const [emailFrom, setEmailFrom] = useState('noreply@doyoueap.com');
   const [eapProgramUrl, setEapProgramUrl] = useState('https://doyoueap.hu');
 
-  const totalSteps = 8;
+  const totalSteps = 7;
 
   const handleNext = async () => {
-    // Generate token after step 2 (before step 3)
-    if (currentStep === 2 && !accessToken) {
+    // Generate token after step 3 (before step 4 - distribution)
+    if (currentStep === 3 && !accessToken) {
       try {
         const { data: tokenData, error: tokenError } = await supabase.rpc(
           'generate_access_token'
@@ -185,24 +185,39 @@ const CreateAudit = () => {
       <Card>
         <CardContent className="pt-6">
           {currentStep === 1 && (
-            <Step1AccessMode
-              accessMode={accessMode}
-              onAccessModeChange={setAccessMode}
+            <Step1ProgramName
+              programName={programName}
+              companyName={companyName}
+              eapProgramUrl={eapProgramUrl}
+              onProgramNameChange={setProgramName}
+              onCompanyNameChange={setCompanyName}
+              onEapProgramUrlChange={setEapProgramUrl}
               onNext={handleNext}
             />
           )}
 
           {currentStep === 2 && (
-            <Step2Communication
-              communicationText={communicationText}
-              onCommunicationTextChange={setCommunicationText}
+            <Step2AccessMode
               accessMode={accessMode}
+              onAccessModeChange={setAccessMode}
               onNext={handleNext}
               onBack={handleBack}
             />
           )}
 
           {currentStep === 3 && (
+            <Step3Communication
+              communicationText={communicationText}
+              onCommunicationTextChange={setCommunicationText}
+              accessMode={accessMode}
+              programName={programName}
+              companyName={companyName}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          )}
+
+          {currentStep === 4 && (
             <Step3Distribution
               accessMode={accessMode}
               accessToken={accessToken}
@@ -217,7 +232,7 @@ const CreateAudit = () => {
             />
           )}
 
-          {currentStep === 4 && (
+          {currentStep === 5 && (
             <Step3Branding
               logoFile={logoFile}
               customColors={customColors}
@@ -228,7 +243,7 @@ const CreateAudit = () => {
             />
           )}
 
-          {currentStep === 5 && (
+          {currentStep === 6 && (
             <Step4Timing
               startDate={startDate}
               expiresAt={expiresAt}
@@ -243,7 +258,7 @@ const CreateAudit = () => {
             />
           )}
 
-          {currentStep === 6 && (
+          {currentStep === 7 && (
             <Step5Languages
               selectedLanguages={selectedLanguages}
               onLanguagesChange={setSelectedLanguages}
@@ -252,20 +267,7 @@ const CreateAudit = () => {
             />
           )}
 
-          {currentStep === 7 && (
-            <Step6ProgramName
-              programName={programName}
-              companyName={companyName}
-              eapProgramUrl={eapProgramUrl}
-              onProgramNameChange={setProgramName}
-              onCompanyNameChange={setCompanyName}
-              onEapProgramUrlChange={setEapProgramUrl}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
-
-          {currentStep === 8 && (
+          {currentStep > 7 && (
             <Step7Summary
               auditData={auditData}
               onSubmit={handleSubmit}

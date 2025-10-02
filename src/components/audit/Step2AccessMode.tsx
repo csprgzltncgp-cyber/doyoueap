@@ -4,13 +4,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Upload, Link as LinkIcon, QrCode } from "lucide-react";
 
-interface Step1Props {
+interface Step2Props {
   accessMode: string;
   onAccessModeChange: (mode: string) => void;
   onNext: () => void;
+  onBack: () => void;
 }
 
-export const Step1AccessMode = ({ accessMode, onAccessModeChange, onNext }: Step1Props) => {
+export const Step2AccessMode = ({ accessMode, onAccessModeChange, onNext, onBack }: Step2Props) => {
   return (
     <div className="space-y-6">
       <div>
@@ -80,7 +81,10 @@ export const Step1AccessMode = ({ accessMode, onAccessModeChange, onNext }: Step
         </Card>
       </RadioGroup>
 
-      <div className="flex justify-end">
+      <div className="flex justify-between">
+        <Button variant="outline" onClick={onBack}>
+          Vissza
+        </Button>
         <Button onClick={onNext} disabled={!accessMode}>
           Következő lépés
         </Button>
