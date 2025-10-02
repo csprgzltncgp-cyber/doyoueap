@@ -71,7 +71,7 @@ export const Step5Languages = ({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {AVAILABLE_LANGUAGES.map((lang) => (
               <div key={lang.code} className="flex items-center space-x-2">
                 <Checkbox
@@ -85,10 +85,10 @@ export const Step5Languages = ({
                 </Label>
               </div>
             ))}
-            <p className="text-sm text-muted-foreground mt-4">
-              * Legalább egy nyelv kiválasztása kötelező
-            </p>
           </div>
+          <p className="text-sm text-muted-foreground mt-4">
+            * Legalább egy nyelv kiválasztása kötelező
+          </p>
         </CardContent>
       </Card>
 
