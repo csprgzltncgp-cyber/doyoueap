@@ -34,17 +34,19 @@ Előre is köszönjük, hogy segítesz jobbá tenni a {{program_név}} programot
 Üdvözlettel,
 {{cég_név}}`;
     } else if (accessMode === 'qr_code') {
-      return `Kedves Kollégák!
+      return `Segítsd jobbá tenni a {{program_név}} programot!
 
-Segíts még jobbá tenni a {{program_név}} programot!
+A {{program_név}} azért van, hogy támogasson – akár stresszről, jogi vagy pénzügyi kérdésekről, akár pszichológiai segítségről van szó.
 
-Biztosan tudjátok, hogy cégünk biztosítja számotokra a {{program_név}} programot – egy olyan támogatási szolgáltatást, amely segítséget nyújt különféle munkahelyi és magánéleti helyzetekben. Legyen szó stresszről, jogi, pénzügyi kérdésekről vagy pszichológiai támogatásról, szakembereink rendelkezésetekre állnak.
+Most rajtad a sor: töltsd ki rövid kérdőívünket, és mondd el a véleményed!
 
-Most itt a lehetőség, hogy pár kérdés megválaszolásával segítsetek nekünk még jobbá tenni ezt a programot!
+QR kód
 
-Szkenneld be a QR kódot és töltsd ki a kérdőívet – pár perc az egész, és tényleg sokat jelent nekünk, ha segítetek ebben. A kitöltés és a részvétel teljesen anonim, semmilyen regisztráció nem szükséges. A válaszokat csak statisztikai adatként kezeljük, összesítve.
+Néhány perc az egész
+Teljesen anonim
+Csak statisztikai céllal használjuk
 
-Köszönjük!`;
+Köszönjük, hogy segítesz fejleszteni a {{program_név}} programot!`;
     } else {
       return `Helló!
 
