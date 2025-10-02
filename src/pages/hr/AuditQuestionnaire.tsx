@@ -102,7 +102,10 @@ export default function AuditQuestionnaire() {
         <Info className="h-4 w-4" />
         <AlertDescription>
           <strong>Előnézet mód:</strong> Ez az oldal csak olvasható előnézetet nyújt. A kérdőív nem módosítható, 
-          így biztosítva az adatok összehasonlíthatóságát a korábbi auditokkal. Itt láthatod, hogyan látják a munkavállalók a kérdőívet.
+          így biztosítva az adatok összehasonlíthatóságát a korábbi auditokkal. 
+          <br /><br />
+          <strong>Navigáció:</strong> A kék (#3366ff) gombok segítenek a különböző kérdőív szakaszok között navigálni. 
+          Ezek jelzik a kattintható területeket a demo során.
         </AlertDescription>
       </Alert>
       <div className="space-y-4 text-center">
@@ -112,7 +115,7 @@ export default function AuditQuestionnaire() {
           statisztikai formában jelennek meg.
         </p>
       </div>
-      <Button onClick={() => setCurrentStep('demographics')} className="w-full">
+      <Button onClick={() => setCurrentStep('demographics')} className="w-full bg-demo-primary hover:bg-demo-primary/90 text-white">
         Kezdés (Demo)
       </Button>
     </div>
@@ -147,7 +150,7 @@ export default function AuditQuestionnaire() {
           >
             Vissza
           </Button>
-          <Button onClick={() => setCurrentStep('branch_selector')} className="flex-1">
+          <Button onClick={() => setCurrentStep('branch_selector')} className="flex-1 bg-demo-primary hover:bg-demo-primary/90 text-white">
             Tovább (Demo)
           </Button>
         </div>
@@ -183,47 +186,44 @@ export default function AuditQuestionnaire() {
 
         <div className="grid grid-cols-1 gap-3">
           <Button 
-            variant="outline"
             onClick={() => {
               setCurrentStep('eap_info');
             }}
-            className="w-full justify-start h-auto py-4"
+            className="w-full justify-start h-auto py-4 bg-demo-primary hover:bg-demo-primary/90 text-white"
           >
             <div className="text-left">
               <div className="font-semibold">1. ág: "Nem tudom / Nem, tudok róla és nem használtam"</div>
-              <div className="text-sm text-muted-foreground">EAP információs oldal megjelenítése</div>
+              <div className="text-sm opacity-90">EAP információs oldal megjelenítése</div>
             </div>
           </Button>
 
           <Button 
-            variant="outline"
             onClick={() => {
               // Use "not_used" branch directly
               setSelectedBranch('not_used');
               setCurrentStep('branch_questions');
               setCurrentBlockIndex(0);
             }}
-            className="w-full justify-start h-auto py-4"
+            className="w-full justify-start h-auto py-4 bg-demo-primary hover:bg-demo-primary/90 text-white"
           >
             <div className="text-left">
               <div className="font-semibold">2. ág: "Igen, tudok róla de nem használtam"</div>
-              <div className="text-sm text-muted-foreground">Tudatosság és motiváció kérdések</div>
+              <div className="text-sm opacity-90">Tudatosság és motiváció kérdések</div>
             </div>
           </Button>
 
           <Button 
-            variant="outline"
             onClick={() => {
               // Use "used" branch directly
               setSelectedBranch('used');
               setCurrentStep('branch_questions');
               setCurrentBlockIndex(0);
             }}
-            className="w-full justify-start h-auto py-4"
+            className="w-full justify-start h-auto py-4 bg-demo-primary hover:bg-demo-primary/90 text-white"
           >
             <div className="text-left">
               <div className="font-semibold">3. ág: "Igen, tudok róla és használtam is"</div>
-              <div className="text-sm text-muted-foreground">Használati tapasztalatok és elégedettség</div>
+              <div className="text-sm opacity-90">Használati tapasztalatok és elégedettség</div>
             </div>
           </Button>
         </div>
@@ -300,7 +300,7 @@ export default function AuditQuestionnaire() {
                 setSelectedBranch(null);
               }
             }}
-            className="flex-1"
+            className="flex-1 bg-demo-primary hover:bg-demo-primary/90 text-white"
           >
             {isLastBlock ? 'Újrakezd (Demo)' : 'Tovább (Demo)'}
           </Button>
@@ -348,7 +348,7 @@ export default function AuditQuestionnaire() {
             setCurrentBlockIndex(0);
             setSelectedBranch(null);
           }} 
-          className="flex-1"
+          className="flex-1 bg-demo-primary hover:bg-demo-primary/90 text-white"
         >
           Újrakezd (Demo)
         </Button>
