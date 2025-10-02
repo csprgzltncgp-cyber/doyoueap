@@ -82,8 +82,8 @@ const Statistics = () => {
 
   // Helper function to calculate average
   const calculateAverage = (values: number[]) => {
-    if (values.length === 0) return 0;
-    return (values.reduce((a, b) => a + b, 0) / values.length).toFixed(1);
+    if (values.length === 0) return '0.0';
+    return ((values.reduce((a, b) => a + b, 0) / values.length)).toFixed(1);
   };
 
   // Helper function to count occurrences
@@ -92,6 +92,11 @@ const Statistics = () => {
       acc[item] = (acc[item] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
+  };
+
+  // Helper function to format percentage
+  const formatPercentage = (count: number, total: number) => {
+    return Math.round((count / total) * 100);
   };
 
   if (loading) {
@@ -426,10 +431,11 @@ const Statistics = () => {
                       </CardHeader>
                       <CardContent>
                         <p className="text-2xl font-bold">
-                          {Math.round(
-                            (responses
+                          {formatPercentage(
+                            responses
                               .filter(r => r.employee_metadata?.branch === 'used' && r.responses?.u_usage_recommend === 'yes')
-                              .length / usedBranch) * 100
+                              .length,
+                            usedBranch
                           )}%
                         </p>
                         <p className="text-xs text-muted-foreground">igen válaszok</p>
@@ -456,7 +462,7 @@ const Statistics = () => {
                               <div className="w-32 bg-muted rounded-full h-2">
                                 <div
                                   className="bg-primary h-2 rounded-full"
-                                  style={{ width: `${(count / usedBranch) * 100}%` }}
+                                  style={{ width: `${formatPercentage(count, usedBranch)}%` }}
                                 />
                               </div>
                               <span className="text-sm font-medium w-12 text-right">{count}</span>
@@ -608,7 +614,7 @@ const Statistics = () => {
                                 <div className="w-32 bg-muted rounded-full h-2">
                                   <div
                                     className="bg-primary h-2 rounded-full"
-                                    style={{ width: `${((count as number) / notUsedBranch) * 100}%` }}
+                                    style={{ width: `${formatPercentage(count as number, notUsedBranch)}%` }}
                                   />
                                 </div>
                                 <span className="text-sm font-medium w-12 text-right">{count as number}</span>
@@ -706,7 +712,7 @@ const Statistics = () => {
                               <div className="w-32 bg-muted rounded-full h-2">
                                 <div
                                   className="bg-primary h-2 rounded-full"
-                                  style={{ width: `${((count as number) / totalResponses) * 100}%` }}
+                                  style={{ width: `${formatPercentage(count as number, totalResponses)}%` }}
                                 />
                               </div>
                               <span className="text-sm font-medium w-12 text-right">{count as number}</span>
@@ -735,7 +741,7 @@ const Statistics = () => {
                               <div className="w-32 bg-muted rounded-full h-2">
                                 <div
                                   className="bg-primary h-2 rounded-full"
-                                  style={{ width: `${((count as number) / totalResponses) * 100}%` }}
+                                  style={{ width: `${formatPercentage(count as number, totalResponses)}%` }}
                                 />
                               </div>
                               <span className="text-sm font-medium w-12 text-right">{count as number}</span>
@@ -764,7 +770,7 @@ const Statistics = () => {
                               <div className="w-32 bg-muted rounded-full h-2">
                                 <div
                                   className="bg-primary h-2 rounded-full"
-                                  style={{ width: `${((count as number) / totalResponses) * 100}%` }}
+                                  style={{ width: `${formatPercentage(count as number, totalResponses)}%` }}
                                 />
                               </div>
                               <span className="text-sm font-medium w-12 text-right">{count as number}</span>
@@ -793,7 +799,7 @@ const Statistics = () => {
                               <div className="w-32 bg-muted rounded-full h-2">
                                 <div
                                   className="bg-primary h-2 rounded-full"
-                                  style={{ width: `${((count as number) / totalResponses) * 100}%` }}
+                                  style={{ width: `${formatPercentage(count as number, totalResponses)}%` }}
                                 />
                               </div>
                               <span className="text-sm font-medium w-12 text-right">{count as number}</span>
