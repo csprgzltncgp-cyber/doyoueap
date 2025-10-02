@@ -41,6 +41,13 @@ const EAPAudit = () => {
 
   return (
     <div className="p-8">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold mb-2">EAP Audit</h1>
+        <p className="text-muted-foreground">
+          Audit létrehozása, kezelése és előnézete
+        </p>
+      </div>
+
       <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="create" className="flex items-center gap-2">
