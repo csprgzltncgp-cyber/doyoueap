@@ -25,6 +25,12 @@ export const Step6ProgramName = ({
       <Card>
         <CardHeader>
           <CardTitle>Program neve</CardTitle>
+          <CardDescription>
+            Adja meg az EAP program cégén belüli elnevezését (maximum 60 karakter). 
+            Ez az elnevezés csak a kérdőív legelső kérdésében fog megjelenni: „Tudta, hogy a cégénál elérhető a &lt;program neve&gt; program?" 
+            A kérdőív további részében mindig általános „program" megnevezéssel hivatkozunk rá, így biztosítva az egységes és könnyen érthető kommunikációt.
+            Ha üresen hagyja, akkor „EAP" lesz az alapértelmezett elnevezés.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Input
