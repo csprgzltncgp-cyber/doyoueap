@@ -965,9 +965,19 @@ const Statistics = () => {
               ) : (
                 <div className="space-y-6">
                   <div className="grid grid-cols-4 gap-4">
-                    <Card>
+                    <Card id="usage-satisfaction-card">
                       <CardHeader>
-                        <CardTitle className="text-sm">Elégedettség (1-5 skála)</CardTitle>
+                        <div className="flex justify-between items-start">
+                          <CardTitle className="text-sm">Elégedettség (1-5 skála)</CardTitle>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => exportCardToPNG('usage-satisfaction-card', 'használat-elégedettség')}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
@@ -982,9 +992,19 @@ const Statistics = () => {
                         />
                       </CardContent>
                     </Card>
-                    <Card>
+                    <Card id="usage-problem-solving-card">
                       <CardHeader>
-                        <CardTitle className="text-sm">Problémamegoldás (1-5 skála)</CardTitle>
+                        <div className="flex justify-between items-start">
+                          <CardTitle className="text-sm">Problémamegoldás (1-5 skála)</CardTitle>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => exportCardToPNG('usage-problem-solving-card', 'problémamegoldás')}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
@@ -1000,9 +1020,19 @@ const Statistics = () => {
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire segített a program a problémák kezelésében</p>
                       </CardContent>
                     </Card>
-                    <Card>
+                    <Card id="usage-nps-card">
                       <CardHeader>
-                        <CardTitle className="text-sm">NPS átlag (0-10 skála)</CardTitle>
+                        <div className="flex justify-between items-start">
+                          <CardTitle className="text-sm">NPS átlag (0-10 skála)</CardTitle>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => exportCardToPNG('usage-nps-card', 'NPS')}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
@@ -1018,9 +1048,19 @@ const Statistics = () => {
                         <p className="text-xs text-muted-foreground mt-2 text-center">Net Promoter Score: ajánlási hajlandóság másoknak</p>
                       </CardContent>
                     </Card>
-                    <Card>
+                    <Card id="usage-consistency-card">
                       <CardHeader>
-                        <CardTitle className="text-sm">Konzisztencia (1-5 skála)</CardTitle>
+                        <div className="flex justify-between items-start">
+                          <CardTitle className="text-sm">Konzisztencia (1-5 skála)</CardTitle>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => exportCardToPNG('usage-consistency-card', 'konzisztencia')}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
@@ -1090,9 +1130,19 @@ const Statistics = () => {
                 <div className="text-center py-12 text-muted-foreground">Még nincs használó adat</div>
               ) : (
                 <div className="grid grid-cols-2 gap-4">
-                  <Card>
+                  <Card id="impact-performance-card">
                     <CardHeader>
-                      <CardTitle className="text-sm">Teljesítményre gyakorolt hatás (1-5 skála)</CardTitle>
+                      <div className="flex justify-between items-start">
+                        <CardTitle className="text-sm">Teljesítményre gyakorolt hatás (1-5 skála)</CardTitle>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => exportCardToPNG('impact-performance-card', 'teljesítmény-hatás')}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </CardHeader>
                     <CardContent>
                       <GaugeChart
@@ -1108,9 +1158,19 @@ const Statistics = () => {
                       <p className="text-xs text-muted-foreground mt-2 text-center">A program hatása a munkahelyi teljesítményre és produktivitásra</p>
                     </CardContent>
                   </Card>
-                  <Card>
+                  <Card id="impact-problem-solving-card">
                     <CardHeader>
-                      <CardTitle className="text-sm">Problémamegoldás (1-5 skála)</CardTitle>
+                      <div className="flex justify-between items-start">
+                        <CardTitle className="text-sm">Problémamegoldás (1-5 skála)</CardTitle>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => exportCardToPNG('impact-problem-solving-card', 'hatás-problémamegoldás')}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </CardHeader>
                     <CardContent>
                       <GaugeChart
@@ -1126,9 +1186,19 @@ const Statistics = () => {
                       <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire hatékonyan segített a program a problémák megoldásában</p>
                     </CardContent>
                   </Card>
-                  <Card>
+                  <Card id="impact-wellbeing-card">
                     <CardHeader>
-                      <CardTitle className="text-sm">Általános jóllét (1-5 skála)</CardTitle>
+                      <div className="flex justify-between items-start">
+                        <CardTitle className="text-sm">Általános jóllét (1-5 skála)</CardTitle>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => exportCardToPNG('impact-wellbeing-card', 'jóllét-hatás')}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </CardHeader>
                     <CardContent>
                       <GaugeChart
@@ -1144,9 +1214,19 @@ const Statistics = () => {
                       <p className="text-xs text-muted-foreground mt-2 text-center">A program hatása az általános jóllétre és mentális egészségre</p>
                     </CardContent>
                   </Card>
-                  <Card>
+                  <Card id="impact-satisfaction-card">
                     <CardHeader>
-                      <CardTitle className="text-sm">Elégedettség (1-5 skála)</CardTitle>
+                      <div className="flex justify-between items-start">
+                        <CardTitle className="text-sm">Elégedettség (1-5 skála)</CardTitle>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => exportCardToPNG('impact-satisfaction-card', 'hatás-elégedettség')}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </CardHeader>
                     <CardContent>
                       <GaugeChart
@@ -1161,9 +1241,19 @@ const Statistics = () => {
                       />
                     </CardContent>
                   </Card>
-                  <Card className="col-span-2">
+                  <Card id="impact-consistency-card" className="col-span-2">
                     <CardHeader>
-                      <CardTitle className="text-sm">Szolgáltatás konzisztencia (1-5 skála)</CardTitle>
+                      <div className="flex justify-between items-start">
+                        <CardTitle className="text-sm">Szolgáltatás konzisztencia (1-5 skála)</CardTitle>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => exportCardToPNG('impact-consistency-card', 'szolgáltatás-konzisztencia')}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </CardHeader>
                     <CardContent>
                       <GaugeChart
@@ -1307,9 +1397,19 @@ const Statistics = () => {
                 <div className="text-center py-12 text-muted-foreground">Még nincs adat</div>
               ) : (
                 <div className="grid grid-cols-2 gap-4">
-                  <Card>
+                  <Card id="demographics-gender-card">
                     <CardHeader>
-                      <CardTitle className="text-sm">Nem szerinti megoszlás</CardTitle>
+                      <div className="flex justify-between items-start">
+                        <CardTitle className="text-sm">Nem szerinti megoszlás</CardTitle>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => exportCardToPNG('demographics-gender-card', 'nem-megoszlás')}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
@@ -1339,9 +1439,19 @@ const Statistics = () => {
                       </div>
                     </CardContent>
                   </Card>
-                  <Card>
+                  <Card id="demographics-age-card">
                     <CardHeader>
-                      <CardTitle className="text-sm">Korcsoport megoszlás</CardTitle>
+                      <div className="flex justify-between items-start">
+                        <CardTitle className="text-sm">Korcsoport megoszlás</CardTitle>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => exportCardToPNG('demographics-age-card', 'korcsoport-megoszlás')}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
