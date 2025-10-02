@@ -98,6 +98,8 @@ const Export = () => {
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
+      const margin = 10;
+      const cardWidth = (pageWidth - 3 * margin) / 2; // 2 columns
       
       // Title page
       pdf.setFontSize(24);
@@ -150,24 +152,21 @@ const Export = () => {
       for (let i = 0; i < tabsToExport.length; i++) {
         const tab = tabsToExport[i];
         
-        // Add new page for each tab (except first)
-        if (i > 0) {
-          pdf.addPage();
-        } else {
-          pdf.addPage();
-        }
+        pdf.addPage();
 
         // Add tab title
         pdf.setFontSize(18);
-        pdf.text(tab.name, 20, 20);
+        pdf.text(tab.name, margin, 15);
         
-        let yPosition = 30;
+        let yPosition = 25;
+        let xPosition = margin;
+        let columnIndex = 0;
 
         // Create hidden iframe to load the page
         const iframe = document.createElement('iframe');
         iframe.style.position = 'absolute';
         iframe.style.width = '1200px';
-        iframe.style.height = '2000px';
+        iframe.style.height = '3000px';
         iframe.style.left = '-9999px';
         iframe.src = tab.url;
         document.body.appendChild(iframe);
@@ -175,38 +174,57 @@ const Export = () => {
         // Wait for iframe to load
         await new Promise<void>((resolve) => {
           iframe.onload = () => {
-            setTimeout(() => resolve(), 2000); // Wait for data to load
+            setTimeout(() => resolve(), 2500); // Wait for data to load
           };
         });
 
         // Capture each card
-        for (const cardId of tab.cardIds) {
+        for (let cardIndex = 0; cardIndex < tab.cardIds.length; cardIndex++) {
+          const cardId = tab.cardIds[cardIndex];
           const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
           if (!iframeDoc) continue;
 
           const element = iframeDoc.getElementById(cardId);
-          if (!element) continue;
+          if (!element) {
+            console.warn(`Card not found: ${cardId}`);
+            continue;
+          }
 
           const canvas = await html2canvas(element, {
             backgroundColor: '#ffffff',
-            scale: 2,
+            scale: 1.5,
             allowTaint: true,
             useCORS: true,
             windowWidth: 1200,
           });
 
           const imgData = canvas.toDataURL('image/png');
-          const imgWidth = pageWidth - 40; // 20mm margin on each side
-          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          const aspectRatio = canvas.height / canvas.width;
+          const imgHeight = cardWidth * aspectRatio;
 
           // Check if we need a new page
-          if (yPosition + imgHeight > pageHeight - 20) {
+          if (yPosition + imgHeight > pageHeight - margin) {
             pdf.addPage();
-            yPosition = 20;
+            pdf.setFontSize(18);
+            pdf.text(`${tab.name} (folytatás)`, margin, 15);
+            yPosition = 25;
+            xPosition = margin;
+            columnIndex = 0;
           }
 
-          pdf.addImage(imgData, 'PNG', 20, yPosition, imgWidth, imgHeight);
-          yPosition += imgHeight + 10; // 10mm spacing between cards
+          // Add image in 2-column layout
+          pdf.addImage(imgData, 'PNG', xPosition, yPosition, cardWidth, imgHeight);
+
+          // Move to next position
+          columnIndex++;
+          if (columnIndex % 2 === 0) {
+            // Move to next row
+            yPosition += imgHeight + 5;
+            xPosition = margin;
+          } else {
+            // Move to second column
+            xPosition = margin + cardWidth + margin;
+          }
         }
 
         // Remove iframe
