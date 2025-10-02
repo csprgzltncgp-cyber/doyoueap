@@ -442,43 +442,56 @@ const UserDashboard = () => {
     </div>
   );
 
-  const renderEapInfo = () => (
-    <div className="space-y-6">
-      <div className="space-y-4">
-        <h2 className="text-2xl font-bold">Mi az EAP?</h2>
-        <p className="text-foreground">
-          Az EAP (Employee Assistance Program) egy munkavállalói segítő program, amely 
-          különböző élethelyzetekben nyújt támogatást.
-        </p>
-        <p className="text-foreground">
-          A program keretében hozzáférhetsz pszichológiai tanácsadáshoz, jogi segítséghez, 
-          és számos más szolgáltatáshoz, amelyek segíthetnek a munkahelyi és magánéleti 
-          kihívások kezelésében.
-        </p>
-        <div className="p-4 bg-secondary rounded-lg">
-          <p className="font-semibold mb-2">Kattints az alábbi linkre és látogasd meg a program hivatalos weboldalát!</p>
-          <a 
-            href={audit?.eap_program_url || 'https://doyoueap.hu'} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-primary hover:underline"
-          >
-            {audit?.eap_program_url || 'doyoueap.hu'}
-          </a>
+  const renderEapInfo = () => {
+    // Ensure URL has protocol
+    const formatUrl = (url: string | null) => {
+      if (!url) return 'https://doyoueap.hu';
+      if (url.startsWith('http://') || url.startsWith('https://')) {
+        return url;
+      }
+      return `https://${url}`;
+    };
+
+    const eapUrl = formatUrl(audit?.eap_program_url || null);
+    
+    return (
+      <div className="space-y-6">
+        <div className="space-y-4">
+          <h2 className="text-2xl font-bold">Mi az EAP?</h2>
+          <p className="text-foreground">
+            Az EAP (Employee Assistance Program) egy munkavállalói segítő program, amely 
+            különböző élethelyzetekben nyújt támogatást.
+          </p>
+          <p className="text-foreground">
+            A program keretében hozzáférhetsz pszichológiai tanácsadáshoz, jogi segítséghez, 
+            és számos más szolgáltatáshoz, amelyek segíthetnek a munkahelyi és magánéleti 
+            kihívások kezelésében.
+          </p>
+          <div className="p-4 bg-secondary rounded-lg">
+            <p className="font-semibold mb-2">Kattints az alábbi linkre és látogasd meg a program hivatalos weboldalát!</p>
+            <a 
+              href={eapUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              {audit?.eap_program_url || 'doyoueap.hu'}
+            </a>
+          </div>
         </div>
+        <Button 
+          onClick={() => handleSubmit(new Event('submit') as any)} 
+          className="w-full"
+          style={{
+            backgroundColor: primaryColor,
+            borderColor: primaryColor,
+          }}
+        >
+          Befejezés
+        </Button>
       </div>
-      <Button 
-        onClick={() => handleSubmit(new Event('submit') as any)} 
-        className="w-full"
-        style={{
-          backgroundColor: primaryColor,
-          borderColor: primaryColor,
-        }}
-      >
-        Befejezés
-      </Button>
-    </div>
-  );
+    );
+  };
 
   const renderThankYou = () => (
     <div className="space-y-6 text-center">
