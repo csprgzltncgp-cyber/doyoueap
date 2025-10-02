@@ -22,19 +22,9 @@ export const Step6ProgramName = ({
 }: Step6Props) => {
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-2">Program adatok</h2>
-        <p className="text-muted-foreground">
-          Adja meg a cég nevét és a program elnevezését
-        </p>
-      </div>
-
       <Card>
         <CardHeader>
           <CardTitle>Program neve</CardTitle>
-          <CardDescription>
-            Ez az elnevezés jelenik meg az első kérdésben: „Tudta, hogy a cégénél elérhető a &lt;program név&gt; program?" (max. 60 karakter)
-          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
