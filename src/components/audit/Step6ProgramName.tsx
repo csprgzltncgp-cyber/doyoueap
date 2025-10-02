@@ -5,10 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 interface Step6Props {
   programName: string;
-  companyName: string;
   eapProgramUrl: string;
   onProgramNameChange: (name: string) => void;
-  onCompanyNameChange: (name: string) => void;
   onEapProgramUrlChange: (url: string) => void;
   onNext: () => void;
   onBack: () => void;
@@ -16,10 +14,8 @@ interface Step6Props {
 
 export const Step6ProgramName = ({
   programName,
-  companyName,
   eapProgramUrl,
   onProgramNameChange,
-  onCompanyNameChange,
   onEapProgramUrlChange,
   onNext,
   onBack,

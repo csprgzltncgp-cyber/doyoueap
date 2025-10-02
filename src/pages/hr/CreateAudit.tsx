@@ -21,7 +21,6 @@ const CreateAudit = () => {
   const [loading, setLoading] = useState(false);
 
   // Audit data state
-  const [companyName, setCompanyName] = useState('');
   const [programName, setProgramName] = useState('');
   const [accessMode, setAccessMode] = useState('public_link');
   const [communicationText, setCommunicationText] = useState('');
@@ -76,7 +75,7 @@ const CreateAudit = () => {
   };
 
   const handleSubmit = async () => {
-    if (!companyName || !expiresAt) {
+    if (!expiresAt) {
       toast.error('Kérlek töltsd ki az összes kötelező mezőt');
       return;
     }
@@ -84,6 +83,19 @@ const CreateAudit = () => {
     setLoading(true);
 
     try {
+      // Get company name from user profile
+      const { data: profileData } = await supabase
+        .from('profiles')
+        .select('company_name')
+        .eq('id', user?.id)
+        .single();
+
+      if (!profileData?.company_name) {
+        toast.error('Nem található cég név a profilodban');
+        setLoading(false);
+        return;
+      }
+
       let logoUrl = null;
 
       // Upload logo if provided
@@ -129,7 +141,7 @@ const CreateAudit = () => {
       // Create audit
       const { error } = await supabase.from('audits').insert({
         hr_user_id: user?.id,
-        company_name: companyName,
+        company_name: profileData.company_name,
         program_name: programName,
         questionnaire_id: questionnaires[0].id,
         access_token: accessToken,
@@ -159,7 +171,6 @@ const CreateAudit = () => {
   };
 
   const auditData = {
-    companyName,
     programName,
     accessMode,
     communicationText,
@@ -187,10 +198,8 @@ const CreateAudit = () => {
           {currentStep === 1 && (
             <Step6ProgramName
               programName={programName}
-              companyName={companyName}
               eapProgramUrl={eapProgramUrl}
               onProgramNameChange={setProgramName}
-              onCompanyNameChange={setCompanyName}
               onEapProgramUrlChange={setEapProgramUrl}
               onNext={handleNext}
               onBack={handleBack}
@@ -212,7 +221,6 @@ const CreateAudit = () => {
               onCommunicationTextChange={setCommunicationText}
               accessMode={accessMode}
               programName={programName}
-              companyName={companyName}
               onNext={handleNext}
               onBack={handleBack}
             />

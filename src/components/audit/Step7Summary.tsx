@@ -5,7 +5,6 @@ import { CheckCircle2, Link as LinkIcon, Upload, QrCode, Calendar, Languages, Fi
 
 interface Step7Props {
   auditData: {
-    companyName: string;
     programName: string;
     accessMode: string;
     communicationText: string;

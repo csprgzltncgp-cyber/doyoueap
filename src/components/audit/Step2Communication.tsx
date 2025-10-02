@@ -10,7 +10,6 @@ interface Step2Props {
   onCommunicationTextChange: (text: string) => void;
   accessMode: string;
   programName: string;
-  companyName: string;
   onNext: () => void;
   onBack: () => void;
 }
@@ -20,13 +19,11 @@ export const Step2Communication = ({
   onCommunicationTextChange,
   accessMode,
   programName,
-  companyName,
   onNext,
   onBack,
 }: Step2Props) => {
   const getDefaultCommunicationText = () => {
     const program = programName || 'DoYouEAP';
-    const company = companyName || '[Cég neve]';
     
     if (accessMode === 'tokenes') {
       return `Tárgy: Segítsd jobbá tenni a ${program} programot!
