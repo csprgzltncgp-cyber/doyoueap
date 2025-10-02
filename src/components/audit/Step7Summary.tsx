@@ -15,6 +15,7 @@ interface Step7Props {
     enableRecurrence: boolean;
     recurrenceFrequency: string;
     selectedLanguages: string[];
+    eapProgramUrl: string;
   };
   onSubmit: () => void;
   onBack: () => void;
@@ -79,6 +80,10 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
           <div>
             <p className="text-sm text-muted-foreground">Program elnevezése</p>
             <p className="font-medium">{auditData.programName || 'EAP'}</p>
+          </div>
+          <div>
+            <p className="text-sm text-muted-foreground">Weboldal címe</p>
+            <p className="font-medium">{auditData.eapProgramUrl || 'https://doyoueap.hu'}</p>
           </div>
         </CardContent>
       </Card>

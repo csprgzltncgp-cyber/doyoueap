@@ -181,6 +181,7 @@ const CreateAudit = () => {
     enableRecurrence,
     recurrenceFrequency,
     selectedLanguages,
+    eapProgramUrl,
   };
 
   return (
