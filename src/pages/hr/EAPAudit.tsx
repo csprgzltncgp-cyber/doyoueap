@@ -49,18 +49,27 @@ const EAPAudit = () => {
       </div>
 
       <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="create" className="flex items-center gap-2">
+        <TabsList className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent">
+          <TabsTrigger 
+            value="create" 
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
+          >
             <PlayCircle className="h-4 w-4" />
-            <span className="hidden sm:inline">Audit Indítása</span>
+            Audit Indítása
           </TabsTrigger>
-          <TabsTrigger value="running" className="flex items-center gap-2">
+          <TabsTrigger 
+            value="running" 
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
+          >
             <Activity className="h-4 w-4" />
-            <span className="hidden sm:inline">Futó Auditok</span>
+            Futó Auditok
           </TabsTrigger>
-          <TabsTrigger value="demo" className="flex items-center gap-2">
+          <TabsTrigger 
+            value="demo" 
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
+          >
             <Eye className="h-4 w-4" />
-            <span className="hidden sm:inline">Demo Audit</span>
+            Demo Audit
           </TabsTrigger>
         </TabsList>
 
