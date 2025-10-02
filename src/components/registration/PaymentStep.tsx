@@ -4,6 +4,7 @@ import { Label } from '@/components/ui/label';
 import { RegistrationData } from './RegistrationWizard';
 import { CreditCard, Link2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState } from 'react';
 
 interface PaymentStepProps {
@@ -11,7 +12,7 @@ interface PaymentStepProps {
   updateData: (updates: Partial<RegistrationData>) => void;
 }
 
-export const PaymentStep = ({ data }: PaymentStepProps) => {
+export const PaymentStep = ({ data, updateData }: PaymentStepProps) => {
   const [useStripeLink, setUseStripeLink] = useState(false);
 
   const getPackagePrice = () => {
@@ -145,33 +146,107 @@ export const PaymentStep = ({ data }: PaymentStepProps) => {
       <Card>
         <CardHeader>
           <CardTitle>Számlázási adatok</CardTitle>
+          <CardDescription>
+            Adja meg a számlázáshoz szükséges címet
+          </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-2 text-sm">
-          <div className="grid grid-cols-2 gap-2">
-            <span className="text-muted-foreground">Cég neve:</span>
-            <span className="font-medium">{data.companyName}</span>
-            
-            <span className="text-muted-foreground">Ország:</span>
-            <span className="font-medium">{data.country}</span>
-            
-            <span className="text-muted-foreground">Adószám / VAT ID:</span>
-            <span className="font-medium">{data.vatId}</span>
-            
-            <span className="text-muted-foreground">Székhely címe:</span>
-            <span className="font-medium">{data.address}</span>
-            
-            <span className="text-muted-foreground">Város:</span>
-            <span className="font-medium">{data.city}</span>
-            
-            <span className="text-muted-foreground">Irányítószám:</span>
-            <span className="font-medium">{data.postalCode}</span>
-            
-            <span className="text-muted-foreground">Kapcsolattartó:</span>
-            <span className="font-medium">{data.contactName}</span>
-            
-            <span className="text-muted-foreground">Telefonszám:</span>
-            <span className="font-medium">{data.contactPhone}</span>
-          </div>
+        <CardContent className="space-y-4">
+          <RadioGroup
+            value={data.billingAddressSameAsCompany ? 'same' : 'different'}
+            onValueChange={(value) => updateData({ billingAddressSameAsCompany: value === 'same' })}
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="same" id="same" />
+              <Label htmlFor="same" className="font-normal cursor-pointer">
+                Megegyezik a korábban megadott székhellyel
+              </Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="different" id="different" />
+              <Label htmlFor="different" className="font-normal cursor-pointer">
+                Eltérő számlázási cím megadása
+              </Label>
+            </div>
+          </RadioGroup>
+
+          {data.billingAddressSameAsCompany ? (
+            <div className="space-y-2 text-sm bg-muted/50 p-4 rounded-lg">
+              <div className="grid grid-cols-2 gap-2">
+                <span className="text-muted-foreground">Cég neve:</span>
+                <span className="font-medium">{data.companyName}</span>
+                
+                <span className="text-muted-foreground">Ország:</span>
+                <span className="font-medium">{data.country}</span>
+                
+                <span className="text-muted-foreground">Adószám / VAT ID:</span>
+                <span className="font-medium">{data.vatId}</span>
+                
+                <span className="text-muted-foreground">Székhely címe:</span>
+                <span className="font-medium">{data.address}</span>
+                
+                <span className="text-muted-foreground">Város:</span>
+                <span className="font-medium">{data.city}</span>
+                
+                <span className="text-muted-foreground">Irányítószám:</span>
+                <span className="font-medium">{data.postalCode}</span>
+                
+                <span className="text-muted-foreground">Kapcsolattartó:</span>
+                <span className="font-medium">{data.contactName}</span>
+                
+                <span className="text-muted-foreground">Telefonszám:</span>
+                <span className="font-medium">{data.contactPhone}</span>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4 pt-2">
+              <div className="grid grid-cols-2 gap-4 p-4 bg-muted/30 rounded-lg">
+                <div className="col-span-2">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    A számlázás továbbra is a következő adatokra történik:
+                  </p>
+                  <div className="grid grid-cols-2 gap-1 text-sm">
+                    <span className="text-muted-foreground">Cég neve:</span>
+                    <span className="font-medium">{data.companyName}</span>
+                    <span className="text-muted-foreground">Adószám:</span>
+                    <span className="font-medium">{data.vatId}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="billingAddress">Számlázási cím *</Label>
+                <Input
+                  id="billingAddress"
+                  value={data.billingAddress}
+                  onChange={(e) => updateData({ billingAddress: e.target.value })}
+                  placeholder="Utca, házszám"
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="billingCity">Város *</Label>
+                  <Input
+                    id="billingCity"
+                    value={data.billingCity}
+                    onChange={(e) => updateData({ billingCity: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="billingPostalCode">Irányítószám *</Label>
+                  <Input
+                    id="billingPostalCode"
+                    value={data.billingPostalCode}
+                    onChange={(e) => updateData({ billingPostalCode: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

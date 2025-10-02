@@ -23,6 +23,12 @@ export interface RegistrationData {
   contactPhone: string;
   companyDomain: string;
   
+  // Billing address
+  billingAddressSameAsCompany: boolean;
+  billingAddress: string;
+  billingCity: string;
+  billingPostalCode: string;
+  
   // Package selection
   selectedPackage: 'starter' | 'pro' | 'enterprise' | null;
   billingCycle: 'monthly' | 'yearly';
@@ -45,6 +51,10 @@ const initialData: RegistrationData = {
   contactName: '',
   contactPhone: '',
   companyDomain: '',
+  billingAddressSameAsCompany: true,
+  billingAddress: '',
+  billingCity: '',
+  billingPostalCode: '',
   selectedPackage: null,
   billingCycle: 'yearly',
   termsAccepted: false,
