@@ -336,60 +336,75 @@ const Statistics = () => {
                           <span className="text-sm text-muted-foreground">⭐ Általános elégedettség</span>
                           <span className="font-semibold">{satisfactionScore}/5</span>
                         </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">📊 NPS átlag</span>
-                          <span className="font-semibold">
-                            {calculateAverage(
-                              responses
-                                .filter(r => r.employee_metadata?.branch === 'used')
-                                .map(r => r.responses?.u_impact_nps)
-                                .filter(v => v !== undefined)
-                            )}/10
-                          </span>
+                        <div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-muted-foreground">📊 NPS átlag</span>
+                            <span className="font-semibold">
+                              {calculateAverage(
+                                responses
+                                  .filter(r => r.employee_metadata?.branch === 'used')
+                                  .map(r => r.responses?.u_impact_nps)
+                                  .filter(v => v !== undefined)
+                              )}/10
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-1">Ajánlási hajlandóság: mennyire ajánlaná másoknak a programot</p>
                         </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">🔧 Problémamegoldás</span>
-                          <span className="font-semibold">
-                            {calculateAverage(
-                              responses
-                                .filter(r => r.employee_metadata?.branch === 'used')
-                                .map(r => r.responses?.u_impact_problem_solving)
-                                .filter(v => v !== undefined)
-                            )}/5
-                          </span>
+                        <div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-muted-foreground">🔧 Problémamegoldás</span>
+                            <span className="font-semibold">
+                              {calculateAverage(
+                                responses
+                                  .filter(r => r.employee_metadata?.branch === 'used')
+                                  .map(r => r.responses?.u_impact_problem_solving)
+                                  .filter(v => v !== undefined)
+                              )}/5
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-1">Mennyire segített a program a probléma megoldásában</p>
                         </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">💼 Teljesítmény hatás</span>
-                          <span className="font-semibold">
-                            {calculateAverage(
-                              responses
-                                .filter(r => r.employee_metadata?.branch === 'used')
-                                .map(r => r.responses?.u_impact_performance)
-                                .filter(v => v !== undefined)
-                            )}/5
-                          </span>
+                        <div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-muted-foreground">💼 Teljesítmény hatás</span>
+                            <span className="font-semibold">
+                              {calculateAverage(
+                                responses
+                                  .filter(r => r.employee_metadata?.branch === 'used')
+                                  .map(r => r.responses?.u_impact_performance)
+                                  .filter(v => v !== undefined)
+                              )}/5
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-1">A program hatása a munkahelyi teljesítményre</p>
                         </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">🧘 Wellbeing hatás</span>
-                          <span className="font-semibold">
-                            {calculateAverage(
-                              responses
-                                .filter(r => r.employee_metadata?.branch === 'used')
-                                .map(r => r.responses?.u_impact_wellbeing)
-                                .filter(v => v !== undefined)
-                            )}/5
-                          </span>
+                        <div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-muted-foreground">🧘 Wellbeing hatás</span>
+                            <span className="font-semibold">
+                              {calculateAverage(
+                                responses
+                                  .filter(r => r.employee_metadata?.branch === 'used')
+                                  .map(r => r.responses?.u_impact_wellbeing)
+                                  .filter(v => v !== undefined)
+                              )}/5
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-1">A program hatása az általános jóllétre és mentális egészségre</p>
                         </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">🔄 Konzisztencia</span>
-                          <span className="font-semibold">
-                            {calculateAverage(
-                              responses
-                                .filter(r => r.employee_metadata?.branch === 'used')
-                                .map(r => r.responses?.u_impact_consistency)
-                                .filter(v => v !== undefined)
-                            )}/5
-                          </span>
+                        <div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-muted-foreground">🔄 Konzisztencia</span>
+                            <span className="font-semibold">
+                              {calculateAverage(
+                                responses
+                                  .filter(r => r.employee_metadata?.branch === 'used')
+                                  .map(r => r.responses?.u_impact_consistency)
+                                  .filter(v => v !== undefined)
+                              )}/5
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-1">Mennyire volt konzisztens a szolgáltatás minősége minden alkalommal</p>
                         </div>
                       </div>
                     </div>
@@ -425,6 +440,7 @@ const Statistics = () => {
                               )}/5
                             </p>
                             <p className="text-xs text-muted-foreground">Megértés</p>
+                            <p className="text-xs text-muted-foreground mt-1">Mennyire értik a munkavállalók a szolgáltatást</p>
                           </div>
                         </div>
                       </CardContent>
@@ -450,6 +466,7 @@ const Statistics = () => {
                               )}/5
                             </p>
                             <p className="text-xs text-muted-foreground">Anonimitás</p>
+                            <p className="text-xs text-muted-foreground mt-1">Mennyire bíznak az anonimitás védelmében</p>
                           </div>
                         </div>
                       </CardContent>
@@ -493,6 +510,7 @@ const Statistics = () => {
                               )}/5
                             </p>
                             <p className="text-xs text-muted-foreground">Wellbeing</p>
+                            <p className="text-xs text-muted-foreground mt-1">Jóllét javulása a program használata után</p>
                           </div>
                         </div>
                       </CardContent>
@@ -592,6 +610,7 @@ const Statistics = () => {
                           )}
                         </p>
                         <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
+                        <p className="text-xs text-muted-foreground mt-2">Mennyire bíznak a használók abban, hogy névtelenségük megmarad</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -608,6 +627,7 @@ const Statistics = () => {
                           )}
                         </p>
                         <p className="text-xs text-muted-foreground">átlag (1-5, magasabb = nagyobb félelem)</p>
+                        <p className="text-xs text-muted-foreground mt-2">Mennyire félnek attól, hogy a munkaadó megtudja a használatot</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -624,6 +644,7 @@ const Statistics = () => {
                           )}
                         </p>
                         <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
+                        <p className="text-xs text-muted-foreground mt-2">Mennyire valószínű, hogy újra használnák a szolgáltatást</p>
                       </CardContent>
                     </Card>
                   </div>
@@ -643,6 +664,7 @@ const Statistics = () => {
                             )}
                           </p>
                           <p className="text-xs text-muted-foreground">Anonimitás</p>
+                          <p className="text-xs text-muted-foreground mt-1">Bizalom az anonimitás védelmében</p>
                         </div>
                         <div>
                           <p className="text-lg font-bold">
@@ -654,6 +676,7 @@ const Statistics = () => {
                             )}
                           </p>
                           <p className="text-xs text-muted-foreground">Munkaadói félelem</p>
+                          <p className="text-xs text-muted-foreground mt-1">Félelem a munkaadó tudomásától</p>
                         </div>
                         <div>
                           <p className="text-lg font-bold">
@@ -665,6 +688,7 @@ const Statistics = () => {
                             )}
                           </p>
                           <p className="text-xs text-muted-foreground">Kollégai megítéléstől félelem</p>
+                          <p className="text-xs text-muted-foreground mt-1">Félelem a kollégák negatív véleményétől</p>
                         </div>
                       </div>
                     </CardContent>
@@ -719,6 +743,7 @@ const Statistics = () => {
                           )}
                         </p>
                         <p className="text-xs text-muted-foreground">átlag (1-5)</p>
+                        <p className="text-xs text-muted-foreground mt-2">Mennyire segített a program a problémák kezelésében</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -735,6 +760,7 @@ const Statistics = () => {
                           )}
                         </p>
                         <p className="text-xs text-muted-foreground">0-10 skála</p>
+                        <p className="text-xs text-muted-foreground mt-2">Net Promoter Score: ajánlási hajlandóság másoknak</p>
                       </CardContent>
                     </Card>
                     <Card>
@@ -751,12 +777,14 @@ const Statistics = () => {
                           )}
                         </p>
                         <p className="text-xs text-muted-foreground">átlag (1-5)</p>
+                        <p className="text-xs text-muted-foreground mt-2">Szolgáltatás minőségének egyenletessége alkalmanként</p>
                       </CardContent>
                     </Card>
                   </div>
                   <Card>
                     <CardHeader>
                       <CardTitle className="text-sm">Használati gyakoriság eloszlása</CardTitle>
+                      <CardDescription>Hányszor vették igénybe a programot az elmúlt évben</CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
@@ -817,6 +845,7 @@ const Statistics = () => {
                         )}
                       </p>
                       <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
+                      <p className="text-xs text-muted-foreground mt-2">A program hatása a munkahelyi teljesítményre és produktivitásra</p>
                     </CardContent>
                   </Card>
                   <Card>
@@ -833,6 +862,7 @@ const Statistics = () => {
                         )}
                       </p>
                       <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
+                      <p className="text-xs text-muted-foreground mt-2">Mennyire hatékonyan segített a program a problémák megoldásában</p>
                     </CardContent>
                   </Card>
                   <Card>
@@ -849,6 +879,7 @@ const Statistics = () => {
                         )}
                       </p>
                       <p className="text-xs text-muted-foreground">átlag (1-5 skála)</p>
+                      <p className="text-xs text-muted-foreground mt-2">A program hatása az általános jóllétre és mentális egészségre</p>
                     </CardContent>
                   </Card>
                   <Card>
@@ -905,6 +936,7 @@ const Statistics = () => {
                   <Card>
                     <CardHeader>
                       <CardTitle className="text-sm">Mi kellene a használathoz? (Top motivátorok)</CardTitle>
+                      <CardDescription>Mi motiválná a nem használókat a program igénybevételére</CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
@@ -940,6 +972,7 @@ const Statistics = () => {
                     <Card>
                       <CardHeader>
                         <CardTitle className="text-sm">Preferált szakértő típus</CardTitle>
+                        <CardDescription>Milyen típusú szakértőt preferálnának a nem használók</CardDescription>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-1">
@@ -964,6 +997,7 @@ const Statistics = () => {
                     <Card>
                       <CardHeader>
                         <CardTitle className="text-sm">Preferált kommunikációs csatorna</CardTitle>
+                        <CardDescription>Milyen elérhetőségi módot preferálnának (telefon, online chat, stb.)</CardDescription>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-1">
