@@ -6,7 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
-import { Calendar, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink } from 'lucide-react';
+import { Calendar, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link } from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
 
 interface AuditMetrics {
   audit: StandardAudit;
@@ -176,24 +177,42 @@ const RunningAudits = () => {
                 </div>
               </div>
               {metrics.audit.access_token && (
-                <div className="flex items-center gap-2 mt-4">
-                  <code className="flex-1 px-3 py-2 bg-muted rounded text-sm">
-                    {getSurveyUrl(metrics.audit.access_token)}
-                  </code>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => copyToClipboard(getSurveyUrl(metrics.audit.access_token))}
-                  >
-                    <Copy className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => window.open(getSurveyUrl(metrics.audit.access_token), '_blank')}
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                  </Button>
+                <div className="space-y-3 mt-4 border-t pt-4">
+                  <div className="flex items-center gap-2 text-sm font-medium">
+                    <Link className="h-4 w-4" />
+                    Felmérés link
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="flex-1 px-3 py-2 bg-muted rounded text-sm overflow-x-auto">
+                      {getSurveyUrl(metrics.audit.access_token)}
+                    </code>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => copyToClipboard(getSurveyUrl(metrics.audit.access_token))}
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => window.open(getSurveyUrl(metrics.audit.access_token), '_blank')}
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  {metrics.audit.access_mode === 'qr_code' && (
+                    <div className="flex justify-center pt-4">
+                      <div className="p-4 bg-white rounded-lg">
+                        <QRCodeSVG 
+                          value={getSurveyUrl(metrics.audit.access_token)} 
+                          size={200}
+                          level="H"
+                          includeMargin={true}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </CardHeader>
