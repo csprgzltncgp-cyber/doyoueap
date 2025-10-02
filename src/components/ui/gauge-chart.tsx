@@ -54,7 +54,7 @@ export const GaugeChart = ({
           />
           <text 
             x="50%" 
-            y="45%" 
+            y="58%" 
             textAnchor="middle" 
             dominantBaseline="middle" 
             className="fill-foreground"
@@ -66,7 +66,7 @@ export const GaugeChart = ({
           {sublabel && (
             <text 
               x="50%" 
-              y="65%" 
+              y="75%" 
               textAnchor="middle" 
               dominantBaseline="middle" 
               className="fill-muted-foreground text-sm"

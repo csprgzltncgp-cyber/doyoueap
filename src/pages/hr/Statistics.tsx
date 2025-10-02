@@ -417,7 +417,6 @@ const Statistics = () => {
                           ))}
                           maxValue={5}
                           size={150}
-                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire értik a munkavállalók a szolgáltatást</p>
                       </CardContent>
@@ -441,7 +440,6 @@ const Statistics = () => {
                           ))}
                           maxValue={5}
                           size={150}
-                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire bíznak az anonimitás védelmében</p>
                       </CardContent>
@@ -483,7 +481,6 @@ const Statistics = () => {
                           ))}
                           maxValue={5}
                           size={150}
-                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Jóllét javulása a program használata után</p>
                       </CardContent>
@@ -583,7 +580,6 @@ const Statistics = () => {
                           ))}
                           maxValue={5}
                           size={150}
-                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire bíznak a használók abban, hogy névtelenségük megmarad</p>
                       </CardContent>
@@ -602,7 +598,6 @@ const Statistics = () => {
                           ))}
                           maxValue={5}
                           size={150}
-                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire félnek attól, hogy a munkaadó megtudja a használatot</p>
                       </CardContent>
@@ -621,7 +616,6 @@ const Statistics = () => {
                           ))}
                           maxValue={5}
                           size={150}
-                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire valószínű, hogy újra használnák a szolgáltatást</p>
                       </CardContent>
@@ -706,7 +700,6 @@ const Statistics = () => {
                           ))}
                           maxValue={5}
                           size={120}
-                          sublabel="/ 5"
                         />
                       </CardContent>
                     </Card>
@@ -724,7 +717,6 @@ const Statistics = () => {
                           ))}
                           maxValue={5}
                           size={120}
-                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire segített a program a problémák kezelésében</p>
                       </CardContent>
@@ -743,7 +735,6 @@ const Statistics = () => {
                           ))}
                           maxValue={10}
                           size={120}
-                          sublabel="/ 10"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Net Promoter Score: ajánlási hajlandóság másoknak</p>
                       </CardContent>
@@ -762,7 +753,6 @@ const Statistics = () => {
                           ))}
                           maxValue={5}
                           size={120}
-                          sublabel="/ 5"
                         />
                         <p className="text-xs text-muted-foreground mt-2 text-center">Szolgáltatás minőségének egyenletessége alkalmanként</p>
                       </CardContent>
@@ -832,7 +822,6 @@ const Statistics = () => {
                         ))}
                         maxValue={5}
                         size={150}
-                        sublabel="/ 5"
                       />
                       <p className="text-xs text-muted-foreground mt-2 text-center">A program hatása a munkahelyi teljesítményre és produktivitásra</p>
                     </CardContent>
@@ -851,7 +840,6 @@ const Statistics = () => {
                         ))}
                         maxValue={5}
                         size={150}
-                        sublabel="/ 5"
                       />
                       <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire hatékonyan segített a program a problémák megoldásában</p>
                     </CardContent>
@@ -870,7 +858,6 @@ const Statistics = () => {
                         ))}
                         maxValue={5}
                         size={150}
-                        sublabel="/ 5"
                       />
                       <p className="text-xs text-muted-foreground mt-2 text-center">A program hatása az általános jóllétre és mentális egészségre</p>
                     </CardContent>
@@ -889,7 +876,6 @@ const Statistics = () => {
                         ))}
                         maxValue={5}
                         size={150}
-                        sublabel="/ 5"
                       />
                     </CardContent>
                   </Card>
@@ -907,7 +893,6 @@ const Statistics = () => {
                         ))}
                         maxValue={5}
                         size={150}
-                        sublabel="/ 5"
                       />
                       <p className="text-xs text-muted-foreground mt-2 text-center">Szolgáltatás minőségének konzisztenciája</p>
                     </CardContent>
