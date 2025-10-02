@@ -1,44 +1,31 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 import { QuestionRenderer } from "@/components/survey/QuestionRenderer";
-
-interface Question {
-  id: string;
-  type: string;
-  question: string;
-  required: boolean;
-  category?: string;
-  scale?: number;
-  labels?: { [key: string]: string };
-  options?: string[];
-}
-
-interface QuestionBlock {
-  title: string;
-  description?: string;
-  questions: Question[];
-}
+import { Progress } from "@/components/ui/progress";
+import { Info } from "lucide-react";
+import logo from "@/assets/doyoueap-logo.png";
 
 interface Questionnaire {
-  id: string;
   title: string;
   description: string;
   questions: {
-    demographics: Question[];
-    blocks: QuestionBlock[];
+    structure: string;
+    demographics: any;
+    branch_selector: any;
+    branches: any;
   };
 }
 
 export default function AuditQuestionnaire() {
   const [questionnaire, setQuestionnaire] = useState<Questionnaire | null>(null);
   const [loading, setLoading] = useState(true);
+  const [demoResponses, setDemoResponses] = useState<Record<string, any>>({});
+  const [currentStep, setCurrentStep] = useState<'welcome' | 'demographics' | 'branch_selector' | 'branch_questions' | 'eap_info'>('welcome');
+  const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
   const [currentBlockIndex, setCurrentBlockIndex] = useState(0);
-  const [dummyResponses, setDummyResponses] = useState<Record<string, any>>({});
 
   useEffect(() => {
     fetchQuestionnaire();
@@ -63,6 +50,28 @@ export default function AuditQuestionnaire() {
     }
   };
 
+  const handleResponseChange = (questionId: string, value: any) => {
+    setDemoResponses(prev => ({
+      ...prev,
+      [questionId]: value,
+    }));
+  };
+
+  const getTotalProgress = () => {
+    if (!questionnaire || !selectedBranch) return 0;
+    
+    const branch = questionnaire.questions.branches[selectedBranch];
+    if (!branch) return 0;
+    
+    const totalBlocks = branch.blocks.length + 2;
+    let completedSteps = 0;
+    
+    if (currentStep === 'branch_selector') completedSteps = 1;
+    else if (currentStep === 'branch_questions') completedSteps = 2 + currentBlockIndex;
+    
+    return (completedSteps / totalBlocks) * 100;
+  };
+
   if (loading) {
     return (
       <div className="container mx-auto p-6">
@@ -75,108 +84,250 @@ export default function AuditQuestionnaire() {
     );
   }
 
-  if (!questionnaire || !questionnaire.questions || !questionnaire.questions.blocks || questionnaire.questions.blocks.length === 0) {
+  if (!questionnaire || !questionnaire.questions || !questionnaire.questions.structure) {
     return (
       <div className="container mx-auto p-6">
         <Card>
           <CardContent className="p-6">
-            <p className="text-center">Nem található aktív kérdőív vagy a kérdőív nem tartalmaz kérdésblokkokat.</p>
+            <p className="text-center">Nem található aktív kérdőív vagy érvénytelen struktúra.</p>
           </CardContent>
         </Card>
       </div>
     );
   }
 
-  const currentBlock = questionnaire.questions.blocks[currentBlockIndex];
-  const totalBlocks = questionnaire.questions.blocks.length;
-  const progress = ((currentBlockIndex + 1) / totalBlocks) * 100;
-
-  return (
-    <div className="container mx-auto p-6 max-w-4xl">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">Audit Kérdőív Előnézet</h1>
-        <p className="text-muted-foreground">
-          Így látják a munkavállalók a kérdőívet az audit során
-        </p>
-      </div>
-
-      <Alert className="mb-6 border-info/50 bg-info/10">
+  const renderWelcome = () => (
+    <div className="space-y-6">
+      <Alert className="border-info/50 bg-info/10 mb-6">
         <Info className="h-4 w-4" />
         <AlertDescription>
-          <strong>Fontos információ:</strong> Ez a kérdőív nem szerkeszthető ezen az oldalon. 
-          A kérdések és szerkezet módosítása megváltoztatná az adatok kiértékelését és 
-          összehasonlíthatóságát a korábbi auditokkal. Ha változtatásra van szükség, 
-          kérjük, vegye fel a kapcsolatot a rendszergazdával.
+          <strong>Előnézet mód:</strong> Ez az oldal csak olvasható előnézetet nyújt. A kérdőív nem módosítható, 
+          így biztosítva az adatok összehasonlíthatóságát a korábbi auditokkal. Itt láthatod, hogyan látják a munkavállalók a kérdőívet.
         </AlertDescription>
       </Alert>
+      <div className="space-y-4 text-center">
+        <h2 className="text-2xl font-bold">Üdvözlünk!</h2>
+        <p className="text-muted-foreground">
+          Ez a felmérés anonim, a kitöltés kb. 6–9 perc. A válaszok kizárólag összesítve, 
+          statisztikai formában jelennek meg.
+        </p>
+      </div>
+      <Button onClick={() => setCurrentStep('demographics')} className="w-full">
+        Kezdés (Demo)
+      </Button>
+    </div>
+  );
 
-      <Card className="mb-6">
-        <CardHeader>
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-muted-foreground">
-              {currentBlockIndex + 1}. blokk / {totalBlocks}
-            </span>
-            <span className="text-sm font-medium">{Math.round(progress)}%</span>
-          </div>
-          <Progress value={progress} className="mb-4" />
-          <CardTitle>{currentBlock.title}</CardTitle>
-          {currentBlock.description && (
-            <CardDescription>{currentBlock.description}</CardDescription>
-          )}
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {currentBlock.questions.map((question) => (
-            <div key={question.id} className="opacity-75 pointer-events-none">
+  const renderDemographics = () => {
+    const demoQuestions = questionnaire.questions.demographics.questions;
+    
+    return (
+      <div className="space-y-6">
+        <div>
+          <h3 className="text-lg font-semibold mb-4">
+            {questionnaire.questions.demographics.title}
+          </h3>
+        </div>
+        <div className="opacity-75 pointer-events-none">
+          {demoQuestions.map((q: any) => (
+            <div key={q.id} className="mb-6">
               <QuestionRenderer
-                question={question}
-                value={dummyResponses[question.id]}
-                onChange={(value) => {
-                  setDummyResponses((prev) => ({
-                    ...prev,
-                    [question.id]: value,
-                  }));
-                }}
+                question={q}
+                value={demoResponses[q.id]}
+                onChange={(value) => handleResponseChange(q.id, value)}
               />
-              {question.required && (
-                <p className="text-xs text-muted-foreground mt-1">* Kötelező kérdés</p>
-              )}
             </div>
           ))}
-        </CardContent>
-      </Card>
-
-      <div className="flex justify-between items-center">
-        <Button
-          variant="outline"
-          onClick={() => setCurrentBlockIndex((prev) => Math.max(0, prev - 1))}
-          disabled={currentBlockIndex === 0}
-        >
-          <ChevronLeft className="mr-2 h-4 w-4" />
-          Előző
-        </Button>
-
-        <span className="text-sm text-muted-foreground">
-          {currentBlockIndex + 1} / {totalBlocks} blokk
-        </span>
-
-        <Button
-          onClick={() =>
-            setCurrentBlockIndex((prev) => Math.min(totalBlocks - 1, prev + 1))
-          }
-          disabled={currentBlockIndex === totalBlocks - 1}
-        >
-          Következő
-          <ChevronRight className="ml-2 h-4 w-4" />
+        </div>
+        <Button onClick={() => setCurrentStep('branch_selector')} className="w-full">
+          Tovább (Demo)
         </Button>
       </div>
+    );
+  };
 
-      <Alert className="mt-6 border-muted">
-        <Info className="h-4 w-4" />
-        <AlertDescription className="text-sm">
-          A munkavállalók demográfiai adatokat is megadnak a kérdőív kezdetén (életkor, nem, 
-          beosztás, stb.), amelyek segítenek a válaszok mélyebb elemzésében és szegmentálásában.
-        </AlertDescription>
-      </Alert>
+  const renderBranchSelector = () => {
+    const branchSelector = questionnaire.questions.branch_selector;
+    const programName = 'DoYouEAP';
+    
+    const modifiedQuestion = {
+      ...branchSelector,
+      text: `Tudtad, hogy a munkahelyeden elérhető egy támogatási program, amit ${programName} néven ismerhetsz? Ez a szolgáltatás segítséget nyújt neked és családodnak különböző munkahelyi vagy magánéleti kihívások kezeléséhez, például stresszhelyzetekben, konfliktusok megoldásában vagy akár pénzügyi tanácsadásban is.`
+    };
+    
+    return (
+      <div className="space-y-6">
+        <div className="opacity-75 pointer-events-none">
+          <QuestionRenderer
+            question={modifiedQuestion}
+            value={demoResponses[branchSelector.id]}
+            onChange={(value) => handleResponseChange(branchSelector.id, value)}
+          />
+        </div>
+        <div className="flex gap-4">
+          <Button 
+            variant="outline"
+            onClick={() => setCurrentStep('demographics')} 
+            className="flex-1"
+          >
+            Vissza
+          </Button>
+          <Button 
+            onClick={() => {
+              // Auto-select first branch for demo
+              const branches = questionnaire.questions.branch_selector.branches;
+              const firstBranchKey = Object.values(branches)[0] as string;
+              if (firstBranchKey === 'redirect') {
+                setCurrentStep('eap_info');
+              } else {
+                setSelectedBranch(firstBranchKey);
+                setCurrentStep('branch_questions');
+                setCurrentBlockIndex(0);
+              }
+            }} 
+            className="flex-1"
+          >
+            Tovább (Demo - első ág)
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
+  const renderBranchQuestions = () => {
+    if (!selectedBranch) return null;
+    
+    const branch = questionnaire.questions.branches[selectedBranch];
+    const currentBlock = branch.blocks[currentBlockIndex];
+    const isLastBlock = currentBlockIndex === branch.blocks.length - 1;
+    
+    return (
+      <div className="space-y-6">
+        <div className="opacity-75 pointer-events-none">
+          {currentBlock.questions.map((q: any) => (
+            <div key={q.id} className="mb-6">
+              <QuestionRenderer
+                question={q}
+                value={demoResponses[q.id]}
+                onChange={(value) => handleResponseChange(q.id, value)}
+              />
+            </div>
+          ))}
+        </div>
+        
+        <div className="flex gap-4">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => {
+              if (currentBlockIndex > 0) {
+                setCurrentBlockIndex(currentBlockIndex - 1);
+              } else {
+                setCurrentStep('branch_selector');
+              }
+            }}
+            className="flex-1"
+          >
+            Vissza
+          </Button>
+          <Button
+            onClick={() => {
+              if (!isLastBlock) {
+                setCurrentBlockIndex(currentBlockIndex + 1);
+              } else {
+                setCurrentStep('welcome');
+                setCurrentBlockIndex(0);
+                setSelectedBranch(null);
+              }
+            }}
+            className="flex-1"
+          >
+            {isLastBlock ? 'Újrakezd (Demo)' : 'Tovább (Demo)'}
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
+  const renderEapInfo = () => (
+    <div className="space-y-6">
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold">Mi az EAP?</h2>
+        <p className="text-foreground">
+          Az EAP (Employee Assistance Program) egy munkavállalói segítő program, amely 
+          különböző élethelyzetekben nyújt támogatást.
+        </p>
+        <p className="text-foreground">
+          A program keretében hozzáférhetsz pszichológiai tanácsadáshoz, jogi segítséghez, 
+          és számos más szolgáltatáshoz, amelyek segíthetnek a munkahelyi és magánéleti 
+          kihívások kezelésében.
+        </p>
+        <div className="p-4 bg-secondary rounded-lg">
+          <p className="font-semibold mb-2">Kattints az alábbi linkre és látogasd meg a program hivatalos weboldalát!</p>
+          <a 
+            href="https://doyoueap.hu" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+          >
+            doyoueap.hu
+          </a>
+        </div>
+      </div>
+      <div className="flex gap-4">
+        <Button 
+          variant="outline"
+          onClick={() => setCurrentStep('branch_selector')} 
+          className="flex-1"
+        >
+          Vissza
+        </Button>
+        <Button 
+          onClick={() => {
+            setCurrentStep('welcome');
+            setCurrentBlockIndex(0);
+            setSelectedBranch(null);
+          }} 
+          className="flex-1"
+        >
+          Újrakezd (Demo)
+        </Button>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-background p-4 sm:p-8">
+      <div className="max-w-3xl mx-auto">
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold mb-2">Audit Kérdőív Előnézet</h1>
+          <p className="text-muted-foreground">
+            Így látják a munkavállalók a kérdőívet az audit során
+          </p>
+        </div>
+
+        <Card>
+          <CardHeader>
+            <div className="flex justify-center mb-4">
+              <img 
+                src={logo} 
+                alt="Logo" 
+                className="h-12 object-contain"
+              />
+            </div>
+            {currentStep === 'branch_questions' && (
+              <Progress value={getTotalProgress()} className="mt-4" />
+            )}
+          </CardHeader>
+          <CardContent>
+            {currentStep === 'welcome' && renderWelcome()}
+            {currentStep === 'demographics' && renderDemographics()}
+            {currentStep === 'branch_selector' && renderBranchSelector()}
+            {currentStep === 'branch_questions' && renderBranchQuestions()}
+            {currentStep === 'eap_info' && renderEapInfo()}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
