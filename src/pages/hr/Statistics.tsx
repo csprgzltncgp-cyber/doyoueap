@@ -79,7 +79,7 @@ const Statistics = () => {
             value="awareness" 
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
           >
-            Tudatosság
+            Tájékozottság
           </TabsTrigger>
           <TabsTrigger 
             value="trust" 
@@ -128,7 +128,7 @@ const Statistics = () => {
         <TabsContent value="awareness" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Tudatosság Riport</CardTitle>
+              <CardTitle>Tájékozottság Riport</CardTitle>
               <CardDescription>
                 {selectedAuditId ? 'Adatok betöltve' : 'Nincs kiválasztott audit'}
               </CardDescription>

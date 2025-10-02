@@ -1,5 +1,5 @@
-import { QrCode, BarChart3, FileText, Settings as SettingsIcon } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { QrCode, BarChart3, FileText, Settings as SettingsIcon, LogOut } from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -22,6 +22,13 @@ const menuItems = [
 
 export function HRSidebar() {
   const { open } = useSidebar();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    const { supabase } = await import("@/integrations/supabase/client");
+    await supabase.auth.signOut();
+    navigate("/");
+  };
 
   return (
     <Sidebar collapsible="icon" className={open ? "w-60" : "w-14"}>
@@ -46,6 +53,14 @@ export function HRSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              
+              {/* Kijelentkezés gomb a menü alján */}
+              <SidebarMenuItem>
+                <SidebarMenuButton onClick={handleSignOut} className="text-destructive hover:text-destructive">
+                  <LogOut className="h-4 w-4" />
+                  {open && <span>Kijelentkezés</span>}
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
