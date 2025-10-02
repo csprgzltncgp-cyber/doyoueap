@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ArrowRight, CheckCircle, TrendingUp, Users, FileText, Award } from 'lucide-react';
+import logo from '@/assets/doyoueap-logo.png';
 
 const Index = () => {
   const { user, role, loading, signOut } = useAuth();
@@ -88,7 +89,7 @@ const Index = () => {
       <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <img src="/src/assets/doyoueap-logo.png" alt="doyoueap" className="h-8" />
+            <img src={logo} alt="doyoueap" className="h-8" />
           </div>
           <nav className="hidden md:flex gap-6">
             <a href="#home" className="text-sm hover:text-primary transition-colors">Főoldal</a>
