@@ -140,8 +140,8 @@ const Usage = () => {
       let noCount = 0;
       data.forEach(r => {
         const family = r.responses?.u_usage_family;
-        if (family === 'Igen') yesCount++;
-        else if (family === 'Nem') noCount++;
+        if (family === 'yes' || family === 'Igen') yesCount++;
+        else if (family === 'no' || family === 'Nem') noCount++;
       });
       setFamilyUsage({ yes: yesCount, no: noCount });
 

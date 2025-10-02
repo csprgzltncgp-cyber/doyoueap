@@ -118,7 +118,7 @@ const Statistics = () => {
   const satisfactionScore = calculateAverage(
     responses
       .filter(r => r.employee_metadata?.branch === 'used')
-      .map(r => r.responses?.u_usage_satisfaction)
+      .map(r => r.responses?.u_impact_satisfaction)
       .filter(v => v !== undefined)
   );
   const satisfactionIndex = (parseFloat(satisfactionScore) / 5) * 100;
@@ -337,34 +337,34 @@ const Statistics = () => {
                           <span className="font-semibold">{satisfactionScore}/5</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">🎯 Célok elérése</span>
-                          <span className="font-semibold">
-                            {calculateAverage(
-                              responses
-                                .filter(r => r.employee_metadata?.branch === 'used')
-                                .map(r => r.responses?.u_usage_achievement)
-                                .filter(v => v !== undefined)
-                            )}/5
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center">
                           <span className="text-sm text-muted-foreground">📊 NPS átlag</span>
                           <span className="font-semibold">
                             {calculateAverage(
                               responses
                                 .filter(r => r.employee_metadata?.branch === 'used')
-                                .map(r => r.responses?.u_usage_nps)
+                                .map(r => r.responses?.u_impact_nps)
                                 .filter(v => v !== undefined)
                             )}/10
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">💼 Produktivitás hatás</span>
+                          <span className="text-sm text-muted-foreground">🔧 Problémamegoldás</span>
                           <span className="font-semibold">
                             {calculateAverage(
                               responses
                                 .filter(r => r.employee_metadata?.branch === 'used')
-                                .map(r => r.responses?.u_impact_productivity)
+                                .map(r => r.responses?.u_impact_problem_solving)
+                                .filter(v => v !== undefined)
+                            )}/5
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">💼 Teljesítmény hatás</span>
+                          <span className="font-semibold">
+                            {calculateAverage(
+                              responses
+                                .filter(r => r.employee_metadata?.branch === 'used')
+                                .map(r => r.responses?.u_impact_performance)
                                 .filter(v => v !== undefined)
                             )}/5
                           </span>
@@ -381,12 +381,12 @@ const Statistics = () => {
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">🏢 Munkahelyi légkör</span>
+                          <span className="text-sm text-muted-foreground">🔄 Konzisztencia</span>
                           <span className="font-semibold">
                             {calculateAverage(
                               responses
                                 .filter(r => r.employee_metadata?.branch === 'used')
-                                .map(r => r.responses?.u_impact_workplace)
+                                .map(r => r.responses?.u_impact_consistency)
                                 .filter(v => v !== undefined)
                             )}/5
                           </span>
