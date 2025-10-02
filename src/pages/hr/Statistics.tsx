@@ -792,93 +792,63 @@ const Statistics = () => {
                       <CardTitle className="text-sm">Nem használók bizalmi indexei</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="space-y-4">
-                        <div>
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="text-sm text-muted-foreground">Anonimitás (1-5 skála)</span>
-                            <span className="text-lg font-bold">
-                              {calculateAverage(
+                      <div className="grid grid-cols-3 gap-4">
+                        <Card>
+                          <CardHeader className="pb-3">
+                            <CardTitle className="text-sm">Anonimitás (1-5 skála)</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <GaugeChart
+                              value={parseFloat(calculateAverage(
                                 responses
                                   .filter(r => r.employee_metadata?.branch === 'not_used')
                                   .map(r => r.responses?.nu_trust_anonymity)
                                   .filter(v => v !== undefined)
-                              )}
-                            </span>
-                          </div>
-                          <div className="w-full bg-muted rounded-full h-2">
-                            <div
-                              className="h-2 rounded-full"
-                              style={{ 
-                                width: `${(parseFloat(calculateAverage(
-                                  responses
-                                    .filter(r => r.employee_metadata?.branch === 'not_used')
-                                    .map(r => r.responses?.nu_trust_anonymity)
-                                    .filter(v => v !== undefined)
-                                )) / 5) * 100}%`,
-                                backgroundColor: '#3366ff'
-                              }}
+                              ))}
+                              maxValue={5}
+                              size={150}
                             />
-                          </div>
-                          <p className="text-xs text-muted-foreground mt-1">Bizalom az anonimitás védelmében</p>
-                        </div>
+                            <p className="text-xs text-muted-foreground mt-2 text-center">Bizalom az anonimitás védelmében</p>
+                          </CardContent>
+                        </Card>
 
-                        <div>
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="text-sm text-muted-foreground">Munkaadói félelem (1-5 skála)</span>
-                            <span className="text-lg font-bold">
-                              {calculateAverage(
+                        <Card>
+                          <CardHeader className="pb-3">
+                            <CardTitle className="text-sm">Munkaadói félelem (1-5 skála)</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <GaugeChart
+                              value={parseFloat(calculateAverage(
                                 responses
                                   .filter(r => r.employee_metadata?.branch === 'not_used')
                                   .map(r => r.responses?.nu_trust_employer)
                                   .filter(v => v !== undefined)
-                              )}
-                            </span>
-                          </div>
-                          <div className="w-full bg-muted rounded-full h-2">
-                            <div
-                              className="h-2 rounded-full"
-                              style={{ 
-                                width: `${(parseFloat(calculateAverage(
-                                  responses
-                                    .filter(r => r.employee_metadata?.branch === 'not_used')
-                                    .map(r => r.responses?.nu_trust_employer)
-                                    .filter(v => v !== undefined)
-                                )) / 5) * 100}%`,
-                                backgroundColor: '#3366ff'
-                              }}
+                              ))}
+                              maxValue={5}
+                              size={150}
                             />
-                          </div>
-                          <p className="text-xs text-muted-foreground mt-1">Félelem a munkaadó tudomásától</p>
-                        </div>
+                            <p className="text-xs text-muted-foreground mt-2 text-center">Félelem a munkaadó tudomásától</p>
+                          </CardContent>
+                        </Card>
 
-                        <div>
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="text-sm text-muted-foreground">Kollégai megítéléstől félelem (1-5 skála)</span>
-                            <span className="text-lg font-bold">
-                              {calculateAverage(
+                        <Card>
+                          <CardHeader className="pb-3">
+                            <CardTitle className="text-sm">Kollégai megítéléstől félelem (1-5 skála)</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <GaugeChart
+                              value={parseFloat(calculateAverage(
                                 responses
                                   .filter(r => r.employee_metadata?.branch === 'not_used')
                                   .map(r => r.responses?.nu_trust_colleagues)
                                   .filter(v => v !== undefined)
-                              )}
-                            </span>
-                          </div>
-                          <div className="w-full bg-muted rounded-full h-2">
-                            <div
-                              className="h-2 rounded-full"
-                              style={{ 
-                                width: `${(parseFloat(calculateAverage(
-                                  responses
-                                    .filter(r => r.employee_metadata?.branch === 'not_used')
-                                    .map(r => r.responses?.nu_trust_colleagues)
-                                    .filter(v => v !== undefined)
-                                )) / 5) * 100}%`,
-                                backgroundColor: '#3366ff'
-                              }}
+                              ))}
+                              maxValue={5}
+                              size={150}
                             />
-                          </div>
-                          <p className="text-xs text-muted-foreground mt-1">Félelem a kollégák negatív véleményétől</p>
-                        </div>
+                            <p className="text-xs text-muted-foreground mt-2 text-center">Félelem a kollégák negatív véleményétől</p>
+                          </CardContent>
+                        </Card>
                       </div>
                     </CardContent>
                   </Card>
