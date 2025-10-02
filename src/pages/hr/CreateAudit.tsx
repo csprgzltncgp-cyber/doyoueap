@@ -44,7 +44,7 @@ const CreateAudit = () => {
   const [accessToken, setAccessToken] = useState('');
   const [emailSubject, setEmailSubject] = useState('Segítsd jobbá tenni a {{program_név}} programot!');
   const [emailFrom, setEmailFrom] = useState('noreply@doyoueap.com');
-  const [eapProgramUrl, setEapProgramUrl] = useState('https://doyoueap.hu');
+  const [eapProgramUrl, setEapProgramUrl] = useState('');
 
   const totalSteps = 8;
 
