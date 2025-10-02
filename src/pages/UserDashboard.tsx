@@ -452,14 +452,22 @@ const UserDashboard = () => {
       return `https://${url}`;
     };
 
+    const getArticle = (word: string) => {
+      const firstChar = word.charAt(0).toLowerCase();
+      const vowels = ['a', 'á', 'e', 'é', 'i', 'í', 'o', 'ó', 'ö', 'ő', 'u', 'ú', 'ü', 'ű'];
+      return vowels.includes(firstChar) ? 'az' : 'a';
+    };
+
     const eapUrl = formatUrl(audit?.eap_program_url || null);
+    const programName = audit?.program_name || 'EAP';
+    const article = getArticle(programName);
     
     return (
       <div className="space-y-6">
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold">Mi az EAP?</h2>
+          <h2 className="text-2xl font-bold">Mi {article} {programName}?</h2>
           <p className="text-foreground">
-            Az EAP (Employee Assistance Program) egy munkavállalói segítő program, amely 
+            {article.charAt(0).toUpperCase() + article.slice(1)} {programName} egy munkavállalói segítő program, amely 
             különböző élethelyzetekben nyújt támogatást.
           </p>
           <p className="text-foreground">
