@@ -5,8 +5,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Eye, Shield, Activity, Target, Heart, Users, TrendingUp, GitCompare } from "lucide-react";
+import { BarChart3, Eye, Shield, Activity, Target, Heart, Users, TrendingUp, GitCompare } from "lucide-react";
 import { formatAuditName } from "@/lib/auditUtils";
+import { RadialBarChart, RadialBar, Legend, ResponsiveContainer, Cell, PieChart, Pie, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip } from "recharts";
 
 interface Audit {
   id: string;
@@ -25,10 +26,12 @@ const Statistics = () => {
   const [loading, setLoading] = useState(true);
   const [responses, setResponses] = useState<any[]>([]);
   const [loadingResponses, setLoadingResponses] = useState(false);
-  const activeTab = searchParams.get("tab") || "awareness";
+  const [employeeCount, setEmployeeCount] = useState<number>(0);
+  const activeTab = searchParams.get("tab") || "overview";
 
   useEffect(() => {
     fetchAudits();
+    fetchEmployeeCount();
   }, []);
 
   useEffect(() => {
@@ -36,6 +39,27 @@ const Statistics = () => {
       fetchResponses();
     }
   }, [selectedAuditId]);
+
+  const fetchEmployeeCount = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('employee_count')
+        .eq('id', user.id)
+        .single();
+
+      if (error) throw error;
+      
+      // Parse employee_count as number
+      const count = parseInt(data?.employee_count || '0');
+      setEmployeeCount(count);
+    } catch (error) {
+      console.error('Error fetching employee count:', error);
+    }
+  };
 
   const fetchAudits = async () => {
     try {
@@ -74,17 +98,30 @@ const Statistics = () => {
     }
   };
 
+  // Helper function to calculate average
+  const calculateAverage = (values: number[]) => {
+    if (values.length === 0) return '0.0';
+    return ((values.reduce((a, b) => a + b, 0) / values.length)).toFixed(1);
+  };
+
   // Calculate statistics
   const totalResponses = responses.length;
   const usedBranch = responses.filter(r => r.employee_metadata?.branch === 'used').length;
   const notUsedBranch = responses.filter(r => r.employee_metadata?.branch === 'not_used').length;
   const redirectBranch = responses.filter(r => r.employee_metadata?.branch === 'redirect').length;
 
-  // Helper function to calculate average
-  const calculateAverage = (values: number[]) => {
-    if (values.length === 0) return '0.0';
-    return ((values.reduce((a, b) => a + b, 0) / values.length)).toFixed(1);
-  };
+  // Calculate main KPIs
+  const utilization = employeeCount > 0 ? (usedBranch / employeeCount) * 100 : 0;
+  const participationRate = employeeCount > 0 ? (totalResponses / employeeCount) * 100 : 0;
+  const usageRateFromRespondents = totalResponses > 0 ? (usedBranch / totalResponses) * 100 : 0;
+  
+  const satisfactionScore = calculateAverage(
+    responses
+      .filter(r => r.employee_metadata?.branch === 'used')
+      .map(r => r.responses?.u_usage_satisfaction)
+      .filter(v => v !== undefined)
+  );
+  const satisfactionIndex = (parseFloat(satisfactionScore) / 5) * 100;
 
   // Helper function to count occurrences
   const countOccurrences = (items: string[]) => {
@@ -133,7 +170,13 @@ const Statistics = () => {
 
       <Tabs value={activeTab} onValueChange={(value) => setSearchParams({ tab: value })} className="w-full">
         <TabsList className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent">
-          {/* Awareness – mennyien tudnak a program létezéséről */}
+          <TabsTrigger 
+            value="overview" 
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
+          >
+            <BarChart3 className="h-4 w-4" />
+            Összefoglaló
+          </TabsTrigger>
           <TabsTrigger 
             value="awareness" 
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
@@ -191,6 +234,275 @@ const Statistics = () => {
             Összehasonlítás
           </TabsTrigger>
         </TabsList>
+
+        {/* OVERVIEW TAB */}
+        <TabsContent value="overview" className="mt-6">
+          {loadingResponses ? (
+            <div className="text-center py-12 text-muted-foreground">Adatok betöltése...</div>
+          ) : totalResponses === 0 ? (
+            <div className="text-center py-12 text-muted-foreground">
+              {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {/* Main KPIs */}
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* UTILIZATION */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-2xl">Igénybevétel (Utilization)</CardTitle>
+                    <CardDescription>
+                      Hány munkavállaló használja a programot
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-col items-center">
+                      <ResponsiveContainer width="100%" height={200}>
+                        <RadialBarChart 
+                          innerRadius="70%" 
+                          outerRadius="100%" 
+                          data={[{ name: 'Utilization', value: utilization, fill: utilization >= 70 ? '#22c55e' : utilization >= 30 ? '#eab308' : '#ef4444' }]}
+                          startAngle={180}
+                          endAngle={0}
+                        >
+                          <RadialBar
+                            background
+                            dataKey="value"
+                            cornerRadius={10}
+                          />
+                          <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" className="fill-foreground">
+                            <tspan x="50%" dy="-0.5em" className="text-4xl font-bold">{utilization.toFixed(1)}%</tspan>
+                            <tspan x="50%" dy="1.5em" className="text-sm text-muted-foreground">{usedBranch} / {employeeCount}</tspan>
+                          </text>
+                        </RadialBarChart>
+                      </ResponsiveContainer>
+                      
+                      {/* Detailed breakdown */}
+                      <div className="w-full mt-6 space-y-3">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">📊 Részvételi arány</span>
+                          <span className="font-semibold">{participationRate.toFixed(1)}%</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">✅ Használók (a kitöltőkből)</span>
+                          <span className="font-semibold">{usageRateFromRespondents.toFixed(1)}%</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">❌ Nem használók</span>
+                          <span className="font-semibold">{((notUsedBranch / totalResponses) * 100).toFixed(1)}%</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">🔔 Nem tudtak róla</span>
+                          <span className="font-semibold">{((redirectBranch / totalResponses) * 100).toFixed(1)}%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* SATISFACTION INDEX */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-2xl">Elégedettségi Index</CardTitle>
+                    <CardDescription>
+                      Általános elégedettség a használók körében
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-col items-center">
+                      <ResponsiveContainer width="100%" height={200}>
+                        <RadialBarChart 
+                          innerRadius="70%" 
+                          outerRadius="100%" 
+                          data={[{ name: 'Satisfaction', value: satisfactionIndex, fill: satisfactionIndex >= 70 ? '#22c55e' : satisfactionIndex >= 50 ? '#eab308' : '#ef4444' }]}
+                          startAngle={180}
+                          endAngle={0}
+                        >
+                          <RadialBar
+                            background
+                            dataKey="value"
+                            cornerRadius={10}
+                          />
+                          <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" className="fill-foreground">
+                            <tspan x="50%" dy="-0.5em" className="text-4xl font-bold">{satisfactionIndex.toFixed(0)}%</tspan>
+                            <tspan x="50%" dy="1.5em" className="text-sm text-muted-foreground">{satisfactionScore}/5</tspan>
+                          </text>
+                        </RadialBarChart>
+                      </ResponsiveContainer>
+                      
+                      {/* Detailed breakdown */}
+                      <div className="w-full mt-6 space-y-3">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">⭐ Általános elégedettség</span>
+                          <span className="font-semibold">{satisfactionScore}/5</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">🎯 Célok elérése</span>
+                          <span className="font-semibold">
+                            {calculateAverage(
+                              responses
+                                .filter(r => r.employee_metadata?.branch === 'used')
+                                .map(r => r.responses?.u_usage_achievement)
+                                .filter(v => v !== undefined)
+                            )}/5
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">📊 NPS átlag</span>
+                          <span className="font-semibold">
+                            {calculateAverage(
+                              responses
+                                .filter(r => r.employee_metadata?.branch === 'used')
+                                .map(r => r.responses?.u_usage_nps)
+                                .filter(v => v !== undefined)
+                            )}/10
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">💼 Produktivitás hatás</span>
+                          <span className="font-semibold">
+                            {calculateAverage(
+                              responses
+                                .filter(r => r.employee_metadata?.branch === 'used')
+                                .map(r => r.responses?.u_impact_productivity)
+                                .filter(v => v !== undefined)
+                            )}/5
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">🧘 Wellbeing hatás</span>
+                          <span className="font-semibold">
+                            {calculateAverage(
+                              responses
+                                .filter(r => r.employee_metadata?.branch === 'used')
+                                .map(r => r.responses?.u_impact_wellbeing)
+                                .filter(v => v !== undefined)
+                            )}/5
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">🏢 Munkahelyi légkör</span>
+                          <span className="font-semibold">
+                            {calculateAverage(
+                              responses
+                                .filter(r => r.employee_metadata?.branch === 'used')
+                                .map(r => r.responses?.u_impact_workplace)
+                                .filter(v => v !== undefined)
+                            )}/5
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Quick Overview of 4 themes */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Gyors áttekintés - 4 témakör</CardTitle>
+                  <CardDescription>Kulcsmutatók az audit fő témáiból</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid md:grid-cols-4 gap-4">
+                    {/* Awareness */}
+                    <Card>
+                      <CardHeader className="pb-3">
+                        <CardTitle className="text-sm flex items-center gap-2">
+                          <Eye className="h-4 w-4" />
+                          Ismertség
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-2">
+                          <div>
+                            <p className="text-2xl font-bold">
+                              {calculateAverage(
+                                responses
+                                  .filter(r => r.employee_metadata?.branch === 'used')
+                                  .map(r => r.responses?.u_awareness_understanding)
+                                  .filter(v => v !== undefined)
+                              )}/5
+                            </p>
+                            <p className="text-xs text-muted-foreground">Megértés</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Trust */}
+                    <Card>
+                      <CardHeader className="pb-3">
+                        <CardTitle className="text-sm flex items-center gap-2">
+                          <Shield className="h-4 w-4" />
+                          Bizalom
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-2">
+                          <div>
+                            <p className="text-2xl font-bold">
+                              {calculateAverage(
+                                responses
+                                  .filter(r => r.employee_metadata?.branch === 'used')
+                                  .map(r => r.responses?.u_trust_anonymity)
+                                  .filter(v => v !== undefined)
+                              )}/5
+                            </p>
+                            <p className="text-xs text-muted-foreground">Anonimitás</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Usage */}
+                    <Card>
+                      <CardHeader className="pb-3">
+                        <CardTitle className="text-sm flex items-center gap-2">
+                          <Activity className="h-4 w-4" />
+                          Használat
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-2">
+                          <div>
+                            <p className="text-2xl font-bold">{usedBranch}</p>
+                            <p className="text-xs text-muted-foreground">Felhasználó</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Impact */}
+                    <Card>
+                      <CardHeader className="pb-3">
+                        <CardTitle className="text-sm flex items-center gap-2">
+                          <Target className="h-4 w-4" />
+                          Hatás
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-2">
+                          <div>
+                            <p className="text-2xl font-bold">
+                              {calculateAverage(
+                                responses
+                                  .filter(r => r.employee_metadata?.branch === 'used')
+                                  .map(r => r.responses?.u_impact_wellbeing)
+                                  .filter(v => v !== undefined)
+                              )}/5
+                            </p>
+                            <p className="text-xs text-muted-foreground">Wellbeing</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </TabsContent>
 
         <TabsContent value="awareness" className="mt-6">
           <Card>
