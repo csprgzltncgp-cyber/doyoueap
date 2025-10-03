@@ -235,26 +235,51 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
                 Kérdés: "0-10 skálán mennyire ajánlaná kollégáinak a programot?"
               </p>
             </div>
-            <GaugeChart
-              value={npsData.npsScore}
-              maxValue={100}
-              minValue={-100}
-              size={200}
-              label={`${npsData.npsScore}`}
-              sublabel={getNPSLabel(npsData.npsScore)}
-            />
-            <div className="mt-6 grid grid-cols-3 gap-4 text-center text-sm">
-              <div>
-                <div className="text-2xl font-bold text-primary">{npsData.promoters}</div>
-                <div className="text-muted-foreground">Ajánlók (9-10 pont)</div>
+
+            {/* NPS Score Visual */}
+            <div className="my-8">
+              {/* Score Display */}
+              <div className="text-center mb-6">
+                <div className="text-5xl font-bold text-primary mb-2">{npsData.npsScore}</div>
+                <div className="text-lg text-muted-foreground">{getNPSLabel(npsData.npsScore)}</div>
               </div>
-              <div>
-                <div className="text-2xl font-bold text-primary/60">{npsData.passives}</div>
-                <div className="text-muted-foreground">Semlegesek (7-8 pont)</div>
+
+              {/* Scale */}
+              <div className="relative h-12 bg-gradient-to-r from-primary/20 via-primary/40 to-primary rounded-full mb-8">
+                {/* Indicator */}
+                <div 
+                  className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 transition-all duration-500"
+                  style={{ left: `${((npsData.npsScore + 100) / 200) * 100}%` }}
+                >
+                  <div className="w-6 h-6 bg-background border-4 border-primary rounded-full shadow-lg"></div>
+                  <div className="absolute top-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-semibold text-primary">
+                    {npsData.npsScore}
+                  </div>
+                </div>
+                
+                {/* Scale markers */}
+                <div className="absolute -bottom-6 left-0 text-xs text-muted-foreground">-100</div>
+                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-muted-foreground">0</div>
+                <div className="absolute -bottom-6 right-0 text-xs text-muted-foreground">+100</div>
               </div>
-              <div>
-                <div className="text-2xl font-bold text-primary/30">{npsData.detractors}</div>
-                <div className="text-muted-foreground">Kritikusok (0-6 pont)</div>
+            </div>
+
+            {/* Categories */}
+            <div className="mt-12 grid grid-cols-3 gap-4">
+              <div className="text-center p-4 bg-primary/10 rounded-lg">
+                <div className="text-3xl font-bold text-primary mb-1">{npsData.detractors}</div>
+                <div className="text-sm text-muted-foreground font-medium">Kritikusok</div>
+                <div className="text-xs text-muted-foreground">(0-6 pont)</div>
+              </div>
+              <div className="text-center p-4 bg-primary/30 rounded-lg">
+                <div className="text-3xl font-bold text-primary mb-1">{npsData.passives}</div>
+                <div className="text-sm text-muted-foreground font-medium">Semlegesek</div>
+                <div className="text-xs text-muted-foreground">(7-8 pont)</div>
+              </div>
+              <div className="text-center p-4 bg-primary/50 rounded-lg">
+                <div className="text-3xl font-bold text-primary mb-1">{npsData.promoters}</div>
+                <div className="text-sm text-muted-foreground font-medium">Ajánlók</div>
+                <div className="text-xs text-muted-foreground">(9-10 pont)</div>
               </div>
             </div>
           </CardContent>
