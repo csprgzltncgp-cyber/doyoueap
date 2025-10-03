@@ -572,7 +572,7 @@ const Awareness = ({ selectedAuditId }: AwarenessProps) => {
                 <Progress 
                   value={item.score * 20} 
                   style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties}
-                  className="h-2"
+                  className="h-3"
                 />
                 <div className="flex justify-between text-xs text-muted-foreground">
                   <span>1 - Nagyon alacsony</span>

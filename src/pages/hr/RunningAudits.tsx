@@ -214,7 +214,7 @@ const RunningAudits = () => {
                           {metrics.totalEmployees && (
                             <Progress 
                               value={(metrics.emailsSent || 0) / metrics.totalEmployees * 100} 
-                              className="mt-2"
+                              className="mt-2 h-3"
                             />
                           )}
                         </CardContent>
@@ -239,7 +239,7 @@ const RunningAudits = () => {
                           {metrics.emailsSent && metrics.emailsSent > 0 && (
                             <Progress 
                               value={(metrics.emailsOpened || 0) / metrics.emailsSent * 100} 
-                              className="mt-2"
+                              className="mt-2 h-3"
                             />
                           )}
                         </CardContent>
@@ -263,7 +263,7 @@ const RunningAudits = () => {
                         <>
                           <Progress 
                             value={metrics.responsesCount / metrics.totalEmployees * 100} 
-                            className="mt-3"
+                            className="mt-3 h-3"
                           />
                           <p className="text-sm text-muted-foreground mt-2">
                             {((metrics.responsesCount / metrics.totalEmployees) * 100).toFixed(1)}% kitöltöttség
