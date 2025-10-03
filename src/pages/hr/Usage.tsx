@@ -238,17 +238,8 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
         </Card>
 
         {/* Leggyakoribb Témakör */}
-        <Card className="relative overflow-hidden" id="top-topic-card">
-          {topTopic && (
-            <div 
-              className="absolute inset-0 transition-all duration-500"
-              style={{
-                background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${usedResponses.length > 0 ? ((topTopic.value / usedResponses.length) * 100).toFixed(0) : 0}%, transparent ${usedResponses.length > 0 ? ((topTopic.value / usedResponses.length) * 100).toFixed(0) : 0}%, transparent 100%)`,
-                opacity: 0.1
-              }}
-            />
-          )}
-          <CardHeader className="relative z-10">
+        <Card id="top-topic-card">
+          <CardHeader className="relative">
             <Button
               variant="ghost"
               size="icon"
@@ -263,39 +254,30 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
             </CardTitle>
             <CardDescription>Legtöbbet használt szolgáltatás</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 relative z-10">
-            <div className="text-center">
-              {topTopic ? (
-                <>
-                  <div className="text-3xl font-bold mb-2" style={{ color: 'hsl(var(--chart-2))' }}>
-                    {topTopic.name}
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    {topTopic.value} említés ({usedResponses.length > 0 ? ((topTopic.value / usedResponses.length) * 100).toFixed(0) : 0}%)
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    {parseFloat(avgTopicsPerUser) >= 2 ? 'A használók átlagosan több témában is igénybe veszik a szolgáltatást' : 'A használók általában egy-két témában veszik igénybe'}
-                  </p>
-                </>
-              ) : (
-                <p className="text-sm text-muted-foreground">Nincs adat</p>
-              )}
-            </div>
+          <CardContent className="space-y-4">
+            {topTopic ? (
+              <>
+                <GaugeChart 
+                  value={usedResponses.length > 0 ? parseFloat(((topTopic.value / usedResponses.length) * 100).toFixed(0)) : 0} 
+                  maxValue={100}
+                  size={220}
+                  label={topTopic.name}
+                  sublabel={`${usedResponses.length > 0 ? ((topTopic.value / usedResponses.length) * 100).toFixed(0) : 0}%`}
+                  cornerRadius={30}
+                />
+                <p className="text-xs text-muted-foreground text-center mt-4">
+                  {parseFloat(avgTopicsPerUser) >= 2 ? 'A használók átlagosan több témában is igénybe veszik a szolgáltatást' : 'A használók általában egy-két témában veszik igénybe'}
+                </p>
+              </>
+            ) : (
+              <p className="text-sm text-muted-foreground text-center">Nincs adat</p>
+            )}
           </CardContent>
         </Card>
 
         {/* Leggyakoribb Csatorna */}
-        <Card className="relative overflow-hidden" id="top-channel-card">
-          {topChannel && (
-            <div 
-              className="absolute inset-0 transition-all duration-500"
-              style={{
-                background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${usedResponses.length > 0 ? ((topChannel.value / usedResponses.length) * 100).toFixed(0) : 0}%, transparent ${usedResponses.length > 0 ? ((topChannel.value / usedResponses.length) * 100).toFixed(0) : 0}%, transparent 100%)`,
-                opacity: 0.1
-              }}
-            />
-          )}
-          <CardHeader className="relative z-10">
+        <Card id="top-channel-card">
+          <CardHeader className="relative">
             <Button
               variant="ghost"
               size="icon"
@@ -310,24 +292,24 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
             </CardTitle>
             <CardDescription>Preferált elérési mód</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 relative z-10">
-            <div className="text-center">
-              {topChannel ? (
-                <>
-                  <div className="text-3xl font-bold mb-2" style={{ color: 'hsl(var(--chart-2))' }}>
-                    {topChannel.name}
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    {topChannel.value} használat ({usedResponses.length > 0 ? ((topChannel.value / usedResponses.length) * 100).toFixed(0) : 0}%)
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    {parseFloat(avgChannelsPerUser) >= 2 ? 'A használók többféle csatornát is kipróbálnak' : 'A használók általában egy csatornát preferálnak'}
-                  </p>
-                </>
-              ) : (
-                <p className="text-sm text-muted-foreground">Nincs adat</p>
-              )}
-            </div>
+          <CardContent className="space-y-4">
+            {topChannel ? (
+              <>
+                <GaugeChart 
+                  value={usedResponses.length > 0 ? parseFloat(((topChannel.value / usedResponses.length) * 100).toFixed(0)) : 0} 
+                  maxValue={100}
+                  size={220}
+                  label={topChannel.name}
+                  sublabel={`${usedResponses.length > 0 ? ((topChannel.value / usedResponses.length) * 100).toFixed(0) : 0}%`}
+                  cornerRadius={30}
+                />
+                <p className="text-xs text-muted-foreground text-center mt-4">
+                  {parseFloat(avgChannelsPerUser) >= 2 ? 'A használók többféle csatornát is kipróbálnak' : 'A használók általában egy csatornát preferálnak'}
+                </p>
+              </>
+            ) : (
+              <p className="text-sm text-muted-foreground text-center">Nincs adat</p>
+            )}
           </CardContent>
         </Card>
       </div>
