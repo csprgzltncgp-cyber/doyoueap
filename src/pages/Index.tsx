@@ -194,7 +194,10 @@ const Index = () => {
             <div className="max-w-7xl mx-auto px-4 py-3">
               <nav className="flex gap-6">
                 <button
-                  onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
+                  onClick={() => {
+                    console.log('Clicked EAP Pulse navigation');
+                    setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });
+                  }}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                     section === 'eap-pulse' 
                       ? 'text-primary font-semibold border-primary' 
@@ -205,7 +208,10 @@ const Index = () => {
                   EAP Pulse
                 </button>
                 <button
-                  onClick={() => setSearchParams({ section: 'statistics' })}
+                  onClick={() => {
+                    console.log('Clicked Statisztika navigation');
+                    setSearchParams({ section: 'statistics' });
+                  }}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                     section === 'statistics' 
                       ? 'text-primary font-semibold border-primary' 
