@@ -88,11 +88,8 @@ const Export = () => {
   const handleExportPDF = async () => {
     setExporting(true);
     try {
-      const html2canvas = (await import('html2canvas')).default;
       const jsPDF = (await import('jspdf')).default;
-      const { default: PDFExportRenderer } = await import('@/components/hr/PDFExportRenderer');
-      const React = await import('react');
-      const ReactDOM = await import('react-dom/client');
+      const autoTable = (await import('jspdf-autotable')).default;
       
       const selectedAudit = audits.find(a => a.id === selectedAuditId);
       if (!selectedAudit) {
@@ -117,87 +114,65 @@ const Export = () => {
         return;
       }
 
-      // Create a temporary container
-      const container = document.createElement('div');
-      container.style.position = 'absolute';
-      container.style.left = '-9999px';
-      container.style.top = '0';
-      container.style.width = '210mm';
-      container.style.background = 'white';
-      container.style.padding = '0';
-      document.body.appendChild(container);
+      // Calculate metrics
+      const usedResponses = responses.filter(r => r.employee_metadata?.branch === 'used');
+      const notUsedResponses = responses.filter(r => r.employee_metadata?.branch === 'not_used');
+      const redirectResponses = responses.filter(r => r.employee_metadata?.branch === 'redirect');
+      const totalCount = responses.length;
 
-      // Render the PDF content
-      const root = ReactDOM.createRoot(container);
-      await new Promise<void>((resolve) => {
-        root.render(
-          React.createElement(PDFExportRenderer, {
-            auditData: selectedAudit,
-            responses: responses,
-          })
-        );
-        // Wait longer for all charts and content to render
-        setTimeout(resolve, 2500);
-      });
+      const usageRate = totalCount > 0 ? ((usedResponses.length / totalCount) * 100).toFixed(1) : '0.0';
+      const awarenessRate = totalCount > 0 ? (((usedResponses.length + notUsedResponses.length) / totalCount) * 100).toFixed(1) : '0.0';
+
+      const awarenessResponses = [...usedResponses, ...notUsedResponses];
+      const calculateAverage = (values: number[]) => {
+        if (values.length === 0) return '0.0';
+        return ((values.reduce((a, b) => a + b, 0) / values.length)).toFixed(1);
+      };
+      
+      const overallUnderstanding = calculateAverage(
+        awarenessResponses
+          .map(r => r.responses?.u_awareness_understanding || r.responses?.nu_awareness_understanding)
+          .filter(v => v !== undefined)
+      );
 
       // Initialize PDF
       const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      
+      // Title
+      pdf.setFontSize(20);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('EAP Pulse Jelentés', pageWidth / 2, 20, { align: 'center' });
+      
+      pdf.setFontSize(16);
+      pdf.text('Összefoglaló', pageWidth / 2, 35, { align: 'center' });
 
-      // Get all page sections
-      const pages = container.querySelectorAll('.page-break-after');
-      const lastSection = container.querySelector('.space-y-6:last-child');
-      const allSections = [...Array.from(pages), lastSection].filter(Boolean) as HTMLElement[];
+      // Metrics table
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      
+      const metricsData = [
+        ['Használói Arány', `${usageRate}%`],
+        ['Ismertségi Arány', `${awarenessRate}%`],
+        ['Megértés Szintje', `${overallUnderstanding} (1-5 skála)`],
+        ['Válaszadók', `${totalCount} fő`],
+        ['Használók', `${usedResponses.length} fő`],
+        ['Nem Használók', `${notUsedResponses.length} fő`],
+        ['Nem Tudtak Róla', `${redirectResponses.length} fő`],
+      ];
 
-      console.log('Rendering', allSections.length, 'sections to PDF');
-
-      // Capture each page with better settings
-      for (let i = 0; i < allSections.length; i++) {
-        const section = allSections[i];
-        
-        // Make sure section is visible for capture
-        section.style.display = 'block';
-        section.style.visibility = 'visible';
-        section.style.opacity = '1';
-        
-        const canvas = await html2canvas(section, {
-          scale: 2,
-          useCORS: true,
-          logging: true,
-          backgroundColor: '#ffffff',
-          windowWidth: 794, // A4 width in pixels at 96 DPI
-          windowHeight: section.scrollHeight,
-          scrollY: 0,
-          scrollX: 0,
-        });
-
-        const imgData = canvas.toDataURL('image/png');
-        const imgWidth = pdfWidth;
-        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-
-        if (i > 0) {
-          pdf.addPage();
+      autoTable(pdf, {
+        startY: 45,
+        head: [['Mutató', 'Érték']],
+        body: metricsData,
+        theme: 'grid',
+        headStyles: { fillColor: [139, 92, 246], textColor: 255, fontStyle: 'bold' },
+        styles: { fontSize: 11, cellPadding: 5 },
+        columnStyles: {
+          0: { fontStyle: 'bold', cellWidth: 100 },
+          1: { cellWidth: 70, halign: 'right' }
         }
-
-        // If content is taller than one page, handle multi-page
-        let heightLeft = imgHeight;
-        let position = 0;
-
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
-
-        while (heightLeft > 0) {
-          position = heightLeft - imgHeight;
-          pdf.addPage();
-          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-          heightLeft -= pdfHeight;
-        }
-      }
-
-      // Cleanup
-      root.unmount();
-      document.body.removeChild(container);
+      });
 
       // Save PDF
       pdf.save(`eap_pulse_jelentes_${formatAuditName(selectedAudit)}_${Date.now()}.pdf`);
