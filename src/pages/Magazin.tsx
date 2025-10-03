@@ -97,7 +97,7 @@ const Magazin = () => {
           </div>
           <div className="flex items-center gap-4">
             {user ? (
-              <Button onClick={signOut} variant="ghost" className="hover:bg-muted">
+              <Button onClick={signOut} variant="outline">
                 Kilépés
               </Button>
             ) : (
