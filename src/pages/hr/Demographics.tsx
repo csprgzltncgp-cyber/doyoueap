@@ -25,6 +25,8 @@ interface DemographicStats {
   notKnew: number;
   notUsed: number;
   used: number;
+  genderData: Array<{ name: string; value: number }>;
+  ageData: Array<{ name: string; value: number }>;
 }
 
 interface ComparisonData {
@@ -40,7 +42,14 @@ interface DemographicsProps {
 const Demographics = ({ selectedAuditId }: DemographicsProps) => {
   const [selectedGender, setSelectedGender] = useState<string>('all');
   const [selectedAge, setSelectedAge] = useState<string>('all');
-  const [stats, setStats] = useState<DemographicStats>({ total: 0, notKnew: 0, notUsed: 0, used: 0 });
+  const [stats, setStats] = useState<DemographicStats>({ 
+    total: 0, 
+    notKnew: 0, 
+    notUsed: 0, 
+    used: 0,
+    genderData: [],
+    ageData: []
+  });
   const [categoryData, setCategoryData] = useState<any[]>([]);
   const [awarenessComparison, setAwarenessComparison] = useState<ComparisonData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -68,7 +77,14 @@ const Demographics = ({ selectedAuditId }: DemographicsProps) => {
       if (error) throw error;
 
       if (!allData || allData.length === 0) {
-        setStats({ total: 0, notKnew: 0, notUsed: 0, used: 0 });
+        setStats({ 
+          total: 0, 
+          notKnew: 0, 
+          notUsed: 0, 
+          used: 0,
+          genderData: [],
+          ageData: []
+        });
         setCategoryData([]);
         setAwarenessComparison([]);
         return;
@@ -91,7 +107,29 @@ const Demographics = ({ selectedAuditId }: DemographicsProps) => {
       });
 
       const total = filteredData.length;
-      setStats({ total, notKnew, notUsed, used });
+
+      // Calculate gender distribution
+      const genderCounts: Record<string, number> = {};
+      filteredData.forEach(r => {
+        const gender = r.responses?.gender || 'Nem válaszolt';
+        genderCounts[gender] = (genderCounts[gender] || 0) + 1;
+      });
+      const genderData = Object.entries(genderCounts).map(([name, value]) => ({ name, value }));
+
+      // Calculate age distribution
+      const ageCounts: Record<string, number> = {};
+      filteredData.forEach(r => {
+        const age = r.responses?.age || 'Nem válaszolt';
+        ageCounts[age] = (ageCounts[age] || 0) + 1;
+      });
+      const ageData = Object.entries(ageCounts)
+        .map(([name, value]) => ({ name, value }))
+        .sort((a, b) => {
+          const order = ['18-24', '25-36', '37-44', '45-58', '58+', 'Nem válaszolt'];
+          return order.indexOf(a.name) - order.indexOf(b.name);
+        });
+
+      setStats({ total, notKnew, notUsed, used, genderData, ageData });
 
       // Category distribution chart
       setCategoryData([
@@ -330,7 +368,7 @@ const Demographics = ({ selectedAuditId }: DemographicsProps) => {
                 <Download className="h-4 w-4" />
               </Button>
               <CardTitle>Kategória Megoszlás</CardTitle>
-              <CardDescription>Válaszadók eloszlása felhasználói kategóriák szerint</CardDescription>
+              <CardDescription>A válaszadók három csoportba sorolása az EAP program ismerete és használata alapján</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-8">
@@ -382,9 +420,7 @@ const Demographics = ({ selectedAuditId }: DemographicsProps) => {
               </Button>
               <CardTitle>Összehasonlítás</CardTitle>
               <CardDescription>
-                {selectedGender !== 'all' || selectedAge !== 'all' 
-                  ? 'Szűrt csoport vs. teljes minta' 
-                  : 'Átlagos értékek (1-5 skála)'}
+                A kiválasztott demográfiai csoport és a teljes minta összehasonlítása három kulcsmutatóban: szolgáltatás megértése, anonimitásba vetett bizalom és elégedettség
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -399,6 +435,60 @@ const Demographics = ({ selectedAuditId }: DemographicsProps) => {
                   {(selectedGender !== 'all' || selectedAge !== 'all') && (
                     <Bar dataKey="filtered" fill="hsl(var(--chart-3))" name="Szűrt csoport" />
                   )}
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* Gender Distribution */}
+          <Card id="gender-distribution-card">
+            <CardHeader className="relative">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute right-2 top-2 h-8 w-8"
+                onClick={() => exportCardToPNG('gender-distribution-card', 'nem-megoszlás')}
+              >
+                <Download className="h-4 w-4" />
+              </Button>
+              <CardTitle>Nem szerinti megoszlás</CardTitle>
+              <CardDescription>Válaszadók megoszlása nemek szerint</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={stats.genderData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="value" fill="hsl(var(--chart-1))" name="Válaszadók száma" />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* Age Distribution */}
+          <Card id="age-distribution-card">
+            <CardHeader className="relative">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute right-2 top-2 h-8 w-8"
+                onClick={() => exportCardToPNG('age-distribution-card', 'korcsoport-megoszlás')}
+              >
+                <Download className="h-4 w-4" />
+              </Button>
+              <CardTitle>Korcsoport megoszlás</CardTitle>
+              <CardDescription>Válaszadók megoszlása korcsoportok szerint</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={stats.ageData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="value" fill="hsl(var(--chart-2))" name="Válaszadók száma" />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
