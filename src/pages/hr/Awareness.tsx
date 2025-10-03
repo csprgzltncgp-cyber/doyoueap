@@ -387,7 +387,7 @@ const Awareness = ({ selectedAuditId }: AwarenessProps) => {
             <CardDescription>Milyen gyakran kapnak információt (csak használók)</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[300px] flex items-center justify-center">
+            <div className="h-[350px] flex items-center justify-center">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -439,7 +439,7 @@ const Awareness = ({ selectedAuditId }: AwarenessProps) => {
           <CardDescription>Használók körében: kaptak-e elegendő információt?</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-[300px] flex items-center justify-center">
+          <div className="h-[350px] flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
