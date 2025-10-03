@@ -56,6 +56,11 @@ All colors MUST be HSL.
     
     --demo-primary: 225 100% 60%;
     --demo-interactive: 180 100% 80%;
+    
+    --chart-1: 240 100% 30%;
+    --chart-2: 225 100% 60%;
+    --chart-3: 195 100% 60%;
+    --chart-4: 180 100% 80%;
   }
 
   .dark {
