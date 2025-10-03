@@ -439,6 +439,42 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
         </CardContent>
       </Card>
 
+      {/* Average Impact - Separate Card */}
+      <Card id="impact-overall-card">
+        <CardHeader className="relative">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-2 top-2 h-8 w-8"
+            onClick={() => exportCardToPNG('impact-overall-card', 'összesített-hatás')}
+          >
+            <Download className="h-4 w-4" />
+          </Button>
+          <div>
+            <CardTitle>Összesített Hatás Érték</CardTitle>
+            <CardDescription>Az 5 terület átlagos eredménye</CardDescription>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="mb-4 p-3 bg-muted/50 rounded-lg text-sm">
+            <p className="text-muted-foreground">
+              <strong>Mit mutat?</strong> Ez az érték az 5 hatás terület átlagát mutatja. 
+              Egyetlen számban összefoglalva láthatjuk, hogy összességében milyen hatást ér el a program.
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <GaugeChart
+              value={avgImpact}
+              maxValue={5}
+              minValue={1}
+              size={240}
+              label={avgImpact.toFixed(2)}
+              sublabel="Átlag (1-5 skála)"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Statistical Summary */}
       <Card id="impact-summary-card">
         <CardHeader className="relative">
@@ -451,43 +487,48 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
             <Download className="h-4 w-4" />
           </Button>
           <div>
-            <CardTitle>Statisztikai Összefoglaló</CardTitle>
-            <CardDescription>Hatás riport összesítő</CardDescription>
+            <CardTitle>Részletes Értékelések</CardTitle>
+            <CardDescription>Minden terület értéke egyenként</CardDescription>
           </div>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <div className="text-sm text-muted-foreground">Válaszadók (használók)</div>
-                <div className="text-2xl font-bold">{usedCount}</div>
-              </div>
-              <div className="space-y-1">
-                <div className="text-sm text-muted-foreground">NPS Score</div>
-                <div className={`text-2xl font-bold ${getNPSColor(npsData.npsScore)}`}>
-                  {npsData.npsScore}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {impactData.map((metric) => {
+              let description = '';
+              switch(metric.metric) {
+                case 'Elégedettség':
+                  description = 'Általános elégedettség a programmal';
+                  break;
+                case 'Problémamegoldás':
+                  description = 'Mennyire segített a program a problémák kezelésében';
+                  break;
+                case 'Wellbeing javulás':
+                  description = 'Jóllét és mentális egészség javulása';
+                  break;
+                case 'Teljesítmény javulás':
+                  description = 'Munkahelyi teljesítmény pozitív változása';
+                  break;
+                case 'Szolgáltatás konzisztencia':
+                  description = 'A szolgáltatás minőségének következetessége';
+                  break;
+              }
+              
+              return (
+                <div key={metric.metric} className="flex flex-col items-center p-4 bg-muted/30 rounded-lg">
+                  <GaugeChart
+                    value={metric.average}
+                    maxValue={5}
+                    minValue={1}
+                    size={160}
+                    label={metric.average.toFixed(2)}
+                    sublabel={metric.metric}
+                  />
+                  <p className="text-xs text-muted-foreground text-center mt-3">
+                    {description}
+                  </p>
                 </div>
-              </div>
-            </div>
-            
-            <div className="pt-4 border-t">
-              <h4 className="font-semibold mb-3">Impact Metricsek részletesen:</h4>
-              <div className="space-y-2">
-                {impactData.map((metric) => (
-                  <div key={metric.metric} className="flex justify-between items-center">
-                    <span className="text-sm">{metric.metric}</span>
-                    <span className="font-semibold">{metric.average.toFixed(2)} / 5.00</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="pt-4 border-t">
-              <div className="space-y-1">
-                <div className="text-sm text-muted-foreground">Átlagos Impact Érték</div>
-                <div className="text-2xl font-bold">{avgImpact.toFixed(2)} / 5.00</div>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </CardContent>
       </Card>
