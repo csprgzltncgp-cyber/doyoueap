@@ -360,7 +360,7 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
                     outerRadius={120}
                     paddingAngle={2}
                     dataKey="value"
-                    label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
+                    label={false}
                   >
                     {frequencyChartData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={`hsl(var(--chart-${(index % 4) + 1}))`} />
@@ -371,17 +371,21 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
               </ResponsiveContainer>
             </div>
             <div className="flex flex-wrap gap-4 justify-center mt-4">
-              {frequencyChartData.map((entry, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <div 
-                    className="w-3 h-3 rounded-full" 
-                    style={{ backgroundColor: `hsl(var(--chart-${(index % 4) + 1}))` }}
-                  />
-                  <span className="text-sm text-foreground">
-                    {entry.name} alkalom: {entry.value} fő
-                  </span>
-                </div>
-              ))}
+              {frequencyChartData.map((entry, index) => {
+                const total = frequencyChartData.reduce((sum, item) => sum + item.value, 0);
+                const percentage = total > 0 ? ((entry.value / total) * 100).toFixed(0) : 0;
+                return (
+                  <div key={index} className="flex items-center gap-2">
+                    <div 
+                      className="w-3 h-3 rounded-full" 
+                      style={{ backgroundColor: `hsl(var(--chart-${(index % 4) + 1}))` }}
+                    />
+                    <span className="text-sm text-foreground">
+                      {entry.name} alkalom: {percentage}%
+                    </span>
+                  </div>
+                );
+              })}
             </div>
             <div className="bg-muted/30 p-3 rounded-md mt-4">
               <p className="text-xs text-muted-foreground">
@@ -474,7 +478,7 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
                   outerRadius={120}
                   paddingAngle={2}
                   dataKey="value"
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  label={false}
                 >
                   {topicChartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={`hsl(var(--chart-${(index % 4) + 1}))`} />
@@ -485,17 +489,21 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
             </ResponsiveContainer>
           </div>
           <div className="flex flex-wrap gap-4 justify-center mt-4">
-            {topicChartData.slice(0, 6).map((entry, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <div 
-                  className="w-3 h-3 rounded-full" 
-                  style={{ backgroundColor: `hsl(var(--chart-${(index % 4) + 1}))` }}
-                />
-                <span className="text-sm text-foreground">
-                  {entry.name}: {entry.value}
-                </span>
-              </div>
-            ))}
+            {topicChartData.slice(0, 6).map((entry, index) => {
+              const total = topicChartData.reduce((sum, item) => sum + item.value, 0);
+              const percentage = total > 0 ? ((entry.value / total) * 100).toFixed(0) : 0;
+              return (
+                <div key={index} className="flex items-center gap-2">
+                  <div 
+                    className="w-3 h-3 rounded-full" 
+                    style={{ backgroundColor: `hsl(var(--chart-${(index % 4) + 1}))` }}
+                  />
+                  <span className="text-sm text-foreground">
+                    {entry.name}: {percentage}%
+                  </span>
+                </div>
+              );
+            })}
             {topicChartData.length > 6 && (
               <span className="text-xs text-muted-foreground">
                 +{topicChartData.length - 6} további téma
