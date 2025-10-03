@@ -74,7 +74,7 @@ export const Step3Distribution = ({
         const url = canvas.toDataURL('image/png');
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'audit-qr-kod.png';
+        a.download = 'eap-pulse-qr-kod.png';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -194,7 +194,7 @@ export const Step3Distribution = ({
           <Alert>
             <Mail className="h-4 w-4" />
             <AlertDescription>
-              Az emaileket az audit véglegesítése után küldjük ki automatikusan.
+              Az emaileket a felmérés véglegesítése után küldjük ki automatikusan.
             </AlertDescription>
           </Alert>
         </CardContent>
@@ -213,7 +213,7 @@ export const Step3Distribution = ({
 
       <Card>
         <CardHeader>
-          <CardTitle>Audit link</CardTitle>
+          <CardTitle>Felmérés link</CardTitle>
           <CardDescription>
             Oszd meg ezt a linket a munkavállalókkal
           </CardDescription>

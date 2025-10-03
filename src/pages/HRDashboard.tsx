@@ -94,17 +94,17 @@ const HRDashboard = () => {
         <div className="mb-8">
           <Button onClick={() => navigate('/hr/create-audit')}>
             <Plus className="mr-2 h-4 w-4" />
-            Új Audit Indítása
+            Új EAP Pulse Felmérés Indítása
           </Button>
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold">Aktív Auditok</h2>
+          <h2 className="text-2xl font-bold">Aktív Felmérések</h2>
           
           {audits.length === 0 ? (
             <Card>
               <CardContent className="py-8 text-center text-muted-foreground">
-                Még nincs audit létrehozva
+                Még nincs felmérés létrehozva
               </CardContent>
             </Card>
           ) : (

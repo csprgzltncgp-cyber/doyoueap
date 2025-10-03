@@ -111,7 +111,7 @@ export const CompanyDataStep = ({ data, updateData }: CompanyDataStepProps) => {
           />
           <p className="text-sm text-muted-foreground">
             A teljesebb értékelés érdekében szükséges ez az adat, mivel ennek tükrében lehet megállapítani, 
-            hogy hány kitöltött kérdőívre van szükség a hiteles audithoz.
+            hogy hány kitöltött kérdőívre van szükség a hiteles felméréshez.
           </p>
         </div>
 

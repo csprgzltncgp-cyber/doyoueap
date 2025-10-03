@@ -58,7 +58,7 @@ export const formatAuditName = (audit: AuditForDisplay): string => {
   return parts.join(' - ');
 };
 
-// Standard Audit interface for all HR pages
+// Standard felmérés interface for all HR pages
 export interface StandardAudit {
   id: string;
   start_date: string;
@@ -70,5 +70,5 @@ export interface StandardAudit {
   access_token?: string;
 }
 
-// Standard query string for fetching audits
+// Standard query string for fetching felmérések
 export const AUDIT_SELECT_FIELDS = 'id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at';

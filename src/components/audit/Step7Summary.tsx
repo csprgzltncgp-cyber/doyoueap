@@ -65,7 +65,7 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
       <div>
         <h2 className="text-2xl font-bold mb-2">Indítás összegzés</h2>
         <p className="text-muted-foreground">
-          Ellenőrizze az audit beállításait indítás előtt
+          Ellenőrizze a felmérés beállításait indítás előtt
         </p>
       </div>
 
@@ -170,7 +170,7 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
         </CardHeader>
         <CardContent>
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            Az audit teljesen anonim, az eredmények összesítve jelennek meg a HR felületén.
+            A felmérés teljesen anonim, az eredmények összesítve jelennek meg a HR felületén.
             A munkavállalók személyes adatai védettek.
           </p>
         </CardContent>
@@ -181,7 +181,7 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
           Vissza
         </Button>
         <Button onClick={onSubmit} disabled={loading}>
-          {loading ? 'Audit indítása...' : 'Audit indítása'}
+          {loading ? 'Felmérés indítása...' : 'Felmérés indítása'}
         </Button>
       </div>
     </div>

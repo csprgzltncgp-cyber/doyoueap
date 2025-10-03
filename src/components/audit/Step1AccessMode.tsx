@@ -17,7 +17,7 @@ export const Step1AccessMode = ({ accessMode, onAccessModeChange, onNext, onBack
       <div>
         <h2 className="text-2xl font-bold mb-2">Hozzáférés módja</h2>
         <p className="text-muted-foreground">
-          Válassza ki, hogyan férhetnek hozzá a munkavállalók az audit kérdőívhez
+          Válassza ki, hogyan férhetnek hozzá a munkavállalók az EAP Pulse felmérés kérdőívhez
         </p>
       </div>
 

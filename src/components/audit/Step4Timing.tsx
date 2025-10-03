@@ -35,7 +35,7 @@ export const Step4Timing = ({
       <div>
         <h2 className="text-2xl font-bold mb-2">Időzítés és ismétlés</h2>
         <p className="text-muted-foreground">
-          Állítsa be az audit időtartamát és opcionálisan az ismétlését
+          Állítsa be a felmérés időtartamát és opcionálisan az ismétlését
         </p>
       </div>
 
@@ -43,7 +43,7 @@ export const Step4Timing = ({
         <CardHeader>
           <CardTitle>Időtartam</CardTitle>
           <CardDescription>
-            Határozza meg az audit kezdő és záró dátumát
+            Határozza meg a felmérés kezdő és záró dátumát
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -73,7 +73,7 @@ export const Step4Timing = ({
         <CardHeader>
           <CardTitle>Ismétlés (opcionális)</CardTitle>
           <CardDescription>
-            Az audit automatikusan megismétlődhet megadott időközönként
+            A felmérés automatikusan megismétlődhet megadott időközönként
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -84,7 +84,7 @@ export const Step4Timing = ({
               onCheckedChange={(checked) => onEnableRecurrenceChange(checked as boolean)}
             />
             <Label htmlFor="enable-recurrence" className="cursor-pointer">
-              Ismétlődő audit beállítása
+              Ismétlődő felmérés beállítása
             </Label>
           </div>
 
@@ -103,7 +103,7 @@ export const Step4Timing = ({
                 </SelectContent>
               </Select>
               <p className="text-sm text-muted-foreground">
-                A következő auditok automatikusan létrejönnek a beállítások másolásával
+                A következő felmérések automatikusan létrejönnek a beállítások másolásával
               </p>
             </div>
           )}

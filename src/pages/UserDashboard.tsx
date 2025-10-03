@@ -86,24 +86,24 @@ const UserDashboard = () => {
       if (error) throw error;
 
       if (!data) {
-        setError('Érvénytelen audit link');
+        setError('Érvénytelen felmérés link');
         return;
       }
 
       if (!data.is_active) {
-        setError('Ez az audit már nem aktív');
+        setError('Ez a felmérés már nem aktív');
         return;
       }
 
       if (data.expires_at && new Date(data.expires_at) < new Date()) {
-        setError('Ez az audit lejárt');
+        setError('Ez a felmérés lejárt');
         return;
       }
 
       setAudit(data as any);
     } catch (err) {
       console.error('Error fetching audit:', err);
-      setError('Hiba történt az audit betöltésekor');
+      setError('Hiba történt a felmérés betöltésekor');
     } finally {
       setLoading(false);
     }
@@ -244,7 +244,7 @@ const UserDashboard = () => {
           </CardHeader>
           <CardContent>
             <Alert variant="destructive">
-              <AlertDescription>{error || 'Audit nem található'}</AlertDescription>
+              <AlertDescription>{error || 'Felmérés nem található'}</AlertDescription>
             </Alert>
           </CardContent>
         </Card>

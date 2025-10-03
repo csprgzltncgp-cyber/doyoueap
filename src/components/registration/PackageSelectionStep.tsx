@@ -50,7 +50,7 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                   <ul className="space-y-2 mb-4">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Évente max. 1 audit</span>
+                      <span>Évente max. 1 EAP Pulse felmérés</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
@@ -96,7 +96,7 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                   <ul className="space-y-2 mb-4">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Negyedévente audit (ismétlés funkcióval)</span>
+                      <span>Negyedévente EAP Pulse felmérés (ismétlés funkcióval)</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
@@ -144,7 +144,7 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                   <ul className="space-y-2 mb-4">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Korlátlan audit</span>
+                      <span>Korlátlan EAP Pulse felmérés</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
