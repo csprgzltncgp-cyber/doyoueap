@@ -88,8 +88,8 @@ const Statistics = () => {
         setSelectedAuditId(data[0].id);
       }
     } catch (error) {
-      console.error('Error fetching audits:', error);
-      toast.error('Hiba történt az auditek betöltésekor');
+      console.error('Error fetching assessments:', error);
+      toast.error('Hiba történt a felmérések betöltésekor');
     } finally {
       setLoading(false);
     }
@@ -213,7 +213,7 @@ const Statistics = () => {
         {audits.length > 0 ? (
           <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
             <SelectTrigger className="w-80">
-              <SelectValue placeholder="Válassz auditot" />
+              <SelectValue placeholder="Válassz felmérést" />
             </SelectTrigger>
             <SelectContent>
               {audits.map((audit) => (
@@ -225,7 +225,7 @@ const Statistics = () => {
           </Select>
         ) : (
           <div className="text-sm text-muted-foreground">
-            Nincs aktív audit - hozz létre egyet az adatok megjelenítéséhez
+            Nincs aktív felmérés - hozz létre egyet az adatok megjelenítéséhez
           </div>
         )}
       </div>
@@ -303,7 +303,7 @@ const Statistics = () => {
             <div className="text-center py-12 text-muted-foreground">Adatok betöltése...</div>
           ) : totalResponses === 0 ? (
             <div className="text-center py-12 text-muted-foreground">
-              {selectedAuditId ? 'Még nincs adat ehhez az audithoz' : 'Válassz ki egy auditot az adatok megjelenítéséhez'}
+              {selectedAuditId ? 'Még nincs adat ehhez a felméréshez' : 'Válassz ki egy felmérést az adatok megjelenítéséhez'}
             </div>
           ) : (
             <div className="space-y-6">
@@ -645,7 +645,7 @@ const Statistics = () => {
               <Card>
                 <CardHeader>
                   <CardTitle>Gyors áttekintés - 4 témakör</CardTitle>
-                  <CardDescription>Kulcsmutatók az audit fő témáiból</CardDescription>
+                  <CardDescription>Kulcsmutatók a felmérés fő témáiból</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid md:grid-cols-4 gap-4">
@@ -1821,12 +1821,12 @@ const Statistics = () => {
           <Card>
             <CardHeader>
               <CardTitle>Trendek Riport</CardTitle>
-              <CardDescription>Időbeli változások elemzése (több audit szükséges)</CardDescription>
+              <CardDescription>Időbeli változások elemzése (több felmérés szükséges)</CardDescription>
             </CardHeader>
             <CardContent>
               {audits.length < 2 ? (
                 <div className="text-center py-12 text-muted-foreground">
-                  A trendek megjelenítéséhez legalább 2 audit szükséges
+                  A trendek megjelenítéséhez legalább 2 felmérés szükséges
                 </div>
               ) : (
                 <div className="text-center py-12 text-muted-foreground">
@@ -1841,12 +1841,12 @@ const Statistics = () => {
           <Card>
             <CardHeader>
               <CardTitle>Összehasonlítás Riport</CardTitle>
-              <CardDescription>Auditek összehasonlítása (több audit szükséges)</CardDescription>
+              <CardDescription>Felmérések összehasonlítása (több felmérés szükséges)</CardDescription>
             </CardHeader>
             <CardContent>
               {audits.length < 2 ? (
                 <div className="text-center py-12 text-muted-foreground">
-                  Az összehasonlításhoz legalább 2 audit szükséges
+                  Az összehasonlításhoz legalább 2 felmérés szükséges
                 </div>
               ) : (
                 <div className="text-center py-12 text-muted-foreground">
