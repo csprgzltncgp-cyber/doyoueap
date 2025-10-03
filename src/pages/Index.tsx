@@ -475,10 +475,10 @@ const Index = () => {
       <section className="py-20 px-4 bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-4">
-            Indítsa el most az első EAP auditot
+            Indítsa el most az első EAP Pulse felmérést
           </h2>
           <p className="text-xl mb-8 opacity-90">
-            15 perc alatt beállítható, azonnali riportokkal
+            15 perc alatt beállítható, azonnali 4Score riportokkal
           </p>
           <Button size="lg" variant="secondary" onClick={() => navigate('/auth')}>
             Regisztráció
@@ -493,13 +493,13 @@ const Index = () => {
             <div>
               <h3 className="font-bold mb-4">doyoueap</h3>
               <p className="text-sm text-muted-foreground">
-                EAP audit platform a dolgozói jóllét méréséhez
+                EAP Pulse Assessment platform a dolgozói jóllét méréséhez
               </p>
             </div>
             <div>
               <h4 className="font-medium mb-4">Platform</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#audit" className="hover:text-foreground">Mi az EAP Audit?</a></li>
+                <li><a href="#pulse" className="hover:text-foreground">Mi az EAP Pulse?</a></li>
                 <li><a href="#elonyok" className="hover:text-foreground">Előnyök</a></li>
                 <li><a href="#arak" className="hover:text-foreground">Árak</a></li>
               </ul>
