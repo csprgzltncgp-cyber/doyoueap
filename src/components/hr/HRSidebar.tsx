@@ -45,27 +45,23 @@ export function HRSidebar() {
           <SidebarGroupLabel>HR Menü</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink 
-                      to={item.url} 
-                      className={({ isActive }) => {
-                        // Special handling for EAP Audit to show active state for sub-routes
-                        const shouldBeActive = item.url === '/hr/eap-audit' 
-                          ? isEAPAuditActive 
-                          : isActive;
-                        return shouldBeActive 
-                          ? "bg-muted text-primary font-medium" 
-                          : "hover:bg-muted/50";
-                      }}
-                    >
-                      <item.icon className="h-4 w-4" />
-                      {open && <span>{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {menuItems.map((item) => {
+                // Special handling for EAP Audit to show active state for sub-routes
+                const isActive = item.url === '/hr/eap-audit' 
+                  ? isEAPAuditActive 
+                  : location.pathname === item.url;
+                
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={isActive}>
+                      <NavLink to={item.url}>
+                        <item.icon className="h-4 w-4" />
+                        {open && <span>{item.title}</span>}
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
               
               {/* Kijelentkezés gomb a menü alján */}
               <SidebarMenuItem>
