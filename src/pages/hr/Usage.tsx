@@ -378,7 +378,7 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
                     style={{ backgroundColor: `hsl(var(--chart-${(index % 4) + 1}))` }}
                   />
                   <span className="text-sm text-foreground">
-                    {entry.name}: {entry.value} fő
+                    {entry.name} alkalom: {entry.value} fő
                   </span>
                 </div>
               ))}
