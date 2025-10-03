@@ -113,12 +113,12 @@ const Index = () => {
                 Új: EAP Pulse Assessment
               </div>
               <h1 className="text-5xl font-bold mb-6 leading-tight">
-                Extra riportadatok, amiket az EAP szolgáltatója nem lát
+                Teljesebb kép az EAP programról
               </h1>
               <p className="text-xl text-muted-foreground mb-8">
-                Szerezzen egyedi visszajelzéseket dolgozóitól az EAP programjáról a 4Score módszertannal. 
-                Kapjon olyan riportadatokat, amiket az EAP szolgáltatója nem tud biztosítani. Igazolja a befektetés értékét, 
-                mutassa ki az eredményeket, fejlessze tovább a programot – évről évre.
+                Egészítse ki az EAP szolgáltatója riportjait a 4Score módszertannal. Szerezzen egyedi 
+                visszajelzéseket dolgozóitól, gazdagítsa az adatokat, mutassa ki a program értékét 
+                – évről évre. Mindez támogatja az EAP szolgáltatójával való együttműködést.
               </p>
               <div className="flex gap-4">
                 <Button size="lg" onClick={() => navigate('/auth')}>
@@ -208,7 +208,7 @@ const Index = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Miért érdemes a 4Score módszertant használni?</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Extra riportadatok, amiket az EAP szolgáltatója nem tud biztosítani
+              Kiegészítő adatok, amelyek új dimenziót adnak az EAP program értékeléséhez
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
