@@ -197,12 +197,7 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Hatás Riport</h2>
-        <div className="text-sm text-muted-foreground">
-          Válaszadók száma (használók): {usedCount}
-        </div>
-      </div>
+      <h2 className="text-2xl font-bold">Hatás Riport</h2>
 
       {/* Main Metrics */}
       <div className="grid gap-6 md:grid-cols-2">
