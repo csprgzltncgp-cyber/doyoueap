@@ -8,7 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 
 const Magazin = () => {
   const navigate = useNavigate();
-  const { user, role, signOut } = useAuth();
+  const { user, role, loading, signOut } = useAuth();
 
   const featuredArticle = {
     title: "A mentális egészség munkahelyi jelentősége 2025-ben",
@@ -96,14 +96,16 @@ const Magazin = () => {
             </nav>
           </div>
           <div className="flex items-center gap-4">
-            {user ? (
-              <Button onClick={signOut} variant="outline">
-                Kilépés
-              </Button>
-            ) : (
-              <Button onClick={() => navigate('/auth')}>
-                Bejelentkezés
-              </Button>
+            {!loading && (
+              user ? (
+                <Button onClick={signOut} variant="outline">
+                  Kilépés
+                </Button>
+              ) : (
+                <Button onClick={() => navigate('/auth')}>
+                  Bejelentkezés
+                </Button>
+              )
             )}
           </div>
         </div>
