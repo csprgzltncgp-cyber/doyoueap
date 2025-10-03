@@ -394,8 +394,8 @@ const Reports = () => {
             </Card>
           </div>
 
-          {/* Third Row: Awareness, Trust, and Impact */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Third Row: Awareness, Trust, Usage, and Impact */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -424,6 +424,22 @@ const Reports = () => {
                 <div className="text-center">
                   <div className="text-5xl font-bold text-primary mb-2">{trustScore}</div>
                   <p className="text-sm text-muted-foreground">Mennyire bíznak az anonimitás védelmében</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Users className="w-5 h-5" />
+                  Használat
+                </CardTitle>
+                <CardDescription>1-5 skála</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center">
+                  <div className="text-5xl font-bold text-primary mb-2">{usageScore}</div>
+                  <p className="text-sm text-muted-foreground">Felhasználók aránya</p>
                 </div>
               </CardContent>
             </Card>
