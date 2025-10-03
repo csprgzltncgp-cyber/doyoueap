@@ -115,37 +115,37 @@ const Export = () => {
         {
           name: 'Összefoglaló',
           url: '/hr/statistics?tab=overview',
-          cardIds: ['utilization-card', 'satisfaction-card', 'awareness-card', 'trust-card', 'usage-card', 'impact-card']
+          cardIds: ['utilization-card', 'satisfaction-card', 'participation-card', 'satisfaction-metrics-card', 'awareness-card', 'trust-card', 'usage-card', 'impact-card']
         },
         {
           name: 'Ismertség',
           url: '/hr/statistics?tab=awareness',
-          cardIds: ['awareness-pie-card', 'awareness-bar-card']
+          cardIds: ['overall-awareness-card', 'understanding-card', 'overall-knowledge-card', 'unawareness-card', 'sources-card', 'frequency-card', 'info-sufficiency-card', 'comparison-card', 'awareness-profile-card']
         },
         {
           name: 'Bizalom & Hajlandóság',
           url: '/hr/statistics?tab=trust',
-          cardIds: ['trust-users-anonymity-card', 'trust-users-employer-card', 'trust-users-likelihood-card', 'trust-non-users-card', 'trust-nu-anonymity-card', 'trust-nu-employer-card', 'trust-nu-colleagues-card']
+          cardIds: ['overall-anonymity-card', 'trust-index-card', 'employer-fear-card', 'likelihood-card', 'trust-radar-card', 'barriers-card', 'anonymity-comparison-card', 'employer-fear-comparison-card', 'colleagues-fear-comparison-card', 'trust-profile-card']
         },
         {
           name: 'Használat',
           url: '/hr/statistics?tab=usage',
-          cardIds: ['usage-satisfaction-card', 'usage-problem-solving-card', 'usage-nps-card', 'usage-consistency-card']
+          cardIds: ['usage-rate-card', 'family-usage-card', 'top-topic-card', 'top-channel-card', 'frequency-card', 'family-distribution-card', 'topics-card', 'channels-card', 'time-to-care-card', 'usage-intensity-card']
         },
         {
           name: 'Hatás',
           url: '/hr/statistics?tab=impact',
-          cardIds: ['impact-performance-card', 'impact-problem-solving-card', 'impact-wellbeing-card', 'impact-satisfaction-card', 'impact-consistency-card']
+          cardIds: ['impact-nps-card', 'impact-avg-card', 'impact-metrics-card', 'impact-radar-card']
         },
         {
           name: 'Motiváció',
           url: '/hr/statistics?tab=motivation',
-          cardIds: ['motivation-what-card', 'motivation-expert-card', 'motivation-channel-card']
+          cardIds: ['motivators-card', 'expert-preference-card', 'channel-preference-card']
         },
         {
           name: 'Demográfia',
           url: '/hr/statistics?tab=demographics',
-          cardIds: ['demographics-gender-card', 'demographics-age-card']
+          cardIds: ['category-distribution-card', 'comparison-chart-card', 'gender-distribution-card', 'age-distribution-card']
         }
       ];
 
@@ -519,13 +519,13 @@ const Export = () => {
             <div className="text-sm space-y-2">
               <p><strong>Tartalom:</strong></p>
               <ul className="list-disc list-inside ml-4 space-y-1">
-                <li>Összefoglaló - 6 kártya</li>
-                <li>Ismertség - 2 kártya (kördiagram, részletes)</li>
-                <li>Bizalom & Hajlandóság - 7 kártya</li>
-                <li>Használat - 4 kártya</li>
-                <li>Hatás - 5 kártya</li>
+                <li>Összefoglaló - 8 kártya</li>
+                <li>Ismertség - 9 kártya</li>
+                <li>Bizalom & Hajlandóság - 10 kártya</li>
+                <li>Használat - 10 kártya</li>
+                <li>Hatás - 4 kártya</li>
                 <li>Motiváció - 3 kártya</li>
-                <li>Demográfia - 2 kártya</li>
+                <li>Demográfia - 4 kártya</li>
               </ul>
             </div>
             <Button 
@@ -553,11 +553,13 @@ const Export = () => {
             <div className="text-sm space-y-2">
               <p><strong>Tartalom:</strong></p>
               <ul className="list-disc list-inside ml-4 space-y-1">
-                <li>7 munkalap témakörök szerint</li>
-                <li>Demográfia</li>
-                <li>Használók - Awareness, Bizalom, Használat, Hatás, Preferenciák</li>
-                <li>Nem használók - teljes válaszok</li>
-                <li>Minden kérdés külön oszlopban</li>
+                <li>Összefoglaló - Fő mutatók (igénybevétel, elégedettség, részvétel)</li>
+                <li>Ismertség - Awareness szintek, források, gyakoriság, megértés</li>
+                <li>Bizalom - Használók és nem használók bizalmi indexei, hajlandóság</li>
+                <li>Használat - Gyakoriság, témák, csatornák, családi használat</li>
+                <li>Hatás - NPS, teljesítmény, jóllét, problémamegoldás mutatók</li>
+                <li>Motiváció - Motivátorok, szakértő típus, csatorna preferenciák (nem használók)</li>
+                <li>Demográfia - Nem, korcsoport, kategória megoszlások</li>
               </ul>
             </div>
             <Button 
@@ -617,8 +619,9 @@ const Export = () => {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid grid-cols-6 mb-4">
+            <TabsList className="grid grid-cols-7 mb-4">
               <TabsTrigger value="overview">Összefoglaló</TabsTrigger>
+              <TabsTrigger value="awareness">Ismertség</TabsTrigger>
               <TabsTrigger value="trust">Bizalom</TabsTrigger>
               <TabsTrigger value="usage">Használat</TabsTrigger>
               <TabsTrigger value="impact">Hatás</TabsTrigger>
@@ -630,6 +633,24 @@ const Export = () => {
               <p className="text-sm text-muted-foreground mb-4">Gyors áttekintés - főbb mutatók</p>
               <div className="grid grid-cols-2 gap-2">
                 {exportableCharts.filter(c => c.tab === 'overview').map(chart => (
+                  <Button 
+                    key={chart.id}
+                    variant="outline" 
+                    onClick={() => handleExportPNG(chart.id, chart.fileName)}
+                    disabled={exporting || !selectedAuditId}
+                    className="justify-start"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    {chart.name}
+                  </Button>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="awareness" className="space-y-2">
+              <p className="text-sm text-muted-foreground mb-4">Ismertség és awareness mutatók</p>
+              <div className="grid grid-cols-2 gap-2">
+                {exportableCharts.filter(c => c.tab === 'awareness').map(chart => (
                   <Button 
                     key={chart.id}
                     variant="outline" 
