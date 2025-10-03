@@ -715,13 +715,13 @@ const Statistics = () => {
                       </CardContent>
                     </Card>
 
-                    {/* Usage */}
+                    {/* Usage - Problem Solving */}
                     <Card id="usage-card">
                       <CardHeader className="pb-3">
                         <div className="flex justify-between items-center">
                           <CardTitle className="text-sm flex items-center gap-2">
                             <Activity className="h-4 w-4" />
-                            Használat
+                            Használat (1-5 skála)
                           </CardTitle>
                           <Button
                             variant="ghost"
@@ -734,12 +734,17 @@ const Statistics = () => {
                         </div>
                       </CardHeader>
                       <CardContent>
-                        <div className="space-y-2">
-                          <div>
-                            <p className="text-2xl font-bold">{usedBranch}</p>
-                            <p className="text-xs text-muted-foreground">Felhasználó</p>
-                          </div>
-                        </div>
+                        <GaugeChart
+                          value={parseFloat(calculateAverage(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .map(r => r.responses?.u_impact_problem_solving)
+                              .filter(v => v !== undefined)
+                          ))}
+                          maxValue={5}
+                          size={150}
+                        />
+                        <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire segített a program a problémák kezelésében</p>
                       </CardContent>
                     </Card>
 
