@@ -154,19 +154,50 @@ const Index = () => {
           </div>
           <nav className="hidden md:flex gap-6 items-center">
             <button
-              onClick={() => setSearchParams({})}
+              onClick={() => {
+                setSearchParams({});
+                setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+              }}
               className={`text-sm hover:text-primary transition-colors ${!section ? 'text-primary font-medium' : ''}`}
             >
               Főoldal
             </button>
-            {!section && (
-              <>
-                <a href="#magazin" className="text-sm hover:text-primary transition-colors">Magazin</a>
-                <a href="#pulse" className="text-sm hover:text-primary transition-colors">Mi az EAP Pulse?</a>
-                <a href="#elonyok" className="text-sm hover:text-primary transition-colors">Előnyök</a>
-                <a href="#arak" className="text-sm hover:text-primary transition-colors">Árak</a>
-              </>
-            )}
+            <button
+              onClick={() => {
+                setSearchParams({});
+                setTimeout(() => document.getElementById('magazin')?.scrollIntoView({ behavior: 'smooth' }), 100);
+              }}
+              className="text-sm hover:text-primary transition-colors"
+            >
+              Magazin
+            </button>
+            <button
+              onClick={() => {
+                setSearchParams({});
+                setTimeout(() => document.getElementById('pulse')?.scrollIntoView({ behavior: 'smooth' }), 100);
+              }}
+              className="text-sm hover:text-primary transition-colors"
+            >
+              Mi az EAP Pulse?
+            </button>
+            <button
+              onClick={() => {
+                setSearchParams({});
+                setTimeout(() => document.getElementById('elonyok')?.scrollIntoView({ behavior: 'smooth' }), 100);
+              }}
+              className="text-sm hover:text-primary transition-colors"
+            >
+              Előnyök
+            </button>
+            <button
+              onClick={() => {
+                setSearchParams({});
+                setTimeout(() => document.getElementById('arak')?.scrollIntoView({ behavior: 'smooth' }), 100);
+              }}
+              className="text-sm hover:text-primary transition-colors"
+            >
+              Árak
+            </button>
             {user && role === 'hr' && (
               <button
                 onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
@@ -499,11 +530,11 @@ const Index = () => {
       </section>
 
       {/* Featured Content - Magazine Style */}
-      <section className="py-16 px-4">
+      <section id="magazin" className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8">
             {/* Left: What is EAP Pulse */}
-            <Card className="md:row-span-2">
+            <Card id="pulse" className="md:row-span-2">
               <CardHeader>
                 <div className="text-sm font-medium text-primary mb-2">Kiemelt</div>
                 <CardTitle className="text-3xl">Mi az EAP Pulse?</CardTitle>
