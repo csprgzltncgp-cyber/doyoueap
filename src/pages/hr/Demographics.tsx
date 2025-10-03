@@ -466,8 +466,8 @@ const Demographics = ({ selectedAuditId }: DemographicsProps) => {
                       <span className="text-sm text-muted-foreground">{item.value} fő ({percentage.toFixed(1)}%)</span>
                     </div>
                     <Progress 
-                      value={percentage}
-                      style={{ '--progress-background': `hsl(var(--chart-${(index % 4) + 1}))` } as React.CSSProperties}
+                      value={percentage} 
+                      style={{ '--progress-background': '#3366ff' } as React.CSSProperties}
                       className="h-3"
                     />
                   </div>
@@ -501,8 +501,8 @@ const Demographics = ({ selectedAuditId }: DemographicsProps) => {
                       <span className="text-sm text-muted-foreground">{item.value} fő ({percentage.toFixed(1)}%)</span>
                     </div>
                     <Progress 
-                      value={percentage}
-                      style={{ '--progress-background': `hsl(var(--chart-${(index % 4) + 1}))` } as React.CSSProperties}
+                      value={percentage} 
+                      style={{ '--progress-background': '#3366ff' } as React.CSSProperties}
                       className="h-3"
                     />
                   </div>
