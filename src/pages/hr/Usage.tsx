@@ -385,8 +385,8 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
             </div>
             <div className="bg-muted/30 p-3 rounded-md mt-4">
               <p className="text-xs text-muted-foreground">
-                <strong>Értelmezés:</strong> Ez mutatja, hogy a használók hányszor fordultak a szolgáltatáshoz. 
-                Például "Egyszer" = egyszeri konzultáció, "Többször" = ismétlődő kapcsolattartás, "Rendszeresen" = folyamatos támogatás.
+                Ez mutatja, hogy a használók hányszor (hány alkalommal) fordultak a szolgáltatáshoz. 
+                Például 1 alkalommal, 2-3 alkalommal, 4-6 alkalommal, vagy rendszeresen (több mint 6 alkalom).
               </p>
             </div>
           </CardContent>
