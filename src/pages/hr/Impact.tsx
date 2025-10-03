@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 import { toast } from 'sonner';
 import { formatAuditName } from '@/lib/auditUtils';
+import { GaugeChart } from '@/components/ui/gauge-chart';
 
 // NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface Audit {
@@ -197,6 +198,59 @@ const Impact = () => {
         </Card>
       ) : (
         <>
+          {/* Gauge Charts for Key Impact Metrics */}
+          {impactData.length > 0 && (
+            <div className="grid md:grid-cols-3 gap-6 mb-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Elégedettség</CardTitle>
+                  <CardDescription>Átlagos elégedettség (1-5 skála)</CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center">
+                  <GaugeChart
+                    value={parseFloat(impactData.find(d => d.metric === 'Elégedettség')?.average.toFixed(1) || '0')}
+                    maxValue={5}
+                    size={150}
+                    label={impactData.find(d => d.metric === 'Elégedettség')?.average.toFixed(1) || '0'}
+                    sublabel="/ 5"
+                  />
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Jóllét javulása</CardTitle>
+                  <CardDescription>Észlelt jóllét változás (1-5 skála)</CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center">
+                  <GaugeChart
+                    value={parseFloat(impactData.find(d => d.metric === 'Jóllét javulása')?.average.toFixed(1) || '0')}
+                    maxValue={5}
+                    size={150}
+                    label={impactData.find(d => d.metric === 'Jóllét javulása')?.average.toFixed(1) || '0'}
+                    sublabel="/ 5"
+                  />
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Munkahelyi teljesítmény</CardTitle>
+                  <CardDescription>Észlelt teljesítmény növekedés (1-5 skála)</CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center">
+                  <GaugeChart
+                    value={parseFloat(impactData.find(d => d.metric === 'Munkahelyi teljesítmény')?.average.toFixed(1) || '0')}
+                    maxValue={5}
+                    size={150}
+                    label={impactData.find(d => d.metric === 'Munkahelyi teljesítmény')?.average.toFixed(1) || '0'}
+                    sublabel="/ 5"
+                  />
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
           <Card>
             <CardHeader>
               <CardTitle>Használók száma</CardTitle>

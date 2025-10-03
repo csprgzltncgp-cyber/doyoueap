@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { toast } from 'sonner';
 import { formatAuditName } from '@/lib/auditUtils';
+import { GaugeChart } from '@/components/ui/gauge-chart';
 
 interface Audit {
   id: string;
@@ -235,6 +236,43 @@ const TrustWillingness = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Gauge Charts for Key Metrics */}
+      {trustData.length > 0 && (
+        <div className="grid md:grid-cols-2 gap-6 mb-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Bizalom szintje (Használók)</CardTitle>
+              <CardDescription>Átlagos bizalom az EAP programban (1-5 skála)</CardDescription>
+            </CardHeader>
+            <CardContent className="flex justify-center">
+              <GaugeChart
+                value={parseFloat(trustData.find(d => d.metric === 'Bizalom')?.used.toFixed(1) || '0')}
+                maxValue={5}
+                size={180}
+                label={trustData.find(d => d.metric === 'Bizalom')?.used.toFixed(1) || '0'}
+                sublabel="/ 5"
+              />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Készség a használatra (Nem használók)</CardTitle>
+              <CardDescription>Mennyire lennének hajlandóak használni (1-5 skála)</CardDescription>
+            </CardHeader>
+            <CardContent className="flex justify-center">
+              <GaugeChart
+                value={parseFloat(trustData.find(d => d.metric === 'Hajlandóság')?.notUsed.toFixed(1) || '0')}
+                maxValue={5}
+                size={180}
+                label={trustData.find(d => d.metric === 'Hajlandóság')?.notUsed.toFixed(1) || '0'}
+                sublabel="/ 5"
+              />
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       <Card>
         <CardHeader>

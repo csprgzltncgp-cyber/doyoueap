@@ -8,6 +8,7 @@ import { formatAuditName } from '@/lib/auditUtils';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import { exportCardToPNG } from '@/lib/exportUtils';
+import { GaugeChart } from '@/components/ui/gauge-chart';
 
 interface Audit {
   id: string;
@@ -176,6 +177,57 @@ const Awareness = () => {
         </Card>
       ) : (
         <>
+          {/* Gauge Charts for Key Metrics */}
+          <div className="grid md:grid-cols-3 gap-6 mb-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Szolgáltatás megértése</CardTitle>
+                <CardDescription>Átlagos értékelés (1-5 skála)</CardDescription>
+              </CardHeader>
+              <CardContent className="flex justify-center">
+                <GaugeChart
+                  value={parseFloat(awarenessData.find(d => d.metric === 'Szolgáltatás megértése')?.overall.toFixed(1) || '0')}
+                  maxValue={5}
+                  size={150}
+                  label={awarenessData.find(d => d.metric === 'Szolgáltatás megértése')?.overall.toFixed(1) || '0'}
+                  sublabel="/ 5"
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Igénybevételi tudás</CardTitle>
+                <CardDescription>Használók átlaga (1-5 skála)</CardDescription>
+              </CardHeader>
+              <CardContent className="flex justify-center">
+                <GaugeChart
+                  value={parseFloat(awarenessData.find(d => d.metric === 'Igénybevételi tudás')?.used.toFixed(1) || '0')}
+                  maxValue={5}
+                  size={150}
+                  label={awarenessData.find(d => d.metric === 'Igénybevételi tudás')?.used.toFixed(1) || '0'}
+                  sublabel="/ 5"
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Elérhetőség érzete</CardTitle>
+                <CardDescription>Használók átlaga (1-5 skála)</CardDescription>
+              </CardHeader>
+              <CardContent className="flex justify-center">
+                <GaugeChart
+                  value={parseFloat(awarenessData.find(d => d.metric === 'Elérhetőség érzete')?.used.toFixed(1) || '0')}
+                  maxValue={5}
+                  size={150}
+                  label={awarenessData.find(d => d.metric === 'Elérhetőség érzete')?.used.toFixed(1) || '0'}
+                  sublabel="/ 5"
+                />
+              </CardContent>
+            </Card>
+          </div>
+
           <div className="grid grid-cols-3 gap-4">
             <Card>
               <CardHeader>

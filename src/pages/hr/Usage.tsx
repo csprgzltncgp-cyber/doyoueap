@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { toast } from 'sonner';
 import { formatAuditName } from '@/lib/auditUtils';
+import { GaugeChart } from '@/components/ui/gauge-chart';
 
 interface Audit {
   id: string;
@@ -198,6 +199,41 @@ const Usage = () => {
         </Card>
       ) : (
         <>
+          {/* Gauge Chart for Frequency */}
+          {frequencyData.length > 0 && (
+            <div className="mb-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Használati gyakoriság</CardTitle>
+                  <CardDescription>Mennyire gyakran vették igénybe a szolgáltatást</CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center">
+                  <div className="w-full max-w-md">
+                    <ResponsiveContainer width="100%" height={200}>
+                      <PieChart>
+                        <Pie
+                          data={frequencyData}
+                          cx="50%"
+                          cy="50%"
+                          labelLine={false}
+                          label={({ name, percentage }) => `${name}: ${percentage}%`}
+                          outerRadius={80}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {frequencyData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          
           <div className="grid grid-cols-2 gap-6">
             <Card>
               <CardHeader>
