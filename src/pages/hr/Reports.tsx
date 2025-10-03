@@ -292,6 +292,12 @@ const Reports = () => {
                   A részvételi arány azt mutatja, hogy a munkavállalók hány százaléka töltötte ki a felmérést. 
                   Jelenleg {totalResponses} fő válaszolt {employeeCount} alkalmazottból.
                 </p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  <strong>A kitöltők három kategóriába sorolhatók:</strong><br/>
+                  <strong>Használók:</strong> Azok, akik ismerik ÉS használták az EAP programot<br/>
+                  <strong>Nem használók:</strong> Azok, akik tudnak a programról, de még nem használták<br/>
+                  <strong>Nem tudtak róla:</strong> Azok, akik nem hallottak a programról
+                </p>
                 <div className="h-[250px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
