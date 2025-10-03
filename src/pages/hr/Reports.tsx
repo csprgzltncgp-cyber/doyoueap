@@ -200,9 +200,9 @@ const Reports = () => {
 
   // Pie chart data for participation breakdown
   const pieData = [
-    { name: 'Használók', value: usedBranch, color: 'hsl(var(--chart-1))' },
-    { name: 'Nem használók', value: notUsedBranch, color: 'hsl(var(--chart-2))' },
-    { name: 'Nem tudtak róla', value: redirectBranch, color: 'hsl(var(--chart-3))' },
+    { name: 'Használók', value: usedBranch, color: 'hsl(var(--chart-2))' },
+    { name: 'Nem használók', value: notUsedBranch, color: 'hsl(var(--chart-3))' },
+    { name: 'Nem tudtak róla', value: redirectBranch, color: 'hsl(var(--chart-4))' },
   ].filter(item => item.value > 0);
 
   const exportCardToPNG = async (cardId: string, fileName: string) => {
@@ -424,7 +424,7 @@ const Reports = () => {
                       <PolarGrid strokeDasharray="3 3" />
                       <PolarAngleAxis dataKey="subject" tick={{ fontSize: 10 }} />
                       <PolarRadiusAxis angle={90} domain={[0, 5]} tick={{ fontSize: 10 }} />
-                      <Radar name="Ismertség" dataKey="value" stroke="hsl(var(--chart-1))" fill="hsl(var(--chart-1))" fillOpacity={0.6} />
+                      <Radar name="Ismertség" dataKey="value" stroke="hsl(var(--chart-2))" fill="hsl(var(--chart-2))" fillOpacity={0.6} />
                     </RadarChart>
                   </ResponsiveContainer>
                 </div>
@@ -483,7 +483,7 @@ const Reports = () => {
                       innerRadius="60%" 
                       outerRadius="90%" 
                       barSize={20} 
-                      data={[{ name: 'Használat', value: (parseFloat(problemSolvingScore) / 5) * 100, fill: 'hsl(var(--chart-3))' }]}
+                      data={[{ name: 'Használat', value: (parseFloat(problemSolvingScore) / 5) * 100, fill: 'hsl(var(--chart-2))' }]}
                       startAngle={90}
                       endAngle={-270}
                     >
@@ -518,7 +518,7 @@ const Reports = () => {
                         className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all"
                         style={{
                           backgroundColor: star <= parseFloat(wellbeingScore) 
-                            ? 'hsl(var(--chart-4))' 
+                            ? 'hsl(var(--chart-2))' 
                             : 'hsl(var(--muted))',
                           color: star <= parseFloat(wellbeingScore) 
                             ? 'hsl(var(--primary-foreground))' 
