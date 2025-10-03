@@ -54,44 +54,37 @@ export function HRSidebar() {
                 
                 return (
                   <SidebarMenuItem key={item.title}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        console.log('Navigating to:', item.url);
-                        navigate(item.url);
-                      }}
-                      className={`
-                        flex w-full items-center gap-2 rounded-md p-2 text-left text-sm
-                        transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground
-                        ${isActive ? 'bg-sidebar-accent font-medium text-sidebar-accent-foreground' : ''}
-                        ${!open ? 'justify-center' : ''}
-                      `}
-                    >
-                      <item.icon className="h-4 w-4 shrink-0" />
-                      {open && <span>{item.title}</span>}
-                    </button>
+                    <SidebarMenuButton asChild isActive={isActive}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          console.log('Navigating to:', item.url);
+                          navigate(item.url);
+                        }}
+                      >
+                        <item.icon className="h-4 w-4 shrink-0" />
+                        {open && <span>{item.title}</span>}
+                      </button>
+                    </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
               })}
               
               {/* Kijelentkezés gomb a menü alján */}
               <SidebarMenuItem>
-                <button
-                  type="button"
-                  onClick={() => {
-                    console.log('Signing out');
-                    handleSignOut();
-                  }}
-                  className={`
-                    flex w-full items-center gap-2 rounded-md p-2 text-left text-sm
-                    transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground
-                    text-destructive
-                    ${!open ? 'justify-center' : ''}
-                  `}
-                >
-                  <LogOut className="h-4 w-4 shrink-0" />
-                  {open && <span>Kijelentkezés</span>}
-                </button>
+                <SidebarMenuButton asChild>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      console.log('Signing out');
+                      handleSignOut();
+                    }}
+                    className="text-destructive hover:text-destructive"
+                  >
+                    <LogOut className="h-4 w-4 shrink-0" />
+                    {open && <span>Kijelentkezés</span>}
+                  </button>
+                </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
