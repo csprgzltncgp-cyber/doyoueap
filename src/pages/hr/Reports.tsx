@@ -7,8 +7,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Download, Eye, Shield, Activity, Target, Users, TrendingUp } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatAuditName } from "@/lib/auditUtils";
 import { GaugeChart } from "@/components/ui/gauge-chart";
 import Awareness from "./Awareness";
@@ -297,12 +296,13 @@ const Reports = () => {
                         outerRadius={100}
                         paddingAngle={2}
                         dataKey="value"
+                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                       >
                         {pieData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={entry.color} />
                         ))}
                       </Pie>
-                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Tooltip />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
