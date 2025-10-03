@@ -139,24 +139,22 @@ const RunningAudits = () => {
 
   if (audits.length === 0) {
     return (
-      <div className="p-8">
-        <h1 className="text-3xl font-bold mb-6">Futó Felmérések</h1>
-        <Card>
-          <CardContent className="pt-6">
-            <p className="text-center text-muted-foreground">
-              Jelenleg nincsenek futó felmérések.
-            </p>
-          </CardContent>
-        </Card>
+      <div className="space-y-6">
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold mb-2">Futó Felmérések</h2>
+          <p className="text-muted-foreground text-sm">
+            Jelenleg nincsenek futó felmérések.
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="p-8 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold mb-2">Futó Felmérések</h1>
-        <p className="text-muted-foreground">
+    <div className="space-y-6">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold mb-2">Futó Felmérések</h2>
+        <p className="text-muted-foreground text-sm">
           Áttekintés az aktív felmérésekről és azok előrehaladásáról
         </p>
       </div>
