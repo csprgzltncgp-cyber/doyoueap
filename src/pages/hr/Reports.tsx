@@ -261,10 +261,10 @@ const Reports = () => {
                 <GaugeChart 
                   value={utilization} 
                   maxValue={100}
-                  size={200}
+                  size={280}
                   label={`${utilization.toFixed(1)}%`}
                   sublabel={`~${estimatedUsers} / ${employeeCount} fő (becsült)`}
-                  cornerRadius={0}
+                  cornerRadius={30}
                 />
               </CardContent>
             </Card>
@@ -282,10 +282,10 @@ const Reports = () => {
                 <GaugeChart 
                   value={satisfactionIndex} 
                   maxValue={100}
-                  size={200}
+                  size={280}
                   label={`${satisfactionIndex.toFixed(0)}%`}
                   sublabel={`${satisfactionScore}/5`}
-                  cornerRadius={0}
+                  cornerRadius={30}
                 />
               </CardContent>
             </Card>
