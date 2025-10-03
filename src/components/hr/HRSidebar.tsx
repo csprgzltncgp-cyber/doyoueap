@@ -54,40 +54,44 @@ export function HRSidebar() {
                 
                 return (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton 
-                      isActive={isActive}
-                      onClick={(e) => {
-                        console.log('Menu clicked:', item.title);
-                        e.preventDefault();
-                        e.stopPropagation();
+                    <button
+                      type="button"
+                      onClick={() => {
+                        console.log('Navigating to:', item.url);
                         navigate(item.url);
                       }}
-                      type="button"
-                      style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+                      className={`
+                        flex w-full items-center gap-2 rounded-md p-2 text-left text-sm
+                        transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground
+                        ${isActive ? 'bg-sidebar-accent font-medium text-sidebar-accent-foreground' : ''}
+                        ${!open ? 'justify-center' : ''}
+                      `}
                     >
-                      <item.icon className="h-4 w-4" />
+                      <item.icon className="h-4 w-4 shrink-0" />
                       {open && <span>{item.title}</span>}
-                    </SidebarMenuButton>
+                    </button>
                   </SidebarMenuItem>
                 );
               })}
               
               {/* Kijelentkezés gomb a menü alján */}
               <SidebarMenuItem>
-                <SidebarMenuButton 
-                  onClick={(e) => {
-                    console.log('Logout clicked');
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleSignOut();
-                  }} 
+                <button
                   type="button"
-                  style={{ pointerEvents: 'auto', cursor: 'pointer' }}
-                  className="text-destructive hover:text-destructive"
+                  onClick={() => {
+                    console.log('Signing out');
+                    handleSignOut();
+                  }}
+                  className={`
+                    flex w-full items-center gap-2 rounded-md p-2 text-left text-sm
+                    transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground
+                    text-destructive
+                    ${!open ? 'justify-center' : ''}
+                  `}
                 >
-                  <LogOut className="h-4 w-4" />
+                  <LogOut className="h-4 w-4 shrink-0" />
                   {open && <span>Kijelentkezés</span>}
-                </SidebarMenuButton>
+                </button>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
