@@ -321,7 +321,6 @@ const Reports = () => {
                         outerRadius={100}
                         paddingAngle={2}
                         dataKey="value"
-                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                       >
                         {pieData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={entry.color} />
@@ -330,6 +329,19 @@ const Reports = () => {
                       <Tooltip />
                     </PieChart>
                   </ResponsiveContainer>
+                </div>
+                <div className="flex flex-wrap gap-4 justify-center mt-4">
+                  {pieData.map((entry, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <div 
+                        className="w-3 h-3 rounded-full" 
+                        style={{ backgroundColor: entry.color }}
+                      />
+                      <span className="text-sm text-foreground">
+                        {entry.name}: {entry.value} ({((entry.value / totalResponses) * 100).toFixed(0)}%)
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
