@@ -7,6 +7,8 @@ import { toast } from 'sonner';
 import { formatAuditName } from '@/lib/auditUtils';
 import { GaugeChart } from '@/components/ui/gauge-chart';
 import html2canvas from 'html2canvas';
+import { Button } from '@/components/ui/button';
+import { Download } from 'lucide-react';
 
 // NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface Audit {
@@ -202,18 +204,19 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
       <div className="grid gap-6 md:grid-cols-2">
         {/* NPS Score */}
         <Card id="impact-nps-card">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <CardHeader className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('impact-nps-card', 'hatás-nps')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
             <div>
               <CardTitle className="text-lg">Net Promoter Score (NPS)</CardTitle>
               <CardDescription>Hányan ajánlanák a programot másoknak?</CardDescription>
             </div>
-            <button
-              onClick={() => exportCardToPNG('impact-nps-card', 'hatás-nps')}
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              title="Letöltés PNG-ként"
-            >
-              ⬇
-            </button>
           </CardHeader>
           <CardContent>
             <div className="mb-4 p-3 bg-muted/50 rounded-lg text-sm space-y-2">
@@ -259,18 +262,19 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
 
         {/* Average Impact */}
         <Card id="impact-avg-card">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <CardHeader className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('impact-avg-card', 'hatás-átlag')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
             <div>
               <CardTitle className="text-lg">Átlagos Hatás Érték</CardTitle>
               <CardDescription>Az 5 terület átlagos értékelése (1-5 skála)</CardDescription>
             </div>
-            <button
-              onClick={() => exportCardToPNG('impact-avg-card', 'hatás-átlag')}
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              title="Letöltés PNG-ként"
-            >
-              ⬇
-            </button>
           </CardHeader>
           <CardContent>
             <div className="mb-4 p-3 bg-muted/50 rounded-lg text-sm space-y-2">
@@ -301,18 +305,19 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
 
       {/* Impact Metrics Bar Chart */}
       <Card id="impact-metrics-card">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <CardHeader className="relative">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-2 top-2 h-8 w-8"
+            onClick={() => exportCardToPNG('impact-metrics-card', 'hatás-metricsek')}
+          >
+            <Download className="h-4 w-4" />
+          </Button>
           <div>
             <CardTitle>Hatás Metricsek</CardTitle>
             <CardDescription>Értékelések területenként (1-5 skála)</CardDescription>
           </div>
-          <button
-            onClick={() => exportCardToPNG('impact-metrics-card', 'hatás-metricsek')}
-            className="text-muted-foreground hover:text-foreground transition-colors"
-            title="Letöltés PNG-ként"
-          >
-            ⬇
-          </button>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
@@ -335,18 +340,19 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
 
       {/* Radar Chart */}
       <Card id="impact-radar-card">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <CardHeader className="relative">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-2 top-2 h-8 w-8"
+            onClick={() => exportCardToPNG('impact-radar-card', 'hatás-profil')}
+          >
+            <Download className="h-4 w-4" />
+          </Button>
           <div>
             <CardTitle>Hatás Profil</CardTitle>
             <CardDescription>Radar nézet</CardDescription>
           </div>
-          <button
-            onClick={() => exportCardToPNG('impact-radar-card', 'hatás-profil')}
-            className="text-muted-foreground hover:text-foreground transition-colors"
-            title="Letöltés PNG-ként"
-          >
-            ⬇
-          </button>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={400}>
@@ -369,18 +375,19 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
 
       {/* Statistical Summary */}
       <Card id="impact-summary-card">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <CardHeader className="relative">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-2 top-2 h-8 w-8"
+            onClick={() => exportCardToPNG('impact-summary-card', 'hatás-összefoglaló')}
+          >
+            <Download className="h-4 w-4" />
+          </Button>
           <div>
             <CardTitle>Statisztikai Összefoglaló</CardTitle>
             <CardDescription>Hatás riport összesítő</CardDescription>
           </div>
-          <button
-            onClick={() => exportCardToPNG('impact-summary-card', 'hatás-összefoglaló')}
-            className="text-muted-foreground hover:text-foreground transition-colors"
-            title="Letöltés PNG-ként"
-          >
-            ⬇
-          </button>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
