@@ -94,7 +94,7 @@ const Index = () => {
           <nav className="hidden md:flex gap-6">
             <a href="#home" className="text-sm hover:text-primary transition-colors">Főoldal</a>
             <a href="#magazin" className="text-sm hover:text-primary transition-colors">Magazin</a>
-            <a href="#assessment" className="text-sm hover:text-primary transition-colors">Mi az EAP Assessment?</a>
+            <a href="#pulse" className="text-sm hover:text-primary transition-colors">Mi az EAP Pulse?</a>
             <a href="#elonyok" className="text-sm hover:text-primary transition-colors">Előnyök</a>
             <a href="#arak" className="text-sm hover:text-primary transition-colors">Árak</a>
           </nav>
@@ -110,15 +110,15 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <div className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
-                Támogassa EAP programját!
+                Új: EAP Pulse Assessment
               </div>
               <h1 className="text-5xl font-bold mb-6 leading-tight">
                 Adatalapú riportok az EAP programjáról
               </h1>
               <p className="text-xl text-muted-foreground mb-8">
-                Szerezzen egyedi visszajelzéseket dolgozóitól az EAP programjáról. Kapjon olyan riportadatokat, 
-                amiket az EAP szolgáltatója nem tud biztosítani. Igazolja a befektetés értékét, mutassa ki az eredményeket, 
-                fejlessze tovább a programot – évről évre.
+                Szerezzen egyedi visszajelzéseket dolgozóitól az EAP programjáról a 4Score módszertannal. 
+                Kapjon olyan riportadatokat, amiket az EAP szolgáltatója nem tud biztosítani. Igazolja a befektetés értékét, 
+                mutassa ki az eredményeket, fejlessze tovább a programot – évről évre.
               </p>
               <div className="flex gap-4">
                 <Button size="lg" onClick={() => navigate('/auth')}>
@@ -140,15 +140,15 @@ const Index = () => {
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8">
-            {/* Left: What is EAP Assessment */}
+            {/* Left: What is EAP Pulse */}
             <Card className="md:row-span-2">
               <CardHeader>
                 <div className="text-sm font-medium text-primary mb-2">Kiemelt</div>
-                <CardTitle className="text-3xl">Mi az EAP Assessment?</CardTitle>
+                <CardTitle className="text-3xl">Mi az EAP Pulse Assessment?</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
-                  Az EAP Assessment egy átfogó felmérési eszköz, amely négy fő pillér mentén gyűjt visszajelzéseket az EAP programról:
+                  Az EAP Pulse Assessment a 4Score módszertant használja, amely négy fő pillér mentén méri az EAP program hatékonyságát:
                 </p>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
@@ -206,7 +206,7 @@ const Index = () => {
       <section id="elonyok" className="py-16 px-4 bg-muted/30">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Miért érdemes felmérni az EAP programot?</h2>
+            <h2 className="text-3xl font-bold mb-4">Miért érdemes a 4Score módszertant használni?</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Extra riportadatok, amiket az EAP szolgáltatója nem tud biztosítani
             </p>
@@ -258,7 +258,7 @@ const Index = () => {
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <div>
-                      <p className="font-medium">Alap KPI-k</p>
+                      <p className="font-medium">4Score alapriportok</p>
                       <p className="text-sm text-muted-foreground">Awareness, Trust, Usage, Impact</p>
                     </div>
                   </div>
@@ -304,7 +304,7 @@ const Index = () => {
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <div>
-                      <p className="font-medium">Bővített riportok</p>
+                      <p className="font-medium">4Score bővített riportok</p>
                       <p className="text-sm text-muted-foreground">Demográfia, trendek, összehasonlítás</p>
                     </div>
                   </div>
@@ -352,7 +352,7 @@ const Index = () => {
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <div>
-                      <p className="font-medium">Teljes funkcionalitás</p>
+                      <p className="font-medium">Teljes 4Score funkcionalitás</p>
                       <p className="text-sm text-muted-foreground">KPI-k, trendek, benchmark, motivációk</p>
                     </div>
                   </div>

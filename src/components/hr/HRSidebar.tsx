@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 
 const menuItems = [
-  { title: "EAP Audit", url: "/hr/eap-audit", icon: QrCode },
+  { title: "EAP Pulse", url: "/hr/eap-audit", icon: QrCode },
   { title: "Egyedi közvélemény-kutatás", url: "/hr/custom-survey", icon: ClipboardList },
   { title: "Statisztikák", url: "/hr/statistics", icon: BarChart3 },
   { title: "Export & Jelentések", url: "/hr/export", icon: FileText },
