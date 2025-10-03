@@ -608,11 +608,8 @@ const Reports = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-start gap-4">
-        {activeTab === "impact" && (
-          <h2 className="text-2xl font-bold">Hatás Riport</h2>
-        )}
         {audits.length > 0 && (
-          <div className={`min-w-[300px] ${activeTab === "impact" ? "" : "ml-auto"}`}>
+          <div className="min-w-[300px] ml-auto">
             <label className="text-xs text-muted-foreground mb-1.5 block">
               Felmérés kiválasztása
             </label>
