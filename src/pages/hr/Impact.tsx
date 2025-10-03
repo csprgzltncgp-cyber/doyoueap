@@ -245,14 +245,14 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
               </div>
 
               {/* Scale */}
-              <div className="relative h-12 bg-gradient-to-r from-primary/20 via-primary/50 to-primary rounded-full mb-8">
+              <div className="relative h-12 rounded-full mb-8" style={{ background: 'linear-gradient(to right, rgba(51, 102, 255, 0.3), rgba(51, 102, 255, 0.6), rgba(51, 102, 255, 1))' }}>
                 {/* Indicator */}
                 <div 
                   className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 transition-all duration-500"
                   style={{ left: `${((npsData.npsScore + 100) / 200) * 100}%` }}
                 >
-                  <div className="w-6 h-6 bg-background border-4 border-primary rounded-full shadow-lg"></div>
-                  <div className="absolute top-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-semibold text-primary">
+                  <div className="w-6 h-6 rounded-full shadow-lg" style={{ backgroundColor: '#050c9c', border: '3px solid #ffffff' }}></div>
+                  <div className="absolute top-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-semibold" style={{ color: '#050c9c' }}>
                     {npsData.npsScore}
                   </div>
                 </div>
