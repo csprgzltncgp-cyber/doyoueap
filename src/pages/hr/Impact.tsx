@@ -197,9 +197,6 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-start gap-4">
-        <h2 className="text-2xl font-bold">Hatás Riport</h2>
-      </div>
 
       {/* Main Metrics */}
       <div className="grid gap-6 md:grid-cols-2">
