@@ -402,9 +402,9 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
           
           {/* Improvement Suggestions */}
           {impactData.length > 0 && (
-            <div className="mt-6 p-4 bg-primary/5 rounded-lg border border-primary/20">
-              <h4 className="font-semibold text-sm mb-3 flex items-center gap-2">
-                <span className="text-primary">💡</span> Fejlesztési javaslatok
+            <div className="mt-6 p-4 bg-destructive/10 rounded-lg border border-destructive/20">
+              <h4 className="font-semibold text-sm mb-3 text-destructive">
+                Fejlesztési javaslatok
               </h4>
               <div className="space-y-2 text-sm">
                 {(() => {
