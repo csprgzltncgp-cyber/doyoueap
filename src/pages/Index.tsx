@@ -385,45 +385,46 @@ const Index = () => {
             {/* EAP Provider */}
             <Card className="flex flex-col bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
               <CardHeader>
-                <CardTitle className="text-2xl">EAP Szolgáltató?</CardTitle>
-                <CardDescription>API integráció és partnerség</CardDescription>
+                <div className="text-xs font-medium text-primary mb-2">SZOLGÁLTATÓKNAK</div>
+                <CardTitle className="text-2xl">Partner Program</CardTitle>
+                <CardDescription>Emeld új szintre az ügyfélriportjaidat</CardDescription>
                 <div className="mt-4">
                   <div className="text-3xl font-bold">Egyedi ajánlat</div>
                 </div>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col justify-between">
                 <div className="space-y-3 mb-4">
-                  <p className="text-sm text-muted-foreground">
-                    Szeretné riportját tuningolni extra adatokkal?
+                  <p className="text-sm font-medium mb-3">
+                    Bővítsd szolgáltatásportfóliód olyan riportadatokkal, amelyek egyedivé teszik ajánlatodat.
                   </p>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <div>
-                      <p className="font-medium">API integráció</p>
-                      <p className="text-sm text-muted-foreground">Automatikus adatszinkronizáció</p>
+                      <p className="font-medium">REST API integráció</p>
+                      <p className="text-sm text-muted-foreground">Zökkenőmentes adatkapcsolat rendszereiddel</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <div>
-                      <p className="font-medium">White-label opció</p>
-                      <p className="text-sm text-muted-foreground">Saját branddel</p>
+                      <p className="font-medium">White-label megoldás</p>
+                      <p className="text-sm text-muted-foreground">Saját arculatoddal, a te nevedben</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <div>
-                      <p className="font-medium">Partner dashboard</p>
-                      <p className="text-sm text-muted-foreground">Összes ügyfél áttekintése</p>
+                      <p className="font-medium">Partner központ</p>
+                      <p className="text-sm text-muted-foreground">Összes ügyfeled átlátható menedzselése</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <p className="font-medium">Dedikált támogatás</p>
+                    <p className="font-medium">Dedikált technikai támogatás</p>
                   </div>
                 </div>
                 <Button className="w-full" variant="default">
-                  Vegye fel velünk a kapcsolatot
+                  Kérj egyedi ajánlatot
                 </Button>
               </CardContent>
             </Card>
