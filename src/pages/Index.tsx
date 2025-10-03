@@ -166,8 +166,8 @@ const Index = () => {
             <a href="#arak" className="text-sm hover:text-primary transition-colors">Árak</a>
             {user && role === 'hr' && (
               <button
-                onClick={() => setSearchParams({ section: 'dashboard' })}
-                className={`text-sm hover:text-primary transition-colors ${section === 'dashboard' ? 'text-primary font-medium' : ''}`}
+                onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
+                className={`text-sm hover:text-primary transition-colors ${section ? 'text-primary font-medium' : ''}`}
               >
                 Dashboard
               </button>
@@ -285,7 +285,7 @@ const Index = () => {
                   }`}
                 >
                   <Eye className="h-4 w-4" />
-                  Kérdőív Beállítások
+                  EAP Pulse demo
                 </button>
               </nav>
             </div>
