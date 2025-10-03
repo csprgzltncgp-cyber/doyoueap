@@ -6,6 +6,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { toast } from 'sonner';
 import { formatAuditName } from '@/lib/auditUtils';
 import { GaugeChart } from '@/components/ui/gauge-chart';
+import html2canvas from 'html2canvas';
 
 // NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface Audit {
@@ -145,12 +146,254 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
     return 'Kritikus';
   };
 
+  const exportCardToPNG = async (cardId: string, fileName: string) => {
+    try {
+      const element = document.getElementById(cardId);
+      if (!element) {
+        toast.error('Az elem nem található');
+        return;
+      }
+
+      const canvas = await html2canvas(element, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        logging: false,
+      });
+
+      const link = document.createElement('a');
+      link.download = `${fileName}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+
+      toast.success('Diagram sikeresen exportálva');
+    } catch (error) {
+      console.error('Error exporting chart:', error);
+      toast.error('Hiba történt az exportálás során');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-lg">Betöltés...</div>
+      </div>
+    );
+  }
+
+  if (usedCount === 0) {
+    return (
+      <div className="space-y-6">
+        <h2 className="text-2xl font-bold">Hatás Riport</h2>
+        <div className="text-center py-12 text-muted-foreground">
+          Még nincs kiértékelt adat a programot használók körében
+        </div>
+      </div>
+    );
+  }
+
+  const avgImpact = impactData.length > 0 
+    ? Number((impactData.reduce((sum, m) => sum + m.average, 0) / impactData.length).toFixed(2))
+    : 0;
+
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Hatás Riport</h2>
-      <div className="text-center py-12 text-muted-foreground">
-        Még nincs kiértékelt adat
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold">Hatás Riport</h2>
+        <div className="text-sm text-muted-foreground">
+          Válaszadók száma (használók): {usedCount}
+        </div>
       </div>
+
+      {/* Main Metrics */}
+      <div className="grid gap-6 md:grid-cols-2">
+        {/* NPS Score */}
+        <Card id="impact-nps-card">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <div>
+              <CardTitle className="text-lg">Net Promoter Score (NPS)</CardTitle>
+              <CardDescription>Ajánlási hajlandóság</CardDescription>
+            </div>
+            <button
+              onClick={() => exportCardToPNG('impact-nps-card', 'hatás-nps')}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+              title="Letöltés PNG-ként"
+            >
+              ⬇
+            </button>
+          </CardHeader>
+          <CardContent>
+            <GaugeChart
+              value={npsData.npsScore}
+              maxValue={100}
+              minValue={-100}
+              size={200}
+              label={`${npsData.npsScore}`}
+              sublabel={getNPSLabel(npsData.npsScore)}
+            />
+            <div className="mt-6 grid grid-cols-3 gap-4 text-center text-sm">
+              <div>
+                <div className="text-2xl font-bold text-green-600">{npsData.promoters}</div>
+                <div className="text-muted-foreground">Promóterek</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-orange-600">{npsData.passives}</div>
+                <div className="text-muted-foreground">Passzívak</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-red-600">{npsData.detractors}</div>
+                <div className="text-muted-foreground">Kritikusok</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Average Impact */}
+        <Card id="impact-avg-card">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <div>
+              <CardTitle className="text-lg">Átlagos Hatás Érték</CardTitle>
+              <CardDescription>Minden impact metrika átlaga (1-5)</CardDescription>
+            </div>
+            <button
+              onClick={() => exportCardToPNG('impact-avg-card', 'hatás-átlag')}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+              title="Letöltés PNG-ként"
+            >
+              ⬇
+            </button>
+          </CardHeader>
+          <CardContent>
+            <GaugeChart
+              value={avgImpact}
+              maxValue={5}
+              minValue={1}
+              size={200}
+              label={avgImpact.toFixed(2)}
+              sublabel="Átlag"
+            />
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Impact Metrics Bar Chart */}
+      <Card id="impact-metrics-card">
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <div>
+            <CardTitle>Hatás Metricsek</CardTitle>
+            <CardDescription>Értékelések területenként (1-5 skála)</CardDescription>
+          </div>
+          <button
+            onClick={() => exportCardToPNG('impact-metrics-card', 'hatás-metricsek')}
+            className="text-muted-foreground hover:text-foreground transition-colors"
+            title="Letöltés PNG-ként"
+          >
+            ⬇
+          </button>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={impactData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis 
+                dataKey="metric" 
+                angle={-45}
+                textAnchor="end"
+                height={100}
+                fontSize={12}
+              />
+              <YAxis domain={[0, 5]} />
+              <Tooltip />
+              <Bar dataKey="average" fill="#3366ff" />
+            </BarChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Radar Chart */}
+      <Card id="impact-radar-card">
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <div>
+            <CardTitle>Hatás Profil</CardTitle>
+            <CardDescription>Radar nézet</CardDescription>
+          </div>
+          <button
+            onClick={() => exportCardToPNG('impact-radar-card', 'hatás-profil')}
+            className="text-muted-foreground hover:text-foreground transition-colors"
+            title="Letöltés PNG-ként"
+          >
+            ⬇
+          </button>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={400}>
+            <RadarChart data={impactData}>
+              <PolarGrid />
+              <PolarAngleAxis dataKey="metric" />
+              <PolarRadiusAxis domain={[0, 5]} />
+              <Radar
+                name="Impact"
+                dataKey="average"
+                stroke="#3366ff"
+                fill="#3366ff"
+                fillOpacity={0.6}
+              />
+              <Tooltip />
+            </RadarChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Statistical Summary */}
+      <Card id="impact-summary-card">
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <div>
+            <CardTitle>Statisztikai Összefoglaló</CardTitle>
+            <CardDescription>Hatás riport összesítő</CardDescription>
+          </div>
+          <button
+            onClick={() => exportCardToPNG('impact-summary-card', 'hatás-összefoglaló')}
+            className="text-muted-foreground hover:text-foreground transition-colors"
+            title="Letöltés PNG-ként"
+          >
+            ⬇
+          </button>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <div className="text-sm text-muted-foreground">Válaszadók (használók)</div>
+                <div className="text-2xl font-bold">{usedCount}</div>
+              </div>
+              <div className="space-y-1">
+                <div className="text-sm text-muted-foreground">NPS Score</div>
+                <div className={`text-2xl font-bold ${getNPSColor(npsData.npsScore)}`}>
+                  {npsData.npsScore}
+                </div>
+              </div>
+            </div>
+            
+            <div className="pt-4 border-t">
+              <h4 className="font-semibold mb-3">Impact Metricsek részletesen:</h4>
+              <div className="space-y-2">
+                {impactData.map((metric) => (
+                  <div key={metric.metric} className="flex justify-between items-center">
+                    <span className="text-sm">{metric.metric}</span>
+                    <span className="font-semibold">{metric.average.toFixed(2)} / 5.00</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="pt-4 border-t">
+              <div className="space-y-1">
+                <div className="text-sm text-muted-foreground">Átlagos Impact Érték</div>
+                <div className="text-2xl font-bold">{avgImpact.toFixed(2)} / 5.00</div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
