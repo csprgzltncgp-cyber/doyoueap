@@ -487,7 +487,7 @@ const TrustWillingness = ({ selectedAuditId }: TrustWillingnessProps) => {
                   <XAxis type="number" />
                   <YAxis dataKey="name" type="category" width={150} />
                   <Tooltip />
-                  <Bar dataKey="value" fill="hsl(var(--chart-3))" radius={[0, 8, 8, 0]} />
+                  <Bar dataKey="value" fill="hsl(var(--chart-2))" radius={[0, 8, 8, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
