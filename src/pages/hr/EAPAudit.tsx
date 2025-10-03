@@ -42,9 +42,9 @@ const EAPAudit = () => {
   return (
     <div className="p-8">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">EAP Audit</h1>
+        <h1 className="text-3xl font-bold mb-2">EAP Assessment</h1>
         <p className="text-muted-foreground">
-          Audit létrehozása, kezelése és előnézete
+          Felmérések létrehozása, kezelése és előnézete
         </p>
       </div>
 
@@ -55,21 +55,21 @@ const EAPAudit = () => {
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
             <PlayCircle className="h-4 w-4" />
-            Audit Indítása
+            Új Felmérés Indítása
           </TabsTrigger>
           <TabsTrigger 
             value="running" 
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
             <Activity className="h-4 w-4" />
-            Futó Auditok
+            Futó Felmérések
           </TabsTrigger>
           <TabsTrigger 
             value="demo" 
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
             <Eye className="h-4 w-4" />
-            Demo Audit
+            Demo Felmérés
           </TabsTrigger>
         </TabsList>
 

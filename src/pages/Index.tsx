@@ -94,7 +94,7 @@ const Index = () => {
           <nav className="hidden md:flex gap-6">
             <a href="#home" className="text-sm hover:text-primary transition-colors">Főoldal</a>
             <a href="#magazin" className="text-sm hover:text-primary transition-colors">Magazin</a>
-            <a href="#audit" className="text-sm hover:text-primary transition-colors">Mi az EAP Audit?</a>
+            <a href="#assessment" className="text-sm hover:text-primary transition-colors">Mi az EAP Assessment?</a>
             <a href="#elonyok" className="text-sm hover:text-primary transition-colors">Előnyök</a>
             <a href="#arak" className="text-sm hover:text-primary transition-colors">Árak</a>
           </nav>
@@ -110,18 +110,19 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <div className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
-                Új: EAP Audit
+                Támogassa EAP programját!
               </div>
               <h1 className="text-5xl font-bold mb-6 leading-tight">
-                Független visszajelzés az Ön EAP programjáról
+                Adatalapú riportok az EAP programjáról
               </h1>
               <p className="text-xl text-muted-foreground mb-8">
-                Az EAP audit megmutatja, hogy a cégnél futó program valóban működik-e: mennyire ismert, 
-                mennyire használt, mit gondolnak róla a dolgozók. Független, anonim, azonnal érthető riportokkal.
+                Szerezzen egyedi visszajelzéseket dolgozóitól az EAP programjáról. Kapjon olyan riportadatokat, 
+                amiket az EAP szolgáltatója nem tud biztosítani. Igazolja a befektetés értékét, mutassa ki az eredményeket, 
+                fejlessze tovább a programot – évről évre.
               </p>
               <div className="flex gap-4">
                 <Button size="lg" onClick={() => navigate('/auth')}>
-                  Indítsa el az auditot <ArrowRight className="ml-2 h-4 w-4" />
+                  Kezdje el most <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
                 <Button size="lg" variant="outline">
                   Tudjon meg többet
@@ -139,15 +140,15 @@ const Index = () => {
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8">
-            {/* Left: What is EAP Audit */}
+            {/* Left: What is EAP Assessment */}
             <Card className="md:row-span-2">
               <CardHeader>
                 <div className="text-sm font-medium text-primary mb-2">Kiemelt</div>
-                <CardTitle className="text-3xl">Mi az EAP Audit?</CardTitle>
+                <CardTitle className="text-3xl">Mi az EAP Assessment?</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
-                  Az EAP Audit egy átfogó értékelési eszköz, amely négy fő pillér mentén méri az EAP program hatékonyságát:
+                  Az EAP Assessment egy átfogó felmérési eszköz, amely négy fő pillér mentén gyűjt visszajelzéseket az EAP programról:
                 </p>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
@@ -201,13 +202,13 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Audit Benefits */}
+      {/* Assessment Benefits */}
       <section id="elonyok" className="py-16 px-4 bg-muted/30">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Miért jó egy cégnek az audit?</h2>
+            <h2 className="text-3xl font-bold mb-4">Miért érdemes felmérni az EAP programot?</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Az EAP audit konkrét, mérhető visszajelzést ad a program hatékonyságáról
+              Extra riportadatok, amiket az EAP szolgáltatója nem tud biztosítani
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -235,7 +236,7 @@ const Index = () => {
               Válassza ki a cégének megfelelő csomagot
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 items-stretch">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
             {/* Starter */}
             <Card className="flex flex-col">
               <CardHeader>
@@ -251,7 +252,7 @@ const Index = () => {
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <div>
-                      <p className="font-medium">Évente max. 1 audit</p>
+                      <p className="font-medium">Évente max. 1 felmérés</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
@@ -296,7 +297,7 @@ const Index = () => {
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <div>
-                      <p className="font-medium">Negyedévente audit</p>
+                      <p className="font-medium">Negyedévente felmérés</p>
                       <p className="text-sm text-muted-foreground">Ismétlés funkcióval</p>
                     </div>
                   </div>
@@ -346,7 +347,7 @@ const Index = () => {
                 <div className="space-y-2 mb-4">
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <p className="font-medium">Korlátlan audit</p>
+                    <p className="font-medium">Korlátlan felmérés</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
@@ -376,6 +377,52 @@ const Index = () => {
                   </div>
                 </div>
                 <Button className="w-full" variant="outline">
+                  Vegye fel velünk a kapcsolatot
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* EAP Provider */}
+            <Card className="flex flex-col bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
+              <CardHeader>
+                <CardTitle className="text-2xl">EAP Szolgáltató?</CardTitle>
+                <CardDescription>API integráció és partnerség</CardDescription>
+                <div className="mt-4">
+                  <div className="text-3xl font-bold">Egyedi ajánlat</div>
+                </div>
+              </CardHeader>
+              <CardContent className="flex-1 flex flex-col justify-between">
+                <div className="space-y-3 mb-4">
+                  <p className="text-sm text-muted-foreground">
+                    Szeretné riportját tuningolni extra adatokkal?
+                  </p>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <div>
+                      <p className="font-medium">API integráció</p>
+                      <p className="text-sm text-muted-foreground">Automatikus adatszinkronizáció</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <div>
+                      <p className="font-medium">White-label opció</p>
+                      <p className="text-sm text-muted-foreground">Saját branddel</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <div>
+                      <p className="font-medium">Partner dashboard</p>
+                      <p className="text-sm text-muted-foreground">Összes ügyfél áttekintése</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <p className="font-medium">Dedikált támogatás</p>
+                  </div>
+                </div>
+                <Button className="w-full" variant="default">
                   Vegye fel velünk a kapcsolatot
                 </Button>
               </CardContent>
