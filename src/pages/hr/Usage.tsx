@@ -261,8 +261,8 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
                   value={usedResponses.length > 0 ? parseFloat(((topTopic.value / usedResponses.length) * 100).toFixed(0)) : 0} 
                   maxValue={100}
                   size={220}
-                  label={topTopic.name}
-                  sublabel={`${usedResponses.length > 0 ? ((topTopic.value / usedResponses.length) * 100).toFixed(0) : 0}%`}
+                  label={`${usedResponses.length > 0 ? ((topTopic.value / usedResponses.length) * 100).toFixed(0) : 0}%`}
+                  sublabel={topTopic.name}
                   cornerRadius={30}
                 />
                 <p className="text-xs text-muted-foreground text-center mt-4">
@@ -299,8 +299,8 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
                   value={usedResponses.length > 0 ? parseFloat(((topChannel.value / usedResponses.length) * 100).toFixed(0)) : 0} 
                   maxValue={100}
                   size={220}
-                  label={topChannel.name}
-                  sublabel={`${usedResponses.length > 0 ? ((topChannel.value / usedResponses.length) * 100).toFixed(0) : 0}%`}
+                  label={`${usedResponses.length > 0 ? ((topChannel.value / usedResponses.length) * 100).toFixed(0) : 0}%`}
+                  sublabel={topChannel.name}
                   cornerRadius={30}
                 />
                 <p className="text-xs text-muted-foreground text-center mt-4">
