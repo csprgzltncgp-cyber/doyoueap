@@ -8,6 +8,7 @@ import { formatAuditName } from '@/lib/auditUtils';
 import { GaugeChart } from '@/components/ui/gauge-chart';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
 
 // NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface Audit {
@@ -454,16 +455,24 @@ const Demographics = ({ selectedAuditId }: DemographicsProps) => {
               <CardTitle>Nem szerinti megoszlás</CardTitle>
               <CardDescription>Válaszadók megoszlása nemek szerint</CardDescription>
             </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={stats.genderData} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis type="number" />
-                  <YAxis type="category" dataKey="name" width={100} />
-                  <Tooltip />
-                  <Bar dataKey="value" fill="hsl(var(--chart-1))" name="Válaszadók száma" />
-                </BarChart>
-              </ResponsiveContainer>
+            <CardContent className="space-y-4">
+              {stats.genderData.map((item, index) => {
+                const total = stats.total;
+                const percentage = total > 0 ? parseFloat(((item.value / total) * 100).toFixed(1)) : 0;
+                return (
+                  <div key={item.name} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium">{item.name}</span>
+                      <span className="text-sm text-muted-foreground">{item.value} fő ({percentage.toFixed(1)}%)</span>
+                    </div>
+                    <Progress 
+                      value={percentage}
+                      style={{ '--progress-background': `hsl(var(--chart-${(index % 4) + 1}))` } as React.CSSProperties}
+                      className="h-3"
+                    />
+                  </div>
+                );
+              })}
             </CardContent>
           </Card>
 
@@ -481,16 +490,24 @@ const Demographics = ({ selectedAuditId }: DemographicsProps) => {
               <CardTitle>Korcsoport megoszlás</CardTitle>
               <CardDescription>Válaszadók megoszlása korcsoportok szerint</CardDescription>
             </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={stats.ageData} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis type="number" />
-                  <YAxis type="category" dataKey="name" width={100} />
-                  <Tooltip />
-                  <Bar dataKey="value" fill="hsl(var(--chart-2))" name="Válaszadók száma" />
-                </BarChart>
-              </ResponsiveContainer>
+            <CardContent className="space-y-4">
+              {stats.ageData.map((item, index) => {
+                const total = stats.total;
+                const percentage = total > 0 ? parseFloat(((item.value / total) * 100).toFixed(1)) : 0;
+                return (
+                  <div key={item.name} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium">{item.name}</span>
+                      <span className="text-sm text-muted-foreground">{item.value} fő ({percentage.toFixed(1)}%)</span>
+                    </div>
+                    <Progress 
+                      value={percentage}
+                      style={{ '--progress-background': `hsl(var(--chart-${(index % 4) + 1}))` } as React.CSSProperties}
+                      className="h-3"
+                    />
+                  </div>
+                );
+              })}
             </CardContent>
           </Card>
         </>
