@@ -69,26 +69,26 @@ const Magazin = () => {
             <nav className="hidden md:flex gap-6 items-center">
               <button
                 onClick={() => navigate('/magazin')}
-                className="text-sm text-primary font-medium transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-primary"
+                className="text-sm bg-primary text-primary-foreground font-semibold transition-colors px-3 py-2 rounded"
               >
                 Magazin
               </button>
               <button
                 onClick={() => navigate('/bemutatkozas')}
-                className="text-sm transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300"
+                className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
               >
                 Bemutatkozás
               </button>
               <button
                 onClick={() => navigate('/arak')}
-                className="text-sm transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300"
+                className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
               >
                 Árak és Csomagok
               </button>
               {user && (
                 <button
                   onClick={() => navigate('/')}
-                  className="text-sm transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300"
+                  className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
                 >
                   Főoldal
                 </button>

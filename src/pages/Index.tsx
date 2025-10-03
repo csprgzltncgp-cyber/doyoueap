@@ -162,19 +162,19 @@ const Index = () => {
             <nav className="hidden md:flex gap-6 items-center">
             <button
               onClick={() => navigate('/magazin')}
-              className="text-sm transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300"
+              className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
             >
               Magazin
             </button>
             <button
               onClick={() => navigate('/bemutatkozas')}
-              className="text-sm transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300"
+              className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
             >
               Bemutatkozás
             </button>
             <button
               onClick={() => navigate('/arak')}
-              className="text-sm transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300"
+              className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
             >
               Árak és Csomagok
             </button>
@@ -185,7 +185,7 @@ const Index = () => {
                     setSearchParams({});
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className={`text-sm transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 ${!section ? 'text-primary font-medium after:w-full after:bg-primary' : 'after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300'}`}
+                  className={`text-sm transition-colors px-3 py-2 rounded ${!section ? 'bg-primary text-primary-foreground font-semibold' : 'hover:bg-muted'}`}
                 >
                   Főoldal
                 </button>
