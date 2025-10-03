@@ -5,7 +5,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Download, Eye, Shield, Activity, Target } from "lucide-react";
+import { Download, Eye, Shield, Activity, Target, Users, TrendingUp } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { formatAuditName } from "@/lib/auditUtils";
 import { GaugeChart } from "@/components/ui/gauge-chart";
 import Awareness from "./Awareness";
@@ -156,6 +159,49 @@ const Reports = () => {
       .filter(v => v !== undefined)
   );
 
+  // Additional metrics for Overview tab
+  const npsScore = calculateAverage(
+    responses
+      .filter(r => r.employee_metadata?.branch === 'used')
+      .map(r => r.responses?.u_nps_recommend)
+      .filter(v => v !== undefined)
+  );
+
+  const problemSolvingScore = calculateAverage(
+    responses
+      .filter(r => r.employee_metadata?.branch === 'used')
+      .map(r => r.responses?.u_impact_problem_solving)
+      .filter(v => v !== undefined)
+  );
+
+  const performanceScore = calculateAverage(
+    responses
+      .filter(r => r.employee_metadata?.branch === 'used')
+      .map(r => r.responses?.u_impact_work_performance)
+      .filter(v => v !== undefined)
+  );
+
+  const wellbeingScore = calculateAverage(
+    responses
+      .filter(r => r.employee_metadata?.branch === 'used')
+      .map(r => r.responses?.u_impact_wellbeing)
+      .filter(v => v !== undefined)
+  );
+
+  const consistencyScore = calculateAverage(
+    responses
+      .filter(r => r.employee_metadata?.branch === 'used')
+      .map(r => r.responses?.u_impact_consistency)
+      .filter(v => v !== undefined)
+  );
+
+  // Pie chart data for participation breakdown
+  const pieData = [
+    { name: 'Használók', value: usedBranch, color: 'hsl(var(--chart-1))' },
+    { name: 'Nem használók', value: notUsedBranch, color: 'hsl(var(--chart-2))' },
+    { name: 'Nem tudtak róla', value: redirectBranch, color: 'hsl(var(--chart-3))' },
+  ].filter(item => item.value > 0);
+
   const exportCardToPNG = async (cardId: string, fileName: string) => {
     try {
       const html2canvas = (await import('html2canvas')).default;
@@ -193,9 +239,218 @@ const Reports = () => {
 
   // Render content based on activeTab
   const renderContent = () => {
+    if (activeTab === "overview") {
+      return (
+        <div className="space-y-6">
+          {/* Top Row: Utilization and Satisfaction Gauges */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Igénybevétel (Utilization)</CardTitle>
+                <CardDescription>Hány munkavállaló használja a programot</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <GaugeChart 
+                  value={utilization} 
+                  maxValue={100}
+                  size={200}
+                  label={`${utilization.toFixed(1)}%`}
+                  sublabel={`${usedBranch} / ${employeeCount}`}
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Elégedettségi Index</CardTitle>
+                <CardDescription>Általános elégedettség a használók körében</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <GaugeChart 
+                  value={satisfactionIndex} 
+                  maxValue={100}
+                  size={200}
+                  label={`${satisfactionIndex.toFixed(0)}%`}
+                  sublabel={`${satisfactionScore}/5`}
+                />
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Second Row: Participation and Satisfaction Metrics */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Participation Chart */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Részvételi arány</CardTitle>
+                <CardDescription>{participationRate.toFixed(1)}%</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="h-[300px] flex items-center justify-center">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={pieData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={100}
+                        paddingAngle={2}
+                        dataKey="value"
+                      >
+                        {pieData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="mt-4 space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'hsl(var(--chart-1))' }} />
+                      <span>Használók (a kitöltőkből)</span>
+                    </div>
+                    <span className="font-medium">{usageRateFromRespondents.toFixed(1)}%</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'hsl(var(--chart-2))' }} />
+                      <span>Nem használók</span>
+                    </div>
+                    <span className="font-medium">{totalResponses > 0 ? ((notUsedBranch / totalResponses) * 100).toFixed(1) : '0.0'}%</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'hsl(var(--chart-3))' }} />
+                      <span>Nem tudtak róla</span>
+                    </div>
+                    <span className="font-medium">{totalResponses > 0 ? ((redirectBranch / totalResponses) * 100).toFixed(1) : '0.0'}%</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Satisfaction Metrics */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Elégedettségi mutatók</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Általános elégedettség</span>
+                    <span className="font-semibold">{satisfactionScore}/5</span>
+                  </div>
+                  <Progress value={parseFloat(satisfactionScore) * 20} />
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">NPS átlag</span>
+                    <span className="font-semibold">{npsScore}/10</span>
+                  </div>
+                  <Progress value={parseFloat(npsScore) * 10} />
+                  <p className="text-xs text-muted-foreground">Ajánlási hajlandóság: mennyire ajánlaná másoknak a programot</p>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Problémamegoldás</span>
+                    <span className="font-semibold">{problemSolvingScore}/5</span>
+                  </div>
+                  <Progress value={parseFloat(problemSolvingScore) * 20} />
+                  <p className="text-xs text-muted-foreground">Mennyire segített a program a probléma megoldásában</p>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Teljesítmény hatás</span>
+                    <span className="font-semibold">{performanceScore}/5</span>
+                  </div>
+                  <Progress value={parseFloat(performanceScore) * 20} />
+                  <p className="text-xs text-muted-foreground">A program hatása a munkahelyi teljesítményre</p>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Wellbeing hatás</span>
+                    <span className="font-semibold">{wellbeingScore}/5</span>
+                  </div>
+                  <Progress value={parseFloat(wellbeingScore) * 20} />
+                  <p className="text-xs text-muted-foreground">A program hatása az általános jóllétre és mentális egészségre</p>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Konzisztencia</span>
+                    <span className="font-semibold">{consistencyScore}/5</span>
+                  </div>
+                  <Progress value={parseFloat(consistencyScore) * 20} />
+                  <p className="text-xs text-muted-foreground">Mennyire volt konzisztens a szolgáltatás minősége minden alkalommal</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Third Row: Awareness, Trust, and Impact */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Eye className="w-5 h-5" />
+                  Ismertség
+                </CardTitle>
+                <CardDescription>1-5 skála</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center">
+                  <div className="text-5xl font-bold text-primary mb-2">{awarenessScore}</div>
+                  <p className="text-sm text-muted-foreground">Mennyire értik a munkavállalók a szolgáltatást</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Shield className="w-5 h-5" />
+                  Bizalom
+                </CardTitle>
+                <CardDescription>1-5 skála</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center">
+                  <div className="text-5xl font-bold text-primary mb-2">{trustScore}</div>
+                  <p className="text-sm text-muted-foreground">Mennyire bíznak az anonimitás védelmében</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5" />
+                  Hatás
+                </CardTitle>
+                <CardDescription>1-5 skála</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center">
+                  <div className="text-5xl font-bold text-primary mb-2">{wellbeingScore}</div>
+                  <p className="text-sm text-muted-foreground">Jóllét javulása a program használata után</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="text-center py-12 text-muted-foreground">
-        Még nincs kiértékelt adat
+        Hamarosan elérhető: {activeTab}
       </div>
     );
   };
