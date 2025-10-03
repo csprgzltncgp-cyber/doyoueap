@@ -105,7 +105,7 @@ const Magazin = () => {
           </div>
           <div className="flex items-center gap-4">
             {user ? (
-              <Button onClick={signOut} variant="outline">
+              <Button onClick={signOut} variant="ghost" className="hover:bg-muted">
                 Kilépés
               </Button>
             ) : (
@@ -119,15 +119,6 @@ const Magazin = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-12">
-        <Button
-          variant="ghost"
-          onClick={() => navigate('/')}
-          className="mb-6"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Vissza a főoldalra
-        </Button>
-
         <h1 className="text-4xl font-bold mb-2">EAP Pulse Magazin</h1>
         <p className="text-muted-foreground mb-12">
           Cikkek, tanácsok és szakértői vélemények a munkahelyi mentális egészségről

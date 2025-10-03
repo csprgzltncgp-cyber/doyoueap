@@ -111,7 +111,7 @@ const Arak = () => {
           </div>
           <div className="flex items-center gap-4">
             {user ? (
-              <Button onClick={signOut} variant="outline">
+              <Button onClick={signOut} variant="ghost" className="hover:bg-muted">
                 Kilépés
               </Button>
             ) : (
@@ -125,15 +125,6 @@ const Arak = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-12">
-        <Button
-          variant="ghost"
-          onClick={() => navigate('/')}
-          className="mb-6"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Vissza a főoldalra
-        </Button>
-
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Árak és Csomagok</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">

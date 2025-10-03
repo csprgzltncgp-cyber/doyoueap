@@ -205,7 +205,7 @@ const Index = () => {
           </div>
           <div className="flex items-center gap-4">
             {user ? (
-              <Button onClick={handleLogout} variant="outline">
+              <Button onClick={handleLogout} variant="ghost" className="hover:bg-muted">
                 Kilépés
               </Button>
             ) : (
