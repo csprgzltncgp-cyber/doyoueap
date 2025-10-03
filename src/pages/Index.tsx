@@ -113,7 +113,7 @@ const Index = () => {
                 Új: EAP Pulse Assessment
               </div>
               <h1 className="text-5xl font-bold mb-6 leading-tight">
-                Adatalapú riportok az EAP programjáról
+                Extra riportadatok, amiket az EAP szolgáltatója nem lát
               </h1>
               <p className="text-xl text-muted-foreground mb-8">
                 Szerezzen egyedi visszajelzéseket dolgozóitól az EAP programjáról a 4Score módszertannal. 
