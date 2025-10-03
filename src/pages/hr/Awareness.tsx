@@ -143,30 +143,39 @@ const Awareness = ({ selectedAuditId }: AwarenessProps) => {
     { name: 'Nem elegendő', value: notEnoughInfo, color: 'hsl(var(--chart-3))' }
   ].filter(item => item.value > 0);
 
-  // Használói tudás összehasonlítás
-  const comparisonData = [
+  // Megértés összehasonlítás (egyetlen mérhető metrika mindkét csoportban)
+  const understandingComparison = [
     {
-      metric: 'Szolgáltatás megértése',
-      Használók: parseFloat(usedUnderstandingScore),
-      'Nem használók': parseFloat(notUsedUnderstandingScore)
+      group: 'Használók',
+      score: parseFloat(usedUnderstandingScore),
+      count: usedResponses.length,
+      color: 'hsl(var(--chart-2))'
     },
     {
-      metric: 'Használat ismerete',
-      Használók: parseFloat(howToUseScore),
-      'Nem használók': 0
-    },
-    {
-      metric: 'Elérhetőség tudatossága',
-      Használók: parseFloat(accessibilityScore),
-      'Nem használók': 0
+      group: 'Nem használók',
+      score: parseFloat(notUsedUnderstandingScore),
+      count: notUsedResponses.length,
+      color: 'hsl(var(--chart-3))'
     }
   ];
 
-  // Radar chart adatok
-  const radarData = [
-    { subject: 'Megértés', value: parseFloat(overallUnderstandingScore), fullMark: 5 },
-    { subject: 'Használat', value: parseFloat(howToUseScore), fullMark: 5 },
-    { subject: 'Elérhetőség', value: parseFloat(accessibilityScore), fullMark: 5 }
+  // Részletes ismertségi profil (több dimenzió a használók körében)
+  const awarenessProfileData = [
+    { 
+      category: 'Megértés', 
+      score: parseFloat(usedUnderstandingScore),
+      description: 'Mennyire értik a szolgáltatást'
+    },
+    { 
+      category: 'Használat ismerete', 
+      score: parseFloat(howToUseScore),
+      description: 'Hogyan vehetik igénybe'
+    },
+    { 
+      category: 'Elérhetőség', 
+      score: parseFloat(accessibilityScore),
+      description: 'Mennyire érzik elérhetőnek'
+    }
   ];
 
   if (loading) {
@@ -483,70 +492,123 @@ const Awareness = ({ selectedAuditId }: AwarenessProps) => {
         </Card>
       </div>
 
-      {/* 4. sor: Összehasonlítások */}
+      {/* 4. sor: Összehasonlítások és részletes profilok */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Használók vs Nem használók */}
+        {/* Megértés összehasonlítása */}
         <Card id="comparison-card">
           <CardHeader className="relative">
             <Button
               variant="ghost"
               size="icon"
               className="absolute right-2 top-2 h-8 w-8"
-              onClick={() => exportCardToPNG('comparison-card', 'osszehasonlitas')}
+              onClick={() => exportCardToPNG('comparison-card', 'megértes-osszehasonlitas')}
             >
               <Download className="h-4 w-4" />
             </Button>
-            <CardTitle className="text-lg">Használók vs Nem Használók</CardTitle>
-            <CardDescription>Tudásszintek összehasonlítása</CardDescription>
+            <CardTitle className="text-lg">Szolgáltatás Megértésének Szintje</CardTitle>
+            <CardDescription>Összehasonlítás használók és nem használók között (1-5 skála)</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={comparisonData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="metric" />
-                  <YAxis domain={[0, 5]} />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="Használók" fill="hsl(var(--chart-2))" radius={[8, 8, 0, 0]} />
-                  <Bar dataKey="Nem használók" fill="hsl(var(--chart-3))" radius={[8, 8, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+          <CardContent className="space-y-6">
+            {understandingComparison.map((group) => (
+              <div key={group.group} className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div 
+                      className="w-4 h-4 rounded-full" 
+                      style={{ backgroundColor: group.color }}
+                    />
+                    <div>
+                      <p className="font-semibold">{group.group}</p>
+                      <p className="text-xs text-muted-foreground">{group.count} válaszadó</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-2xl font-bold">{group.score}</p>
+                    <p className="text-xs text-muted-foreground">/ 5.0</p>
+                  </div>
+                </div>
+                <Progress 
+                  value={group.score * 20} 
+                  style={{ '--progress-background': group.color } as React.CSSProperties}
+                  className="h-3"
+                />
+                <div className="bg-muted/30 p-3 rounded-md">
+                  <p className="text-xs text-muted-foreground">
+                    {group.score >= 4 ? '✓ Magas megértési szint' : 
+                     group.score >= 3 ? '→ Közepes megértési szint' : 
+                     '⚠ Alacsony megértési szint - fejlesztést igényel'}
+                  </p>
+                </div>
+              </div>
+            ))}
+            
+            <div className="pt-4 border-t">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Különbség:</span>
+                <span className="font-semibold">
+                  {Math.abs(understandingComparison[0].score - understandingComparison[1].score).toFixed(1)} pont
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-2">
+                {understandingComparison[0].score > understandingComparison[1].score 
+                  ? 'A használók jobban értik a szolgáltatást' 
+                  : 'A nem használók hasonlóan értik a szolgáltatást'}
+              </p>
             </div>
           </CardContent>
         </Card>
 
-        {/* Radar chart - Ismertség profil */}
+        {/* Használói tudásszint részletesen */}
         <Card id="awareness-profile-card">
           <CardHeader className="relative">
             <Button
               variant="ghost"
               size="icon"
               className="absolute right-2 top-2 h-8 w-8"
-              onClick={() => exportCardToPNG('awareness-profile-card', 'ismertseg-profil')}
+              onClick={() => exportCardToPNG('awareness-profile-card', 'hasznaloi-tudasszint')}
             >
               <Download className="h-4 w-4" />
             </Button>
-            <CardTitle className="text-lg">Ismertségi Profil</CardTitle>
-            <CardDescription>Átfogó tudásszint (használók)</CardDescription>
+            <CardTitle className="text-lg">Használói Tudásszint Részletesen</CardTitle>
+            <CardDescription>Átfogó értékelés a használók körében ({usedResponses.length} fő)</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <RadarChart data={radarData}>
-                  <PolarGrid strokeDasharray="3 3" />
-                  <PolarAngleAxis dataKey="subject" />
-                  <PolarRadiusAxis angle={90} domain={[0, 5]} />
-                  <Radar 
-                    name="Ismertség" 
-                    dataKey="value" 
-                    stroke="hsl(var(--chart-2))" 
-                    fill="hsl(var(--chart-2))" 
-                    fillOpacity={0.6} 
-                  />
-                  <Tooltip />
-                </RadarChart>
-              </ResponsiveContainer>
+          <CardContent className="space-y-6">
+            {awarenessProfileData.map((item, index) => (
+              <div key={index} className="space-y-2">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="font-semibold">{item.category}</p>
+                    <p className="text-xs text-muted-foreground">{item.description}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-2xl font-bold">{item.score}</p>
+                    <p className="text-xs text-muted-foreground">/ 5.0</p>
+                  </div>
+                </div>
+                <Progress 
+                  value={item.score * 20} 
+                  style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties}
+                  className="h-2"
+                />
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>1 - Nagyon alacsony</span>
+                  <span>5 - Nagyon magas</span>
+                </div>
+              </div>
+            ))}
+            
+            <div className="pt-4 border-t">
+              <div className="bg-muted/30 p-4 rounded-md">
+                <p className="text-sm font-semibold mb-2">Átlagos tudásszint</p>
+                <p className="text-3xl font-bold">
+                  {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length).toFixed(1)}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length >= 3.5 
+                    ? '✓ A használók jól ismerik a szolgáltatást' 
+                    : '→ Van még fejlesztési lehetőség a kommunikációban'}
+                </p>
+              </div>
             </div>
           </CardContent>
         </Card>
