@@ -86,33 +86,84 @@ const Export = () => {
   };
 
   const handleExportPDF = async () => {
-    toast.error('A PDF exportálás jelenleg fejlesztés alatt áll. Kérjük, használja az Excel vagy PNG export lehetőségeket!');
-    return;
-    
-    /* PDF export átdolgozás alatt - az új riportok struktúrához kell igazítani
     setExporting(true);
     try {
       const jsPDF = (await import('jspdf')).default;
       const html2canvas = (await import('html2canvas')).default;
       
       const selectedAudit = audits.find(a => a.id === selectedAuditId);
-      if (!selectedAudit) return;
+      if (!selectedAudit) {
+        toast.error('Válassz ki egy felmérést!');
+        return;
+      }
 
       toast.info('PDF generálása folyamatban... Ez eltarthat egy kis ideig.');
 
+      // Fetch responses
+      const { data: responses, error } = await supabase
+        .from('audit_responses')
+        .select('*')
+        .eq('audit_id', selectedAuditId);
+
+      if (error) throw error;
+
+      if (!responses || responses.length === 0) {
+        toast.error('Nincs adat ehhez a felméréshez');
+        setExporting(false);
+        return;
+      }
+
+      // Create a temporary container
+      const container = document.createElement('div');
+      container.style.position = 'absolute';
+      container.style.left = '-9999px';
+      container.style.top = '0';
+      document.body.appendChild(container);
+
+      // Dynamically import and render the PDF component
+      const { default: PDFExportRenderer } = await import('@/components/hr/PDFExportRenderer');
+      const { createRoot } = await import('react-dom/client');
+      
+      const root = createRoot(container);
+      root.render(<PDFExportRenderer auditData={selectedAudit} responses={responses} />);
+
+      // Wait for render
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Create PDF
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
-      const margin = 10;
-      
-      // Title page
-      pdf.setFontSize(24);
-      pdf.text('EAP Pulse Jelentés', pageWidth / 2, 40, { align: 'center' });
-      pdf.setFontSize(16);
-      pdf.text(formatAuditName(selectedAudit), pageWidth / 2, 55, { align: 'center' });
-      pdf.setFontSize(12);
-      pdf.text(`Generálva: ${new Date().toLocaleDateString('hu-HU')}`, pageWidth / 2, 70, { align: 'center' });
 
+      // Capture all pages
+      const pages = container.querySelectorAll('.page-break-after, .page-break-after ~ div:last-child');
+      
+      for (let i = 0; i < pages.length; i++) {
+        const page = pages[i] as HTMLElement;
+        
+        const canvas = await html2canvas(page, {
+          scale: 2,
+          backgroundColor: '#ffffff',
+          logging: false,
+          useCORS: true,
+        });
+
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = pageWidth - 20;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        if (i > 0) {
+          pdf.addPage();
+        }
+
+        pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, Math.min(imgHeight, pageHeight - 20));
+      }
+
+      // Cleanup
+      root.unmount();
+      document.body.removeChild(container);
+
+      // Save PDF
       pdf.save(`eap_pulse_jelentes_${formatAuditName(selectedAudit)}_${Date.now()}.pdf`);
       toast.success('PDF sikeresen exportálva!');
     } catch (error) {
@@ -121,7 +172,6 @@ const Export = () => {
     } finally {
       setExporting(false);
     }
-    */
   };
 
   const handleExportPNG = async (cardId: string, fileName: string) => {
