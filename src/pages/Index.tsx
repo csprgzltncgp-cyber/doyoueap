@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowRight, CheckCircle, TrendingUp, Users, FileText, Award, BarChart3, Settings as SettingsIcon, Download, FileEdit, PlayCircle, ClipboardList, Eye } from 'lucide-react';
+import { ArrowRight, CheckCircle, TrendingUp, Users, FileText, Award, BarChart3, Settings as SettingsIcon, Download, FileEdit, PlayCircle, ClipboardList, Eye, Shield, Activity, Target, Heart, UsersRound, LineChart, GitCompare } from 'lucide-react';
 import { RegistrationWizard } from '@/components/registration/RegistrationWizard';
 import logo from '@/assets/doyoueap-logo.png';
 import HRDashboard from './HRDashboard';
@@ -267,50 +267,58 @@ const Index = () => {
               <nav className="flex gap-4">
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'overview' })}
-                  className={`text-xs hover:text-primary transition-colors ${(!subSection || subSection === 'overview') ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${(!subSection || subSection === 'overview') ? 'text-primary font-medium' : ''}`}
                 >
+                  <BarChart3 className="h-4 w-4" />
                   Összefoglaló
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'awareness' })}
-                  className={`text-xs hover:text-primary transition-colors ${subSection === 'awareness' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'awareness' ? 'text-primary font-medium' : ''}`}
                 >
+                  <Eye className="h-4 w-4" />
                   Ismertség
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'trust' })}
-                  className={`text-xs hover:text-primary transition-colors ${subSection === 'trust' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'trust' ? 'text-primary font-medium' : ''}`}
                 >
+                  <Shield className="h-4 w-4" />
                   Bizalom
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'usage' })}
-                  className={`text-xs hover:text-primary transition-colors ${subSection === 'usage' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'usage' ? 'text-primary font-medium' : ''}`}
                 >
+                  <Activity className="h-4 w-4" />
                   Használat
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'impact' })}
-                  className={`text-xs hover:text-primary transition-colors ${subSection === 'impact' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'impact' ? 'text-primary font-medium' : ''}`}
                 >
+                  <Target className="h-4 w-4" />
                   Hatás
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'demographics' })}
-                  className={`text-xs hover:text-primary transition-colors ${subSection === 'demographics' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'demographics' ? 'text-primary font-medium' : ''}`}
                 >
+                  <UsersRound className="h-4 w-4" />
                   Demográfia
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'trends' })}
-                  className={`text-xs hover:text-primary transition-colors ${subSection === 'trends' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'trends' ? 'text-primary font-medium' : ''}`}
                 >
+                  <LineChart className="h-4 w-4" />
                   Trendek
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'compare' })}
-                  className={`text-xs hover:text-primary transition-colors ${subSection === 'compare' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'compare' ? 'text-primary font-medium' : ''}`}
                 >
+                  <GitCompare className="h-4 w-4" />
                   Összehasonlítás
                 </button>
               </nav>
