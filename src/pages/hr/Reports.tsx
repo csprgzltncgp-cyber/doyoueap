@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Download, Eye, Shield, Activity, Target, Users, TrendingUp } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, BarChart, Bar, XAxis, YAxis, RadialBarChart, RadialBar, Legend } from "recharts";
 import { formatAuditName } from "@/lib/auditUtils";
 import { GaugeChart } from "@/components/ui/gauge-chart";
 import Awareness from "./Awareness";
@@ -398,6 +398,7 @@ const Reports = () => {
 
           {/* Third Row: Awareness, Trust, Usage, and Impact */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Card 1: Awareness - Radar Chart */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -407,14 +408,30 @@ const Reports = () => {
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="text-center">
-                  <div className="text-5xl font-bold text-primary mb-2">{awarenessScore}</div>
-                  <p className="text-sm text-muted-foreground mb-4">Mennyire értik a munkavállalók a szolgáltatást</p>
+                <div className="text-center mb-2">
+                  <div className="text-4xl font-bold text-primary">{awarenessScore}</div>
+                  <p className="text-xs text-muted-foreground mt-1">Mennyire értik a munkavállalók a szolgáltatást</p>
                 </div>
-                <Progress value={parseFloat(awarenessScore) * 20} />
+                <div className="h-[160px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <RadarChart data={[
+                      { subject: 'Érték', value: parseFloat(awarenessScore), fullMark: 5 },
+                      { subject: '', value: parseFloat(awarenessScore), fullMark: 5 },
+                      { subject: '', value: parseFloat(awarenessScore), fullMark: 5 },
+                      { subject: '', value: parseFloat(awarenessScore), fullMark: 5 },
+                      { subject: '', value: parseFloat(awarenessScore), fullMark: 5 },
+                    ]}>
+                      <PolarGrid strokeDasharray="3 3" />
+                      <PolarAngleAxis dataKey="subject" tick={{ fontSize: 10 }} />
+                      <PolarRadiusAxis angle={90} domain={[0, 5]} tick={{ fontSize: 10 }} />
+                      <Radar name="Ismertség" dataKey="value" stroke="hsl(var(--chart-1))" fill="hsl(var(--chart-1))" fillOpacity={0.6} />
+                    </RadarChart>
+                  </ResponsiveContainer>
+                </div>
               </CardContent>
             </Card>
 
+            {/* Card 2: Trust - Bar Chart */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -424,14 +441,27 @@ const Reports = () => {
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="text-center">
-                  <div className="text-5xl font-bold text-primary mb-2">{trustScore}</div>
-                  <p className="text-sm text-muted-foreground mb-4">Mennyire bíznak az anonimitás védelmében</p>
+                <div className="text-center mb-2">
+                  <div className="text-4xl font-bold text-primary">{trustScore}</div>
+                  <p className="text-xs text-muted-foreground mt-1">Mennyire bíznak az anonimitás védelmében</p>
                 </div>
-                <Progress value={parseFloat(trustScore) * 20} />
+                <div className="h-[160px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={[
+                      { name: 'Érték', value: parseFloat(trustScore) },
+                      { name: 'Max', value: 5 - parseFloat(trustScore), fill: 'hsl(var(--muted))' }
+                    ]} layout="vertical" margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
+                      <XAxis type="number" domain={[0, 5]} hide />
+                      <YAxis type="category" dataKey="name" hide />
+                      <Bar dataKey="value" stackId="a" fill="hsl(var(--chart-2))" radius={[8, 8, 8, 8]} />
+                      <Bar dataKey="fill" stackId="a" fill="hsl(var(--muted))" radius={[8, 8, 8, 8]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
               </CardContent>
             </Card>
 
+            {/* Card 3: Usage - Radial Bar Chart */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -441,14 +471,31 @@ const Reports = () => {
                 <CardDescription>Problémamegoldás (1-5 skála)</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="text-center">
-                  <div className="text-5xl font-bold text-primary mb-2">{problemSolvingScore}</div>
-                  <p className="text-sm text-muted-foreground mb-4">Mennyire segített a program a problémák kezelésében</p>
+                <div className="text-center mb-2">
+                  <div className="text-4xl font-bold text-primary">{problemSolvingScore}</div>
+                  <p className="text-xs text-muted-foreground mt-1">Mennyire segített a program a problémák kezelésében</p>
                 </div>
-                <Progress value={parseFloat(problemSolvingScore) * 20} />
+                <div className="h-[160px] flex items-center justify-center">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <RadialBarChart 
+                      cx="50%" 
+                      cy="50%" 
+                      innerRadius="60%" 
+                      outerRadius="90%" 
+                      barSize={20} 
+                      data={[{ name: 'Használat', value: (parseFloat(problemSolvingScore) / 5) * 100, fill: 'hsl(var(--chart-3))' }]}
+                      startAngle={90}
+                      endAngle={-270}
+                    >
+                      <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
+                      <RadialBar background dataKey="value" cornerRadius={10} />
+                    </RadialBarChart>
+                  </ResponsiveContainer>
+                </div>
               </CardContent>
             </Card>
 
+            {/* Card 4: Impact - Star Rating Visualization */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -458,11 +505,36 @@ const Reports = () => {
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="text-center">
-                  <div className="text-5xl font-bold text-primary mb-2">{wellbeingScore}</div>
-                  <p className="text-sm text-muted-foreground mb-4">Jóllét javulása a program használata után</p>
+                <div className="text-center mb-2">
+                  <div className="text-4xl font-bold text-primary">{wellbeingScore}</div>
+                  <p className="text-xs text-muted-foreground mt-1">Jóllét javulása a program használata után</p>
                 </div>
-                <Progress value={parseFloat(wellbeingScore) * 20} />
+                <div className="h-[160px] flex flex-col items-center justify-center gap-3">
+                  {/* Visual star-like representation */}
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <div
+                        key={star}
+                        className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all"
+                        style={{
+                          backgroundColor: star <= parseFloat(wellbeingScore) 
+                            ? 'hsl(var(--chart-4))' 
+                            : 'hsl(var(--muted))',
+                          color: star <= parseFloat(wellbeingScore) 
+                            ? 'hsl(var(--primary-foreground))' 
+                            : 'hsl(var(--muted-foreground))',
+                          transform: star <= parseFloat(wellbeingScore) ? 'scale(1.1)' : 'scale(1)'
+                        }}
+                      >
+                        {star}
+                      </div>
+                    ))}
+                  </div>
+                  {/* Progress bar underneath */}
+                  <div className="w-full px-4">
+                    <Progress value={parseFloat(wellbeingScore) * 20} className="h-2" />
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
