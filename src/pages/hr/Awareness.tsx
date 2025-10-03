@@ -201,7 +201,7 @@ const Awareness = ({ selectedAuditId }: AwarenessProps) => {
       </div>
 
       {/* 1. sor: Fő ismertségi mutatók */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Összesített ismertség */}
         <Card id="overall-awareness-card">
           <CardHeader className="relative">
@@ -234,7 +234,7 @@ const Awareness = ({ selectedAuditId }: AwarenessProps) => {
           </CardContent>
         </Card>
 
-        {/* Megértés szintje */}
+        {/* Általános Megértés Szintje */}
         <Card className="relative overflow-hidden" id="understanding-card">
           <div 
             className="absolute inset-0 transition-all duration-500"
@@ -254,7 +254,7 @@ const Awareness = ({ selectedAuditId }: AwarenessProps) => {
             </Button>
             <CardTitle className="text-lg flex items-center gap-2">
               <Info className="w-5 h-5" />
-              Megértés Szintje
+              Általános Megértés
             </CardTitle>
             <CardDescription>1-5 skála</CardDescription>
           </CardHeader>
@@ -265,6 +265,44 @@ const Awareness = ({ selectedAuditId }: AwarenessProps) => {
               </div>
               <p className="text-sm text-muted-foreground mt-2">
                 Mennyire értik a munkavállalók az EAP szolgáltatást
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Általános Tudásszint (használók) */}
+        <Card className="relative overflow-hidden" id="overall-knowledge-card">
+          <div 
+            className="absolute inset-0 transition-all duration-500"
+            style={{
+              background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${((awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) / 5) * 100}%, transparent ${((awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) / 5) * 100}%, transparent 100%)`,
+              opacity: 0.1
+            }}
+          />
+          <CardHeader className="relative z-10">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('overall-knowledge-card', 'altalanos-tudasszint')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <TrendingUp className="w-5 h-5" />
+              Általános Tudásszint
+            </CardTitle>
+            <CardDescription>Használók átlaga (1-5 skála)</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 relative z-10">
+            <div className="text-center">
+              <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
+                {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length).toFixed(1)}
+              </div>
+              <p className="text-sm text-muted-foreground mt-2">
+                {awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length >= 3.5 
+                  ? '✓ A használók jól ismerik a szolgáltatást' 
+                  : '→ Van még fejlesztési lehetőség a kommunikációban'}
               </p>
             </div>
           </CardContent>
@@ -542,20 +580,6 @@ const Awareness = ({ selectedAuditId }: AwarenessProps) => {
                 </div>
               </div>
             ))}
-            
-            <div className="pt-4 border-t">
-              <div className="bg-muted/30 p-4 rounded-md">
-                <p className="text-sm font-semibold mb-2">Átlagos tudásszint</p>
-                <p className="text-3xl font-bold">
-                  {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length).toFixed(1)}
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length >= 3.5 
-                    ? '✓ A használók jól ismerik a szolgáltatást' 
-                    : '→ Van még fejlesztési lehetőség a kommunikációban'}
-                </p>
-              </div>
-            </div>
           </CardContent>
         </Card>
       </div>
