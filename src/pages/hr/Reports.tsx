@@ -404,11 +404,12 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
                 <div className="text-center">
                   <div className="text-5xl font-bold text-primary mb-2">{awarenessScore}</div>
-                  <p className="text-sm text-muted-foreground">Mennyire értik a munkavállalók a szolgáltatást</p>
+                  <p className="text-sm text-muted-foreground mb-4">Mennyire értik a munkavállalók a szolgáltatást</p>
                 </div>
+                <Progress value={parseFloat(awarenessScore) * 20} />
               </CardContent>
             </Card>
 
@@ -420,11 +421,12 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
                 <div className="text-center">
                   <div className="text-5xl font-bold text-primary mb-2">{trustScore}</div>
-                  <p className="text-sm text-muted-foreground">Mennyire bíznak az anonimitás védelmében</p>
+                  <p className="text-sm text-muted-foreground mb-4">Mennyire bíznak az anonimitás védelmében</p>
                 </div>
+                <Progress value={parseFloat(trustScore) * 20} />
               </CardContent>
             </Card>
 
@@ -436,11 +438,12 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
                 <div className="text-center">
                   <div className="text-5xl font-bold text-primary mb-2">{usageScore}</div>
-                  <p className="text-sm text-muted-foreground">Felhasználók aránya</p>
+                  <p className="text-sm text-muted-foreground mb-4">Felhasználók aránya</p>
                 </div>
+                <Progress value={parseFloat(usageScore) * 20} />
               </CardContent>
             </Card>
 
@@ -452,11 +455,12 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
                 <div className="text-center">
                   <div className="text-5xl font-bold text-primary mb-2">{wellbeingScore}</div>
-                  <p className="text-sm text-muted-foreground">Jóllét javulása a program használata után</p>
+                  <p className="text-sm text-muted-foreground mb-4">Jóllét javulása a program használata után</p>
                 </div>
+                <Progress value={parseFloat(wellbeingScore) * 20} />
               </CardContent>
             </Card>
           </div>
