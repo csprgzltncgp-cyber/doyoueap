@@ -350,10 +350,16 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
           </Button>
           <div>
             <CardTitle>Hatás Profil</CardTitle>
-            <CardDescription>Radar nézet</CardDescription>
+            <CardDescription>Összesített hatás nézet</CardDescription>
           </div>
         </CardHeader>
         <CardContent>
+          <div className="mb-4 p-3 bg-muted/50 rounded-lg text-sm">
+            <p className="text-muted-foreground">
+              <strong>Mit mutat a diagram?</strong> A radar diagram az 5 hatás terület egyidejű áttekintését teszi lehetővé. 
+              Minél nagyobb a kitöltött terület, annál jobb az összhatás. Az egyenletes ötszög kiegyensúlyozott hatást jelez.
+            </p>
+          </div>
           <ResponsiveContainer width="100%" height={400}>
             <RadarChart data={impactData}>
               <PolarGrid />
