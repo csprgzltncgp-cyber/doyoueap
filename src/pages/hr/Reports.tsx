@@ -520,9 +520,7 @@ const Reports = () => {
                           backgroundColor: star <= parseFloat(wellbeingScore) 
                             ? 'hsl(var(--chart-2))' 
                             : 'hsl(var(--muted))',
-                          color: star <= parseFloat(wellbeingScore) 
-                            ? 'hsl(var(--primary-foreground))' 
-                            : 'hsl(var(--muted-foreground))',
+                          color: 'hsl(var(--foreground))',
                           transform: star <= parseFloat(wellbeingScore) ? 'scale(1.1)' : 'scale(1)'
                         }}
                       >
