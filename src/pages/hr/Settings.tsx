@@ -793,7 +793,7 @@ function Settings() {
             <ul className="text-sm space-y-1">
               {profileData.selected_package === "starter" && (
                 <>
-                  <li>✓ Évente max. 1 audit</li>
+                  <li>✓ Évente max. 1 EAP Pulse felmérés</li>
                   <li>✓ Alap KPI-k (Awareness, Trust, Usage, Impact)</li>
                   <li>✓ PDF export</li>
                   <li>✓ Email support</li>
@@ -801,7 +801,7 @@ function Settings() {
               )}
               {profileData.selected_package === "pro" && (
                 <>
-                  <li>✓ Negyedévente audit (ismétlés funkcióval)</li>
+                  <li>✓ Negyedévente EAP Pulse felmérés (ismétlés funkcióval)</li>
                   <li>✓ Demográfiai bontás, trendek, összehasonlítás</li>
                   <li>✓ PDF + Excel export</li>
                   <li>✓ Brandelhető User App (logó + 4 szín)</li>
@@ -811,7 +811,7 @@ function Settings() {
               )}
               {profileData.selected_package === "enterprise" && (
                 <>
-                  <li>✓ Korlátlan audit</li>
+                  <li>✓ Korlátlan EAP Pulse felmérés</li>
                   <li>✓ Teljes funkcionalitás (KPI-k, trendek, benchmark, motivációk)</li>
                   <li>✓ PDF, Excel, PowerPoint export</li>
                   <li>✓ Teljes brandelés + saját domain opció</li>
@@ -870,7 +870,7 @@ function Settings() {
                   </span>
                 </p>
                 <ul className="text-xs space-y-1">
-                  <li>✓ Évente max. 1 audit</li>
+                  <li>✓ Évente max. 1 EAP Pulse felmérés</li>
                   <li>✓ Alap KPI-k</li>
                   <li>✓ PDF export</li>
                   <li>✓ Email support</li>
@@ -904,7 +904,7 @@ function Settings() {
                   </span>
                 </p>
                 <ul className="text-xs space-y-1">
-                  <li>✓ Negyedévente audit</li>
+                  <li>✓ Negyedévente EAP Pulse felmérés</li>
                   <li>✓ Demográfia, trendek</li>
                   <li>✓ PDF + Excel export</li>
                   <li>✓ Brandelhető app</li>
@@ -936,7 +936,7 @@ function Settings() {
                   Egyedi
                 </p>
                 <ul className="text-xs space-y-1">
-                  <li>✓ Korlátlan audit</li>
+                  <li>✓ Korlátlan EAP Pulse felmérés</li>
                   <li>✓ Teljes funkcionalitás</li>
                   <li>✓ PDF, Excel, PPT export</li>
                   <li>✓ Teljes brandelés</li>
