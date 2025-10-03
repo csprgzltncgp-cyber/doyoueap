@@ -268,6 +268,10 @@ const Reports = () => {
                 <CardDescription>Általános elégedettség a használók körében</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                <p className="text-sm text-muted-foreground">
+                  Ez a mutató azt méri, hogy az EAP programot használók mennyire elégedettek a szolgáltatással. 
+                  Az érték az általános elégedettséget tükrözi 1-5 skálán, százalékos formában megjelenítve.
+                </p>
                 <GaugeChart 
                   value={satisfactionIndex} 
                   maxValue={100}
