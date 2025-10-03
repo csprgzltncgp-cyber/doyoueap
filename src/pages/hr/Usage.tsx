@@ -535,12 +535,23 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
           <CardContent>
             <div className="h-[350px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={channelChartData} layout="vertical">
+                <BarChart data={channelChartData.map(item => {
+                  const total = channelChartData.reduce((sum, i) => sum + i.value, 0);
+                  return {
+                    name: item.name,
+                    percentage: total > 0 ? (item.value / total) * 100 : 0,
+                    value: item.value
+                  };
+                })} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis type="number" />
+                  <XAxis 
+                    type="number" 
+                    domain={[0, 100]}
+                    tickFormatter={(value) => `${value}%`}
+                  />
                   <YAxis dataKey="name" type="category" width={150} />
-                  <Tooltip />
-                  <Bar dataKey="value" fill="hsl(var(--chart-2))" radius={[0, 8, 8, 0]} />
+                  <Tooltip formatter={(value: any) => `${value.toFixed(0)}%`} />
+                  <Bar dataKey="percentage" fill="hsl(var(--chart-2))" radius={[0, 8, 8, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -570,12 +581,23 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
           <CardContent>
             <div className="h-[350px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={timeToCareChartData} layout="vertical">
+                <BarChart data={timeToCareChartData.map(item => {
+                  const total = timeToCareChartData.reduce((sum, i) => sum + i.value, 0);
+                  return {
+                    name: item.name,
+                    percentage: total > 0 ? (item.value / total) * 100 : 0,
+                    value: item.value
+                  };
+                })} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis type="number" />
+                  <XAxis 
+                    type="number" 
+                    domain={[0, 100]}
+                    tickFormatter={(value) => `${value}%`}
+                  />
                   <YAxis dataKey="name" type="category" width={150} />
-                  <Tooltip />
-                  <Bar dataKey="value" fill="hsl(var(--chart-2))" radius={[0, 8, 8, 0]} />
+                  <Tooltip formatter={(value: any) => `${value.toFixed(0)}%`} />
+                  <Bar dataKey="percentage" fill="hsl(var(--chart-2))" radius={[0, 8, 8, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
