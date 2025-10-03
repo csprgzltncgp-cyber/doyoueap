@@ -386,111 +386,57 @@ const Awareness = ({ selectedAuditId }: AwarenessProps) => {
         </Card>
       </div>
 
-      {/* 3. sor: Részletes mutatók használóknál */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Információ elégségesség */}
-        <Card id="info-sufficiency-card">
-          <CardHeader className="relative">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-2 top-2 h-8 w-8"
-              onClick={() => exportCardToPNG('info-sufficiency-card', 'informacio-elegsegeseg')}
-            >
-              <Download className="h-4 w-4" />
-            </Button>
-            <CardTitle className="text-lg">Információ Elégségesség</CardTitle>
-            <CardDescription>Használók körében: kaptak-e elegendő információt?</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="h-[300px] flex items-center justify-center">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={infoSufficiencyData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={120}
-                    paddingAngle={2}
-                    dataKey="value"
-                  >
-                    {infoSufficiencyData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="flex flex-wrap gap-4 justify-center mt-4">
-              {infoSufficiencyData.map((entry, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <div 
-                    className="w-3 h-3 rounded-full" 
-                    style={{ backgroundColor: entry.color }}
-                  />
-                  <span className="text-sm text-foreground">
-                    {entry.name}: {entry.value} ({((entry.value / usedResponses.length) * 100).toFixed(0)}%)
-                  </span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Használók tudásának részletei */}
-        <Card id="user-knowledge-card">
-          <CardHeader className="relative">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-2 top-2 h-8 w-8"
-              onClick={() => exportCardToPNG('user-knowledge-card', 'hasznalok-tudasa')}
-            >
-              <Download className="h-4 w-4" />
-            </Button>
-            <CardTitle className="text-lg">Használók Tudásszintje</CardTitle>
-            <CardDescription>Részletes mutatók (csak használók)</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <span className="text-sm">Szolgáltatás megértése</span>
-                <span className="font-semibold">{usedUnderstandingScore}/5</span>
+      {/* 3. sor: Információ elégségesség */}
+      <Card id="info-sufficiency-card">
+        <CardHeader className="relative">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-2 top-2 h-8 w-8"
+            onClick={() => exportCardToPNG('info-sufficiency-card', 'informacio-elegsegeseg')}
+          >
+            <Download className="h-4 w-4" />
+          </Button>
+          <CardTitle className="text-lg">Információ Elégségesség</CardTitle>
+          <CardDescription>Használók körében: kaptak-e elegendő információt?</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[300px] flex items-center justify-center">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={infoSufficiencyData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={120}
+                  paddingAngle={2}
+                  dataKey="value"
+                >
+                  {infoSufficiencyData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="flex flex-wrap gap-4 justify-center mt-4">
+            {infoSufficiencyData.map((entry, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <div 
+                  className="w-3 h-3 rounded-full" 
+                  style={{ backgroundColor: entry.color }}
+                />
+                <span className="text-sm text-foreground">
+                  {entry.name}: {entry.value} ({((entry.value / usedResponses.length) * 100).toFixed(0)}%)
+                </span>
               </div>
-              <Progress 
-                value={parseFloat(usedUnderstandingScore) * 20} 
-                style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties}
-              />
-            </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <span className="text-sm">Használat ismerete</span>
-                <span className="font-semibold">{howToUseScore}/5</span>
-              </div>
-              <Progress 
-                value={parseFloat(howToUseScore) * 20} 
-                style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties}
-              />
-              <p className="text-xs text-muted-foreground">Mennyire tudják hogyan vegyék igénybe</p>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <span className="text-sm">Elérhetőség tudatossága</span>
-                <span className="font-semibold">{accessibilityScore}/5</span>
-              </div>
-              <Progress 
-                value={parseFloat(accessibilityScore) * 20} 
-                style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties}
-              />
-              <p className="text-xs text-muted-foreground">Mennyire érzik elérhetőnek a szolgáltatást</p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
 
       {/* 4. sor: Összehasonlítások és részletes profilok */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
