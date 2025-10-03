@@ -165,7 +165,7 @@ const Reports = () => {
   const npsScore = calculateAverage(
     responses
       .filter(r => r.employee_metadata?.branch === 'used')
-      .map(r => r.responses?.u_nps_recommend)
+      .map(r => r.responses?.u_impact_nps)
       .filter(v => v !== undefined)
   );
 
@@ -179,7 +179,7 @@ const Reports = () => {
   const performanceScore = calculateAverage(
     responses
       .filter(r => r.employee_metadata?.branch === 'used')
-      .map(r => r.responses?.u_impact_work_performance)
+      .map(r => r.responses?.u_impact_performance)
       .filter(v => v !== undefined)
   );
 
