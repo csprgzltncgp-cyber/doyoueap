@@ -399,6 +399,43 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
               <Tooltip />
             </RadarChart>
           </ResponsiveContainer>
+          
+          {/* Improvement Suggestions */}
+          {impactData.length > 0 && (
+            <div className="mt-6 p-4 bg-primary/5 rounded-lg border border-primary/20">
+              <h4 className="font-semibold text-sm mb-3 flex items-center gap-2">
+                <span className="text-primary">💡</span> Fejlesztési javaslatok
+              </h4>
+              <div className="space-y-2 text-sm">
+                {(() => {
+                  const lowestMetric = impactData.reduce((min, item) => 
+                    item.average < min.average ? item : min
+                  );
+                  const allBelowFour = impactData.filter(item => item.average < 4);
+                  
+                  if (lowestMetric.average >= 4.5) {
+                    return <p className="text-muted-foreground">✅ Kiváló eredmények minden területen! Folytassátok így!</p>;
+                  }
+                  
+                  if (allBelowFour.length >= 3) {
+                    return (
+                      <p className="text-muted-foreground">
+                        ⚠️ Több területen is érdemes fejleszteni. Kezdjétek a <strong>{lowestMetric.metric}</strong> területtel ({lowestMetric.average.toFixed(2)}), 
+                        majd folytathatjátok a többi alacsonyabb értékű területtel.
+                      </p>
+                    );
+                  }
+                  
+                  return (
+                    <p className="text-muted-foreground">
+                      📊 A legnagyobb fejlesztési potenciál a <strong>{lowestMetric.metric}</strong> területen van (jelenlegi érték: {lowestMetric.average.toFixed(2)}). 
+                      Érdemes külön figyelmet fordítani erre a területre.
+                    </p>
+                  );
+                })()}
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
 
