@@ -138,14 +138,17 @@ const Reports = () => {
   
   const awarenessScore = calculateAverage(
     awarenessResponses
-      .map(r => r.responses?.awareness_level || r.responses?.nu_awareness_level)
+      .map(r => r.responses?.u_awareness_understanding || r.responses?.nu_awareness_understanding)
       .filter(v => v !== undefined)
   );
 
-  const trustResponses = responses.filter(r => r.employee_metadata?.branch === 'used');
+  const trustResponses = responses.filter(r => 
+    r.employee_metadata?.branch === 'used' || r.employee_metadata?.branch === 'not_used'
+  );
+  
   const trustScore = calculateAverage(
     trustResponses
-      .map(r => r.responses?.u_trust_willingness)
+      .map(r => r.responses?.u_trust_anonymity || r.responses?.nu_trust_anonymity)
       .filter(v => v !== undefined)
   );
 
