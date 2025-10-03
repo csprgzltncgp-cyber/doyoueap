@@ -430,14 +430,14 @@ const Reports = () => {
                   <Users className="w-5 h-5" />
                   Használat
                 </CardTitle>
-                <CardDescription>1-5 skála</CardDescription>
+                <CardDescription>Problémamegoldás (1-5 skála)</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="text-center">
-                  <div className="text-5xl font-bold text-primary mb-2">{usageScore}</div>
-                  <p className="text-sm text-muted-foreground mb-4">Felhasználók aránya</p>
+                  <div className="text-5xl font-bold text-primary mb-2">{problemSolvingScore}</div>
+                  <p className="text-sm text-muted-foreground mb-4">Mennyire segített a program a problémák kezelésében</p>
                 </div>
-                <Progress value={parseFloat(usageScore) * 20} />
+                <Progress value={parseFloat(problemSolvingScore) * 20} />
               </CardContent>
             </Card>
 
