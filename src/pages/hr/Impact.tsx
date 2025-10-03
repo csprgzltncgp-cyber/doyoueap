@@ -240,12 +240,12 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
             <div className="my-8">
               {/* Score Display */}
               <div className="text-center mb-6">
-                <div className="text-5xl font-bold text-primary mb-2">{npsData.npsScore}</div>
-                <div className="text-lg text-muted-foreground">{getNPSLabel(npsData.npsScore)}</div>
+                <div className={`text-5xl font-bold mb-2 ${getNPSColor(npsData.npsScore)}`}>{npsData.npsScore}</div>
+                <div className={`text-lg ${getNPSColor(npsData.npsScore)}`}>{getNPSLabel(npsData.npsScore)}</div>
               </div>
 
               {/* Scale */}
-              <div className="relative h-12 bg-gradient-to-r from-primary/20 via-primary/40 to-primary rounded-full mb-8">
+              <div className="relative h-12 bg-gradient-to-r from-primary/20 via-primary/50 to-primary rounded-full mb-8">
                 {/* Indicator */}
                 <div 
                   className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 transition-all duration-500"
@@ -261,25 +261,6 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
                 <div className="absolute -bottom-6 left-0 text-xs text-muted-foreground">-100</div>
                 <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-muted-foreground">0</div>
                 <div className="absolute -bottom-6 right-0 text-xs text-muted-foreground">+100</div>
-              </div>
-            </div>
-
-            {/* Categories */}
-            <div className="mt-12 grid grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-primary/10 rounded-lg">
-                <div className="text-3xl font-bold text-primary mb-1">{npsData.detractors}</div>
-                <div className="text-sm text-muted-foreground font-medium">Kritikusok</div>
-                <div className="text-xs text-muted-foreground">(0-6 pont)</div>
-              </div>
-              <div className="text-center p-4 bg-primary/30 rounded-lg">
-                <div className="text-3xl font-bold text-primary mb-1">{npsData.passives}</div>
-                <div className="text-sm text-muted-foreground font-medium">Semlegesek</div>
-                <div className="text-xs text-muted-foreground">(7-8 pont)</div>
-              </div>
-              <div className="text-center p-4 bg-primary/50 rounded-lg">
-                <div className="text-3xl font-bold text-primary mb-1">{npsData.promoters}</div>
-                <div className="text-sm text-muted-foreground font-medium">Ajánlók</div>
-                <div className="text-xs text-muted-foreground">(9-10 pont)</div>
               </div>
             </div>
           </CardContent>
