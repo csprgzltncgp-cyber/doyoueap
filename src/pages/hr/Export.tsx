@@ -88,8 +88,11 @@ const Export = () => {
   const handleExportPDF = async () => {
     setExporting(true);
     try {
+      const html2canvas = (await import('html2canvas')).default;
       const jsPDF = (await import('jspdf')).default;
-      const autoTable = (await import('jspdf-autotable')).default;
+      const { default: PDFExportRenderer } = await import('@/components/hr/PDFExportRenderer');
+      const React = await import('react');
+      const ReactDOM = await import('react-dom/client');
       
       const selectedAudit = audits.find(a => a.id === selectedAuditId);
       if (!selectedAudit) {
@@ -98,7 +101,7 @@ const Export = () => {
         return;
       }
 
-      toast.info('PDF generálása folyamatban...');
+      toast.info('PDF generálása folyamatban... Kérlek várj!');
 
       // Fetch responses
       const { data: responses, error } = await supabase
@@ -114,65 +117,66 @@ const Export = () => {
         return;
       }
 
-      // Calculate metrics
-      const usedResponses = responses.filter(r => r.employee_metadata?.branch === 'used');
-      const notUsedResponses = responses.filter(r => r.employee_metadata?.branch === 'not_used');
-      const redirectResponses = responses.filter(r => r.employee_metadata?.branch === 'redirect');
-      const totalCount = responses.length;
+      // Create a temporary container
+      const container = document.createElement('div');
+      container.style.position = 'absolute';
+      container.style.left = '-9999px';
+      container.style.top = '0';
+      container.style.width = '794px'; // A4 width at 96 DPI
+      container.style.background = 'white';
+      container.style.padding = '40px';
+      document.body.appendChild(container);
 
-      const usageRate = totalCount > 0 ? ((usedResponses.length / totalCount) * 100).toFixed(1) : '0.0';
-      const awarenessRate = totalCount > 0 ? (((usedResponses.length + notUsedResponses.length) / totalCount) * 100).toFixed(1) : '0.0';
-
-      const awarenessResponses = [...usedResponses, ...notUsedResponses];
-      const calculateAverage = (values: number[]) => {
-        if (values.length === 0) return '0.0';
-        return ((values.reduce((a, b) => a + b, 0) / values.length)).toFixed(1);
-      };
-      
-      const overallUnderstanding = calculateAverage(
-        awarenessResponses
-          .map(r => r.responses?.u_awareness_understanding || r.responses?.nu_awareness_understanding)
-          .filter(v => v !== undefined)
-      );
+      // Render the PDF content
+      const root = ReactDOM.createRoot(container);
+      await new Promise<void>((resolve) => {
+        root.render(
+          React.createElement(PDFExportRenderer, {
+            auditData: selectedAudit,
+            responses: responses,
+          })
+        );
+        // Wait longer for all content to render
+        setTimeout(resolve, 3000);
+      });
 
       // Initialize PDF
       const pdf = new jsPDF('p', 'mm', 'a4');
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      
-      // Title
-      pdf.setFontSize(20);
-      pdf.setFont('helvetica', 'bold');
-      pdf.text('EAP Pulse Jelentés', pageWidth / 2, 20, { align: 'center' });
-      
-      pdf.setFontSize(16);
-      pdf.text('Összefoglaló', pageWidth / 2, 35, { align: 'center' });
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
 
-      // Metrics table
-      pdf.setFontSize(10);
-      pdf.setFont('helvetica', 'normal');
-      
-      const metricsData = [
-        ['Használói Arány', `${usageRate}%`],
-        ['Ismertségi Arány', `${awarenessRate}%`],
-        ['Megértés Szintje', `${overallUnderstanding} (1-5 skála)`],
-        ['Válaszadók', `${totalCount} fő`],
-        ['Használók', `${usedResponses.length} fő`],
-        ['Nem Használók', `${notUsedResponses.length} fő`],
-        ['Nem Tudtak Róla', `${redirectResponses.length} fő`],
-      ];
-
-      autoTable(pdf, {
-        startY: 45,
-        head: [['Mutató', 'Érték']],
-        body: metricsData,
-        theme: 'grid',
-        headStyles: { fillColor: [139, 92, 246], textColor: 255, fontStyle: 'bold' },
-        styles: { fontSize: 11, cellPadding: 5 },
-        columnStyles: {
-          0: { fontStyle: 'bold', cellWidth: 100 },
-          1: { cellWidth: 70, halign: 'right' }
-        }
+      // Capture the entire rendered content
+      const canvas = await html2canvas(container, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff',
+        width: 794,
+        height: container.scrollHeight,
       });
+
+      const imgData = canvas.toDataURL('image/png');
+      const imgWidth = pdfWidth;
+      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      // Add first page
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
+
+      // Add additional pages if content is longer
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+      }
+
+      // Cleanup
+      root.unmount();
+      document.body.removeChild(container);
 
       // Save PDF
       pdf.save(`eap_pulse_jelentes_${formatAuditName(selectedAudit)}_${Date.now()}.pdf`);

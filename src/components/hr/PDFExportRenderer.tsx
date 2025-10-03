@@ -182,58 +182,61 @@ const PDFExportRenderer = ({ auditData, responses }: PDFExportRendererProps) => 
     .slice(0, 6);
 
   return (
-    <div className="space-y-8 p-8 bg-white" style={{ width: '210mm' }}>
-      {/* Page 1: Overview - CSAK EZ EGYELŐRE */}
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold mb-6 text-center">EAP Pulse Jelentés</h1>
-        <h2 className="text-xl font-semibold mb-4">Összefoglaló</h2>
-        
-        <div className="grid grid-cols-2 gap-4">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Használói Arány</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-center">
-                <GaugeChart value={parseFloat(usageRate)} maxValue={100} size={120} label={`${usageRate}%`} />
-              </div>
-            </CardContent>
-          </Card>
+    <div className="space-y-6 bg-white" style={{ width: '100%', color: '#000' }}>
+      {/* Title */}
+      <div className="text-center mb-6">
+        <h1 className="text-3xl font-bold mb-2" style={{ color: '#000' }}>EAP Pulse Jelentés</h1>
+        <h2 className="text-xl font-semibold" style={{ color: '#000' }}>Összefoglaló</h2>
+      </div>
+      
+      {/* Metrics Cards */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="border rounded-lg p-4 bg-white" style={{ borderColor: '#e5e7eb' }}>
+          <div className="text-sm font-semibold mb-3" style={{ color: '#000' }}>Használói Arány</div>
+          <div className="text-center">
+            <div className="text-4xl font-bold mb-1" style={{ color: '#8b5cf6' }}>{usageRate}%</div>
+            <div className="text-xs" style={{ color: '#6b7280' }}>az összes válaszadóból</div>
+          </div>
+        </div>
 
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Ismertségi Arány</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-center">
-                <GaugeChart value={parseFloat(awarenessRate)} maxValue={100} size={120} label={`${awarenessRate}%`} />
-              </div>
-            </CardContent>
-          </Card>
+        <div className="border rounded-lg p-4 bg-white" style={{ borderColor: '#e5e7eb' }}>
+          <div className="text-sm font-semibold mb-3" style={{ color: '#000' }}>Ismertségi Arány</div>
+          <div className="text-center">
+            <div className="text-4xl font-bold mb-1" style={{ color: '#8b5cf6' }}>{awarenessRate}%</div>
+            <div className="text-xs" style={{ color: '#6b7280' }}>tud a programról</div>
+          </div>
+        </div>
 
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Megértés Szintje</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center">
-                <div className="text-3xl font-bold">{overallUnderstanding}</div>
-                <p className="text-xs text-muted-foreground">1-5 skála</p>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="border rounded-lg p-4 bg-white" style={{ borderColor: '#e5e7eb' }}>
+          <div className="text-sm font-semibold mb-3" style={{ color: '#000' }}>Megértés Szintje</div>
+          <div className="text-center">
+            <div className="text-4xl font-bold mb-1" style={{ color: '#8b5cf6' }}>{overallUnderstanding}</div>
+            <div className="text-xs" style={{ color: '#6b7280' }}>1-5 skálán</div>
+          </div>
+        </div>
 
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Válaszadók</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center">
-                <div className="text-3xl font-bold">{totalCount}</div>
-                <p className="text-xs text-muted-foreground">fő</p>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="border rounded-lg p-4 bg-white" style={{ borderColor: '#e5e7eb' }}>
+          <div className="text-sm font-semibold mb-3" style={{ color: '#000' }}>Válaszadók</div>
+          <div className="text-center">
+            <div className="text-4xl font-bold mb-1" style={{ color: '#8b5cf6' }}>{totalCount}</div>
+            <div className="text-xs" style={{ color: '#6b7280' }}>fő</div>
+          </div>
+        </div>
+
+        <div className="border rounded-lg p-4 bg-white" style={{ borderColor: '#e5e7eb' }}>
+          <div className="text-sm font-semibold mb-3" style={{ color: '#000' }}>Használók</div>
+          <div className="text-center">
+            <div className="text-3xl font-bold mb-1" style={{ color: '#10b981' }}>{usedResponses.length}</div>
+            <div className="text-xs" style={{ color: '#6b7280' }}>fő használta a szolgáltatást</div>
+          </div>
+        </div>
+
+        <div className="border rounded-lg p-4 bg-white" style={{ borderColor: '#e5e7eb' }}>
+          <div className="text-sm font-semibold mb-3" style={{ color: '#000' }}>Nem Használók</div>
+          <div className="text-center">
+            <div className="text-3xl font-bold mb-1" style={{ color: '#f59e0b' }}>{notUsedResponses.length}</div>
+            <div className="text-xs" style={{ color: '#6b7280' }}>fő nem használta</div>
+          </div>
         </div>
       </div>
     </div>
