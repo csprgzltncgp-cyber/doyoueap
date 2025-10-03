@@ -208,10 +208,10 @@ const Impact = () => {
                 </CardHeader>
                 <CardContent className="flex justify-center">
                   <GaugeChart
-                    value={parseFloat(impactData.find(d => d.metric === 'Elégedettség')?.average.toFixed(1) || '0')}
+                    value={parseFloat((impactData.find(d => d.metric === 'Elégedettség')?.average || 0).toFixed(1))}
                     maxValue={5}
                     size={150}
-                    label={impactData.find(d => d.metric === 'Elégedettség')?.average.toFixed(1) || '0'}
+                    label={(impactData.find(d => d.metric === 'Elégedettség')?.average || 0).toFixed(1)}
                     sublabel="/ 5"
                   />
                 </CardContent>
@@ -219,15 +219,15 @@ const Impact = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Jóllét javulása</CardTitle>
+                  <CardTitle className="text-lg">Wellbeing javulás</CardTitle>
                   <CardDescription>Észlelt jóllét változás (1-5 skála)</CardDescription>
                 </CardHeader>
                 <CardContent className="flex justify-center">
                   <GaugeChart
-                    value={parseFloat(impactData.find(d => d.metric === 'Jóllét javulása')?.average.toFixed(1) || '0')}
+                    value={parseFloat((impactData.find(d => d.metric === 'Wellbeing javulás')?.average || 0).toFixed(1))}
                     maxValue={5}
                     size={150}
-                    label={impactData.find(d => d.metric === 'Jóllét javulása')?.average.toFixed(1) || '0'}
+                    label={(impactData.find(d => d.metric === 'Wellbeing javulás')?.average || 0).toFixed(1)}
                     sublabel="/ 5"
                   />
                 </CardContent>
@@ -235,15 +235,15 @@ const Impact = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Munkahelyi teljesítmény</CardTitle>
+                  <CardTitle className="text-lg">Teljesítmény javulás</CardTitle>
                   <CardDescription>Észlelt teljesítmény növekedés (1-5 skála)</CardDescription>
                 </CardHeader>
                 <CardContent className="flex justify-center">
                   <GaugeChart
-                    value={parseFloat(impactData.find(d => d.metric === 'Munkahelyi teljesítmény')?.average.toFixed(1) || '0')}
+                    value={parseFloat((impactData.find(d => d.metric === 'Teljesítmény javulás')?.average || 0).toFixed(1))}
                     maxValue={5}
                     size={150}
-                    label={impactData.find(d => d.metric === 'Munkahelyi teljesítmény')?.average.toFixed(1) || '0'}
+                    label={(impactData.find(d => d.metric === 'Teljesítmény javulás')?.average || 0).toFixed(1)}
                     sublabel="/ 5"
                   />
                 </CardContent>

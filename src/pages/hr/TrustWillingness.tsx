@@ -239,18 +239,18 @@ const TrustWillingness = () => {
 
       {/* Gauge Charts for Key Metrics */}
       {trustData.length > 0 && (
-        <div className="grid md:grid-cols-2 gap-6 mb-6">
+        <div className="grid md:grid-cols-3 gap-6 mb-6">
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Bizalom szintje (Használók)</CardTitle>
-              <CardDescription>Átlagos bizalom az EAP programban (1-5 skála)</CardDescription>
+              <CardTitle className="text-lg">Anonimitásba vetett bizalom</CardTitle>
+              <CardDescription>Átlagos bizalom szint (1-5 skála)</CardDescription>
             </CardHeader>
             <CardContent className="flex justify-center">
               <GaugeChart
-                value={parseFloat(trustData.find(d => d.metric === 'Bizalom')?.used.toFixed(1) || '0')}
+                value={parseFloat((trustData.find(d => d.metric === 'Anonimitásba vetett bizalom')?.overall || 0).toFixed(1))}
                 maxValue={5}
-                size={180}
-                label={trustData.find(d => d.metric === 'Bizalom')?.used.toFixed(1) || '0'}
+                size={150}
+                label={(trustData.find(d => d.metric === 'Anonimitásba vetett bizalom')?.overall || 0).toFixed(1)}
                 sublabel="/ 5"
               />
             </CardContent>
@@ -258,15 +258,31 @@ const TrustWillingness = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Készség a használatra (Nem használók)</CardTitle>
-              <CardDescription>Mennyire lennének hajlandóak használni (1-5 skála)</CardDescription>
+              <CardTitle className="text-lg">Munkaadó reakciójától félelem</CardTitle>
+              <CardDescription>Átlagos félelem szint (1-5 skála)</CardDescription>
             </CardHeader>
             <CardContent className="flex justify-center">
               <GaugeChart
-                value={parseFloat(trustData.find(d => d.metric === 'Hajlandóság')?.notUsed.toFixed(1) || '0')}
+                value={parseFloat((trustData.find(d => d.metric === 'Munkaadó reakciójától félelem')?.overall || 0).toFixed(1))}
                 maxValue={5}
-                size={180}
-                label={trustData.find(d => d.metric === 'Hajlandóság')?.notUsed.toFixed(1) || '0'}
+                size={150}
+                label={(trustData.find(d => d.metric === 'Munkaadó reakciójától félelem')?.overall || 0).toFixed(1)}
+                sublabel="/ 5"
+              />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Kollégák megítélésétől félelem</CardTitle>
+              <CardDescription>Átlagos félelem szint (1-5 skála)</CardDescription>
+            </CardHeader>
+            <CardContent className="flex justify-center">
+              <GaugeChart
+                value={parseFloat((trustData.find(d => d.metric === 'Kollégák megítélésétől félelem')?.overall || 0).toFixed(1))}
+                maxValue={5}
+                size={150}
+                label={(trustData.find(d => d.metric === 'Kollégák megítélésétől félelem')?.overall || 0).toFixed(1)}
                 sublabel="/ 5"
               />
             </CardContent>

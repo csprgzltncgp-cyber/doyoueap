@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { toast } from 'sonner';
 import { formatAuditName } from '@/lib/auditUtils';
+import { GaugeChart } from '@/components/ui/gauge-chart';
 
 // NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface Audit {
@@ -324,6 +325,64 @@ const Demographics = () => {
               <YAxis />
               <Tooltip />
               <Bar dataKey="value" fill="#3b82f6" />
+            </BarChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Gauge Charts for Awareness Comparison */}
+      {awarenessComparison.length > 0 && (
+        <div className="grid md:grid-cols-3 gap-6 mb-6">
+          {awarenessComparison.map((item) => (
+            <Card key={item.category}>
+              <CardHeader>
+                <CardTitle className="text-lg">{item.category}</CardTitle>
+                <CardDescription>Szűrt csoport vs. Összes válaszadó</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">Szűrt</p>
+                    <GaugeChart
+                      value={parseFloat(item.filtered.toFixed(1))}
+                      maxValue={5}
+                      size={120}
+                      label={item.filtered.toFixed(1)}
+                      sublabel="/ 5"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">Összes</p>
+                    <GaugeChart
+                      value={parseFloat(item.overall.toFixed(1))}
+                      maxValue={5}
+                      size={120}
+                      label={item.overall.toFixed(1)}
+                      sublabel="/ 5"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Összehasonlító elemzés</CardTitle>
+          <CardDescription>Szűrt csoport vs. összes válaszadó mutatói (1-5 skála)</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={awarenessComparison} layout="horizontal">
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis type="category" dataKey="category" />
+              <YAxis type="number" domain={[0, 5]} />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="overall" name="Összes válaszadó" fill="#94a3b8" />
+              <Bar dataKey="filtered" name="Szűrt csoport" fill="#3b82f6" />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>
