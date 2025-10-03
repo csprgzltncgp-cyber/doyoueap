@@ -359,9 +359,9 @@ export default function AuditQuestionnaire() {
     <div className="min-h-screen bg-background p-4 sm:p-8">
       <div className="max-w-3xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2">Audit Kérdőív Előnézet</h1>
+          <h1 className="text-3xl font-bold mb-2">EAP Pulse Kérdőív Előnézet</h1>
           <p className="text-muted-foreground">
-            Így látják a munkavállalók a kérdőívet az audit során
+            Így látják a munkavállalók a kérdőívet a felmérés során
           </p>
         </div>
 

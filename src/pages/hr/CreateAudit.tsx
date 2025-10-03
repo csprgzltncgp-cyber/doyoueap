@@ -20,7 +20,7 @@ const CreateAudit = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  // Audit data state
+  // EAP Pulse data state
   const [programName, setProgramName] = useState('');
   const [accessMode, setAccessMode] = useState('public_link');
   const [communicationText, setCommunicationText] = useState('');
@@ -128,7 +128,7 @@ const CreateAudit = () => {
         throw new Error('Nincs aktív kérdőív');
       }
 
-      // Create audit
+      // Create EAP Pulse assessment
       const { error } = await supabase.from('audits').insert({
         hr_user_id: user?.id,
         program_name: programName,
@@ -149,11 +149,11 @@ const CreateAudit = () => {
 
       if (error) throw error;
 
-      toast.success('Audit sikeresen létrehozva és elindítva!');
+      toast.success('EAP Pulse felmérés sikeresen létrehozva és elindítva!');
       navigate('/hr/running-audits');
     } catch (error) {
-      console.error('Error creating audit:', error);
-      toast.error('Hiba történt az audit létrehozásakor');
+      console.error('Error creating assessment:', error);
+      toast.error('Hiba történt a felmérés létrehozásakor');
     } finally {
       setLoading(false);
     }
@@ -176,7 +176,7 @@ const CreateAudit = () => {
   return (
     <div className="p-8 max-w-4xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Új Audit Indítása</h1>
+        <h1 className="text-3xl font-bold mb-2">Új EAP Pulse Felmérés Indítása</h1>
         <p className="text-muted-foreground">
           Lépés {currentStep} / {totalSteps}
         </p>

@@ -86,8 +86,8 @@ const RunningAudits = () => {
       const metricsData = (await Promise.all(metricsPromises)).filter(Boolean) as AuditMetrics[];
       setAudits(metricsData);
     } catch (error) {
-      console.error('Error fetching running audits:', error);
-      toast.error('Hiba történt a futó auditok betöltésekor');
+      console.error('Error fetching running assessments:', error);
+      toast.error('Hiba történt a futó felmérések betöltésekor');
     } finally {
       setLoading(false);
     }
@@ -135,11 +135,11 @@ const RunningAudits = () => {
   if (audits.length === 0) {
     return (
       <div className="p-8">
-        <h1 className="text-3xl font-bold mb-6">Futó Auditok</h1>
+        <h1 className="text-3xl font-bold mb-6">Futó Felmérések</h1>
         <Card>
           <CardContent className="pt-6">
             <p className="text-center text-muted-foreground">
-              Jelenleg nincsenek futó auditok.
+              Jelenleg nincsenek futó felmérések.
             </p>
           </CardContent>
         </Card>
@@ -150,9 +150,9 @@ const RunningAudits = () => {
   return (
     <div className="p-8 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Futó Auditok</h1>
+        <h1 className="text-3xl font-bold mb-2">Futó Felmérések</h1>
         <p className="text-muted-foreground">
-          Áttekintés az aktív auditokról és azok előrehaladásáról
+          Áttekintés az aktív felmérésekről és azok előrehaladásáról
         </p>
       </div>
 
