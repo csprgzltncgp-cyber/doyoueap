@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Download, Eye, Shield, Activity, Target } from "lucide-react";
 import { formatAuditName } from "@/lib/auditUtils";
@@ -32,7 +31,6 @@ interface Audit {
 
 const Statistics = () => {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const [audits, setAudits] = useState<Audit[]>([]);
   const [selectedAuditId, setSelectedAuditId] = useState<string>('');
   const [loading, setLoading] = useState(true);
@@ -473,22 +471,6 @@ const Statistics = () => {
           </div>
         )}
       </div>
-
-      {/* Tabs Navigation */}
-      <Tabs value={activeTab} onValueChange={(value) => navigate(`/hr/statistics?sub=${value}`)}>
-        <TabsList className="grid grid-cols-5 lg:grid-cols-10 w-full">
-          <TabsTrigger value="overview">Összegzés</TabsTrigger>
-          <TabsTrigger value="awareness">Ismertség</TabsTrigger>
-          <TabsTrigger value="trust">Bizalom</TabsTrigger>
-          <TabsTrigger value="usage">Használat</TabsTrigger>
-          <TabsTrigger value="impact">Hatás</TabsTrigger>
-          <TabsTrigger value="motivation">Motiváció</TabsTrigger>
-          <TabsTrigger value="demographics">Demográfia</TabsTrigger>
-          <TabsTrigger value="trends">Trendek</TabsTrigger>
-          <TabsTrigger value="compare">Összehasonlítás</TabsTrigger>
-          <TabsTrigger value="methodology">Módszertan</TabsTrigger>
-        </TabsList>
-      </Tabs>
 
       {renderContent()}
     </div>
