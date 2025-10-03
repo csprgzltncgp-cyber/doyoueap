@@ -309,13 +309,9 @@ const TrustWillingness = ({ selectedAuditId }: TrustWillingnessProps) => {
             className="absolute inset-0 transition-all duration-500"
             style={{
               background: `linear-gradient(to top, ${
-                overallTrustIndex >= 4 ? 'hsl(var(--chart-2))' : 
-                overallTrustIndex >= 3 ? 'hsl(45, 100%, 50%)' : 
-                'hsl(0, 84%, 60%)'
+                overallTrustIndex < 3 ? 'hsl(0, 84%, 60%)' : 'hsl(var(--chart-2))'
               } 0%, ${
-                overallTrustIndex >= 4 ? 'hsl(var(--chart-2))' : 
-                overallTrustIndex >= 3 ? 'hsl(45, 100%, 50%)' : 
-                'hsl(0, 84%, 60%)'
+                overallTrustIndex < 3 ? 'hsl(0, 84%, 60%)' : 'hsl(var(--chart-2))'
               } ${(overallTrustIndex / 5) * 100}%, transparent ${(overallTrustIndex / 5) * 100}%, transparent 100%)`,
               opacity: 0.1
             }}
@@ -340,22 +336,16 @@ const TrustWillingness = ({ selectedAuditId }: TrustWillingnessProps) => {
               <div 
                 className="text-6xl font-bold" 
                 style={{ 
-                  color: overallTrustIndex >= 4 ? 'hsl(var(--chart-2))' : 
-                         overallTrustIndex >= 3 ? 'hsl(45, 100%, 50%)' : 
-                         'hsl(0, 84%, 60%)'
+                  color: overallTrustIndex < 3 ? 'hsl(0, 84%, 60%)' : 'hsl(var(--chart-2))'
                 }}
               >
                 {overallTrustIndex.toFixed(1)}
               </div>
               <p className="text-sm text-muted-foreground mt-2 flex items-center justify-center gap-2">
                 {overallTrustIndex >= 4 ? (
-                  <>
-                    <span className="text-green-600">✓</span> Magas bizalmi szint
-                  </>
+                  '✓ Magas bizalmi szint'
                 ) : overallTrustIndex >= 3 ? (
-                  <>
-                    <span className="text-yellow-600">→</span> Közepes bizalmi szint
-                  </>
+                  '→ Közepes bizalmi szint'
                 ) : (
                   <>
                     <AlertTriangle className="w-4 h-4 text-red-600" /> Alacsony bizalmi szint - fejlesztést igényel
