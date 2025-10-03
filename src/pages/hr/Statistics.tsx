@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Download } from "lucide-react";
+import { Download, Eye, Shield, Activity, Target } from "lucide-react";
 import { formatAuditName } from "@/lib/auditUtils";
 import { GaugeChart } from "@/components/ui/gauge-chart";
 import Awareness from "./Awareness";
@@ -127,6 +127,33 @@ const Statistics = () => {
       .filter(v => v !== undefined)
   );
   const satisfactionIndex = (parseFloat(satisfactionScore) / 5) * 100;
+
+  // Calculate 4Score metrics
+  const awarenessResponses = responses.filter(r => 
+    r.employee_metadata?.branch === 'used' || r.employee_metadata?.branch === 'not_used'
+  );
+  
+  const awarenessScore = calculateAverage(
+    awarenessResponses
+      .map(r => r.responses?.awareness_level || r.responses?.nu_awareness_level)
+      .filter(v => v !== undefined)
+  );
+
+  const trustResponses = responses.filter(r => r.employee_metadata?.branch === 'used');
+  const trustScore = calculateAverage(
+    trustResponses
+      .map(r => r.responses?.u_trust_willingness)
+      .filter(v => v !== undefined)
+  );
+
+  const usageScore = employeeCount > 0 ? ((usedBranch / employeeCount) * 100).toFixed(1) : '0.0';
+
+  const impactScore = calculateAverage(
+    responses
+      .filter(r => r.employee_metadata?.branch === 'used')
+      .map(r => r.responses?.u_impact_satisfaction)
+      .filter(v => v !== undefined)
+  );
 
   const exportCardToPNG = async (cardId: string, fileName: string) => {
     try {
@@ -291,6 +318,124 @@ const Statistics = () => {
                   </div>
                 </CardContent>
               </Card>
+            </div>
+
+            {/* 4Score Overview Cards */}
+            <div className="mt-8">
+              <h2 className="text-2xl font-bold mb-4">4Score Átfogó Mutatók</h2>
+              <div className="grid md:grid-cols-4 gap-4">
+                {/* Awareness Card */}
+                <Card>
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center gap-2">
+                      <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900">
+                        <Eye className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <CardTitle className="text-lg">Ismertség</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                        {awarenessScore}/5
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Átlagos tudatossági szint
+                      </p>
+                      <div className="w-full bg-muted rounded-full h-2">
+                        <div
+                          className="h-2 rounded-full bg-blue-600 dark:bg-blue-400"
+                          style={{ width: `${(parseFloat(awarenessScore) / 5) * 100}%` }}
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Trust Card */}
+                <Card>
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center gap-2">
+                      <div className="p-2 rounded-lg bg-green-100 dark:bg-green-900">
+                        <Shield className="h-5 w-5 text-green-600 dark:text-green-400" />
+                      </div>
+                      <CardTitle className="text-lg">Bizalom</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <div className="text-3xl font-bold text-green-600 dark:text-green-400">
+                        {trustScore}/5
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Átlagos bizalmi szint
+                      </p>
+                      <div className="w-full bg-muted rounded-full h-2">
+                        <div
+                          className="h-2 rounded-full bg-green-600 dark:bg-green-400"
+                          style={{ width: `${(parseFloat(trustScore) / 5) * 100}%` }}
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Usage Card */}
+                <Card>
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center gap-2">
+                      <div className="p-2 rounded-lg bg-purple-100 dark:bg-purple-900">
+                        <Activity className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                      </div>
+                      <CardTitle className="text-lg">Használat</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">
+                        {usageScore}%
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Igénybevételi arány
+                      </p>
+                      <div className="w-full bg-muted rounded-full h-2">
+                        <div
+                          className="h-2 rounded-full bg-purple-600 dark:bg-purple-400"
+                          style={{ width: `${usageScore}%` }}
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Impact Card */}
+                <Card>
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center gap-2">
+                      <div className="p-2 rounded-lg bg-orange-100 dark:bg-orange-900">
+                        <Target className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                      </div>
+                      <CardTitle className="text-lg">Hatás</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <div className="text-3xl font-bold text-orange-600 dark:text-orange-400">
+                        {impactScore}/5
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Átlagos hatékonysági szint
+                      </p>
+                      <div className="w-full bg-muted rounded-full h-2">
+                        <div
+                          className="h-2 rounded-full bg-orange-600 dark:bg-orange-400"
+                          style={{ width: `${(parseFloat(impactScore) / 5) * 100}%` }}
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         )}
