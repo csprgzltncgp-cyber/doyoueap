@@ -178,10 +178,10 @@ const Trends = () => {
   }
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold mb-2">History & Trends</h1>
-        <p className="text-muted-foreground">Időbeli változások és trendek követése</p>
+        <h2 className="text-2xl font-bold mb-2">Időbeli Trendek</h2>
+        <p className="text-muted-foreground">Változások és trendek követése</p>
       </div>
 
       <Card>

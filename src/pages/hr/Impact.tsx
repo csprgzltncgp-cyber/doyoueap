@@ -30,17 +30,15 @@ interface NPSData {
   npsScore: number;
 }
 
-const Impact = () => {
-  const [audits, setAudits] = useState<Audit[]>([]);
-  const [selectedAuditId, setSelectedAuditId] = useState<string>('');
+interface ImpactProps {
+  selectedAuditId: string;
+}
+
+const Impact = ({ selectedAuditId }: ImpactProps) => {
   const [impactData, setImpactData] = useState<ImpactMetric[]>([]);
   const [npsData, setNpsData] = useState<NPSData>({ promoters: 0, passives: 0, detractors: 0, npsScore: 0 });
   const [loading, setLoading] = useState(true);
   const [usedCount, setUsedCount] = useState(0);
-
-  useEffect(() => {
-    fetchAudits();
-  }, []);
 
   useEffect(() => {
     if (selectedAuditId) {
@@ -48,24 +46,6 @@ const Impact = () => {
     }
   }, [selectedAuditId]);
 
-  const fetchAudits = async () => {
-    try {
-      const { data } = await supabase
-        .from('audits')
-        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at')
-        .order('start_date', { ascending: false });
-
-      if (data && data.length > 0) {
-        setAudits(data);
-        setSelectedAuditId(data[0].id);
-      }
-    } catch (error) {
-      console.error('Error fetching audits:', error);
-      toast.error('Hiba történt a felmérések betöltésekor');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const calculateAverage = (values: number[]): number => {
     if (values.length === 0) return 0;
@@ -147,16 +127,10 @@ const Impact = () => {
     } catch (error) {
       console.error('Error fetching impact data:', error);
       toast.error('Hiba történt az adatok betöltésekor');
+    } finally {
+      setLoading(false);
     }
   };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <p>Betöltés...</p>
-      </div>
-    );
-  }
 
   const getNPSColor = (score: number) => {
     if (score >= 50) return 'text-green-600';
@@ -172,22 +146,8 @@ const Impact = () => {
   };
 
   return (
-    <div className="p-8 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">4Score: Hatás Riport</h1>
-        <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-          <SelectTrigger className="w-80">
-            <SelectValue placeholder="Válassz felmérést" />
-          </SelectTrigger>
-          <SelectContent>
-            {audits.map((audit) => (
-              <SelectItem key={audit.id} value={audit.id}>
-                {formatAuditName(audit)}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">Hatás Riport</h2>
 
       {usedCount === 0 ? (
         <Card className="p-12">

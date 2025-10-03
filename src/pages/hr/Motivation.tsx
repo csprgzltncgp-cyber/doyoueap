@@ -17,9 +17,11 @@ interface ChartData {
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'];
 
-const Motivation = () => {
-  const [audits, setAudits] = useState<Audit[]>([]);
-  const [selectedAuditId, setSelectedAuditId] = useState<string>('');
+interface MotivationProps {
+  selectedAuditId: string;
+}
+
+const Motivation = ({ selectedAuditId }: MotivationProps) => {
   const [motivationData, setMotivationData] = useState<ChartData[]>([]);
   const [expertData, setExpertData] = useState<ChartData[]>([]);
   const [channelData, setChannelData] = useState<ChartData[]>([]);
@@ -29,33 +31,11 @@ const Motivation = () => {
   const [notUsedCount, setNotUsedCount] = useState(0);
 
   useEffect(() => {
-    fetchAudits();
-  }, []);
-
-  useEffect(() => {
     if (selectedAuditId) {
       fetchMotivationData(selectedAuditId);
     }
   }, [selectedAuditId]);
 
-  const fetchAudits = async () => {
-    try {
-      const { data } = await supabase
-        .from('audits')
-        .select(AUDIT_SELECT_FIELDS)
-        .order('start_date', { ascending: false });
-
-      if (data && data.length > 0) {
-        setAudits(data);
-        setSelectedAuditId(data[0].id);
-      }
-    } catch (error) {
-      console.error('Error fetching audits:', error);
-      toast.error('Hiba történt a felmérések betöltésekor');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const countMultipleChoice = (responses: any[], key: string): { [key: string]: number } => {
     const counts: { [key: string]: number } = {};
@@ -137,34 +117,14 @@ const Motivation = () => {
     } catch (error) {
       console.error('Error fetching motivation data:', error);
       toast.error('Hiba történt az adatok betöltésekor');
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <p>Betöltés...</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="p-8 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Motiváció Riport</h1>
-        <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-          <SelectTrigger className="w-80">
-            <SelectValue placeholder="Válassz felmérést" />
-          </SelectTrigger>
-          <SelectContent>
-            {audits.map((audit) => (
-              <SelectItem key={audit.id} value={audit.id}>
-                {formatAuditName(audit)}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">Motiváció Riport</h2>
 
       <Card>
         <CardHeader>

@@ -27,16 +27,14 @@ interface AwarenessData {
   overall: number;
 }
 
-const Awareness = () => {
-  const [audits, setAudits] = useState<Audit[]>([]);
-  const [selectedAuditId, setSelectedAuditId] = useState<string>('');
+interface AwarenessProps {
+  selectedAuditId: string;
+}
+
+const Awareness = ({ selectedAuditId }: AwarenessProps) => {
   const [awarenessData, setAwarenessData] = useState<AwarenessData[]>([]);
   const [loading, setLoading] = useState(true);
   const [responseCount, setResponseCount] = useState({ used: 0, notUsed: 0 });
-
-  useEffect(() => {
-    fetchAudits();
-  }, []);
 
   useEffect(() => {
     if (selectedAuditId) {
@@ -44,24 +42,6 @@ const Awareness = () => {
     }
   }, [selectedAuditId]);
 
-  const fetchAudits = async () => {
-    try {
-      const { data } = await supabase
-        .from('audits')
-        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at')
-        .order('start_date', { ascending: false });
-
-      if (data && data.length > 0) {
-        setAudits(data);
-        setSelectedAuditId(data[0].id);
-      }
-    } catch (error) {
-      console.error('Error fetching audits:', error);
-      toast.error('Hiba történt a felmérések betöltésekor');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const calculateAverage = (values: number[]): number => {
     if (values.length === 0) return 0;
@@ -139,34 +119,14 @@ const Awareness = () => {
     } catch (error) {
       console.error('Error fetching awareness data:', error);
       toast.error('Hiba történt az adatok betöltésekor');
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <p>Betöltés...</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="p-8 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">4Score: Ismertség Riport</h1>
-        <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-          <SelectTrigger className="w-80">
-            <SelectValue placeholder="Válassz felmérést" />
-          </SelectTrigger>
-          <SelectContent>
-            {audits.map((audit) => (
-              <SelectItem key={audit.id} value={audit.id}>
-                {formatAuditName(audit)}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">Ismertség Riport</h2>
 
       {responseCount.used === 0 && responseCount.notUsed === 0 ? (
         <Card className="p-12">

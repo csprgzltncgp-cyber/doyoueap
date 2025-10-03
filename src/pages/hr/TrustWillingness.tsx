@@ -32,17 +32,15 @@ interface BarrierData {
 
 const BARRIER_COLORS = ['#ef4444', '#f59e0b', '#eab308', '#84cc16', '#10b981', '#14b8a6'];
 
-const TrustWillingness = () => {
-  const [audits, setAudits] = useState<Audit[]>([]);
-  const [selectedAuditId, setSelectedAuditId] = useState<string>('');
+interface TrustWillingnessProps {
+  selectedAuditId: string;
+}
+
+const TrustWillingness = ({ selectedAuditId }: TrustWillingnessProps) => {
   const [trustData, setTrustData] = useState<TrustData[]>([]);
   const [barrierData, setBarrierData] = useState<BarrierData[]>([]);
   const [loading, setLoading] = useState(true);
   const [responseCount, setResponseCount] = useState({ used: 0, notUsed: 0 });
-
-  useEffect(() => {
-    fetchAudits();
-  }, []);
 
   useEffect(() => {
     if (selectedAuditId) {
@@ -50,24 +48,6 @@ const TrustWillingness = () => {
     }
   }, [selectedAuditId]);
 
-  const fetchAudits = async () => {
-    try {
-      const { data } = await supabase
-        .from('audits')
-        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at')
-        .order('start_date', { ascending: false });
-
-      if (data && data.length > 0) {
-        setAudits(data);
-        setSelectedAuditId(data[0].id);
-      }
-    } catch (error) {
-      console.error('Error fetching audits:', error);
-      toast.error('Hiba történt az auditek betöltésekor');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const calculateAverage = (values: number[]): number => {
     if (values.length === 0) return 0;
@@ -178,34 +158,14 @@ const TrustWillingness = () => {
     } catch (error) {
       console.error('Error fetching trust data:', error);
       toast.error('Hiba történt az adatok betöltésekor');
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <p>Betöltés...</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="p-8 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Trust & Willingness Riport</h1>
-        <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-          <SelectTrigger className="w-80">
-            <SelectValue placeholder="Válassz auditot" />
-          </SelectTrigger>
-          <SelectContent>
-            {audits.map((audit) => (
-              <SelectItem key={audit.id} value={audit.id}>
-                {formatAuditName(audit)}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">Bizalom & Készség Riport</h2>
 
       <div className="grid grid-cols-3 gap-4">
         <Card>

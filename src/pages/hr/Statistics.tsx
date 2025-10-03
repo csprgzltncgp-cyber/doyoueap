@@ -192,12 +192,12 @@ const Statistics = () => {
 
   // Render content based on activeTab
   const renderContent = () => {
-    if (activeTab === 'awareness') return <Awareness />;
-    if (activeTab === 'trust') return <TrustWillingness />;
-    if (activeTab === 'usage') return <Usage />;
-    if (activeTab === 'impact') return <Impact />;
-    if (activeTab === 'motivation') return <Motivation />;
-    if (activeTab === 'demographics') return <Demographics />;
+    if (activeTab === 'awareness') return <Awareness selectedAuditId={selectedAuditId} />;
+    if (activeTab === 'trust') return <TrustWillingness selectedAuditId={selectedAuditId} />;
+    if (activeTab === 'usage') return <Usage selectedAuditId={selectedAuditId} />;
+    if (activeTab === 'impact') return <Impact selectedAuditId={selectedAuditId} />;
+    if (activeTab === 'motivation') return <Motivation selectedAuditId={selectedAuditId} />;
+    if (activeTab === 'demographics') return <Demographics selectedAuditId={selectedAuditId} />;
     if (activeTab === 'user-categories') return <UserCategories />;
     if (activeTab === 'trends') return <Trends />;
     if (activeTab === 'compare') return <Compare />;
