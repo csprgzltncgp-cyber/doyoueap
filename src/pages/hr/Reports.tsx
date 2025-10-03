@@ -247,8 +247,16 @@ const Reports = () => {
         <div className="space-y-6">
           {/* Top Row: Utilization and Satisfaction Gauges */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
+            <Card id="utilization-card">
+              <CardHeader className="relative">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-2 h-8 w-8"
+                  onClick={() => exportCardToPNG('utilization-card', 'igenybeveltel')}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
                 <CardTitle className="text-lg">Igénybevétel (Utilization)</CardTitle>
                 <CardDescription>Hány munkavállaló használja a programot</CardDescription>
               </CardHeader>
@@ -269,8 +277,16 @@ const Reports = () => {
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader>
+            <Card id="satisfaction-card">
+              <CardHeader className="relative">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-2 h-8 w-8"
+                  onClick={() => exportCardToPNG('satisfaction-card', 'elegedettsegi-index')}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
                 <CardTitle className="text-lg">Elégedettségi Index</CardTitle>
                 <CardDescription>Általános elégedettség a használók körében</CardDescription>
               </CardHeader>
@@ -294,8 +310,16 @@ const Reports = () => {
           {/* Second Row: Participation and Satisfaction Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Participation Chart */}
-            <Card>
-              <CardHeader>
+            <Card id="participation-card">
+              <CardHeader className="relative">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-2 h-8 w-8"
+                  onClick={() => exportCardToPNG('participation-card', 'reszveteli-arany')}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
                 <CardTitle className="text-lg">Részvételi arány</CardTitle>
                 <CardDescription>{participationRate.toFixed(1)}%</CardDescription>
               </CardHeader>
@@ -347,8 +371,16 @@ const Reports = () => {
             </Card>
 
             {/* Satisfaction Metrics */}
-            <Card>
-              <CardHeader>
+            <Card id="satisfaction-metrics-card">
+              <CardHeader className="relative">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-2 h-8 w-8"
+                  onClick={() => exportCardToPNG('satisfaction-metrics-card', 'elegedettsegi-mutatok')}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
                 <CardTitle className="text-lg">Elégedettségi mutatók</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -411,7 +443,7 @@ const Reports = () => {
           {/* Third Row: Awareness, Trust, Usage, and Impact */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Card 1: Awareness */}
-            <Card className="relative overflow-hidden">
+            <Card className="relative overflow-hidden" id="awareness-card">
               <div 
                 className="absolute inset-0 transition-all duration-500"
                 style={{
@@ -420,6 +452,14 @@ const Reports = () => {
                 }}
               />
               <CardHeader className="relative z-10">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-2 h-8 w-8"
+                  onClick={() => exportCardToPNG('awareness-card', 'ismertseg')}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Eye className="w-5 h-5" />
                   Ismertség
@@ -435,7 +475,7 @@ const Reports = () => {
             </Card>
 
             {/* Card 2: Trust */}
-            <Card className="relative overflow-hidden">
+            <Card className="relative overflow-hidden" id="trust-card">
               <div 
                 className="absolute inset-0 transition-all duration-500"
                 style={{
@@ -444,6 +484,14 @@ const Reports = () => {
                 }}
               />
               <CardHeader className="relative z-10">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-2 h-8 w-8"
+                  onClick={() => exportCardToPNG('trust-card', 'bizalom')}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Shield className="w-5 h-5" />
                   Bizalom
@@ -459,7 +507,7 @@ const Reports = () => {
             </Card>
 
             {/* Card 3: Usage */}
-            <Card className="relative overflow-hidden">
+            <Card className="relative overflow-hidden" id="usage-card">
               <div 
                 className="absolute inset-0 transition-all duration-500"
                 style={{
@@ -468,6 +516,14 @@ const Reports = () => {
                 }}
               />
               <CardHeader className="relative z-10">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-2 h-8 w-8"
+                  onClick={() => exportCardToPNG('usage-card', 'hasznalat')}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Users className="w-5 h-5" />
                   Használat
@@ -483,7 +539,7 @@ const Reports = () => {
             </Card>
 
             {/* Card 4: Impact */}
-            <Card className="relative overflow-hidden">
+            <Card className="relative overflow-hidden" id="impact-card">
               <div 
                 className="absolute inset-0 transition-all duration-500"
                 style={{
@@ -492,6 +548,14 @@ const Reports = () => {
                 }}
               />
               <CardHeader className="relative z-10">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-2 h-8 w-8"
+                  onClick={() => exportCardToPNG('impact-card', 'hatas')}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <TrendingUp className="w-5 h-5" />
                   Hatás
