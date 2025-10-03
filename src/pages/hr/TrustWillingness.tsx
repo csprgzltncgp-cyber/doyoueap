@@ -447,7 +447,7 @@ const TrustWillingness = ({ selectedAuditId }: TrustWillingnessProps) => {
               </ResponsiveContainer>
             </div>
             <p className="text-xs text-muted-foreground text-center mt-4">
-              Minél nagyobb a terület, annál magasabb a bizalmi szint. A félelem mutatók fordítva értelmezendők (alacsony érték = nagyobb félelem).
+              Minél nagyobb a színes terület, annál magasabb a bizalmi szint. A félelem mutatók fordítva értelmezendők (alacsony érték = nagyobb félelem).
             </p>
           </CardContent>
         </Card>
