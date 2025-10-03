@@ -322,13 +322,12 @@ const Reports = () => {
                         paddingAngle={2}
                         dataKey="value"
                         label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                        labelLine={{ stroke: 'hsl(var(--foreground))' }}
                       >
                         {pieData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={entry.color} />
                         ))}
                       </Pie>
-                      <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', color: 'hsl(var(--foreground))' }} />
+                      <Tooltip />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
