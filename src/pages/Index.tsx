@@ -380,6 +380,17 @@ const Index = () => {
                   Hatás
                 </button>
                 <button
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'motivation' })}
+                  className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
+                    subSection === 'motivation' 
+                      ? 'bg-primary text-primary-foreground font-medium' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
+                >
+                  <Heart className="h-4 w-4" />
+                  Motiváció
+                </button>
+                <button
                   onClick={() => setSearchParams({ section: 'reports', sub: 'demographics' })}
                   className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
                     subSection === 'demographics' 
