@@ -148,8 +148,8 @@ const Index = () => {
       {/* Navigation */}
       <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
         {/* Main Navigation */}
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+          <div className="flex items-center gap-8">
             <img 
               src={logo} 
               alt="doyoueap" 
@@ -159,8 +159,7 @@ const Index = () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }} 
             />
-          </div>
-          <nav className="hidden md:flex gap-6 items-center">
+            <nav className="hidden md:flex gap-6 items-center">
             <button
               onClick={() => navigate('/magazin')}
               className="text-sm hover:text-primary transition-colors"
@@ -202,16 +201,19 @@ const Index = () => {
                 </button>
               </>
             )}
-          </nav>
-          {user ? (
-            <Button onClick={handleLogout} variant="outline">
-              Kilépés
-            </Button>
-          ) : (
-            <Button onClick={() => navigate('/auth')}>
-              Bejelentkezés
-            </Button>
-          )}
+            </nav>
+          </div>
+          <div className="flex items-center gap-4">
+            {user ? (
+              <Button onClick={handleLogout} variant="outline">
+                Kilépés
+              </Button>
+            ) : (
+              <Button onClick={() => navigate('/auth')}>
+                Bejelentkezés
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Dashboard Sub-Navigation */}

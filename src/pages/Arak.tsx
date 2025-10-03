@@ -64,7 +64,7 @@ const Arak = () => {
     <div className="min-h-screen bg-background">
       {/* Header with Navigation */}
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
           <div className="flex items-center gap-8">
             <img 
               src={logo} 
@@ -73,12 +73,6 @@ const Arak = () => {
               onClick={() => navigate('/')}
             />
             <nav className="hidden md:flex gap-6 items-center">
-              <button
-                onClick={() => navigate('/')}
-                className="text-sm hover:text-primary transition-colors"
-              >
-                Főoldal
-              </button>
               <button
                 onClick={() => navigate('/magazin')}
                 className="text-sm hover:text-primary transition-colors"
@@ -97,6 +91,14 @@ const Arak = () => {
               >
                 Árak és Csomagok
               </button>
+              {user && (
+                <button
+                  onClick={() => navigate('/')}
+                  className="text-sm hover:text-primary transition-colors"
+                >
+                  Főoldal
+                </button>
+              )}
             </nav>
           </div>
           <div className="flex items-center gap-4">
