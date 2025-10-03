@@ -320,19 +320,43 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-            {impactData.map((item) => (
-              <div key={item.metric} className="flex flex-col items-center">
-                <GaugeChart
-                  value={item.average}
-                  maxValue={5}
-                  minValue={1}
-                  size={180}
-                  label={item.average.toFixed(2)}
-                  sublabel={item.metric}
-                />
-              </div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {impactData.map((item) => {
+              let description = '';
+              switch(item.metric) {
+                case 'Elégedettség':
+                  description = 'Általános elégedettség a programmal';
+                  break;
+                case 'Problémamegoldás':
+                  description = 'Mennyire segített a program a problémák kezelésében';
+                  break;
+                case 'Wellbeing javulás':
+                  description = 'Jóllét és mentális egészség javulása';
+                  break;
+                case 'Teljesítmény javulás':
+                  description = 'Munkahelyi teljesítmény pozitív változása';
+                  break;
+                case 'Szolgáltatás konzisztencia':
+                  description = 'A szolgáltatás minőségének következetessége';
+                  break;
+              }
+              
+              return (
+                <div key={item.metric} className="flex flex-col items-center p-4 bg-muted/30 rounded-lg">
+                  <GaugeChart
+                    value={item.average}
+                    maxValue={5}
+                    minValue={1}
+                    size={180}
+                    label={item.average.toFixed(2)}
+                    sublabel={item.metric}
+                  />
+                  <p className="text-xs text-muted-foreground text-center mt-3">
+                    {description}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </CardContent>
       </Card>
