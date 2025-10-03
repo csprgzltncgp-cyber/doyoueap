@@ -42,7 +42,7 @@ const EAPAudit = () => {
   return (
     <div className="p-8">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">EAP Pulse Assessment</h1>
+        <h1 className="text-3xl font-bold mb-2">EAP Pulse</h1>
         <p className="text-muted-foreground">
           4Score felmérések létrehozása, kezelése és előnézete
         </p>

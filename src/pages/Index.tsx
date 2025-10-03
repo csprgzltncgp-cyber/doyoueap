@@ -110,7 +110,7 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <div className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
-                Új: EAP Pulse Assessment
+                Új: EAP Pulse
               </div>
               <h1 className="text-5xl font-bold mb-6 leading-tight">
                 Teljesebb kép az EAP programról
@@ -144,11 +144,11 @@ const Index = () => {
             <Card className="md:row-span-2">
               <CardHeader>
                 <div className="text-sm font-medium text-primary mb-2">Kiemelt</div>
-                <CardTitle className="text-3xl">Mi az EAP Pulse Assessment?</CardTitle>
+                <CardTitle className="text-3xl">Mi az EAP Pulse?</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
-                  Az EAP Pulse Assessment a 4Score módszertant használja, amely négy fő pillér mentén méri az EAP program hatékonyságát:
+                  Az EAP Pulse a 4Score módszertant használja, amely négy fő pillér mentén méri az EAP program hatékonyságát:
                 </p>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
@@ -493,7 +493,7 @@ const Index = () => {
             <div>
               <h3 className="font-bold mb-4">doyoueap</h3>
               <p className="text-sm text-muted-foreground">
-                EAP Pulse Assessment platform a dolgozói jóllét méréséhez
+                EAP Pulse platform a dolgozói jóllét méréséhez
               </p>
             </div>
             <div>
