@@ -284,7 +284,7 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
                 <strong>Értékelt területek:</strong> Elégedettség, Problémamegoldás, Wellbeing, Teljesítmény, Konzisztencia
               </p>
               <p className="text-muted-foreground">
-                Az 5 impact metrika összesített átlaga 1-5 skálán.
+                Az 5 terület összesített átlaga 1-5 skálán.
               </p>
               <ul className="text-muted-foreground space-y-1 pl-4">
                 <li>• <strong>4.5 felett:</strong> Kiváló hatás</li>
