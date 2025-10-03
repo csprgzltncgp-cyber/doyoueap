@@ -737,17 +737,6 @@ const Export = () => {
         </CardContent>
       </Card>
 
-      <Card className="bg-blue-50 dark:bg-blue-950 border-blue-200">
-        <CardHeader>
-          <CardTitle>💡 Export Tippek</CardTitle>
-        </CardHeader>
-        <CardContent className="text-sm space-y-2">
-          <p><strong>PDF jelentés:</strong> Készíts gyors összefoglalót alapstatisztikákkal és felmérés információkkal</p>
-          <p><strong>Excel export:</strong> Elemezd tovább az adatokat strukturált táblázatban szűrési lehetőségekkel</p>
-          <p><strong>CSV export:</strong> Import nyers adatokat más elemző eszközökbe</p>
-          <p><strong>PNG grafikonok:</strong> Kattints a Statistics oldalon található grafikonokra, majd használd a böngésző screenshot funkcióját</p>
-        </CardContent>
-      </Card>
     </div>
   );
 };
