@@ -186,40 +186,60 @@ const Index = () => {
 
         {/* Dashboard Sub-Navigation */}
         {user && role === 'hr' && section && (
-          <div className="border-t">
+          <div className="border-t bg-muted/10">
             <div className="max-w-7xl mx-auto px-4 py-3">
               <nav className="flex gap-6">
                 <button
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${section === 'eap-pulse' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                    section === 'eap-pulse' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
                 >
                   <BarChart3 className="h-4 w-4" />
                   EAP Pulse
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${section === 'statistics' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                    section === 'statistics' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
                 >
                   <TrendingUp className="h-4 w-4" />
                   Statisztika
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'export' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${section === 'export' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                    section === 'export' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
                 >
                   <Download className="h-4 w-4" />
                   Export
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'custom-survey' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${section === 'custom-survey' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                    section === 'custom-survey' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
                 >
                   <FileEdit className="h-4 w-4" />
                   Egyedi Felmérés
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'settings' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${section === 'settings' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                    section === 'settings' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
                 >
                   <SettingsIcon className="h-4 w-4" />
                   Beállítások
@@ -231,26 +251,38 @@ const Index = () => {
 
         {/* EAP Pulse Sub-Sub-Navigation */}
         {user && role === 'hr' && section === 'eap-pulse' && (
-          <div className="border-t bg-muted/30">
+          <div className="border-t bg-muted/20">
             <div className="max-w-7xl mx-auto px-4 py-2">
               <nav className="flex gap-4">
                 <button
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'create-audit' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
+                    subSection === 'create-audit' 
+                      ? 'bg-primary text-primary-foreground font-medium' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
                 >
                   <PlayCircle className="h-4 w-4" />
                   Új Felmérés
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'running-audits' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'running-audits' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
+                    subSection === 'running-audits' 
+                      ? 'bg-primary text-primary-foreground font-medium' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
                 >
                   <ClipboardList className="h-4 w-4" />
                   Futó Felmérések
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'audit-questionnaire' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'audit-questionnaire' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
+                    subSection === 'audit-questionnaire' 
+                      ? 'bg-primary text-primary-foreground font-medium' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
                 >
                   <Eye className="h-4 w-4" />
                   Kérdőív Beállítások
@@ -262,61 +294,93 @@ const Index = () => {
 
         {/* Statistics Sub-Sub-Navigation */}
         {user && role === 'hr' && section === 'statistics' && (
-          <div className="border-t bg-muted/30">
+          <div className="border-t bg-muted/20">
             <div className="max-w-7xl mx-auto px-4 py-2">
               <nav className="flex gap-4">
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'overview' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${(!subSection || subSection === 'overview') ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
+                    (!subSection || subSection === 'overview') 
+                      ? 'bg-primary text-primary-foreground font-medium' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
                 >
                   <BarChart3 className="h-4 w-4" />
                   Összefoglaló
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'awareness' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'awareness' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
+                    subSection === 'awareness' 
+                      ? 'bg-primary text-primary-foreground font-medium' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
                 >
                   <Eye className="h-4 w-4" />
                   Ismertség
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'trust' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'trust' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
+                    subSection === 'trust' 
+                      ? 'bg-primary text-primary-foreground font-medium' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
                 >
                   <Shield className="h-4 w-4" />
                   Bizalom
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'usage' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'usage' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
+                    subSection === 'usage' 
+                      ? 'bg-primary text-primary-foreground font-medium' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
                 >
                   <Activity className="h-4 w-4" />
                   Használat
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'impact' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'impact' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
+                    subSection === 'impact' 
+                      ? 'bg-primary text-primary-foreground font-medium' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
                 >
                   <Target className="h-4 w-4" />
                   Hatás
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'demographics' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'demographics' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
+                    subSection === 'demographics' 
+                      ? 'bg-primary text-primary-foreground font-medium' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
                 >
                   <UsersRound className="h-4 w-4" />
                   Demográfia
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'trends' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'trends' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
+                    subSection === 'trends' 
+                      ? 'bg-primary text-primary-foreground font-medium' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
                 >
                   <LineChart className="h-4 w-4" />
                   Trendek
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics', sub: 'compare' })}
-                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'compare' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
+                    subSection === 'compare' 
+                      ? 'bg-primary text-primary-foreground font-medium' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
                 >
                   <GitCompare className="h-4 w-4" />
                   Összehasonlítás
