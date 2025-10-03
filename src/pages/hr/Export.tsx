@@ -88,8 +88,11 @@ const Export = () => {
   const handleExportPDF = async () => {
     setExporting(true);
     try {
+      const html2canvas = (await import('html2canvas')).default;
       const jsPDF = (await import('jspdf')).default;
-      const autoTable = (await import('jspdf-autotable')).default;
+      const { default: PDFExportRenderer } = await import('@/components/hr/PDFExportRenderer');
+      const React = await import('react');
+      const ReactDOM = await import('react-dom/client');
       
       const selectedAudit = audits.find(a => a.id === selectedAuditId);
       if (!selectedAudit) {
@@ -114,223 +117,63 @@ const Export = () => {
         return;
       }
 
-      const pdf = new jsPDF('p', 'mm', 'a4') as any;
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      let yPosition = 20;
+      // Create a temporary container
+      const container = document.createElement('div');
+      container.style.position = 'absolute';
+      container.style.left = '-9999px';
+      container.style.top = '0';
+      container.style.width = '210mm';
+      container.style.background = 'white';
+      document.body.appendChild(container);
 
-      // Helper functions
-      const calculateAverage = (values: number[]) => {
-        if (values.length === 0) return '0.0';
-        return ((values.reduce((a, b) => a + b, 0) / values.length)).toFixed(1);
-      };
+      // Render the PDF content
+      const root = ReactDOM.createRoot(container);
+      await new Promise<void>((resolve) => {
+        root.render(
+          React.createElement(PDFExportRenderer, {
+            auditData: selectedAudit,
+            responses: responses,
+          })
+        );
+        // Wait for render
+        setTimeout(resolve, 1000);
+      });
 
-      const addTitle = (title: string) => {
-        pdf.setFontSize(18);
-        pdf.setFont(undefined, 'bold');
-        pdf.text(title, pageWidth / 2, yPosition, { align: 'center' });
-        yPosition += 10;
-      };
+      // Initialize PDF
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
 
-      const addSection = (sectionTitle: string) => {
-        if (yPosition > 250) {
+      // Get all page sections
+      const pages = container.querySelectorAll('.page-break-after');
+      const lastSection = container.querySelector('div:not(.page-break-after):last-child');
+      const allSections = [...Array.from(pages), lastSection].filter(Boolean) as HTMLElement[];
+
+      // Capture each page
+      for (let i = 0; i < allSections.length; i++) {
+        const section = allSections[i];
+        
+        const canvas = await html2canvas(section, {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          backgroundColor: '#ffffff',
+        });
+
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = pdfWidth;
+        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+        if (i > 0) {
           pdf.addPage();
-          yPosition = 20;
         }
-        pdf.setFontSize(14);
-        pdf.setFont(undefined, 'bold');
-        pdf.text(sectionTitle, 14, yPosition);
-        yPosition += 8;
-      };
 
-      // Filter responses
-      const usedResponses = responses.filter(r => r.employee_metadata?.branch === 'used');
-      const notUsedResponses = responses.filter(r => r.employee_metadata?.branch === 'not_used');
-      const redirectResponses = responses.filter(r => r.employee_metadata?.branch === 'redirect');
-      const totalCount = responses.length;
-
-      // Title page
-      pdf.setFontSize(24);
-      pdf.setFont(undefined, 'bold');
-      pdf.text('EAP Pulse Jelentés', pageWidth / 2, 40, { align: 'center' });
-      pdf.setFontSize(16);
-      pdf.setFont(undefined, 'normal');
-      pdf.text(formatAuditName(selectedAudit), pageWidth / 2, 55, { align: 'center' });
-      pdf.setFontSize(12);
-      pdf.text(`Generálva: ${new Date().toLocaleDateString('hu-HU')}`, pageWidth / 2, 70, { align: 'center' });
-
-      // Page 1: Összefoglaló
-      pdf.addPage();
-      yPosition = 20;
-      addTitle('Összefoglaló');
-
-      const overviewData = [
-        ['Metrika', 'Érték'],
-        ['Összes válaszadó', `${totalCount} fő`],
-        ['Használók', `${usedResponses.length} fő (${((usedResponses.length / totalCount) * 100).toFixed(1)}%)`],
-        ['Nem használók', `${notUsedResponses.length} fő (${((notUsedResponses.length / totalCount) * 100).toFixed(1)}%)`],
-        ['Nem tudtak róla', `${redirectResponses.length} fő (${((redirectResponses.length / totalCount) * 100).toFixed(1)}%)`],
-        ['Ismertség', `${(((usedResponses.length + notUsedResponses.length) / totalCount) * 100).toFixed(1)}%`],
-      ];
-
-      autoTable(pdf, {
-        startY: yPosition,
-        head: [overviewData[0]],
-        body: overviewData.slice(1),
-        theme: 'grid',
-        headStyles: { fillColor: [51, 102, 255] },
-      });
-
-      // Page 2: Ismertség
-      pdf.addPage();
-      yPosition = 20;
-      addTitle('Ismertség Riport');
-
-      const awarenessResponses = [...usedResponses, ...notUsedResponses];
-      const overallUnderstanding = calculateAverage(
-        awarenessResponses
-          .map(r => r.responses?.u_awareness_understanding || r.responses?.nu_awareness_understanding)
-          .filter(v => v !== undefined)
-      );
-
-      const awarenessData = [
-        ['Metrika', 'Érték'],
-        ['Általános ismertség', `${(((usedResponses.length + notUsedResponses.length) / totalCount) * 100).toFixed(1)}%`],
-        ['Megértés szintje (1-5)', overallUnderstanding],
-        ['Ismerő munkavállalók', `${awarenessResponses.length} fő`],
-        ['Nem tudtak róla', `${redirectResponses.length} fő`],
-      ];
-
-      autoTable(pdf, {
-        startY: yPosition,
-        head: [awarenessData[0]],
-        body: awarenessData.slice(1),
-        theme: 'grid',
-        headStyles: { fillColor: [51, 102, 255] },
-      });
-
-      // Page 3: Bizalom & Hajlandóság
-      pdf.addPage();
-      yPosition = 20;
-      addTitle('Bizalom & Hajlandóság Riport');
-
-      const trustResponses = [...usedResponses, ...notUsedResponses];
-      const overallAnonymity = calculateAverage(
-        trustResponses
-          .map(r => r.responses?.u_trust_anonymity || r.responses?.nu_trust_anonymity)
-          .filter(v => v !== undefined)
-      );
-
-      const trustData = [
-        ['Metrika', 'Érték'],
-        ['Anonimitás bizalom (1-5)', overallAnonymity],
-        ['Használók száma', `${usedResponses.length} fő`],
-        ['Nem használók száma', `${notUsedResponses.length} fő`],
-      ];
-
-      autoTable(pdf, {
-        startY: yPosition,
-        head: [trustData[0]],
-        body: trustData.slice(1),
-        theme: 'grid',
-        headStyles: { fillColor: [51, 102, 255] },
-      });
-
-      // Page 4: Használat
-      pdf.addPage();
-      yPosition = 20;
-      addTitle('Használat Riport');
-
-      const usageRate = totalCount > 0 ? ((usedResponses.length / totalCount) * 100).toFixed(1) : '0.0';
-      const familyYes = usedResponses.filter(r => r.responses?.u_usage_family === 'yes' || r.responses?.u_usage_family === 'Igen').length;
-
-      const usageData = [
-        ['Metrika', 'Érték'],
-        ['Használói arány', `${usageRate}%`],
-        ['Használók száma', `${usedResponses.length} fő`],
-        ['Családi használat', `${familyYes} fő használta családdal`],
-      ];
-
-      autoTable(pdf, {
-        startY: yPosition,
-        head: [usageData[0]],
-        body: usageData.slice(1),
-        theme: 'grid',
-        headStyles: { fillColor: [51, 102, 255] },
-      });
-
-      // Page 5: Hatás
-      pdf.addPage();
-      yPosition = 20;
-      addTitle('Hatás Riport');
-
-      const satisfaction = calculateAverage(
-        usedResponses.map(r => r.responses?.u_impact_satisfaction).filter(v => v !== undefined)
-      );
-
-      const npsScores = usedResponses
-        .map(r => r.responses?.u_impact_nps)
-        .filter(v => v !== undefined) as number[];
-      
-      let npsScore = 0;
-      if (npsScores.length > 0) {
-        const promoters = npsScores.filter(score => score >= 9).length;
-        const detractors = npsScores.filter(score => score <= 6).length;
-        npsScore = Math.round(((promoters - detractors) / npsScores.length) * 100);
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
       }
 
-      const impactData = [
-        ['Metrika', 'Érték'],
-        ['NPS Score', `${npsScore}`],
-        ['Elégedettség (1-5)', satisfaction],
-        ['Értékelt használók', `${usedResponses.length} fő`],
-      ];
-
-      autoTable(pdf, {
-        startY: yPosition,
-        head: [impactData[0]],
-        body: impactData.slice(1),
-        theme: 'grid',
-        headStyles: { fillColor: [51, 102, 255] },
-      });
-
-      // Page 6: Motiváció
-      pdf.addPage();
-      yPosition = 20;
-      addTitle('Motiváció Riport');
-
-      const motivationData = [
-        ['Metrika', 'Érték'],
-        ['Nem használók száma', `${notUsedResponses.length} fő`],
-      ];
-
-      autoTable(pdf, {
-        startY: yPosition,
-        head: [motivationData[0]],
-        body: motivationData.slice(1),
-        theme: 'grid',
-        headStyles: { fillColor: [51, 102, 255] },
-      });
-
-      // Page 7: Demográfia
-      pdf.addPage();
-      yPosition = 20;
-      addTitle('Demográfiai Riport');
-
-      const demographicsData = [
-        ['Kategória', 'Érték'],
-        ['Összesen', `${totalCount} fő`],
-        ['Használók', `${usedResponses.length} fő`],
-        ['Nem használók', `${notUsedResponses.length} fő`],
-        ['Nem tudtak róla', `${redirectResponses.length} fő`],
-      ];
-
-      autoTable(pdf, {
-        startY: yPosition,
-        head: [demographicsData[0]],
-        body: demographicsData.slice(1),
-        theme: 'grid',
-        headStyles: { fillColor: [51, 102, 255] },
-      });
+      // Cleanup
+      root.unmount();
+      document.body.removeChild(container);
 
       // Save PDF
       pdf.save(`eap_pulse_jelentes_${formatAuditName(selectedAudit)}_${Date.now()}.pdf`);
