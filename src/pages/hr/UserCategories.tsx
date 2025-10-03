@@ -121,85 +121,11 @@ const UserCategories = () => {
   }
 
   return (
-    <div className="p-8 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">User Kategóriák Megoszlása</h1>
-        <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-          <SelectTrigger className="w-80">
-            <SelectValue placeholder="Válassz auditot" />
-          </SelectTrigger>
-          <SelectContent>
-            {audits.map((audit) => (
-              <SelectItem key={audit.id} value={audit.id}>
-                {formatAuditName(audit)}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold mb-4">Felhasználói Kategóriák</h2>
+      <div className="text-center py-12 text-muted-foreground">
+        Még nincs kiértékelt adat
       </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>EAP Program Ismeret és Használat</CardTitle>
-          <CardDescription>
-            Összes válasz: {totalResponses}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {categoryData.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
-              Még nincs adat ehhez az audithoz
-            </div>
-          ) : (
-            <div className="space-y-8">
-              <ResponsiveContainer width="100%" height={400}>
-                <PieChart>
-                  <Pie
-                    data={categoryData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={renderCustomLabel}
-                    outerRadius={150}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
-                    {categoryData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    formatter={(value: number) => [`${value} fő`, 'Válaszok']}
-                  />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-
-              <div className="grid grid-cols-3 gap-4">
-                {categoryData.map((category) => (
-                  <Card 
-                    key={category.name}
-                    className="cursor-pointer hover:shadow-lg transition-shadow"
-                    style={{ borderLeft: `4px solid ${category.color}` }}
-                  >
-                    <CardHeader>
-                      <CardTitle className="text-lg">{category.name}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-2">
-                        <p className="text-3xl font-bold">{category.value}</p>
-                        <p className="text-muted-foreground">
-                          {category.percentage}% a válaszadókból
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
     </div>
   );
 };
