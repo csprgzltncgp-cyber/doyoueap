@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import { QuestionRenderer } from '@/components/survey/QuestionRenderer';
 import { Progress } from '@/components/ui/progress';
-import { Globe } from 'lucide-react';
 import logo from '@/assets/doyoueap-logo.png';
 
 interface Questionnaire {
@@ -21,7 +17,6 @@ interface Questionnaire {
   };
 }
 
-// NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface Audit {
   id: string;
   program_name: string;
@@ -52,7 +47,6 @@ const UserDashboard = () => {
     }
   }, [token]);
 
-  // Auto-skip language selection if only one language is available
   useEffect(() => {
     if (audit && currentStep === 'language_select') {
       if (audit.available_languages && audit.available_languages.length === 1) {
@@ -85,17 +79,14 @@ const UserDashboard = () => {
         .maybeSingle();
 
       if (error) throw error;
-
       if (!data) {
         setError('Érvénytelen felmérés link');
         return;
       }
-
       if (!data.is_active) {
         setError('Ez a felmérés már nem aktív');
         return;
       }
-
       if (data.expires_at && new Date(data.expires_at) < new Date()) {
         setError('Ez a felmérés lejárt');
         return;
@@ -146,14 +137,13 @@ const UserDashboard = () => {
     const branchKey = branches[branchAnswer];
 
     if (branchKey === 'redirect') {
-      // Show EAP info page
       setCurrentStep('eap_info');
       return;
     }
 
     setSelectedBranch(branchKey);
-    setCurrentStep('branch_questions');
     setCurrentBlockIndex(0);
+    setCurrentStep('branch_questions');
   };
 
   const handleBlockNext = () => {
@@ -170,44 +160,35 @@ const UserDashboard = () => {
     if (currentBlockIndex < branch.blocks.length - 1) {
       setCurrentBlockIndex(currentBlockIndex + 1);
     } else {
-      // Last block, submit
-      handleSubmit(new Event('submit') as any);
+      handleSubmit();
     }
   };
 
-  const handleBlockPrevious = () => {
-    if (currentBlockIndex > 0) {
-      setCurrentBlockIndex(currentBlockIndex - 1);
-    } else {
-      setCurrentStep('branch_selector');
-    }
-  };
+  const handleSubmit = async () => {
+    if (!audit || submitting) return;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!audit) return;
-    
     setSubmitting(true);
-    
+
     try {
+      const employeeMetadata = {
+        branch: selectedBranch || 'redirect',
+        submitted_at: new Date().toISOString(),
+      };
+
       const { error } = await supabase
         .from('audit_responses')
         .insert({
           audit_id: audit.id,
-          responses,
-          employee_metadata: {
-            submitted_at: new Date().toISOString(),
-            branch: selectedBranch || 'redirect',
-          },
+          responses: responses,
+          employee_metadata: employeeMetadata,
         });
 
       if (error) throw error;
 
       setCurrentStep('thank_you');
-    } catch (err) {
-      console.error('Error submitting response:', err);
-      toast.error('Hiba történt a válaszok mentésekor');
+    } catch (error) {
+      console.error('Error submitting responses:', error);
+      toast.error('Hiba történt a válaszok elküldésekor');
     } finally {
       setSubmitting(false);
     }
@@ -219,7 +200,7 @@ const UserDashboard = () => {
     const branch = audit.questionnaire.questions.branches[selectedBranch];
     if (!branch) return 0;
     
-    const totalBlocks = branch.blocks.length + 2; // +2 for demographics and branch selector
+    const totalBlocks = branch.blocks.length + 2;
     let completedSteps = 0;
     
     if (currentStep === 'branch_selector') completedSteps = 1;
@@ -230,335 +211,280 @@ const UserDashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <p>Betöltés...</p>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#f5f5f5' }}>
+        <p className="text-lg">Betöltés...</p>
       </div>
     );
   }
 
-  if (error || !audit) {
+  if (error || !audit || !audit.questionnaire.questions.structure) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle>Hiba történt</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Alert variant="destructive">
-              <AlertDescription>{error || 'Felmérés nem található'}</AlertDescription>
-            </Alert>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  if (!audit.questionnaire.questions.structure) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle>Hiba</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Alert variant="destructive">
-              <AlertDescription>Érvénytelen kérdőív struktúra</AlertDescription>
-            </Alert>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  const renderDemographics = () => {
-    const demoQuestions = audit.questionnaire.questions.demographics.questions;
-    
-    return (
-      <div className="space-y-6">
-        <div>
-          <h3 className="text-lg font-semibold mb-4">
-            {audit.questionnaire.questions.demographics.title}
-          </h3>
-        </div>
-        {demoQuestions.map((q: any) => (
-          <QuestionRenderer
-            key={q.id}
-            question={q}
-            value={responses[q.id]}
-            onChange={(value) => handleResponseChange(q.id, value)}
-          />
-        ))}
-        <Button 
-          onClick={handleDemographicsNext} 
-          className="w-full"
-          style={{
-            backgroundColor: primaryColor,
-            borderColor: primaryColor,
-          }}
-        >
-          Tovább
-        </Button>
-      </div>
-    );
-  };
-
-  const renderBranchSelector = () => {
-    const branchSelector = audit.questionnaire.questions.branch_selector;
-    const programName = audit.program_name || 'EAP';
-    
-    // Create modified question with dynamic program name
-    const modifiedQuestion = {
-      ...branchSelector,
-      question: `Tudtad, hogy a munkahelyeden elérhető egy támogatási program, amit ${programName} néven ismerhetsz? Ez a szolgáltatás segítséget nyújt neked és családodnak különböző munkahelyi vagy magánéleti kihívások kezeléséhez, például stresszhelyzetekben, konfliktusok megoldásában vagy akár pénzügyi tanácsadásban is.`
-    };
-    
-    return (
-      <div className="space-y-6">
-        <QuestionRenderer
-          question={modifiedQuestion}
-          value={responses[branchSelector.id]}
-          onChange={(value) => handleResponseChange(branchSelector.id, value)}
-        />
-        <Button 
-          onClick={handleBranchSelection} 
-          className="w-full"
-          style={{
-            backgroundColor: primaryColor,
-            borderColor: primaryColor,
-          }}
-        >
-          Tovább
-        </Button>
-      </div>
-    );
-  };
-
-  const renderBranchQuestions = () => {
-    if (!selectedBranch) return null;
-    
-    const branch = audit.questionnaire.questions.branches[selectedBranch];
-    const currentBlock = branch.blocks[currentBlockIndex];
-    const isLastBlock = currentBlockIndex === branch.blocks.length - 1;
-    
-    return (
-      <div className="space-y-6">
-        
-        {currentBlock.questions.map((q: any) => (
-          <QuestionRenderer
-            key={q.id}
-            question={q}
-            value={responses[q.id]}
-            onChange={(value) => handleResponseChange(q.id, value)}
-          />
-        ))}
-        
-        <div className="flex gap-4">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleBlockPrevious}
-            className="flex-1"
-          >
-            Vissza
-          </Button>
-          <Button
-            onClick={handleBlockNext}
-            disabled={submitting}
-            className="flex-1"
-            style={{
-              backgroundColor: primaryColor,
-              borderColor: primaryColor,
-            }}
-          >
-            {submitting ? 'Küldés...' : isLastBlock ? 'Befejezés' : 'Tovább'}
-          </Button>
+      <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#f5f5f5' }}>
+        <div className="bg-white rounded-2xl p-8 max-w-md text-center">
+          <h2 className="text-xl font-semibold mb-4">Hiba történt</h2>
+          <p className="text-gray-600">{error || 'Felmérés nem található'}</p>
         </div>
       </div>
     );
-  };
-
-  const primaryColor = audit.custom_colors?.primary || '#3b82f6';
-
-  const LANGUAGE_NAMES: Record<string, string> = {
-    HU: 'Magyar',
-    EN: 'English',
-    DE: 'Deutsch',
-    FR: 'Français',
-    ES: 'Español',
-    IT: 'Italiano',
-    PT: 'Português',
-    RO: 'Română',
-    PL: 'Polski',
-    NL: 'Nederlands',
-    SV: 'Svenska',
-    DA: 'Dansk',
-    FI: 'Suomi',
-    NO: 'Norsk',
-    CS: 'Čeština',
-    SK: 'Slovenčina',
-    BG: 'Български',
-    HR: 'Hrvatski',
-    EL: 'Ελληνικά',
-    ZH: '中文',
-    JA: '日本語',
-    KO: '한국어',
-    AR: 'العربية',
-    RU: 'Русский',
-    TR: 'Türkçe',
-  };
+  }
 
   const renderLanguageSelect = () => (
-    <div className="space-y-6">
-      <div className="grid gap-3">
-        {audit?.available_languages?.map((langCode) => (
-          <Button
-            key={langCode}
-            variant={selectedLanguage === langCode ? "default" : "outline"}
-            className="w-full justify-start text-lg py-6"
+    <div className="space-y-8 text-center">
+      <h2 className="text-2xl font-medium">
+        Válassz nyelvet / Select language
+      </h2>
+      
+      <div className="flex flex-col gap-3 max-w-md mx-auto">
+        {audit.available_languages.map(lang => (
+          <button
+            key={lang}
             onClick={() => {
-              setSelectedLanguage(langCode);
+              setSelectedLanguage(lang);
               setCurrentStep('welcome');
             }}
-            style={selectedLanguage === langCode ? {
-              backgroundColor: primaryColor,
-              borderColor: primaryColor,
-            } : undefined}
+            className="px-8 py-4 bg-gray-200 hover:bg-gray-300 rounded-full text-base font-medium transition-colors"
           >
-            {LANGUAGE_NAMES[langCode] || langCode}
-          </Button>
+            {lang === 'HU' ? '🇭🇺 Magyar' : lang === 'EN' ? '🇬🇧 English' : lang}
+          </button>
         ))}
       </div>
     </div>
   );
 
   const renderWelcome = () => (
-    <div className="space-y-6 text-center">
+    <div className="space-y-8 text-center">
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold">Üdvözlünk!</h2>
-        <p className="text-muted-foreground">
-          Ez a felmérés anonim, a kitöltés kb. 6–9 perc. A válaszok kizárólag összesítve, 
-          statisztikai formában jelennek meg.
+        <h2 className="text-2xl font-medium">
+          Köszönjük, hogy időt szánsz ránk!
+        </h2>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          A kérdőív anonim és kb. 5-10 percet vesz igénybe. Válaszaid segítenek nekünk, 
+          hogy tovább fejlesszük a {audit.program_name || 'programot'}.
         </p>
       </div>
-      <Button 
-        onClick={() => setCurrentStep('demographics')} 
-        className="w-full"
-        style={{
-          backgroundColor: primaryColor,
-          borderColor: primaryColor,
-        }}
+
+      <button
+        onClick={() => setCurrentStep('demographics')}
+        className="px-12 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-base font-semibold transition-colors uppercase tracking-wide"
       >
-        Kezdés
-      </Button>
+        Tovább
+      </button>
     </div>
   );
 
-  const renderEapInfo = () => {
-    // Ensure URL has protocol
-    const formatUrl = (url: string | null) => {
-      if (!url) return 'https://doyoueap.hu';
-      if (url.startsWith('http://') || url.startsWith('https://')) {
-        return url;
-      }
-      return `https://${url}`;
-    };
-
-    const getArticle = (word: string) => {
-      const firstChar = word.charAt(0).toLowerCase();
-      const vowels = ['a', 'á', 'e', 'é', 'i', 'í', 'o', 'ó', 'ö', 'ő', 'u', 'ú', 'ü', 'ű'];
-      return vowels.includes(firstChar) ? 'az' : 'a';
-    };
-
-    const eapUrl = formatUrl(audit?.eap_program_url || null);
-    const programName = audit?.program_name || 'EAP';
-    const article = getArticle(programName);
+  const renderDemographics = () => {
+    const demoQuestions = audit.questionnaire.questions.demographics.questions;
     
     return (
       <div className="space-y-6">
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold">Mi {article} {programName}?</h2>
-          <p className="text-foreground">
-            {article.charAt(0).toUpperCase() + article.slice(1)} {programName} egy munkavállalói segítő program, amely 
-            különböző élethelyzetekben nyújt támogatást.
-          </p>
-          <p className="text-foreground">
-            A program keretében hozzáférhetsz pszichológiai tanácsadáshoz, jogi segítséghez, 
-            és számos más szolgáltatáshoz, amelyek segíthetnek a munkahelyi és magánéleti 
-            kihívások kezelésében.
-          </p>
-          <div className="p-4 bg-secondary rounded-lg">
-            <p className="font-semibold mb-2">Kattints az alábbi linkre és látogasd meg a program hivatalos weboldalát!</p>
-            <a 
-              href={eapUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
-            >
-              {audit?.eap_program_url || 'doyoueap.hu'}
-            </a>
-          </div>
+        <div className="text-center space-y-2">
+          <h3 className="text-xl font-medium">
+            {audit.questionnaire.questions.demographics.title}
+          </h3>
+          {audit.questionnaire.questions.demographics.description && (
+            <p className="text-gray-600 italic">
+              {audit.questionnaire.questions.demographics.description}
+            </p>
+          )}
         </div>
-        <Button 
-          onClick={() => handleSubmit(new Event('submit') as any)} 
-          className="w-full"
-          style={{
-            backgroundColor: primaryColor,
-            borderColor: primaryColor,
-          }}
-        >
-          Befejezés
-        </Button>
+
+        <div className="space-y-6">
+          {demoQuestions.map((question: any) => (
+            <QuestionRenderer
+              key={question.id}
+              question={question}
+              value={responses[question.id]}
+              onChange={(value) => handleResponseChange(question.id, value)}
+            />
+          ))}
+        </div>
+
+        <div className="flex gap-4 justify-center pt-4">
+          <button
+            onClick={() => setCurrentStep('welcome')}
+            className="px-12 py-4 bg-cyan-400 hover:bg-cyan-500 text-white rounded-full text-base font-semibold transition-colors uppercase tracking-wide"
+          >
+            Vissza
+          </button>
+          <button
+            onClick={handleDemographicsNext}
+            className="px-12 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-base font-semibold transition-colors uppercase tracking-wide"
+          >
+            Tovább
+          </button>
+        </div>
       </div>
     );
   };
 
-  const renderThankYou = () => (
-    <div className="space-y-6 text-center">
+  const renderBranchSelector = () => {
+    const branchSelectorData = audit.questionnaire.questions.branch_selector;
+
+    return (
+      <div className="space-y-8 text-center">
+        <h3 className="text-xl font-medium">{branchSelectorData.question}</h3>
+
+        <div className="flex flex-wrap gap-3 justify-center max-w-2xl mx-auto">
+          {branchSelectorData.options.map((option: string) => {
+            const isSelected = responses['eap_knowledge'] === option;
+            return (
+              <button
+                key={option}
+                onClick={() => handleResponseChange('eap_knowledge', option)}
+                className={`px-8 py-4 rounded-full text-base font-medium transition-colors ${
+                  isSelected 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-gray-200 hover:bg-gray-300'
+                }`}
+              >
+                {option}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="flex gap-4 justify-center pt-4">
+          <button
+            onClick={() => setCurrentStep('demographics')}
+            className="px-12 py-4 bg-cyan-400 hover:bg-cyan-500 text-white rounded-full text-base font-semibold transition-colors uppercase tracking-wide"
+          >
+            Vissza
+          </button>
+          <button
+            onClick={handleBranchSelection}
+            className="px-12 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-base font-semibold transition-colors uppercase tracking-wide"
+          >
+            Tovább
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const renderBranchQuestions = () => {
+    if (!selectedBranch) return null;
+
+    const branch = audit.questionnaire.questions.branches[selectedBranch];
+    if (!branch) return null;
+
+    const currentBlock = branch.blocks[currentBlockIndex];
+
+    return (
+      <div className="space-y-6">
+        <div className="text-center space-y-2">
+          <h3 className="text-xl font-medium">{currentBlock.title}</h3>
+          {currentBlock.description && (
+            <p className="text-gray-600 italic">{currentBlock.description}</p>
+          )}
+        </div>
+
+        <div className="space-y-6">
+          {currentBlock.questions.map((question: any) => (
+            <QuestionRenderer
+              key={question.id}
+              question={question}
+              value={responses[question.id]}
+              onChange={(value) => handleResponseChange(question.id, value)}
+            />
+          ))}
+        </div>
+
+        <div className="flex gap-4 justify-center pt-4">
+          <button
+            onClick={() => {
+              if (currentBlockIndex > 0) {
+                setCurrentBlockIndex(currentBlockIndex - 1);
+              } else {
+                setCurrentStep('branch_selector');
+              }
+            }}
+            className="px-12 py-4 bg-cyan-400 hover:bg-cyan-500 text-white rounded-full text-base font-semibold transition-colors uppercase tracking-wide"
+          >
+            Vissza
+          </button>
+          <button
+            onClick={handleBlockNext}
+            disabled={submitting}
+            className="px-12 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-base font-semibold transition-colors uppercase tracking-wide disabled:opacity-50"
+          >
+            {currentBlockIndex < branch.blocks.length - 1 ? 'Tovább' : 'Befejezés'}
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const renderEapInfo = () => (
+    <div className="space-y-8 text-center">
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold">Köszönjük a részvételt!</h2>
-        <p className="text-muted-foreground">
-          Válaszaid segítenek abban, hogy munkáltatód még jobb munkahelyi környezetet 
-          alakíthasson ki.
+        <h2 className="text-2xl font-medium">
+          Ismerd meg az EAP programot!
+        </h2>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          Ha szeretnél többet megtudni a programról, látogass el az alábbi oldalra:
         </p>
-        <p className="text-muted-foreground">
-          Ez az ablak most bezárható.
+        <a
+          href={audit.eap_program_url || 'https://doyoueap.hu'}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block text-blue-600 hover:text-blue-700 font-medium underline"
+        >
+          {audit.eap_program_url || 'https://doyoueap.hu'}
+        </a>
+      </div>
+
+      <button
+        onClick={() => handleSubmit()}
+        disabled={submitting}
+        className="px-12 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-base font-semibold transition-colors uppercase tracking-wide disabled:opacity-50"
+      >
+        Befejezés
+      </button>
+    </div>
+  );
+
+  const renderThankYou = () => (
+    <div className="space-y-8 text-center">
+      <div className="space-y-4">
+        <h2 className="text-2xl font-medium">
+          Köszönjük a válaszaidat!
+        </h2>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          Válaszaid nagy segítségünkre lesznek a program fejlesztésében.
         </p>
       </div>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-background p-4 sm:p-8">
-      <div className="max-w-3xl mx-auto">
-        <Card>
-          <CardHeader>
-            <div className="flex justify-center mb-4">
-              <img 
-                src={audit?.logo_url || logo} 
-                alt="Logo" 
-                className="h-12 object-contain"
-              />
-            </div>
-            {currentStep === 'branch_questions' && (
-              <Progress 
-                value={getTotalProgress()} 
-                className="mt-4"
-                style={{
-                  '--progress-background': primaryColor
-                } as React.CSSProperties}
-              />
-            )}
-          </CardHeader>
-          <CardContent>
-            {currentStep === 'language_select' && renderLanguageSelect()}
-            {currentStep === 'welcome' && renderWelcome()}
-            {currentStep === 'demographics' && renderDemographics()}
-            {currentStep === 'branch_selector' && renderBranchSelector()}
-            {currentStep === 'branch_questions' && renderBranchQuestions()}
-            {currentStep === 'eap_info' && renderEapInfo()}
-            {currentStep === 'thank_you' && renderThankYou()}
-          </CardContent>
-        </Card>
+    <div className="min-h-screen p-6" style={{ backgroundColor: '#f5f5f5' }}>
+      <div className="max-w-4xl mx-auto">
+        {/* Logo */}
+        <div className="flex justify-center mb-8">
+          <img 
+            src={audit.logo_url || logo} 
+            alt="Logo" 
+            className="h-12 object-contain"
+          />
+        </div>
+
+        {/* Progress Bar */}
+        {currentStep === 'branch_questions' && (
+          <div className="mb-8">
+            <Progress value={getTotalProgress()} className="h-2" />
+          </div>
+        )}
+
+        {/* Main Content */}
+        <div className="bg-white rounded-2xl p-8 shadow-sm">
+          {currentStep === 'language_select' && renderLanguageSelect()}
+          {currentStep === 'welcome' && renderWelcome()}
+          {currentStep === 'demographics' && renderDemographics()}
+          {currentStep === 'branch_selector' && renderBranchSelector()}
+          {currentStep === 'branch_questions' && renderBranchQuestions()}
+          {currentStep === 'eap_info' && renderEapInfo()}
+          {currentStep === 'thank_you' && renderThankYou()}
+        </div>
       </div>
     </div>
   );
