@@ -10,6 +10,7 @@ import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
 import { Calendar, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 
+// NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface AuditMetrics {
   audit: StandardAudit;
   emailsSent?: number;

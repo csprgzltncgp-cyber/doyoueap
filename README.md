@@ -1,8 +1,20 @@
-# Welcome to your Lovable project
+# DoYouEAP - EAP Pulse Felmérés Platform
 
 ## Project info
 
 **URL**: https://lovable.dev/projects/6e44bc2c-27c6-473f-a4f2-cb11764cf132
+
+## Fontos megjegyzés a kódbázisról
+
+⚠️ **Technikai terminológia vs. Felhasználói felület:**
+
+A kódbázisban az **"audit"** szó technikai elnevezésként szerepel, de a felhasználói felületen mindenhol **"felmérés"** vagy **"EAP Pulse felmérés"** néven jelenik meg.
+
+- **Adatbázis táblák**: `audits`, `audit_responses` (technikai nevek)
+- **TypeScript interfészek**: `Audit`, `AuditMetrics`, stb. (technikai nevek)
+- **Felhasználói felület**: "Felmérés", "EAP Pulse felmérés", "4Score" (branding)
+
+Ez a megközelítés biztosítja a kód stabilitását, miközben a felhasználók számára világos és érthető terminológiát használunk.
 
 ## How can I edit this code?
 
@@ -59,6 +71,7 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
+- Supabase (via Lovable Cloud)
 
 ## How can I deploy this project?
 

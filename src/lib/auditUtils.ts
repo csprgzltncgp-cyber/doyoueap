@@ -1,3 +1,9 @@
+/**
+ * MEGJEGYZÉS: A kódbázisban az "audit" szó "felmérés"-t (EAP Pulse survey) jelent.
+ * A felhasználói felületen mindenhol "felmérés" vagy "EAP Pulse felmérés" néven jelenik meg.
+ * Az adatbázis táblák és technikai elemek megőrizték az eredeti "audit" elnevezést.
+ */
+
 interface AuditForDisplay {
   start_date: string;
   program_name: string;
@@ -59,6 +65,7 @@ export const formatAuditName = (audit: AuditForDisplay): string => {
 };
 
 // Standard felmérés interface for all HR pages
+// NOTE: "Audit" in code = "Felmérés/Survey" in UI
 export interface StandardAudit {
   id: string;
   start_date: string;

@@ -6,6 +6,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { toast } from 'sonner';
 import { formatAuditName, StandardAudit, AUDIT_SELECT_FIELDS } from '@/lib/auditUtils';
 
+// NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 type Audit = StandardAudit;
 
 interface ChartData {

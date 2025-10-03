@@ -11,6 +11,7 @@ import { FileText, Image as ImageIcon, Download, FileSpreadsheet } from 'lucide-
 
 let exportIframe: HTMLIFrameElement | null = null;
 
+// NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface Audit {
   id: string;
   start_date: string;

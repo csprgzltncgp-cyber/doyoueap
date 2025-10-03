@@ -21,6 +21,7 @@ interface Questionnaire {
   };
 }
 
+// NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface Audit {
   id: string;
   program_name: string;

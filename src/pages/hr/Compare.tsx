@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { ArrowRight, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { formatAuditName } from '@/lib/auditUtils';
 
+// NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface Audit {
   id: string;
   start_date: string;
