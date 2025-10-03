@@ -54,11 +54,12 @@ export function HRSidebar() {
                 
                 return (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={isActive}>
-                      <NavLink to={item.url}>
-                        <item.icon className="h-4 w-4" />
-                        {open && <span>{item.title}</span>}
-                      </NavLink>
+                    <SidebarMenuButton 
+                      isActive={isActive}
+                      onClick={() => navigate(item.url)}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      {open && <span>{item.title}</span>}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
