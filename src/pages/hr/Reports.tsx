@@ -29,7 +29,7 @@ interface Audit {
   expires_at: string | null;
 }
 
-const Statistics = () => {
+const Reports = () => {
   const [searchParams] = useSearchParams();
   const [audits, setAudits] = useState<Audit[]>([]);
   const [selectedAuditId, setSelectedAuditId] = useState<string>('');
@@ -242,4 +242,4 @@ const Statistics = () => {
   );
 };
 
-export default Statistics;
+export default Reports;

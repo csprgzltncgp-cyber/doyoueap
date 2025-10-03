@@ -14,7 +14,7 @@ import Arak from "./pages/Arak";
 import AdminDashboard from "./pages/AdminDashboard";
 import HRDashboard from "./pages/HRDashboard";
 import EAPAudit from "./pages/hr/EAPAudit";
-import Statistics from "./pages/hr/Statistics";
+import Reports from "./pages/hr/Reports";
 import Export from "./pages/hr/Export";
 import CustomSurvey from "./pages/hr/CustomSurvey";
 import Settings from "./pages/hr/Settings";
@@ -113,11 +113,11 @@ const App = () => (
             } 
           />
           <Route 
-            path="/hr/statistics"
+            path="/hr/reports"
             element={
               <ProtectedRoute allowedRoles={['hr']}>
                 <HRLayout>
-                  <Statistics />
+                  <Reports />
                 </HRLayout>
               </ProtectedRoute>
             } 

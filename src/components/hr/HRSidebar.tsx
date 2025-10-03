@@ -16,7 +16,7 @@ const menuItems = [
   { title: "Dashboard", url: "/hr", icon: Home },
   { title: "EAP Pulse", url: "/hr/eap-audit", icon: QrCode },
   { title: "Egyedi közvélemény-kutatás", url: "/hr/custom-survey", icon: ClipboardList },
-  { title: "Riportok", url: "/hr/statistics", icon: BarChart3 },
+  { title: "Riportok", url: "/hr/reports", icon: BarChart3 },
   { title: "Export & Jelentések", url: "/hr/export", icon: FileText },
   { title: "Beállítások", url: "/hr/settings", icon: SettingsIcon },
 ];

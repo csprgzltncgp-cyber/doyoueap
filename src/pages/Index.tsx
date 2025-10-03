@@ -11,7 +11,7 @@ import { RegistrationWizard } from '@/components/registration/RegistrationWizard
 import logo from '@/assets/doyoueap-logo.png';
 import HRDashboard from './HRDashboard';
 import EAPAudit from './hr/EAPAudit';
-import Statistics from './hr/Statistics';
+import Reports from './hr/Reports';
 import Export from './hr/Export';
 import CustomSurvey from './hr/CustomSurvey';
 import Settings from './hr/Settings';
@@ -126,8 +126,8 @@ const Index = () => {
           default:
             return <HRDashboard />;
         }
-      case 'statistics':
-        return <Statistics />;
+      case 'reports':
+        return <Reports />;
       case 'export':
         return <Export />;
       case 'custom-survey':
@@ -226,17 +226,17 @@ const Index = () => {
                 </button>
                 <button
                   onClick={() => {
-                    console.log('Clicked Statisztika navigation');
-                    setSearchParams({ section: 'statistics' });
+                    console.log('Clicked Riportok navigation');
+                    setSearchParams({ section: 'reports' });
                   }}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
-                    section === 'statistics' 
+                    section === 'reports' 
                       ? 'text-primary font-semibold border-primary' 
                       : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
                   <TrendingUp className="h-4 w-4" />
-                  Statisztika
+                  Riportok
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'export' })}
@@ -319,13 +319,13 @@ const Index = () => {
           </div>
         )}
 
-        {/* Statistics Sub-Sub-Navigation */}
-        {user && role === 'hr' && section === 'statistics' && (
+        {/* Reports Sub-Sub-Navigation */}
+        {user && role === 'hr' && section === 'reports' && (
           <div className="border-t bg-muted/20">
             <div className="max-w-7xl mx-auto px-4 py-2">
               <nav className="flex gap-4">
                 <button
-                  onClick={() => setSearchParams({ section: 'statistics', sub: 'overview' })}
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'overview' })}
                   className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
                     (!subSection || subSection === 'overview') 
                       ? 'bg-primary text-primary-foreground font-medium' 
@@ -336,7 +336,7 @@ const Index = () => {
                   Összefoglaló
                 </button>
                 <button
-                  onClick={() => setSearchParams({ section: 'statistics', sub: 'awareness' })}
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'awareness' })}
                   className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
                     subSection === 'awareness' 
                       ? 'bg-primary text-primary-foreground font-medium' 
@@ -347,7 +347,7 @@ const Index = () => {
                   Ismertség
                 </button>
                 <button
-                  onClick={() => setSearchParams({ section: 'statistics', sub: 'trust' })}
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'trust' })}
                   className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
                     subSection === 'trust' 
                       ? 'bg-primary text-primary-foreground font-medium' 
@@ -358,7 +358,7 @@ const Index = () => {
                   Bizalom
                 </button>
                 <button
-                  onClick={() => setSearchParams({ section: 'statistics', sub: 'usage' })}
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'usage' })}
                   className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
                     subSection === 'usage' 
                       ? 'bg-primary text-primary-foreground font-medium' 
@@ -369,7 +369,7 @@ const Index = () => {
                   Használat
                 </button>
                 <button
-                  onClick={() => setSearchParams({ section: 'statistics', sub: 'impact' })}
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'impact' })}
                   className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
                     subSection === 'impact' 
                       ? 'bg-primary text-primary-foreground font-medium' 
@@ -380,7 +380,7 @@ const Index = () => {
                   Hatás
                 </button>
                 <button
-                  onClick={() => setSearchParams({ section: 'statistics', sub: 'demographics' })}
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'demographics' })}
                   className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
                     subSection === 'demographics' 
                       ? 'bg-primary text-primary-foreground font-medium' 
@@ -391,7 +391,7 @@ const Index = () => {
                   Demográfia
                 </button>
                 <button
-                  onClick={() => setSearchParams({ section: 'statistics', sub: 'trends' })}
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'trends' })}
                   className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
                     subSection === 'trends' 
                       ? 'bg-primary text-primary-foreground font-medium' 
@@ -402,7 +402,7 @@ const Index = () => {
                   Trendek
                 </button>
                 <button
-                  onClick={() => setSearchParams({ section: 'statistics', sub: 'compare' })}
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'compare' })}
                   className={`text-sm transition-colors flex items-center gap-2 px-3 py-1 rounded ${
                     subSection === 'compare' 
                       ? 'bg-primary text-primary-foreground font-medium' 
