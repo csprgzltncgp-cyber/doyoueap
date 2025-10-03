@@ -17,6 +17,7 @@ import UserCategories from "./UserCategories";
 import Demographics from "./Demographics";
 import Trends from "./Trends";
 import Compare from "./Compare";
+import Methodology from "./Methodology";
 
 interface Audit {
   id: string;
@@ -201,6 +202,7 @@ const Statistics = () => {
     if (activeTab === 'user-categories') return <UserCategories />;
     if (activeTab === 'trends') return <Trends />;
     if (activeTab === 'compare') return <Compare />;
+    if (activeTab === 'methodology') return <Methodology />;
 
     // Default: Overview
     return (
@@ -251,7 +253,7 @@ const Statistics = () => {
                         <span className="text-sm text-muted-foreground">Részvételi arány</span>
                         <div className="flex items-center gap-2">
                           <div className="w-32 bg-muted rounded-full h-2">
-                            <div
+                           <div
                               className="h-2 rounded-full"
                               style={{ 
                                 width: `${participationRate}%`,
@@ -266,7 +268,7 @@ const Statistics = () => {
                         <span className="text-sm text-muted-foreground">Használók (a kitöltőkből)</span>
                         <div className="flex items-center gap-2">
                           <div className="w-32 bg-muted rounded-full h-2">
-                            <div
+                           <div
                               className="h-2 rounded-full"
                               style={{ 
                                 width: `${usageRateFromRespondents}%`,
@@ -312,8 +314,11 @@ const Statistics = () => {
                       sublabel={`${satisfactionScore} / 5`}
                       cornerRadius={0}
                     />
-                    <p className="text-xs text-muted-foreground mt-4 text-center">
-                      Az elégedettségi index az 1-5 skálás értékelés átlagából számítva
+                    <p className="text-xs text-muted-foreground mt-4 text-center px-4">
+                      <strong>Skála:</strong> 0-100%, ahol 100% = teljesen elégedett (5/5)
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-2 text-center px-4">
+                      Az elégedettségi index az 1-5 skálás értékelés átlagából számítva: (Átlag / 5) × 100
                     </p>
                   </div>
                 </CardContent>
