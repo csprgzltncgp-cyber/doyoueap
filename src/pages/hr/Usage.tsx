@@ -537,27 +537,47 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
             <CardDescription>Elérési módok preferenciája (többszörös választás)</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[350px]">
+            <div className="h-[350px] flex items-center justify-center">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={channelChartData.map(item => {
-                  const total = channelChartData.reduce((sum, i) => sum + i.value, 0);
-                  return {
-                    name: item.name,
-                    percentage: total > 0 ? (item.value / total) * 100 : 0,
-                    value: item.value
-                  };
-                })} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis 
-                    type="number" 
-                    domain={[0, 100]}
-                    tickFormatter={(value) => `${value}%`}
-                  />
-                  <YAxis dataKey="name" type="category" width={150} />
-                  <Tooltip formatter={(value: any) => `${value.toFixed(0)}%`} />
-                  <Bar dataKey="percentage" fill="hsl(var(--chart-2))" radius={[0, 8, 8, 0]} />
-                </BarChart>
+                <PieChart>
+                  <Pie
+                    data={channelChartData.map((item, index) => ({ 
+                      name: item.name, 
+                      value: item.value,
+                      color: `hsl(var(--chart-${(index % 4) + 1}))`
+                    }))}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={120}
+                    paddingAngle={2}
+                    dataKey="value"
+                    label={false}
+                  >
+                    {channelChartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={`hsl(var(--chart-${(index % 4) + 1}))`} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
               </ResponsiveContainer>
+            </div>
+            <div className="flex flex-wrap gap-4 justify-center mt-4">
+              {channelChartData.map((entry, index) => {
+                const total = channelChartData.reduce((sum, item) => sum + item.value, 0);
+                const percentage = total > 0 ? ((entry.value / total) * 100).toFixed(0) : 0;
+                return (
+                  <div key={index} className="flex items-center gap-2">
+                    <div 
+                      className="w-3 h-3 rounded-full" 
+                      style={{ backgroundColor: `hsl(var(--chart-${(index % 4) + 1}))` }}
+                    />
+                    <span className="text-sm text-foreground">
+                      {entry.name}: {percentage}%
+                    </span>
+                  </div>
+                );
+              })}
             </div>
             <p className="text-xs text-muted-foreground mt-4">
               Átlagosan {avgChannelsPerUser} csatornát próbálnak ki a használók
@@ -583,27 +603,47 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
             <CardDescription>Mennyi idő alatt kaptak ellátást</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[350px]">
+            <div className="h-[350px] flex items-center justify-center">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={timeToCareChartData.map(item => {
-                  const total = timeToCareChartData.reduce((sum, i) => sum + i.value, 0);
-                  return {
-                    name: item.name,
-                    percentage: total > 0 ? (item.value / total) * 100 : 0,
-                    value: item.value
-                  };
-                })} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis 
-                    type="number" 
-                    domain={[0, 100]}
-                    tickFormatter={(value) => `${value}%`}
-                  />
-                  <YAxis dataKey="name" type="category" width={150} />
-                  <Tooltip formatter={(value: any) => `${value.toFixed(0)}%`} />
-                  <Bar dataKey="percentage" fill="hsl(var(--chart-2))" radius={[0, 8, 8, 0]} />
-                </BarChart>
+                <PieChart>
+                  <Pie
+                    data={timeToCareChartData.map((item, index) => ({ 
+                      name: item.name, 
+                      value: item.value,
+                      color: `hsl(var(--chart-${(index % 4) + 1}))`
+                    }))}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={120}
+                    paddingAngle={2}
+                    dataKey="value"
+                    label={false}
+                  >
+                    {timeToCareChartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={`hsl(var(--chart-${(index % 4) + 1}))`} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
               </ResponsiveContainer>
+            </div>
+            <div className="flex flex-wrap gap-4 justify-center mt-4">
+              {timeToCareChartData.map((entry, index) => {
+                const total = timeToCareChartData.reduce((sum, item) => sum + item.value, 0);
+                const percentage = total > 0 ? ((entry.value / total) * 100).toFixed(0) : 0;
+                return (
+                  <div key={index} className="flex items-center gap-2">
+                    <div 
+                      className="w-3 h-3 rounded-full" 
+                      style={{ backgroundColor: `hsl(var(--chart-${(index % 4) + 1}))` }}
+                    />
+                    <span className="text-sm text-foreground">
+                      {entry.name}: {percentage}%
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </CardContent>
         </Card>
