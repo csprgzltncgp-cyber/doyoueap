@@ -479,20 +479,16 @@ const Export = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-2">Export & Jelentések</h2>
-        <p className="text-muted-foreground">Felmérések exportálása különböző formátumokban</p>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Felmérés Kiválasztása</CardTitle>
-          <CardDescription>Válaszd ki az exportálandó felmérést</CardDescription>
-        </CardHeader>
-        <CardContent>
+      <div className="flex justify-between items-start gap-4 mb-6">
+        <div>
+          <h2 className="text-2xl font-bold mb-2">Export & Jelentések</h2>
+          <p className="text-muted-foreground">Felmérések exportálása különböző formátumokban</p>
+        </div>
+        
+        <div className="w-80">
           <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Válassz felmérést" />
+            <SelectTrigger>
+              <SelectValue placeholder="Felmérés kiválasztása" />
             </SelectTrigger>
             <SelectContent>
               {audits.map((audit) => (
@@ -502,8 +498,8 @@ const Export = () => {
               ))}
             </SelectContent>
           </Select>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card>
