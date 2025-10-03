@@ -167,7 +167,11 @@ const Index = () => {
             {user && role === 'hr' && (
               <button
                 onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
-                className={`text-sm hover:text-primary transition-colors ${section ? 'text-primary font-medium' : ''}`}
+                className={`text-sm transition-colors px-3 py-2 rounded ${
+                  section 
+                    ? 'bg-primary text-primary-foreground font-semibold' 
+                    : 'hover:bg-muted'
+                }`}
               >
                 Dashboard
               </button>
