@@ -1,135 +1,579 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import { toast } from 'sonner';
-import { formatAuditName } from '@/lib/auditUtils';
 import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
-import { exportCardToPNG } from '@/lib/exportUtils';
+import { Download, Eye, Info, TrendingUp, Users } from 'lucide-react';
 import { GaugeChart } from '@/components/ui/gauge-chart';
-
-interface Audit {
-  id: string;
-  start_date: string;
-  program_name: string;
-  access_mode: string;
-  recurrence_config: any;
-  is_active: boolean;
-  expires_at: string | null;
-}
-
-interface AwarenessData {
-  metric: string;
-  used: number;
-  notUsed: number;
-  overall: number;
-}
+import { Progress } from '@/components/ui/progress';
 
 interface AwarenessProps {
   selectedAuditId: string;
 }
 
 const Awareness = ({ selectedAuditId }: AwarenessProps) => {
-  const [awarenessData, setAwarenessData] = useState<AwarenessData[]>([]);
+  const [responses, setResponses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [responseCount, setResponseCount] = useState({ used: 0, notUsed: 0 });
 
   useEffect(() => {
     if (selectedAuditId) {
-      fetchAwarenessData(selectedAuditId);
+      fetchResponses(selectedAuditId);
     }
   }, [selectedAuditId]);
 
-
-  const calculateAverage = (values: number[]): number => {
-    if (values.length === 0) return 0;
-    const sum = values.reduce((acc, val) => acc + val, 0);
-    return sum / values.length;
-  };
-
-  const fetchAwarenessData = async (auditId: string) => {
+  const fetchResponses = async (auditId: string) => {
     try {
       const { data, error } = await supabase
         .from('audit_responses')
-        .select('responses, employee_metadata')
+        .select('*')
         .eq('audit_id', auditId);
 
       if (error) throw error;
-
-      if (!data || data.length === 0) {
-        setAwarenessData([]);
-        setResponseCount({ used: 0, notUsed: 0 });
-        return;
-      }
-
-      // Separate responses by branch
-      const usedResponses = data.filter(r => r.employee_metadata?.branch === 'used');
-      const notUsedResponses = data.filter(r => r.employee_metadata?.branch === 'not_used');
-
-      setResponseCount({
-        used: usedResponses.length,
-        notUsed: notUsedResponses.length
-      });
-
-      // Calculate averages for "used" branch
-      const usedUnderstanding = usedResponses
-        .map(r => r.responses?.u_awareness_understanding)
-        .filter(v => v !== undefined && v !== null) as number[];
-      
-      const usedHowToUse = usedResponses
-        .map(r => r.responses?.u_awareness_how_to_use)
-        .filter(v => v !== undefined && v !== null) as number[];
-      
-      const usedAccessibility = usedResponses
-        .map(r => r.responses?.u_awareness_accessibility)
-        .filter(v => v !== undefined && v !== null) as number[];
-
-      // Calculate averages for "not used" branch
-      const notUsedUnderstanding = notUsedResponses
-        .map(r => r.responses?.nu_awareness_understanding)
-        .filter(v => v !== undefined && v !== null) as number[];
-
-      // Combine all understanding values for overall
-      const allUnderstanding = [...usedUnderstanding, ...notUsedUnderstanding];
-
-      const chartData: AwarenessData[] = [
-        {
-          metric: 'Szolgáltatás megértése',
-          used: Number(calculateAverage(usedUnderstanding).toFixed(2)),
-          notUsed: Number(calculateAverage(notUsedUnderstanding).toFixed(2)),
-          overall: Number(calculateAverage(allUnderstanding).toFixed(2)),
-        },
-        {
-          metric: 'Igénybevételi tudás',
-          used: Number(calculateAverage(usedHowToUse).toFixed(2)),
-          notUsed: 0, // Not asked in not_used branch
-          overall: Number(calculateAverage(usedHowToUse).toFixed(2)),
-        },
-        {
-          metric: 'Elérhetőség érzete',
-          used: Number(calculateAverage(usedAccessibility).toFixed(2)),
-          notUsed: 0, // Not asked in not_used branch
-          overall: Number(calculateAverage(usedAccessibility).toFixed(2)),
-        },
-      ];
-
-      setAwarenessData(chartData);
+      setResponses(data || []);
     } catch (error) {
-      console.error('Error fetching awareness data:', error);
+      console.error('Error fetching responses:', error);
       toast.error('Hiba történt az adatok betöltésekor');
     } finally {
       setLoading(false);
     }
   };
 
+  const exportCardToPNG = async (cardId: string, fileName: string) => {
+    try {
+      const html2canvas = (await import('html2canvas')).default;
+      const element = document.getElementById(cardId);
+      
+      if (!element) {
+        toast.error('Panel nem található');
+        return;
+      }
+
+      const canvas = await html2canvas(element, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+      });
+
+      const dataUrl = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = `${fileName}.png`;
+      link.href = dataUrl;
+      link.click();
+      toast.success('PNG sikeresen letöltve!');
+    } catch (error) {
+      console.error('Error exporting PNG:', error);
+      toast.error('Hiba a PNG exportálás során');
+    }
+  };
+
+  const calculateAverage = (values: number[]) => {
+    if (values.length === 0) return '0.0';
+    return ((values.reduce((a, b) => a + b, 0) / values.length)).toFixed(1);
+  };
+
+  // Adatok szűrése branch szerint
+  const usedResponses = responses.filter(r => r.employee_metadata?.branch === 'used');
+  const notUsedResponses = responses.filter(r => r.employee_metadata?.branch === 'not_used');
+  const redirectResponses = responses.filter(r => r.employee_metadata?.branch === 'redirect');
+  const awarenessResponses = [...usedResponses, ...notUsedResponses];
+
+  // Ismertség pontszámok
+  const usedUnderstandingScore = calculateAverage(
+    usedResponses
+      .map(r => r.responses?.u_awareness_understanding)
+      .filter(v => v !== undefined)
+  );
+
+  const notUsedUnderstandingScore = calculateAverage(
+    notUsedResponses
+      .map(r => r.responses?.nu_awareness_understanding)
+      .filter(v => v !== undefined)
+  );
+
+  const overallUnderstandingScore = calculateAverage(
+    awarenessResponses
+      .map(r => r.responses?.u_awareness_understanding || r.responses?.nu_awareness_understanding)
+      .filter(v => v !== undefined)
+  );
+
+  const howToUseScore = calculateAverage(
+    usedResponses
+      .map(r => r.responses?.u_awareness_how_to_use)
+      .filter(v => v !== undefined)
+  );
+
+  const accessibilityScore = calculateAverage(
+    usedResponses
+      .map(r => r.responses?.u_awareness_accessibility)
+      .filter(v => v !== undefined)
+  );
+
+  // Információs források elemzése
+  const sourceData: { [key: string]: number } = {};
+  awarenessResponses.forEach(r => {
+    const sources = r.responses?.u_awareness_source || r.responses?.nu_awareness_source || [];
+    sources.forEach((source: string) => {
+      sourceData[source] = (sourceData[source] || 0) + 1;
+    });
+  });
+
+  const sourceChartData = Object.entries(sourceData)
+    .map(([name, value]) => ({ name, value }))
+    .sort((a, b) => b.value - a.value);
+
+  // Kommunikációs gyakoriság
+  const frequencyData: { [key: string]: number } = {};
+  usedResponses.forEach(r => {
+    const freq = r.responses?.u_awareness_frequency;
+    if (freq) {
+      frequencyData[freq] = (frequencyData[freq] || 0) + 1;
+    }
+  });
+
+  const frequencyChartData = Object.entries(frequencyData).map(([name, value]) => ({
+    name,
+    value
+  }));
+
+  // Információ elégségesség
+  const hasEnoughInfo = usedResponses.filter(r => r.responses?.u_awareness_info === 'yes').length;
+  const notEnoughInfo = usedResponses.filter(r => r.responses?.u_awareness_info === 'no').length;
+  const infoSufficiencyData = [
+    { name: 'Elegendő', value: hasEnoughInfo, color: 'hsl(var(--chart-2))' },
+    { name: 'Nem elegendő', value: notEnoughInfo, color: 'hsl(var(--chart-3))' }
+  ].filter(item => item.value > 0);
+
+  // Használói tudás összehasonlítás
+  const comparisonData = [
+    {
+      metric: 'Szolgáltatás megértése',
+      Használók: parseFloat(usedUnderstandingScore),
+      'Nem használók': parseFloat(notUsedUnderstandingScore)
+    },
+    {
+      metric: 'Használat ismerete',
+      Használók: parseFloat(howToUseScore),
+      'Nem használók': 0
+    },
+    {
+      metric: 'Elérhetőség tudatossága',
+      Használók: parseFloat(accessibilityScore),
+      'Nem használók': 0
+    }
+  ];
+
+  // Radar chart adatok
+  const radarData = [
+    { subject: 'Megértés', value: parseFloat(overallUnderstandingScore), fullMark: 5 },
+    { subject: 'Használat', value: parseFloat(howToUseScore), fullMark: 5 },
+    { subject: 'Elérhetőség', value: parseFloat(accessibilityScore), fullMark: 5 }
+  ];
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <p>Betöltés...</p>
+      </div>
+    );
+  }
+
+  const totalCount = responses.length;
+  const awarenessRate = totalCount > 0 ? ((awarenessResponses.length / totalCount) * 100).toFixed(1) : '0';
+  const redirectRate = totalCount > 0 ? ((redirectResponses.length / totalCount) * 100).toFixed(1) : '0';
+
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Ismertség Riport</h2>
-      <div className="text-center py-12 text-muted-foreground">
-        Még nincs kiértékelt adat
+      {/* Fejléc és összefoglaló kártyák */}
+      <div>
+        <h2 className="text-2xl font-bold mb-2">Ismertség Részletes Elemzése</h2>
+        <p className="text-muted-foreground text-sm">
+          Az EAP program ismeretének, megértésének és kommunikációjának átfogó kiértékelése
+        </p>
       </div>
+
+      {/* 1. sor: Fő ismertségi mutatók */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Összesített ismertség */}
+        <Card id="overall-awareness-card">
+          <CardHeader className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('overall-awareness-card', 'osszes-ismertseg')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Eye className="w-5 h-5" />
+              Általános Ismertség
+            </CardTitle>
+            <CardDescription>A program ismeretének aránya</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <GaugeChart 
+              value={parseFloat(awarenessRate)} 
+              maxValue={100}
+              size={220}
+              label={`${awarenessRate}%`}
+              sublabel={`${awarenessResponses.length} / ${totalCount} fő`}
+              cornerRadius={30}
+            />
+            <p className="text-xs text-muted-foreground text-center mt-4">
+              A válaszolók közül ennyien tudtak a programról (használók + nem használók)
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Megértés szintje */}
+        <Card className="relative overflow-hidden" id="understanding-card">
+          <div 
+            className="absolute inset-0 transition-all duration-500"
+            style={{
+              background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${(parseFloat(overallUnderstandingScore) / 5) * 100}%, transparent ${(parseFloat(overallUnderstandingScore) / 5) * 100}%, transparent 100%)`,
+              opacity: 0.1
+            }}
+          />
+          <CardHeader className="relative z-10">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('understanding-card', 'megertes')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Info className="w-5 h-5" />
+              Megértés Szintje
+            </CardTitle>
+            <CardDescription>1-5 skála</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 relative z-10">
+            <div className="text-center">
+              <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
+                {overallUnderstandingScore}
+              </div>
+              <p className="text-sm text-muted-foreground mt-2">
+                Mennyire értik a munkavállalók az EAP szolgáltatást
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Nem tudtak róla */}
+        <Card id="unawareness-card">
+          <CardHeader className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('unawareness-card', 'nem-tudtak-rola')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Users className="w-5 h-5" />
+              Nem Ismerték
+            </CardTitle>
+            <CardDescription>Tájékozatlan munkavállalók</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <GaugeChart 
+              value={parseFloat(redirectRate)} 
+              maxValue={100}
+              size={220}
+              label={`${redirectRate}%`}
+              sublabel={`${redirectResponses.length} / ${totalCount} fő`}
+              cornerRadius={30}
+            />
+            <p className="text-xs text-muted-foreground text-center mt-4">
+              A válaszolók közül ennyien NEM tudtak a programról
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 2. sor: Információs források és Gyakoriság */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Információs források */}
+        <Card id="sources-card">
+          <CardHeader className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('sources-card', 'informacios-forrasok')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <CardTitle className="text-lg">Információs Források</CardTitle>
+            <CardDescription>Honnan értesültek a programról</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[350px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={sourceChartData} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis type="number" />
+                  <YAxis dataKey="name" type="category" width={150} />
+                  <Tooltip />
+                  <Bar dataKey="value" fill="hsl(var(--chart-2))" radius={[0, 8, 8, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Kommunikációs gyakoriság */}
+        <Card id="frequency-card">
+          <CardHeader className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('frequency-card', 'kommunikacios-gyakorisag')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <CardTitle className="text-lg">Kommunikációs Gyakoriság</CardTitle>
+            <CardDescription>Milyen gyakran kapnak információt (csak használók)</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[300px] flex items-center justify-center">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={frequencyChartData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={120}
+                    paddingAngle={2}
+                    dataKey="value"
+                  >
+                    {frequencyChartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={`hsl(var(--chart-${(index % 4) + 1}))`} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="flex flex-wrap gap-4 justify-center mt-4">
+              {frequencyChartData.map((entry, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <div 
+                    className="w-3 h-3 rounded-full" 
+                    style={{ backgroundColor: `hsl(var(--chart-${(index % 4) + 1}))` }}
+                  />
+                  <span className="text-sm text-foreground">
+                    {entry.name}: {entry.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 3. sor: Részletes mutatók használóknál */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Információ elégségesség */}
+        <Card id="info-sufficiency-card">
+          <CardHeader className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('info-sufficiency-card', 'informacio-elegsegeseg')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <CardTitle className="text-lg">Információ Elégségesség</CardTitle>
+            <CardDescription>Használók körében: kaptak-e elegendő információt?</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[300px] flex items-center justify-center">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={infoSufficiencyData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={120}
+                    paddingAngle={2}
+                    dataKey="value"
+                  >
+                    {infoSufficiencyData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="flex flex-wrap gap-4 justify-center mt-4">
+              {infoSufficiencyData.map((entry, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <div 
+                    className="w-3 h-3 rounded-full" 
+                    style={{ backgroundColor: entry.color }}
+                  />
+                  <span className="text-sm text-foreground">
+                    {entry.name}: {entry.value} ({((entry.value / usedResponses.length) * 100).toFixed(0)}%)
+                  </span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Használók tudásának részletei */}
+        <Card id="user-knowledge-card">
+          <CardHeader className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('user-knowledge-card', 'hasznalok-tudasa')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <CardTitle className="text-lg">Használók Tudásszintje</CardTitle>
+            <CardDescription>Részletes mutatók (csak használók)</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="text-sm">Szolgáltatás megértése</span>
+                <span className="font-semibold">{usedUnderstandingScore}/5</span>
+              </div>
+              <Progress 
+                value={parseFloat(usedUnderstandingScore) * 20} 
+                style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="text-sm">Használat ismerete</span>
+                <span className="font-semibold">{howToUseScore}/5</span>
+              </div>
+              <Progress 
+                value={parseFloat(howToUseScore) * 20} 
+                style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties}
+              />
+              <p className="text-xs text-muted-foreground">Mennyire tudják hogyan vegyék igénybe</p>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="text-sm">Elérhetőség tudatossága</span>
+                <span className="font-semibold">{accessibilityScore}/5</span>
+              </div>
+              <Progress 
+                value={parseFloat(accessibilityScore) * 20} 
+                style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties}
+              />
+              <p className="text-xs text-muted-foreground">Mennyire érzik elérhetőnek a szolgáltatást</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 4. sor: Összehasonlítások */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Használók vs Nem használók */}
+        <Card id="comparison-card">
+          <CardHeader className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('comparison-card', 'osszehasonlitas')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <CardTitle className="text-lg">Használók vs Nem Használók</CardTitle>
+            <CardDescription>Tudásszintek összehasonlítása</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={comparisonData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="metric" />
+                  <YAxis domain={[0, 5]} />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="Használók" fill="hsl(var(--chart-2))" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="Nem használók" fill="hsl(var(--chart-3))" radius={[8, 8, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Radar chart - Ismertség profil */}
+        <Card id="awareness-profile-card">
+          <CardHeader className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('awareness-profile-card', 'ismertseg-profil')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <CardTitle className="text-lg">Ismertségi Profil</CardTitle>
+            <CardDescription>Átfogó tudásszint (használók)</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <RadarChart data={radarData}>
+                  <PolarGrid strokeDasharray="3 3" />
+                  <PolarAngleAxis dataKey="subject" />
+                  <PolarRadiusAxis angle={90} domain={[0, 5]} />
+                  <Radar 
+                    name="Ismertség" 
+                    dataKey="value" 
+                    stroke="hsl(var(--chart-2))" 
+                    fill="hsl(var(--chart-2))" 
+                    fillOpacity={0.6} 
+                  />
+                  <Tooltip />
+                </RadarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Statisztikai összefoglaló */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Statisztikai Összefoglaló</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <p className="text-sm text-muted-foreground">Válaszadók összesen</p>
+              <p className="text-2xl font-bold">{totalCount}</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <p className="text-sm text-muted-foreground">Tudtak a programról</p>
+              <p className="text-2xl font-bold">{awarenessResponses.length} ({awarenessRate}%)</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <p className="text-sm text-muted-foreground">Nem tudtak róla</p>
+              <p className="text-2xl font-bold">{redirectResponses.length} ({redirectRate}%)</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
