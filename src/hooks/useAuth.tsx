@@ -117,7 +117,7 @@ export const useAuth = () => {
       if (error) throw error;
       
       toast.success('Sikeres kijelentkezés!');
-      navigate('/auth');
+      navigate('/');
     } catch (error: any) {
       toast.error(error.message || 'Kijelentkezési hiba');
     }

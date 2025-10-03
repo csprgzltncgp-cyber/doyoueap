@@ -1,32 +1,54 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { ArrowRight, CheckCircle, TrendingUp, Users, FileText, Award } from 'lucide-react';
+import { RegistrationWizard } from '@/components/registration/RegistrationWizard';
 import logo from '@/assets/doyoueap-logo.png';
+import HRDashboard from './HRDashboard';
+import EAPAudit from './hr/EAPAudit';
+import Statistics from './hr/Statistics';
+import Export from './hr/Export';
+import CustomSurvey from './hr/CustomSurvey';
+import Settings from './hr/Settings';
 
 const Index = () => {
-  const { user, role, loading, signOut } = useAuth();
+  const { user, role, loading, signIn, signOut } = useAuth();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
+  const [showRegistration, setShowRegistration] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  // Get current section and subsection from URL params
+  const section = searchParams.get('section') || '';
+  const subSection = searchParams.get('sub') || '';
 
   useEffect(() => {
-    // Sign out on homepage to ensure clean state
-    if (user) {
-      signOut();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!loading && user && role) {
-      // Redirect authenticated users to their dashboard
-      if (role === 'admin') {
-        navigate('/admin');
-      } else if (role === 'hr') {
-        navigate('/hr');
-      }
+    // Redirect admin users to their dedicated dashboard
+    if (!loading && user && role === 'admin') {
+      navigate('/admin');
     }
   }, [user, role, loading, navigate]);
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoggingIn(true);
+    await signIn(email, password);
+    setIsLoggingIn(false);
+    setShowLoginDialog(false);
+  };
+
+  const handleLogout = async () => {
+    await signOut();
+    setSearchParams({});
+  };
 
   if (loading) {
     return (
@@ -83,26 +105,272 @@ const Index = () => {
     }
   ];
 
+  // Render dashboard content if user is logged in and has selected a dashboard section
+  const renderDashboardContent = () => {
+    if (!user || role !== 'hr') return null;
+
+    switch (section) {
+      case 'dashboard':
+        return <HRDashboard />;
+      case 'eap-pulse':
+        switch (subSection) {
+          case 'create-audit':
+          case 'running-audits':
+          case 'audit-questionnaire':
+            return <EAPAudit />;
+          default:
+            return <HRDashboard />;
+        }
+      case 'statistics':
+        return <Statistics />;
+      case 'export':
+        return <Export />;
+      case 'custom-survey':
+        return <CustomSurvey />;
+      case 'settings':
+        return <Settings />;
+      default:
+        return null;
+    }
+  };
+
+  if (showRegistration) {
+    return <RegistrationWizard />;
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
       <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
+        {/* Main Navigation */}
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <img src={logo} alt="doyoueap" className="h-8" />
+            <img src={logo} alt="doyoueap" className="h-8 cursor-pointer" onClick={() => setSearchParams({})} />
           </div>
-          <nav className="hidden md:flex gap-6">
-            <a href="#home" className="text-sm hover:text-primary transition-colors">Főoldal</a>
+          <nav className="hidden md:flex gap-6 items-center">
+            <a 
+              href="#home" 
+              className={`text-sm hover:text-primary transition-colors ${!section ? 'text-primary font-medium' : ''}`}
+              onClick={() => setSearchParams({})}
+            >
+              Főoldal
+            </a>
             <a href="#magazin" className="text-sm hover:text-primary transition-colors">Magazin</a>
             <a href="#pulse" className="text-sm hover:text-primary transition-colors">Mi az EAP Pulse?</a>
             <a href="#elonyok" className="text-sm hover:text-primary transition-colors">Előnyök</a>
             <a href="#arak" className="text-sm hover:text-primary transition-colors">Árak</a>
+            {user && role === 'hr' && (
+              <button
+                onClick={() => setSearchParams({ section: 'dashboard' })}
+                className={`text-sm hover:text-primary transition-colors ${section === 'dashboard' ? 'text-primary font-medium' : ''}`}
+              >
+                Dashboard
+              </button>
+            )}
           </nav>
-          <Button onClick={() => window.location.href = '/auth'}>
-            Bejelentkezés
-          </Button>
+          {user ? (
+            <Button onClick={handleLogout} variant="outline">
+              Kilépés
+            </Button>
+          ) : (
+            <Button onClick={() => setShowLoginDialog(true)}>
+              Bejelentkezés
+            </Button>
+          )}
         </div>
+
+        {/* Dashboard Sub-Navigation */}
+        {user && role === 'hr' && section && (
+          <div className="border-t">
+            <div className="max-w-7xl mx-auto px-4 py-3">
+              <nav className="flex gap-6">
+                <button
+                  onClick={() => setSearchParams({ section: 'dashboard' })}
+                  className={`text-sm hover:text-primary transition-colors ${section === 'dashboard' && !subSection ? 'text-primary font-medium' : ''}`}
+                >
+                  Áttekintés
+                </button>
+                <div className="relative group">
+                  <button
+                    onClick={() => setSearchParams({ section: 'eap-pulse' })}
+                    className={`text-sm hover:text-primary transition-colors ${section === 'eap-pulse' ? 'text-primary font-medium' : ''}`}
+                  >
+                    EAP Pulse
+                  </button>
+                </div>
+                <button
+                  onClick={() => setSearchParams({ section: 'statistics' })}
+                  className={`text-sm hover:text-primary transition-colors ${section === 'statistics' ? 'text-primary font-medium' : ''}`}
+                >
+                  Statisztika
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'export' })}
+                  className={`text-sm hover:text-primary transition-colors ${section === 'export' ? 'text-primary font-medium' : ''}`}
+                >
+                  Export
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'custom-survey' })}
+                  className={`text-sm hover:text-primary transition-colors ${section === 'custom-survey' ? 'text-primary font-medium' : ''}`}
+                >
+                  Egyedi Felmérés
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'settings' })}
+                  className={`text-sm hover:text-primary transition-colors ${section === 'settings' ? 'text-primary font-medium' : ''}`}
+                >
+                  Beállítások
+                </button>
+              </nav>
+            </div>
+          </div>
+        )}
+
+        {/* EAP Pulse Sub-Sub-Navigation */}
+        {user && role === 'hr' && section === 'eap-pulse' && (
+          <div className="border-t bg-muted/30">
+            <div className="max-w-7xl mx-auto px-4 py-2">
+              <nav className="flex gap-4">
+                <button
+                  onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
+                  className={`text-xs hover:text-primary transition-colors ${subSection === 'create-audit' ? 'text-primary font-medium' : ''}`}
+                >
+                  Új Felmérés
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'running-audits' })}
+                  className={`text-xs hover:text-primary transition-colors ${subSection === 'running-audits' ? 'text-primary font-medium' : ''}`}
+                >
+                  Futó Felmérések
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'audit-questionnaire' })}
+                  className={`text-xs hover:text-primary transition-colors ${subSection === 'audit-questionnaire' ? 'text-primary font-medium' : ''}`}
+                >
+                  Kérdőív Beállítások
+                </button>
+              </nav>
+            </div>
+          </div>
+        )}
+
+        {/* Statistics Sub-Sub-Navigation */}
+        {user && role === 'hr' && section === 'statistics' && (
+          <div className="border-t bg-muted/30">
+            <div className="max-w-7xl mx-auto px-4 py-2">
+              <nav className="flex gap-4">
+                <button
+                  onClick={() => setSearchParams({ section: 'statistics', sub: 'overview' })}
+                  className={`text-xs hover:text-primary transition-colors ${(!subSection || subSection === 'overview') ? 'text-primary font-medium' : ''}`}
+                >
+                  Összefoglaló
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'statistics', sub: 'awareness' })}
+                  className={`text-xs hover:text-primary transition-colors ${subSection === 'awareness' ? 'text-primary font-medium' : ''}`}
+                >
+                  Ismertség
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'statistics', sub: 'trust' })}
+                  className={`text-xs hover:text-primary transition-colors ${subSection === 'trust' ? 'text-primary font-medium' : ''}`}
+                >
+                  Bizalom
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'statistics', sub: 'usage' })}
+                  className={`text-xs hover:text-primary transition-colors ${subSection === 'usage' ? 'text-primary font-medium' : ''}`}
+                >
+                  Használat
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'statistics', sub: 'impact' })}
+                  className={`text-xs hover:text-primary transition-colors ${subSection === 'impact' ? 'text-primary font-medium' : ''}`}
+                >
+                  Hatás
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'statistics', sub: 'demographics' })}
+                  className={`text-xs hover:text-primary transition-colors ${subSection === 'demographics' ? 'text-primary font-medium' : ''}`}
+                >
+                  Demográfia
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'statistics', sub: 'trends' })}
+                  className={`text-xs hover:text-primary transition-colors ${subSection === 'trends' ? 'text-primary font-medium' : ''}`}
+                >
+                  Trendek
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'statistics', sub: 'compare' })}
+                  className={`text-xs hover:text-primary transition-colors ${subSection === 'compare' ? 'text-primary font-medium' : ''}`}
+                >
+                  Összehasonlítás
+                </button>
+              </nav>
+            </div>
+          </div>
+        )}
       </header>
+
+      {/* Login Dialog */}
+      <Dialog open={showLoginDialog} onOpenChange={setShowLoginDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Bejelentkezés</DialogTitle>
+            <DialogDescription>
+              Jelentkezzen be fiókjába
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSignIn} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Jelszó</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <Button type="submit" className="w-full" disabled={isLoggingIn}>
+              {isLoggingIn ? 'Folyamatban...' : 'Bejelentkezés'}
+            </Button>
+          </form>
+          
+          <div className="mt-4 text-center">
+            <p className="text-sm text-muted-foreground mb-2">
+              Még nincs fiókja?
+            </p>
+            <Button 
+              variant="outline" 
+              className="w-full"
+              onClick={() => {
+                setShowLoginDialog(false);
+                setShowRegistration(true);
+              }}
+            >
+              Céges regisztráció
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dashboard Content or Landing Page */}
+      {renderDashboardContent() ? renderDashboardContent() : (
+        <>
+          {/* Hero Section */}
 
       {/* Hero Section */}
       <section id="home" className="py-20 px-4 bg-gradient-to-b from-muted/50 to-background">
@@ -525,6 +793,8 @@ const Index = () => {
           </div>
         </div>
       </footer>
+        </>
+      )}
     </div>
   );
 };
