@@ -47,10 +47,14 @@ const RunningAudits = () => {
 
       // Fetch responses for each audit
       const metricsPromises = auditsData.map(async (audit) => {
+        console.log('Fetching responses for audit:', audit.id);
         const { data: responses, error: responsesError } = await supabase
           .from('audit_responses')
           .select('id')
           .eq('audit_id', audit.id);
+
+        console.log('Responses data:', responses);
+        console.log('Responses error:', responsesError);
 
         if (responsesError) {
           console.error('Error fetching responses:', responsesError);
