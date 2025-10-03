@@ -362,6 +362,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      user_owns_audit: {
+        Args: { _audit_id: string; _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role: "admin" | "hr"
