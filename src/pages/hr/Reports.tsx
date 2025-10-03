@@ -119,9 +119,10 @@ const Reports = () => {
   const notUsedBranch = responses.filter(r => r.employee_metadata?.branch === 'not_used').length;
   const redirectBranch = responses.filter(r => r.employee_metadata?.branch === 'redirect').length;
 
-  const utilization = employeeCount > 0 ? (usedBranch / employeeCount) * 100 : 0;
+  const utilization = totalResponses > 0 ? (usedBranch / totalResponses) * 100 : 0;
   const participationRate = employeeCount > 0 ? (totalResponses / employeeCount) * 100 : 0;
   const usageRateFromRespondents = totalResponses > 0 ? (usedBranch / totalResponses) * 100 : 0;
+  const estimatedUsers = Math.round((utilization / 100) * employeeCount);
   
   const satisfactionScore = calculateAverage(
     responses
@@ -252,12 +253,17 @@ const Reports = () => {
                 <CardDescription>Hány munkavállaló használja a programot</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                <p className="text-sm text-muted-foreground">
+                  <strong>Számítási módszer:</strong> Mivel a tényleges használói számot csak a szolgáltató ismeri, 
+                  mi a felmérésből kapott arányokat vetítjük ki. A válaszolók {usageRateFromRespondents.toFixed(1)}%-a 
+                  használta a programot, ezt az arányt alkalmazzuk a teljes {employeeCount} fős létszámra.
+                </p>
                 <GaugeChart 
                   value={utilization} 
                   maxValue={100}
                   size={200}
                   label={`${utilization.toFixed(1)}%`}
-                  sublabel={`${usedBranch} / ${employeeCount}`}
+                  sublabel={`~${estimatedUsers} / ${employeeCount} fő (becsült)`}
                   cornerRadius={0}
                 />
               </CardContent>
