@@ -75,26 +75,26 @@ const Arak = () => {
             <nav className="hidden md:flex gap-6 items-center">
               <button
                 onClick={() => navigate('/magazin')}
-                className="text-sm hover:text-primary transition-colors"
+                className="text-sm transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300"
               >
                 Magazin
               </button>
               <button
                 onClick={() => navigate('/bemutatkozas')}
-                className="text-sm hover:text-primary transition-colors"
+                className="text-sm transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300"
               >
                 Bemutatkozás
               </button>
               <button
                 onClick={() => navigate('/arak')}
-                className="text-sm text-primary font-medium transition-colors"
+                className="text-sm text-primary font-medium transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-primary"
               >
                 Árak és Csomagok
               </button>
               {user && (
                 <button
                   onClick={() => navigate('/')}
-                  className="text-sm hover:text-primary transition-colors"
+                  className="text-sm transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300"
                 >
                   Főoldal
                 </button>
