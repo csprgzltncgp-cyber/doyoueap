@@ -153,17 +153,20 @@ const Index = () => {
             <img src={logo} alt="doyoueap" className="h-8 cursor-pointer" onClick={() => setSearchParams({})} />
           </div>
           <nav className="hidden md:flex gap-6 items-center">
-            <a 
-              href="#home" 
-              className={`text-sm hover:text-primary transition-colors ${!section ? 'text-primary font-medium' : ''}`}
+            <button
               onClick={() => setSearchParams({})}
+              className={`text-sm hover:text-primary transition-colors ${!section ? 'text-primary font-medium' : ''}`}
             >
               Főoldal
-            </a>
-            <a href="#magazin" className="text-sm hover:text-primary transition-colors">Magazin</a>
-            <a href="#pulse" className="text-sm hover:text-primary transition-colors">Mi az EAP Pulse?</a>
-            <a href="#elonyok" className="text-sm hover:text-primary transition-colors">Előnyök</a>
-            <a href="#arak" className="text-sm hover:text-primary transition-colors">Árak</a>
+            </button>
+            {!section && (
+              <>
+                <a href="#magazin" className="text-sm hover:text-primary transition-colors">Magazin</a>
+                <a href="#pulse" className="text-sm hover:text-primary transition-colors">Mi az EAP Pulse?</a>
+                <a href="#elonyok" className="text-sm hover:text-primary transition-colors">Előnyök</a>
+                <a href="#arak" className="text-sm hover:text-primary transition-colors">Árak</a>
+              </>
+            )}
             {user && role === 'hr' && (
               <button
                 onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
