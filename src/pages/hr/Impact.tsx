@@ -415,13 +415,13 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
                   const allBelowFour = impactData.filter(item => item.average < 4);
                   
                   if (lowestMetric.average >= 4.5) {
-                    return <p className="text-muted-foreground">✅ Kiváló eredmények minden területen! Folytassátok így!</p>;
+                    return <p className="text-muted-foreground">Kiváló eredmények minden területen! Folytassátok így!</p>;
                   }
                   
                   if (allBelowFour.length >= 3) {
                     return (
                       <p className="text-muted-foreground">
-                        ⚠️ Több területen is érdemes fejleszteni. Kezdjétek a <strong>{lowestMetric.metric}</strong> területtel ({lowestMetric.average.toFixed(2)}), 
+                        Több területen is érdemes fejleszteni. Kezdjétek a <strong>{lowestMetric.metric}</strong> területtel ({lowestMetric.average.toFixed(2)}), 
                         majd folytathatjátok a többi alacsonyabb értékű területtel.
                       </p>
                     );
@@ -429,7 +429,7 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
                   
                   return (
                     <p className="text-muted-foreground">
-                      📊 A legnagyobb fejlesztési potenciál a <strong>{lowestMetric.metric}</strong> területen van (jelenlegi érték: {lowestMetric.average.toFixed(2)}). 
+                      A legnagyobb fejlesztési potenciál a <strong>{lowestMetric.metric}</strong> területen van (jelenlegi érték: {lowestMetric.average.toFixed(2)}). 
                       Érdemes külön figyelmet fordítani erre a területre.
                     </p>
                   );
@@ -440,99 +440,6 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
         </CardContent>
       </Card>
 
-      {/* Average Impact - Separate Card */}
-      <Card id="impact-overall-card">
-        <CardHeader className="relative">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-2 top-2 h-8 w-8"
-            onClick={() => exportCardToPNG('impact-overall-card', 'összesített-hatás')}
-          >
-            <Download className="h-4 w-4" />
-          </Button>
-          <div>
-            <CardTitle>Összesített Hatás Érték</CardTitle>
-            <CardDescription>Az 5 terület átlagos eredménye</CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="mb-4 p-3 bg-muted/50 rounded-lg text-sm">
-            <p className="text-muted-foreground">
-              <strong>Mit mutat?</strong> Ez az érték az 5 hatás terület átlagát mutatja. 
-              Egyetlen számban összefoglalva láthatjuk, hogy összességében milyen hatást ér el a program.
-            </p>
-          </div>
-          <div className="flex justify-center">
-            <GaugeChart
-              value={avgImpact}
-              maxValue={5}
-              minValue={1}
-              size={240}
-              label={avgImpact.toFixed(2)}
-              sublabel="Átlag (1-5 skála)"
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Statistical Summary */}
-      <Card id="impact-summary-card">
-        <CardHeader className="relative">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-2 top-2 h-8 w-8"
-            onClick={() => exportCardToPNG('impact-summary-card', 'hatás-összefoglaló')}
-          >
-            <Download className="h-4 w-4" />
-          </Button>
-          <div>
-            <CardTitle>Részletes Értékelések</CardTitle>
-            <CardDescription>Minden terület értéke egyenként</CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {impactData.map((metric) => {
-              let description = '';
-              switch(metric.metric) {
-                case 'Elégedettség':
-                  description = 'Általános elégedettség a programmal';
-                  break;
-                case 'Problémamegoldás':
-                  description = 'Mennyire segített a program a problémák kezelésében';
-                  break;
-                case 'Wellbeing javulás':
-                  description = 'Jóllét és mentális egészség javulása';
-                  break;
-                case 'Teljesítmény javulás':
-                  description = 'Munkahelyi teljesítmény pozitív változása';
-                  break;
-                case 'Szolgáltatás konzisztencia':
-                  description = 'A szolgáltatás minőségének következetessége';
-                  break;
-              }
-              
-              return (
-                <div key={metric.metric} className="flex flex-col items-center p-4 bg-muted/30 rounded-lg">
-                  <GaugeChart
-                    value={metric.average}
-                    maxValue={5}
-                    minValue={1}
-                    size={160}
-                    label={metric.average.toFixed(2)}
-                    sublabel={metric.metric}
-                  />
-                  <p className="text-xs text-muted-foreground text-center mt-3">
-                    {description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
