@@ -211,7 +211,7 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
               <CardTitle className="text-lg">Net Promoter Score (NPS)</CardTitle>
-              <CardDescription>Ajánlási hajlandóság mérése 0-10 skálán</CardDescription>
+              <CardDescription>Hányan ajánlanák a programot másoknak?</CardDescription>
             </div>
             <button
               onClick={() => exportCardToPNG('impact-nps-card', 'hatás-nps')}
@@ -222,10 +222,17 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
             </button>
           </CardHeader>
           <CardContent>
-            <div className="mb-4 p-3 bg-muted/50 rounded-lg text-sm">
+            <div className="mb-4 p-3 bg-muted/50 rounded-lg text-sm space-y-2">
               <p className="text-muted-foreground">
-                <strong>Számítás:</strong> Az NPS a promóterek (9-10 pont) és kritikusok (0-6 pont) arányának különbsége. 
-                A passzívak (7-8 pont) nem befolyásolják az eredményt.
+                <strong>Mit mutat az érték?</strong> Az NPS -100-tól +100-ig terjedhet.
+              </p>
+              <ul className="text-muted-foreground space-y-1 pl-4">
+                <li>• <strong>+50 felett:</strong> Kiváló - Sokan ajánlanák</li>
+                <li>• <strong>0 körül:</strong> Semleges - Ajánlók és kritikusok egyensúlyban</li>
+                <li>• <strong>0 alatt:</strong> Fejlesztendő - Több a kritikus</li>
+              </ul>
+              <p className="text-muted-foreground text-xs pt-1">
+                Kérdés: "0-10 skálán mennyire ajánlaná kollégáinak a programot?"
               </p>
             </div>
             <GaugeChart
@@ -239,15 +246,15 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
             <div className="mt-6 grid grid-cols-3 gap-4 text-center text-sm">
               <div>
                 <div className="text-2xl font-bold text-primary">{npsData.promoters}</div>
-                <div className="text-muted-foreground">Promóterek (9-10)</div>
+                <div className="text-muted-foreground">Ajánlók (9-10 pont)</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-primary/60">{npsData.passives}</div>
-                <div className="text-muted-foreground">Passzívak (7-8)</div>
+                <div className="text-muted-foreground">Semlegesek (7-8 pont)</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-primary/30">{npsData.detractors}</div>
-                <div className="text-muted-foreground">Kritikusok (0-6)</div>
+                <div className="text-muted-foreground">Kritikusok (0-6 pont)</div>
               </div>
             </div>
           </CardContent>
