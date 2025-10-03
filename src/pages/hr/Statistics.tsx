@@ -244,28 +244,28 @@ const Statistics = () => {
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
             <Eye className="h-4 w-4" />
-            4Score: Ismertség
+            Ismertség
           </TabsTrigger>
           <TabsTrigger 
             value="trust" 
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
             <Shield className="h-4 w-4" />
-            4Score: Bizalom
+            Bizalom
           </TabsTrigger>
           <TabsTrigger 
             value="usage" 
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
             <Activity className="h-4 w-4" />
-            4Score: Használat
+            Használat
           </TabsTrigger>
           <TabsTrigger 
             value="impact" 
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
             <Target className="h-4 w-4" />
-            4Score: Hatás
+            Hatás
           </TabsTrigger>
           <TabsTrigger 
             value="motivation" 
@@ -1371,6 +1371,94 @@ const Statistics = () => {
                       </CardContent>
                     </Card>
                   </div>
+
+                  {/* Használati részletek Grid */}
+                  <div className="grid grid-cols-2 gap-6">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Csatornák eloszlása</CardTitle>
+                        <CardDescription>Hogyan vették igénybe a programot (több válasz lehetséges)</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-2">
+                          {Object.entries(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .reduce((acc, r) => {
+                                const channels = r.responses?.u_usage_channel;
+                                if (Array.isArray(channels)) {
+                                  channels.forEach(channel => {
+                                    acc[channel] = (acc[channel] || 0) + 1;
+                                  });
+                                }
+                                return acc;
+                              }, {} as Record<string, number>)
+                          )
+                          .sort(([, a], [, b]) => (b as number) - (a as number))
+                          .map(([channel, count]) => (
+                            <div key={channel} className="flex justify-between items-center">
+                              <span className="text-sm">{channel}</span>
+                              <div className="flex items-center gap-2">
+                                <div className="w-32 bg-muted rounded-full h-2">
+                                  <div
+                                    className="h-2 rounded-full"
+                                    style={{ 
+                                      width: `${formatPercentage(count as number, usedBranch)}%`,
+                                      backgroundColor: '#3366ff'
+                                    }}
+                                  />
+                                </div>
+                                <span className="font-semibold w-16 text-right">{count as number} ({formatPercentage(count as number, usedBranch)}%)</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Témák eloszlása</CardTitle>
+                        <CardDescription>Milyen témákban kértek segítséget (több válasz lehetséges)</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-2">
+                          {Object.entries(
+                            responses
+                              .filter(r => r.employee_metadata?.branch === 'used')
+                              .reduce((acc, r) => {
+                                const topics = r.responses?.u_usage_topic;
+                                if (Array.isArray(topics)) {
+                                  topics.forEach(topic => {
+                                    acc[topic] = (acc[topic] || 0) + 1;
+                                  });
+                                }
+                                return acc;
+                              }, {} as Record<string, number>)
+                          )
+                          .sort(([, a], [, b]) => (b as number) - (a as number))
+                          .map(([topic, count]) => (
+                            <div key={topic} className="flex justify-between items-center">
+                              <span className="text-sm">{topic}</span>
+                              <div className="flex items-center gap-2">
+                                <div className="w-32 bg-muted rounded-full h-2">
+                                  <div
+                                    className="h-2 rounded-full"
+                                    style={{ 
+                                      width: `${formatPercentage(count as number, usedBranch)}%`,
+                                      backgroundColor: '#3366ff'
+                                    }}
+                                  />
+                                </div>
+                                <span className="font-semibold w-16 text-right">{count as number} ({formatPercentage(count as number, usedBranch)}%)</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
                   <Card>
                     <CardHeader>
                       <CardTitle className="text-sm">Használati gyakoriság eloszlása</CardTitle>
