@@ -655,7 +655,7 @@ const Statistics = () => {
                         <div className="flex justify-between items-center">
                           <CardTitle className="text-sm flex items-center gap-2">
                             <Eye className="h-4 w-4" />
-                            Ismertség (1-5 skála)
+                            Ismertség
                           </CardTitle>
                           <Button
                             variant="ghost"
@@ -669,16 +669,12 @@ const Statistics = () => {
                       </CardHeader>
                       <CardContent>
                         <GaugeChart
-                          value={parseFloat(calculateAverage(
-                            responses
-                              .filter(r => r.employee_metadata?.branch === 'used')
-                              .map(r => r.responses?.u_awareness_understanding)
-                              .filter(v => v !== undefined)
-                          ))}
-                          maxValue={5}
+                          value={totalResponses > 0 ? ((usedBranch + notUsedBranch) / totalResponses) * 100 : 0}
+                          maxValue={100}
                           size={150}
+                          label={`${totalResponses > 0 ? (((usedBranch + notUsedBranch) / totalResponses) * 100).toFixed(1) : '0.0'}%`}
                         />
-                        <p className="text-xs text-muted-foreground mt-2 text-center">Mennyire értik a munkavállalók a szolgáltatást</p>
+                        <p className="text-xs text-muted-foreground mt-2 text-center">A munkavállalók hány százaléka ismeri a programot</p>
                       </CardContent>
                     </Card>
 
