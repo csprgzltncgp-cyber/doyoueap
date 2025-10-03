@@ -288,7 +288,11 @@ const Reports = () => {
                 <CardDescription>{participationRate.toFixed(1)}%</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-[300px] flex items-center justify-center">
+                <p className="text-sm text-muted-foreground mb-4">
+                  A részvételi arány azt mutatja, hogy a munkavállalók hány százaléka töltötte ki a felmérést. 
+                  Jelenleg {totalResponses} fő válaszolt {employeeCount} alkalmazottból.
+                </p>
+                <div className="h-[250px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -308,29 +312,6 @@ const Reports = () => {
                       <Tooltip />
                     </PieChart>
                   </ResponsiveContainer>
-                </div>
-                <div className="mt-4 space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'hsl(var(--chart-1))' }} />
-                      <span>Használók (a kitöltőkből)</span>
-                    </div>
-                    <span className="font-medium">{usageRateFromRespondents.toFixed(1)}%</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'hsl(var(--chart-2))' }} />
-                      <span>Nem használók</span>
-                    </div>
-                    <span className="font-medium">{totalResponses > 0 ? ((notUsedBranch / totalResponses) * 100).toFixed(1) : '0.0'}%</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'hsl(var(--chart-3))' }} />
-                      <span>Nem tudtak róla</span>
-                    </div>
-                    <span className="font-medium">{totalResponses > 0 ? ((redirectBranch / totalResponses) * 100).toFixed(1) : '0.0'}%</span>
-                  </div>
                 </div>
               </CardContent>
             </Card>
