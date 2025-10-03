@@ -485,7 +485,10 @@ const Export = () => {
           <p className="text-muted-foreground">Felmérések exportálása különböző formátumokban</p>
         </div>
         
-        <div className="w-80">
+        <div className="min-w-[300px]">
+          <label className="text-xs text-muted-foreground mb-1.5 block">
+            Felmérés kiválasztása
+          </label>
           <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
             <SelectTrigger>
               <SelectValue placeholder="Felmérés kiválasztása" />
