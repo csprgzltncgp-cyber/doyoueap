@@ -8,6 +8,9 @@ import { HRSidebar } from "@/components/hr/HRSidebar";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import VerifyEmail from "./pages/VerifyEmail";
+import Magazin from "./pages/Magazin";
+import Bemutatkozas from "./pages/Bemutatkozas";
+import Arak from "./pages/Arak";
 import AdminDashboard from "./pages/AdminDashboard";
 import HRDashboard from "./pages/HRDashboard";
 import EAPAudit from "./pages/hr/EAPAudit";
@@ -48,6 +51,9 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/magazin" element={<Magazin />} />
+          <Route path="/bemutatkozas" element={<Bemutatkozas />} />
+          <Route path="/arak" element={<Arak />} />
           <Route
             path="/admin" 
             element={

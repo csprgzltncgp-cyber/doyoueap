@@ -150,65 +150,57 @@ const Index = () => {
         {/* Main Navigation */}
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <img src={logo} alt="doyoueap" className="h-8 cursor-pointer" onClick={() => setSearchParams({})} />
+            <img 
+              src={logo} 
+              alt="doyoueap" 
+              className="h-8 cursor-pointer" 
+              onClick={() => {
+                setSearchParams({});
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }} 
+            />
           </div>
           <nav className="hidden md:flex gap-6 items-center">
             <button
-              onClick={() => {
-                setSearchParams({});
-                setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
-              }}
-              className={`text-sm hover:text-primary transition-colors ${!section ? 'text-primary font-medium' : ''}`}
-            >
-              Főoldal
-            </button>
-            <button
-              onClick={() => {
-                setSearchParams({});
-                setTimeout(() => document.getElementById('magazin')?.scrollIntoView({ behavior: 'smooth' }), 100);
-              }}
+              onClick={() => navigate('/magazin')}
               className="text-sm hover:text-primary transition-colors"
             >
               Magazin
             </button>
             <button
-              onClick={() => {
-                setSearchParams({});
-                setTimeout(() => document.getElementById('pulse')?.scrollIntoView({ behavior: 'smooth' }), 100);
-              }}
+              onClick={() => navigate('/bemutatkozas')}
               className="text-sm hover:text-primary transition-colors"
             >
-              Mi az EAP Pulse?
+              Bemutatkozás
             </button>
             <button
-              onClick={() => {
-                setSearchParams({});
-                setTimeout(() => document.getElementById('elonyok')?.scrollIntoView({ behavior: 'smooth' }), 100);
-              }}
+              onClick={() => navigate('/arak')}
               className="text-sm hover:text-primary transition-colors"
             >
-              Előnyök
-            </button>
-            <button
-              onClick={() => {
-                setSearchParams({});
-                setTimeout(() => document.getElementById('arak')?.scrollIntoView({ behavior: 'smooth' }), 100);
-              }}
-              className="text-sm hover:text-primary transition-colors"
-            >
-              Árak
+              Árak és Csomagok
             </button>
             {user && role === 'hr' && (
-              <button
-                onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
-                className={`text-sm transition-colors px-3 py-2 rounded ${
-                  section 
-                    ? 'bg-primary text-primary-foreground font-semibold' 
-                    : 'hover:bg-muted'
-                }`}
-              >
-                Dashboard
-              </button>
+              <>
+                <button
+                  onClick={() => {
+                    setSearchParams({});
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className={`text-sm hover:text-primary transition-colors ${!section ? 'text-primary font-medium' : ''}`}
+                >
+                  Főoldal
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
+                  className={`text-sm transition-colors px-3 py-2 rounded ${
+                    section 
+                      ? 'bg-primary text-primary-foreground font-semibold' 
+                      : 'hover:bg-muted'
+                  }`}
+                >
+                  Dashboard
+                </button>
+              </>
             )}
           </nav>
           {user ? (
@@ -216,7 +208,7 @@ const Index = () => {
               Kilépés
             </Button>
           ) : (
-            <Button onClick={() => setShowLoginDialog(true)}>
+            <Button onClick={() => navigate('/auth')}>
               Bejelentkezés
             </Button>
           )}
