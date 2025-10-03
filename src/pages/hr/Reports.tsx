@@ -574,11 +574,35 @@ const Reports = () => {
       );
     }
 
-    return (
-      <div className="text-center py-12 text-muted-foreground">
-        Hamarosan elérhető: {activeTab}
-      </div>
-    );
+    // Render other tabs
+    switch (activeTab) {
+      case "awareness":
+        return <Awareness selectedAuditId={selectedAuditId} />;
+      case "trust":
+        return <TrustWillingness selectedAuditId={selectedAuditId} />;
+      case "usage":
+        return <Usage selectedAuditId={selectedAuditId} />;
+      case "impact":
+        return <Impact selectedAuditId={selectedAuditId} />;
+      case "motivation":
+        return <Motivation selectedAuditId={selectedAuditId} />;
+      case "categories":
+        return <UserCategories />;
+      case "demographics":
+        return <Demographics selectedAuditId={selectedAuditId} />;
+      case "trends":
+        return <Trends />;
+      case "compare":
+        return <Compare />;
+      case "methodology":
+        return <Methodology />;
+      default:
+        return (
+          <div className="text-center py-12 text-muted-foreground">
+            Hamarosan elérhető: {activeTab}
+          </div>
+        );
+    }
   };
 
   return (
