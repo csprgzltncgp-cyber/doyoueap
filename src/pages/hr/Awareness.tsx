@@ -492,7 +492,7 @@ const Awareness = ({ selectedAuditId }: AwarenessProps) => {
             <CardTitle className="text-lg">Szolgáltatás Megértésének Szintje</CardTitle>
             <CardDescription>Összehasonlítás használók és nem használók között (1-5 skála)</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6 h-[350px] overflow-y-auto">
             {understandingComparison.map((group) => (
               <div key={group.group} className="space-y-3">
                 <div className="flex items-center justify-between">
@@ -556,7 +556,7 @@ const Awareness = ({ selectedAuditId }: AwarenessProps) => {
             <CardTitle className="text-lg">Használói Tudásszint Részletesen</CardTitle>
             <CardDescription>Átfogó értékelés a használók körében ({usedResponses.length} fő)</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6 h-[350px] overflow-y-auto">
             {awarenessProfileData.map((item, index) => (
               <div key={index} className="space-y-2">
                 <div className="flex items-start justify-between">
