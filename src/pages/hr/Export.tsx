@@ -86,6 +86,10 @@ const Export = () => {
   };
 
   const handleExportPDF = async () => {
+    toast.error('A PDF exportálás jelenleg fejlesztés alatt áll. Kérjük, használja az Excel vagy PNG export lehetőségeket!');
+    return;
+    
+    /* PDF export átdolgozás alatt - az új riportok struktúrához kell igazítani
     setExporting(true);
     try {
       const jsPDF = (await import('jspdf')).default;
@@ -100,7 +104,6 @@ const Export = () => {
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
       const margin = 10;
-      const cardWidth = (pageWidth - 3 * margin) / 2; // 2 columns
       
       // Title page
       pdf.setFontSize(24);
@@ -110,128 +113,6 @@ const Export = () => {
       pdf.setFontSize(12);
       pdf.text(`Generálva: ${new Date().toLocaleDateString('hu-HU')}`, pageWidth / 2, 70, { align: 'center' });
 
-      // Define all tabs and their card IDs
-      const tabsToExport = [
-        {
-          name: 'Összefoglaló',
-          url: '/hr/statistics?tab=overview',
-          cardIds: ['utilization-card', 'satisfaction-card', 'participation-card', 'satisfaction-metrics-card', 'awareness-card', 'trust-card', 'usage-card', 'impact-card']
-        },
-        {
-          name: 'Ismertség',
-          url: '/hr/statistics?tab=awareness',
-          cardIds: ['overall-awareness-card', 'understanding-card', 'overall-knowledge-card', 'unawareness-card', 'sources-card', 'frequency-card', 'info-sufficiency-card', 'comparison-card', 'awareness-profile-card']
-        },
-        {
-          name: 'Bizalom & Hajlandóság',
-          url: '/hr/statistics?tab=trust',
-          cardIds: ['overall-anonymity-card', 'trust-index-card', 'employer-fear-card', 'likelihood-card', 'trust-radar-card', 'barriers-card', 'anonymity-comparison-card', 'employer-fear-comparison-card', 'colleagues-fear-comparison-card', 'trust-profile-card']
-        },
-        {
-          name: 'Használat',
-          url: '/hr/statistics?tab=usage',
-          cardIds: ['usage-rate-card', 'family-usage-card', 'top-topic-card', 'top-channel-card', 'frequency-card', 'family-distribution-card', 'topics-card', 'channels-card', 'time-to-care-card', 'usage-intensity-card']
-        },
-        {
-          name: 'Hatás',
-          url: '/hr/statistics?tab=impact',
-          cardIds: ['impact-nps-card', 'impact-avg-card', 'impact-metrics-card', 'impact-radar-card']
-        },
-        {
-          name: 'Motiváció',
-          url: '/hr/statistics?tab=motivation',
-          cardIds: ['motivators-card', 'expert-preference-card', 'channel-preference-card']
-        },
-        {
-          name: 'Demográfia',
-          url: '/hr/statistics?tab=demographics',
-          cardIds: ['category-distribution-card', 'comparison-chart-card', 'gender-distribution-card', 'age-distribution-card']
-        }
-      ];
-
-      // Capture each tab
-      for (let i = 0; i < tabsToExport.length; i++) {
-        const tab = tabsToExport[i];
-        
-        pdf.addPage();
-
-        // Add tab title
-        pdf.setFontSize(18);
-        pdf.text(tab.name, margin, 15);
-        
-        let yPosition = 25;
-        let xPosition = margin;
-        let columnIndex = 0;
-
-        // Create hidden iframe to load the page
-        const iframe = document.createElement('iframe');
-        iframe.style.position = 'absolute';
-        iframe.style.width = '1200px';
-        iframe.style.height = '3000px';
-        iframe.style.left = '-9999px';
-        iframe.src = tab.url;
-        document.body.appendChild(iframe);
-
-        // Wait for iframe to load
-        await new Promise<void>((resolve) => {
-          iframe.onload = () => {
-            setTimeout(() => resolve(), 2500); // Wait for data to load
-          };
-        });
-
-        // Capture each card
-        for (let cardIndex = 0; cardIndex < tab.cardIds.length; cardIndex++) {
-          const cardId = tab.cardIds[cardIndex];
-          const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-          if (!iframeDoc) continue;
-
-          const element = iframeDoc.getElementById(cardId);
-          if (!element) {
-            console.warn(`Card not found: ${cardId}`);
-            continue;
-          }
-
-          const canvas = await html2canvas(element, {
-            backgroundColor: '#ffffff',
-            scale: 1.5,
-            allowTaint: true,
-            useCORS: true,
-            windowWidth: 1200,
-          });
-
-          const imgData = canvas.toDataURL('image/png');
-          const aspectRatio = canvas.height / canvas.width;
-          const imgHeight = cardWidth * aspectRatio;
-
-          // Check if we need a new page
-          if (yPosition + imgHeight > pageHeight - margin) {
-            pdf.addPage();
-            pdf.setFontSize(18);
-            pdf.text(`${tab.name} (folytatás)`, margin, 15);
-            yPosition = 25;
-            xPosition = margin;
-            columnIndex = 0;
-          }
-
-          // Add image in 2-column layout
-          pdf.addImage(imgData, 'PNG', xPosition, yPosition, cardWidth, imgHeight);
-
-          // Move to next position
-          columnIndex++;
-          if (columnIndex % 2 === 0) {
-            // Move to next row
-            yPosition += imgHeight + 5;
-            xPosition = margin;
-          } else {
-            // Move to second column
-            xPosition = margin + cardWidth + margin;
-          }
-        }
-
-        // Remove iframe
-        document.body.removeChild(iframe);
-      }
-
       pdf.save(`eap_pulse_jelentes_${formatAuditName(selectedAudit)}_${Date.now()}.pdf`);
       toast.success('PDF sikeresen exportálva!');
     } catch (error) {
@@ -240,6 +121,7 @@ const Export = () => {
     } finally {
       setExporting(false);
     }
+    */
   };
 
   const handleExportPNG = async (cardId: string, fileName: string) => {
