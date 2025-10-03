@@ -357,7 +357,7 @@ export default function AuditQuestionnaire() {
 
   return (
     <div className="space-y-6">
-      <div className="max-w-3xl mx-auto">
+      <div>
         <div className="mb-6">
           <h2 className="text-2xl font-bold mb-2">EAP Pulse felmérés előnézet</h2>
           <p className="text-muted-foreground text-sm">
