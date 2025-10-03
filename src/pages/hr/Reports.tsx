@@ -245,6 +245,12 @@ const Reports = () => {
     if (activeTab === "overview") {
       return (
         <div className="space-y-6">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold mb-2">Összefoglaló Riport</h2>
+            <p className="text-muted-foreground">
+              A program átfogó mutatói: igénybevétel, elégedettség és részvétel
+            </p>
+          </div>
           {/* Top Row: Utilization and Satisfaction Gauges */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card id="utilization-card">
