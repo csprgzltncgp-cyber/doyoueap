@@ -342,19 +342,52 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
               <Download className="h-4 w-4" />
             </Button>
             <CardTitle className="text-lg">Használat Gyakorisága</CardTitle>
-            <CardDescription>Milyen gyakran vették igénybe a szolgáltatást</CardDescription>
+            <CardDescription>Hányszor vették igénybe a szolgáltatást a programot ismerők közül</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[350px]">
+            <div className="h-[350px] flex items-center justify-center">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={frequencyChartData} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis type="number" />
-                  <YAxis dataKey="name" type="category" width={150} />
+                <PieChart>
+                  <Pie
+                    data={frequencyChartData.map((item, index) => ({ 
+                      name: item.name, 
+                      value: item.value,
+                      color: `hsl(var(--chart-${(index % 4) + 1}))`
+                    }))}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={120}
+                    paddingAngle={2}
+                    dataKey="value"
+                    label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
+                  >
+                    {frequencyChartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={`hsl(var(--chart-${(index % 4) + 1}))`} />
+                    ))}
+                  </Pie>
                   <Tooltip />
-                  <Bar dataKey="value" fill="hsl(var(--chart-2))" radius={[0, 8, 8, 0]} />
-                </BarChart>
+                </PieChart>
               </ResponsiveContainer>
+            </div>
+            <div className="flex flex-wrap gap-4 justify-center mt-4">
+              {frequencyChartData.map((entry, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <div 
+                    className="w-3 h-3 rounded-full" 
+                    style={{ backgroundColor: `hsl(var(--chart-${(index % 4) + 1}))` }}
+                  />
+                  <span className="text-sm text-foreground">
+                    {entry.name}: {entry.value} fő
+                  </span>
+                </div>
+              ))}
+            </div>
+            <div className="bg-muted/30 p-3 rounded-md mt-4">
+              <p className="text-xs text-muted-foreground">
+                <strong>Értelmezés:</strong> Ez mutatja, hogy a használók hányszor fordultak a szolgáltatáshoz. 
+                Például "Egyszer" = egyszeri konzultáció, "Többször" = ismétlődő kapcsolattartás, "Rendszeresen" = folyamatos támogatás.
+              </p>
             </div>
           </CardContent>
         </Card>
