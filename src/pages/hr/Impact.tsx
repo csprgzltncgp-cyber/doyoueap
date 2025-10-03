@@ -135,7 +135,7 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
 
   const getNPSColor = (score: number) => {
     if (score >= 50) return 'text-primary';
-    if (score >= 0) return 'text-primary/70';
+    if (score > 0) return 'text-primary/70';
     return 'text-destructive';
   };
 
