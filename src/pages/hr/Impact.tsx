@@ -252,9 +252,6 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
                   style={{ left: `${((npsData.npsScore + 100) / 200) * 100}%` }}
                 >
                   <div className="w-6 h-6 rounded-full shadow-lg" style={{ backgroundColor: '#050c9c', border: '3px solid #ffffff' }}></div>
-                  <div className="absolute top-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-semibold" style={{ color: '#050c9c' }}>
-                    {npsData.npsScore}
-                  </div>
                 </div>
                 
                 {/* Scale markers */}
