@@ -2,9 +2,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 export default function CustomSurvey() {
   return (
-    <div className="container mx-auto p-6">
+    <div className="space-y-6">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">Egyedi közvélemény-kutatás indítása</h1>
+        <h2 className="text-2xl font-bold mb-2">Egyedi közvélemény-kutatás indítása</h2>
         <p className="text-muted-foreground">
           Hamarosan elérhető lesz az egyedi kérdőív létrehozása
         </p>
