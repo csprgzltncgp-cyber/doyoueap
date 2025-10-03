@@ -124,6 +124,7 @@ const Export = () => {
       container.style.top = '0';
       container.style.width = '210mm';
       container.style.background = 'white';
+      container.style.padding = '0';
       document.body.appendChild(container);
 
       // Render the PDF content
@@ -135,8 +136,8 @@ const Export = () => {
             responses: responses,
           })
         );
-        // Wait for render
-        setTimeout(resolve, 1000);
+        // Wait longer for all charts and content to render
+        setTimeout(resolve, 2500);
       });
 
       // Initialize PDF
@@ -146,18 +147,29 @@ const Export = () => {
 
       // Get all page sections
       const pages = container.querySelectorAll('.page-break-after');
-      const lastSection = container.querySelector('div:not(.page-break-after):last-child');
+      const lastSection = container.querySelector('.space-y-6:last-child');
       const allSections = [...Array.from(pages), lastSection].filter(Boolean) as HTMLElement[];
 
-      // Capture each page
+      console.log('Rendering', allSections.length, 'sections to PDF');
+
+      // Capture each page with better settings
       for (let i = 0; i < allSections.length; i++) {
         const section = allSections[i];
+        
+        // Make sure section is visible for capture
+        section.style.display = 'block';
+        section.style.visibility = 'visible';
+        section.style.opacity = '1';
         
         const canvas = await html2canvas(section, {
           scale: 2,
           useCORS: true,
-          logging: false,
+          logging: true,
           backgroundColor: '#ffffff',
+          windowWidth: 794, // A4 width in pixels at 96 DPI
+          windowHeight: section.scrollHeight,
+          scrollY: 0,
+          scrollX: 0,
         });
 
         const imgData = canvas.toDataURL('image/png');
@@ -168,7 +180,19 @@ const Export = () => {
           pdf.addPage();
         }
 
-        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+        // If content is taller than one page, handle multi-page
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+
+        while (heightLeft > 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pdfHeight;
+        }
       }
 
       // Cleanup
