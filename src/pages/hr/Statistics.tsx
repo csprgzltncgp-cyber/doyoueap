@@ -202,23 +202,20 @@ const Statistics = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold mb-2">Riportok</h1>
-        <p className="text-muted-foreground">Felmérések eredményeinek elemzése és értékelése</p>
-      </div>
+      <div className="flex justify-between items-start gap-4">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">Riportok</h1>
+          <p className="text-muted-foreground text-sm">Felmérések eredményeinek elemzése és értékelése</p>
+        </div>
 
-      {audits.length > 0 ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>Felmérés kiválasztása</CardTitle>
-            <CardDescription>
-              Válaszd ki azt a felmérést, amelynek riportjait szeretnéd megtekinteni
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+        {audits.length > 0 && (
+          <div className="min-w-[300px]">
+            <label className="text-xs text-muted-foreground mb-1.5 block">
+              Felmérés kiválasztása
+            </label>
             <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Válassz felmérést az elemzéshez" />
+                <SelectValue placeholder="Válassz felmérést" />
               </SelectTrigger>
               <SelectContent>
                 {audits.map((audit) => (
@@ -228,13 +225,14 @@ const Statistics = () => {
                 ))}
               </SelectContent>
             </Select>
-          </CardContent>
-        </Card>
-      ) : (
+          </div>
+        )}
+      </div>
+
+      {audits.length === 0 && (
         <Card>
-          <CardContent className="py-12 text-center text-muted-foreground">
-            <p className="text-lg mb-2">Nincs elérhető felmérés</p>
-            <p className="text-sm">Hozz létre egy felmérést az adatok megjelenítéséhez</p>
+          <CardContent className="py-8 text-center text-muted-foreground">
+            <p className="text-sm">Nincs elérhető felmérés. Hozz létre egyet az adatok megjelenítéséhez.</p>
           </CardContent>
         </Card>
       )}
