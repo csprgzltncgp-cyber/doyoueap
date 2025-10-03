@@ -1,4 +1,4 @@
-import { QrCode, BarChart3, FileText, Settings as SettingsIcon, LogOut, ClipboardList } from "lucide-react";
+import { Home, QrCode, BarChart3, FileText, Settings as SettingsIcon, LogOut, ClipboardList } from "lucide-react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 
 const menuItems = [
+  { title: "Dashboard", url: "/hr", icon: Home },
   { title: "EAP Pulse", url: "/hr/eap-audit", icon: QrCode },
   { title: "Egyedi közvélemény-kutatás", url: "/hr/custom-survey", icon: ClipboardList },
   { title: "Statisztikák", url: "/hr/statistics", icon: BarChart3 },
