@@ -50,20 +50,12 @@ const Bemutatkozas = () => {
                 Árak és Csomagok
               </button>
               {user && role === 'hr' && (
-                <>
-                  <button
-                    onClick={() => navigate('/')}
-                    className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
-                  >
-                    Főoldal
-                  </button>
-                  <button
-                    onClick={() => navigate('/?section=eap-pulse&sub=create-audit')}
-                    className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
-                  >
-                    Dashboard
-                  </button>
-                </>
+                <button
+                  onClick={() => navigate('/?section=eap-pulse&sub=create-audit')}
+                  className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
+                >
+                  Dashboard
+                </button>
               )}
             </nav>
           </div>
