@@ -607,32 +607,25 @@ const Reports = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-start gap-4">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">Riportok</h1>
-          <p className="text-muted-foreground text-sm">Felmérések eredményeinek elemzése és értékelése</p>
+      {audits.length > 0 && (
+        <div className="min-w-[300px]">
+          <label className="text-xs text-muted-foreground mb-1.5 block">
+            Felmérés kiválasztása
+          </label>
+          <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Válassz felmérést" />
+            </SelectTrigger>
+            <SelectContent>
+              {audits.map((audit) => (
+                <SelectItem key={audit.id} value={audit.id}>
+                  {formatAuditName(audit)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
-
-        {audits.length > 0 && (
-          <div className="min-w-[300px]">
-            <label className="text-xs text-muted-foreground mb-1.5 block">
-              Felmérés kiválasztása
-            </label>
-            <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Válassz felmérést" />
-              </SelectTrigger>
-              <SelectContent>
-                {audits.map((audit) => (
-                  <SelectItem key={audit.id} value={audit.id}>
-                    {formatAuditName(audit)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        )}
-      </div>
+      )}
 
       {audits.length === 0 && (
         <Card>
