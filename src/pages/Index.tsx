@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowRight, CheckCircle, TrendingUp, Users, FileText, Award } from 'lucide-react';
+import { ArrowRight, CheckCircle, TrendingUp, Users, FileText, Award, BarChart3, Settings as SettingsIcon, Download, FileEdit, PlayCircle, ClipboardList, Eye } from 'lucide-react';
 import { RegistrationWizard } from '@/components/registration/RegistrationWizard';
 import logo from '@/assets/doyoueap-logo.png';
 import HRDashboard from './HRDashboard';
@@ -35,7 +35,12 @@ const Index = () => {
     if (!loading && user && role === 'admin') {
       navigate('/admin');
     }
-  }, [user, role, loading, navigate]);
+    
+    // Set default subsection for EAP Pulse
+    if (user && role === 'hr' && section === 'eap-pulse' && !subSection) {
+      setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });
+    }
+  }, [user, role, loading, navigate, section, subSection, setSearchParams]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -185,41 +190,38 @@ const Index = () => {
             <div className="max-w-7xl mx-auto px-4 py-3">
               <nav className="flex gap-6">
                 <button
-                  onClick={() => setSearchParams({ section: 'dashboard' })}
-                  className={`text-sm hover:text-primary transition-colors ${section === 'dashboard' && !subSection ? 'text-primary font-medium' : ''}`}
+                  onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${section === 'eap-pulse' ? 'text-primary font-medium' : ''}`}
                 >
-                  Áttekintés
+                  <BarChart3 className="h-4 w-4" />
+                  EAP Pulse
                 </button>
-                <div className="relative group">
-                  <button
-                    onClick={() => setSearchParams({ section: 'eap-pulse' })}
-                    className={`text-sm hover:text-primary transition-colors ${section === 'eap-pulse' ? 'text-primary font-medium' : ''}`}
-                  >
-                    EAP Pulse
-                  </button>
-                </div>
                 <button
                   onClick={() => setSearchParams({ section: 'statistics' })}
-                  className={`text-sm hover:text-primary transition-colors ${section === 'statistics' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${section === 'statistics' ? 'text-primary font-medium' : ''}`}
                 >
+                  <TrendingUp className="h-4 w-4" />
                   Statisztika
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'export' })}
-                  className={`text-sm hover:text-primary transition-colors ${section === 'export' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${section === 'export' ? 'text-primary font-medium' : ''}`}
                 >
+                  <Download className="h-4 w-4" />
                   Export
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'custom-survey' })}
-                  className={`text-sm hover:text-primary transition-colors ${section === 'custom-survey' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${section === 'custom-survey' ? 'text-primary font-medium' : ''}`}
                 >
+                  <FileEdit className="h-4 w-4" />
                   Egyedi Felmérés
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'settings' })}
-                  className={`text-sm hover:text-primary transition-colors ${section === 'settings' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${section === 'settings' ? 'text-primary font-medium' : ''}`}
                 >
+                  <SettingsIcon className="h-4 w-4" />
                   Beállítások
                 </button>
               </nav>
@@ -234,20 +236,23 @@ const Index = () => {
               <nav className="flex gap-4">
                 <button
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
-                  className={`text-xs hover:text-primary transition-colors ${subSection === 'create-audit' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'create-audit' ? 'text-primary font-medium' : ''}`}
                 >
+                  <PlayCircle className="h-4 w-4" />
                   Új Felmérés
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'running-audits' })}
-                  className={`text-xs hover:text-primary transition-colors ${subSection === 'running-audits' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'running-audits' ? 'text-primary font-medium' : ''}`}
                 >
+                  <ClipboardList className="h-4 w-4" />
                   Futó Felmérések
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'audit-questionnaire' })}
-                  className={`text-xs hover:text-primary transition-colors ${subSection === 'audit-questionnaire' ? 'text-primary font-medium' : ''}`}
+                  className={`text-sm hover:text-primary transition-colors flex items-center gap-2 ${subSection === 'audit-questionnaire' ? 'text-primary font-medium' : ''}`}
                 >
+                  <Eye className="h-4 w-4" />
                   Kérdőív Beállítások
                 </button>
               </nav>
@@ -368,7 +373,11 @@ const Index = () => {
       </Dialog>
 
       {/* Dashboard Content or Landing Page */}
-      {renderDashboardContent() ? renderDashboardContent() : (
+      {renderDashboardContent() ? (
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          {renderDashboardContent()}
+        </div>
+      ) : (
         <>
           {/* Hero Section */}
 
