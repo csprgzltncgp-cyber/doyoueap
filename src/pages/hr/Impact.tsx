@@ -415,14 +415,14 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
                   const allBelowFour = impactData.filter(item => item.average < 4);
                   
                   if (lowestMetric.average >= 4.5) {
-                    return <p className="text-muted-foreground">Kiváló eredmények minden területen! Folytassátok így!</p>;
+                    return <p className="text-muted-foreground">Kiváló eredmények minden területen! Folytassák így!</p>;
                   }
                   
                   if (allBelowFour.length >= 3) {
                     return (
                       <p className="text-muted-foreground">
-                        Több területen is érdemes fejleszteni. Kezdjétek a <strong>{lowestMetric.metric}</strong> területtel ({lowestMetric.average.toFixed(2)}), 
-                        majd folytathatjátok a többi alacsonyabb értékű területtel.
+                        Több területen is érdemes fejleszteni. Kezdjék a <strong>{lowestMetric.metric}</strong> területtel ({lowestMetric.average.toFixed(2)}), 
+                        majd folytassák a többi alacsonyabb értékű területtel.
                       </p>
                     );
                   }
