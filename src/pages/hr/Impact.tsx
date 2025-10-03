@@ -268,7 +268,7 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
               <CardTitle className="text-lg">Átlagos Hatás Érték</CardTitle>
-              <CardDescription>Minden impact metrika átlaga (1-5)</CardDescription>
+              <CardDescription>Az 5 terület átlagos értékelése (1-5 skála)</CardDescription>
             </div>
             <button
               onClick={() => exportCardToPNG('impact-avg-card', 'hatás-átlag')}
@@ -281,7 +281,7 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
           <CardContent>
             <div className="mb-4 p-3 bg-muted/50 rounded-lg text-sm space-y-2">
               <p className="text-muted-foreground">
-                <strong>Metricsek:</strong> Elégedettség, Problémamegoldás, Wellbeing, Teljesítmény, Konzisztencia
+                <strong>Értékelt területek:</strong> Elégedettség, Problémamegoldás, Wellbeing, Teljesítmény, Konzisztencia
               </p>
               <p className="text-muted-foreground">
                 Az 5 impact metrika összesített átlaga 1-5 skálán.
