@@ -456,10 +456,10 @@ const Demographics = ({ selectedAuditId }: DemographicsProps) => {
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={stats.genderData}>
+                <BarChart data={stats.genderData} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
+                  <XAxis type="number" />
+                  <YAxis type="category" dataKey="name" width={100} />
                   <Tooltip />
                   <Bar dataKey="value" fill="hsl(var(--chart-1))" name="Válaszadók száma" />
                 </BarChart>
@@ -483,10 +483,10 @@ const Demographics = ({ selectedAuditId }: DemographicsProps) => {
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={stats.ageData}>
+                <BarChart data={stats.ageData} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
+                  <XAxis type="number" />
+                  <YAxis type="category" dataKey="name" width={100} />
                   <Tooltip />
                   <Bar dataKey="value" fill="hsl(var(--chart-2))" name="Válaszadók száma" />
                 </BarChart>
