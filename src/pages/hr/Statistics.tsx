@@ -202,27 +202,42 @@ const Statistics = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Statisztikák</h1>
-        {audits.length > 0 ? (
-          <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-            <SelectTrigger className="w-80">
-              <SelectValue placeholder="Válassz felmérést" />
-            </SelectTrigger>
-            <SelectContent>
-              {audits.map((audit) => (
-                <SelectItem key={audit.id} value={audit.id}>
-                  {formatAuditName(audit)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        ) : (
-          <div className="text-sm text-muted-foreground">
-            Nincs aktív felmérés - hozz létre egyet az adatok megjelenítéséhez
-          </div>
-        )}
+      <div>
+        <h1 className="text-3xl font-bold mb-2">Riportok</h1>
+        <p className="text-muted-foreground">Felmérések eredményeinek elemzése és értékelése</p>
       </div>
+
+      {audits.length > 0 ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>Felmérés kiválasztása</CardTitle>
+            <CardDescription>
+              Válaszd ki azt a felmérést, amelynek riportjait szeretnéd megtekinteni
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Válassz felmérést az elemzéshez" />
+              </SelectTrigger>
+              <SelectContent>
+                {audits.map((audit) => (
+                  <SelectItem key={audit.id} value={audit.id}>
+                    {formatAuditName(audit)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card>
+          <CardContent className="py-12 text-center text-muted-foreground">
+            <p className="text-lg mb-2">Nincs elérhető felmérés</p>
+            <p className="text-sm">Hozz létre egy felmérést az adatok megjelenítéséhez</p>
+          </CardContent>
+        </Card>
+      )}
 
       {renderContent()}
     </div>
