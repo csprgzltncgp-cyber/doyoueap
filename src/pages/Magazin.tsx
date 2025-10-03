@@ -8,7 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 
 const Magazin = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, role, signOut } = useAuth();
 
   const featuredArticle = {
     title: "A mentális egészség munkahelyi jelentősége 2025-ben",
@@ -85,20 +85,28 @@ const Magazin = () => {
               >
                 Árak és Csomagok
               </button>
-              {user && (
-                <button
-                  onClick={() => navigate('/')}
-                  className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
-                >
-                  Főoldal
-                </button>
+              {user && role === 'hr' && (
+                <>
+                  <button
+                    onClick={() => navigate('/')}
+                    className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
+                  >
+                    Főoldal
+                  </button>
+                  <button
+                    onClick={() => navigate('/?section=eap-pulse&sub=create-audit')}
+                    className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
+                  >
+                    Dashboard
+                  </button>
+                </>
               )}
             </nav>
           </div>
           <div className="flex items-center gap-4">
             {user ? (
-              <Button onClick={() => navigate('/?section=eap-pulse')}>
-                Dashboard
+              <Button onClick={signOut} variant="outline">
+                Kilépés
               </Button>
             ) : (
               <Button onClick={() => navigate('/auth')}>
