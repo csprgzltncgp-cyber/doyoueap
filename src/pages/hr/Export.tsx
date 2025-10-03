@@ -78,7 +78,7 @@ const Export = () => {
       }
     } catch (error) {
       console.error('Error fetching audits:', error);
-      toast.error('Hiba történt az auditek betöltésekor');
+      toast.error('Hiba történt a felmérések betöltésekor');
     } finally {
       setLoading(false);
     }
@@ -103,7 +103,7 @@ const Export = () => {
       
       // Title page
       pdf.setFontSize(24);
-      pdf.text('Audit Jelentés', pageWidth / 2, 40, { align: 'center' });
+      pdf.text('EAP Pulse Jelentés', pageWidth / 2, 40, { align: 'center' });
       pdf.setFontSize(16);
       pdf.text(formatAuditName(selectedAudit), pageWidth / 2, 55, { align: 'center' });
       pdf.setFontSize(12);
@@ -231,7 +231,7 @@ const Export = () => {
         document.body.removeChild(iframe);
       }
 
-      pdf.save(`audit_jelentés_${formatAuditName(selectedAudit)}_${Date.now()}.pdf`);
+      pdf.save(`eap_pulse_jelentes_${formatAuditName(selectedAudit)}_${Date.now()}.pdf`);
       toast.success('PDF sikeresen exportálva!');
     } catch (error) {
       console.error('Error exporting PDF:', error);
@@ -408,7 +408,7 @@ const Export = () => {
         XLSX.utils.book_append_sheet(wb, wsNonUsers, 'Nem használók');
       }
 
-      XLSX.writeFile(wb, `audit_export_${selectedAuditId}_${Date.now()}.xlsx`);
+      XLSX.writeFile(wb, `eap_pulse_export_${selectedAuditId}_${Date.now()}.xlsx`);
       toast.success('Excel sikeresen exportálva!');
     } catch (error) {
       console.error('Error exporting Excel:', error);
@@ -480,18 +480,18 @@ const Export = () => {
     <div className="p-8 space-y-6">
       <div>
         <h1 className="text-3xl font-bold mb-2">Export & Jelentések</h1>
-        <p className="text-muted-foreground">Auditok exportálása különböző formátumokban</p>
+        <p className="text-muted-foreground">Felmérések exportálása különböző formátumokban</p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Audit Kiválasztása</CardTitle>
-          <CardDescription>Válaszd ki az exportálandó auditot</CardDescription>
+          <CardTitle>Felmérés Kiválasztása</CardTitle>
+          <CardDescription>Válaszd ki az exportálandó felmérést</CardDescription>
         </CardHeader>
         <CardContent>
           <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Válassz auditot" />
+              <SelectValue placeholder="Válassz felmérést" />
             </SelectTrigger>
             <SelectContent>
               {audits.map((audit) => (
@@ -742,7 +742,7 @@ const Export = () => {
           <CardTitle>💡 Export Tippek</CardTitle>
         </CardHeader>
         <CardContent className="text-sm space-y-2">
-          <p><strong>PDF jelentés:</strong> Készíts gyors összefoglalót alapstatisztikákkal és audit információkkal</p>
+          <p><strong>PDF jelentés:</strong> Készíts gyors összefoglalót alapstatisztikákkal és felmérés információkkal</p>
           <p><strong>Excel export:</strong> Elemezd tovább az adatokat strukturált táblázatban szűrési lehetőségekkel</p>
           <p><strong>CSV export:</strong> Import nyers adatokat más elemző eszközökbe</p>
           <p><strong>PNG grafikonok:</strong> Kattints a Statistics oldalon található grafikonokra, majd használd a böngésző screenshot funkcióját</p>

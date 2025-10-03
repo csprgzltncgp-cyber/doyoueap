@@ -52,7 +52,7 @@ const Compare = () => {
       }
     } catch (error) {
       console.error('Error fetching audits:', error);
-      toast.error('Hiba történt az auditek betöltésekor');
+      toast.error('Hiba történt a felmérések betöltésekor');
     } finally {
       setLoading(false);
     }
@@ -66,7 +66,7 @@ const Compare = () => {
 
   const handleCompare = async () => {
     if (!audit1Id || !audit2Id || audit1Id === audit2Id) {
-      toast.error('Válassz két különböző auditot az összehasonlításhoz');
+      toast.error('Válassz két különböző felmérést az összehasonlításhoz');
       return;
     }
 
@@ -186,22 +186,22 @@ const Compare = () => {
   return (
     <div className="p-8 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Összehasonlító Nézet</h1>
-        <p className="text-muted-foreground">Két audit összehasonlítása</p>
+        <h1 className="text-3xl font-bold mb-2">4Score: Összehasonlító Nézet</h1>
+        <p className="text-muted-foreground">Két felmérés összehasonlítása</p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Auditok Kiválasztása</CardTitle>
-          <CardDescription>Válaszd ki a két összehasonlítandó auditot</CardDescription>
+          <CardTitle>Felmérések Kiválasztása</CardTitle>
+          <CardDescription>Válaszd ki a két összehasonlítandó felmérést</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-3 gap-4 items-center">
             <div>
-              <label className="text-sm font-medium mb-2 block">Korábbi audit</label>
+              <label className="text-sm font-medium mb-2 block">Korábbi felmérés</label>
               <Select value={audit1Id} onValueChange={setAudit1Id}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Válassz auditot" />
+                  <SelectValue placeholder="Válassz felmérést" />
                 </SelectTrigger>
                 <SelectContent>
                   {audits.map((audit) => (
@@ -218,10 +218,10 @@ const Compare = () => {
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-2 block">Újabb audit</label>
+              <label className="text-sm font-medium mb-2 block">Újabb felmérés</label>
               <Select value={audit2Id} onValueChange={setAudit2Id}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Válassz auditot" />
+                  <SelectValue placeholder="Válassz felmérést" />
                 </SelectTrigger>
                 <SelectContent>
                   {audits.map((audit) => (
@@ -250,7 +250,7 @@ const Compare = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center justify-between">
-                  Awareness
+                  Ismertség
                   {getDeltaIcon(metrics.awareness.delta)}
                 </CardTitle>
               </CardHeader>
@@ -274,7 +274,7 @@ const Compare = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center justify-between">
-                  Trust
+                  Bizalom
                   {getDeltaIcon(metrics.trust.delta)}
                 </CardTitle>
               </CardHeader>
@@ -298,7 +298,7 @@ const Compare = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center justify-between">
-                  Usage
+                  Használat
                   {getDeltaIcon(metrics.usage.delta)}
                 </CardTitle>
               </CardHeader>
@@ -322,7 +322,7 @@ const Compare = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center justify-between">
-                  Impact
+                  Hatás
                   {getDeltaIcon(metrics.impact.delta)}
                 </CardTitle>
               </CardHeader>
@@ -350,19 +350,19 @@ const Compare = () => {
             </CardHeader>
             <CardContent className="text-sm space-y-2">
               <p>
-                <strong>Awareness:</strong> {metrics.awareness.delta > 0 ? 'Javult' : metrics.awareness.delta < 0 ? 'Csökkent' : 'Változatlan'} 
+                <strong>Ismertség:</strong> {metrics.awareness.delta > 0 ? 'Javult' : metrics.awareness.delta < 0 ? 'Csökkent' : 'Változatlan'} 
                 ({metrics.awareness.delta > 0 ? '+' : ''}{metrics.awareness.delta} pont)
               </p>
               <p>
-                <strong>Trust:</strong> {metrics.trust.delta > 0 ? 'Javult' : metrics.trust.delta < 0 ? 'Csökkent' : 'Változatlan'} 
+                <strong>Bizalom:</strong> {metrics.trust.delta > 0 ? 'Javult' : metrics.trust.delta < 0 ? 'Csökkent' : 'Változatlan'} 
                 ({metrics.trust.delta > 0 ? '+' : ''}{metrics.trust.delta} pont)
               </p>
               <p>
-                <strong>Usage:</strong> {metrics.usage.delta > 0 ? 'Nőtt' : metrics.usage.delta < 0 ? 'Csökkent' : 'Változatlan'} 
+                <strong>Használat:</strong> {metrics.usage.delta > 0 ? 'Nőtt' : metrics.usage.delta < 0 ? 'Csökkent' : 'Változatlan'} 
                 ({metrics.usage.delta > 0 ? '+' : ''}{metrics.usage.delta} százalékpont)
               </p>
               <p>
-                <strong>Impact:</strong> {metrics.impact.delta > 0 ? 'Javult' : metrics.impact.delta < 0 ? 'Csökkent' : 'Változatlan'} 
+                <strong>Hatás:</strong> {metrics.impact.delta > 0 ? 'Javult' : metrics.impact.delta < 0 ? 'Csökkent' : 'Változatlan'} 
                 ({metrics.impact.delta > 0 ? '+' : ''}{metrics.impact.delta} pont)
               </p>
             </CardContent>

@@ -56,7 +56,7 @@ const Awareness = () => {
       }
     } catch (error) {
       console.error('Error fetching audits:', error);
-      toast.error('Hiba történt az auditek betöltésekor');
+      toast.error('Hiba történt a felmérések betöltésekor');
     } finally {
       setLoading(false);
     }
@@ -152,10 +152,10 @@ const Awareness = () => {
   return (
     <div className="p-8 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Awareness Riport</h1>
+        <h1 className="text-3xl font-bold">4Score: Ismertség Riport</h1>
         <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
           <SelectTrigger className="w-80">
-            <SelectValue placeholder="Válassz auditot" />
+            <SelectValue placeholder="Válassz felmérést" />
           </SelectTrigger>
           <SelectContent>
             {audits.map((audit) => (
@@ -171,7 +171,7 @@ const Awareness = () => {
         <Card className="p-12">
           <CardContent className="text-center text-muted-foreground">
             <p className="text-lg mb-2">Nincs megjeleníthető adat</p>
-            <p className="text-sm">Ehhez az audithoz még nincsenek olyan válaszok, ahol a kitöltők tudtak a programról vagy használták azt. Csak "Nem tudtam róla" válaszok érkeztek eddig.</p>
+            <p className="text-sm">Ehhez a felméréshez még nincsenek olyan válaszok, ahol a kitöltők tudtak a programról vagy használták azt. Csak "Nem tudtam róla" válaszok érkeztek eddig.</p>
           </CardContent>
         </Card>
       ) : (
@@ -228,7 +228,7 @@ const Awareness = () => {
             <CardContent>
               {awarenessData.length === 0 ? (
                 <div className="text-center py-12 text-muted-foreground">
-                  Még nincs adat ehhez az audithoz
+                  Még nincs adat ehhez a felméréshez
                 </div>
               ) : (
                 <ResponsiveContainer width="100%" height={400}>
@@ -279,7 +279,7 @@ const Awareness = () => {
             <CardContent>
               {awarenessData.length === 0 ? (
                 <div className="text-center py-12 text-muted-foreground">
-                  Még nincs adat ehhez az audithoz
+                  Még nincs adat ehhez a felméréshez
                 </div>
               ) : (
             <div className="space-y-8">

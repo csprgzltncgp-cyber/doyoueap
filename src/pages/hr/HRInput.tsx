@@ -68,7 +68,7 @@ const HRInput = () => {
       }
     } catch (error) {
       console.error('Error fetching audits:', error);
-      toast.error('Hiba történt az auditek betöltésekor');
+      toast.error('Hiba történt a felmérések betöltésekor');
     } finally {
       setLoading(false);
     }
@@ -76,7 +76,7 @@ const HRInput = () => {
 
   const handleSave = async () => {
     if (!selectedAuditId) {
-      toast.error('Válassz ki egy auditot');
+      toast.error('Válassz ki egy felmérést');
       return;
     }
 
@@ -120,12 +120,12 @@ const HRInput = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Audit Kiválasztása</CardTitle>
+          <CardTitle>Felmérés Kiválasztása</CardTitle>
         </CardHeader>
         <CardContent>
           <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
             <SelectTrigger>
-              <SelectValue placeholder="Válassz auditot" />
+              <SelectValue placeholder="Válassz felmérést" />
             </SelectTrigger>
             <SelectContent>
               {audits.map((audit) => (

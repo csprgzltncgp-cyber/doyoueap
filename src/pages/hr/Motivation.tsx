@@ -50,7 +50,7 @@ const Motivation = () => {
       }
     } catch (error) {
       console.error('Error fetching audits:', error);
-      toast.error('Hiba történt az auditek betöltésekor');
+      toast.error('Hiba történt a felmérések betöltésekor');
     } finally {
       setLoading(false);
     }
@@ -153,7 +153,7 @@ const Motivation = () => {
         <h1 className="text-3xl font-bold">Motiváció Riport</h1>
         <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
           <SelectTrigger className="w-80">
-            <SelectValue placeholder="Válassz auditot" />
+            <SelectValue placeholder="Válassz felmérést" />
           </SelectTrigger>
           <SelectContent>
             {audits.map((audit) => (
@@ -181,7 +181,7 @@ const Motivation = () => {
         <Card className="p-12">
           <CardContent className="text-center text-muted-foreground">
             <p className="text-lg mb-2">Nincs megjeleníthető adat</p>
-            <p className="text-sm">Ehhez az audithoz még nincsenek olyan válaszok, ahol a kitöltők tudtak a programról, de nem használták. Csak "Nem tudtam róla" vagy "Használtam" válaszok érkeztek eddig.</p>
+            <p className="text-sm">Ehhez a felméréshez még nincsenek olyan válaszok, ahol a kitöltők tudtak a programról, de nem használták. Csak "Nem tudtam róla" vagy "Használtam" válaszok érkeztek eddig.</p>
           </CardContent>
         </Card>
       ) : (
