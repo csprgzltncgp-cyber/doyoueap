@@ -607,25 +607,27 @@ const Reports = () => {
 
   return (
     <div className="space-y-6">
-      {audits.length > 0 && (
-        <div className="min-w-[300px]">
-          <label className="text-xs text-muted-foreground mb-1.5 block">
-            Felmérés kiválasztása
-          </label>
-          <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Válassz felmérést" />
-            </SelectTrigger>
-            <SelectContent>
-              {audits.map((audit) => (
-                <SelectItem key={audit.id} value={audit.id}>
-                  {formatAuditName(audit)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      )}
+      <div className="flex justify-between items-start gap-4">
+        {audits.length > 0 && (
+          <div className="min-w-[300px] ml-auto">
+            <label className="text-xs text-muted-foreground mb-1.5 block">
+              Felmérés kiválasztása
+            </label>
+            <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Válassz felmérést" />
+              </SelectTrigger>
+              <SelectContent>
+                {audits.map((audit) => (
+                  <SelectItem key={audit.id} value={audit.id}>
+                    {formatAuditName(audit)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+      </div>
 
       {audits.length === 0 && (
         <Card>
