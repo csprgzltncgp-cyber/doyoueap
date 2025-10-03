@@ -8,7 +8,7 @@ import { formatAuditName } from '@/lib/auditUtils';
 import { GaugeChart } from '@/components/ui/gauge-chart';
 import html2canvas from 'html2canvas';
 import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
+import { Download, AlertTriangle } from 'lucide-react';
 
 // NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface Audit {
@@ -403,7 +403,8 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
           {/* Improvement Suggestions */}
           {impactData.length > 0 && (
             <div className="mt-6 p-4 bg-destructive/10 rounded-lg border border-destructive/20">
-              <h4 className="font-semibold text-sm mb-3 text-destructive">
+              <h4 className="font-semibold text-sm mb-3 text-destructive flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4" />
                 Fejlesztési javaslatok
               </h4>
               <div className="space-y-2 text-sm">
