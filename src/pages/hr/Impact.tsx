@@ -303,38 +303,37 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
         </Card>
       </div>
 
-      {/* Impact Metrics Bar Chart */}
+      {/* Impact Metrics Gauge Charts */}
       <Card id="impact-metrics-card">
         <CardHeader className="relative">
           <Button
             variant="ghost"
             size="icon"
             className="absolute right-2 top-2 h-8 w-8"
-            onClick={() => exportCardToPNG('impact-metrics-card', 'hatás-metricsek')}
+            onClick={() => exportCardToPNG('impact-metrics-card', 'hatás-területek')}
           >
             <Download className="h-4 w-4" />
           </Button>
           <div>
-            <CardTitle>Hatás Metricsek</CardTitle>
+            <CardTitle>Hatás Területek</CardTitle>
             <CardDescription>Értékelések területenként (1-5 skála)</CardDescription>
           </div>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={impactData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                dataKey="metric" 
-                angle={-45}
-                textAnchor="end"
-                height={100}
-                fontSize={12}
-              />
-              <YAxis domain={[0, 5]} />
-              <Tooltip />
-              <Bar dataKey="average" fill="#3366ff" />
-            </BarChart>
-          </ResponsiveContainer>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {impactData.map((item) => (
+              <div key={item.metric} className="flex flex-col items-center">
+                <GaugeChart
+                  value={item.average}
+                  maxValue={5}
+                  minValue={1}
+                  size={180}
+                  label={item.average.toFixed(2)}
+                  sublabel={item.metric}
+                />
+              </div>
+            ))}
+          </div>
         </CardContent>
       </Card>
 
