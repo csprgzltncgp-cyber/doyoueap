@@ -426,18 +426,50 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
           <CardDescription>Milyen problémák kapcsán keresték meg a szolgáltatást (többszörös választás)</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-[350px]">
+          <div className="h-[350px] flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={topicChartData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" />
-                <YAxis dataKey="name" type="category" width={200} />
+              <PieChart>
+                <Pie
+                  data={topicChartData.map((item, index) => ({ 
+                    name: item.name, 
+                    value: item.value,
+                    color: `hsl(var(--chart-${(index % 4) + 1}))`
+                  }))}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={120}
+                  paddingAngle={2}
+                  dataKey="value"
+                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                >
+                  {topicChartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={`hsl(var(--chart-${(index % 4) + 1}))`} />
+                  ))}
+                </Pie>
                 <Tooltip />
-                <Bar dataKey="value" fill="hsl(var(--chart-2))" radius={[0, 8, 8, 0]} />
-              </BarChart>
+              </PieChart>
             </ResponsiveContainer>
           </div>
-          <p className="text-xs text-muted-foreground mt-4">
+          <div className="flex flex-wrap gap-4 justify-center mt-4">
+            {topicChartData.slice(0, 6).map((entry, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <div 
+                  className="w-3 h-3 rounded-full" 
+                  style={{ backgroundColor: `hsl(var(--chart-${(index % 4) + 1}))` }}
+                />
+                <span className="text-sm text-foreground">
+                  {entry.name}: {entry.value}
+                </span>
+              </div>
+            ))}
+            {topicChartData.length > 6 && (
+              <span className="text-xs text-muted-foreground">
+                +{topicChartData.length - 6} további téma
+              </span>
+            )}
+          </div>
+          <p className="text-xs text-muted-foreground text-center mt-4">
             Átlagosan {avgTopicsPerUser} témakört említenek a használók
           </p>
         </CardContent>
