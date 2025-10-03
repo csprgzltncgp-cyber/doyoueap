@@ -279,6 +279,20 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
             </button>
           </CardHeader>
           <CardContent>
+            <div className="mb-4 p-3 bg-muted/50 rounded-lg text-sm space-y-2">
+              <p className="text-muted-foreground">
+                <strong>Mit mutat az érték?</strong> Az 5 impact metrika összesített átlaga 1-5 skálán.
+              </p>
+              <ul className="text-muted-foreground space-y-1 pl-4">
+                <li>• <strong>4.5 felett:</strong> Kiváló hatás</li>
+                <li>• <strong>3.5-4.5:</strong> Jó hatás</li>
+                <li>• <strong>2.5-3.5:</strong> Közepes hatás</li>
+                <li>• <strong>2.5 alatt:</strong> Fejlesztendő</li>
+              </ul>
+              <p className="text-muted-foreground text-xs pt-1">
+                Metricsek: Elégedettség, Problémamegoldás, Wellbeing, Teljesítmény, Konzisztencia
+              </p>
+            </div>
             <GaugeChart
               value={avgImpact}
               maxValue={5}
