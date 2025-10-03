@@ -244,28 +244,28 @@ const Statistics = () => {
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
             <Eye className="h-4 w-4" />
-            Ismertség
+            4Score: Ismertség
           </TabsTrigger>
           <TabsTrigger 
             value="trust" 
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
             <Shield className="h-4 w-4" />
-            Bizalom & Hajlandóság
+            4Score: Bizalom
           </TabsTrigger>
           <TabsTrigger 
             value="usage" 
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
             <Activity className="h-4 w-4" />
-            Használat
+            4Score: Használat
           </TabsTrigger>
           <TabsTrigger 
             value="impact" 
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent gap-2"
           >
             <Target className="h-4 w-4" />
-            Hatás
+            4Score: Hatás
           </TabsTrigger>
           <TabsTrigger 
             value="motivation" 
@@ -644,8 +644,8 @@ const Statistics = () => {
               {/* Quick Overview of 4 themes */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Gyors áttekintés - 4 témakör</CardTitle>
-                  <CardDescription>Kulcsmutatók a felmérés fő témáiból</CardDescription>
+                  <CardTitle>4Score Áttekintés</CardTitle>
+                  <CardDescription>Kulcsmutatók a négy pillér mentén</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid md:grid-cols-4 gap-4">
