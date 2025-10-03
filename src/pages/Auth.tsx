@@ -18,7 +18,7 @@ const Auth = () => {
 
   useEffect(() => {
     if (user) {
-      navigate('/');
+      navigate('/?section=eap-pulse&sub=create-audit');
     }
   }, [user, navigate]);
 
