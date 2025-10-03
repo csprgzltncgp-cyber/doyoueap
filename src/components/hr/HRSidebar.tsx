@@ -57,11 +57,13 @@ export function HRSidebar() {
                     <SidebarMenuButton 
                       isActive={isActive}
                       onClick={(e) => {
+                        console.log('Menu clicked:', item.title);
                         e.preventDefault();
                         e.stopPropagation();
                         navigate(item.url);
                       }}
-                      className="cursor-pointer"
+                      type="button"
+                      style={{ pointerEvents: 'auto', cursor: 'pointer' }}
                     >
                       <item.icon className="h-4 w-4" />
                       {open && <span>{item.title}</span>}
@@ -74,11 +76,14 @@ export function HRSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton 
                   onClick={(e) => {
+                    console.log('Logout clicked');
                     e.preventDefault();
                     e.stopPropagation();
                     handleSignOut();
                   }} 
-                  className="text-destructive hover:text-destructive cursor-pointer"
+                  type="button"
+                  style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+                  className="text-destructive hover:text-destructive"
                 >
                   <LogOut className="h-4 w-4" />
                   {open && <span>Kijelentkezés</span>}
