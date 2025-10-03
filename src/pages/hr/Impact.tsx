@@ -211,7 +211,7 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
               <CardTitle className="text-lg">Net Promoter Score (NPS)</CardTitle>
-              <CardDescription>Ajánlási hajlandóság</CardDescription>
+              <CardDescription>Ajánlási hajlandóság mérése 0-10 skálán</CardDescription>
             </div>
             <button
               onClick={() => exportCardToPNG('impact-nps-card', 'hatás-nps')}
@@ -222,6 +222,12 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
             </button>
           </CardHeader>
           <CardContent>
+            <div className="mb-4 p-3 bg-muted/50 rounded-lg text-sm">
+              <p className="text-muted-foreground">
+                <strong>Számítás:</strong> Az NPS a promóterek (9-10 pont) és kritikusok (0-6 pont) arányának különbsége. 
+                A passzívak (7-8 pont) nem befolyásolják az eredményt.
+              </p>
+            </div>
             <GaugeChart
               value={npsData.npsScore}
               maxValue={100}
@@ -232,16 +238,16 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
             />
             <div className="mt-6 grid grid-cols-3 gap-4 text-center text-sm">
               <div>
-                <div className="text-2xl font-bold text-green-600">{npsData.promoters}</div>
-                <div className="text-muted-foreground">Promóterek</div>
+                <div className="text-2xl font-bold text-primary">{npsData.promoters}</div>
+                <div className="text-muted-foreground">Promóterek (9-10)</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-orange-600">{npsData.passives}</div>
-                <div className="text-muted-foreground">Passzívak</div>
+                <div className="text-2xl font-bold text-primary/60">{npsData.passives}</div>
+                <div className="text-muted-foreground">Passzívak (7-8)</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-red-600">{npsData.detractors}</div>
-                <div className="text-muted-foreground">Kritikusok</div>
+                <div className="text-2xl font-bold text-primary/30">{npsData.detractors}</div>
+                <div className="text-muted-foreground">Kritikusok (0-6)</div>
               </div>
             </div>
           </CardContent>
