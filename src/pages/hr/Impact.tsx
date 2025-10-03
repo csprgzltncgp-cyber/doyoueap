@@ -35,9 +35,19 @@ interface NPSData {
 
 interface ImpactProps {
   selectedAuditId: string;
+  audits: Array<{
+    id: string;
+    start_date: string;
+    program_name: string;
+    access_mode: string;
+    recurrence_config: any;
+    is_active: boolean;
+    expires_at: string | null;
+  }>;
+  onAuditChange: (id: string) => void;
 }
 
-const Impact = ({ selectedAuditId }: ImpactProps) => {
+const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
   const [impactData, setImpactData] = useState<ImpactMetric[]>([]);
   const [npsData, setNpsData] = useState<NPSData>({ promoters: 0, passives: 0, detractors: 0, npsScore: 0 });
   const [loading, setLoading] = useState(true);
@@ -199,11 +209,32 @@ const Impact = ({ selectedAuditId }: ImpactProps) => {
 
   return (
     <div className="space-y-6">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-2">Hatás Riport</h2>
-        <p className="text-muted-foreground">
-          A program használóinak elégedettsége, hatékonysága és ajánlási hajlandósága
-        </p>
+      <div className="flex justify-between items-start gap-4 mb-6">
+        <div className="flex-1">
+          <h2 className="text-2xl font-bold mb-2">Hatás Riport</h2>
+          <p className="text-muted-foreground">
+            A program használóinak elégedettsége, hatékonysága és ajánlási hajlandósága
+          </p>
+        </div>
+        {audits.length > 0 && (
+          <div className="min-w-[300px]">
+            <label className="text-xs text-muted-foreground mb-1.5 block">
+              Felmérés kiválasztása
+            </label>
+            <Select value={selectedAuditId} onValueChange={onAuditChange}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Válassz felmérést" />
+              </SelectTrigger>
+              <SelectContent>
+                {audits.map((audit) => (
+                  <SelectItem key={audit.id} value={audit.id}>
+                    {formatAuditName(audit)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
       </div>
 
       {/* Main Metrics */}

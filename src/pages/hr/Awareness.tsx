@@ -1,18 +1,30 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Download, Eye, Info, TrendingUp, Users } from 'lucide-react';
 import { GaugeChart } from '@/components/ui/gauge-chart';
 import { Progress } from '@/components/ui/progress';
+import { formatAuditName } from '@/lib/auditUtils';
 
 interface AwarenessProps {
   selectedAuditId: string;
+  audits: Array<{
+    id: string;
+    start_date: string;
+    program_name: string;
+    access_mode: string;
+    recurrence_config: any;
+    is_active: boolean;
+    expires_at: string | null;
+  }>;
+  onAuditChange: (id: string) => void;
 }
 
-const Awareness = ({ selectedAuditId }: AwarenessProps) => {
+const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) => {
   const [responses, setResponses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -193,11 +205,32 @@ const Awareness = ({ selectedAuditId }: AwarenessProps) => {
   return (
     <div className="space-y-6">
       {/* Fejléc és összefoglaló kártyák */}
-      <div>
-        <h2 className="text-2xl font-bold mb-2">Ismertség Részletes Elemzése</h2>
-        <p className="text-muted-foreground text-sm">
-          Az EAP program ismeretének, megértésének és kommunikációjának átfogó kiértékelése
-        </p>
+      <div className="flex justify-between items-start gap-4 mb-6">
+        <div className="flex-1">
+          <h2 className="text-2xl font-bold mb-2">Ismertség Részletes Elemzése</h2>
+          <p className="text-muted-foreground text-sm">
+            Az EAP program ismeretének, megértésének és kommunikációjának átfogó kiértékelése
+          </p>
+        </div>
+        {audits.length > 0 && (
+          <div className="min-w-[300px]">
+            <label className="text-xs text-muted-foreground mb-1.5 block">
+              Felmérés kiválasztása
+            </label>
+            <Select value={selectedAuditId} onValueChange={onAuditChange}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Válassz felmérést" />
+              </SelectTrigger>
+              <SelectContent>
+                {audits.map((audit) => (
+                  <SelectItem key={audit.id} value={audit.id}>
+                    {formatAuditName(audit)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
       </div>
 
       {/* 1. sor: Fő ismertségi mutatók */}

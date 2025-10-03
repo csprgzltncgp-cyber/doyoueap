@@ -245,11 +245,32 @@ const Reports = () => {
     if (activeTab === "overview") {
       return (
         <div className="space-y-6">
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold mb-2">Összefoglaló Riport</h2>
-            <p className="text-muted-foreground">
-              A program átfogó mutatói: igénybevétel, elégedettség és részvétel
-            </p>
+          <div className="flex justify-between items-start gap-4 mb-6">
+            <div className="flex-1">
+              <h2 className="text-2xl font-bold mb-2">Összefoglaló Riport</h2>
+              <p className="text-muted-foreground">
+                A program átfogó mutatói: igénybevétel, elégedettség és részvétel
+              </p>
+            </div>
+            {audits.length > 0 && (
+              <div className="min-w-[300px]">
+                <label className="text-xs text-muted-foreground mb-1.5 block">
+                  Felmérés kiválasztása
+                </label>
+                <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Válassz felmérést" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {audits.map((audit) => (
+                      <SelectItem key={audit.id} value={audit.id}>
+                        {formatAuditName(audit)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
           </div>
           {/* Top Row: Utilization and Satisfaction Gauges */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -583,19 +604,19 @@ const Reports = () => {
     // Render other tabs
     switch (activeTab) {
       case "awareness":
-        return <Awareness selectedAuditId={selectedAuditId} />;
+        return <Awareness selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
       case "trust":
-        return <TrustWillingness selectedAuditId={selectedAuditId} />;
+        return <TrustWillingness selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
       case "usage":
-        return <Usage selectedAuditId={selectedAuditId} />;
+        return <Usage selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
       case "impact":
-        return <Impact selectedAuditId={selectedAuditId} />;
+        return <Impact selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
       case "motivation":
-        return <Motivation selectedAuditId={selectedAuditId} />;
+        return <Motivation selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
       case "categories":
         return <UserCategories />;
       case "demographics":
-        return <Demographics selectedAuditId={selectedAuditId} />;
+        return <Demographics selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
       case "trends":
         return <Trends />;
       case "compare":
@@ -613,28 +634,6 @@ const Reports = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-start gap-4">
-        {audits.length > 0 && (
-          <div className="min-w-[300px] ml-auto">
-            <label className="text-xs text-muted-foreground mb-1.5 block">
-              Felmérés kiválasztása
-            </label>
-            <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Válassz felmérést" />
-              </SelectTrigger>
-              <SelectContent>
-                {audits.map((audit) => (
-                  <SelectItem key={audit.id} value={audit.id}>
-                    {formatAuditName(audit)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        )}
-      </div>
-
       {audits.length === 0 && (
         <Card>
           <CardContent className="py-8 text-center text-muted-foreground">

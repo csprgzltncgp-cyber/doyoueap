@@ -1,18 +1,30 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Download, Shield, Users, AlertTriangle, TrendingUp, Lock, Eye } from 'lucide-react';
 import { GaugeChart } from '@/components/ui/gauge-chart';
 import { Progress } from '@/components/ui/progress';
+import { formatAuditName } from '@/lib/auditUtils';
 
 interface TrustWillingnessProps {
   selectedAuditId: string;
+  audits: Array<{
+    id: string;
+    start_date: string;
+    program_name: string;
+    access_mode: string;
+    recurrence_config: any;
+    is_active: boolean;
+    expires_at: string | null;
+  }>;
+  onAuditChange: (id: string) => void;
 }
 
-const TrustWillingness = ({ selectedAuditId }: TrustWillingnessProps) => {
+const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWillingnessProps) => {
   const [responses, setResponses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -262,11 +274,32 @@ const TrustWillingness = ({ selectedAuditId }: TrustWillingnessProps) => {
   return (
     <div className="space-y-6">
       {/* Fejléc */}
-      <div>
-        <h2 className="text-2xl font-bold mb-2">Bizalom & Készség Részletes Elemzése</h2>
-        <p className="text-muted-foreground text-sm">
-          Az EAP program bizalmi szintjének, anonimitás védelmének és használati hajlandóságának átfogó kiértékelése
-        </p>
+      <div className="flex justify-between items-start gap-4 mb-6">
+        <div className="flex-1">
+          <h2 className="text-2xl font-bold mb-2">Bizalom & Készség Részletes Elemzése</h2>
+          <p className="text-muted-foreground text-sm">
+            Az EAP program bizalmi szintjének, anonimitás védelmének és használati hajlandóságának átfogó kiértékelése
+          </p>
+        </div>
+        {audits.length > 0 && (
+          <div className="min-w-[300px]">
+            <label className="text-xs text-muted-foreground mb-1.5 block">
+              Felmérés kiválasztása
+            </label>
+            <Select value={selectedAuditId} onValueChange={onAuditChange}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Válassz felmérést" />
+              </SelectTrigger>
+              <SelectContent>
+                {audits.map((audit) => (
+                  <SelectItem key={audit.id} value={audit.id}>
+                    {formatAuditName(audit)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
       </div>
 
       {/* 1. sor: Fő bizalmi mutatók */}

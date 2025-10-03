@@ -38,9 +38,19 @@ interface ComparisonData {
 
 interface DemographicsProps {
   selectedAuditId: string;
+  audits: Array<{
+    id: string;
+    start_date: string;
+    program_name: string;
+    access_mode: string;
+    recurrence_config: any;
+    is_active: boolean;
+    expires_at: string | null;
+  }>;
+  onAuditChange: (id: string) => void;
 }
 
-const Demographics = ({ selectedAuditId }: DemographicsProps) => {
+const Demographics = ({ selectedAuditId, audits, onAuditChange }: DemographicsProps) => {
   const [selectedGender, setSelectedGender] = useState<string>('all');
   const [selectedAge, setSelectedAge] = useState<string>('all');
   const [stats, setStats] = useState<DemographicStats>({ 
@@ -253,11 +263,32 @@ const Demographics = ({ selectedAuditId }: DemographicsProps) => {
 
   return (
     <div className="space-y-6">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-2">Demográfiai Elemzés</h2>
-        <p className="text-muted-foreground">
-          Válaszadók megoszlása kor, nem és felhasználói kategóriák szerint
-        </p>
+      <div className="flex justify-between items-start gap-4 mb-6">
+        <div className="flex-1">
+          <h2 className="text-2xl font-bold mb-2">Demográfiai Elemzés</h2>
+          <p className="text-muted-foreground">
+            Válaszadók megoszlása kor, nem és felhasználói kategóriák szerint
+          </p>
+        </div>
+        {audits.length > 0 && (
+          <div className="min-w-[300px]">
+            <label className="text-xs text-muted-foreground mb-1.5 block">
+              Felmérés kiválasztása
+            </label>
+            <Select value={selectedAuditId} onValueChange={onAuditChange}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Válassz felmérést" />
+              </SelectTrigger>
+              <SelectContent>
+                {audits.map((audit) => (
+                  <SelectItem key={audit.id} value={audit.id}>
+                    {formatAuditName(audit)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
       </div>
 
       {/* Filters */}
