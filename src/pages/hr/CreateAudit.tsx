@@ -174,108 +174,106 @@ const CreateAudit = () => {
   };
 
   return (
-    <div className="p-8 max-w-4xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Új EAP Pulse Felmérés Indítása</h1>
-        <p className="text-muted-foreground">
+    <div className="space-y-6">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold mb-2">Új EAP Pulse Felmérés Indítása</h2>
+        <p className="text-muted-foreground text-sm">
           Lépés {currentStep} / {totalSteps}
         </p>
         <Progress value={(currentStep / totalSteps) * 100} className="mt-4" />
       </div>
 
-      <Card>
-        <CardContent className="pt-6">
-          {currentStep === 1 && (
-            <Step6ProgramName
-              programName={programName}
-              eapProgramUrl={eapProgramUrl}
-              onProgramNameChange={setProgramName}
-              onEapProgramUrlChange={setEapProgramUrl}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
+      <div className="space-y-6">
+        {currentStep === 1 && (
+          <Step6ProgramName
+            programName={programName}
+            eapProgramUrl={eapProgramUrl}
+            onProgramNameChange={setProgramName}
+            onEapProgramUrlChange={setEapProgramUrl}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        )}
 
-          {currentStep === 2 && (
-            <Step1AccessMode
-              accessMode={accessMode}
-              onAccessModeChange={setAccessMode}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
+        {currentStep === 2 && (
+          <Step1AccessMode
+            accessMode={accessMode}
+            onAccessModeChange={setAccessMode}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        )}
 
-          {currentStep === 3 && (
-            <Step2Communication
-              communicationText={communicationText}
-              onCommunicationTextChange={setCommunicationText}
-              accessMode={accessMode}
-              programName={programName}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
+        {currentStep === 3 && (
+          <Step2Communication
+            communicationText={communicationText}
+            onCommunicationTextChange={setCommunicationText}
+            accessMode={accessMode}
+            programName={programName}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        )}
 
-          {currentStep === 4 && (
-            <Step3Distribution
-              accessMode={accessMode}
-              accessToken={accessToken}
-              communicationText={communicationText}
-              emailSubject={emailSubject}
-              emailFrom={emailFrom}
-              onEmailSubjectChange={setEmailSubject}
-              onEmailFromChange={setEmailFrom}
-              onEmailListUpload={setEmailListFile}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
+        {currentStep === 4 && (
+          <Step3Distribution
+            accessMode={accessMode}
+            accessToken={accessToken}
+            communicationText={communicationText}
+            emailSubject={emailSubject}
+            emailFrom={emailFrom}
+            onEmailSubjectChange={setEmailSubject}
+            onEmailFromChange={setEmailFrom}
+            onEmailListUpload={setEmailListFile}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        )}
 
-          {currentStep === 5 && (
-            <Step3Branding
-              logoFile={logoFile}
-              customColors={customColors}
-              onLogoChange={setLogoFile}
-              onColorsChange={setCustomColors}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
+        {currentStep === 5 && (
+          <Step3Branding
+            logoFile={logoFile}
+            customColors={customColors}
+            onLogoChange={setLogoFile}
+            onColorsChange={setCustomColors}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        )}
 
-          {currentStep === 6 && (
-            <Step4Timing
-              startDate={startDate}
-              expiresAt={expiresAt}
-              enableRecurrence={enableRecurrence}
-              recurrenceFrequency={recurrenceFrequency}
-              onStartDateChange={setStartDate}
-              onExpiresAtChange={setExpiresAt}
-              onEnableRecurrenceChange={setEnableRecurrence}
-              onRecurrenceFrequencyChange={setRecurrenceFrequency}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
+        {currentStep === 6 && (
+          <Step4Timing
+            startDate={startDate}
+            expiresAt={expiresAt}
+            enableRecurrence={enableRecurrence}
+            recurrenceFrequency={recurrenceFrequency}
+            onStartDateChange={setStartDate}
+            onExpiresAtChange={setExpiresAt}
+            onEnableRecurrenceChange={setEnableRecurrence}
+            onRecurrenceFrequencyChange={setRecurrenceFrequency}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        )}
 
-          {currentStep === 7 && (
-            <Step5Languages
-              selectedLanguages={selectedLanguages}
-              onLanguagesChange={setSelectedLanguages}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
+        {currentStep === 7 && (
+          <Step5Languages
+            selectedLanguages={selectedLanguages}
+            onLanguagesChange={setSelectedLanguages}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        )}
 
-          {currentStep === 8 && (
-            <Step7Summary
-              auditData={auditData}
-              onSubmit={handleSubmit}
-              onBack={handleBack}
-              loading={loading}
-            />
-          )}
-        </CardContent>
-      </Card>
+        {currentStep === 8 && (
+          <Step7Summary
+            auditData={auditData}
+            onSubmit={handleSubmit}
+            onBack={handleBack}
+            loading={loading}
+          />
+        )}
+      </div>
     </div>
   );
 };
