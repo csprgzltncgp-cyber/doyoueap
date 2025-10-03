@@ -348,7 +348,7 @@ const TrustWillingness = ({ selectedAuditId }: TrustWillingnessProps) => {
           <div 
             className="absolute inset-0 transition-all duration-500"
             style={{
-              background: `linear-gradient(to top, hsl(var(--chart-3)) 0%, hsl(var(--chart-3)) ${(parseFloat(overallEmployerFearScore) / 5) * 100}%, transparent ${(parseFloat(overallEmployerFearScore) / 5) * 100}%, transparent 100%)`,
+              background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${(parseFloat(overallEmployerFearScore) / 5) * 100}%, transparent ${(parseFloat(overallEmployerFearScore) / 5) * 100}%, transparent 100%)`,
               opacity: 0.1
             }}
           />
@@ -369,7 +369,7 @@ const TrustWillingness = ({ selectedAuditId }: TrustWillingnessProps) => {
           </CardHeader>
           <CardContent className="space-y-4 relative z-10">
             <div className="text-center">
-              <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-3))' }}>
+              <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
                 {overallEmployerFearScore}
               </div>
               <p className="text-sm text-muted-foreground mt-2">
