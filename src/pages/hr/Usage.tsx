@@ -239,13 +239,15 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
 
         {/* Leggyakoribb Témakör */}
         <Card className="relative overflow-hidden" id="top-topic-card">
-          <div 
-            className="absolute inset-0 transition-all duration-500"
-            style={{
-              background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) 60%, transparent 60%, transparent 100%)`,
-              opacity: 0.1
-            }}
-          />
+          {topTopic && (
+            <div 
+              className="absolute inset-0 transition-all duration-500"
+              style={{
+                background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${usedResponses.length > 0 ? ((topTopic.value / usedResponses.length) * 100).toFixed(0) : 0}%, transparent ${usedResponses.length > 0 ? ((topTopic.value / usedResponses.length) * 100).toFixed(0) : 0}%, transparent 100%)`,
+                opacity: 0.1
+              }}
+            />
+          )}
           <CardHeader className="relative z-10">
             <Button
               variant="ghost"
@@ -284,13 +286,15 @@ const Usage = ({ selectedAuditId }: UsageProps) => {
 
         {/* Leggyakoribb Csatorna */}
         <Card className="relative overflow-hidden" id="top-channel-card">
-          <div 
-            className="absolute inset-0 transition-all duration-500"
-            style={{
-              background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) 60%, transparent 60%, transparent 100%)`,
-              opacity: 0.1
-            }}
-          />
+          {topChannel && (
+            <div 
+              className="absolute inset-0 transition-all duration-500"
+              style={{
+                background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${usedResponses.length > 0 ? ((topChannel.value / usedResponses.length) * 100).toFixed(0) : 0}%, transparent ${usedResponses.length > 0 ? ((topChannel.value / usedResponses.length) * 100).toFixed(0) : 0}%, transparent 100%)`,
+                opacity: 0.1
+              }}
+            />
+          )}
           <CardHeader className="relative z-10">
             <Button
               variant="ghost"
