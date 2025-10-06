@@ -302,7 +302,7 @@ const Bemutatkozas = () => {
                   </Card>
                 </div>
                 <div className="pt-6">
-                  <Button size="lg" onClick={() => navigate('/arak')}>
+                  <Button size="lg" onClick={() => navigate('/arak')} className="bg-[#050c9c] hover:bg-[#050c9c]/90">
                     Ismerje meg a partner programot
                   </Button>
                 </div>
