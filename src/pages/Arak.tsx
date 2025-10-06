@@ -141,7 +141,7 @@ const Arak = () => {
                 </div>
               )}
               <CardHeader className="text-center pb-8 pt-8">
-                <CardTitle className={`text-2xl mb-2 ${pkg.recommended ? 'text-[#3572ef]' : ''}`}>{pkg.name}</CardTitle>
+                <CardTitle className="text-2xl mb-2">{pkg.name}</CardTitle>
                 <CardDescription>{pkg.description}</CardDescription>
                 <div className="mt-4">
                   <span className="text-4xl font-bold">{pkg.price}</span>
