@@ -185,7 +185,7 @@ const Index = () => {
                 onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
                 className={`text-sm transition-colors px-3 py-2 rounded-sm ${
                   section 
-                    ? 'bg-primary text-primary-foreground font-semibold' 
+                    ? 'bg-[#3572ef] text-white font-semibold' 
                     : 'hover:bg-muted'
                 }`}
               >
