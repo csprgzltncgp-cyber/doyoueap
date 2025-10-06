@@ -7,7 +7,7 @@ import { Clock, User, TrendingUp, Calendar, ChevronRight } from 'lucide-react';
 import logo from '@/assets/doyoueap-logo.png';
 import journalistLogo from '@/assets/thejournalist_logo.png';
 import journalistBg from '@/assets/journalist-bg.jpg';
-import featuredArticleImg from '@/assets/featured-article.jpg';
+import featuredArticleImg from '@/assets/4score-article.jpg';
 import { useAuth } from '@/hooks/useAuth';
 import { 
   Carousel, 
