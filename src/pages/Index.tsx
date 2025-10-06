@@ -602,7 +602,7 @@ const Index = () => {
                   <Eye className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold mb-3">Awareness</h3>
+                  <h3 className="text-2xl font-bold mb-3">Tudatosság</h3>
                   <p className="text-muted-foreground leading-relaxed">
                     Felmérjük, hogy a munkatársak mennyire ismerik az EAP programot, 
                     milyen csatornákon értesültek róla, és milyen szolgáltatásokról tudnak.
@@ -616,7 +616,7 @@ const Index = () => {
                   <Shield className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold mb-3">Trust</h3>
+                  <h3 className="text-2xl font-bold mb-3">Bizalom & Hajlandóság</h3>
                   <p className="text-muted-foreground leading-relaxed">
                     Mérjük a bizalmat és hajlandóságot: mennyire érzik biztonságosnak a dolgozók 
                     a szolgáltatást, és milyen tényezők befolyásolják a használatot.
@@ -630,7 +630,7 @@ const Index = () => {
                   <Activity className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold mb-3">Usage</h3>
+                  <h3 className="text-2xl font-bold mb-3">Használat</h3>
                   <p className="text-muted-foreground leading-relaxed">
                     Megismerjük a tényleges használatot: ki, mikor és miért veszi igénybe a programot, 
                     milyen motivációk húzódnak meg a háttérben.
@@ -644,7 +644,7 @@ const Index = () => {
                   <Target className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold mb-3">Impact</h3>
+                  <h3 className="text-2xl font-bold mb-3">Hatás</h3>
                   <p className="text-muted-foreground leading-relaxed">
                     Kimutatjuk a hatást: hogyan értékelik a dolgozók a kapott segítséget, 
                     milyen változásokat tapasztaltak, és ajánlanák-e másoknak.
@@ -915,7 +915,7 @@ const Index = () => {
               </ul>
             </div>
             <div>
-              <h4 className="font-medium mb-4">The Journalis</h4>
+              <h4 className="font-medium mb-4">The Journalist</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><a href="#magazin" className="hover:text-foreground">Hírek</a></li>
                 <li><a href="#magazin" className="hover:text-foreground">Elemzések</a></li>
