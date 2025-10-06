@@ -149,8 +149,8 @@ const Index = () => {
       {/* Navigation */}
       <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
         {/* Main Navigation */}
-        <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
-          <div className="flex items-center gap-8">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center relative">
+          <div className="flex items-center">
             <img 
               src={logo} 
               alt="doyoueap" 
@@ -161,7 +161,7 @@ const Index = () => {
               }} 
             />
           </div>
-          <nav className="hidden md:flex gap-6 items-center">
+          <nav className="hidden md:flex gap-6 items-center absolute left-1/2 -translate-x-1/2">
             <button
               onClick={() => navigate('/bemutatkozas')}
               className="text-sm border border-transparent transition-colors px-3 py-2 rounded-sm hover:bg-muted"
