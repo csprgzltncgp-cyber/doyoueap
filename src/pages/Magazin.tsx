@@ -23,98 +23,106 @@ const Magazin = () => {
 
   const featuredArticles = [
     {
-      title: "A mentális egészség munkahelyi jelentősége 2025-ben",
-      excerpt: "Az elmúlt évek tapasztalatai alapján a vállalatok egyre nagyobb figyelmet fordítanak munkavállalóik mentális jólétére. Nézzük meg, milyen trendek várhatóak idén.",
+      title: "Mítoszok és tévhitek: mi nem EAP – és mi az valójában",
+      excerpt: "Az elmúlt években a vállalati jól-lét (wellbeing) fogalma világszerte központi témává vált. Tisztázzuk szakmai érvekkel: mi az EAP, mi az, ami hasznos kiegészítés lehet, és mikor kell különbséget tenni az eltérő megoldások között.",
       author: "doyoueap",
       date: "2025. január 15.",
       readTime: "8 perc",
-      category: "Trendek",
+      category: "Alapok",
       image: "gradient-1"
     },
     {
-      title: "Az EAP program ROI-ja: számok, amelyek beszélnek",
-      excerpt: "Mennyire térül meg egy jól működő EAP program? Esettanulmányok és statisztikák a befektetés megtérüléséről.",
+      title: "A 4A mutatók ereje: Awareness, Access, Activation, Adherence",
+      excerpt: "Az Employee Assistance Programok értékének mérése sokszor nehézségekbe ütközik. A 4A keretrendszer négy dimenzióban méri az EAP sikerességét, átfogó képet adva arról, mennyire ismert, elérhető, használt és hosszú távon beépülő a program.",
       author: "doyoueap",
-      date: "2025. január 10.",
-      readTime: "6 perc",
-      category: "Elemzések",
+      date: "2025. január 12.",
+      readTime: "7 perc",
+      category: "Mérés",
       image: "gradient-2"
     },
     {
-      title: "Stresszkezelési technikák a mindennapokban",
-      excerpt: "Praktikus módszerek, amelyeket azonnal alkalmazhatunk a munkahelyi stressz csökkentésére.",
+      title: "Az EAP jövője és a digitalizáció szerepe",
+      excerpt: "A jövő EAP-ja nem egyszerűen a múlt modelljeinek digitális másolata, hanem egy új, hibrid rendszer, amely ötvözi a technológia előnyeit a személyes kapcsolattartás értékeivel.",
       author: "doyoueap",
-      date: "2025. január 8.",
-      readTime: "4 perc",
-      category: "Gyakorlatok",
+      date: "2025. január 10.",
+      readTime: "6 perc",
+      category: "Jövő",
       image: "gradient-3"
     }
   ];
 
   const articles = [
     {
-      title: "Hogyan ismerjük fel a kiégés jeleit?",
-      excerpt: "A munkahelyi kiégés egyre gyakoribb probléma. Ebben a cikkben bemutatjuk a legfontosabb figyelmeztető jeleket.",
+      title: "A szervezeti klíma szerepe az EAP hatékonyságában",
+      excerpt: "Egy EAP soha nem a vákuumban működik. A program hatását mindig befolyásolja a szervezet kultúrája, a vezetők attitűdje és a munkahelyi környezet.",
       author: "doyoueap",
-      date: "2025. január 12.",
-      readTime: "5 perc",
-      category: "Tanácsok"
+      date: "2025. január 8.",
+      readTime: "6 perc",
+      category: "Kultúra"
     },
     {
-      title: "A hibrid munkavégzés kihívásai",
-      excerpt: "Hogyan őrizhetjük meg a mentális egyensúlyt az otthoni és irodai munka között?",
+      title: "Digitális wellbeing platformok és az EAP – kiegészítés vagy verseny?",
+      excerpt: "Az elmúlt években gombamód szaporodtak a digitális wellbeing platformok. Nem arról van szó, hogy az egyik jobb, a másik rosszabb – inkább arról, hogy más funkciót töltenek be.",
+      author: "doyoueap",
+      date: "2025. január 6.",
+      readTime: "7 perc",
+      category: "Technológia"
+    },
+    {
+      title: "Globális kitekintés: EAP-használat régiók szerint",
+      excerpt: "Az Employee Assistance Programok nemzetközi elterjedtsége és használata nagyon különböző képet mutat a világ régióiban. Nincs egyetlen univerzális modell – az EAP sikeressége mindig kontextusfüggő.",
       author: "doyoueap",
       date: "2025. január 5.",
-      readTime: "7 perc",
-      category: "Munkakörnyezet"
+      readTime: "8 perc",
+      category: "Globális"
     },
     {
-      title: "Vezetői támogatás és empátia",
-      excerpt: "A jó vezetők kulcsszerepet játszanak a munkavállalók mentális jólétében.",
+      title: "A vezetők szerepe és felelőssége az EAP sikerében",
+      excerpt: "Egy Employee Assistance Program sikerének kulcsa nemcsak a szolgáltatások minőségén múlik, hanem azon is, hogy a vezetők hogyan viszonyulnak hozzá.",
       author: "doyoueap",
       date: "2025. január 3.",
       readTime: "6 perc",
       category: "Vezetés"
     },
     {
-      title: "Mindfulness a munkahelyen",
-      excerpt: "Egyszerű tudatossági gyakorlatok, amelyek segítenek megőrizni a fókuszt és a nyugalmat.",
+      title: "A stigma lebontása és a kommunikáció szerepe",
+      excerpt: "Az EAP egyik legnagyobb akadálya világszerte a stigma. A stigma lebontásának első lépése a kommunikáció – folyamatosan, változatos formában kell találkozniuk a munkavállalóknak az üzenettel.",
+      author: "doyoueap",
+      date: "2025. január 2.",
+      readTime: "7 perc",
+      category: "Kommunikáció"
+    },
+    {
+      title: "Az EAP és a munkavállalói elköteleződés kapcsolata",
+      excerpt: "Az elkötelezett dolgozók produktívabbak, lojálisabbak, kevésbé hajlamosak a fluktuációra. Az EAP ugyan elsősorban támogató szolgáltatásként ismert, mégis közvetlenül és közvetve is erősíti az elköteleződést.",
+      author: "doyoueap",
+      date: "2024. december 30.",
+      readTime: "6 perc",
+      category: "HR"
+    },
+    {
+      title: "Az EAP mérhetősége és a megtérülés (ROI) kérdése",
+      excerpt: "Számos kutatás bizonyítja, hogy az EAP nemcsak humánus és etikus megoldás, hanem gazdaságilag is kifizetődő. A programok átlagosan 3-10-szeres megtérülést hoznak.",
       author: "doyoueap",
       date: "2024. december 28.",
-      readTime: "5 perc",
-      category: "Gyakorlatok"
-    },
-    {
-      title: "Az EAP szolgáltatások fejlődése",
-      excerpt: "Hogyan változtak az EAP programok az elmúlt évtizedben?",
-      author: "doyoueap",
-      date: "2024. december 25.",
-      readTime: "9 perc",
-      category: "Történet"
-    },
-    {
-      title: "Generációs különbségek a munkahelyen",
-      excerpt: "Különböző generációk, különböző igények - hogyan lehet mindenkit támogatni?",
-      author: "doyoueap",
-      date: "2024. december 22.",
-      readTime: "6 perc",
-      category: "Elemzések"
+      readTime: "8 perc",
+      category: "ROI"
     }
   ];
 
   const popularArticles = [
-    { title: "Top 10 mentális egészség tipp", views: "12.5k" },
-    { title: "EAP program sikersztori", views: "9.8k" },
-    { title: "Vezetői interjú", views: "8.2k" },
-    { title: "Statisztikák 2024", views: "7.5k" }
+    { title: "Mítoszok és tévhitek az EAP-ról", views: "15.2k" },
+    { title: "4A mutatók a gyakorlatban", views: "12.8k" },
+    { title: "EAP ROI számokban", views: "11.5k" },
+    { title: "Digitalizáció az EAP-ban", views: "9.3k" }
   ];
 
   const categories = [
     { id: 'all', label: 'Összes' },
-    { id: 'trends', label: 'Trendek' },
-    { id: 'analysis', label: 'Elemzések' },
-    { id: 'interviews', label: 'Interjúk' },
-    { id: 'tips', label: 'Tanácsok' }
+    { id: 'basics', label: 'Alapok' },
+    { id: 'measurement', label: 'Mérés' },
+    { id: 'culture', label: 'Kultúra' },
+    { id: 'roi', label: 'ROI' }
   ];
 
   const gradients = {
@@ -378,7 +386,7 @@ const Magazin = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    {['Trendek', 'Elemzések', 'Interjúk', 'Tanácsok', 'Statisztikák', 'Történet'].map((cat) => (
+                    {['Alapok', 'Mérés', 'Kultúra', 'Vezetés', 'ROI', 'Kommunikáció', 'Globális', 'Jövő'].map((cat) => (
                       <button
                         key={cat}
                         className="w-full text-left px-3 py-2 rounded hover:bg-muted transition-colors text-sm flex items-center justify-between group"
