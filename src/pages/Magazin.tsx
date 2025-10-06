@@ -147,19 +147,19 @@ const Magazin = () => {
             <nav className="hidden md:flex gap-6 items-center">
               <button
                 onClick={() => navigate('/magazin')}
-                className="text-sm bg-white border border-black font-semibold transition-colors px-3 py-2 rounded-md"
+                className="text-sm bg-white border border-black font-semibold transition-colors px-3 py-2 rounded-sm"
               >
                 The Journalist!
               </button>
               <button
                 onClick={() => navigate('/bemutatkozas')}
-                className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
+                className="text-sm border border-transparent transition-colors px-3 py-2 rounded-sm hover:bg-muted"
               >
                 Bemutatkozás
               </button>
               <button
                 onClick={() => navigate('/arak')}
-                className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
+                className="text-sm border border-transparent transition-colors px-3 py-2 rounded-sm hover:bg-muted"
               >
                 Árak és Csomagok
               </button>
