@@ -61,6 +61,9 @@ All colors MUST be HSL.
     --chart-2: 225 100% 60%;
     --chart-3: 195 100% 60%;
     --chart-4: 180 100% 80%;
+    
+    --magazine-red: 348 100% 50%;
+    --magazine-yellow: 48 100% 50%;
   }
 
   .dark {
