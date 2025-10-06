@@ -900,7 +900,7 @@ const Index = () => {
 
 
       {/* CTA Section */}
-      <section className="py-20 text-white" style={{ backgroundColor: '#050c9c' }}>
+      <section className="py-20 bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-4">
             Indítsa el most az első EAP Pulse felmérést
