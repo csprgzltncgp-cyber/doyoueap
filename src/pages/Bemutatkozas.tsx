@@ -148,7 +148,7 @@ const Bemutatkozas = () => {
                 <p className="text-lg">
                   A 4Score módszertan egy átfogó értékelési keretrendszer, amely négy alapvető területen méri az EAP program hatékonyságát.
                 </p>
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="relative grid md:grid-cols-2 gap-6 p-8 -mx-8 bg-gradient-to-br from-[#3abef9]/20 to-[#ff66ff]/20 rounded-lg">
                   {[
                     { icon: TrendingUp, title: '1. Tudatosság', description: 'Méri, hogy a munkavállalók mennyire ismerik az EAP programot és szolgáltatásait.' },
                     { icon: Users, title: '2. Használat', description: 'Értékeli a program tényleges igénybevételét és a szolgáltatások használatának gyakoriságát.' },
@@ -157,7 +157,7 @@ const Bemutatkozas = () => {
                   ].map((item, index) => {
                     const Icon = item.icon;
                     return (
-                      <Card key={index} className="bg-gradient-to-br from-[#3abef9]/20 to-[#ff66ff]/20">
+                      <Card key={index} className="bg-background/80 backdrop-blur-sm">
                         <CardHeader>
                           <div className="flex items-center gap-3">
                             <div className="p-2 bg-primary/10 rounded-lg">
