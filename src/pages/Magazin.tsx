@@ -16,6 +16,7 @@ import globalArticleImg from '@/assets/global-article.jpg';
 import leadershipArticleImg from '@/assets/leadership-article.jpg';
 import stigmaArticleImg from '@/assets/stigma-article.jpg';
 import engagementArticleImg from '@/assets/engagement-article.jpg';
+import roiArticleImg from '@/assets/roi-article.jpg';
 import { useAuth } from '@/hooks/useAuth';
 import { 
   Carousel, 
@@ -121,7 +122,8 @@ const Magazin = () => {
       author: "doyoueap",
       date: "2024. december 28.",
       readTime: "8 perc",
-      category: "ROI"
+      category: "ROI",
+      image: roiArticleImg
     }
   ];
 
