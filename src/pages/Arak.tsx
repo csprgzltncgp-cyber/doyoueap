@@ -131,7 +131,7 @@ const Arak = () => {
           {packages.map((pkg, index) => (
             <Card 
               key={index} 
-              className={`relative ${pkg.recommended ? 'border-primary shadow-lg scale-105' : ''}`}
+              className={`relative flex flex-col ${pkg.recommended ? 'border-primary shadow-lg scale-105' : ''}`}
             >
               {pkg.recommended && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
@@ -148,7 +148,7 @@ const Arak = () => {
                   <span className="text-muted-foreground ml-1">{pkg.period}</span>
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-1 flex flex-col justify-between">
                 <ul className="space-y-3 mb-6">
                   {pkg.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-start gap-2">
