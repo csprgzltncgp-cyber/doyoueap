@@ -77,7 +77,7 @@ const Bemutatkozas = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold mb-8">Bemutatkozás</h1>
+        <h1 className="text-4xl font-bold mb-8">Miért az EAP Pulse?</h1>
 
         {/* Tabs */}
         <div className="flex gap-4 mb-8 overflow-x-auto pb-2">
