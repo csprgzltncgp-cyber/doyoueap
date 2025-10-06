@@ -161,13 +161,13 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
       group: 'Használók',
       score: parseFloat(usedUnderstandingScore),
       count: usedResponses.length,
-      color: 'linear-gradient(90deg, #3572ef 0%, #3abef9 100%)'
+      color: 'hsl(var(--chart-2))'
     },
     {
       group: 'Nem használók',
       score: parseFloat(notUsedUnderstandingScore),
       count: notUsedResponses.length,
-      color: 'linear-gradient(90deg, #fa181f 0%, #ff66ff 100%)'
+      color: 'hsl(var(--chart-3))'
     }
   ];
 
@@ -604,7 +604,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
                 </div>
                 <Progress 
                   value={item.score * 20} 
-                  style={{ '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #7a8ff5 100%)' } as React.CSSProperties}
+                  style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties}
                   className="h-3"
                 />
                 <div className="flex justify-between text-xs text-muted-foreground">
