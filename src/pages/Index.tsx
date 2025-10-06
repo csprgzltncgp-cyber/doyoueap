@@ -208,9 +208,9 @@ const Index = () => {
 
         {/* Dashboard Sub-Navigation */}
         {user && role === 'hr' && section && (
-          <div className="border-t bg-muted/10">
+          <div className="border-t bg-gradient-to-r from-[#3572ef] to-[#3abef9]">
             <div className="max-w-7xl mx-auto px-4 py-3">
-              <nav className="flex gap-6">
+              <nav className="flex gap-6 justify-center">
                 <button
                   onClick={() => {
                     console.log('Clicked EAP Pulse navigation');
@@ -218,8 +218,8 @@ const Index = () => {
                   }}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                     section === 'eap-pulse' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-white font-semibold border-white' 
+                      : 'text-white/80 border-transparent hover:text-white'
                   }`}
                 >
                   <BarChart3 className="h-4 w-4" />
@@ -232,8 +232,8 @@ const Index = () => {
                   }}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                     section === 'reports' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-white font-semibold border-white' 
+                      : 'text-white/80 border-transparent hover:text-white'
                   }`}
                 >
                   <TrendingUp className="h-4 w-4" />
@@ -243,8 +243,8 @@ const Index = () => {
                   onClick={() => setSearchParams({ section: 'export' })}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                     section === 'export' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-white font-semibold border-white' 
+                      : 'text-white/80 border-transparent hover:text-white'
                   }`}
                 >
                   <Download className="h-4 w-4" />
@@ -254,8 +254,8 @@ const Index = () => {
                   onClick={() => setSearchParams({ section: 'custom-survey' })}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                     section === 'custom-survey' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-white font-semibold border-white' 
+                      : 'text-white/80 border-transparent hover:text-white'
                   }`}
                 >
                   <FileEdit className="h-4 w-4" />
@@ -265,8 +265,8 @@ const Index = () => {
                   onClick={() => setSearchParams({ section: 'settings' })}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                     section === 'settings' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-white font-semibold border-white' 
+                      : 'text-white/80 border-transparent hover:text-white'
                   }`}
                 >
                   <SettingsIcon className="h-4 w-4" />
