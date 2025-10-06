@@ -590,51 +590,75 @@ const Index = () => {
       </section>
 
       {/* 4Score Section */}
-      <section id="4score" className="py-16 px-4 bg-background">
+      <section id="4score" className="py-20 px-4 bg-gradient-to-br from-primary/5 via-background to-primary/10">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Mi az a 4Score?</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              A 4Score módszertan négy kulcsfontosságú dimenzió mentén méri az EAP program hatékonyságát
+          <div className="text-center mb-16">
+            <div className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+              4Score Módszertan
+            </div>
+            <h2 className="text-4xl font-bold mb-4">Négy dimenzió, egy átfogó kép</h2>
+            <p className="text-muted-foreground max-w-3xl mx-auto text-lg">
+              Az EAP program hatékonyságát négy kulcsfontosságú dimenzió mentén mérjük, 
+              hogy teljes körű képet kapjon a befektetés megtérüléséről
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Eye className="h-6 w-6 text-primary" />
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="group relative p-8 bg-background/80 backdrop-blur border-2 border-primary/20 rounded-xl hover:border-primary/40 transition-all hover:shadow-xl">
+              <div className="flex items-start gap-6">
+                <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <Eye className="h-8 w-8 text-primary-foreground" />
                 </div>
-                <CardTitle className="text-lg">Awareness</CardTitle>
-                <CardDescription>Hogyan ismeri a csapat az EAP programot?</CardDescription>
-              </CardHeader>
-            </Card>
-            <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Shield className="h-6 w-6 text-primary" />
+                <div>
+                  <h3 className="text-2xl font-bold mb-3">Awareness</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Felmérjük, hogy a munkatársak mennyire ismerik az EAP programot, 
+                    milyen csatornákon értesültek róla, és milyen szolgáltatásokról tudnak.
+                  </p>
                 </div>
-                <CardTitle className="text-lg">Trust</CardTitle>
-                <CardDescription>Mennyire bíznak a munkatársak a programban?</CardDescription>
-              </CardHeader>
-            </Card>
-            <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Activity className="h-6 w-6 text-primary" />
+              </div>
+            </div>
+            <div className="group relative p-8 bg-background/80 backdrop-blur border-2 border-primary/20 rounded-xl hover:border-primary/40 transition-all hover:shadow-xl">
+              <div className="flex items-start gap-6">
+                <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <Shield className="h-8 w-8 text-primary-foreground" />
                 </div>
-                <CardTitle className="text-lg">Usage</CardTitle>
-                <CardDescription>Ki és miért használja a szolgáltatást?</CardDescription>
-              </CardHeader>
-            </Card>
-            <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Target className="h-6 w-6 text-primary" />
+                <div>
+                  <h3 className="text-2xl font-bold mb-3">Trust</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Mérjük a bizalmat és hajlandóságot: mennyire érzik biztonságosnak a dolgozók 
+                    a szolgáltatást, és milyen tényezők befolyásolják a használatot.
+                  </p>
                 </div>
-                <CardTitle className="text-lg">Impact</CardTitle>
-                <CardDescription>Milyen hatást ér el a program a szervezetben?</CardDescription>
-              </CardHeader>
-            </Card>
+              </div>
+            </div>
+            <div className="group relative p-8 bg-background/80 backdrop-blur border-2 border-primary/20 rounded-xl hover:border-primary/40 transition-all hover:shadow-xl">
+              <div className="flex items-start gap-6">
+                <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <Activity className="h-8 w-8 text-primary-foreground" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-3">Usage</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Megismerjük a tényleges használatot: ki, mikor és miért veszi igénybe a programot, 
+                    milyen motivációk húzódnak meg a háttérben.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="group relative p-8 bg-background/80 backdrop-blur border-2 border-primary/20 rounded-xl hover:border-primary/40 transition-all hover:shadow-xl">
+              <div className="flex items-start gap-6">
+                <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <Target className="h-8 w-8 text-primary-foreground" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-3">Impact</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Kimutatjuk a hatást: hogyan értékelik a dolgozók a kapott segítséget, 
+                    milyen változásokat tapasztaltak, és ajánlanák-e másoknak.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
