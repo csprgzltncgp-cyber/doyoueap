@@ -153,36 +153,15 @@ const MagazinArticle = () => {
       category: "Globális",
       image: globalArticleImg,
       content: `
-        <p>Az Employee Assistance Programok (EAP) világszerte jelen vannak, de elterjedtségük, használatuk és a velük kapcsolatos attitűd régiónként jelentősen eltér.</p>
+        <p>Az Employee Assistance Programok nemzetközi elterjedtsége és használata nagyon különböző képet mutat a világ régióiban. Míg Észak-Amerikában és Ausztráliában az EAP évtizedek óta bevett gyakorlat, Európában, Ázsiában vagy Afrikában sok helyen még mindig új, kevéssé ismert eszköznek számít. Ez a különbség nemcsak történelmi okokra vezethető vissza, hanem kulturális tényezőkre és a mentális egészséghez való társadalmi hozzáállásra is.</p>
 
-        <h2>Észak-Amerika: Az EAP otthona</h2>
-        
-        <p>Az EAP az Egyesült Államokban született meg az 1970-es években, és ma is itt a leginkább elterjedt:</p>
-        <ul>
-          <li>A nagyvállalatok 75%-a kínál EAP-ot</li>
-          <li>Átlagos használati arány: 5-8%</li>
-          <li>Erős jogi és kulturális támogatás</li>
-        </ul>
+        <p>Észak-Amerikában az EAP az 1950-es évektől kezdve folyamatosan fejlődött, és ma a legtöbb nagyvállalat kínálja dolgozóinak. Az ismertség és az elfogadottság magas, a stigma alacsonyabb, és a szolgáltatásokat széles körben igénybe is veszik. Európában a helyzet vegyes: Nyugat-Európában sok cég alkalmaz EAP-t, de Közép- és Kelet-Európában még viszonylag kevésbé ismert. Az eltérések oka részben az, hogy a régiókban eltérő mértékű a munkahelyi mentális egészség társadalmi elfogadottsága, és nem mindenhol alakult ki olyan erős munkajogi vagy vállalati kultúra, amely az EAP-kat természetesnek tekintené.</p>
 
-        <h2>Európa: Vegyes kép</h2>
-        
-        <h3>Nyugat-Európa</h3>
-        <p>Nagy-Britannia, Írország és Hollandia vezető szerepet tölt be. Az EAP itt már mainstream.</p>
+        <p>Ázsiában a fejlődés még inkább kezdeti stádiumban van. Bár egyre több multinacionális cég igyekszik bevezetni a programot, a helyi kulturális normák sokszor akadályozzák az igénybevételt: a mentális egészséggel kapcsolatos stigma erős, a dolgozók gyakran félnek segítséget kérni, nehogy az gyengeségnek tűnjön. Afrikában és Latin-Amerikában hasonló a helyzet: az EAP elindult, de egyelőre korlátozottan ismert, és sokszor hiányzik az infrastruktúra vagy a szakemberhálózat, amely lehetővé tenné a széles körű működést.</p>
 
-        <h3>Közép- és Kelet-Európa</h3>
-        <p>Magyarország, Lengyelország és Csehország lassan kezd felzárkózni, de még mindig alacsony a tudatosság és a használat.</p>
+        <p>A globális kitekintés fontos tanulsága, hogy nincs egyetlen univerzális modell. Az EAP sikeressége mindig kontextusfüggő: figyelembe kell venni a kulturális attitűdöket, a jogi környezetet és a vállalati gyakorlatokat. Ugyanakkor a nemzetközi tapasztalatokból sokat lehet tanulni. Észak-Amerika példája mutatja, hogy a program hosszú távon fenntartható és eredményes lehet, ha a szervezetek és a munkavállalók bizalmat építenek ki iránta. Európa és Ázsia pedig arra hívja fel a figyelmet, hogy a bevezetéshez elengedhetetlen a folyamatos edukáció és a stigma lebontása.</p>
 
-        <h2>Ázsia-Csendes-óceáni régió</h2>
-        
-        <p>Japánban és Dél-Koreában hagyományosan tabu a mentális egészség, de a fiatal generációk nyitottabbak. Ausztráliában és Új-Zélandon az EAP elterjedt.</p>
-
-        <h2>Latin-Amerika és Afrika</h2>
-        
-        <p>Ezekben a régiókban az EAP még gyerekcipőben jár. A kulturális stigma és az erőforrások hiánya jelentős akadályok.</p>
-
-        <h2>Összegzés</h2>
-        
-        <p>Az EAP globális elterjedése nem egyenletes. A kulturális különbségek, jogi környezet és gazdasági fejlettség mind befolyásolják a programok sikerességét.</p>
+        <p>A HR és a menedzsment számára a globális benchmarkok azt az üzenetet hordozzák, hogy az EAP nem statikus program, hanem egy olyan rendszer, amelynek alkalmazkodnia kell a helyi igényekhez és kultúrához. Ezért a nemzetközi szervezeteknél célszerű régiónként eltérő kommunikációs és bevezetési stratégiát kialakítani. Ami működik az Egyesült Államokban, nem biztos, hogy ugyanúgy működik Kínában vagy Magyarországon. A kulcs a rugalmasság és a kulturális érzékenység, mert csak így válhat az EAP valóban globális értékké.</p>
       `
     },
     'vezetok-szerepe': {
@@ -194,43 +173,13 @@ const MagazinArticle = () => {
       category: "Vezetés",
       image: leadershipArticleImg,
       content: `
-        <p>Egy Employee Assistance Program (EAP) sikerének kulcsa nemcsak a szolgáltatások minőségén múlik, hanem azon is, hogy a vezetők hogyan viszonyulnak hozzá. A vezetői attitűd és a vezetői példamutatás döntő jelentőségű.</p>
+        <p>Egy Employee Assistance Program sikerének kulcsa nemcsak a szolgáltatások minőségén vagy a rendszer felépítésén múlik, hanem azon is, hogy a vezetők hogyan viszonyulnak hozzá. A menedzsment és a középvezetők hozzáállása közvetlenül meghatározza, hogy a dolgozók mennyire bíznak a programban, és mennyire érzik azt legitimnek, használhatónak.</p>
 
-        <h2>Miért fontos a vezetők szerepe?</h2>
-        
-        <p>A vezetők az alábbi okokból kritikus szereplők az EAP sikerében:</p>
-        <ul>
-          <li>Ők formálják a szervezeti kultúrát</li>
-          <li>Ők mutatnak példát a munkavállalóknak</li>
-          <li>Ők hozzák a stratégiai döntéseket az EAP támogatásáról</li>
-          <li>Ők kommunikálják az EAP értékét</li>
-        </ul>
+        <p>A vezetők szerepe többrétegű. Először is ők azok, akik formálják a szervezeti kultúrát: ha egy vezető nyíltan és hitelesen beszél a mentális egészség fontosságáról, az üzenetet küld arról, hogy az EAP nem papíron létező eszköz, hanem valós lehetőség. Másodszor, a vezetők a mindennapi működésben is példát mutatnak. Amikor támogatják a munkavállalókat abban, hogy biztonságosan fordulhassanak szakemberhez, vagy amikor elismerik, hogy a segítségkérés a felelősségteljes döntés része, az lebontja a stigmát. Kutatások is alátámasztják: ahol a vezetők proaktívan kommunikálnak az EAP-ról, ott magasabb az igénybevételi arány, és a munkavállalók elégedettsége is nő. Ha azonban a vezetés hallgat, esetleg cinikusan áll a programhoz, a dolgozók azt érzik, hogy valójában nincs felhatalmazásuk élni a lehetőséggel.</p>
 
-        <h2>Mit tehetnek a vezetők?</h2>
-        
-        <h3>1. Nyílt kommunikáció</h3>
-        <p>Beszéljenek nyíltan a mentális egészség fontosságáról, és támogassák az EAP használatát.</p>
+        <p>A vezetői felelősség kiterjed a kommunikáció módjára is. Nem elég évente egyszer megemlíteni a programot egy belső hírlevélben. Szükség van rendszeres, hiteles üzenetekre: vezetői fórumokon, csapatmegbeszéléseken, személyes példákon keresztül. Amikor egy vezető arról beszél, hogy a segítség igénybevétele természetes, az normalizálja a folyamatot. Fontos azonban, hogy a vezetők ne csak „beszéljenek róla", hanem a gyakorlatban is támogassák az EAP-t. Ez jelentheti például, hogy rugalmas időt biztosítanak a konzultációra, hogy garantálják a bizalmasságot, vagy hogy támogatják a HR-t a programhoz kapcsolódó kampányokban. Így a vezető nemcsak üzenetet közvetít, hanem aktívan hozzájárul a program sikeréhez.</p>
 
-        <h3>2. Példamutatás</h3>
-        <p>Ha egy vezető maga is igénybe veszi az EAP-ot (vagy legalább támogatja azt), az legitimizálja a programot.</p>
-
-        <h3>3. Erőforrások biztosítása</h3>
-        <p>Az EAP csak akkor működhet hatékonyan, ha megfelelő költségvetést és figyelmet kap.</p>
-
-        <h3>4. Aktív promóció</h3>
-        <p>A vezetőknek rendszeresen emlékeztetniük kell a munkavállalókat az EAP létezésére és előnyeire.</p>
-
-        <h2>Mit NE tegyenek a vezetők?</h2>
-        
-        <ul>
-          <li><strong>Ne stigmatizálják</strong> – Soha ne tekintsék gyengeségnek a segítségkérést</li>
-          <li><strong>Ne hagyjá figyelmen kívül</strong> – Az EAP nem lehet csak egy "kipipálandó" tétel</li>
-          <li><strong>Ne kérdezzenek túl sokat</strong> – A bizalmasság kulcsfontosságú</li>
-        </ul>
-
-        <h2>Összegzés</h2>
-        
-        <p>A vezetők felelőssége nem ér véget az EAP bevezetésével. A folyamatos támogatás, kommunikáció és példamutatás nélkül még a legjobb program is kudarcra van ítélve.</p>
+        <p>Összességében a vezetők jelenléte és támogatása teszi élővé az EAP-t. Egy program akkor válik valódi eszközzé, ha a dolgozók érzik: a menedzsment nemcsak finanszírozza, hanem szívből hisz is benne. A vezetők felelőssége tehát kulcsfontosságú – ők azok, akik legitimálják az EAP-t, lebontják a stigmát, és példájukkal bátorítják a munkavállalókat a segítség igénybevételére.</p>
       `
     },
     'stigma-lebontasa': {
@@ -242,48 +191,17 @@ const MagazinArticle = () => {
       category: "Kommunikáció",
       image: stigmaArticleImg,
       content: `
-        <p>Az Employee Assistance Programok (EAP) egyik legnagyobb akadálya világszerte a stigma. Hiába elérhető egy kiváló minőségű szolgáltatás, ha a munkavállalók félnek vagy szégyellik igénybe venni.</p>
+        <p>Az Employee Assistance Program (EAP) egyik legnagyobb akadálya világszerte a stigma. A mentális egészséghez kapcsolódó előítéletek sokszor visszatartják a dolgozókat attól, hogy igénybe vegyék a számukra biztosított támogatást, még akkor is, ha tudják, hogy a program elérhető és bizalmas. A stigma nemcsak egyéni szinten jelent problémát, hanem szervezeti és társadalmi szinten is: ha az emberek szégyellik a segítségkérést, az a program kihasználatlanságához, rejtett problémákhoz és hosszú távon teljesítménycsökkenéshez vezethet.</p>
 
-        <h2>Mi a stigma?</h2>
-        
-        <p>A stigma a mentális egészséggel kapcsolatos negatív attitűdök és előítéletek összessége:</p>
-        <ul>
-          <li>"Ha EAP-ra van szükségem, az gyengeség"</li>
-          <li>"Ha igénybe veszem, azt fogják gondolni, nem bírok a munkával"</li>
-          <li>"A főnököm megítél, ha segítséget kérek"</li>
-        </ul>
+        <p>A stigma lebontásának első lépése a kommunikáció. Nem elég, ha a HR évente egyszer elküld egy e-mailt az EAP-ról. A munkavállalóknak folyamatosan, változatos formában kell találkozniuk az üzenettel: plakátokon, intranetes hírekben, vezetői megszólalásokban, csapatértekezleteken. A cél az, hogy az EAP jelenléte természetessé váljon, ne egy különleges, „vészhelyzetre tartogatott" eszközként éljen a fejekben.</p>
 
-        <h2>A kommunikáció szerepe</h2>
-        
-        <p>A stigma lebontásának első és legfontosabb lépése a kommunikáció:</p>
+        <p>Különösen fontos, hogy a kommunikáció nyelve empatikus és normalizáló legyen. Nem szabad úgy tálalni az EAP-t, mintha az csak „problémás" embereknek szólna. Éppen ellenkezőleg: az üzenetnek azt kell közvetítenie, hogy mindenki kerülhet nehéz helyzetbe, és a támogatás igénybevétele éppúgy természetes, mint egy orvosi vizsgálat vagy egy szakmai tréning. Ha a dolgozók azt érzik, hogy a segítségkérés része a felelős, tudatos életnek, sokkal nagyobb arányban fordulnak majd az EAP-hoz.</p>
 
-        <h3>1. Folyamatos jelenlét</h3>
-        <p>Nem elég egyszer éves eleje bejelenteni az EAP-ot. Folyamatosan, változatos formában kell találkozniuk a munkavállalóknak az üzenettel.</p>
+        <p>A stigma csökkentésében óriási szerepe van a történeteknek és a példaképeknek. Amikor vezetők, vagy akár hétköznapi munkatársak név nélkül megosztják tapasztalataikat az EAP-val kapcsolatban, az hitelessé és emberközelivé teszi a programot. A dolgozók látják, hogy nem egy távoli, elvont szolgáltatásról van szó, hanem valós emberek valós élethelyzeteiről.</p>
 
-        <h3>2. Változatos csatornák</h3>
-        <ul>
-          <li>Email kampányok</li>
-          <li>Poszterek az irodában</li>
-          <li>Belső hírlevelek</li>
-          <li>Webinárok és workshopok</li>
-          <li>Személyes vezetői kommunikáció</li>
-        </ul>
+        <p>A kommunikáció akkor igazán hatékony, ha kétirányú. Nemcsak információt közvetít, hanem visszajelzést is gyűjt. A HR-nek érdemes rendszeresen felmérnie, hogyan gondolkodnak a dolgozók az EAP-ról, milyen előítéleteik vannak, és ezekre célzottan reagálni. Így a stigma elleni küzdelem nem kampányszerű, hanem folyamatos, tudatos folyamat lesz.</p>
 
-        <h3>3. Pozitív üzenetek</h3>
-        <p>A kommunikációnak pozitívnak és támogatónak kell lennie, nem pedig fenyegetőnek vagy megfélemlítőnek.</p>
-
-        <h2>Sikeres példák</h2>
-        
-        <p>Azok a szervezetek, ahol sikeresen csökkentették a stigmát:</p>
-        <ul>
-          <li>Rendszeres "Mental Health Awareness" kampányokat szerveztek</li>
-          <li>Vezetők személyes történeteket osztottak meg</li>
-          <li>Az EAP-ot "természetesnek" kezelték, nem "válságkezelésnek"</li>
-        </ul>
-
-        <h2>Összegzés</h2>
-        
-        <p>A stigma lebontása hosszú folyamat, de elengedhetetlen az EAP sikeréhez. A kommunikáció az eszköz, amely megváltoztathatja a munkavállalók hozzáállását.</p>
+        <p>Összességében a stigma lebontása nem gyors feladat, de hosszú távon az egyik legfontosabb befektetés. Ha a munkavállalók nem szégyellik igénybe venni a támogatást, az EAP kihasználtsága nő, a dolgozók mentális egészsége javul, a szervezet pedig erősebb, ellenállóbb és fenntarthatóbb lesz.</p>
       `
     },
     'munkavallaoi-elkotelezoedes': {
@@ -295,45 +213,17 @@ const MagazinArticle = () => {
       category: "HR",
       image: engagementArticleImg,
       content: `
-        <p>A munkavállalói elköteleződés (employee engagement) az egyik legfontosabb HR-mutató. Az elkötelezett dolgozók produktívabbak, lojálisabbak, kevésbé hajlamosak a fluktuációra, és pozitívan hatnak a csapat hangulatára.</p>
+        <p>A munkavállalói elköteleződés az egyik legfontosabb tényező a szervezeti siker szempontjából. Az elkötelezett dolgozók produktívabbak, lojálisabbak, kevésbé hajlamosak a fluktuációra, és pozitívan járulnak hozzá a vállalati kultúrához. Az Employee Assistance Program (EAP) ugyan elsősorban támogató szolgáltatásként ismert, mégis közvetlenül és közvetve is erősíti az elköteleződést.</p>
 
-        <p>De mi köze ehhez az EAP-nak?</p>
+        <p>Az EAP elsődleges hozzájárulása az, hogy biztonságos hátteret ad a munkavállalóknak. Amikor egy dolgozó tudja, hogy a nehézségeiben nincs egyedül, hanem elérhető számára professzionális és bizalmas támogatás, az erősíti a cég iránti bizalmat. Ez a biztonságérzet kulcsfontosságú: ha a munkavállaló úgy érzi, hogy a szervezet gondoskodik róla, ő maga is szívesebben köteleződik el hosszú távon a vállalat mellett.</p>
 
-        <h2>Az EAP hatása az elköteleződésre</h2>
-        
-        <p>Az EAP többféleképpen is erősíti a munkavállalói elköteleződést:</p>
+        <p>Az elköteleződéshez hozzátartozik az is, hogy a dolgozó értelmesnek találja a munkáját, és úgy érzi, van lehetősége fejlődni. Az EAP ebben közvetett módon segít: ha valaki személyes vagy családi problémákkal küzd, sokszor nem tud teljes figyelmével a munkára koncentrálni. A program által kínált tanácsadás, kríziskezelés vagy jogi-pénzügyi támogatás tehermentesíti a dolgozót, és így nagyobb energiát fordíthat a szakmai feladataira. Ez közvetve javítja a teljesítményt és az elégedettséget is.</p>
 
-        <h3>1. "A cég törődik velem"</h3>
-        <p>Amikor egy munkáltató EAP-ot kínál, az üzenet egyértelmű: "Fontos vagy nekünk, nemcsak munkavállalóként, hanem emberként is."</p>
+        <p>Az elköteleződés egyik mércéje a fluktuáció. A kutatások azt mutatják, hogy azokban a szervezetekben, ahol az EAP aktívan működik és jól kommunikált, alacsonyabb a kilépési arány. Ennek oka, hogy a dolgozók nemcsak a munkakörnyezet, hanem a munkahely által nyújtott támogatás miatt is értékesnek érzik a helyüket. Ez különösen fontos a tehetségmegőrzés szempontjából: a képzett, tapasztalt munkavállalók könnyebben maradnak egy olyan cégnél, ahol érzik a törődést.</p>
 
-        <h3>2. Stressz és kiégés csökkentése</h3>
-        <p>Az EAP segít a munkavállalóknak kezelni a stresszt és megelőzni a kiégést, ami közvetlenül javítja a munkahelyi teljesítményt és elégedettséget.</p>
+        <p>Az EAP tehát nem csupán a problémamegoldásról szól. Egy jól működő, átláthatóan kommunikált program erősíti a munkavállalók és a szervezet közötti érzelmi kötődést. A dolgozók azt érzik, hogy a cég nemcsak munkavégzőként, hanem emberként is értékeli őket. Ez az érzés teremti meg az elköteleződés alapját, amely hosszú távon a cég sikerének egyik legerősebb motorja.</p>
 
-        <h3>3. Munka-magánélet egyensúly</h3>
-        <p>Az EAP nem csak munkahelyi problémákban segít, hanem magánéleti kérdésekben is (családi konfliktusok, pénzügyi nehézségek stb.), ami javítja az általános jóllétet.</p>
-
-        <h2>Mérési lehetőségek</h2>
-        
-        <p>Az EAP és az elköteleződés kapcsolatát különböző módokon lehet mérni:</p>
-        <ul>
-          <li>Munkavállalói elégedettségi felmérések</li>
-          <li>Fluktuációs arány változása</li>
-          <li>Produktivitási mutatók</li>
-          <li>Betegszabadságok száma</li>
-        </ul>
-
-        <h2>Sikeres példák</h2>
-        
-        <p>Azok a vállalatok, amelyek komolyan veszik az EAP-ot és a munkavállalói jóllétet:</p>
-        <ul>
-          <li>Alacsonyabb fluktuációval rendelkeznek</li>
-          <li>Magasabb munkavállalói elégedettséget érnek el</li>
-          <li>Jobb employer branding-gel rendelkeznek</li>
-        </ul>
-
-        <h2>Összegzés</h2>
-        
-        <p>Az EAP nem csak egy "nice-to-have" benefit. Ez egy stratégiai eszköz, amely közvetlenül hozzájárul a munkavállalói elköteleződéshez és a szervezet hosszú távú sikeréhez.</p>
+        <p>Összességében elmondható, hogy az EAP nemcsak egy HR-eszköz, hanem stratégiai befektetés a munkavállalói elköteleződésbe. Aki valóban törődik dolgozói jóllétével, nemcsak jobb teljesítményre számíthat, hanem lojálisabb, motiváltabb munkaerőt is nyer.</p>
       `
     },
     'eap-merhetosege-roi': {
@@ -345,65 +235,19 @@ const MagazinArticle = () => {
       category: "ROI",
       image: roiArticleImg,
       content: `
-        <p>Az egyik leggyakoribb kérdés, amit a HR-vezetők feltehetnek az EAP-val kapcsolatban: "Mennyibe kerül, és megtérül-e?"</p>
+        <p>Az Employee Assistance Program (EAP) egyik gyakori kritikája, hogy nehéz pontosan számszerűsíteni a hatását. A HR vezetők és a menedzsment sokszor kérdezik: „Milyen megtérülést hoz a program? Megéri a ráfordítást?" Ez a kérdés teljesen jogos, hiszen a szervezeti döntéshozatalban egyre nagyobb hangsúlyt kapnak a mérhető adatok és a befektetések megtérülésének igazolása. Az EAP esetében azonban a hatás sokszor közvetett és nehezebben mérhető, ami félreértésekhez vezethet.</p>
 
-        <p>A jó hír: számos kutatás bizonyítja, hogy az EAP nemcsak humánus és etikus megoldás, hanem gazdaságilag is kifizetődő.</p>
+        <p>Mégis, számos kutatás bizonyítja, hogy az EAP nemcsak humánus és etikus megoldás, hanem gazdaságilag is kifizetődő. Az egyik leggyakrabban idézett adat, hogy a programok átlagosan 3-10-szeres megtérülést hoznak. Ez azt jelenti, hogy minden befektetett egységnyi összeg többszörösen térül meg a csökkentett hiányzások, a jobb teljesítmény, a kisebb fluktuáció és az egészségügyi költségek mérséklése révén.</p>
 
-        <h2>Hogyan számoljuk az EAP ROI-ját?</h2>
-        
-        <p>Az EAP megtérülését (Return on Investment) a következő képlettel számíthatjuk:</p>
-        
-        <p><strong>ROI = (Haszon - Költség) / Költség × 100</strong></p>
+        <p>A megtérülés egyik legkézzelfoghatóbb eleme a hiányzás csökkenése. A dolgozók, akik támogatást kapnak a stressz, szorongás vagy családi problémák kezelésében, hamarabb és hatékonyabban térnek vissza a munkába. Ezzel nemcsak a betegszabadságok ideje rövidül, hanem a termelékenység is javul. Emellett az EAP segít a „presenteeism" problémáján is, amikor a munkavállaló ugyan jelen van, de személyes gondjai miatt nem tud teljes erőbedobással dolgozni. Az EAP által nyújtott támogatás révén ez a rejtett teljesítményveszteség is mérséklődik.</p>
 
-        <h3>Költségek</h3>
-        <ul>
-          <li>Az EAP szolgáltatás díja (általában munkavállalónként éves szinten)</li>
-          <li>Belső kommunikáció és promóció költségei</li>
-          <li>Adminisztráció</li>
-        </ul>
+        <p>A fluktuáció szintén fontos mérőszám. Az EAP-hoz való hozzáférés növeli a dolgozói lojalitást, hiszen a munkavállalók értékelik, ha a cég valóban törődik velük. Egy megtartott munkatárs pótlásának költsége sokszor a több havi fizetését is meghaladja, így a programok közvetve jelentős megtakarítást eredményeznek.</p>
 
-        <h3>Hasznok</h3>
-        <ul>
-          <li>Csökkent hiányzások</li>
-          <li>Javult produktivitás</li>
-          <li>Alacsonyabb fluktuáció</li>
-          <li>Kevesebb baleset a munkahelyen</li>
-          <li>Jobb munkavállalói elégedettség</li>
-        </ul>
+        <p>A ROI másik dimenziója a vállalati kultúrában rejlik. Bár ez nehezebben számszerűsíthető, a pozitív hatás vitathatatlan: egy támogató, biztonságos légkörben a dolgozók nyitottabbak, együttműködőbbek, és kevesebb konfliktus alakul ki. Ez közvetve javítja a teljes szervezet hatékonyságát.</p>
 
-        <h2>Konkrét adatok</h2>
-        
-        <p>Nemzetközi tanulmányok szerint az EAP átlagosan:</p>
-        <ul>
-          <li><strong>3-10-szeres ROI</strong>-t hoz (azaz minden befektetett 1 dollár 3-10 dollárt térít meg)</li>
-          <li><strong>25-30%-kal csökkenti</strong> a munkahelyi hiányzásokat</li>
-          <li><strong>15-20%-kal javítja</strong> a produktivitást</li>
-          <li><strong>50%-kal csökkenti</strong> a munkával kapcsolatos stresszt</li>
-        </ul>
+        <p>A mérhetőséghez szükséges a megfelelő adatgyűjtés. Nem elég csupán a felhasználási arányokat rögzíteni – érdemes a 4Score mutatókat (Tudatosság, Használat, Bizalom & Hajlandóság, Hatás) is figyelni, valamint felmérni a dolgozói elégedettséget és a program közvetett hatásait. Az összesített adatok jól szemléltethetők riportokban és prezentációkban, amelyek segítenek a menedzsment számára is világossá tenni a program értékét.</p>
 
-        <h2>Nehezen mérhető előnyök</h2>
-        
-        <p>Az EAP néhány előnye nehezen számszerűsíthető, de mégis jelentős:</p>
-        <ul>
-          <li>Jobb employer branding</li>
-          <li>Pozitívabb szervezeti kultúra</li>
-          <li>Magasabb munkavállalói lojalitás</li>
-          <li>Etikus és humánus munkáltató imázs</li>
-        </ul>
-
-        <h2>Hogyan növeljük az ROI-t?</h2>
-        
-        <p>Az EAP ROI-ja jelentősen növelhető, ha:</p>
-        <ul>
-          <li>Folyamatosan kommunikálják a programot</li>
-          <li>A vezetők aktívan támogatják</li>
-          <li>Rendszeresen mérik a használatot és a hatást</li>
-          <li>Személyre szabják a szolgáltatásokat</li>
-        </ul>
-
-        <h2>Összegzés</h2>
-        
-        <p>Az EAP nem költség, hanem befektetés. A jól működő programok nemcsak emberközpontúak, hanem gazdaságilag is ésszerűek.</p>
+        <p>Összességében az EAP megtérülése valós és igazolható, ha a szervezet tudatosan gyűjti és elemzi az adatokat. Bár a hatások egy része nehezen számszerűsíthető, a tapasztalat és a kutatások egyaránt azt mutatják: az EAP nem költség, hanem stratégiai befektetés, amely hosszú távon mind emberi, mind gazdasági szempontból megtérül.</p>
       `
     }
   };
