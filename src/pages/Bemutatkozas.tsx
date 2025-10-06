@@ -101,7 +101,7 @@ const Bemutatkozas = () => {
               <img 
                 src={eapPulseTeam} 
                 alt="EAP Pulse csapat értekezlet" 
-                className="w-full h-64 object-cover"
+                className="w-full h-96 object-cover"
               />
             </div>
             <Card>
@@ -149,7 +149,7 @@ const Bemutatkozas = () => {
               <img 
                 src={eapPulseTeam} 
                 alt="EAP Pulse csapat értekezlet" 
-                className="w-full h-64 object-cover"
+                className="w-full h-96 object-cover"
               />
             </div>
             <Card>
@@ -236,7 +236,7 @@ const Bemutatkozas = () => {
               <img 
                 src={eapPulseTeam} 
                 alt="EAP Pulse csapat értekezlet" 
-                className="w-full h-64 object-cover"
+                className="w-full h-96 object-cover"
               />
             </div>
             <Card>
@@ -284,7 +284,7 @@ const Bemutatkozas = () => {
               <img 
                 src={eapPulseTeam} 
                 alt="EAP Pulse csapat értekezlet" 
-                className="w-full h-64 object-cover"
+                className="w-full h-96 object-cover"
               />
             </div>
             <Card>
