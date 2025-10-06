@@ -212,7 +212,7 @@ const Magazin = () => {
             {/* Right: Magazine description */}
             <div className="flex items-end text-right">
               <span className="text-sm font-medium text-black hidden md:inline uppercase tracking-wide">
-                Az EAP világ<br />szakfolyóirat
+                Az EAP világ<br />szakfolyóirata
               </span>
             </div>
           </div>
