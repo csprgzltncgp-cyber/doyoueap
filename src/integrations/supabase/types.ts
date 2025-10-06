@@ -370,6 +370,14 @@ export type Database = {
         Args: { _audit_id: string; _user_id: string }
         Returns: boolean
       }
+      verify_email_token: {
+        Args: { _token: string }
+        Returns: {
+          email: string
+          expired: boolean
+          verified: boolean
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "hr"
