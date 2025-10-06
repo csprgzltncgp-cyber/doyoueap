@@ -241,6 +241,13 @@ const Bemutatkozas = () => {
           </div>
         </div>
 
+        {/* Detailed Description */}
+        <div className="mb-16 text-center max-w-4xl mx-auto">
+          <p className="text-lg text-muted-foreground">
+            Az EAP Pulse a napi működés ritmusára hangolt mérőeszköz: nem évente egyszer vizsgál, hanem folyamatosan, így a kampányok, vezetői üzenetek és szervezeti változások hatása hetek alatt láthatóvá válik. A 4Score dimenziók világos fejlesztési térképet adnak, a trendek pedig segítenek abban, hogy ott avatkozz be, ahol a legnagyobb értéket teremtheti a fejlesztés.
+          </p>
+        </div>
+
         {/* CTA Section */}
         <Card className="mb-16 bg-gradient-to-r from-[#3572ef] to-[#3abef9] text-white border-none">
           <CardHeader className="text-center">
@@ -256,14 +263,6 @@ const Bemutatkozas = () => {
           </CardContent>
         </Card>
 
-        {/* Detailed Description */}
-        <Card className="mb-16">
-          <CardContent className="py-8">
-            <p className="text-lg text-muted-foreground">
-              Az EAP Pulse a napi működés ritmusára hangolt mérőeszköz: nem évente egyszer vizsgál, hanem folyamatosan, így a kampányok, vezetői üzenetek és szervezeti változások hatása hetek alatt láthatóvá válik. A 4Score dimenziók világos fejlesztési térképet adnak, a trendek pedig segítenek abban, hogy ott avatkozz be, ahol a legnagyobb értéket teremtheti a fejlesztés.
-            </p>
-          </CardContent>
-        </Card>
 
         {/* FAQ Section */}
         <Card>
