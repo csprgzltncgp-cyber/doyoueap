@@ -7,7 +7,9 @@ import { Clock, User, TrendingUp, Calendar, ChevronRight } from 'lucide-react';
 import logo from '@/assets/doyoueap-logo.png';
 import journalistLogo from '@/assets/thejournalist_logo.png';
 import journalistBg from '@/assets/journalist-bg.jpg';
-import featuredArticleImg from '@/assets/4score-article.jpg';
+import mythsArticleImg from '@/assets/myths-article.jpg';
+import scoreArticleImg from '@/assets/4score-article.jpg';
+import futureArticleImg from '@/assets/featured-article.jpg';
 import { useAuth } from '@/hooks/useAuth';
 import { 
   Carousel, 
@@ -30,7 +32,7 @@ const Magazin = () => {
       date: "2025. január 15.",
       readTime: "8 perc",
       category: "Alapok",
-      image: "gradient-1"
+      image: mythsArticleImg
     },
     {
       title: "A 4Score mutatók ereje: hogyan mérhető az EAP valódi értéke",
@@ -39,7 +41,7 @@ const Magazin = () => {
       date: "2025. január 12.",
       readTime: "7 perc",
       category: "Mérés",
-      image: "gradient-2"
+      image: scoreArticleImg
     },
     {
       title: "Az EAP jövője és a digitalizáció szerepe",
@@ -48,7 +50,7 @@ const Magazin = () => {
       date: "2025. január 10.",
       readTime: "6 perc",
       category: "Jövő",
-      image: "gradient-3"
+      image: futureArticleImg
     }
   ];
 
@@ -239,7 +241,7 @@ const Magazin = () => {
                     {/* Large Featured Image */}
                     <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
                       <img 
-                        src={featuredArticleImg} 
+                        src={article.image} 
                         alt={article.title}
                         className="w-full h-full object-cover"
                       />
