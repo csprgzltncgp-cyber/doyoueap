@@ -497,7 +497,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+              <div className="inline-block px-3 py-1 bg-gradient-to-r from-[#3abef9] to-[#ff66ff] text-white rounded-full text-sm font-medium mb-4">
                 Új: EAP Pulse
               </div>
               <h1 className="text-5xl font-bold mb-6 leading-tight">
