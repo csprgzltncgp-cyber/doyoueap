@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { CheckCircle2, TrendingUp, Users, Award, Eye, Heart, Target, BarChart3 } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Eye, Heart, Target, BarChart3, Activity, Users } from 'lucide-react';
 import logo from '@/assets/logo.png';
 import heroImage from '@/assets/eap-pulse-hero.jpg';
 import { useAuth } from '@/hooks/useAuth';
@@ -91,41 +91,36 @@ const Bemutatkozas = () => {
         </div>
       </header>
 
-      {/* Gradient bar below header */}
-      <div className="bg-gradient-to-r from-[#3572ef] to-[#3abef9] h-1"></div>
-
       {/* Hero Section */}
-      <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img 
-            src={heroImage} 
-            alt="EAP Pulse" 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 text-white">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">
-            Tedd láthatóvá az EAP-programod valódi értékét – valós idejű pulzusméréssel
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl animate-fade-in">
-            Az EAP Pulse rövid, rendszeres felmérésekkel méri a munkavállalói élményt, és a 4Score módszertan szerint mutatja meg, hol erős a programod és hol érdemes fejleszteni. Extra riportadatok, tiszta trendek, jobb döntések – szolgáltatóval együttműködve, nem helyette.
-          </p>
-          <div className="flex gap-4 flex-wrap">
-            <Button 
-              size="lg" 
-              onClick={() => navigate('/auth')}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground animate-scale-in"
-            >
-              Kezdje el most
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="bg-white/10 border-white/20 text-white hover:bg-white/20"
-            >
-              Tudjon meg többet
-            </Button>
+      <section className="py-20 bg-gradient-to-b from-muted/50 to-background">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="inline-block px-3 py-1 bg-gradient-to-r from-[#3abef9] to-[#ff66ff] text-white rounded-full text-sm font-medium mb-4">
+                EAP Pulse
+              </div>
+              <h1 className="text-5xl font-bold mb-6 leading-tight">
+                Tedd láthatóvá az EAP-programod valódi értékét – <span style={{ color: '#3abef9' }}>valós idejű pulzusméréssel</span>
+              </h1>
+              <p className="text-xl text-muted-foreground mb-8">
+                Az EAP Pulse rövid, rendszeres felmérésekkel méri a munkavállalói élményt, és a 4Score módszertan szerint mutatja meg, hol erős a programod és hol érdemes fejleszteni. Extra riportadatok, tiszta trendek, jobb döntések – szolgáltatóval együttműködve, nem helyette.
+              </p>
+              <div className="flex gap-4">
+                <Button size="lg" variant="cta" onClick={() => navigate('/auth')}>
+                  Kezdje el most <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                <Button size="lg" variant="outline">
+                  Tudjon meg többet
+                </Button>
+              </div>
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src={heroImage} 
+                alt="EAP Pulse - munkavállalói felmérés" 
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -134,121 +129,116 @@ const Bemutatkozas = () => {
       <main className="max-w-7xl mx-auto px-4 py-16">
         
         {/* What is EAP Pulse */}
-        <section className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Mi az EAP Pulse?</h2>
+        <section className="py-16">
+          <div className="max-w-7xl mx-auto px-4">
+            <Card className="border-none shadow-none">
+              <CardHeader className="text-center">
+                <div className="text-sm font-medium mb-2" style={{ color: 'rgb(115, 115, 115)' }}>Rólunk</div>
+                <CardTitle className="text-4xl mb-4">Mi az EAP Pulse?</CardTitle>
+              </CardHeader>
+              <CardContent className="max-w-4xl mx-auto space-y-4">
+                <p className="text-lg text-muted-foreground">
+                  Az EAP Pulse egy gyors és kíméletes „pulzusmérő" a futó EAP-programokhoz. Rövid, mobilbarát kérdőívekkel rendszeresen visszajelzést kérünk a munkatársaktól, majd az eredményeket a 4Score keretben jelenítjük meg – így egy pillantással látszik, mennyire ismert a program, mennyire bíznak benne és használják, valamint milyen kézzelfogható hatást ér el.
+                </p>
+                <p className="text-lg text-muted-foreground">
+                  A Pulse nem váltja ki az EAP-szolgáltatódat, hanem kiegészíti: több adatot ad a kezébe (és a HR kezébe) a jobb kommunikációhoz, fejlesztési döntésekhez és a vezetői riportokhoz. A cél egy win–win: hiteles, átlátható kép a menedzsment felé, és egyre használhatóbb program a dolgozóknak.
+                </p>
+                <p className="text-lg text-muted-foreground">
+                  A megvalósítás egyszerű: előre összeállított vagy testre szabható kérdések, automatikus kiküldés, real-time dashboardok és kész menedzsment-riportok. A válaszadás anonim, az adatok összesítve jelennek meg.
+                </p>
+              </CardContent>
+            </Card>
           </div>
-          
-          <Card className="max-w-4xl mx-auto">
-            <CardContent className="pt-6">
-              <p className="text-lg text-muted-foreground mb-4">
-                Az EAP Pulse egy gyors és kíméletes „pulzusmérő" a futó EAP-programokhoz. Rövid, mobilbarát kérdőívekkel rendszeresen visszajelzést kérünk a munkatársaktól, majd az eredményeket a 4Score keretben jelenítjük meg – így egy pillantással látszik, mennyire ismert a program, mennyire bíznak benne és használják, valamint milyen kézzelfogható hatást ér el.
-              </p>
-              <p className="text-lg text-muted-foreground mb-4">
-                A Pulse nem váltja ki az EAP-szolgáltatódat, hanem kiegészíti: több adatot ad a kezébe (és a HR kezébe) a jobb kommunikációhoz, fejlesztési döntésekhez és a vezetői riportokhoz. A cél egy win–win: hiteles, átlátható kép a menedzsment felé, és egyre használhatóbb program a dolgozóknak.
-              </p>
-              <p className="text-lg text-muted-foreground">
-                A megvalósítás egyszerű: előre összeállított vagy testre szabható kérdések, automatikus kiküldés, real-time dashboardok és kész menedzsment-riportok. A válaszadás anonim, az adatok összesítve jelennek meg.
-              </p>
-            </CardContent>
-          </Card>
         </section>
 
         {/* 4Score Methodology */}
-        <section className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">A 4Score négy dimenzióban ad teljes képet az EAP-ról:</h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20 hover-scale">
-              <CardHeader>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                    <Eye className="h-5 w-5 text-primary-foreground" />
+        <section className="py-20 bg-gradient-to-br from-[#3abef9]/20 to-[#ff66ff]/20">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="text-center mb-16">
+              <div className="inline-block px-4 py-1 bg-gradient-to-r from-[#3abef9] to-[#ff66ff] text-white rounded-full text-sm font-medium mb-4">
+                4Score Módszertan
+              </div>
+              <h2 className="text-4xl font-bold mb-4">A 4Score négy dimenzióban ad teljes képet az EAP-ról:</h2>
+            </div>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
+                <div className="flex items-start gap-6">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Eye className="h-6 w-6 text-primary" />
                   </div>
-                  <CardTitle className="text-2xl">01</CardTitle>
-                </div>
-                <CardTitle className="text-xl">Tudatosság</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Méri, hogy a munkavállalók mennyire ismerik az EAP-t, tudják-e, hogyan és mire használható.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20 hover-scale">
-              <CardHeader>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                    <Users className="h-5 w-5 text-primary-foreground" />
+                  <div>
+                    <h3 className="text-2xl font-bold mb-3">Tudatosság</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Méri, hogy a munkavállalók mennyire ismerik az EAP-t, tudják-e, hogyan és mire használható.
+                    </p>
                   </div>
-                  <CardTitle className="text-2xl">02</CardTitle>
                 </div>
-                <CardTitle className="text-xl">Használat</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Értékeli a tényleges igénybevételt és a használat mintázatait – hol és miért aktivizálódnak az emberek.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20 hover-scale">
-              <CardHeader>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                    <Heart className="h-5 w-5 text-primary-foreground" />
+              </div>
+              <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
+                <div className="flex items-start gap-6">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Activity className="h-6 w-6 text-primary" />
                   </div>
-                  <CardTitle className="text-2xl">03</CardTitle>
-                </div>
-                <CardTitle className="text-xl">Bizalom & Hajlandóság</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Vizsgálja a programba vetett bizalmat és a segítségkérésre való hajlandóságot – az anonimitás érzésétől a vezetői példáig.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20 hover-scale">
-              <CardHeader>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                    <TrendingUp className="h-5 w-5 text-primary-foreground" />
+                  <div>
+                    <h3 className="text-2xl font-bold mb-3">Használat</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Értékeli a tényleges igénybevételt és a használat mintázatait – hol és miért aktivizálódnak az emberek.
+                    </p>
                   </div>
-                  <CardTitle className="text-2xl">04</CardTitle>
                 </div>
-                <CardTitle className="text-xl">Hatás</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Méri a program valós hatását a jóllétre és a szervezeti működésre: hiányzás, fluktuáció, elégedettség, ajánlási szándék.
-                </p>
-              </CardContent>
-            </Card>
+              </div>
+              <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
+                <div className="flex items-start gap-6">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Heart className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold mb-3">Bizalom & Hajlandóság</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Vizsgálja a programba vetett bizalmat és a segítségkérésre való hajlandóságot – az anonimitás érzésétől a vezetői példáig.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
+                <div className="flex items-start gap-6">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Target className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold mb-3">Hatás</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Méri a program valós hatását a jóllétre és a szervezeti működésre: hiányzás, fluktuáció, elégedettség, ajánlási szándék.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
         {/* Benefits */}
-        <section className="mb-20">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {pulseBenefits.map((benefit, index) => (
-              <Card key={index} className="hover-scale">
-                <CardHeader>
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                    <benefit.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <CardTitle className="text-lg">{benefit.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    {benefit.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+        <section className="py-16 bg-muted/30">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Miért válassza az EAP Pulse-t?</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Konkrét előnyök a szervezet számára
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {pulseBenefits.map((benefit, index) => (
+                <Card key={index} className="text-center">
+                  <CardHeader>
+                    <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                      <benefit.icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <CardTitle className="text-lg">{benefit.title}</CardTitle>
+                    <CardDescription>{benefit.description}</CardDescription>
+                  </CardHeader>
+                </Card>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -330,6 +320,34 @@ const Bemutatkozas = () => {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+        </section>
+        
+        {/* Final CTA Section */}
+        <section className="py-16 bg-gradient-to-b from-background to-muted/50">
+          <div className="max-w-7xl mx-auto px-4 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Készen áll az EAP program fejlesztésére?
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Kezdje el az EAP Pulse használatát még ma, és tapasztalja meg az adatalapú döntéshozatal előnyeit.
+            </p>
+            <div className="flex gap-4 justify-center flex-wrap">
+              <Button 
+                size="lg" 
+                onClick={() => navigate('/auth')}
+                variant="cta"
+              >
+                Regisztráció <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline"
+                onClick={() => navigate('/arak')}
+              >
+                Árak megtekintése
+              </Button>
+            </div>
+          </div>
         </section>
 
       </main>
