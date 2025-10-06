@@ -209,7 +209,7 @@ const Arak = () => {
                   <p className="font-medium">Dedikált technikai támogatás</p>
                 </div>
               </div>
-              <Button className="w-full" variant="default">
+              <Button className="w-full bg-[#050c9c] hover:bg-[#050c9c]/90" variant="default">
                 Kérj egyedi ajánlatot
               </Button>
             </CardContent>
