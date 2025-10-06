@@ -508,7 +508,7 @@ const Index = () => {
                 – évről évre. Mindez támogatja az EAP szolgáltatójával való együttműködést.
               </p>
               <div className="flex gap-4">
-                <Button size="lg" onClick={() => navigate('/auth')}>
+                <Button size="lg" variant="cta" onClick={() => navigate('/auth')}>
                   Kezdje el most <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
                 <Button size="lg" variant="outline">
@@ -736,7 +736,7 @@ const Index = () => {
                     <p className="font-medium">Email support</p>
                   </div>
                 </div>
-                <Button className="w-full" onClick={() => navigate('/auth')}>
+                <Button className="w-full" variant="cta" onClick={() => navigate('/auth')}>
                   Válassza ezt a csomagot
                 </Button>
               </CardContent>
@@ -789,7 +789,7 @@ const Index = () => {
                     <p className="font-medium">Email + chat support</p>
                   </div>
                 </div>
-                <Button className="w-full" onClick={() => navigate('/auth')}>
+                <Button className="w-full" variant="cta" onClick={() => navigate('/auth')}>
                   Válassza ezt a csomagot
                 </Button>
               </CardContent>
@@ -884,7 +884,7 @@ const Index = () => {
                     <p className="font-medium">Dedikált technikai támogatás</p>
                   </div>
                 </div>
-                <Button className="w-full" variant="default">
+                <Button className="w-full" variant="cta">
                   Kérj egyedi ajánlatot
                 </Button>
               </CardContent>
