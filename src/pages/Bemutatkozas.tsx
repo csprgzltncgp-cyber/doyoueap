@@ -94,7 +94,7 @@ const Bemutatkozas = () => {
         <div className="grid md:grid-cols-2 gap-8 mb-16" id="learn-more">
           <Card>
             <CardHeader>
-              <CardTitle className="text-3xl">Mi az EAP Pulse?</CardTitle>
+              <CardTitle className="text-3xl animate-pulse-glow">Mi az EAP Pulse?</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <p className="text-lg">
