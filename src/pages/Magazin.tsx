@@ -285,35 +285,35 @@ const Magazin = () => {
               
               <div className="space-y-6">
                 {articles.map((article, index) => (
-                  <Card key={index} className="hover:shadow-lg transition-all hover:scale-[1.02] cursor-pointer group">
-                    <div className="md:flex">
-                      <div className="md:w-48 h-48 bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                  <div key={index} className="grid md:grid-cols-[200px_1fr] gap-4">
+                    <Card className="hover:shadow-lg transition-all hover:scale-[1.02] cursor-pointer overflow-hidden">
+                      <div className="h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
                         <div className="text-4xl font-bold text-primary/30">{index + 1}</div>
                       </div>
-                      <div className="flex-1">
-                        <CardHeader>
-                          <Badge className="w-fit mb-2">{article.category}</Badge>
-                          <CardTitle className="text-xl group-hover:text-primary transition-colors">
-                            {article.title}
-                          </CardTitle>
-                          <CardDescription className="mt-2">{article.excerpt}</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                            <div className="flex items-center gap-1">
-                              <User className="h-4 w-4" />
-                              <span>{article.author}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Clock className="h-4 w-4" />
-                              <span>{article.readTime}</span>
-                            </div>
-                            <span>{article.date}</span>
+                    </Card>
+                    <Card className="hover:shadow-lg transition-all hover:scale-[1.02] cursor-pointer group">
+                      <CardHeader>
+                        <Badge className="w-fit mb-2">{article.category}</Badge>
+                        <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                          {article.title}
+                        </CardTitle>
+                        <CardDescription className="mt-2">{article.excerpt}</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                          <div className="flex items-center gap-1">
+                            <User className="h-4 w-4" />
+                            <span>{article.author}</span>
                           </div>
-                        </CardContent>
-                      </div>
-                    </div>
-                  </Card>
+                          <div className="flex items-center gap-1">
+                            <Clock className="h-4 w-4" />
+                            <span>{article.readTime}</span>
+                          </div>
+                          <span>{article.date}</span>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
                 ))}
               </div>
 
