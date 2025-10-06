@@ -121,120 +121,121 @@ const Bemutatkozas = () => {
           </div>
         </div>
 
-        {/* Section 2: 4Score Methodology */}
-        <Card className="mb-16">
-          <CardHeader>
-            <CardTitle className="text-3xl">4Score módszertan</CardTitle>
-            <CardDescription className="text-base">
-              Komplex értékelési rendszer négy kulcsfontosságú dimenzióban
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <p className="text-lg">
-              A 4Score módszertan egy átfogó értékelési keretrendszer, amely négy alapvető területen méri az EAP program hatékonyságát.
-            </p>
-            <div className="grid grid-cols-2 gap-4 bg-gradient-to-br from-[#3abef9]/30 to-[#ff66ff]/30 p-4 rounded-lg">
-              <Card className="bg-background/80 backdrop-blur-sm">
-                <CardHeader className="p-4">
-                  <div className="flex items-center gap-2">
-                    <div className="p-1.5 bg-primary/10 rounded-lg">
-                      <TrendingUp className="h-5 w-5 text-primary" />
+        {/* Section 2: 4Score Methodology & Corporate Benefits */}
+        <div className="grid md:grid-cols-2 gap-8 mb-16">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl">4Score módszertan</CardTitle>
+              <CardDescription className="text-base">
+                Komplex értékelési rendszer négy kulcsfontosságú dimenzióban
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <p className="text-lg">
+                A 4Score módszertan egy átfogó értékelési keretrendszer, amely négy alapvető területen méri az EAP program hatékonyságát.
+              </p>
+              <div className="grid grid-cols-2 gap-4 bg-gradient-to-br from-[#3abef9]/30 to-[#ff66ff]/30 p-4 rounded-lg">
+                <Card className="bg-background/80 backdrop-blur-sm">
+                  <CardHeader className="p-4">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 bg-primary/10 rounded-lg">
+                        <TrendingUp className="h-5 w-5 text-primary" />
+                      </div>
+                      <CardTitle className="text-base">1. Tudatosság</CardTitle>
                     </div>
-                    <CardTitle className="text-base">1. Tudatosság</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-4 pt-0">
-                  <p className="text-xs text-muted-foreground">
-                    Méri, hogy a munkavállalók mennyire ismerik az EAP programot.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card className="bg-background/80 backdrop-blur-sm">
-                <CardHeader className="p-4">
-                  <div className="flex items-center gap-2">
-                    <div className="p-1.5 bg-primary/10 rounded-lg">
-                      <Users className="h-5 w-5 text-primary" />
+                  </CardHeader>
+                  <CardContent className="p-4 pt-0">
+                    <p className="text-xs text-muted-foreground">
+                      Méri, hogy a munkavállalók mennyire ismerik az EAP programot.
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="bg-background/80 backdrop-blur-sm">
+                  <CardHeader className="p-4">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 bg-primary/10 rounded-lg">
+                        <Users className="h-5 w-5 text-primary" />
+                      </div>
+                      <CardTitle className="text-base">2. Használat</CardTitle>
                     </div>
-                    <CardTitle className="text-base">2. Használat</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-4 pt-0">
-                  <p className="text-xs text-muted-foreground">
-                    Értékeli a program tényleges igénybevételét.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card className="bg-background/80 backdrop-blur-sm">
-                <CardHeader className="p-4">
-                  <div className="flex items-center gap-2">
-                    <div className="p-1.5 bg-primary/10 rounded-lg">
-                      <CheckCircle2 className="h-5 w-5 text-primary" />
+                  </CardHeader>
+                  <CardContent className="p-4 pt-0">
+                    <p className="text-xs text-muted-foreground">
+                      Értékeli a program tényleges igénybevételét.
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="bg-background/80 backdrop-blur-sm">
+                  <CardHeader className="p-4">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 bg-primary/10 rounded-lg">
+                        <CheckCircle2 className="h-5 w-5 text-primary" />
+                      </div>
+                      <CardTitle className="text-base">3. Bizalom</CardTitle>
                     </div>
-                    <CardTitle className="text-base">3. Bizalom</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-4 pt-0">
-                  <p className="text-xs text-muted-foreground">
-                    Vizsgálja a munkavállalók bizalmát a programban.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card className="bg-background/80 backdrop-blur-sm">
-                <CardHeader className="p-4">
-                  <div className="flex items-center gap-2">
-                    <div className="p-1.5 bg-primary/10 rounded-lg">
-                      <Award className="h-5 w-5 text-primary" />
+                  </CardHeader>
+                  <CardContent className="p-4 pt-0">
+                    <p className="text-xs text-muted-foreground">
+                      Vizsgálja a munkavállalók bizalmát a programban.
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="bg-background/80 backdrop-blur-sm">
+                  <CardHeader className="p-4">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 bg-primary/10 rounded-lg">
+                        <Award className="h-5 w-5 text-primary" />
+                      </div>
+                      <CardTitle className="text-base">4. Hatás</CardTitle>
                     </div>
-                    <CardTitle className="text-base">4. Hatás</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-4 pt-0">
-                  <p className="text-xs text-muted-foreground">
-                    Méri a program valós hatását a jólétre.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </CardContent>
-        </Card>
+                  </CardHeader>
+                  <CardContent className="p-4 pt-0">
+                    <p className="text-xs text-muted-foreground">
+                      Méri a program valós hatását a jólétre.
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </CardContent>
+          </Card>
 
-        {/* Section 3: Corporate Benefits */}
-        <Card className="mb-16">
-          <CardHeader>
-            <CardTitle className="text-3xl">Vállalati előnyök</CardTitle>
-            <CardDescription className="text-base">
-              Miért válassza az EAP Pulse-t a szervezete?
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="grid gap-6">
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold">ROI növelés</h3>
-                <p className="text-muted-foreground">
-                  Mérhető eredmények, amelyek segítenek igazolni az EAP programba való befektetés megtérülését.
-                </p>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl">Vállalati előnyök</CardTitle>
+              <CardDescription className="text-base">
+                Miért válassza az EAP Pulse-t a szervezete?
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid gap-6">
+                <div className="space-y-4">
+                  <h3 className="text-xl font-semibold">ROI növelés</h3>
+                  <p className="text-muted-foreground">
+                    Mérhető eredmények, amelyek segítenek igazolni az EAP programba való befektetés megtérülését.
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-semibold">Adatvezérelt stratégia</h3>
+                  <p className="text-muted-foreground">
+                    Valós adatok alapján optimalizálhatja az EAP programot és a kommunikációs stratégiát.
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-semibold">Gyors implementáció</h3>
+                  <p className="text-muted-foreground">
+                    Azonnal elindítható platform minimális IT erőforrás igénnyel.
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-semibold">Megfelelés és biztonság</h3>
+                  <p className="text-muted-foreground">
+                    GDPR-kompatibilis adatkezelés és teljes anonimitás a munkavállalók számára.
+                  </p>
+                </div>
               </div>
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold">Adatvezérelt stratégia</h3>
-                <p className="text-muted-foreground">
-                  Valós adatok alapján optimalizálhatja az EAP programot és a kommunikációs stratégiát.
-                </p>
-              </div>
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold">Gyors implementáció</h3>
-                <p className="text-muted-foreground">
-                  Azonnal elindítható platform minimális IT erőforrás igénnyel.
-                </p>
-              </div>
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold">Megfelelés és biztonság</h3>
-                <p className="text-muted-foreground">
-                  GDPR-kompatibilis adatkezelés és teljes anonimitás a munkavállalók számára.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Section 4: EAP Providers */}
         <Card>
