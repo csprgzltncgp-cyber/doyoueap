@@ -1,12 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, TrendingUp, Users, Award } from 'lucide-react';
+import { CheckCircle2, TrendingUp, Users, Award, Eye, Shield, Activity, Target } from 'lucide-react';
 import logo from '@/assets/logo.png';
 import eapPulseTeam from '@/assets/eap-pulse-team.jpg';
-import fourScoreTeam from '@/assets/4score-team.jpg';
-import corporateBenefits from '@/assets/corporate-benefits.jpg';
-import eapProviders from '@/assets/eap-providers.jpg';
 import { useAuth } from '@/hooks/useAuth';
 
 const Bemutatkozas = () => {
@@ -120,79 +117,75 @@ const Bemutatkozas = () => {
           </div>
         </div>
 
-        {/* Section 2: 4Score Methodology */}
-        <Card className="mb-16">
-          <CardHeader>
-            <CardTitle className="text-3xl text-center">A 4Score négy dimenzióban ad teljes képet az EAP-ról:</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card className="border-l-4 border-l-[#3572ef]">
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-[#3572ef]/10 rounded-lg">
-                      <TrendingUp className="h-6 w-6 text-[#3572ef]" />
-                    </div>
-                    <CardTitle className="text-xl">1. Tudatosság (Awareness)</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    Méri, hogy a munkavállalók mennyire ismerik az EAP-t, tudják-e, hogyan és mire használható.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-l-4 border-l-[#3abef9]">
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-[#3abef9]/10 rounded-lg">
-                      <Users className="h-6 w-6 text-[#3abef9]" />
-                    </div>
-                    <CardTitle className="text-xl">2. Használat (Usage)</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    Értékeli a tényleges igénybevételt és a használat mintázatait – hol és miért aktivizálódnak az emberek.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-l-4 border-l-[#ff66ff]">
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-[#ff66ff]/10 rounded-lg">
-                      <CheckCircle2 className="h-6 w-6 text-[#ff66ff]" />
-                    </div>
-                    <CardTitle className="text-xl">3. Bizalom & Hajlandóság (Trust & Willingness)</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    Vizsgálja a programba vetett bizalmat és a segítségkérésre való hajlandóságot – az anonimitás érzésétől a vezetői példáig.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-l-4 border-l-[#050c9c]">
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-[#050c9c]/10 rounded-lg">
-                      <Award className="h-6 w-6 text-[#050c9c]" />
-                    </div>
-                    <CardTitle className="text-xl">4. Hatás (Impact)</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    Méri a program valós hatását a jóllétre és a szervezeti működésre: hiányzás, fluktuáció, elégedettség, ajánlási szándék.
-                  </p>
-                </CardContent>
-              </Card>
+        {/* 4Score Section */}
+        <section className="py-20 bg-gradient-to-br from-[#3abef9]/20 to-[#ff66ff]/20 -mx-4 px-4 mb-16">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <div className="inline-block px-4 py-1 bg-gradient-to-r from-[#3abef9] to-[#ff66ff] text-white rounded-full text-sm font-medium mb-4">
+                4Score Módszertan
+              </div>
+              <h2 className="text-4xl font-bold mb-4">A 4Score négy dimenzióban ad teljes képet az EAP-ról</h2>
+              <p className="text-muted-foreground max-w-3xl mx-auto text-lg">
+                Az EAP program hatékonyságát négy kulcsfontosságú dimenzió mentén mérjük, 
+                hogy teljes körű képet kapjon a befektetés megtérüléséről
+              </p>
             </div>
-          </CardContent>
-        </Card>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
+                <div className="flex items-start gap-6">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Eye className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold mb-3">Awareness</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Méri, hogy a munkavállalók mennyire ismerik az EAP-t, tudják-e, hogyan és mire használható.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
+                <div className="flex items-start gap-6">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Shield className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold mb-3">Trust & Willingness</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Vizsgálja a programba vetett bizalmat és a segítségkérésre való hajlandóságot – az anonimitás érzésétől a vezetői példáig.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
+                <div className="flex items-start gap-6">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Activity className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold mb-3">Usage</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Értékeli a tényleges igénybevételt és a használat mintázatait – hol és miért aktivizálódnak az emberek.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
+                <div className="flex items-start gap-6">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Target className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold mb-3">Impact</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Méri a program valós hatását a jóllétre és a szervezeti működésre: hiányzás, fluktuáció, elégedettség, ajánlási szándék.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Benefits Section */}
         <div className="mb-16">
