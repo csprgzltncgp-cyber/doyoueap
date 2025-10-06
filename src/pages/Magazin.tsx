@@ -241,7 +241,7 @@ const Magazin = () => {
       </section>
 
       {/* Featured Carousel */}
-      <section className="py-12 px-4">
+      <section className="py-12 px-4 bg-gradient-to-br from-primary/5 via-background to-primary/10">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold">Kiemelt Cikkek</h2>
