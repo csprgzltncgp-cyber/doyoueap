@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { ArrowRight, CheckCircle, TrendingUp, Users, FileText, Award, BarChart3, Settings as SettingsIcon, Download, FileEdit, PlayCircle, ClipboardList, Eye, Shield, Activity, Target, Heart, UsersRound, LineChart, GitCompare } from 'lucide-react';
 import { RegistrationWizard } from '@/components/registration/RegistrationWizard';
 import logo from '@/assets/logo.png';
+import dashboardPreview from '@/assets/dashboard-preview.jpg';
 import HRDashboard from './HRDashboard';
 import EAPAudit from './hr/EAPAudit';
 import Reports from './hr/Reports';
@@ -516,8 +517,12 @@ const Index = () => {
                 </Button>
               </div>
             </div>
-            <div className="bg-muted rounded-lg p-8 aspect-video flex items-center justify-center">
-              <p className="text-muted-foreground">Dashboard előnézet</p>
+            <div className="rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src={dashboardPreview} 
+                alt="Dashboard előnézet - analitikai grafikonok és jelentések" 
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
