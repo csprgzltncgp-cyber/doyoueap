@@ -416,7 +416,7 @@ const Reports = () => {
                     <span className="text-sm">Általános elégedettség</span>
                     <span className="font-semibold">{satisfactionScore}/5</span>
                   </div>
-                  <Progress value={parseFloat(satisfactionScore) * 20} style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties} className="h-3" />
+                  <Progress value={parseFloat(satisfactionScore) * 20} style={{ '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #ff66ff 100%)' } as React.CSSProperties} className="h-3" />
                 </div>
                 
                 <div className="space-y-2">
@@ -424,7 +424,7 @@ const Reports = () => {
                     <span className="text-sm">NPS átlag</span>
                     <span className="font-semibold">{npsScore}/10</span>
                   </div>
-                  <Progress value={parseFloat(npsScore) * 10} style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties} className="h-3" />
+                  <Progress value={parseFloat(npsScore) * 10} style={{ '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #ff66ff 100%)' } as React.CSSProperties} className="h-3" />
                   <p className="text-xs text-muted-foreground">Ajánlási hajlandóság: mennyire ajánlaná másoknak a programot</p>
                 </div>
 
@@ -433,7 +433,7 @@ const Reports = () => {
                     <span className="text-sm">Problémamegoldás</span>
                     <span className="font-semibold">{problemSolvingScore}/5</span>
                   </div>
-                  <Progress value={parseFloat(problemSolvingScore) * 20} style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties} className="h-3" />
+                  <Progress value={parseFloat(problemSolvingScore) * 20} style={{ '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #ff66ff 100%)' } as React.CSSProperties} className="h-3" />
                   <p className="text-xs text-muted-foreground">Mennyire segített a program a probléma megoldásában</p>
                 </div>
 
@@ -442,7 +442,7 @@ const Reports = () => {
                     <span className="text-sm">Teljesítmény hatás</span>
                     <span className="font-semibold">{performanceScore}/5</span>
                   </div>
-                  <Progress value={parseFloat(performanceScore) * 20} style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties} className="h-3" />
+                  <Progress value={parseFloat(performanceScore) * 20} style={{ '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #ff66ff 100%)' } as React.CSSProperties} className="h-3" />
                   <p className="text-xs text-muted-foreground">A program hatása a munkahelyi teljesítményre</p>
                 </div>
 
@@ -451,7 +451,7 @@ const Reports = () => {
                     <span className="text-sm">Wellbeing hatás</span>
                     <span className="font-semibold">{wellbeingScore}/5</span>
                   </div>
-                  <Progress value={parseFloat(wellbeingScore) * 20} style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties} className="h-3" />
+                  <Progress value={parseFloat(wellbeingScore) * 20} style={{ '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #ff66ff 100%)' } as React.CSSProperties} className="h-3" />
                   <p className="text-xs text-muted-foreground">A program hatása az általános jóllétre és mentális egészségre</p>
                 </div>
 
@@ -460,7 +460,7 @@ const Reports = () => {
                     <span className="text-sm">Konzisztencia</span>
                     <span className="font-semibold">{consistencyScore}/5</span>
                   </div>
-                  <Progress value={parseFloat(consistencyScore) * 20} style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties} className="h-3" />
+                  <Progress value={parseFloat(consistencyScore) * 20} style={{ '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #ff66ff 100%)' } as React.CSSProperties} className="h-3" />
                   <p className="text-xs text-muted-foreground">Mennyire volt konzisztens a szolgáltatás minősége minden alkalommal</p>
                 </div>
               </CardContent>
