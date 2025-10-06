@@ -170,7 +170,7 @@ const Index = () => {
               onClick={() => navigate('/bemutatkozas')}
               className="text-sm border border-transparent transition-colors px-3 py-2 rounded-sm hover:bg-muted"
             >
-              Bemutatkozás
+              EAP Pulse
             </button>
             <button
               onClick={() => navigate('/arak')}
