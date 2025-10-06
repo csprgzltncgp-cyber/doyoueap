@@ -281,38 +281,35 @@ const Index = () => {
         {user && role === 'hr' && section === 'eap-pulse' && (
           <div className="border-t bg-muted/20">
             <div className="max-w-7xl mx-auto px-4 py-2">
-              <nav className="flex gap-6">
+              <nav className="flex gap-6 justify-center">
                 <button
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'create-audit' 
                       ? 'text-primary font-semibold border-primary' 
                       : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
-                  <PlayCircle className="h-4 w-4" />
                   Új Felmérés
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'running-audits' })}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'running-audits' 
                       ? 'text-primary font-semibold border-primary' 
                       : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
-                  <ClipboardList className="h-4 w-4" />
                   Futó Felmérések
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'audit-questionnaire' })}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'audit-questionnaire' 
                       ? 'text-primary font-semibold border-primary' 
                       : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
-                  <Eye className="h-4 w-4" />
                   EAP Pulse demo
                 </button>
               </nav>
@@ -324,104 +321,95 @@ const Index = () => {
         {user && role === 'hr' && section === 'reports' && (
           <div className="border-t bg-muted/20">
             <div className="max-w-7xl mx-auto px-4 py-2">
-              <nav className="flex gap-6">
+              <nav className="flex gap-6 justify-center">
                 <button
                   onClick={() => setSearchParams({ section: 'reports', sub: 'overview' })}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
                     (!subSection || subSection === 'overview') 
                       ? 'text-primary font-semibold border-primary' 
                       : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
-                  <BarChart3 className="h-4 w-4" />
                   Összefoglaló
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'reports', sub: 'awareness' })}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'awareness' 
                       ? 'text-primary font-semibold border-primary' 
                       : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
-                  <Eye className="h-4 w-4" />
                   Ismertség
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'reports', sub: 'trust' })}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'trust' 
                       ? 'text-primary font-semibold border-primary' 
                       : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
-                  <Shield className="h-4 w-4" />
                   Bizalom
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'reports', sub: 'usage' })}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'usage' 
                       ? 'text-primary font-semibold border-primary' 
                       : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
-                  <Activity className="h-4 w-4" />
                   Használat
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'reports', sub: 'impact' })}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'impact' 
                       ? 'text-primary font-semibold border-primary' 
                       : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
-                  <Target className="h-4 w-4" />
                   Hatás
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'reports', sub: 'motivation' })}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'motivation' 
                       ? 'text-primary font-semibold border-primary' 
                       : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
-                  <Heart className="h-4 w-4" />
                   Motiváció
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'reports', sub: 'demographics' })}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'demographics' 
                       ? 'text-primary font-semibold border-primary' 
                       : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
-                  <UsersRound className="h-4 w-4" />
                   Demográfia
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'reports', sub: 'trends' })}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'trends' 
                       ? 'text-primary font-semibold border-primary' 
                       : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
-                  <LineChart className="h-4 w-4" />
                   Trendek
                 </button>
                 <button
                   onClick={() => setSearchParams({ section: 'reports', sub: 'compare' })}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'compare' 
                       ? 'text-primary font-semibold border-primary' 
                       : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
-                  <GitCompare className="h-4 w-4" />
                   Összehasonlítás
                 </button>
               </nav>
