@@ -335,9 +335,25 @@ const Magazin = () => {
               <h2 className="text-2xl font-bold mb-6">Legújabb Cikkek</h2>
               
               <div className="space-y-6">
-                {articles.map((article, index) => (
-                  <div key={index} className="grid md:grid-cols-[200px_1fr] gap-4">
-                    <Card className="hover:shadow-lg transition-all hover:scale-[1.02] cursor-pointer overflow-hidden">
+                {articles.map((article, index) => {
+                  // Map articles to their slugs
+                  const slugMap: Record<number, string> = {
+                    0: 'szervezeti-klima-szerepe',
+                    1: 'digitalis-wellbeing-platformok',
+                    2: 'globalis-kitekintes',
+                    3: 'vezetok-szerepe',
+                    4: 'stigma-lebontasa',
+                    5: 'munkavallaoi-elkotelezoedes',
+                    6: 'eap-merhetosege-roi'
+                  };
+
+                  return (
+                    <div 
+                      key={index} 
+                      className="grid md:grid-cols-[200px_1fr] gap-4 cursor-pointer group"
+                      onClick={() => navigate(`/magazin/${slugMap[index]}`)}
+                    >
+                    <Card className="hover:shadow-lg transition-all group-hover:scale-[1.02] overflow-hidden">
                       {article.image ? (
                         <img 
                           src={article.image} 
@@ -350,7 +366,7 @@ const Magazin = () => {
                         </div>
                       )}
                     </Card>
-                    <Card className="hover:shadow-lg transition-all hover:scale-[1.02] cursor-pointer group">
+                    <Card className="hover:shadow-lg transition-all group-hover:scale-[1.02]">
                       <CardHeader>
                         <Badge className="w-fit mb-2">{article.category}</Badge>
                         <CardTitle className="text-xl group-hover:text-primary transition-colors">
@@ -373,7 +389,8 @@ const Magazin = () => {
                       </CardContent>
                     </Card>
                   </div>
-                ))}
+                );
+              })}
               </div>
 
               <div className="mt-8 text-center">

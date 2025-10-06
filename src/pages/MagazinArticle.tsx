@@ -234,6 +234,374 @@ const MagazinArticle = () => {
 
         <p>A digitalizáció nem fenyegetés az EAP-ra, hanem lehetőség a szolgáltatások javítására, bővítésére és hozzáférhetőbbé tételére. A jövő EAP-ja hibrid lesz: ötvözi a technológia hatékonyságát az emberi kapcsolat erejével, hogy minden munkavállaló megkapja a szükséges támogatást, amikor és ahogyan szüksége van rá.</p>
       `
+    },
+    'szervezeti-klima-szerepe': {
+      title: "A szervezeti klíma szerepe az EAP hatékonyságában",
+      excerpt: "Egy EAP soha nem a vákuumban működik. A program hatását mindig befolyásolja a szervezet kultúrája, a vezetők attitűdje és a munkahelyi környezet.",
+      author: "doyoueap",
+      date: "2025. január 8.",
+      readTime: "6 perc",
+      category: "Kultúra",
+      image: climateArticleImg,
+      content: `
+        <p>Egy Employee Assistance Program (EAP) soha nem vákuumban működik. Bármennyire is kiváló minőségű szolgáltatást kínál, a program hatását mindig befolyásolja a szervezet kultúrája, a vezetők attitűdje, és a munkahelyi környezet általános hangulata.</p>
+
+        <h2>Mi a szervezeti klíma?</h2>
+        
+        <p>A szervezeti klíma az a „légkör", amely egy munkahely mindennapjait meghatározza:</p>
+        <ul>
+          <li>Hogyan kommunikálnak egymással a vezetők és a munkavállalók?</li>
+          <li>Milyen értékek irányítják a döntéshozatalt?</li>
+          <li>Mennyire nyitottak a mentális egészségről szóló beszélgetésekre?</li>
+          <li>Van-e bizalom a szervezetben?</li>
+        </ul>
+
+        <h2>A nyílt kultúra fontossága</h2>
+        
+        <p>Azokban a szervezetekben, ahol a mentális egészség és a jól-lét nem tabutéma, hanem természetes része a mindennapoknak, az EAP-használat jelentősen magasabb. A munkavállalók nem félnek attól, hogy megbélyegzik őket, ha segítséget kérnek.</p>
+
+        <h2>A vezetők szerepe</h2>
+        
+        <p>A szervezeti klíma formálásában a vezetőknek kulcsszerepük van:</p>
+        <ul>
+          <li>Ha a vezetők nyíltan beszélnek a mentális egészségről, az legitimizálja a témát</li>
+          <li>Ha maguk is igénybe veszik az EAP-ot (vagy nyíltan támogatják azt), az példát mutat</li>
+          <li>Ha empátiával fordulnak a munkavállalók felé, az bizalmat épít</li>
+        </ul>
+
+        <h2>Mérési lehetőségek</h2>
+        
+        <p>A szervezeti klíma hatását az EAP-ra különböző módokon lehet mérni:</p>
+        <ul>
+          <li>Munkavállalói elégedettség felmérések</li>
+          <li>EAP tudatossági és használati adatok</li>
+          <li>Bizalmi index (Trust & Willingness Score)</li>
+          <li>Kilépési interjúk elemzése</li>
+        </ul>
+
+        <h2>Összegzés</h2>
+        
+        <p>Az EAP sikeressége nem csak a szolgáltatás minőségén múlik. A szervezeti klíma az, ami meghatározza, hogy a munkavállalók mernek-e élni a lehetőséggel, és érzik-e úgy, hogy a munkahelyük támogatja őket.</p>
+      `
+    },
+    'digitalis-wellbeing-platformok': {
+      title: "Digitális wellbeing platformok és az EAP – kiegészítés vagy verseny?",
+      excerpt: "Az elmúlt években gombamód szaporodtak a digitális wellbeing platformok. Nem arról van szó, hogy az egyik jobb, a másik rosszabb – inkább arról, hogy más funkciót töltenek be.",
+      author: "doyoueap",
+      date: "2025. január 6.",
+      readTime: "7 perc",
+      category: "Technológia",
+      image: digitalWellbeingArticleImg,
+      content: `
+        <p>Az elmúlt években gombamód szaporodtak a digitális wellbeing platformok: meditációs appok, fitness trackerek, alvásjavító programok, stresszkezelő alkalmazások és még sok más. Ezekkel párhuzamosan az Employee Assistance Programok (EAP) is jelen vannak a piacon.</p>
+
+        <p>Felmerül a kérdés: versenyeznek egymással, vagy kiegészítik egymást?</p>
+
+        <h2>Mi a különbség?</h2>
+        
+        <h3>Digitális wellbeing platformok</h3>
+        <ul>
+          <li>Önkiszolgáló eszközök</li>
+          <li>Általános jól-lét témák (meditáció, alvás, fitnesz)</li>
+          <li>Nincs személyre szabott szakmai támogatás</li>
+          <li>Megelőzés és fenntartás</li>
+        </ul>
+
+        <h3>EAP</h3>
+        <ul>
+          <li>Szakemberek által nyújtott támogatás</li>
+          <li>Komplex problémák kezelése (szorongás, addikció, kapcsolati problémák)</li>
+          <li>Személyre szabott, konfidenciális tanácsadás</li>
+          <li>Intervenció és kezelés</li>
+        </ul>
+
+        <h2>Kiegészítés, nem verseny</h2>
+        
+        <p>A két megoldás nem zárja ki egymást – épp ellenkezőleg, együtt a legerősebbek:</p>
+
+        <ul>
+          <li><strong>Prevenció + Intervenció</strong> – A wellbeing appok megelőzésre, az EAP kezelésre fókuszál</li>
+          <li><strong>Önfejlesztés + Szakmai támogatás</strong> – Az appok önfejlesztésre, az EAP valódi problémák megoldására</li>
+          <li><strong>Tömegeknek + Egyéneknek</strong> – Az appok széles körben használhatók, az EAP személyre szabott</li>
+        </ul>
+
+        <h2>A hibrid modell előnyei</h2>
+        
+        <p>Azok a szervezetek, amelyek kombinálják a két megközelítést, a legjobb eredményeket érik el:</p>
+        
+        <ul>
+          <li>A munkavállalók különböző igényeit szolgálják ki</li>
+          <li>Megelőzés és kezelés is jelen van</li>
+          <li>Szélesebb körben elérhető támogatás</li>
+          <li>Jobb ROI és munkavállalói elégedettség</li>
+        </ul>
+
+        <h2>Összegzés</h2>
+        
+        <p>A digitális wellbeing platformok és az EAP nem vetélytársak, hanem együtt alkotnak egy átfogó munkavállalói támogatási ökoszisztémát. A sikeres HR-stratégia mindkettőt integrálja.</p>
+      `
+    },
+    'globalis-kitekintes': {
+      title: "Globális kitekintés: EAP-használat régiók szerint",
+      excerpt: "Az Employee Assistance Programok nemzetközi elterjedtsége és használata nagyon különböző képet mutat a világ régióiban. Nincs egyetlen univerzális modell – az EAP sikeressége mindig kontextusfüggő.",
+      author: "doyoueap",
+      date: "2025. január 5.",
+      readTime: "8 perc",
+      category: "Globális",
+      image: globalArticleImg,
+      content: `
+        <p>Az Employee Assistance Programok (EAP) világszerte jelen vannak, de elterjedtségük, használatuk és a velük kapcsolatos attitűd régiónként jelentősen eltér.</p>
+
+        <h2>Észak-Amerika: Az EAP otthona</h2>
+        
+        <p>Az EAP az Egyesült Államokban született meg az 1970-es években, és ma is itt a leginkább elterjedt:</p>
+        <ul>
+          <li>A nagyvállalatok 75%-a kínál EAP-ot</li>
+          <li>Átlagos használati arány: 5-8%</li>
+          <li>Erős jogi és kulturális támogatás</li>
+        </ul>
+
+        <h2>Európa: Vegyes kép</h2>
+        
+        <h3>Nyugat-Európa</h3>
+        <p>Nagy-Britannia, Írország és Hollandia vezető szerepet tölt be. Az EAP itt már mainstream.</p>
+
+        <h3>Közép- és Kelet-Európa</h3>
+        <p>Magyarország, Lengyelország és Csehország lassan kezd felzárkózni, de még mindig alacsony a tudatosság és a használat.</p>
+
+        <h2>Ázsia-Csendes-óceáni régió</h2>
+        
+        <p>Japánban és Dél-Koreában hagyományosan tabu a mentális egészség, de a fiatal generációk nyitottabbak. Ausztráliában és Új-Zélandon az EAP elterjedt.</p>
+
+        <h2>Latin-Amerika és Afrika</h2>
+        
+        <p>Ezekben a régiókban az EAP még gyerekcipőben jár. A kulturális stigma és az erőforrások hiánya jelentős akadályok.</p>
+
+        <h2>Összegzés</h2>
+        
+        <p>Az EAP globális elterjedése nem egyenletes. A kulturális különbségek, jogi környezet és gazdasági fejlettség mind befolyásolják a programok sikerességét.</p>
+      `
+    },
+    'vezetok-szerepe': {
+      title: "A vezetők szerepe és felelőssége az EAP sikerében",
+      excerpt: "Egy Employee Assistance Program sikerének kulcsa nemcsak a szolgáltatások minőségén múlik, hanem azon is, hogy a vezetők hogyan viszonyulnak hozzá.",
+      author: "doyoueap",
+      date: "2025. január 3.",
+      readTime: "6 perc",
+      category: "Vezetés",
+      image: leadershipArticleImg,
+      content: `
+        <p>Egy Employee Assistance Program (EAP) sikerének kulcsa nemcsak a szolgáltatások minőségén múlik, hanem azon is, hogy a vezetők hogyan viszonyulnak hozzá. A vezetői attitűd és a vezetői példamutatás döntő jelentőségű.</p>
+
+        <h2>Miért fontos a vezetők szerepe?</h2>
+        
+        <p>A vezetők az alábbi okokból kritikus szereplők az EAP sikerében:</p>
+        <ul>
+          <li>Ők formálják a szervezeti kultúrát</li>
+          <li>Ők mutatnak példát a munkavállalóknak</li>
+          <li>Ők hozzák a stratégiai döntéseket az EAP támogatásáról</li>
+          <li>Ők kommunikálják az EAP értékét</li>
+        </ul>
+
+        <h2>Mit tehetnek a vezetők?</h2>
+        
+        <h3>1. Nyílt kommunikáció</h3>
+        <p>Beszéljenek nyíltan a mentális egészség fontosságáról, és támogassák az EAP használatát.</p>
+
+        <h3>2. Példamutatás</h3>
+        <p>Ha egy vezető maga is igénybe veszi az EAP-ot (vagy legalább támogatja azt), az legitimizálja a programot.</p>
+
+        <h3>3. Erőforrások biztosítása</h3>
+        <p>Az EAP csak akkor működhet hatékonyan, ha megfelelő költségvetést és figyelmet kap.</p>
+
+        <h3>4. Aktív promóció</h3>
+        <p>A vezetőknek rendszeresen emlékeztetniük kell a munkavállalókat az EAP létezésére és előnyeire.</p>
+
+        <h2>Mit NE tegyenek a vezetők?</h2>
+        
+        <ul>
+          <li><strong>Ne stigmatizálják</strong> – Soha ne tekintsék gyengeségnek a segítségkérést</li>
+          <li><strong>Ne hagyjá figyelmen kívül</strong> – Az EAP nem lehet csak egy "kipipálandó" tétel</li>
+          <li><strong>Ne kérdezzenek túl sokat</strong> – A bizalmasság kulcsfontosságú</li>
+        </ul>
+
+        <h2>Összegzés</h2>
+        
+        <p>A vezetők felelőssége nem ér véget az EAP bevezetésével. A folyamatos támogatás, kommunikáció és példamutatás nélkül még a legjobb program is kudarcra van ítélve.</p>
+      `
+    },
+    'stigma-lebontasa': {
+      title: "A stigma lebontása és a kommunikáció szerepe",
+      excerpt: "Az EAP egyik legnagyobb akadálya világszerte a stigma. A stigma lebontásának első lépése a kommunikáció – folyamatosan, változatos formában kell találkozniuk a munkavállalóknak az üzenettel.",
+      author: "doyoueap",
+      date: "2025. január 2.",
+      readTime: "7 perc",
+      category: "Kommunikáció",
+      image: stigmaArticleImg,
+      content: `
+        <p>Az Employee Assistance Programok (EAP) egyik legnagyobb akadálya világszerte a stigma. Hiába elérhető egy kiváló minőségű szolgáltatás, ha a munkavállalók félnek vagy szégyellik igénybe venni.</p>
+
+        <h2>Mi a stigma?</h2>
+        
+        <p>A stigma a mentális egészséggel kapcsolatos negatív attitűdök és előítéletek összessége:</p>
+        <ul>
+          <li>"Ha EAP-ra van szükségem, az gyengeség"</li>
+          <li>"Ha igénybe veszem, azt fogják gondolni, nem bírok a munkával"</li>
+          <li>"A főnököm megítél, ha segítséget kérek"</li>
+        </ul>
+
+        <h2>A kommunikáció szerepe</h2>
+        
+        <p>A stigma lebontásának első és legfontosabb lépése a kommunikáció:</p>
+
+        <h3>1. Folyamatos jelenlét</h3>
+        <p>Nem elég egyszer éves eleje bejelenteni az EAP-ot. Folyamatosan, változatos formában kell találkozniuk a munkavállalóknak az üzenettel.</p>
+
+        <h3>2. Változatos csatornák</h3>
+        <ul>
+          <li>Email kampányok</li>
+          <li>Poszterek az irodában</li>
+          <li>Belső hírlevelek</li>
+          <li>Webinárok és workshopok</li>
+          <li>Személyes vezetői kommunikáció</li>
+        </ul>
+
+        <h3>3. Pozitív üzenetek</h3>
+        <p>A kommunikációnak pozitívnak és támogatónak kell lennie, nem pedig fenyegetőnek vagy megfélemlítőnek.</p>
+
+        <h2>Sikeres példák</h2>
+        
+        <p>Azok a szervezetek, ahol sikeresen csökkentették a stigmát:</p>
+        <ul>
+          <li>Rendszeres "Mental Health Awareness" kampányokat szerveztek</li>
+          <li>Vezetők személyes történeteket osztottak meg</li>
+          <li>Az EAP-ot "természetesnek" kezelték, nem "válságkezelésnek"</li>
+        </ul>
+
+        <h2>Összegzés</h2>
+        
+        <p>A stigma lebontása hosszú folyamat, de elengedhetetlen az EAP sikeréhez. A kommunikáció az eszköz, amely megváltoztathatja a munkavállalók hozzáállását.</p>
+      `
+    },
+    'munkavallaoi-elkotelezoedes': {
+      title: "Az EAP és a munkavállalói elköteleződés kapcsolata",
+      excerpt: "Az elkötelezett dolgozók produktívabbak, lojálisabbak, kevésbé hajlamosak a fluktuációra. Az EAP ugyan elsősorban támogató szolgáltatásként ismert, mégis közvetlenül és közvetve is erősíti az elköteleződést.",
+      author: "doyoueap",
+      date: "2024. december 30.",
+      readTime: "6 perc",
+      category: "HR",
+      image: engagementArticleImg,
+      content: `
+        <p>A munkavállalói elköteleződés (employee engagement) az egyik legfontosabb HR-mutató. Az elkötelezett dolgozók produktívabbak, lojálisabbak, kevésbé hajlamosak a fluktuációra, és pozitívan hatnak a csapat hangulatára.</p>
+
+        <p>De mi köze ehhez az EAP-nak?</p>
+
+        <h2>Az EAP hatása az elköteleződésre</h2>
+        
+        <p>Az EAP többféleképpen is erősíti a munkavállalói elköteleződést:</p>
+
+        <h3>1. "A cég törődik velem"</h3>
+        <p>Amikor egy munkáltató EAP-ot kínál, az üzenet egyértelmű: "Fontos vagy nekünk, nemcsak munkavállalóként, hanem emberként is."</p>
+
+        <h3>2. Stressz és kiégés csökkentése</h3>
+        <p>Az EAP segít a munkavállalóknak kezelni a stresszt és megelőzni a kiégést, ami közvetlenül javítja a munkahelyi teljesítményt és elégedettséget.</p>
+
+        <h3>3. Munka-magánélet egyensúly</h3>
+        <p>Az EAP nem csak munkahelyi problémákban segít, hanem magánéleti kérdésekben is (családi konfliktusok, pénzügyi nehézségek stb.), ami javítja az általános jóllétet.</p>
+
+        <h2>Mérési lehetőségek</h2>
+        
+        <p>Az EAP és az elköteleződés kapcsolatát különböző módokon lehet mérni:</p>
+        <ul>
+          <li>Munkavállalói elégedettségi felmérések</li>
+          <li>Fluktuációs arány változása</li>
+          <li>Produktivitási mutatók</li>
+          <li>Betegszabadságok száma</li>
+        </ul>
+
+        <h2>Sikeres példák</h2>
+        
+        <p>Azok a vállalatok, amelyek komolyan veszik az EAP-ot és a munkavállalói jóllétet:</p>
+        <ul>
+          <li>Alacsonyabb fluktuációval rendelkeznek</li>
+          <li>Magasabb munkavállalói elégedettséget érnek el</li>
+          <li>Jobb employer branding-gel rendelkeznek</li>
+        </ul>
+
+        <h2>Összegzés</h2>
+        
+        <p>Az EAP nem csak egy "nice-to-have" benefit. Ez egy stratégiai eszköz, amely közvetlenül hozzájárul a munkavállalói elköteleződéshez és a szervezet hosszú távú sikeréhez.</p>
+      `
+    },
+    'eap-merhetosege-roi': {
+      title: "Az EAP mérhetősége és a megtérülés (ROI) kérdése",
+      excerpt: "Számos kutatás bizonyítja, hogy az EAP nemcsak humánus és etikus megoldás, hanem gazdaságilag is kifizetődő. A programok átlagosan 3-10-szeres megtérülést hoznak.",
+      author: "doyoueap",
+      date: "2024. december 28.",
+      readTime: "8 perc",
+      category: "ROI",
+      image: roiArticleImg,
+      content: `
+        <p>Az egyik leggyakoribb kérdés, amit a HR-vezetők feltehetnek az EAP-val kapcsolatban: "Mennyibe kerül, és megtérül-e?"</p>
+
+        <p>A jó hír: számos kutatás bizonyítja, hogy az EAP nemcsak humánus és etikus megoldás, hanem gazdaságilag is kifizetődő.</p>
+
+        <h2>Hogyan számoljuk az EAP ROI-ját?</h2>
+        
+        <p>Az EAP megtérülését (Return on Investment) a következő képlettel számíthatjuk:</p>
+        
+        <p><strong>ROI = (Haszon - Költség) / Költség × 100</strong></p>
+
+        <h3>Költségek</h3>
+        <ul>
+          <li>Az EAP szolgáltatás díja (általában munkavállalónként éves szinten)</li>
+          <li>Belső kommunikáció és promóció költségei</li>
+          <li>Adminisztráció</li>
+        </ul>
+
+        <h3>Hasznok</h3>
+        <ul>
+          <li>Csökkent hiányzások</li>
+          <li>Javult produktivitás</li>
+          <li>Alacsonyabb fluktuáció</li>
+          <li>Kevesebb baleset a munkahelyen</li>
+          <li>Jobb munkavállalói elégedettség</li>
+        </ul>
+
+        <h2>Konkrét adatok</h2>
+        
+        <p>Nemzetközi tanulmányok szerint az EAP átlagosan:</p>
+        <ul>
+          <li><strong>3-10-szeres ROI</strong>-t hoz (azaz minden befektetett 1 dollár 3-10 dollárt térít meg)</li>
+          <li><strong>25-30%-kal csökkenti</strong> a munkahelyi hiányzásokat</li>
+          <li><strong>15-20%-kal javítja</strong> a produktivitást</li>
+          <li><strong>50%-kal csökkenti</strong> a munkával kapcsolatos stresszt</li>
+        </ul>
+
+        <h2>Nehezen mérhető előnyök</h2>
+        
+        <p>Az EAP néhány előnye nehezen számszerűsíthető, de mégis jelentős:</p>
+        <ul>
+          <li>Jobb employer branding</li>
+          <li>Pozitívabb szervezeti kultúra</li>
+          <li>Magasabb munkavállalói lojalitás</li>
+          <li>Etikus és humánus munkáltató imázs</li>
+        </ul>
+
+        <h2>Hogyan növeljük az ROI-t?</h2>
+        
+        <p>Az EAP ROI-ja jelentősen növelhető, ha:</p>
+        <ul>
+          <li>Folyamatosan kommunikálják a programot</li>
+          <li>A vezetők aktívan támogatják</li>
+          <li>Rendszeresen mérik a használatot és a hatást</li>
+          <li>Személyre szabják a szolgáltatásokat</li>
+        </ul>
+
+        <h2>Összegzés</h2>
+        
+        <p>Az EAP nem költség, hanem befektetés. A jól működő programok nemcsak emberközpontúak, hanem gazdaságilag is ésszerűek.</p>
+      `
     }
   };
 
@@ -310,26 +678,46 @@ const MagazinArticle = () => {
       </header>
 
       {/* Article Content */}
-      <article className="max-w-4xl mx-auto px-4 py-12">
-        {/* Back Button */}
-        <Button 
-          variant="ghost" 
-          className="mb-6"
-          onClick={() => navigate('/magazin')}
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Vissza a magazinhoz
-        </Button>
+      <article className="w-full">
+        {/* Featured Image - Full Width */}
+        {article.image && (
+          <div className="w-full h-[60vh] overflow-hidden relative">
+            <img 
+              src={article.image} 
+              alt={article.title}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            
+            {/* Title Overlay on Image */}
+            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
+              <div className="max-w-5xl mx-auto">
+                <Badge className="mb-4 bg-white text-black hover:bg-white">{article.category}</Badge>
+                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
+                  {article.title}
+                </h1>
+              </div>
+            </div>
+          </div>
+        )}
 
-        {/* Article Header */}
-        <div className="mb-8">
-          <Badge className="mb-4">{article.category}</Badge>
-          <h1 className="text-5xl font-bold mb-6 leading-tight">{article.title}</h1>
+        {/* Article Meta & Content */}
+        <div className="max-w-5xl mx-auto px-4 md:px-8 py-12">
+          {/* Back Button */}
+          <Button 
+            variant="ghost" 
+            className="mb-8"
+            onClick={() => navigate('/magazin')}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Vissza a magazinhoz
+          </Button>
           
-          <div className="flex items-center gap-6 text-muted-foreground mb-6">
+          {/* Meta Info */}
+          <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-muted-foreground pb-8 border-b mb-12">
             <div className="flex items-center gap-2">
               <User className="h-4 w-4" />
-              <span>{article.author}</span>
+              <span className="font-medium">{article.author}</span>
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
@@ -339,50 +727,41 @@ const MagazinArticle = () => {
               <Clock className="h-4 w-4" />
               <span>{article.readTime}</span>
             </div>
-          </div>
-
-          <p className="text-xl text-muted-foreground leading-relaxed">
-            {article.excerpt}
-          </p>
-        </div>
-
-        {/* Featured Image */}
-        {article.image && (
-          <div className="mb-12 rounded-lg overflow-hidden">
-            <img 
-              src={article.image} 
-              alt={article.title}
-              className="w-full h-auto"
-            />
-          </div>
-        )}
-
-        {/* Article Body */}
-        <div 
-          className="prose prose-lg max-w-none prose-headings:font-bold prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-4 prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3 prose-p:mb-4 prose-p:leading-relaxed prose-ul:my-6 prose-li:mb-2"
-          dangerouslySetInnerHTML={{ __html: article.content }}
-        />
-
-        {/* Share Section */}
-        <div className="mt-16 pt-8 border-t">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">Megosztás</h3>
-            <Button variant="outline" size="sm">
+            <Button variant="ghost" size="sm" className="ml-auto">
               <Share2 className="mr-2 h-4 w-4" />
               Megosztás
             </Button>
           </div>
-        </div>
 
-        {/* Back to Magazine */}
-        <div className="mt-12 text-center">
-          <Button 
-            variant="outline" 
-            size="lg"
-            onClick={() => navigate('/magazin')}
-          >
-            További cikkek a magazinban
-          </Button>
+          {/* Excerpt */}
+          <p className="text-xl md:text-2xl leading-relaxed text-muted-foreground mb-12 font-light">
+            {article.excerpt}
+          </p>
+
+          {/* Article Body with wider layout */}
+          <div 
+            className="prose prose-lg md:prose-xl max-w-none 
+                       prose-headings:font-bold 
+                       prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-16 prose-h2:mb-6 
+                       prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:mt-12 prose-h3:mb-4 
+                       prose-p:mb-6 prose-p:leading-relaxed prose-p:text-lg
+                       prose-ul:my-8 prose-ul:space-y-3 prose-li:text-lg
+                       prose-strong:font-semibold prose-strong:text-foreground"
+            dangerouslySetInnerHTML={{ __html: article.content }}
+          />
+
+          {/* Back to Magazine */}
+          <div className="mt-20 pt-12 border-t text-center">
+            <h3 className="text-2xl font-bold mb-6">Fedezz fel még több cikket</h3>
+            <Button 
+              variant="default" 
+              size="lg"
+              onClick={() => navigate('/magazin')}
+              className="bg-[hsl(var(--magazine-red))] hover:bg-[hsl(var(--magazine-red))]/90"
+            >
+              Vissza a magazinhoz
+            </Button>
+          </div>
         </div>
       </article>
     </div>
