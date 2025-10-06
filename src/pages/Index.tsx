@@ -535,7 +535,7 @@ const Index = () => {
             {/* Left: What is EAP Pulse */}
             <Card id="pulse" className="md:row-span-2">
               <CardHeader>
-                <div className="text-sm font-medium mb-2" style={{ color: 'rgb(236, 234, 228)' }}>Kiemelt</div>
+                <div className="text-sm font-medium mb-2" style={{ color: 'rgb(115, 115, 115)' }}>Kiemelt</div>
                 <CardTitle className="text-3xl">Mi az EAP Pulse?</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -583,7 +583,7 @@ const Index = () => {
               {featuredArticles.map((article) => (
                 <Card key={article.id} className="hover:shadow-md transition-shadow cursor-pointer">
                   <CardHeader>
-                    <div className="text-xs font-medium mb-1" style={{ color: 'rgb(236, 234, 228)' }}>{article.category}</div>
+                    <div className="text-xs font-medium mb-1" style={{ color: 'rgb(115, 115, 115)' }}>{article.category}</div>
                     <CardTitle className="text-lg">{article.title}</CardTitle>
                     <CardDescription>{article.excerpt}</CardDescription>
                   </CardHeader>
