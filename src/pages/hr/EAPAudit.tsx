@@ -5,17 +5,20 @@ import AuditQuestionnaire from './AuditQuestionnaire';
 
 const EAPAudit = () => {
   const [searchParams] = useSearchParams();
-  const subSection = searchParams.get('sub') || 'create-audit';
+  const subSection = searchParams.get('sub');
 
   const renderContent = () => {
+    if (!subSection) return null;
+    
     switch (subSection) {
       case 'running-audits':
         return <RunningAudits />;
       case 'audit-questionnaire':
         return <AuditQuestionnaire />;
       case 'create-audit':
-      default:
         return <CreateAudit />;
+      default:
+        return null;
     }
   };
 

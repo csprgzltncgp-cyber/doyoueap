@@ -36,12 +36,7 @@ const Index = () => {
     if (!loading && user && role === 'admin') {
       navigate('/admin');
     }
-    
-    // Set default subsection for EAP Pulse
-    if (user && role === 'hr' && section === 'eap-pulse' && !subSection) {
-      setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });
-    }
-  }, [user, role, loading, navigate, section, subSection, setSearchParams]);
+  }, [user, role, loading, navigate]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,20 +108,13 @@ const Index = () => {
 
   // Render dashboard content if user is logged in and has selected a dashboard section
   const renderDashboardContent = () => {
-    if (!user || role !== 'hr') return null;
+    if (!user || role !== 'hr' || !section) return null;
 
     switch (section) {
       case 'dashboard':
         return <HRDashboard />;
       case 'eap-pulse':
-        switch (subSection) {
-          case 'create-audit':
-          case 'running-audits':
-          case 'audit-questionnaire':
-            return <EAPAudit />;
-          default:
-            return <HRDashboard />;
-        }
+        return <EAPAudit />;
       case 'reports':
         return <Reports />;
       case 'export':
@@ -182,7 +170,7 @@ const Index = () => {
             </button>
             {user && role === 'hr' && (
               <button
-                onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
+                onClick={() => setSearchParams({ section: 'eap-pulse' })}
                 className={`text-sm transition-colors px-3 py-2 rounded-sm ${
                   section 
                     ? 'bg-[#3572ef] text-white font-semibold' 
@@ -214,7 +202,7 @@ const Index = () => {
                 <button
                   onClick={() => {
                     console.log('Clicked EAP Pulse navigation');
-                    setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });
+                    setSearchParams({ section: 'eap-pulse' });
                   }}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                     section === 'eap-pulse' 
@@ -278,7 +266,7 @@ const Index = () => {
         )}
 
         {/* EAP Pulse Sub-Sub-Navigation */}
-        {user && role === 'hr' && section === 'eap-pulse' && (
+        {user && role === 'hr' && section === 'eap-pulse' && subSection && (
           <div className="border-t bg-muted/20">
             <div className="max-w-7xl mx-auto px-4 py-2">
               <nav className="flex gap-6 justify-center">
@@ -318,14 +306,14 @@ const Index = () => {
         )}
 
         {/* Reports Sub-Sub-Navigation */}
-        {user && role === 'hr' && section === 'reports' && (
+        {user && role === 'hr' && section === 'reports' && subSection && (
           <div className="border-t bg-muted/20">
             <div className="max-w-7xl mx-auto px-4 py-2">
               <nav className="flex gap-6 justify-center">
                 <button
                   onClick={() => setSearchParams({ section: 'reports', sub: 'overview' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
-                    (!subSection || subSection === 'overview') 
+                    subSection === 'overview' 
                       ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
                       : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
                   }`}
