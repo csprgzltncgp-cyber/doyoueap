@@ -192,16 +192,29 @@ const Magazin = () => {
       {/* Hero Section - Newspaper Style Header */}
       <section className="relative py-8 px-4 overflow-hidden bg-white border-t-2 border-black">
         <div className="max-w-7xl mx-auto relative z-10">
-          {/* Center: Logo and subtitle */}
-          <div className="text-center">
-            <img 
-              src={journalistLogo} 
-              alt="The Journalist" 
-              className="h-32 object-contain mx-auto mb-2"
-            />
-            <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-              Employee Assistance Program Szakfolyóirat
-            </p>
+          {/* Three column layout: Date - Logo - Text */}
+          <div className="flex items-center justify-between gap-8">
+            {/* Left: Date and Issue */}
+            <div className="flex flex-col items-start text-sm text-muted-foreground">
+              <span className="font-semibold">2025. JANUÁR</span>
+              <span className="text-xs">16. Szám</span>
+            </div>
+
+            {/* Center: Logo */}
+            <div className="flex-shrink-0">
+              <img 
+                src={journalistLogo} 
+                alt="The Journalist" 
+                className="h-24 object-contain"
+              />
+            </div>
+
+            {/* Right: Magazine description */}
+            <div className="flex items-end text-right">
+              <span className="text-sm font-medium text-muted-foreground hidden md:inline uppercase tracking-wide">
+                Employee Assistance<br />Program Szakfolyóirat
+              </span>
+            </div>
           </div>
         </div>
         {/* Bottom borders - thin then thick */}
