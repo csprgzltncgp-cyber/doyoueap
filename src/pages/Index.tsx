@@ -589,6 +589,56 @@ const Index = () => {
         </div>
       </section>
 
+      {/* 4Score Section */}
+      <section id="4score" className="py-16 px-4 bg-background">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Mi az a 4Score?</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              A 4Score módszertan négy kulcsfontosságú dimenzió mentén méri az EAP program hatékonyságát
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Eye className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle className="text-lg">Awareness</CardTitle>
+                <CardDescription>Hogyan ismeri a csapat az EAP programot?</CardDescription>
+              </CardHeader>
+            </Card>
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Shield className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle className="text-lg">Trust</CardTitle>
+                <CardDescription>Mennyire bíznak a munkatársak a programban?</CardDescription>
+              </CardHeader>
+            </Card>
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Activity className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle className="text-lg">Usage</CardTitle>
+                <CardDescription>Ki és miért használja a szolgáltatást?</CardDescription>
+              </CardHeader>
+            </Card>
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Target className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle className="text-lg">Impact</CardTitle>
+                <CardDescription>Milyen hatást ér el a program a szervezetben?</CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Assessment Benefits */}
       <section id="elonyok" className="py-16 px-4 bg-muted/30">
         <div className="max-w-7xl mx-auto">
