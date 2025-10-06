@@ -297,7 +297,7 @@ const Magazin = () => {
                     variant={activeCategory === cat.id ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => setActiveCategory(cat.id)}
-                    className="whitespace-nowrap"
+                    className={`whitespace-nowrap ${activeCategory !== cat.id ? 'bg-[hsl(var(--magazine-category-bg))] hover:bg-[hsl(var(--magazine-category-bg))]/80 border-[hsl(var(--magazine-category-bg))]' : ''}`}
                   >
                     {cat.label}
                   </Button>
@@ -412,7 +412,7 @@ const Magazin = () => {
                     {['Alapok', 'Mérés', 'Kultúra', 'Vezetés', 'ROI', 'Kommunikáció', 'Globális', 'Jövő'].map((cat) => (
                       <button
                         key={cat}
-                        className="w-full text-left px-3 py-2 rounded hover:bg-muted transition-colors text-sm flex items-center justify-between group"
+                        className="w-full text-left px-3 py-2 rounded-sm bg-[hsl(var(--magazine-category-bg))] hover:bg-[hsl(var(--magazine-category-bg))]/80 transition-colors text-sm flex items-center justify-between group"
                       >
                         <span>{cat}</span>
                         <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />

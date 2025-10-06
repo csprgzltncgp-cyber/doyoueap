@@ -64,6 +64,7 @@ All colors MUST be HSL.
     
     --magazine-red: 348 100% 50%;
     --magazine-yellow: 48 100% 50%;
+    --magazine-category-bg: 0 0% 80%;
   }
 
   .dark {
