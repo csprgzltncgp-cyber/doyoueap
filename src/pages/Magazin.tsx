@@ -15,6 +15,7 @@ import digitalWellbeingArticleImg from '@/assets/digital-wellbeing-article.jpg';
 import globalArticleImg from '@/assets/global-article.jpg';
 import leadershipArticleImg from '@/assets/leadership-article.jpg';
 import stigmaArticleImg from '@/assets/stigma-article.jpg';
+import engagementArticleImg from '@/assets/engagement-article.jpg';
 import { useAuth } from '@/hooks/useAuth';
 import { 
   Carousel, 
@@ -111,7 +112,8 @@ const Magazin = () => {
       author: "doyoueap",
       date: "2024. december 30.",
       readTime: "6 perc",
-      category: "HR"
+      category: "HR",
+      image: engagementArticleImg
     },
     {
       title: "Az EAP mérhetősége és a megtérülés (ROI) kérdése",
