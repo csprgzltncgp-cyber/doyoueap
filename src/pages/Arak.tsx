@@ -158,7 +158,7 @@ const Arak = () => {
                   ))}
                 </ul>
                 <Button 
-                  className="w-full" 
+                  className={`w-full ${pkg.recommended ? 'bg-[#3572ef] hover:bg-[#3572ef]/90' : ''}`}
                   variant={pkg.recommended ? 'default' : 'outline'}
                   onClick={() => navigate('/auth')}
                 >
