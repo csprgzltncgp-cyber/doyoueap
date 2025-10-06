@@ -542,7 +542,7 @@ const Index = () => {
                 <p className="text-muted-foreground">
                   Röviden: az EAP Pulse az EAP-program pulzusa – élő, dinamikus, mérhető.
                 </p>
-                <Button variant="outline" className="w-full mt-4">
+                <Button variant="outline" className="w-full mt-4" onClick={() => navigate('/bemutatkozas')}>
                   Részletek <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </CardContent>
