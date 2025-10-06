@@ -88,26 +88,26 @@ const Index = () => {
     }
   ];
 
-  const pulseBenefits = [
+  const auditBenefits = [
     {
       icon: CheckCircle,
       title: "Hiteles visszajelzés",
-      description: "Anonim, összesített, torzítatlan nézőpont a dolgozóktól – rendszeresen."
+      description: "Független forrásból származó, megbízható adatok"
     },
     {
       icon: TrendingUp,
-      title: "Jobb döntések",
-      description: "4Score riportokkal gyorsan azonosíthatók a fejlesztési pontok és trendek."
-    },
-    {
-      icon: FileText,
-      title: "Menedzsment-riport egy kattintásra",
-      description: "Kész vizualizációk és exportok vezetői prezentációkhoz."
+      title: "Költséghatékonyság",
+      description: "A befektetés valódi értéket teremt"
     },
     {
       icon: Users,
-      title: "Szolgáltató-barát megoldás",
-      description: "EAP-partnerrel együttműködve, API-val és white-label opcióval."
+      title: "Fejlesztési irányok",
+      description: "Konkrét fejlesztési pontok azonosítása"
+    },
+    {
+      icon: FileText,
+      title: "Stratégiai HR-eszköz",
+      description: "Adatalapú döntéshozatal támogatása"
     }
   ];
 
@@ -489,10 +489,12 @@ const Index = () => {
                 Új: EAP Pulse
               </div>
               <h1 className="text-5xl font-bold mb-6 leading-tight">
-                Tedd láthatóvá az EAP-programod valódi értékét – valós idejű pulzusméréssel
+                Legyen teljesebb képe cége EAP programjáról - bővítse riportját akár <span style={{ color: '#3abef9' }}>további 48 extra statisztikai adattal!</span>
               </h1>
               <p className="text-xl text-muted-foreground mb-8">
-                Az <strong>EAP Pulse</strong> rövid, rendszeres felmérésekkel méri a munkavállalói élményt, és a <strong>4Score</strong> módszertan szerint mutatja meg, hol erős a programod és hol érdemes fejleszteni. Extra riportadatok, tiszta trendek, jobb döntések – szolgáltatóval együttműködve, nem helyette.
+                Egészítse ki az EAP szolgáltatója riportjait a 4Score módszertannal. Szerezzen egyedi 
+                visszajelzéseket dolgozóitól, gazdagítsa az adatokat, mutassa ki a program értékét 
+                – évről évre. Mindez támogatja az EAP szolgáltatójával való együttműködést.
               </p>
               <div className="flex gap-4">
                 <Button size="lg" variant="cta" onClick={() => navigate('/auth')}>
@@ -526,14 +528,38 @@ const Index = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
-                  Az <strong>EAP Pulse</strong> egy gyors és kíméletes „pulzusmérő" a futó EAP-programokhoz. Rövid, mobilbarát kérdőívekkel rendszeresen visszajelzést kérünk a munkatársaktól, majd az eredményeket a <strong>4Score</strong> keretben jelenítjük meg – így egy pillantással látszik, mennyire ismert a program, mennyire bíznak benne és használják, valamint milyen kézzelfogható hatást ér el.
+                  Az EAP Pulse a 4Score módszertant használja, amely négy fő pillér mentén méri az EAP program hatékonyságát:
                 </p>
-                <p className="text-muted-foreground">
-                  A Pulse nem váltja ki az EAP-szolgáltatódat, hanem kiegészíti: több adatot ad a kezébe (és a HR kezébe) a jobb kommunikációhoz, fejlesztési döntésekhez és a vezetői riportokhoz. A cél egy win–win: hiteles, átlátható kép a menedzsment felé, és egyre használhatóbb program a dolgozóknak.
-                </p>
-                <p className="text-muted-foreground">
-                  A megvalósítás egyszerű: előre összeállított vagy testre szabható kérdések, automatikus kiküldés, real-time dashboardok és kész menedzsment-riportok. A válaszadás anonim, az adatok összesítve jelennek meg.
-                </p>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <Award className="h-5 w-5 text-primary mt-1" />
+                    <div>
+                      <h4 className="font-medium">Awareness - Ismertség</h4>
+                      <p className="text-sm text-muted-foreground">Mennyire ismerik a dolgozók a programot?</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-primary mt-1" />
+                    <div>
+                      <h4 className="font-medium">Trust - Bizalom</h4>
+                      <p className="text-sm text-muted-foreground">Megbíznak-e a dolgozók a szolgáltatásban?</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Users className="h-5 w-5 text-primary mt-1" />
+                    <div>
+                      <h4 className="font-medium">Usage - Használat</h4>
+                      <p className="text-sm text-muted-foreground">Hányan veszik igénybe a szolgáltatást?</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <TrendingUp className="h-5 w-5 text-primary mt-1" />
+                    <div>
+                      <h4 className="font-medium">Impact - Hatás</h4>
+                      <p className="text-sm text-muted-foreground">Milyen eredményeket hoz a program?</p>
+                    </div>
+                  </div>
+                </div>
                 <Button variant="outline" className="w-full mt-4">
                   Részletek <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -565,7 +591,8 @@ const Index = () => {
             </div>
             <h2 className="text-4xl font-bold mb-4">Négy dimenzió, egy átfogó kép</h2>
             <p className="text-muted-foreground max-w-3xl mx-auto text-lg">
-              A 4Score négy dimenzióban ad teljes képet az EAP-ról
+              Az EAP program hatékonyságát négy kulcsfontosságú dimenzió mentén mérjük, 
+              hogy teljes körű képet kapjon a befektetés megtérüléséről
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
@@ -577,7 +604,8 @@ const Index = () => {
                 <div>
                   <h3 className="text-2xl font-bold mb-3">Tudatosság</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    Méri, hogy a munkavállalók mennyire ismerik az EAP-t, tudják-e, hogyan és mire használható.
+                    Felmérjük, hogy a munkatársak mennyire ismerik az EAP programot, 
+                    milyen csatornákon értesültek róla, és milyen szolgáltatásokról tudnak.
                   </p>
                 </div>
               </div>
@@ -590,7 +618,8 @@ const Index = () => {
                 <div>
                   <h3 className="text-2xl font-bold mb-3">Bizalom & Hajlandóság</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    Vizsgálja a programba vetett bizalmat és a segítségkérésre való hajlandóságot – az anonimitás érzésétől a vezetői példáig.
+                    Mérjük a bizalmat és hajlandóságot: mennyire érzik biztonságosnak a dolgozók 
+                    a szolgáltatást, és milyen tényezők befolyásolják a használatot.
                   </p>
                 </div>
               </div>
@@ -603,7 +632,8 @@ const Index = () => {
                 <div>
                   <h3 className="text-2xl font-bold mb-3">Használat</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    Értékeli a tényleges igénybevételt és a használat mintázatait – hol és miért aktivizálódnak az emberek.
+                    Megismerjük a tényleges használatot: ki, mikor és miért veszi igénybe a programot, 
+                    milyen motivációk húzódnak meg a háttérben.
                   </p>
                 </div>
               </div>
@@ -616,7 +646,8 @@ const Index = () => {
                 <div>
                   <h3 className="text-2xl font-bold mb-3">Hatás</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    Méri a program valós hatását a jóllétre és a szervezeti működésre: hiányzás, fluktuáció, elégedettség, ajánlási szándék.
+                    Kimutatjuk a hatást: hogyan értékelik a dolgozók a kapott segítséget, 
+                    milyen változásokat tapasztaltak, és ajánlanák-e másoknak.
                   </p>
                 </div>
               </div>
@@ -635,7 +666,7 @@ const Index = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {pulseBenefits.map((benefit, index) => (
+            {auditBenefits.map((benefit, index) => (
               <Card key={index} className="text-center">
                 <CardHeader>
                   <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
