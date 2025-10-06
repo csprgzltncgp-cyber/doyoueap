@@ -393,6 +393,10 @@ export type Database = {
           verified: boolean
         }[]
       }
+      verify_email_with_token: {
+        Args: { _token: string }
+        Returns: Json
+      }
     }
     Enums: {
       app_role: "admin" | "hr"

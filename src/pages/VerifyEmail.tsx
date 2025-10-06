@@ -24,48 +24,25 @@ const VerifyEmail = () => {
 
   const verifyToken = async (token: string) => {
     try {
-      // Check if token exists and is not expired
-      const { data: verification, error: fetchError } = await supabase
-        .from('email_verifications')
-        .select('*')
-        .eq('token', token)
-        .single();
+      // Use the secure server-side function to verify the email
+      const { data, error } = await supabase
+        .rpc('verify_email_with_token', { _token: token });
 
-      if (fetchError || !verification) {
-        setStatus('error');
-        setMessage('Érvénytelen vagy lejárt megerősítő link.');
-        return;
-      }
-
-      // Check if already verified
-      if (verification.verified) {
-        setStatus('success');
-        setMessage('Ez az email cím már megerősítésre került.');
-        return;
-      }
-
-      // Check if expired
-      const expiresAt = new Date(verification.expires_at);
-      if (expiresAt < new Date()) {
-        setStatus('error');
-        setMessage('Ez a megerősítő link lejárt. Kérjük, kérjen újat.');
-        return;
-      }
-
-      // Mark as verified
-      const { error: updateError } = await supabase
-        .from('email_verifications')
-        .update({ verified: true })
-        .eq('token', token);
-
-      if (updateError) {
+      if (error) {
+        console.error('Verification error:', error);
         setStatus('error');
         setMessage('Hiba történt a megerősítés során. Kérjük, próbálja újra.');
         return;
       }
 
-      setStatus('success');
-      setMessage('Email cím sikeresen megerősítve! Bezárhatja ezt az ablakot és folytathatja a regisztrációt.');
+      // Check the response from the secure function
+      if (data.success) {
+        setStatus('success');
+        setMessage(data.message || 'Email cím sikeresen megerősítve! Bezárhatja ezt az ablakot és folytathatja a regisztrációt.');
+      } else {
+        setStatus('error');
+        setMessage(data.error || 'Hiba történt a megerősítés során.');
+      }
     } catch (error) {
       console.error('Verification error:', error);
       setStatus('error');
