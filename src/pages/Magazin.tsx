@@ -164,19 +164,19 @@ const Magazin = () => {
           <nav className="hidden md:flex gap-6 items-center absolute left-1/2 -translate-x-1/2">
             <button
               onClick={() => navigate('/bemutatkozas')}
-              className="text-sm border border-transparent transition-colors px-3 py-2 rounded-sm hover:bg-muted"
+              className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
             >
               EAP Pulse
             </button>
             <button
               onClick={() => navigate('/arak')}
-              className="text-sm border border-transparent transition-colors px-3 py-2 rounded-sm hover:bg-muted"
+              className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
             >
               Árak és Csomagok
             </button>
             <button
               onClick={() => navigate('/magazin')}
-              className="text-sm bg-white border border-black font-semibold transition-colors px-3 py-2 rounded-sm"
+              className="text-sm bg-white border border-black font-semibold transition-colors px-3 py-2 rounded-md"
             >
               The Journalist!
             </button>
