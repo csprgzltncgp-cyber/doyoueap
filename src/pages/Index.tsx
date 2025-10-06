@@ -535,7 +535,7 @@ const Index = () => {
             {/* Left: What is EAP Pulse */}
             <Card id="pulse" className="md:row-span-2">
               <CardHeader>
-                <div className="text-sm font-medium mb-2" style={{ color: '#ffe20d' }}>Kiemelt</div>
+                <div className="text-sm font-medium mb-2" style={{ color: 'rgb(115, 115, 115)' }}>Kiemelt</div>
                 <CardTitle className="text-3xl bg-gradient-to-r from-[#ffe20d] via-[#11dca4] to-[#11dca4] bg-clip-text text-transparent">Mi az EAP Pulse?</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -572,7 +572,7 @@ const Index = () => {
                     </div>
                   </div>
                 </div>
-                <Button variant="outline" className="w-full mt-4" style={{ backgroundColor: '#11dca4', color: 'white', borderColor: '#11dca4' }}>
+                <Button variant="outline" className="w-full mt-4">
                   Részletek <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </CardContent>
@@ -583,7 +583,7 @@ const Index = () => {
               {featuredArticles.map((article) => (
                 <Card key={article.id} className="hover:shadow-md transition-shadow cursor-pointer">
                   <CardHeader>
-                    <div className="text-xs font-medium mb-1 bg-gradient-to-r from-[#fa181f] via-[#ffe20d] to-[#ffe20d] bg-clip-text text-transparent">{article.category}</div>
+                    <div className="text-xs font-medium mb-1" style={{ color: 'rgb(115, 115, 115)' }}>{article.category}</div>
                     <CardTitle className="text-lg">{article.title}</CardTitle>
                     <CardDescription>{article.excerpt}</CardDescription>
                   </CardHeader>
