@@ -36,7 +36,12 @@ const Index = () => {
     if (!loading && user && role === 'admin') {
       navigate('/admin');
     }
-  }, [user, role, loading, navigate]);
+    
+    // Set default subsection for EAP Pulse
+    if (user && role === 'hr' && section === 'eap-pulse' && !subSection) {
+      setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });
+    }
+  }, [user, role, loading, navigate, section, subSection, setSearchParams]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -110,65 +115,6 @@ const Index = () => {
   const renderDashboardContent = () => {
     if (!user || role !== 'hr') return null;
 
-    // Show welcome screen when no section is selected
-    if (!section) {
-      const userName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Felhasználó';
-      return (
-        <div className="max-w-7xl mx-auto px-4 py-16">
-          <Card className="border-none shadow-lg">
-            <CardHeader className="text-center pb-8">
-              <CardTitle className="text-4xl font-bold mb-4">
-                Szia {userName}!
-              </CardTitle>
-              <CardDescription className="text-xl">
-                Üdv újra az EAP Pulse Dashboard-on!
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-8">
-              <p className="text-center text-lg text-muted-foreground">
-                Válassz egy menüpontot a fenti menüsorból a kezdéshez.
-              </p>
-              <div className="grid md:grid-cols-3 gap-6 mt-8">
-                <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}>
-                  <CardHeader>
-                    <div className="flex items-center gap-3 mb-2">
-                      <BarChart3 className="h-6 w-6 text-primary" />
-                      <CardTitle>EAP Pulse</CardTitle>
-                    </div>
-                    <CardDescription>
-                      Új felmérések létrehozása és futó auditek kezelése
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-                <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSearchParams({ section: 'reports', sub: 'overview' })}>
-                  <CardHeader>
-                    <div className="flex items-center gap-3 mb-2">
-                      <TrendingUp className="h-6 w-6 text-primary" />
-                      <CardTitle>Riportok</CardTitle>
-                    </div>
-                    <CardDescription>
-                      Részletes elemzések és statisztikák megtekintése
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-                <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSearchParams({ section: 'settings' })}>
-                  <CardHeader>
-                    <div className="flex items-center gap-3 mb-2">
-                      <SettingsIcon className="h-6 w-6 text-primary" />
-                      <CardTitle>Beállítások</CardTitle>
-                    </div>
-                    <CardDescription>
-                      Profil és rendszer beállítások kezelése
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      );
-    }
-
     switch (section) {
       case 'dashboard':
         return <HRDashboard />;
@@ -236,7 +182,7 @@ const Index = () => {
             </button>
             {user && role === 'hr' && (
               <button
-                onClick={() => setSearchParams({})}
+                onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
                 className={`text-sm transition-colors px-3 py-2 rounded-sm ${
                   section 
                     ? 'bg-[#3572ef] text-white font-semibold' 
