@@ -25,7 +25,7 @@ const Magazin = () => {
     {
       title: "A mentális egészség munkahelyi jelentősége 2025-ben",
       excerpt: "Az elmúlt évek tapasztalatai alapján a vállalatok egyre nagyobb figyelmet fordítanak munkavállalóik mentális jólétére. Nézzük meg, milyen trendek várhatóak idén.",
-      author: "Dr. Kovács Anna",
+      author: "doyoueap",
       date: "2025. január 15.",
       readTime: "8 perc",
       category: "Trendek",
@@ -34,7 +34,7 @@ const Magazin = () => {
     {
       title: "Az EAP program ROI-ja: számok, amelyek beszélnek",
       excerpt: "Mennyire térül meg egy jól működő EAP program? Esettanulmányok és statisztikák a befektetés megtérüléséről.",
-      author: "Szabó Katalin",
+      author: "doyoueap",
       date: "2025. január 10.",
       readTime: "6 perc",
       category: "Elemzések",
@@ -43,7 +43,7 @@ const Magazin = () => {
     {
       title: "Stresszkezelési technikák a mindennapokban",
       excerpt: "Praktikus módszerek, amelyeket azonnal alkalmazhatunk a munkahelyi stressz csökkentésére.",
-      author: "Tóth László",
+      author: "doyoueap",
       date: "2025. január 8.",
       readTime: "4 perc",
       category: "Gyakorlatok",
@@ -55,7 +55,7 @@ const Magazin = () => {
     {
       title: "Hogyan ismerjük fel a kiégés jeleit?",
       excerpt: "A munkahelyi kiégés egyre gyakoribb probléma. Ebben a cikkben bemutatjuk a legfontosabb figyelmeztető jeleket.",
-      author: "Nagy Péter",
+      author: "doyoueap",
       date: "2025. január 12.",
       readTime: "5 perc",
       category: "Tanácsok"
@@ -63,7 +63,7 @@ const Magazin = () => {
     {
       title: "A hibrid munkavégzés kihívásai",
       excerpt: "Hogyan őrizhetjük meg a mentális egyensúlyt az otthoni és irodai munka között?",
-      author: "Kiss Mónika",
+      author: "doyoueap",
       date: "2025. január 5.",
       readTime: "7 perc",
       category: "Munkakörnyezet"
@@ -71,7 +71,7 @@ const Magazin = () => {
     {
       title: "Vezetői támogatás és empátia",
       excerpt: "A jó vezetők kulcsszerepet játszanak a munkavállalók mentális jólétében.",
-      author: "Farkas Balázs",
+      author: "doyoueap",
       date: "2025. január 3.",
       readTime: "6 perc",
       category: "Vezetés"
@@ -79,7 +79,7 @@ const Magazin = () => {
     {
       title: "Mindfulness a munkahelyen",
       excerpt: "Egyszerű tudatossági gyakorlatok, amelyek segítenek megőrizni a fókuszt és a nyugalmat.",
-      author: "Molnár Eszter",
+      author: "doyoueap",
       date: "2024. december 28.",
       readTime: "5 perc",
       category: "Gyakorlatok"
@@ -87,7 +87,7 @@ const Magazin = () => {
     {
       title: "Az EAP szolgáltatások fejlődése",
       excerpt: "Hogyan változtak az EAP programok az elmúlt évtizedben?",
-      author: "Horváth Gábor",
+      author: "doyoueap",
       date: "2024. december 25.",
       readTime: "9 perc",
       category: "Történet"
@@ -95,7 +95,7 @@ const Magazin = () => {
     {
       title: "Generációs különbségek a munkahelyen",
       excerpt: "Különböző generációk, különböző igények - hogyan lehet mindenkit támogatni?",
-      author: "Varga Júlia",
+      author: "doyoueap",
       date: "2024. december 22.",
       readTime: "6 perc",
       category: "Elemzések"
