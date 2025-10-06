@@ -10,6 +10,7 @@ import { ArrowRight, CheckCircle, TrendingUp, Users, FileText, Award, BarChart3,
 import { RegistrationWizard } from '@/components/registration/RegistrationWizard';
 import logo from '@/assets/logo.png';
 import dashboardPreview from '@/assets/dashboard-preview.jpg';
+import benefitsBg from '@/assets/benefits-bg.png';
 import HRDashboard from './HRDashboard';
 import EAPAudit from './hr/EAPAudit';
 import Reports from './hr/Reports';
@@ -678,17 +679,28 @@ const Index = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {auditBenefits.map((benefit, index) => (
-              <Card key={index} className="text-center">
-                <CardHeader>
-                  <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                    <benefit.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <CardTitle className="text-lg">{benefit.title}</CardTitle>
-                  <CardDescription>{benefit.description}</CardDescription>
-                </CardHeader>
-              </Card>
-            ))}
+            {auditBenefits.map((benefit, index) => {
+              const positions = ['left top', 'center top', 'right top', 'center center'];
+              return (
+                <Card key={index} className="text-center relative overflow-hidden">
+                  <div 
+                    className="absolute inset-0 opacity-20"
+                    style={{
+                      backgroundImage: `url(${benefitsBg})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: positions[index]
+                    }}
+                  />
+                  <CardHeader className="relative z-10">
+                    <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                      <benefit.icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <CardTitle className="text-lg">{benefit.title}</CardTitle>
+                    <CardDescription>{benefit.description}</CardDescription>
+                  </CardHeader>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
