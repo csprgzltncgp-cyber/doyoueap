@@ -572,7 +572,7 @@ const Index = () => {
                     </div>
                   </div>
                 </div>
-                <Button variant="outline" className="w-full mt-4">
+                <Button variant="outline" className="w-full mt-4" style={{ backgroundColor: '#11dca4', color: 'white', borderColor: '#11dca4' }}>
                   Részletek <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </CardContent>
