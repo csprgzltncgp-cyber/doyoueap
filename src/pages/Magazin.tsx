@@ -182,14 +182,12 @@ const Magazin = () => {
       {/* Hero Section */}
       <section className="py-16 px-4" style={{ backgroundColor: '#feeeff' }}>
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-4">
-            <Badge className="mb-4" variant="outline">The Journalis</Badge>
-            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              Munkahelyi Mentális Egészség
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Cikkek, kutatások és szakértői vélemények az EAP programokról és a munkavállalói jólétről
-            </p>
+          <div className="text-center mb-4 flex justify-center">
+            <img 
+              src={journalistLogo} 
+              alt="The Journalis" 
+              className="h-48 object-contain"
+            />
           </div>
         </div>
       </section>
