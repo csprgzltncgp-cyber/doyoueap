@@ -86,7 +86,7 @@ const Bemutatkozas = () => {
               key={tab.id}
               variant={activeTab === tab.id ? 'default' : 'outline'}
               onClick={() => setActiveTab(tab.id)}
-              className="whitespace-nowrap"
+              className={`whitespace-nowrap ${activeTab === tab.id ? 'bg-[hsl(var(--eap-pulse-active))] hover:bg-[hsl(var(--eap-pulse-active))]/90 text-[hsl(var(--eap-pulse-active-foreground))]' : ''}`}
             >
               {tab.label}
             </Button>

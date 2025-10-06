@@ -68,6 +68,9 @@ All colors MUST be HSL.
     --magazine-red: 348 100% 50%;
     --magazine-yellow: 48 100% 50%;
     --magazine-category-bg: 46 17% 91%;
+    
+    --eap-pulse-active: 225 85% 57%;
+    --eap-pulse-active-foreground: 0 0% 100%;
   }
 
   .dark {
