@@ -583,7 +583,7 @@ const Index = () => {
               {featuredArticles.map((article) => (
                 <Card key={article.id} className="hover:shadow-md transition-shadow cursor-pointer">
                   <CardHeader>
-                    <div className="text-xs font-medium mb-1" style={{ color: 'rgb(115, 115, 115)' }}>{article.category}</div>
+                    <div className="text-xs font-medium mb-1 bg-gradient-to-r from-[#fa181f] to-[#ffe20d] bg-clip-text text-transparent">{article.category}</div>
                     <CardTitle className="text-lg">{article.title}</CardTitle>
                     <CardDescription>{article.excerpt}</CardDescription>
                   </CardHeader>
