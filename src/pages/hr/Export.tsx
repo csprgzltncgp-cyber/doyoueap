@@ -163,9 +163,11 @@ const Export = () => {
       });
 
       const categoryData = [
-        { name: 'Használók', value: usedBranch.length },
-        { name: 'Nem használók', value: notUsedBranch.length },
-        { name: 'Nem tudtak róla', value: notAwareBranch.length }
+        {
+          name: 'Kategóriák',
+          labels: ['Használók', 'Nem használók', 'Nem tudtak róla'],
+          values: [usedBranch.length, notUsedBranch.length, notAwareBranch.length]
+        }
       ];
 
       slide.addChart(pres.ChartType.pie, categoryData, {
@@ -234,10 +236,11 @@ const Export = () => {
         awarenessLevels[level] = (awarenessLevels[level] || 0) + 1;
       });
 
-      const awarenessData = Object.entries(awarenessLevels).map(([name, value]) => ({
-        name,
-        value: value as number
-      }));
+      const awarenessData = [{
+        name: 'Ismertség',
+        labels: Object.keys(awarenessLevels),
+        values: Object.values(awarenessLevels)
+      }];
 
       slide.addChart(pres.ChartType.bar, awarenessData, {
         x: 0.5,
@@ -294,12 +297,13 @@ const Export = () => {
         willingnessData[willingness] = (willingnessData[willingness] || 0) + 1;
       });
 
-      const willingnessChartData = Object.entries(willingnessData).map(([name, value]) => ({
-        name,
-        value: value as number
-      }));
+      if (Object.keys(willingnessData).length > 0) {
+        const willingnessChartData = [{
+          name: 'Hajlandóság',
+          labels: Object.keys(willingnessData),
+          values: Object.values(willingnessData)
+        }];
 
-      if (willingnessChartData.length > 0) {
         slide.addChart(pres.ChartType.pie, willingnessChartData, {
           x: 5.5,
           y: 1.2,
@@ -325,16 +329,17 @@ const Export = () => {
       // Usage frequency
       const frequencyData = {};
       usedBranch.forEach(r => {
-        const freq = r.responses?.usage_frequency || 'Nincs adat';
+        const freq = r.responses?.usage_frequency || r.responses?.u_usage_frequency || 'Nincs adat';
         frequencyData[freq] = (frequencyData[freq] || 0) + 1;
       });
 
-      const frequencyChartData = Object.entries(frequencyData).map(([name, value]) => ({
-        name,
-        value: value as number
-      }));
+      if (Object.keys(frequencyData).length > 0) {
+        const frequencyChartData = [{
+          name: 'Gyakoriság',
+          labels: Object.keys(frequencyData),
+          values: Object.values(frequencyData)
+        }];
 
-      if (frequencyChartData.length > 0) {
         slide.addChart(pres.ChartType.bar, frequencyChartData, {
           x: 0.5,
           y: 1.2,
@@ -351,7 +356,7 @@ const Export = () => {
       // Topics used
       const topicsData = {};
       usedBranch.forEach(r => {
-        const topics = r.responses?.topics_used;
+        const topics = r.responses?.topics_used || r.responses?.u_usage_topic;
         if (Array.isArray(topics)) {
           topics.forEach(topic => {
             topicsData[topic] = (topicsData[topic] || 0) + 1;
@@ -359,12 +364,17 @@ const Export = () => {
         }
       });
 
-      const topicsChartData = Object.entries(topicsData)
+      const topicsEntries = Object.entries(topicsData)
         .sort(([, a], [, b]) => (b as number) - (a as number))
-        .slice(0, 5)
-        .map(([name, value]) => ({ name, value: value as number }));
+        .slice(0, 5);
 
-      if (topicsChartData.length > 0) {
+      if (topicsEntries.length > 0) {
+        const topicsChartData = [{
+          name: 'Témakörök',
+          labels: topicsEntries.map(([name]) => name),
+          values: topicsEntries.map(([, value]) => value as number)
+        }];
+
         slide.addChart(pres.ChartType.bar, topicsChartData, {
           x: 5.5,
           y: 1.2,
@@ -390,7 +400,7 @@ const Export = () => {
 
       // NPS calculation
       const npsScores = usedBranch
-        .map(r => r.responses?.nps)
+        .map(r => r.responses?.nps || r.responses?.u_impact_nps)
         .filter(score => score !== undefined && score !== null);
       
       const promoters = npsScores.filter(score => score >= 9).length;
@@ -420,16 +430,17 @@ const Export = () => {
       // Impact metrics
       const performanceData = {};
       usedBranch.forEach(r => {
-        const impact = r.responses?.performance_impact || 'Nincs adat';
+        const impact = r.responses?.performance_impact || r.responses?.u_impact_performance || 'Nincs adat';
         performanceData[impact] = (performanceData[impact] || 0) + 1;
       });
 
-      const performanceChartData = Object.entries(performanceData).map(([name, value]) => ({
-        name,
-        value: value as number
-      }));
+      if (Object.keys(performanceData).length > 0) {
+        const performanceChartData = [{
+          name: 'Hatás',
+          labels: Object.keys(performanceData),
+          values: Object.values(performanceData)
+        }];
 
-      if (performanceChartData.length > 0) {
         slide.addChart(pres.ChartType.pie, performanceChartData, {
           x: 5.5,
           y: 1.2,
@@ -455,7 +466,7 @@ const Export = () => {
       // Motivators for non-users
       const motivatorsData = {};
       notUsedBranch.forEach(r => {
-        const motivators = r.responses?.motivators;
+        const motivators = r.responses?.motivators || r.responses?.nu_motivation_what;
         if (Array.isArray(motivators)) {
           motivators.forEach(mot => {
             motivatorsData[mot] = (motivatorsData[mot] || 0) + 1;
@@ -463,12 +474,17 @@ const Export = () => {
         }
       });
 
-      const motivatorsChartData = Object.entries(motivatorsData)
+      const motivatorsEntries = Object.entries(motivatorsData)
         .sort(([, a], [, b]) => (b as number) - (a as number))
-        .slice(0, 5)
-        .map(([name, value]) => ({ name, value: value as number }));
+        .slice(0, 5);
 
-      if (motivatorsChartData.length > 0) {
+      if (motivatorsEntries.length > 0) {
+        const motivatorsChartData = [{
+          name: 'Motivátorok',
+          labels: motivatorsEntries.map(([name]) => name),
+          values: motivatorsEntries.map(([, value]) => value as number)
+        }];
+
         slide.addChart(pres.ChartType.bar, motivatorsChartData, {
           x: 0.5,
           y: 1.2,
@@ -508,10 +524,11 @@ const Export = () => {
         genderData[gender] = (genderData[gender] || 0) + 1;
       });
 
-      const genderChartData = Object.entries(genderData).map(([name, value]) => ({
-        name,
-        value: value as number
-      }));
+      const genderChartData = [{
+        name: 'Nem',
+        labels: Object.keys(genderData),
+        values: Object.values(genderData)
+      }];
 
       slide.addChart(pres.ChartType.pie, genderChartData, {
         x: 0.5,
@@ -531,10 +548,11 @@ const Export = () => {
         ageData[age] = (ageData[age] || 0) + 1;
       });
 
-      const ageChartData = Object.entries(ageData).map(([name, value]) => ({
-        name,
-        value: value as number
-      }));
+      const ageChartData = [{
+        name: 'Korosztály',
+        labels: Object.keys(ageData),
+        values: Object.values(ageData)
+      }];
 
       slide.addChart(pres.ChartType.bar, ageChartData, {
         x: 5.5,
