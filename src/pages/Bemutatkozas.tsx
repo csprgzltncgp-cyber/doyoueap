@@ -252,35 +252,30 @@ const Bemutatkozas = () => {
           </div>
         </section>
 
-        {/* CTA Block */}
+        {/* Final CTA Section */}
         <section className="mb-20 text-center py-16 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-2xl">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Indítsa el az első EAP Pulse felmérését
+            Készen áll az EAP program fejlesztésére?
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Beállítás 15 perc alatt. Azonnali 4Score-riportok. 100% anonim válaszadás.
+            Kezdje el az EAP Pulse használatát még ma, és tapasztalja meg az adatalapú döntéshozatal előnyeit.
           </p>
-          <Button 
-            size="lg" 
-            onClick={() => navigate('/auth')}
-            className="bg-primary hover:bg-primary/90"
-          >
-            Regisztráció
-          </Button>
-        </section>
-
-        {/* Additional Information */}
-        <section className="mb-20">
-          <Card className="max-w-4xl mx-auto">
-            <CardHeader>
-              <CardTitle className="text-2xl">Rövid ismertető</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Az EAP Pulse a napi működés ritmusára hangolt mérőeszköz: nem évente egyszer vizsgál, hanem folyamatosan, így a kampányok, vezetői üzenetek és szervezeti változások hatása hetek alatt láthatóvá válik. A 4Score dimenziók világos fejlesztési térképet adnak, a trendek pedig segítenek abban, hogy ott avatkozz be, ahol a legnagyobb értéket teremtheti a fejlesztés.
-              </p>
-            </CardContent>
-          </Card>
+          <div className="flex gap-4 justify-center flex-wrap">
+            <Button 
+              size="lg" 
+              onClick={() => navigate('/auth')}
+              className="bg-primary hover:bg-primary/90"
+            >
+              Regisztráció
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline"
+              onClick={() => navigate('/arak')}
+            >
+              Árak megtekintése
+            </Button>
+          </div>
         </section>
 
         {/* FAQ Section */}
@@ -335,32 +330,6 @@ const Bemutatkozas = () => {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-        </section>
-
-        {/* Final CTA Section */}
-        <section className="text-center py-16 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-2xl">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Készen áll az EAP program fejlesztésére?
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Kezdje el az EAP Pulse használatát még ma, és tapasztalja meg az adatalapú döntéshozatal előnyeit.
-          </p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <Button 
-              size="lg" 
-              onClick={() => navigate('/auth')}
-              className="bg-primary hover:bg-primary/90"
-            >
-              Regisztráció
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              onClick={() => navigate('/arak')}
-            >
-              Árak megtekintése
-            </Button>
-          </div>
         </section>
 
       </main>
