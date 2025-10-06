@@ -707,95 +707,83 @@ const Index = () => {
             <Card className="flex flex-col">
               <CardHeader>
                 <CardTitle className="text-2xl">Starter</CardTitle>
-                <CardDescription>Kis cégeknek, 50-250 fő</CardDescription>
+                <CardDescription>Kezdő csomagunk kisebb szervezeteknek</CardDescription>
                 <div className="mt-4">
-                  <div className="text-3xl font-bold">149 €<span className="text-lg font-normal text-muted-foreground">/hó</span></div>
-                  <div className="text-sm text-muted-foreground mt-1">vagy 1 490 €/év</div>
+                  <div className="text-3xl font-bold">290.000 Ft<span className="text-lg font-normal text-muted-foreground">/év</span></div>
                 </div>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col justify-between">
                 <div className="space-y-2 mb-4">
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <div>
-                      <p className="font-medium">Évente max. 1 felmérés</p>
-                    </div>
+                    <p className="font-medium">Legfeljebb 200 munkavállaló</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <div>
-                      <p className="font-medium">4Score alapriportok</p>
-                      <p className="text-sm text-muted-foreground">Awareness, Trust, Usage, Impact</p>
-                    </div>
+                    <p className="font-medium">Éves EAP audit</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <p className="font-medium">PDF export</p>
+                    <p className="font-medium">4Score módszertan</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <p className="font-medium">Alap kinézet</p>
+                    <p className="font-medium">Alapvető riportok</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <p className="font-medium">Email support</p>
+                    <p className="font-medium">Email támogatás</p>
                   </div>
                 </div>
-                <Button className="w-full" variant="cta" onClick={() => navigate('/auth')}>
-                  Válassza ezt a csomagot
+                <Button className="w-full" variant="outline" onClick={() => navigate('/auth')}>
+                  Kezdjük el
                 </Button>
               </CardContent>
             </Card>
 
-            {/* Pro */}
+            {/* Professional */}
             <Card className="shadow-lg flex flex-col" style={{ borderColor: '#3572ef', borderWidth: '2px' }}>
               <CardHeader>
-                <div className="text-xs font-medium mb-2" style={{ color: '#3572ef' }}>NÉPSZERŰ</div>
-                <CardTitle className="text-2xl">Pro</CardTitle>
-                <CardDescription>Közepes cégeknek, 250-1000 fő</CardDescription>
+                <div className="text-xs font-medium mb-2" style={{ color: '#3572ef' }}>AJÁNLOTT</div>
+                <CardTitle className="text-2xl">Professional</CardTitle>
+                <CardDescription>A legnépszerűbb választás</CardDescription>
                 <div className="mt-4">
-                  <div className="text-3xl font-bold">399 €<span className="text-lg font-normal text-muted-foreground">/hó</span></div>
-                  <div className="text-sm text-muted-foreground mt-1">vagy 3 990 €/év</div>
+                  <div className="text-3xl font-bold">490.000 Ft<span className="text-lg font-normal text-muted-foreground">/év</span></div>
                 </div>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col justify-between">
                 <div className="space-y-2 mb-4">
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <div>
-                      <p className="font-medium">Negyedévente felmérés</p>
-                      <p className="text-sm text-muted-foreground">Ismétlés funkcióval</p>
-                    </div>
+                    <p className="font-medium">Legfeljebb 500 munkavállaló</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <div>
-                      <p className="font-medium">4Score bővített riportok</p>
-                      <p className="text-sm text-muted-foreground">Demográfia, trendek, összehasonlítás</p>
-                    </div>
+                    <p className="font-medium">Féléves EAP auditok</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <p className="font-medium">PDF + Excel export</p>
+                    <p className="font-medium">4Score módszertan</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <div>
-                      <p className="font-medium">Brandelhető User App</p>
-                      <p className="text-sm text-muted-foreground">Logó + 4 szín módosítható</p>
-                    </div>
+                    <p className="font-medium">Részletes riportok és elemzések</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <p className="font-medium">Kommunikációs támogatás</p>
+                    <p className="font-medium">Trend-elemzés</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <p className="font-medium">Email + chat support</p>
+                    <p className="font-medium">Prioritásos támogatás</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <p className="font-medium">Testre szabható kérdőívek</p>
                   </div>
                 </div>
                 <Button className="w-full" variant="cta" onClick={() => navigate('/auth')}>
-                  Válassza ezt a csomagot
+                  Kezdjük el
                 </Button>
               </CardContent>
             </Card>
@@ -804,46 +792,52 @@ const Index = () => {
             <Card className="flex flex-col">
               <CardHeader>
                 <CardTitle className="text-2xl">Enterprise</CardTitle>
-                <CardDescription>Nagyvállalatoknak, &gt;1000 fő</CardDescription>
+                <CardDescription>Nagy szervezetek számára</CardDescription>
                 <div className="mt-4">
-                  <div className="text-3xl font-bold">Egyedi ajánlat</div>
+                  <div className="text-3xl font-bold">Egyedi árazás</div>
                 </div>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col justify-between">
                 <div className="space-y-2 mb-4">
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <p className="font-medium">Korlátlan felmérés</p>
+                    <p className="font-medium">Korlátlan munkavállaló</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <div>
-                      <p className="font-medium">Teljes 4Score funkcionalitás</p>
-                      <p className="text-sm text-muted-foreground">KPI-k, trendek, benchmark, motivációk</p>
-                    </div>
+                    <p className="font-medium">Negyedéves EAP auditok</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <p className="font-medium">PDF, Excel, PowerPoint export</p>
+                    <p className="font-medium">4Score módszertan</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <div>
-                      <p className="font-medium">Teljes brandelés</p>
-                      <p className="text-sm text-muted-foreground">Saját domain opció</p>
-                    </div>
+                    <p className="font-medium">Teljes körű elemzések</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <p className="font-medium">SSO integráció</p>
+                    <p className="font-medium">Prediktív modellek</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <p className="font-medium">Dedikált account manager</p>
+                    <p className="font-medium">Dedikált ügyfélmenedzser</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <p className="font-medium">API integráció</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <p className="font-medium">White-label lehetőség</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <p className="font-medium">Oktatás és tanácsadás</p>
                   </div>
                 </div>
-                <Button className="w-full" variant="outline">
-                  Vegye fel velünk a kapcsolatot
+                <Button className="w-full" variant="outline" onClick={() => navigate('/auth')}>
+                  Kapcsolatfelvétel
                 </Button>
               </CardContent>
             </Card>
