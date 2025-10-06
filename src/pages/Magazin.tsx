@@ -211,29 +211,6 @@ const Magazin = () => {
               alt="The Journalis" 
               className="h-32 object-contain mx-auto"
             />
-            <p className="text-sm italic text-muted-foreground mt-2">
-              "Az EAP-ok jövőjét alakítjuk"
-            </p>
-          </div>
-
-          {/* Topic sections - newspaper style */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 border-t-2 border-primary/20 pt-4">
-            <div className="text-center">
-              <h3 className="font-bold text-xs uppercase tracking-wider text-primary mb-1">Szakmai Alapok</h3>
-              <p className="text-xs text-muted-foreground">Mi az EAP valójában?</p>
-            </div>
-            <div className="text-center">
-              <h3 className="font-bold text-xs uppercase tracking-wider text-primary mb-1">Mérés & ROI</h3>
-              <p className="text-xs text-muted-foreground">4A mutatók a gyakorlatban</p>
-            </div>
-            <div className="text-center">
-              <h3 className="font-bold text-xs uppercase tracking-wider text-primary mb-1">Szervezeti Kultúra</h3>
-              <p className="text-xs text-muted-foreground">A vezetők szerepe</p>
-            </div>
-            <div className="text-center">
-              <h3 className="font-bold text-xs uppercase tracking-wider text-primary mb-1">Jövőkép</h3>
-              <p className="text-xs text-muted-foreground">Digitalizáció és AI</p>
-            </div>
           </div>
         </div>
       </section>
