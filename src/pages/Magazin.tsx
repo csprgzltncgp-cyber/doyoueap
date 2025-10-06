@@ -9,7 +9,7 @@ import journalistLogo from '@/assets/thejournalist_logo.png';
 import journalistBg from '@/assets/journalist-bg.jpg';
 import mythsArticleImg from '@/assets/myths-article.jpg';
 import scoreArticleImg from '@/assets/4score-article.jpg';
-import futureArticleImg from '@/assets/featured-article.jpg';
+import futureArticleImg from '@/assets/future-article.jpg';
 import { useAuth } from '@/hooks/useAuth';
 import { 
   Carousel, 
