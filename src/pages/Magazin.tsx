@@ -193,7 +193,7 @@ const Magazin = () => {
       </section>
 
       {/* Featured Carousel */}
-      <section className="py-12 px-4 bg-muted/30">
+      <section className="py-12 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold">Kiemelt Cikkek</h2>
@@ -203,43 +203,45 @@ const Magazin = () => {
             <CarouselContent>
               {featuredArticles.map((article, index) => (
                 <CarouselItem key={index}>
-                  <Card className="overflow-hidden border-none shadow-lg hover:shadow-xl transition-shadow">
-                    <div className="md:flex">
-                      <div className={`md:w-2/5 bg-gradient-to-br ${gradients[article.image as keyof typeof gradients]} flex items-center justify-center p-12`}>
-                        <div className="text-center">
-                          <div className="text-6xl font-bold text-primary/40 mb-2">★</div>
-                          <Badge variant="secondary">{article.category}</Badge>
+                  <div className="grid md:grid-cols-2 gap-8 items-center">
+                    {/* Large Featured Image */}
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
+                      <div className={`absolute inset-0 bg-gradient-to-br ${gradients[article.image as keyof typeof gradients]}`}>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="text-9xl font-bold text-primary/20">★</div>
                         </div>
                       </div>
-                      <div className="md:w-3/5 p-8">
-                        <Badge className="mb-4">{article.category}</Badge>
-                        <CardTitle className="text-3xl mb-4 hover:text-primary transition-colors cursor-pointer">
-                          {article.title}
-                        </CardTitle>
-                        <CardDescription className="text-base mb-6">
-                          {article.excerpt}
-                        </CardDescription>
-                        <div className="flex items-center gap-6 text-sm text-muted-foreground mb-6">
-                          <div className="flex items-center gap-2">
-                            <User className="h-4 w-4" />
-                            <span>{article.author}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Calendar className="h-4 w-4" />
-                            <span>{article.date}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Clock className="h-4 w-4" />
-                            <span>{article.readTime}</span>
-                          </div>
-                        </div>
-                        <Button className="group">
-                          Tovább olvasom 
-                          <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </Button>
-                      </div>
+                      <Badge className="absolute top-4 left-4 z-10">{article.category}</Badge>
                     </div>
-                  </Card>
+                    
+                    {/* Content */}
+                    <div className="space-y-4">
+                      <h3 className="text-4xl font-bold hover:text-primary transition-colors cursor-pointer leading-tight">
+                        {article.title}
+                      </h3>
+                      <p className="text-lg text-muted-foreground leading-relaxed">
+                        {article.excerpt}
+                      </p>
+                      <div className="flex items-center gap-6 text-sm text-muted-foreground pt-2">
+                        <div className="flex items-center gap-2">
+                          <User className="h-4 w-4" />
+                          <span>{article.author}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Calendar className="h-4 w-4" />
+                          <span>{article.date}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Clock className="h-4 w-4" />
+                          <span>{article.readTime}</span>
+                        </div>
+                      </div>
+                      <Button className="group mt-4">
+                        Tovább olvasom 
+                        <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </Button>
+                    </div>
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
