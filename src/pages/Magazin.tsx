@@ -190,7 +190,7 @@ const Magazin = () => {
       </header>
 
       {/* Hero Section - Newspaper Style Header */}
-      <section className="relative py-8 px-4 overflow-hidden bg-white border-t-2 border-black">
+      <section className="relative py-8 px-4 overflow-hidden bg-white border-t border-border">
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Three column layout: Date - Logo - Text */}
           <div className="flex items-center justify-between gap-8">
