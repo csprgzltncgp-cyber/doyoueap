@@ -212,37 +212,39 @@ const Arak = () => {
         </div>
 
         {/* Additional Info */}
-        <Card className="bg-background border">
-          <CardHeader>
-            <CardTitle>Gyakran Ismételt Kérdések</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <h3 className="font-semibold mb-2">Milyen fizetési módokat fogadnak el?</h3>
-              <p className="text-muted-foreground">
-                Banki átutalást és céges bankkártyás fizetést is elfogadunk. Az éves előfizetést egy összegben kell kiegyenlíteni.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-2">Van próbaidőszak?</h3>
-              <p className="text-muted-foreground">
-                Igen, minden csomagunk esetében biztosítunk 30 napos pénz-visszafizetési garanciát.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-2">Hogyan működik a munkavállalói limit?</h3>
-              <p className="text-muted-foreground">
-                A limit a szervezet teljes munkavállalói létszámára vonatkozik. Ha túllépi a csomagban meghatározott limitet, automatikusan felajánljuk a következő csomagra való váltást.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-2">Mikor válthatom a csomagomat?</h3>
-              <p className="text-muted-foreground">
-                Bármikor válthat magasabb csomagra az aktuális előfizetési időszakon belül. Az ár különbözetet időarányosan számoljuk el.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="mt-12">
+          <Card className="bg-background border">
+            <CardHeader>
+              <CardTitle>Gyakran Ismételt Kérdések</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <h3 className="font-semibold mb-2">Milyen fizetési módokat fogadnak el?</h3>
+                <p className="text-muted-foreground">
+                  Banki átutalást és céges bankkártyás fizetést is elfogadunk. Az éves előfizetést egy összegben kell kiegyenlíteni.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">Van próbaidőszak?</h3>
+                <p className="text-muted-foreground">
+                  Igen, minden csomagunk esetében biztosítunk 30 napos pénz-visszafizetési garanciát.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">Hogyan működik a munkavállalói limit?</h3>
+                <p className="text-muted-foreground">
+                  A limit a szervezet teljes munkavállalói létszámára vonatkozik. Ha túllépi a csomagban meghatározott limitet, automatikusan felajánljuk a következő csomagra való váltást.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">Mikor válthatom a csomagomat?</h3>
+                <p className="text-muted-foreground">
+                  Bármikor válthat magasabb csomagra az aktuális előfizetési időszakon belül. Az ár különbözetet időarányosan számoljuk el.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </main>
     </div>
   );
