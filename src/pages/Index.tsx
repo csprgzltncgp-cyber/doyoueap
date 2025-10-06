@@ -210,7 +210,7 @@ const Index = () => {
         {user && role === 'hr' && section && (
           <div className="border-t bg-gradient-to-r from-[#3572ef] to-[#3abef9]">
             <div className="max-w-7xl mx-auto px-4 py-3">
-              <nav className="flex gap-6 justify-center">
+              <nav className="flex gap-6">
                 <button
                   onClick={() => {
                     console.log('Clicked EAP Pulse navigation');
@@ -281,39 +281,37 @@ const Index = () => {
         {user && role === 'hr' && section === 'eap-pulse' && (
           <div className="border-t bg-muted/20">
             <div className="max-w-7xl mx-auto px-4 py-2">
-              <nav className="flex gap-6 justify-center">
-                <div className="flex gap-6">
-                  <button
-                    onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
-                    className={`text-sm transition-colors pb-2 border-b-2 ${
-                      subSection === 'create-audit' 
-                        ? 'text-primary font-semibold border-primary' 
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
-                    }`}
-                  >
-                    Új Felmérés
-                  </button>
-                  <button
-                    onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'running-audits' })}
-                    className={`text-sm transition-colors pb-2 border-b-2 ${
-                      subSection === 'running-audits' 
-                        ? 'text-primary font-semibold border-primary' 
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
-                    }`}
-                  >
-                    Futó Felmérések
-                  </button>
-                  <button
-                    onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'audit-questionnaire' })}
-                    className={`text-sm transition-colors pb-2 border-b-2 ${
-                      subSection === 'audit-questionnaire' 
-                        ? 'text-primary font-semibold border-primary' 
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
-                    }`}
-                  >
-                    EAP Pulse demo
-                  </button>
-                </div>
+              <nav className="flex gap-6">
+                <button
+                  onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
+                    subSection === 'create-audit' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
+                >
+                  Új Felmérés
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'running-audits' })}
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
+                    subSection === 'running-audits' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
+                >
+                  Futó Felmérések
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'audit-questionnaire' })}
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
+                    subSection === 'audit-questionnaire' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
+                >
+                  EAP Pulse demo
+                </button>
               </nav>
             </div>
           </div>
@@ -323,99 +321,97 @@ const Index = () => {
         {user && role === 'hr' && section === 'reports' && (
           <div className="border-t bg-muted/20">
             <div className="max-w-7xl mx-auto px-4 py-2">
-              <nav className="flex gap-6 justify-center">
-                <div className="flex gap-6">
-                  <button
-                    onClick={() => setSearchParams({ section: 'reports', sub: 'overview' })}
-                    className={`text-sm transition-colors pb-2 border-b-2 ${
-                      (!subSection || subSection === 'overview') 
-                        ? 'text-primary font-semibold border-primary' 
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
-                    }`}
-                  >
-                    Összefoglaló
-                  </button>
-                  <button
-                    onClick={() => setSearchParams({ section: 'reports', sub: 'awareness' })}
-                    className={`text-sm transition-colors pb-2 border-b-2 ${
-                      subSection === 'awareness' 
-                        ? 'text-primary font-semibold border-primary' 
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
-                    }`}
-                  >
-                    Ismertség
-                  </button>
-                  <button
-                    onClick={() => setSearchParams({ section: 'reports', sub: 'trust' })}
-                    className={`text-sm transition-colors pb-2 border-b-2 ${
-                      subSection === 'trust' 
-                        ? 'text-primary font-semibold border-primary' 
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
-                    }`}
-                  >
-                    Bizalom
-                  </button>
-                  <button
-                    onClick={() => setSearchParams({ section: 'reports', sub: 'usage' })}
-                    className={`text-sm transition-colors pb-2 border-b-2 ${
-                      subSection === 'usage' 
-                        ? 'text-primary font-semibold border-primary' 
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
-                    }`}
-                  >
-                    Használat
-                  </button>
-                  <button
-                    onClick={() => setSearchParams({ section: 'reports', sub: 'impact' })}
-                    className={`text-sm transition-colors pb-2 border-b-2 ${
-                      subSection === 'impact' 
-                        ? 'text-primary font-semibold border-primary' 
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
-                    }`}
-                  >
-                    Hatás
-                  </button>
-                  <button
-                    onClick={() => setSearchParams({ section: 'reports', sub: 'motivation' })}
-                    className={`text-sm transition-colors pb-2 border-b-2 ${
-                      subSection === 'motivation' 
-                        ? 'text-primary font-semibold border-primary' 
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
-                    }`}
-                  >
-                    Motiváció
-                  </button>
-                  <button
-                    onClick={() => setSearchParams({ section: 'reports', sub: 'demographics' })}
-                    className={`text-sm transition-colors pb-2 border-b-2 ${
-                      subSection === 'demographics' 
-                        ? 'text-primary font-semibold border-primary' 
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
-                    }`}
-                  >
-                    Demográfia
-                  </button>
-                  <button
-                    onClick={() => setSearchParams({ section: 'reports', sub: 'trends' })}
-                    className={`text-sm transition-colors pb-2 border-b-2 ${
-                      subSection === 'trends' 
-                        ? 'text-primary font-semibold border-primary' 
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
-                    }`}
-                  >
-                    Trendek
-                  </button>
-                  <button
-                    onClick={() => setSearchParams({ section: 'reports', sub: 'compare' })}
-                    className={`text-sm transition-colors pb-2 border-b-2 ${
-                      subSection === 'compare' 
-                        ? 'text-primary font-semibold border-primary' 
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
-                    }`}
-                  >
-                    Összehasonlítás
-                  </button>
-                </div>
+              <nav className="flex gap-6">
+                <button
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'overview' })}
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
+                    (!subSection || subSection === 'overview') 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
+                >
+                  Összefoglaló
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'awareness' })}
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
+                    subSection === 'awareness' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
+                >
+                  Ismertség
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'trust' })}
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
+                    subSection === 'trust' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
+                >
+                  Bizalom
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'usage' })}
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
+                    subSection === 'usage' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
+                >
+                  Használat
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'impact' })}
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
+                    subSection === 'impact' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
+                >
+                  Hatás
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'motivation' })}
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
+                    subSection === 'motivation' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
+                >
+                  Motiváció
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'demographics' })}
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
+                    subSection === 'demographics' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
+                >
+                  Demográfia
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'trends' })}
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
+                    subSection === 'trends' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
+                >
+                  Trendek
+                </button>
+                <button
+                  onClick={() => setSearchParams({ section: 'reports', sub: 'compare' })}
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
+                    subSection === 'compare' 
+                      ? 'text-primary font-semibold border-primary' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                  }`}
+                >
+                  Összehasonlítás
+                </button>
               </nav>
             </div>
           </div>
