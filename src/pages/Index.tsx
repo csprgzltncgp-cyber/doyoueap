@@ -603,7 +603,7 @@ const Index = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="group relative p-8 bg-background/80 backdrop-blur border-2 border-primary/20 rounded-xl hover:border-primary/40 transition-all hover:shadow-xl">
+            <div className="group relative p-8 bg-card border rounded-xl hover:shadow-lg transition-all">
               <div className="flex items-start gap-6">
                 <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                   <Eye className="h-8 w-8 text-primary-foreground" />
@@ -617,7 +617,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <div className="group relative p-8 bg-background/80 backdrop-blur border-2 border-primary/20 rounded-xl hover:border-primary/40 transition-all hover:shadow-xl">
+            <div className="group relative p-8 bg-card border rounded-xl hover:shadow-lg transition-all">
               <div className="flex items-start gap-6">
                 <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                   <Shield className="h-8 w-8 text-primary-foreground" />
@@ -631,7 +631,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <div className="group relative p-8 bg-background/80 backdrop-blur border-2 border-primary/20 rounded-xl hover:border-primary/40 transition-all hover:shadow-xl">
+            <div className="group relative p-8 bg-card border rounded-xl hover:shadow-lg transition-all">
               <div className="flex items-start gap-6">
                 <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                   <Activity className="h-8 w-8 text-primary-foreground" />
@@ -645,7 +645,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <div className="group relative p-8 bg-background/80 backdrop-blur border-2 border-primary/20 rounded-xl hover:border-primary/40 transition-all hover:shadow-xl">
+            <div className="group relative p-8 bg-card border rounded-xl hover:shadow-lg transition-all">
               <div className="flex items-start gap-6">
                 <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                   <Target className="h-8 w-8 text-primary-foreground" />
