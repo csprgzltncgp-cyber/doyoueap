@@ -190,14 +190,7 @@ const Magazin = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary/10 via-primary/5 to-background py-16 px-4 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src={journalistBg} 
-            alt="Background" 
-            className="w-full h-full object-cover opacity-10"
-          />
-        </div>
+      <section className="relative py-16 px-4 overflow-hidden" style={{ backgroundColor: '#feeeff' }}>
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-4 flex justify-center">
             <img 
