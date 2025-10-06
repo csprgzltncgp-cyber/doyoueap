@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Calendar, Clock, User, Share2 } from 'lucide-react';
 import logo from '@/assets/doyoueap-logo.png';
+import journalistLogo from '@/assets/thejournalist_logo.png';
 import { useAuth } from '@/hooks/useAuth';
 
 // Import all article images
@@ -677,31 +678,36 @@ const MagazinArticle = () => {
         </div>
       </header>
 
-      {/* Article Content */}
-      <article className="w-full">
-        {/* Featured Image - Full Width */}
-        {article.image && (
-          <div className="w-full h-[60vh] overflow-hidden relative">
-            <img 
-              src={article.image} 
-              alt={article.title}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-            
-            {/* Title Overlay on Image */}
-            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
-              <div className="max-w-5xl mx-auto">
-                <Badge className="mb-4 bg-white text-black hover:bg-white">{article.category}</Badge>
-                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
-                  {article.title}
-                </h1>
-              </div>
+      {/* The Journalist Header */}
+      <section className="relative py-8 px-4 overflow-hidden bg-white border-t border-border">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="flex items-center justify-between gap-8">
+            <div className="flex flex-col items-start text-sm text-black">
+              <span className="font-semibold">2025. JANUÁR</span>
+              <span className="text-xs">16. Szám</span>
+            </div>
+            <div className="flex-shrink-0">
+              <img 
+                src={journalistLogo} 
+                alt="The Journalist!" 
+                className="h-24 object-contain"
+              />
+            </div>
+            <div className="flex items-end text-right">
+              <span className="text-sm font-medium text-black hidden md:inline uppercase tracking-wide">
+                Az EAP világ<br />szakfolyóirata
+              </span>
             </div>
           </div>
-        )}
+        </div>
+        <div className="absolute bottom-0 left-0 right-0">
+          <div className="border-b-4 border-black"></div>
+          <div className="border-b border-black mt-1"></div>
+        </div>
+      </section>
 
-        {/* Article Meta & Content */}
+      {/* Article Content */}
+      <article className="w-full">
         <div className="max-w-5xl mx-auto px-4 md:px-8 py-12">
           {/* Back Button */}
           <Button 
@@ -712,25 +718,44 @@ const MagazinArticle = () => {
             <ArrowLeft className="mr-2 h-4 w-4" />
             Vissza a magazinhoz
           </Button>
-          
-          {/* Meta Info */}
-          <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-muted-foreground pb-8 border-b mb-12">
-            <div className="flex items-center gap-2">
-              <User className="h-4 w-4" />
-              <span className="font-medium">{article.author}</span>
+
+          {/* Featured Image - Half Width */}
+          {article.image && (
+            <div className="mb-12">
+              <img 
+                src={article.image} 
+                alt={article.title}
+                className="w-1/2 mx-auto rounded-lg shadow-lg"
+              />
             </div>
-            <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4" />
-              <span>{article.date}</span>
+          )}
+
+          {/* Article Header */}
+          <div className="mb-12">
+            <Badge className="mb-4 text-base px-4 py-1">{article.category}</Badge>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              {article.title}
+            </h1>
+            
+            {/* Meta Info */}
+            <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-muted-foreground pb-8 border-b">
+              <div className="flex items-center gap-2">
+                <User className="h-4 w-4" />
+                <span className="font-medium">{article.author}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4" />
+                <span>{article.date}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4" />
+                <span>{article.readTime}</span>
+              </div>
+              <Button variant="ghost" size="sm" className="ml-auto">
+                <Share2 className="mr-2 h-4 w-4" />
+                Megosztás
+              </Button>
             </div>
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4" />
-              <span>{article.readTime}</span>
-            </div>
-            <Button variant="ghost" size="sm" className="ml-auto">
-              <Share2 className="mr-2 h-4 w-4" />
-              Megosztás
-            </Button>
           </div>
 
           {/* Excerpt */}
