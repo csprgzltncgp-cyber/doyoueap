@@ -210,7 +210,7 @@ const Index = () => {
         {user && role === 'hr' && section && (
           <div className="border-t bg-gradient-to-r from-[#3572ef] to-[#3abef9]">
             <div className="max-w-7xl mx-auto px-4 py-3">
-              <nav className="flex gap-6">
+              <nav className="flex gap-6 justify-center">
                 <button
                   onClick={() => {
                     console.log('Clicked EAP Pulse navigation');
@@ -281,7 +281,7 @@ const Index = () => {
         {user && role === 'hr' && section === 'eap-pulse' && (
           <div className="border-t bg-muted/20">
             <div className="max-w-7xl mx-auto px-4 py-2">
-              <nav className="flex gap-6">
+              <nav className="flex gap-6 justify-center">
                 <button
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
@@ -321,7 +321,7 @@ const Index = () => {
         {user && role === 'hr' && section === 'reports' && (
           <div className="border-t bg-muted/20">
             <div className="max-w-7xl mx-auto px-4 py-2">
-              <nav className="flex gap-6">
+              <nav className="flex gap-6 justify-center">
                 <button
                   onClick={() => setSearchParams({ section: 'reports', sub: 'overview' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
