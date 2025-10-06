@@ -147,7 +147,7 @@ const Magazin = () => {
             <nav className="hidden md:flex gap-6 items-center">
               <button
                 onClick={() => navigate('/magazin')}
-                className="text-sm bg-white border border-black font-semibold transition-colors px-3 py-2 rounded-md hover:bg-white hover:border-black"
+                className="text-sm bg-white border border-black font-semibold transition-colors px-3 py-2 rounded-md"
               >
                 The Journalist!
               </button>
