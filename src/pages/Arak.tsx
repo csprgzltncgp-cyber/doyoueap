@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Check, CheckCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle } from 'lucide-react';
 import logo from '@/assets/logo.png';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -127,36 +127,31 @@ const Arak = () => {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-4 gap-8 mb-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
           {packages.map((pkg, index) => (
             <Card 
               key={index} 
-              className={`relative flex flex-col ${pkg.recommended ? 'border-[#3572ef] shadow-lg scale-105' : ''}`}
+              className={`relative flex flex-col ${pkg.recommended ? 'border-[#3572ef] shadow-lg' : ''}`}
             >
               {pkg.recommended && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="bg-[#3572ef] text-white px-4 py-1 rounded-full text-sm font-medium">
-                    Ajánlott
-                  </span>
-                </div>
+                <div className="text-xs font-medium mb-2" style={{ color: '#3572ef' }}>AJÁNLOTT</div>
               )}
-              <CardHeader className="text-center pb-8 pt-8">
-                <CardTitle className="text-2xl mb-2">{pkg.name}</CardTitle>
+              <CardHeader className="pb-6">
+                <CardTitle className="text-2xl">{pkg.name}</CardTitle>
                 <CardDescription>{pkg.description}</CardDescription>
                 <div className="mt-4">
-                  <span className="text-4xl font-bold">{pkg.price}</span>
-                  <span className="text-muted-foreground ml-1">{pkg.period}</span>
+                  <div className="text-3xl font-bold">{pkg.price}<span className="text-lg font-normal text-muted-foreground">{pkg.period}</span></div>
                 </div>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col justify-between">
-                <ul className="space-y-3 mb-6">
+                <div className="space-y-2 mb-4">
                   {pkg.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                      <span className="text-sm">{feature}</span>
-                    </li>
+                    <div key={featureIndex} className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                      <p className="font-medium text-sm">{feature}</p>
+                    </div>
                   ))}
-                </ul>
+                </div>
                 <Button 
                   className={`w-full ${pkg.recommended ? 'bg-[#3572ef] hover:bg-[#3572ef]/90' : ''}`}
                   variant={pkg.recommended ? 'default' : 'outline'}
