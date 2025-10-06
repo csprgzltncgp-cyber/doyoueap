@@ -189,16 +189,77 @@ const Magazin = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary/10 via-primary/5 to-background py-16 px-4">
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-primary/10 py-20 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-4 flex justify-center">
-            <img 
-              src={journalistLogo} 
-              alt="The Journalis" 
-              className="h-48 object-contain"
-            />
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <div className="space-y-6 animate-fade-in">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-sm font-medium text-primary">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </span>
+                Friss Szakmai Tartalmak
+              </div>
+              
+              <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
+                The <span className="text-primary">Journalis</span>
+              </h1>
+              
+              <p className="text-xl text-muted-foreground leading-relaxed">
+                Az Employee Assistance Program szakmai médiafelülete. Mélyreható elemzések, szakértői tudás és gyakorlati útmutatók az EAP világából.
+              </p>
+              
+              <div className="flex flex-wrap gap-4 pt-4">
+                <Button size="lg" className="group">
+                  Kiemelt Cikkek
+                  <ChevronRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </Button>
+                <Button size="lg" variant="outline">
+                  Minden Cikk
+                </Button>
+              </div>
+              
+              <div className="flex items-center gap-8 pt-6 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <TrendingUp className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-foreground">50+ Cikk</div>
+                    <div className="text-xs">Szakmai tartalom</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <User className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-foreground">Szakértők</div>
+                    <div className="text-xs">EAP specialisták</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Right Image */}
+            <div className="relative animate-fade-in">
+              <div className="absolute -top-10 -right-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl"></div>
+              <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-accent/20 rounded-full blur-3xl"></div>
+              <div className="relative">
+                <img 
+                  src={journalistLogo} 
+                  alt="The Journalis" 
+                  className="w-full max-w-md mx-auto drop-shadow-2xl"
+                />
+              </div>
+            </div>
           </div>
         </div>
+        
+        {/* Decorative Elements */}
+        <div className="absolute top-20 left-10 w-20 h-20 border-2 border-primary/20 rounded-lg rotate-12"></div>
+        <div className="absolute bottom-20 right-20 w-16 h-16 border-2 border-accent/20 rounded-full"></div>
       </section>
 
       {/* Featured Carousel */}
