@@ -610,8 +610,8 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
               <div className="flex items-start gap-6">
-                <div className="h-12 w-12 rounded-full bg-[#3abef9] flex items-center justify-center flex-shrink-0">
-                  <Eye className="h-6 w-6 text-white" />
+                <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                  <Eye className="h-6 w-6 text-foreground" />
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold mb-3">Awareness</h3>
@@ -624,8 +624,8 @@ const Index = () => {
             </div>
             <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
               <div className="flex items-start gap-6">
-                <div className="h-12 w-12 rounded-full bg-[#3abef9] flex items-center justify-center flex-shrink-0">
-                  <Shield className="h-6 w-6 text-white" />
+                <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                  <Shield className="h-6 w-6 text-foreground" />
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold mb-3">Trust</h3>
@@ -638,8 +638,8 @@ const Index = () => {
             </div>
             <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
               <div className="flex items-start gap-6">
-                <div className="h-12 w-12 rounded-full bg-[#3abef9] flex items-center justify-center flex-shrink-0">
-                  <Activity className="h-6 w-6 text-white" />
+                <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                  <Activity className="h-6 w-6 text-foreground" />
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold mb-3">Usage</h3>
@@ -652,8 +652,8 @@ const Index = () => {
             </div>
             <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
               <div className="flex items-start gap-6">
-                <div className="h-12 w-12 rounded-full bg-[#3abef9] flex items-center justify-center flex-shrink-0">
-                  <Target className="h-6 w-6 text-white" />
+                <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                  <Target className="h-6 w-6 text-foreground" />
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold mb-3">Impact</h3>
