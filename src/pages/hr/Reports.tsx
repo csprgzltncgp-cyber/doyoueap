@@ -39,7 +39,7 @@ const Reports = () => {
   const [responses, setResponses] = useState<any[]>([]);
   const [loadingResponses, setLoadingResponses] = useState(false);
   const [employeeCount, setEmployeeCount] = useState<number>(0);
-  const activeTab = searchParams.get("sub");
+  const activeTab = searchParams.get("sub") || "overview";
 
   useEffect(() => {
     fetchAudits();
@@ -242,8 +242,6 @@ const Reports = () => {
 
   // Render content based on activeTab
   const renderContent = () => {
-    if (!activeTab) return null;
-    
     if (activeTab === "overview") {
       return (
         <div className="space-y-6">
