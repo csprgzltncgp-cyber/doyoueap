@@ -131,17 +131,17 @@ const Arak = () => {
           {packages.map((pkg, index) => (
             <Card 
               key={index} 
-              className={`relative flex flex-col ${pkg.recommended ? 'border-primary shadow-lg scale-105' : ''}`}
+              className={`relative flex flex-col ${pkg.recommended ? 'border-[#3572ef] shadow-lg scale-105' : ''}`}
             >
               {pkg.recommended && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium">
+                  <span className="bg-[#3572ef] text-white px-4 py-1 rounded-full text-sm font-medium">
                     Ajánlott
                   </span>
                 </div>
               )}
               <CardHeader className="text-center pb-8 pt-8">
-                <CardTitle className="text-2xl mb-2">{pkg.name}</CardTitle>
+                <CardTitle className={`text-2xl mb-2 ${pkg.recommended ? 'text-[#3572ef]' : ''}`}>{pkg.name}</CardTitle>
                 <CardDescription>{pkg.description}</CardDescription>
                 <div className="mt-4">
                   <span className="text-4xl font-bold">{pkg.price}</span>
