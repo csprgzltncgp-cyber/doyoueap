@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Clock, User, TrendingUp, Calendar, ChevronRight } from 'lucide-react';
 import logo from '@/assets/doyoueap-logo.png';
 import journalistLogo from '@/assets/thejournalist_logo.png';
+import journalistBg from '@/assets/journalist-bg.jpg';
 import featuredArticleImg from '@/assets/featured-article.jpg';
 import { useAuth } from '@/hooks/useAuth';
 import { 
@@ -189,8 +190,15 @@ const Magazin = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary/10 via-primary/5 to-background py-16 px-4">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative bg-gradient-to-br from-primary/10 via-primary/5 to-background py-16 px-4 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={journalistBg} 
+            alt="Background" 
+            className="w-full h-full object-cover opacity-10"
+          />
+        </div>
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-4 flex justify-center">
             <img 
               src={journalistLogo} 
