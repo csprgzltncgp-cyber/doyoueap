@@ -350,10 +350,10 @@ const Magazin = () => {
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Newsletter */}
-              <Card className="bg-primary text-primary-foreground">
+              <Card className="bg-gradient-to-br from-[hsl(var(--magazine-red))] to-[hsl(var(--magazine-yellow))] text-white border-0">
                 <CardHeader>
                   <CardTitle>Hírlevél Feliratkozás</CardTitle>
-                  <CardDescription className="text-primary-foreground/80">
+                  <CardDescription className="text-white/90">
                     Heti összefoglaló a legújabb cikkekről
                   </CardDescription>
                 </CardHeader>
@@ -361,7 +361,7 @@ const Magazin = () => {
                   <input 
                     type="email" 
                     placeholder="Email cím"
-                    className="w-full px-4 py-2 rounded mb-3 bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60"
+                    className="w-full px-4 py-2 rounded-sm mb-3 bg-white/20 border border-white/30 text-white placeholder:text-white/70"
                   />
                   <Button variant="secondary" className="w-full">
                     Feliratkozom
