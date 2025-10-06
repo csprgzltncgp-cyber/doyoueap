@@ -593,9 +593,9 @@ const Index = () => {
       <section id="elonyok" className="py-16 px-4 bg-muted/30">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Miért érdemes a 4Score módszertant használni?</h2>
+            <h2 className="text-3xl font-bold mb-4">Vállalati előnyök</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Kiegészítő adatok, amelyek új dimenziót adnak az EAP program értékeléséhez
+              A 4Score módszertan konkrét üzleti értéket teremt a vállalat számára
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
