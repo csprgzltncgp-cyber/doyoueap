@@ -693,7 +693,7 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
             </div>
             <Progress 
               value={(parseFloat(avgTopicsPerUser) / 5) * 100} 
-              style={{ '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #ff66ff 100%)' } as React.CSSProperties}
+              style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties}
               className="h-3"
             />
             <div className="flex justify-between text-xs text-muted-foreground">
@@ -716,7 +716,7 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
             </div>
             <Progress 
               value={(parseFloat(avgChannelsPerUser) / 3) * 100} 
-              style={{ '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #ff66ff 100%)' } as React.CSSProperties}
+              style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties}
               className="h-3"
             />
             <div className="flex justify-between text-xs text-muted-foreground">
@@ -739,7 +739,7 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
             </div>
             <Progress 
               value={parseFloat(familyRate)} 
-              style={{ '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #ff66ff 100%)' } as React.CSSProperties}
+              style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties}
               className="h-3"
             />
             <div className="bg-muted/30 p-3 rounded-md">
