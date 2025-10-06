@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import { formatAuditName } from '@/lib/auditUtils';
 import { exportableCharts } from '@/lib/exportUtils';
-import { FileText, Image as ImageIcon, Download, FileSpreadsheet } from 'lucide-react';
+import { Presentation, Image as ImageIcon, Download, FileSpreadsheet } from 'lucide-react';
 
 let exportIframe: HTMLIFrameElement | null = null;
 
@@ -85,14 +85,10 @@ const Export = () => {
     }
   };
 
-  const handleExportPDF = async () => {
+  const handleExportPPT = async () => {
     setExporting(true);
     try {
-      const html2canvas = (await import('html2canvas')).default;
-      const jsPDF = (await import('jspdf')).default;
-      const { default: PDFExportRenderer } = await import('@/components/hr/PDFExportRenderer');
-      const React = await import('react');
-      const ReactDOM = await import('react-dom/client');
+      const pptxgen = (await import('pptxgenjs')).default;
       
       const selectedAudit = audits.find(a => a.id === selectedAuditId);
       if (!selectedAudit) {
@@ -101,7 +97,7 @@ const Export = () => {
         return;
       }
 
-      toast.info('PDF generálása folyamatban... Kérlek várj!');
+      toast.info('PowerPoint generálása folyamatban... Kérlek várj!');
 
       // Fetch responses
       const { data: responses, error } = await supabase
@@ -117,73 +113,147 @@ const Export = () => {
         return;
       }
 
-      // Create a temporary container
-      const container = document.createElement('div');
-      container.style.position = 'absolute';
-      container.style.left = '-9999px';
-      container.style.top = '0';
-      container.style.width = '794px'; // A4 width at 96 DPI
-      container.style.background = 'white';
-      container.style.padding = '40px';
-      document.body.appendChild(container);
-
-      // Render the PDF content
-      const root = ReactDOM.createRoot(container);
-      await new Promise<void>((resolve) => {
-        root.render(
-          React.createElement(PDFExportRenderer, {
-            auditData: selectedAudit,
-            responses: responses,
-          })
-        );
-        // Wait longer for all content to render
-        setTimeout(resolve, 3000);
+      // Create presentation
+      const pres = new pptxgen();
+      
+      // Title slide
+      let slide = pres.addSlide();
+      slide.background = { color: '3572ef' };
+      slide.addText('EAP Pulse Jelentés', {
+        x: 0.5,
+        y: 2.0,
+        w: '90%',
+        h: 1.5,
+        fontSize: 44,
+        bold: true,
+        color: 'FFFFFF',
+        align: 'center'
+      });
+      slide.addText(formatAuditName(selectedAudit), {
+        x: 0.5,
+        y: 3.5,
+        w: '90%',
+        fontSize: 24,
+        color: 'FFFFFF',
+        align: 'center'
       });
 
-      // Initialize PDF
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-
-      // Capture the entire rendered content
-      const canvas = await html2canvas(container, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: '#ffffff',
-        width: 794,
-        height: container.scrollHeight,
+      // Összefoglaló slide
+      slide = pres.addSlide();
+      slide.addText('Összefoglaló', {
+        x: 0.5,
+        y: 0.5,
+        fontSize: 32,
+        bold: true,
+        color: '3572ef'
+      });
+      slide.addText([
+        { text: 'Összefoglaló statisztikák:\n\n', options: { fontSize: 18, bold: true } },
+        { text: `• Válaszadók száma: ${responses.length}\n`, options: { fontSize: 16 } },
+        { text: `• Felmérés neve: ${selectedAudit.program_name}\n`, options: { fontSize: 16 } },
+        { text: `• Kezdés: ${new Date(selectedAudit.start_date).toLocaleDateString('hu-HU')}\n`, options: { fontSize: 16 } }
+      ], {
+        x: 0.5,
+        y: 1.5,
+        w: '90%'
       });
 
-      const imgData = canvas.toDataURL('image/png');
-      const imgWidth = pdfWidth;
-      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+      // Tudatosság slide
+      slide = pres.addSlide();
+      slide.addText('Tudatosság', {
+        x: 0.5,
+        y: 0.5,
+        fontSize: 32,
+        bold: true,
+        color: '3572ef'
+      });
+      slide.addText('EAP program ismertségének mérése', {
+        x: 0.5,
+        y: 1.5,
+        fontSize: 16
+      });
 
-      let heightLeft = imgHeight;
-      let position = 0;
+      // Bizalom & Hajlandóság slide
+      slide = pres.addSlide();
+      slide.addText('Bizalom & Hajlandóság', {
+        x: 0.5,
+        y: 0.5,
+        fontSize: 32,
+        bold: true,
+        color: '3572ef'
+      });
+      slide.addText('Alkalmazottak bizalmi szintjének elemzése', {
+        x: 0.5,
+        y: 1.5,
+        fontSize: 16
+      });
 
-      // Add first page
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pdfHeight;
+      // Használat slide
+      slide = pres.addSlide();
+      slide.addText('Használat', {
+        x: 0.5,
+        y: 0.5,
+        fontSize: 32,
+        bold: true,
+        color: '3572ef'
+      });
+      slide.addText('EAP program használati statisztikák', {
+        x: 0.5,
+        y: 1.5,
+        fontSize: 16
+      });
 
-      // Add additional pages if content is longer
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
-      }
+      // Hatás slide
+      slide = pres.addSlide();
+      slide.addText('Hatás', {
+        x: 0.5,
+        y: 0.5,
+        fontSize: 32,
+        bold: true,
+        color: '3572ef'
+      });
+      slide.addText('Program hatásának mérése', {
+        x: 0.5,
+        y: 1.5,
+        fontSize: 16
+      });
 
-      // Cleanup
-      root.unmount();
-      document.body.removeChild(container);
+      // Motiváció slide
+      slide = pres.addSlide();
+      slide.addText('Motiváció', {
+        x: 0.5,
+        y: 0.5,
+        fontSize: 32,
+        bold: true,
+        color: '3572ef'
+      });
+      slide.addText('Használati motivációk elemzése', {
+        x: 0.5,
+        y: 1.5,
+        fontSize: 16
+      });
 
-      // Save PDF
-      pdf.save(`eap_pulse_jelentes_${formatAuditName(selectedAudit)}_${Date.now()}.pdf`);
-      toast.success('PDF sikeresen exportálva!');
+      // Demográfia slide
+      slide = pres.addSlide();
+      slide.addText('Demográfia', {
+        x: 0.5,
+        y: 0.5,
+        fontSize: 32,
+        bold: true,
+        color: '3572ef'
+      });
+      slide.addText('Válaszadók demográfiai megoszlása', {
+        x: 0.5,
+        y: 1.5,
+        fontSize: 16
+      });
+
+      // Save presentation
+      await pres.writeFile({ fileName: `eap_pulse_jelentes_${formatAuditName(selectedAudit)}_${Date.now()}.pptx` });
+      toast.success('PowerPoint sikeresen exportálva!');
     } catch (error) {
-      console.error('Error exporting PDF:', error);
-      toast.error('Hiba történt a PDF exportálás során');
+      console.error('Error exporting PPT:', error);
+      toast.error('Hiba történt a PowerPoint exportálás során');
     } finally {
       setExporting(false);
     }
@@ -455,28 +525,29 @@ const Export = () => {
         <Card className="flex flex-col">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5" />
-              PDF Jelentés
+              <Presentation className="h-5 w-5" />
+              PowerPoint Prezentáció
             </CardTitle>
             <CardDescription>
-              Komplett jelentés alapstatisztikákkal
+              Komplett jelentés prezentációs formában
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4 flex-1 flex flex-col">
             <div className="text-sm space-y-2 flex-1">
-              <p><strong>Tartalom:</strong></p>
+              <p><strong>Tartalom (slide-onként):</strong></p>
               <ul className="list-disc list-inside ml-4 space-y-1">
-                <li>Összefoglaló - 8 kártya</li>
-                <li>Ismertség - 9 kártya</li>
-                <li>Bizalom & Hajlandóság - 10 kártya</li>
-                <li>Használat - 10 kártya</li>
-                <li>Hatás - 4 kártya</li>
-                <li>Motiváció - 3 kártya</li>
-                <li>Demográfia - 4 kártya</li>
+                <li>Címlap</li>
+                <li>Összefoglaló statisztikák</li>
+                <li>Tudatosság</li>
+                <li>Bizalom & Hajlandóság</li>
+                <li>Használat</li>
+                <li>Hatás</li>
+                <li>Motiváció</li>
+                <li>Demográfia</li>
               </ul>
             </div>
             <Button 
-              onClick={handleExportPDF} 
+              onClick={handleExportPPT} 
               disabled={exporting || !selectedAuditId}
               className="w-full"
               style={{
@@ -485,7 +556,7 @@ const Export = () => {
               }}
             >
               <Download className="mr-2 h-4 w-4" />
-              PDF Letöltése
+              PowerPoint Letöltése
             </Button>
           </CardContent>
         </Card>
