@@ -137,7 +137,7 @@ const Bemutatkozas = () => {
 
         {activeTab === '4score' && (
           <div className="space-y-8">
-            <Card>
+            <Card className="bg-gradient-to-br from-[#fa181f] to-[#ffe20d]">
               <CardHeader>
                 <CardTitle className="text-3xl">4Score módszertan</CardTitle>
                 <CardDescription className="text-base">
