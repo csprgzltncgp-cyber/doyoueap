@@ -893,44 +893,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Magazine Feed */}
-      <section id="magazin" className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold">EAP Magazin</h2>
-            <Button variant="outline">Összes cikk</Button>
-          </div>
-          
-          <div className="flex gap-4 mb-8 overflow-x-auto pb-2">
-            <Button variant="outline" size="sm">Összes</Button>
-            <Button variant="ghost" size="sm">Hírek</Button>
-            <Button variant="ghost" size="sm">Elemzések</Button>
-            <Button variant="ghost" size="sm">Interjúk</Button>
-            <Button variant="ghost" size="sm">Statisztikák</Button>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5, 6].map((item) => (
-              <Card key={item} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
-                <div className="aspect-video bg-muted"></div>
-                <CardHeader>
-                  <div className="text-xs font-medium text-primary mb-2">Kategória</div>
-                  <CardTitle className="text-lg">Cikk címe {item}</CardTitle>
-                  <CardDescription>
-                    Rövid leírás a cikkről, ami felkelti az olvasó érdeklődését...
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex justify-between items-center text-xs text-muted-foreground">
-                    <span>2025. jan. {item}</span>
-                    <span>5 perc olvasás</span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA Section */}
       <section className="py-20 px-4 bg-primary text-primary-foreground">
