@@ -113,8 +113,14 @@ const Export = () => {
         return;
       }
 
+      // Calculate statistics
+      const usedBranch = responses.filter(r => r.employee_metadata?.branch === 'used');
+      const notUsedBranch = responses.filter(r => r.employee_metadata?.branch === 'not_used');
+      const notAwareBranch = responses.filter(r => r.employee_metadata?.branch === 'not_aware');
+
       // Create presentation
       const pres = new pptxgen();
+      pres.layout = 'LAYOUT_16x9';
       
       // Title slide
       let slide = pres.addSlide();
@@ -131,9 +137,17 @@ const Export = () => {
       });
       slide.addText(formatAuditName(selectedAudit), {
         x: 0.5,
-        y: 3.5,
+        y: 3.0,
         w: '90%',
         fontSize: 24,
+        color: 'FFFFFF',
+        align: 'center'
+      });
+      slide.addText(`${responses.length} válaszadó`, {
+        x: 0.5,
+        y: 3.8,
+        w: '90%',
+        fontSize: 18,
         color: 'FFFFFF',
         align: 'center'
       });
@@ -142,110 +156,396 @@ const Export = () => {
       slide = pres.addSlide();
       slide.addText('Összefoglaló', {
         x: 0.5,
-        y: 0.5,
+        y: 0.3,
         fontSize: 32,
         bold: true,
         color: '3572ef'
       });
-      slide.addText([
-        { text: 'Összefoglaló statisztikák:\n\n', options: { fontSize: 18, bold: true } },
-        { text: `• Válaszadók száma: ${responses.length}\n`, options: { fontSize: 16 } },
-        { text: `• Felmérés neve: ${selectedAudit.program_name}\n`, options: { fontSize: 16 } },
-        { text: `• Kezdés: ${new Date(selectedAudit.start_date).toLocaleDateString('hu-HU')}\n`, options: { fontSize: 16 } }
-      ], {
+
+      const categoryData = [
+        { name: 'Használók', value: usedBranch.length },
+        { name: 'Nem használók', value: notUsedBranch.length },
+        { name: 'Nem tudtak róla', value: notAwareBranch.length }
+      ];
+
+      slide.addChart(pres.ChartType.pie, categoryData, {
         x: 0.5,
-        y: 1.5,
-        w: '90%'
+        y: 1.2,
+        w: 5,
+        h: 3.5,
+        showLegend: true,
+        showTitle: true,
+        title: 'Válaszadók kategóriák szerint',
+        chartColors: ['22c55e', 'f59e0b', 'ef4444']
+      });
+
+      // Stats boxes
+      const statsY = 1.2;
+      slide.addText(`${responses.length}`, {
+        x: 6.0,
+        y: statsY,
+        w: 3.5,
+        h: 0.8,
+        fontSize: 36,
+        bold: true,
+        color: '3572ef',
+        align: 'center'
+      });
+      slide.addText('Összesen válaszadó', {
+        x: 6.0,
+        y: statsY + 0.9,
+        w: 3.5,
+        fontSize: 14,
+        align: 'center'
+      });
+
+      slide.addText(`${((usedBranch.length / responses.length) * 100).toFixed(1)}%`, {
+        x: 6.0,
+        y: statsY + 1.8,
+        w: 3.5,
+        h: 0.8,
+        fontSize: 36,
+        bold: true,
+        color: '22c55e',
+        align: 'center'
+      });
+      slide.addText('Használati arány', {
+        x: 6.0,
+        y: statsY + 2.7,
+        w: 3.5,
+        fontSize: 14,
+        align: 'center'
       });
 
       // Tudatosság slide
       slide = pres.addSlide();
       slide.addText('Tudatosság', {
         x: 0.5,
-        y: 0.5,
+        y: 0.3,
         fontSize: 32,
         bold: true,
         color: '3572ef'
       });
-      slide.addText('EAP program ismertségének mérése', {
+
+      // EAP knowledge levels
+      const awarenessLevels = {};
+      responses.forEach(r => {
+        const level = r.responses?.eap_knowledge || 'Nincs adat';
+        awarenessLevels[level] = (awarenessLevels[level] || 0) + 1;
+      });
+
+      const awarenessData = Object.entries(awarenessLevels).map(([name, value]) => ({
+        name,
+        value: value as number
+      }));
+
+      slide.addChart(pres.ChartType.bar, awarenessData, {
         x: 0.5,
-        y: 1.5,
-        fontSize: 16
+        y: 1.2,
+        w: 9,
+        h: 3.5,
+        showLegend: false,
+        showTitle: true,
+        title: 'EAP program ismertsége',
+        barDir: 'bar',
+        chartColors: ['3572ef']
       });
 
       // Bizalom & Hajlandóság slide
       slide = pres.addSlide();
       slide.addText('Bizalom & Hajlandóság', {
         x: 0.5,
-        y: 0.5,
+        y: 0.3,
         fontSize: 32,
         bold: true,
         color: '3572ef'
       });
-      slide.addText('Alkalmazottak bizalmi szintjének elemzése', {
-        x: 0.5,
+
+      // Trust index for users
+      const trustScores = usedBranch
+        .map(r => r.responses?.trust_score)
+        .filter(score => score !== undefined && score !== null);
+      const avgTrust = trustScores.length > 0 
+        ? (trustScores.reduce((a, b) => a + b, 0) / trustScores.length).toFixed(1)
+        : 'N/A';
+
+      slide.addText(`${avgTrust}/10`, {
+        x: 1.5,
         y: 1.5,
-        fontSize: 16
+        w: 3,
+        h: 1.2,
+        fontSize: 48,
+        bold: true,
+        color: '3572ef',
+        align: 'center'
       });
+      slide.addText('Átlagos bizalmi index\n(használók)', {
+        x: 1.5,
+        y: 2.8,
+        w: 3,
+        fontSize: 16,
+        align: 'center'
+      });
+
+      // Willingness data
+      const willingnessData = {};
+      notUsedBranch.forEach(r => {
+        const willingness = r.responses?.willingness_to_use || 'Nincs adat';
+        willingnessData[willingness] = (willingnessData[willingness] || 0) + 1;
+      });
+
+      const willingnessChartData = Object.entries(willingnessData).map(([name, value]) => ({
+        name,
+        value: value as number
+      }));
+
+      if (willingnessChartData.length > 0) {
+        slide.addChart(pres.ChartType.pie, willingnessChartData, {
+          x: 5.5,
+          y: 1.2,
+          w: 4,
+          h: 3.5,
+          showLegend: true,
+          showTitle: true,
+          title: 'Használati hajlandóság (nem használók)',
+          chartColors: ['22c55e', 'f59e0b', 'ef4444']
+        });
+      }
 
       // Használat slide
       slide = pres.addSlide();
       slide.addText('Használat', {
         x: 0.5,
-        y: 0.5,
+        y: 0.3,
         fontSize: 32,
         bold: true,
         color: '3572ef'
       });
-      slide.addText('EAP program használati statisztikák', {
-        x: 0.5,
-        y: 1.5,
-        fontSize: 16
+
+      // Usage frequency
+      const frequencyData = {};
+      usedBranch.forEach(r => {
+        const freq = r.responses?.usage_frequency || 'Nincs adat';
+        frequencyData[freq] = (frequencyData[freq] || 0) + 1;
       });
+
+      const frequencyChartData = Object.entries(frequencyData).map(([name, value]) => ({
+        name,
+        value: value as number
+      }));
+
+      if (frequencyChartData.length > 0) {
+        slide.addChart(pres.ChartType.bar, frequencyChartData, {
+          x: 0.5,
+          y: 1.2,
+          w: 4.5,
+          h: 3.5,
+          showLegend: false,
+          showTitle: true,
+          title: 'Használati gyakoriság',
+          barDir: 'bar',
+          chartColors: ['3572ef']
+        });
+      }
+
+      // Topics used
+      const topicsData = {};
+      usedBranch.forEach(r => {
+        const topics = r.responses?.topics_used;
+        if (Array.isArray(topics)) {
+          topics.forEach(topic => {
+            topicsData[topic] = (topicsData[topic] || 0) + 1;
+          });
+        }
+      });
+
+      const topicsChartData = Object.entries(topicsData)
+        .sort(([, a], [, b]) => (b as number) - (a as number))
+        .slice(0, 5)
+        .map(([name, value]) => ({ name, value: value as number }));
+
+      if (topicsChartData.length > 0) {
+        slide.addChart(pres.ChartType.bar, topicsChartData, {
+          x: 5.5,
+          y: 1.2,
+          w: 4.5,
+          h: 3.5,
+          showLegend: false,
+          showTitle: true,
+          title: 'Top 5 használt témakör',
+          barDir: 'bar',
+          chartColors: ['22c55e']
+        });
+      }
 
       // Hatás slide
       slide = pres.addSlide();
       slide.addText('Hatás', {
         x: 0.5,
-        y: 0.5,
+        y: 0.3,
         fontSize: 32,
         bold: true,
         color: '3572ef'
       });
-      slide.addText('Program hatásának mérése', {
-        x: 0.5,
+
+      // NPS calculation
+      const npsScores = usedBranch
+        .map(r => r.responses?.nps)
+        .filter(score => score !== undefined && score !== null);
+      
+      const promoters = npsScores.filter(score => score >= 9).length;
+      const detractors = npsScores.filter(score => score <= 6).length;
+      const nps = npsScores.length > 0 
+        ? (((promoters - detractors) / npsScores.length) * 100).toFixed(0)
+        : 'N/A';
+
+      slide.addText(`${nps}`, {
+        x: 1.5,
         y: 1.5,
-        fontSize: 16
+        w: 3,
+        h: 1.2,
+        fontSize: 56,
+        bold: true,
+        color: parseInt(nps) >= 0 ? '22c55e' : 'ef4444',
+        align: 'center'
       });
+      slide.addText('Net Promoter Score', {
+        x: 1.5,
+        y: 2.8,
+        w: 3,
+        fontSize: 16,
+        align: 'center'
+      });
+
+      // Impact metrics
+      const performanceData = {};
+      usedBranch.forEach(r => {
+        const impact = r.responses?.performance_impact || 'Nincs adat';
+        performanceData[impact] = (performanceData[impact] || 0) + 1;
+      });
+
+      const performanceChartData = Object.entries(performanceData).map(([name, value]) => ({
+        name,
+        value: value as number
+      }));
+
+      if (performanceChartData.length > 0) {
+        slide.addChart(pres.ChartType.pie, performanceChartData, {
+          x: 5.5,
+          y: 1.2,
+          w: 4,
+          h: 3.5,
+          showLegend: true,
+          showTitle: true,
+          title: 'Teljesítményre gyakorolt hatás',
+          chartColors: ['22c55e', 'f59e0b', 'ef4444']
+        });
+      }
 
       // Motiváció slide
       slide = pres.addSlide();
       slide.addText('Motiváció', {
         x: 0.5,
-        y: 0.5,
+        y: 0.3,
         fontSize: 32,
         bold: true,
         color: '3572ef'
       });
-      slide.addText('Használati motivációk elemzése', {
-        x: 0.5,
-        y: 1.5,
-        fontSize: 16
+
+      // Motivators for non-users
+      const motivatorsData = {};
+      notUsedBranch.forEach(r => {
+        const motivators = r.responses?.motivators;
+        if (Array.isArray(motivators)) {
+          motivators.forEach(mot => {
+            motivatorsData[mot] = (motivatorsData[mot] || 0) + 1;
+          });
+        }
       });
+
+      const motivatorsChartData = Object.entries(motivatorsData)
+        .sort(([, a], [, b]) => (b as number) - (a as number))
+        .slice(0, 5)
+        .map(([name, value]) => ({ name, value: value as number }));
+
+      if (motivatorsChartData.length > 0) {
+        slide.addChart(pres.ChartType.bar, motivatorsChartData, {
+          x: 0.5,
+          y: 1.2,
+          w: 9,
+          h: 3.5,
+          showLegend: false,
+          showTitle: true,
+          title: 'Top 5 motiváló tényező (nem használók)',
+          barDir: 'bar',
+          chartColors: ['f59e0b']
+        });
+      } else {
+        slide.addText('Nincs elegendő adat a motivációs elemzéshez', {
+          x: 2,
+          y: 2.5,
+          w: 6,
+          fontSize: 18,
+          align: 'center',
+          color: '666666'
+        });
+      }
 
       // Demográfia slide
       slide = pres.addSlide();
       slide.addText('Demográfia', {
         x: 0.5,
-        y: 0.5,
+        y: 0.3,
         fontSize: 32,
         bold: true,
         color: '3572ef'
       });
-      slide.addText('Válaszadók demográfiai megoszlása', {
+
+      // Gender distribution
+      const genderData = {};
+      responses.forEach(r => {
+        const gender = r.responses?.gender || 'Nincs adat';
+        genderData[gender] = (genderData[gender] || 0) + 1;
+      });
+
+      const genderChartData = Object.entries(genderData).map(([name, value]) => ({
+        name,
+        value: value as number
+      }));
+
+      slide.addChart(pres.ChartType.pie, genderChartData, {
         x: 0.5,
-        y: 1.5,
-        fontSize: 16
+        y: 1.2,
+        w: 4.5,
+        h: 3.5,
+        showLegend: true,
+        showTitle: true,
+        title: 'Nem szerinti megoszlás',
+        chartColors: ['3572ef', 'ec4899', '8b5cf6']
+      });
+
+      // Age distribution
+      const ageData = {};
+      responses.forEach(r => {
+        const age = r.responses?.age || 'Nincs adat';
+        ageData[age] = (ageData[age] || 0) + 1;
+      });
+
+      const ageChartData = Object.entries(ageData).map(([name, value]) => ({
+        name,
+        value: value as number
+      }));
+
+      slide.addChart(pres.ChartType.bar, ageChartData, {
+        x: 5.5,
+        y: 1.2,
+        w: 4.5,
+        h: 3.5,
+        showLegend: false,
+        showTitle: true,
+        title: 'Korosztály szerinti megoszlás',
+        barDir: 'bar',
+        chartColors: ['22c55e']
       });
 
       // Save presentation
