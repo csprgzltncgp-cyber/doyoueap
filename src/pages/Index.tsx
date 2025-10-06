@@ -281,7 +281,7 @@ const Index = () => {
         {user && role === 'hr' && section === 'eap-pulse' && (
           <div className="border-t bg-muted/20">
             <div className="max-w-7xl mx-auto px-4 py-2">
-              <nav className="flex gap-6 justify-center">
+              <nav className="flex gap-6">
                 <button
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
@@ -321,7 +321,7 @@ const Index = () => {
         {user && role === 'hr' && section === 'reports' && (
           <div className="border-t bg-muted/20">
             <div className="max-w-7xl mx-auto px-4 py-2">
-              <nav className="flex gap-6 justify-center">
+              <nav className="flex gap-6">
                 <button
                   onClick={() => setSearchParams({ section: 'reports', sub: 'overview' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
