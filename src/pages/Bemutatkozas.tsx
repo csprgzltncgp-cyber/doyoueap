@@ -26,43 +26,43 @@ const Bemutatkozas = () => {
     <div className="min-h-screen bg-background">
       {/* Header with Navigation */}
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
-          <div className="flex items-center gap-8">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center relative">
+          <div className="flex items-center">
             <img 
               src={logo} 
               alt="EAP Pulse" 
               className="h-8 cursor-pointer" 
               onClick={() => navigate('/')}
             />
-            <nav className="hidden md:flex gap-6 items-center">
-              <button
-                onClick={() => navigate('/bemutatkozas')}
-                className="text-sm bg-white border border-black font-semibold transition-colors px-3 py-2 rounded-sm"
-              >
-                EAP Pulse
-              </button>
-              <button
-                onClick={() => navigate('/arak')}
-                className="text-sm border border-transparent transition-colors px-3 py-2 rounded-sm hover:bg-muted"
-              >
-                Árak és Csomagok
-              </button>
-              <button
-                onClick={() => navigate('/magazin')}
-                className="text-sm border border-transparent transition-colors px-3 py-2 rounded-sm hover:bg-muted"
-              >
-                The Journalist!
-              </button>
-              {user && role === 'hr' && (
-                <button
-                  onClick={() => navigate('/?section=eap-pulse&sub=create-audit')}
-                  className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
-                >
-                  Dashboard
-                </button>
-              )}
-            </nav>
           </div>
+          <nav className="hidden md:flex gap-6 items-center absolute left-1/2 -translate-x-1/2">
+            <button
+              onClick={() => navigate('/bemutatkozas')}
+              className="text-sm bg-white border border-black font-semibold transition-colors px-3 py-2 rounded-sm"
+            >
+              EAP Pulse
+            </button>
+            <button
+              onClick={() => navigate('/arak')}
+              className="text-sm border border-transparent transition-colors px-3 py-2 rounded-sm hover:bg-muted"
+            >
+              Árak és Csomagok
+            </button>
+            <button
+              onClick={() => navigate('/magazin')}
+              className="text-sm border border-transparent transition-colors px-3 py-2 rounded-sm hover:bg-muted"
+            >
+              The Journalist!
+            </button>
+            {user && role === 'hr' && (
+              <button
+                onClick={() => navigate('/?section=eap-pulse&sub=create-audit')}
+                className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
+              >
+                Dashboard
+              </button>
+            )}
+          </nav>
           <div className="flex items-center gap-4">
             {!loading && (
               user ? (
