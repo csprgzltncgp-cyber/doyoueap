@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Calendar, Clock, User, Share2 } from 'lucide-react';
@@ -22,6 +23,11 @@ const MagazinArticle = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const { user, role, loading, signOut } = useAuth();
+
+  // Scroll to top when article loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
 
   // Article database with full content
   const articles: Record<string, any> = {
