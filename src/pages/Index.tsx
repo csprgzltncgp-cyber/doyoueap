@@ -528,9 +528,22 @@ const Index = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
-                  Az EAP Pulse a 4Score módszertant használja, amely négy fő pillér mentén méri az EAP program hatékonyságát:
+                  Az EAP Pulse a munkavállalói jóllét barométere.
                 </p>
-                <div className="space-y-3">
+                <p className="text-muted-foreground">
+                  Egy digitális mérőeszköz, amely lehetővé teszi, hogy a HR és az EAP-szolgáltató rendszeresen, gyorsan és anonim módon visszajelzést kapjon a dolgozóktól az EAP-program működéséről.
+                </p>
+                <p className="text-muted-foreground">
+                  A Pulse lényege a rövid, ismétlődő felmérés: néhány kérdés, ami segít megérteni, hogyan érzékelik a munkavállalók a programot, mennyire bíznak benne, és mennyire érzik hasznosnak. Az eredmények automatikusan frissülnek a dashboardon, így valós időben követhetők a trendek és a változások.
+                </p>
+                <p className="text-muted-foreground">
+                  A cél nem egyszeri audit, hanem folyamatos párbeszéd a dolgozókkal – adatvezérelt, mégis emberi módon. A Pulse támogatja az EAP-szolgáltató és a HR-csapat közös munkáját: segít kimutatni a program hatását, megerősíteni a bizalmat, és időben észrevenni, ha valahol csökken a bevonódás.
+                </p>
+                <p className="text-muted-foreground">
+                  Röviden: az EAP Pulse az EAP-program pulzusa – élő, dinamikus, mérhető.
+                </p>
+                <div className="space-y-3 pt-4 border-t">
+                  <h4 className="font-semibold text-foreground mb-3">A 4Score módszertan négy pillére:</h4>
                   <div className="flex items-start gap-3">
                     <Award className="h-5 w-5 text-primary mt-1" />
                     <div>
