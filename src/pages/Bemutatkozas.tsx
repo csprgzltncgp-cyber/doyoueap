@@ -68,9 +68,10 @@ const Bemutatkozas = () => {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-12">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
+      <main className="bg-gradient-to-b from-muted/50 to-background">
+        <div className="max-w-7xl mx-auto px-4 py-12">
+          {/* Hero Section */}
+          <div className="text-center mb-16">
           <h1 className="text-4xl font-bold mb-4">
             Tedd láthatóvá az EAP-programod valódi értékét – valós idejű pulzusméréssel
           </h1>
@@ -88,7 +89,7 @@ const Bemutatkozas = () => {
               Tudjon meg többet
             </Button>
           </div>
-        </div>
+          </div>
 
         {/* Section 1: EAP Pulse Introduction */}
         <div className="grid md:grid-cols-2 gap-8 mb-16" id="learn-more">
@@ -308,6 +309,7 @@ const Bemutatkozas = () => {
             </div>
           </CardContent>
         </Card>
+        </div>
       </main>
     </div>
   );
