@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Clock, User, TrendingUp, Calendar, ChevronRight } from 'lucide-react';
-import logo from '@/assets/doyoueap-logo.png';
+import logo from '@/assets/logo.png';
 import journalistLogo from '@/assets/thejournalist_logo.png';
 import journalistBg from '@/assets/journalist-bg.jpg';
 import mythsArticleImg from '@/assets/myths-article.jpg';

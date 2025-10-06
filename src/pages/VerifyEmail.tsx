@@ -78,7 +78,7 @@ const VerifyEmail = () => {
       <Card className="w-full max-w-md">
         <CardHeader>
           <div className="flex items-center gap-2 mb-4">
-            <img src="/src/assets/doyoueap-logo.png" alt="doyoueap" className="h-8" />
+            <img src="/src/assets/logo.png" alt="doyoueap" className="h-8" />
           </div>
           <CardTitle>
             {status === 'success' && '✓ Sikeres megerősítés'}

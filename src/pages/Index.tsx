@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ArrowRight, CheckCircle, TrendingUp, Users, FileText, Award, BarChart3, Settings as SettingsIcon, Download, FileEdit, PlayCircle, ClipboardList, Eye, Shield, Activity, Target, Heart, UsersRound, LineChart, GitCompare } from 'lucide-react';
 import { RegistrationWizard } from '@/components/registration/RegistrationWizard';
-import logo from '@/assets/doyoueap-logo.png';
+import logo from '@/assets/logo.png';
 import HRDashboard from './HRDashboard';
 import EAPAudit from './hr/EAPAudit';
 import Reports from './hr/Reports';

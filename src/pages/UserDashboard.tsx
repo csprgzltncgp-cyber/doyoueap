@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { QuestionRenderer } from '@/components/survey/QuestionRenderer';
 import { Progress } from '@/components/ui/progress';
 import { Globe } from 'lucide-react';
-import logo from '@/assets/doyoueap-logo.png';
+import logo from '@/assets/logo.png';
 
 interface Questionnaire {
   title: string;

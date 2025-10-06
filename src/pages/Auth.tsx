@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { RegistrationWizard } from '@/components/registration/RegistrationWizard';
-import logo from '@/assets/doyoueap-logo.png';
+import logo from '@/assets/logo.png';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
