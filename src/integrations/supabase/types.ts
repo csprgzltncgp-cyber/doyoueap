@@ -362,6 +362,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      same_company_as_user: {
+        Args: { _profile_id: string; _user_id: string }
+        Returns: boolean
+      }
       user_owns_audit: {
         Args: { _audit_id: string; _user_id: string }
         Returns: boolean
