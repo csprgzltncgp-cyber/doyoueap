@@ -536,7 +536,7 @@ const Index = () => {
             <Card id="pulse" className="md:row-span-2">
               <CardHeader>
                 <div className="text-sm font-medium mb-2" style={{ color: 'rgb(115, 115, 115)' }}>Kiemelt</div>
-                <CardTitle className="text-3xl bg-gradient-to-r from-[#ffe20d] via-[#11dca4] to-[#11dca4] bg-clip-text text-transparent">Mi az EAP Pulse?</CardTitle>
+                <CardTitle className="text-3xl">Mi az EAP Pulse?</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
