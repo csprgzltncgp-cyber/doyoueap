@@ -889,7 +889,7 @@ const Index = () => {
                     <p className="font-medium">Dedikált technikai támogatás</p>
                   </div>
                 </div>
-                <Button className="w-full" variant="cta">
+                <Button className="w-full" variant="cta" style={{ backgroundColor: '#050c9c' }}>
                   Kérj egyedi ajánlatot
                 </Button>
               </CardContent>
