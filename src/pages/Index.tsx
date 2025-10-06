@@ -542,37 +542,6 @@ const Index = () => {
                 <p className="text-muted-foreground">
                   Röviden: az EAP Pulse az EAP-program pulzusa – élő, dinamikus, mérhető.
                 </p>
-                <div className="space-y-3 pt-4 border-t">
-                  <h4 className="font-semibold text-foreground mb-3">A 4Score módszertan négy pillére:</h4>
-                  <div className="flex items-start gap-3">
-                    <Award className="h-5 w-5 text-primary mt-1" />
-                    <div>
-                      <h4 className="font-medium">Ismertség</h4>
-                      <p className="text-sm text-muted-foreground">Mennyire ismerik a dolgozók a programot?</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-primary mt-1" />
-                    <div>
-                      <h4 className="font-medium">Bizalom</h4>
-                      <p className="text-sm text-muted-foreground">Megbíznak-e a dolgozók a szolgáltatásban?</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Users className="h-5 w-5 text-primary mt-1" />
-                    <div>
-                      <h4 className="font-medium">Használat</h4>
-                      <p className="text-sm text-muted-foreground">Hányan veszik igénybe a szolgáltatást?</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <TrendingUp className="h-5 w-5 text-primary mt-1" />
-                    <div>
-                      <h4 className="font-medium">Hatás</h4>
-                      <p className="text-sm text-muted-foreground">Milyen eredményeket hoz a program?</p>
-                    </div>
-                  </div>
-                </div>
                 <Button variant="outline" className="w-full mt-4">
                   Részletek <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
