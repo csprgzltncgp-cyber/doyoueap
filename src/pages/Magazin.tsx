@@ -10,6 +10,7 @@ import journalistBg from '@/assets/journalist-bg.jpg';
 import mythsArticleImg from '@/assets/myths-article.jpg';
 import scoreArticleImg from '@/assets/4score-article.jpg';
 import futureArticleImg from '@/assets/future-article.jpg';
+import climateArticleImg from '@/assets/climate-article.jpg';
 import { useAuth } from '@/hooks/useAuth';
 import { 
   Carousel, 
@@ -61,7 +62,8 @@ const Magazin = () => {
       author: "doyoueap",
       date: "2025. január 8.",
       readTime: "6 perc",
-      category: "Kultúra"
+      category: "Kultúra",
+      image: climateArticleImg
     },
     {
       title: "Digitális wellbeing platformok és az EAP – kiegészítés vagy verseny?",
@@ -312,9 +314,17 @@ const Magazin = () => {
                 {articles.map((article, index) => (
                   <div key={index} className="grid md:grid-cols-[200px_1fr] gap-4">
                     <Card className="hover:shadow-lg transition-all hover:scale-[1.02] cursor-pointer overflow-hidden">
-                      <div className="h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                        <div className="text-4xl font-bold text-primary/30">{index + 1}</div>
-                      </div>
+                      {article.image ? (
+                        <img 
+                          src={article.image} 
+                          alt={article.title}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                          <div className="text-4xl font-bold text-primary/30">{index + 1}</div>
+                        </div>
+                      )}
                     </Card>
                     <Card className="hover:shadow-lg transition-all hover:scale-[1.02] cursor-pointer group">
                       <CardHeader>
