@@ -13,6 +13,7 @@ import futureArticleImg from '@/assets/future-article.jpg';
 import climateArticleImg from '@/assets/climate-article.jpg';
 import digitalWellbeingArticleImg from '@/assets/digital-wellbeing-article.jpg';
 import globalArticleImg from '@/assets/global-article.jpg';
+import leadershipArticleImg from '@/assets/leadership-article.jpg';
 import { useAuth } from '@/hooks/useAuth';
 import { 
   Carousel, 
@@ -91,7 +92,8 @@ const Magazin = () => {
       author: "doyoueap",
       date: "2025. január 3.",
       readTime: "6 perc",
-      category: "Vezetés"
+      category: "Vezetés",
+      image: leadershipArticleImg
     },
     {
       title: "A stigma lebontása és a kommunikáció szerepe",
