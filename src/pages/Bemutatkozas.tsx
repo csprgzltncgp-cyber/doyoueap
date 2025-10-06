@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, TrendingUp, Users, Award, Eye, Shield, Activity, Target } from 'lucide-react';
 import logo from '@/assets/logo.png';
-import eapPulseTeam from '@/assets/eap-pulse-team.jpg';
+import eapPulseAnalytics from '@/assets/eap-pulse-analytics.jpg';
 import { useAuth } from '@/hooks/useAuth';
 
 const Bemutatkozas = () => {
@@ -110,8 +110,8 @@ const Bemutatkozas = () => {
           </Card>
           <div className="rounded-lg overflow-hidden h-full">
             <img 
-              src={eapPulseTeam} 
-              alt="EAP Pulse csapat értekezlet" 
+              src={eapPulseAnalytics} 
+              alt="EAP Pulse analitika és adatelemzés" 
               className="w-full h-full object-cover"
             />
           </div>
