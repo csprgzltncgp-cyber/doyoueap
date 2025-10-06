@@ -753,7 +753,7 @@ const MagazinArticle = () => {
               <img 
                 src={article.image} 
                 alt={article.title}
-                className="w-full rounded-lg shadow-lg"
+                className="w-full rounded-lg shadow-lg max-h-[400px] object-cover"
               />
             </div>
           )}
