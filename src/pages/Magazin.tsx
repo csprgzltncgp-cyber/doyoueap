@@ -149,7 +149,7 @@ const Magazin = () => {
                 onClick={() => navigate('/magazin')}
                 className="text-sm bg-primary text-primary-foreground font-semibold transition-colors px-3 py-2 rounded"
               >
-                The Journalist
+                The Journalist!
               </button>
               <button
                 onClick={() => navigate('/bemutatkozas')}
@@ -195,7 +195,7 @@ const Magazin = () => {
           {/* Three column layout: Date - Logo - Text */}
           <div className="flex items-center justify-between gap-8">
             {/* Left: Date and Issue */}
-            <div className="flex flex-col items-start text-sm text-muted-foreground">
+            <div className="flex flex-col items-start text-sm text-black">
               <span className="font-semibold">2025. JANUÁR</span>
               <span className="text-xs">16. Szám</span>
             </div>
@@ -204,23 +204,23 @@ const Magazin = () => {
             <div className="flex-shrink-0">
               <img 
                 src={journalistLogo} 
-                alt="The Journalist" 
+                alt="The Journalist!" 
                 className="h-24 object-contain"
               />
             </div>
 
             {/* Right: Magazine description */}
             <div className="flex items-end text-right">
-              <span className="text-sm font-medium text-muted-foreground hidden md:inline uppercase tracking-wide">
-                Employee Assistance<br />Program Szakfolyóirat
+              <span className="text-sm font-medium text-black hidden md:inline uppercase tracking-wide">
+                Az EAP világ<br />szakfolyóirat
               </span>
             </div>
           </div>
         </div>
-        {/* Bottom borders - thin then thick */}
+        {/* Bottom borders - thick then thin */}
         <div className="absolute bottom-0 left-0 right-0">
-          <div className="border-b border-black"></div>
-          <div className="border-b-4 border-black mt-1"></div>
+          <div className="border-b-4 border-black"></div>
+          <div className="border-b border-black mt-1"></div>
         </div>
       </section>
 
