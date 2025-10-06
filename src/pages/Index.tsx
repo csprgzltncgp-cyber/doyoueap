@@ -761,36 +761,36 @@ const Index = () => {
               <CardContent className="flex-1 flex flex-col justify-between">
                 <div className="space-y-2 mb-4">
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <CheckCircle className="h-5 w-5 mt-0.5" style={{ color: '#3572ef' }} />
                     <div>
                       <p className="font-medium">Negyedévente felmérés</p>
                       <p className="text-sm text-muted-foreground">Ismétlés funkcióval</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <CheckCircle className="h-5 w-5 mt-0.5" style={{ color: '#3572ef' }} />
                     <div>
                       <p className="font-medium">4Score bővített riportok</p>
                       <p className="text-sm text-muted-foreground">Demográfia, trendek, összehasonlítás</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <CheckCircle className="h-5 w-5 mt-0.5" style={{ color: '#3572ef' }} />
                     <p className="font-medium">PDF + Excel export</p>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <CheckCircle className="h-5 w-5 mt-0.5" style={{ color: '#3572ef' }} />
                     <div>
                       <p className="font-medium">Brandelhető User App</p>
                       <p className="text-sm text-muted-foreground">Logó + 4 szín módosítható</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <CheckCircle className="h-5 w-5 mt-0.5" style={{ color: '#3572ef' }} />
                     <p className="font-medium">Kommunikációs támogatás</p>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <CheckCircle className="h-5 w-5 mt-0.5" style={{ color: '#3572ef' }} />
                     <p className="font-medium">Email + chat support</p>
                   </div>
                 </div>
