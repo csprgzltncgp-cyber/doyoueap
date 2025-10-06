@@ -148,32 +148,67 @@ const Bemutatkozas = () => {
                 <p className="text-lg">
                   A 4Score módszertan egy átfogó értékelési keretrendszer, amely négy alapvető területen méri az EAP program hatékonyságát.
                 </p>
-                <div className="relative grid md:grid-cols-2 gap-6 p-8 -mx-8 bg-gradient-to-br from-[#3abef9]/20 to-[#ff66ff]/20 rounded-lg">
-                  {[
-                    { icon: TrendingUp, title: '1. Tudatosság', description: 'Méri, hogy a munkavállalók mennyire ismerik az EAP programot és szolgáltatásait.' },
-                    { icon: Users, title: '2. Használat', description: 'Értékeli a program tényleges igénybevételét és a szolgáltatások használatának gyakoriságát.' },
-                    { icon: CheckCircle2, title: '3. Bizalom & Hajlandóság', description: 'Vizsgálja a munkavállalók bizalmát a programban és hajlandóságukat a szolgáltatások igénybevételére.' },
-                    { icon: Award, title: '4. Hatás', description: 'Méri a program valós hatását a munkavállalók jólétére és a szervezeti teljesítményre.' }
-                  ].map((item, index) => {
-                    const Icon = item.icon;
-                    return (
-                      <Card key={index} className="bg-background/80 backdrop-blur-sm">
-                        <CardHeader>
-                          <div className="flex items-center gap-3">
-                            <div className="p-2 bg-primary/10 rounded-lg">
-                              <Icon className="h-6 w-6 text-primary" />
-                            </div>
-                            <CardTitle className="text-xl">{item.title}</CardTitle>
-                          </div>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-muted-foreground">
-                            {item.description}
-                          </p>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
+                <div className="grid md:grid-cols-2 gap-6">
+                  <Card className="bg-muted/50">
+                    <CardHeader>
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-primary/10 rounded-lg">
+                          <TrendingUp className="h-6 w-6 text-primary" />
+                        </div>
+                        <CardTitle className="text-xl">1. Tudatosság</CardTitle>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">
+                        Méri, hogy a munkavállalók mennyire ismerik az EAP programot és szolgáltatásait.
+                      </p>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-muted/50">
+                    <CardHeader>
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-primary/10 rounded-lg">
+                          <Users className="h-6 w-6 text-primary" />
+                        </div>
+                        <CardTitle className="text-xl">2. Használat</CardTitle>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">
+                        Értékeli a program tényleges igénybevételét és a szolgáltatások használatának gyakoriságát.
+                      </p>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-muted/50">
+                    <CardHeader>
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-primary/10 rounded-lg">
+                          <CheckCircle2 className="h-6 w-6 text-primary" />
+                        </div>
+                        <CardTitle className="text-xl">3. Bizalom & Hajlandóság</CardTitle>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">
+                        Vizsgálja a munkavállalók bizalmát a programban és hajlandóságukat a szolgáltatások igénybevételére.
+                      </p>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-muted/50">
+                    <CardHeader>
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-primary/10 rounded-lg">
+                          <Award className="h-6 w-6 text-primary" />
+                        </div>
+                        <CardTitle className="text-xl">4. Hatás</CardTitle>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">
+                        Méri a program valós hatását a munkavállalók jólétére és a szervezeti teljesítményre.
+                      </p>
+                    </CardContent>
+                  </Card>
                 </div>
               </CardContent>
             </Card>
