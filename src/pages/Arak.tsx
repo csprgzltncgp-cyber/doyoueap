@@ -133,10 +133,10 @@ const Arak = () => {
               key={index} 
               className={`relative flex flex-col ${pkg.recommended ? 'border-[#3572ef] shadow-lg' : ''}`}
             >
-              {pkg.recommended && (
-                <div className="text-xs font-medium mb-2" style={{ color: '#3572ef' }}>AJÁNLOTT</div>
-              )}
               <CardHeader className="pb-6">
+                {pkg.recommended && (
+                  <div className="text-xs font-medium mb-2" style={{ color: '#3572ef' }}>AJÁNLOTT</div>
+                )}
                 <CardTitle className="text-2xl">{pkg.name}</CardTitle>
                 <CardDescription>{pkg.description}</CardDescription>
                 <div className="mt-4">
