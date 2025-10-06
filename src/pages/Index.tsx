@@ -492,8 +492,8 @@ const Index = () => {
           {/* Hero Section */}
 
       {/* Hero Section */}
-      <section id="home" className="py-20 px-4 bg-gradient-to-b from-muted/50 to-background">
-        <div className="max-w-7xl mx-auto">
+      <section id="home" className="py-20 bg-gradient-to-b from-muted/50 to-background">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <div className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
@@ -524,8 +524,8 @@ const Index = () => {
       </section>
 
       {/* Featured Content - Magazine Style */}
-      <section id="magazin" className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
+      <section id="magazin" className="py-16">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8">
             {/* Left: What is EAP Pulse */}
             <Card id="pulse" className="md:row-span-2">
@@ -590,8 +590,8 @@ const Index = () => {
       </section>
 
       {/* 4Score Section */}
-      <section id="4score" className="py-20 px-4 bg-gradient-to-br from-primary/5 via-background to-primary/10">
-        <div className="max-w-7xl mx-auto">
+      <section id="4score" className="py-20 bg-gradient-to-br from-primary/5 via-background to-primary/10">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <div className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
               4Score Módszertan
@@ -664,8 +664,8 @@ const Index = () => {
       </section>
 
       {/* Assessment Benefits */}
-      <section id="elonyok" className="py-16 px-4 bg-muted/30">
-        <div className="max-w-7xl mx-auto">
+      <section id="elonyok" className="py-16 bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Vállalati előnyök</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -689,8 +689,8 @@ const Index = () => {
       </section>
 
       {/* Pricing Section */}
-      <section id="arak" className="py-16 px-4 bg-muted/30">
-        <div className="max-w-7xl mx-auto">
+      <section id="arak" className="py-16 bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Árak és csomagok</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -895,8 +895,8 @@ const Index = () => {
 
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-primary text-primary-foreground">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="py-20 bg-primary text-primary-foreground">
+        <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-4">
             Indítsa el most az első EAP Pulse felmérést
           </h2>
@@ -910,8 +910,8 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 border-t">
-        <div className="max-w-7xl mx-auto">
+      <footer className="py-12 border-t">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <h3 className="font-bold mb-4">doyoueap</h3>
