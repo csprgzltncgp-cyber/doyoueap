@@ -96,14 +96,7 @@ const Bemutatkozas = () => {
 
         {/* Content based on active tab */}
         {activeTab === 'eap-pulse' && (
-          <div className="space-y-8">
-            <div className="rounded-lg overflow-hidden">
-              <img 
-                src={eapPulseTeam} 
-                alt="EAP Pulse csapat értekezlet" 
-                className="w-full h-96 object-cover"
-              />
-            </div>
+          <div className="grid md:grid-cols-2 gap-8">
             <Card>
               <CardHeader>
                 <CardTitle className="text-3xl text-foreground animate-pulse-glow">Bemutatkozik az EAP Pulse!</CardTitle>
@@ -140,18 +133,18 @@ const Bemutatkozas = () => {
                 </div>
               </CardContent>
             </Card>
+            <div className="rounded-lg overflow-hidden h-full">
+              <img 
+                src={eapPulseTeam} 
+                alt="EAP Pulse csapat értekezlet" 
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         )}
 
         {activeTab === '4score' && (
-          <div className="space-y-8">
-            <div className="rounded-lg overflow-hidden">
-              <img 
-                src={eapPulseTeam} 
-                alt="EAP Pulse csapat értekezlet" 
-                className="w-full h-96 object-cover"
-              />
-            </div>
+          <div className="grid md:grid-cols-2 gap-8">
             <Card>
               <CardHeader>
                 <CardTitle className="text-3xl">4Score módszertan</CardTitle>
@@ -163,82 +156,82 @@ const Bemutatkozas = () => {
                 <p className="text-lg">
                   A 4Score módszertan egy átfogó értékelési keretrendszer, amely négy alapvető területen méri az EAP program hatékonyságát.
                 </p>
-                <div className="grid md:grid-cols-2 gap-6 bg-gradient-to-br from-[#3abef9]/30 to-[#ff66ff]/30 p-6 rounded-lg">
+                <div className="grid grid-cols-2 gap-4 bg-gradient-to-br from-[#3abef9]/30 to-[#ff66ff]/30 p-4 rounded-lg">
                   <Card className="bg-background/80 backdrop-blur-sm">
-                    <CardHeader>
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-primary/10 rounded-lg">
-                          <TrendingUp className="h-6 w-6 text-primary" />
+                    <CardHeader className="p-4">
+                      <div className="flex items-center gap-2">
+                        <div className="p-1.5 bg-primary/10 rounded-lg">
+                          <TrendingUp className="h-5 w-5 text-primary" />
                         </div>
-                        <CardTitle className="text-xl">1. Tudatosság</CardTitle>
+                        <CardTitle className="text-base">1. Tudatosság</CardTitle>
                       </div>
                     </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground">
-                        Méri, hogy a munkavállalók mennyire ismerik az EAP programot és szolgáltatásait.
+                    <CardContent className="p-4 pt-0">
+                      <p className="text-xs text-muted-foreground">
+                        Méri, hogy a munkavállalók mennyire ismerik az EAP programot.
                       </p>
                     </CardContent>
                   </Card>
                   <Card className="bg-background/80 backdrop-blur-sm">
-                    <CardHeader>
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-primary/10 rounded-lg">
-                          <Users className="h-6 w-6 text-primary" />
+                    <CardHeader className="p-4">
+                      <div className="flex items-center gap-2">
+                        <div className="p-1.5 bg-primary/10 rounded-lg">
+                          <Users className="h-5 w-5 text-primary" />
                         </div>
-                        <CardTitle className="text-xl">2. Használat</CardTitle>
+                        <CardTitle className="text-base">2. Használat</CardTitle>
                       </div>
                     </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground">
-                        Értékeli a program tényleges igénybevételét és a szolgáltatások használatának gyakoriságát.
+                    <CardContent className="p-4 pt-0">
+                      <p className="text-xs text-muted-foreground">
+                        Értékeli a program tényleges igénybevételét.
                       </p>
                     </CardContent>
                   </Card>
                   <Card className="bg-background/80 backdrop-blur-sm">
-                    <CardHeader>
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-primary/10 rounded-lg">
-                          <CheckCircle2 className="h-6 w-6 text-primary" />
+                    <CardHeader className="p-4">
+                      <div className="flex items-center gap-2">
+                        <div className="p-1.5 bg-primary/10 rounded-lg">
+                          <CheckCircle2 className="h-5 w-5 text-primary" />
                         </div>
-                        <CardTitle className="text-xl">3. Bizalom & Hajlandóság</CardTitle>
+                        <CardTitle className="text-base">3. Bizalom</CardTitle>
                       </div>
                     </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground">
-                        Vizsgálja a munkavállalók bizalmát a programban és hajlandóságukat a szolgáltatások igénybevételére.
+                    <CardContent className="p-4 pt-0">
+                      <p className="text-xs text-muted-foreground">
+                        Vizsgálja a munkavállalók bizalmát a programban.
                       </p>
                     </CardContent>
                   </Card>
                   <Card className="bg-background/80 backdrop-blur-sm">
-                    <CardHeader>
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-primary/10 rounded-lg">
-                          <Award className="h-6 w-6 text-primary" />
+                    <CardHeader className="p-4">
+                      <div className="flex items-center gap-2">
+                        <div className="p-1.5 bg-primary/10 rounded-lg">
+                          <Award className="h-5 w-5 text-primary" />
                         </div>
-                        <CardTitle className="text-xl">4. Hatás</CardTitle>
+                        <CardTitle className="text-base">4. Hatás</CardTitle>
                       </div>
                     </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground">
-                        Méri a program valós hatását a munkavállalók jólétére és a szervezeti teljesítményre.
+                    <CardContent className="p-4 pt-0">
+                      <p className="text-xs text-muted-foreground">
+                        Méri a program valós hatását a jólétre.
                       </p>
                     </CardContent>
                   </Card>
                 </div>
               </CardContent>
             </Card>
+            <div className="rounded-lg overflow-hidden h-full">
+              <img 
+                src={eapPulseTeam} 
+                alt="EAP Pulse csapat értekezlet" 
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         )}
 
         {activeTab === 'vallalati' && (
-          <div className="space-y-8">
-            <div className="rounded-lg overflow-hidden">
-              <img 
-                src={eapPulseTeam} 
-                alt="EAP Pulse csapat értekezlet" 
-                className="w-full h-96 object-cover"
-              />
-            </div>
+          <div className="grid md:grid-cols-2 gap-8">
             <Card>
               <CardHeader>
                 <CardTitle className="text-3xl">Vállalati előnyök</CardTitle>
@@ -247,7 +240,7 @@ const Bemutatkozas = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid gap-6">
                   <div className="space-y-4">
                     <h3 className="text-xl font-semibold">ROI növelés</h3>
                     <p className="text-muted-foreground">
@@ -275,18 +268,18 @@ const Bemutatkozas = () => {
                 </div>
               </CardContent>
             </Card>
+            <div className="rounded-lg overflow-hidden h-full">
+              <img 
+                src={eapPulseTeam} 
+                alt="EAP Pulse csapat értekezlet" 
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         )}
 
         {activeTab === 'eap-szolgaltatok' && (
-          <div className="space-y-8">
-            <div className="rounded-lg overflow-hidden">
-              <img 
-                src={eapPulseTeam} 
-                alt="EAP Pulse csapat értekezlet" 
-                className="w-full h-96 object-cover"
-              />
-            </div>
+          <div className="grid md:grid-cols-2 gap-8">
             <Card>
               <CardHeader>
                 <CardTitle className="text-3xl">Ajánlat EAP szolgáltatók számára</CardTitle>
@@ -337,6 +330,13 @@ const Bemutatkozas = () => {
                 </div>
               </CardContent>
             </Card>
+            <div className="rounded-lg overflow-hidden h-full">
+              <img 
+                src={eapPulseTeam} 
+                alt="EAP Pulse csapat értekezlet" 
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         )}
       </main>
