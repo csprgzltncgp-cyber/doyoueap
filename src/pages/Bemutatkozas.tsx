@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, TrendingUp, Users, Award, Eye, Shield, Activity, Target } from 'lucide-react';
+import { CheckCircle, TrendingUp, Users, FileText, Eye, Shield, Activity, Target } from 'lucide-react';
 import logo from '@/assets/logo.png';
 import eapPulseAnalytics from '@/assets/eap-pulse-analytics.jpg';
 import { useAuth } from '@/hooks/useAuth';
@@ -194,50 +194,42 @@ const Bemutatkozas = () => {
           <div className="grid md:grid-cols-4 gap-6">
           <Card className="text-center">
             <CardHeader>
-              <CheckCircle2 className="h-12 w-12 mx-auto text-primary mb-2" />
+              <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <CheckCircle className="h-6 w-6 text-primary" />
+              </div>
               <CardTitle className="text-lg">Hiteles visszajelzés</CardTitle>
+              <CardDescription>Anonim, összesített, torzítatlan nézőpont a dolgozóktól – rendszeresen, összehasonlíthatóan.</CardDescription>
             </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Anonim, összesített, torzítatlan nézőpont a dolgozóktól – rendszeresen, összehasonlíthatóan.
-              </p>
-            </CardContent>
           </Card>
 
           <Card className="text-center">
             <CardHeader>
-              <TrendingUp className="h-12 w-12 mx-auto text-primary mb-2" />
-              <CardTitle className="text-lg">Jobb döntések</CardTitle>
+              <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <TrendingUp className="h-6 w-6 text-primary" />
+              </div>
+              <CardTitle className="text-lg">Költséghatékonyság</CardTitle>
+              <CardDescription>A befektetés valódi értéket teremt</CardDescription>
             </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                4Score riportokkal gyorsan azonosíthatók a fejlesztési pontok és a működő gyakorlatok.
-              </p>
-            </CardContent>
           </Card>
 
           <Card className="text-center">
             <CardHeader>
-              <Award className="h-12 w-12 mx-auto text-primary mb-2" />
-              <CardTitle className="text-lg">Menedzsment-riport egy kattintásra</CardTitle>
+              <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <Users className="h-6 w-6 text-primary" />
+              </div>
+              <CardTitle className="text-lg">Fejlesztési irányok</CardTitle>
+              <CardDescription>Konkrét fejlesztési pontok azonosítása</CardDescription>
             </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Kész vizualizációk és exportok a vezetői prezentációkhoz.
-              </p>
-            </CardContent>
           </Card>
 
           <Card className="text-center">
             <CardHeader>
-              <Users className="h-12 w-12 mx-auto text-primary mb-2" />
-              <CardTitle className="text-lg">Szolgáltató-barát megoldás</CardTitle>
+              <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <FileText className="h-6 w-6 text-primary" />
+              </div>
+              <CardTitle className="text-lg">Stratégiai HR-eszköz</CardTitle>
+              <CardDescription>Adatalapú döntéshozatal támogatása</CardDescription>
             </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Az EAP-partnerrel együttműködve működik; API-val és white-label opcióval is bővíthető.
-              </p>
-            </CardContent>
           </Card>
           </div>
         </div>
