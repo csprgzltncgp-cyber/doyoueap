@@ -14,6 +14,7 @@ import climateArticleImg from '@/assets/climate-article.jpg';
 import digitalWellbeingArticleImg from '@/assets/digital-wellbeing-article.jpg';
 import globalArticleImg from '@/assets/global-article.jpg';
 import leadershipArticleImg from '@/assets/leadership-article.jpg';
+import stigmaArticleImg from '@/assets/stigma-article.jpg';
 import { useAuth } from '@/hooks/useAuth';
 import { 
   Carousel, 
@@ -101,7 +102,8 @@ const Magazin = () => {
       author: "doyoueap",
       date: "2025. január 2.",
       readTime: "7 perc",
-      category: "Kommunikáció"
+      category: "Kommunikáció",
+      image: stigmaArticleImg
     },
     {
       title: "Az EAP és a munkavállalói elköteleződés kapcsolata",
