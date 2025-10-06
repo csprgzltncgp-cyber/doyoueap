@@ -148,7 +148,7 @@ const Bemutatkozas = () => {
                 <p className="text-lg">
                   A 4Score módszertan egy átfogó értékelési keretrendszer, amely négy alapvető területen méri az EAP program hatékonyságát.
                 </p>
-                <div className="grid md:grid-cols-2 gap-6 bg-gradient-to-br from-[#3abef9] to-[#ff66ff] p-6 rounded-lg">
+                <div className="grid md:grid-cols-2 gap-6 bg-gradient-to-br from-[#3abef9]/30 to-[#ff66ff]/30 p-6 rounded-lg">
                   <Card className="bg-background/80 backdrop-blur-sm">
                     <CardHeader>
                       <div className="flex items-center gap-3">
