@@ -452,7 +452,7 @@ const Export = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
+        <Card className="flex flex-col">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileText className="h-5 w-5" />
@@ -462,8 +462,8 @@ const Export = () => {
               Komplett jelentés alapstatisztikákkal
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="text-sm space-y-2">
+          <CardContent className="space-y-4 flex-1 flex flex-col">
+            <div className="text-sm space-y-2 flex-1">
               <p><strong>Tartalom:</strong></p>
               <ul className="list-disc list-inside ml-4 space-y-1">
                 <li>Összefoglaló - 8 kártya</li>
@@ -479,6 +479,10 @@ const Export = () => {
               onClick={handleExportPDF} 
               disabled={exporting || !selectedAuditId}
               className="w-full"
+              style={{
+                backgroundColor: '#3572ef',
+                color: 'white'
+              }}
             >
               <Download className="mr-2 h-4 w-4" />
               PDF Letöltése
@@ -486,7 +490,7 @@ const Export = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="flex flex-col">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileSpreadsheet className="h-5 w-5" />
@@ -496,8 +500,8 @@ const Export = () => {
               Strukturált adatok táblázatban
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="text-sm space-y-2">
+          <CardContent className="space-y-4 flex-1 flex flex-col">
+            <div className="text-sm space-y-2 flex-1">
               <p><strong>Tartalom:</strong></p>
               <ul className="list-disc list-inside ml-4 space-y-1">
                 <li>Összefoglaló - Fő mutatók (igénybevétel, elégedettség, részvétel)</li>
@@ -521,7 +525,7 @@ const Export = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="flex flex-col">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Download className="h-5 w-5" />
@@ -531,8 +535,8 @@ const Export = () => {
               Nyers válaszadatok exportálása
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="text-sm space-y-2">
+          <CardContent className="space-y-4 flex-1 flex flex-col">
+            <div className="text-sm space-y-2 flex-1">
               <p><strong>Tartalom:</strong></p>
               <ul className="list-disc list-inside ml-4 space-y-1">
                 <li>Összes válaszadó összes válasza</li>
