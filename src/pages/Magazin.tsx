@@ -123,7 +123,7 @@ const Magazin = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#feeeff' }}>
+    <div className="min-h-screen bg-background">
       {/* Header with Navigation */}
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
@@ -180,7 +180,7 @@ const Magazin = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="py-16 px-4" style={{ backgroundColor: '#feeeff' }}>
+      <section className="bg-gradient-to-br from-primary/10 via-primary/5 to-background py-16 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-4 flex justify-center">
             <img 
@@ -193,7 +193,7 @@ const Magazin = () => {
       </section>
 
       {/* Featured Carousel */}
-      <section className="py-12 px-4" style={{ backgroundColor: '#feeeff' }}>
+      <section className="py-12 px-4 bg-muted/30">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold">Kiemelt Cikkek</h2>
