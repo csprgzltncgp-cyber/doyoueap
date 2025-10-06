@@ -1,0 +1,392 @@
+import { useParams, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { ArrowLeft, Calendar, Clock, User, Share2 } from 'lucide-react';
+import logo from '@/assets/doyoueap-logo.png';
+import { useAuth } from '@/hooks/useAuth';
+
+// Import all article images
+import mythsArticleImg from '@/assets/myths-article.jpg';
+import scoreArticleImg from '@/assets/4score-article.jpg';
+import futureArticleImg from '@/assets/future-article.jpg';
+import climateArticleImg from '@/assets/climate-article.jpg';
+import digitalWellbeingArticleImg from '@/assets/digital-wellbeing-article.jpg';
+import globalArticleImg from '@/assets/global-article.jpg';
+import leadershipArticleImg from '@/assets/leadership-article.jpg';
+import stigmaArticleImg from '@/assets/stigma-article.jpg';
+import engagementArticleImg from '@/assets/engagement-article.jpg';
+import roiArticleImg from '@/assets/roi-article.jpg';
+
+const MagazinArticle = () => {
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const { user, role, loading, signOut } = useAuth();
+
+  // Article database with full content
+  const articles: Record<string, any> = {
+    'mitoszok-es-tevhitek': {
+      title: "Mítoszok és tévhitek: mi nem EAP – és mi az valójában",
+      excerpt: "Az elmúlt években a vállalati jól-lét (wellbeing) fogalma világszerte központi témává vált. Tisztázzuk szakmai érvekkel: mi az EAP, mi az, ami hasznos kiegészítés lehet, és mikor kell különbséget tenni az eltérő megoldások között.",
+      author: "doyoueap",
+      date: "2025. január 15.",
+      readTime: "8 perc",
+      category: "Alapok",
+      image: mythsArticleImg,
+      content: `
+        <p>Az elmúlt években a vállalati jól-lét (wellbeing) fogalma világszerte központi témává vált. A munkahelyi stressz, a mentális egészség támogatása és a work-life balance mind gyakori témák, és számos megoldás jelent meg a piacon, amelyek különböző megközelítéseket kínálnak.</p>
+        
+        <p>Ez önmagában pozitív fejlemény – ám egyre gyakoribb, hogy az Employee Assistance Program (EAP) kifejezést olyan szolgáltatásokra is használják, amelyek valójában nem EAP-ok. Ez a fogalmi zűrzavar félrevezető lehet a HR-vezetők, döntéshozók és munkavállalók számára egyaránt.</p>
+
+        <h2>Mi az EAP valójában?</h2>
+        
+        <p>Az EAP egy strukturált, szakmailag irányított támogatási program, amely:</p>
+        
+        <ul>
+          <li><strong>Bizalmas, rövid távú tanácsadást</strong> nyújt a munkavállalóknak és családtagjaiknak személyes vagy munkahelyi problémákkal kapcsolatban.</li>
+          <li><strong>Szakképzett, engedéllyel rendelkező tanácsadók</strong> (pszichológusok, szociális munkások, terapeuták) végzik, nem pedig AI chatbotok, wellness coachok vagy önfejlesztő applikációk.</li>
+          <li><strong>Célzott, rövid intervenciót</strong> kínál (általában 3-8 ülés), amely krízishelyzetekben, stresszel, szorongással, addikciókkal, családi konfliktusokkal vagy más komplex problémákkal foglalkozik.</li>
+          <li><strong>Teljesen ingyenes a munkavállaló számára</strong>, a munkáltató fizeti.</li>
+          <li><strong>Teljes körű titoktartás mellett</strong> működik – a munkáltató nem kap egyéni felhasználói adatokat, csak aggregált statisztikákat.</li>
+        </ul>
+
+        <h2>Mi NEM EAP?</h2>
+
+        <h3>1. Wellness appok és platformok</h3>
+        <p>Bár a meditációs appok, alvásjavító programok vagy fitnesz-trackerek hasznosak lehetnek, ezek nem EAP-ok. Az EAP valós, emberek közötti interakciót jelent, ahol szakképzett tanácsadók segítenek komoly problémák feldolgozásában.</p>
+
+        <h3>2. AI-alapú chatbotok</h3>
+        <p>Egyes platformok mesterséges intelligenciával működő chatbotokat kínálnak, amelyek „támogató beszélgetéseket" folytatnak. Ez hasznos lehet önismereti célokra, de nem helyettesíti a licenccel rendelkező szakember által nyújtott EAP-szolgáltatást.</p>
+
+        <h3>3. Online önsegítő tartalmak</h3>
+        <p>A videók, podcastek, cikkek és önfejlesztő kurzusok értékes kiegészítők lehetnek, de önmagukban nem jelentenek EAP-ot. Az EAP személyre szabott, interaktív támogatást jelent.</p>
+
+        <h2>Miért fontos a különbségtétel?</h2>
+
+        <p>Amikor egy szervezet bevezet egy „wellbeing programot", és EAP-ként kommunikálja, miközben valójában csak egy applikációs csomag vagy önfejlesztő platform, akkor:</p>
+
+        <ul>
+          <li>A munkavállalók nem kapják meg azt a szintű támogatást, amire szükségük lenne egy valódi krízishelyzetben.</li>
+          <li>A HR-vezetők félreértik a programjuk hatékonyságát és ROI-ját.</li>
+          <li>A valódi EAP-szolgáltatók hírneve sérül, mert összekeverik őket alacsonyabb színvonalú megoldásokkal.</li>
+        </ul>
+
+        <h2>Összegzés</h2>
+
+        <p>Az EAP egy bizonyított hatékonyságú, szakmailag irányított támogatási program, amely valódi szakembereket és bizalmas tanácsadást foglal magában. A wellbeing appok, AI chatbotok és önfejlesztő platformok hasznos kiegészítők lehetnek, de nem helyettesítik az EAP-ot.</p>
+
+        <p>Ha egy szervezet valóban törődik a munkavállalói mentális egészségével, akkor fontos, hogy különbséget tegyen ezek között – és ne használja az EAP kifejezést olyan szolgáltatásokra, amelyek nem felelnek meg a szakmai standardoknak.</p>
+      `
+    },
+    '4score-mutatok': {
+      title: "A 4Score mutatók ereje: hogyan mérhető az EAP valódi értéke",
+      excerpt: "Egy Employee Assistance Program (EAP) sikerességét ma már nem elég érzésre vagy eseti visszajelzésekre alapozni. A szervezetek elvárják, hogy a támogatási programok hatása mérhető, összehasonlítható és kimutatható legyen — emberi és üzleti szinten egyaránt.",
+      author: "doyoueap",
+      date: "2025. január 12.",
+      readTime: "7 perc",
+      category: "Mérés",
+      image: scoreArticleImg,
+      content: `
+        <p>Egy Employee Assistance Program (EAP) sikerességét ma már nem elég érzésre vagy eseti visszajelzésekre alapozni. A szervezetek elvárják, hogy a támogatási programok hatása mérhető, összehasonlítható és kimutatható legyen — emberi és üzleti szinten egyaránt.</p>
+
+        <p>A 4Score modell éppen ezt a célt szolgálja: átlátható, strukturált keretrendszert nyújt az EAP valódi értékének mérésére.</p>
+
+        <h2>Mi a 4Score modell?</h2>
+
+        <p>A 4Score négy kulcsmutatón keresztül ad átfogó képet az EAP teljesítményéről:</p>
+
+        <ol>
+          <li><strong>Tudatosság (Awareness)</strong> – Mennyire ismerik a munkavállalók az EAP-ot?</li>
+          <li><strong>Használat (Usage)</strong> – Hányan veszik ténylegesen igénybe a szolgáltatást?</li>
+          <li><strong>Bizalom & Hajlandóság (Trust & Willingness)</strong> – Mennyire bíznak a programban, és mennyire hajlandóak élni vele?</li>
+          <li><strong>Hatás (Impact)</strong> – Milyen konkrét eredményeket hoz az EAP egyéni és szervezeti szinten?</li>
+        </ol>
+
+        <h2>1. Tudatosság (Awareness Score)</h2>
+
+        <p>A tudatosság az első lépés. Ha a munkavállalók nem tudnak az EAP létezéséről, vagy nem értik, mire használhatják, akkor a program hatása nulla lesz – függetlenül attól, hogy milyen jó minőségű a szolgáltatás.</p>
+
+        <h3>Mit mérünk?</h3>
+        <ul>
+          <li>Hány százalék tudja, hogy létezik EAP a cégnél?</li>
+          <li>Tisztában vannak-e azzal, hogyan lehet igénybe venni?</li>
+          <li>Értik-e, hogy milyen problémákkal fordulhatnak az EAP-hoz?</li>
+        </ul>
+
+        <h2>2. Használat (Usage Score)</h2>
+
+        <p>A használati arány azt mutatja, hogy mennyien élnek ténylegesen a program lehetőségeivel. Az átlagos EAP-használat a legtöbb országban 3-8% között mozog, de a jól kommunikált, támogatott programoknál ez akár 15-20% is lehet.</p>
+
+        <h3>Mit mérünk?</h3>
+        <ul>
+          <li>Hány munkavállaló vett igénybe EAP-szolgáltatást az elmúlt évben?</li>
+          <li>Mennyien térnek vissza további ülésekre?</li>
+          <li>Melyek a leggyakoribb igénybevételi okok?</li>
+        </ul>
+
+        <h2>3. Bizalom & Hajlandóság (Trust & Willingness Score)</h2>
+
+        <p>A program sikerességének kulcsa, hogy a munkavállalók bíznak-e a titoktartásban, és hajlandóak-e segítséget kérni, amikor szükségük van rá.</p>
+
+        <h3>Mit mérünk?</h3>
+        <ul>
+          <li>Mennyire bíznak a munkavállalók abban, hogy az EAP valóban bizalmas?</li>
+          <li>Mennyire érzik úgy, hogy nem lesz negatív következménye, ha igénybe veszik?</li>
+          <li>Ajánlanák-e az EAP-ot egy kollégának?</li>
+        </ul>
+
+        <h2>4. Hatás (Impact Score)</h2>
+
+        <p>Végül az a legfontosabb kérdés: milyen konkrét eredményeket hoz az EAP? Ez mérhető egyéni szinten (javuló mentális egészség, csökkenő stressz) és szervezeti szinten (produktivitás, munkahelyi jelenléti arány, fluktuáció csökkenése).</p>
+
+        <h3>Mit mérünk?</h3>
+        <ul>
+          <li>Az igénybevevők elégedettségi szintje</li>
+          <li>Változás a mentális egészség mutatókban</li>
+          <li>Produktivitás és munkavégzés javulása</li>
+          <li>ROI: megtérülés pénzügyi szempontból</li>
+        </ul>
+
+        <h2>Miért hatékony a 4Score modell?</h2>
+
+        <p>A 4Score modell azért működik, mert:</p>
+
+        <ul>
+          <li><strong>Holisztikus</strong> – Nem csak egy mutatót néz (pl. használat), hanem az egész folyamatot.</li>
+          <li><strong>Strukturált</strong> – Egyértelmű keretrendszert ad a méréshez.</li>
+          <li><strong>Összehasonlítható</strong> – Lehetővé teszi a benchmarkingot más szervezetekkel vagy időszakokkal.</li>
+          <li><strong>Cselekvésorientált</strong> – Megmutatja, hol van szükség fejlesztésre.</li>
+        </ul>
+
+        <h2>Összegzés</h2>
+
+        <p>A 4Score modell segít abban, hogy az EAP ne csak egy költség legyen a HR-költségvetésben, hanem bizonyítható értéket teremtsen a szervezet és a munkavállalók számára egyaránt.</p>
+      `
+    },
+    'eap-jovoje': {
+      title: "Az EAP jövője és a digitalizáció szerepe",
+      excerpt: "A jövő EAP-ja nem egyszerűen a múlt modelljeinek digitális másolata, hanem egy új, hibrid rendszer, amely ötvözi a technológia előnyeit a személyes kapcsolattartás értékeivel.",
+      author: "doyoueap",
+      date: "2025. január 10.",
+      readTime: "6 perc",
+      category: "Jövő",
+      image: futureArticleImg,
+      content: `
+        <p>Az Employee Assistance Programok (EAP) világában a digitalizáció nem egy opcionális kiegészítés többé – ez az iparág jövője. De vajon mit jelent ez a gyakorlatban? És hogyan változtatja meg a digitalizáció az EAP szolgáltatások természetét?</p>
+
+        <h2>A hagyományos EAP korlátai</h2>
+
+        <p>A klasszikus EAP-modellek általában telefonos tanácsadásra és személyes találkozókra épültek. Bár ezek a módszerek továbbra is fontosak, számos kihívással szembesülnek:</p>
+
+        <ul>
+          <li>Időbeli korlátok – A munkavállalóknak nehéz időt találni személyes találkozókra.</li>
+          <li>Földrajzi akadályok – Nem mindenki él közel a tanácsadói irodákhoz.</li>
+          <li>Stigma és anonimitás – Sokan nem mernek telefonálni vagy személyesen megjelenni.</li>
+          <li>Generációs elvárások – A fiatalabb generációk digitális megoldásokat várnak.</li>
+        </ul>
+
+        <h2>A digitális EAP előnyei</h2>
+
+        <h3>1. Azonnali hozzáférhetőség</h3>
+        <p>A digitális platformok 24/7 elérhetőséget biztosítanak, így a munkavállalók akkor kaphatnak segítséget, amikor szükségük van rá – akár éjszaka, akár hétvégén.</p>
+
+        <h3>2. Nagyobb anonimitás</h3>
+        <p>A chat-alapú vagy video-tanácsadás lehetőséget ad arra, hogy az emberek saját otthonukból, biztonságos környezetből kérjenek segítséget, ami csökkenti a stigmát.</p>
+
+        <h3>3. Adatvezérelt betekintések</h3>
+        <p>A digitális platformok lehetővé teszik az aggregált adatok gyűjtését, ami segít a HR-nek jobban megérteni a munkavállalói igényeket és trendeket.</p>
+
+        <h3>4. Költséghatékonyság</h3>
+        <p>A digitális EAP skálázhatóbb, és gyakran költséghatékonyabb megoldást kínál, különösen nagyvállalatok esetében.</p>
+
+        <h2>A hibrid modell: a jövő útja</h2>
+
+        <p>A jövő EAP-ja nem egyszerűen a múlt modelljeinek digitális másolata, hanem egy új, hibrid rendszer, amely ötvözi a technológia előnyeit a személyes kapcsolattartás értékeivel:</p>
+
+        <ul>
+          <li><strong>Digitális első lépés</strong> – Chat, app, vagy önértékelő eszközök az első segítségkéréshez.</li>
+          <li><strong>Emberi támogatás</strong> – Személyes (online vagy offline) tanácsadás, amikor szükséges.</li>
+          <li><strong>AI-támogatás</strong> – Intelligens triázs, amely meghatározza, melyik problémához milyen szintű támogatás kell.</li>
+          <li><strong>Folyamatos követés</strong> – Digitális eszközök segítségével nyomon követhető a haladás és a hosszú távú eredmények.</li>
+        </ul>
+
+        <h2>Az AI szerepe az EAP-ban</h2>
+
+        <p>Az AI nem helyettesíti az emberi tanácsadókat, de jelentősen támogathatja őket:</p>
+
+        <ul>
+          <li><strong>Triázs és útválasztás</strong> – Az AI segíthet meghatározni, hogy egy munkavállaló milyen típusú támogatásra van szüksége.</li>
+          <li><strong>Chatbotok</strong> – Azonnali válaszokat adhatnak gyakori kérdésekre.</li>
+          <li><strong>Prediktív elemzés</strong> – Segíthet azonosítani a veszélyeztetett csoportokat.</li>
+          <li><strong>Personalizáció</strong> – Testre szabott tartalmakat és javaslatokat nyújthat.</li>
+        </ul>
+
+        <h2>Kihívások és etikai kérdések</h2>
+
+        <p>A digitalizáció nem problémamentes:</p>
+
+        <ul>
+          <li><strong>Adatvédelem</strong> – Az érzékeny egészségügyi adatok védelme kulcsfontosságú.</li>
+          <li><strong>Digitális szakadék</strong> – Nem mindenki rendelkezik megfelelő eszközökkel vagy digitális tudással.</li>
+          <li><strong>Emberi kapcsolat hiánya</strong> – Az AI és a digitális eszközök nem helyettesíthetik a valódi emberi empatát.</li>
+        </ul>
+
+        <h2>Összegzés</h2>
+
+        <p>A digitalizáció nem fenyegetés az EAP-ra, hanem lehetőség a szolgáltatások javítására, bővítésére és hozzáférhetőbbé tételére. A jövő EAP-ja hibrid lesz: ötvözi a technológia hatékonyságát az emberi kapcsolat erejével, hogy minden munkavállaló megkapja a szükséges támogatást, amikor és ahogyan szüksége van rá.</p>
+      `
+    }
+  };
+
+  const article = slug ? articles[slug] : null;
+
+  if (!article) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-4">Cikk nem található</h1>
+          <Button onClick={() => navigate('/magazin')}>
+            Vissza a magazinhoz
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+          <div className="flex items-center gap-8">
+            <img 
+              src={logo} 
+              alt="EAP Pulse" 
+              className="h-8 cursor-pointer" 
+              onClick={() => navigate('/')}
+            />
+            <nav className="hidden md:flex gap-6 items-center">
+              <button
+                onClick={() => navigate('/magazin')}
+                className="text-sm bg-white border border-black font-semibold transition-colors px-3 py-2 rounded-sm"
+              >
+                The Journalist!
+              </button>
+              <button
+                onClick={() => navigate('/bemutatkozas')}
+                className="text-sm border border-transparent transition-colors px-3 py-2 rounded-sm hover:bg-muted"
+              >
+                Bemutatkozás
+              </button>
+              <button
+                onClick={() => navigate('/arak')}
+                className="text-sm border border-transparent transition-colors px-3 py-2 rounded-sm hover:bg-muted"
+              >
+                Árak és Csomagok
+              </button>
+              {user && role === 'hr' && (
+                <button
+                  onClick={() => navigate('/?section=eap-pulse&sub=create-audit')}
+                  className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
+                >
+                  Dashboard
+                </button>
+              )}
+            </nav>
+          </div>
+          <div className="flex items-center gap-4">
+            {!loading && (
+              user ? (
+                <Button onClick={signOut} variant="outline">
+                  Kilépés
+                </Button>
+              ) : (
+                <Button onClick={() => navigate('/auth')}>
+                  Bejelentkezés
+                </Button>
+              )
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* Article Content */}
+      <article className="max-w-4xl mx-auto px-4 py-12">
+        {/* Back Button */}
+        <Button 
+          variant="ghost" 
+          className="mb-6"
+          onClick={() => navigate('/magazin')}
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Vissza a magazinhoz
+        </Button>
+
+        {/* Article Header */}
+        <div className="mb-8">
+          <Badge className="mb-4">{article.category}</Badge>
+          <h1 className="text-5xl font-bold mb-6 leading-tight">{article.title}</h1>
+          
+          <div className="flex items-center gap-6 text-muted-foreground mb-6">
+            <div className="flex items-center gap-2">
+              <User className="h-4 w-4" />
+              <span>{article.author}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              <span>{article.date}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              <span>{article.readTime}</span>
+            </div>
+          </div>
+
+          <p className="text-xl text-muted-foreground leading-relaxed">
+            {article.excerpt}
+          </p>
+        </div>
+
+        {/* Featured Image */}
+        {article.image && (
+          <div className="mb-12 rounded-lg overflow-hidden">
+            <img 
+              src={article.image} 
+              alt={article.title}
+              className="w-full h-auto"
+            />
+          </div>
+        )}
+
+        {/* Article Body */}
+        <div 
+          className="prose prose-lg max-w-none prose-headings:font-bold prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-4 prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3 prose-p:mb-4 prose-p:leading-relaxed prose-ul:my-6 prose-li:mb-2"
+          dangerouslySetInnerHTML={{ __html: article.content }}
+        />
+
+        {/* Share Section */}
+        <div className="mt-16 pt-8 border-t">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold">Megosztás</h3>
+            <Button variant="outline" size="sm">
+              <Share2 className="mr-2 h-4 w-4" />
+              Megosztás
+            </Button>
+          </div>
+        </div>
+
+        {/* Back to Magazine */}
+        <div className="mt-12 text-center">
+          <Button 
+            variant="outline" 
+            size="lg"
+            onClick={() => navigate('/magazin')}
+          >
+            További cikkek a magazinban
+          </Button>
+        </div>
+      </article>
+    </div>
+  );
+};
+
+export default MagazinArticle;

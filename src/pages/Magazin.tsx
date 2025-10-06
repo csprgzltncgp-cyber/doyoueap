@@ -250,10 +250,16 @@ const Magazin = () => {
           <Carousel className="w-full">
             <CarouselContent>
               {featuredArticles.map((article, index) => (
-                <CarouselItem key={index}>
+                  <CarouselItem key={index}>
                   <div className="grid md:grid-cols-2 gap-8 items-center">
                     {/* Large Featured Image */}
-                    <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
+                    <div 
+                      className="relative aspect-[4/3] overflow-hidden rounded-lg cursor-pointer"
+                      onClick={() => {
+                        const slugs = ['mitoszok-es-tevhitek', '4score-mutatok', 'eap-jovoje'];
+                        navigate(`/magazin/${slugs[index]}`);
+                      }}
+                    >
                       <img 
                         src={article.image} 
                         alt={article.title}
@@ -264,7 +270,13 @@ const Magazin = () => {
                     
                     {/* Content */}
                     <div className="space-y-4">
-                      <h3 className="text-4xl font-bold hover:text-primary transition-colors cursor-pointer leading-tight">
+                      <h3 
+                        className="text-4xl font-bold hover:text-primary transition-colors cursor-pointer leading-tight"
+                        onClick={() => {
+                          const slugs = ['mitoszok-es-tevhitek', '4score-mutatok', 'eap-jovoje'];
+                          navigate(`/magazin/${slugs[index]}`);
+                        }}
+                      >
                         {article.title}
                       </h3>
                       <p className="text-lg text-muted-foreground leading-relaxed">

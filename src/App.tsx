@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import VerifyEmail from "./pages/VerifyEmail";
 import Magazin from "./pages/Magazin";
+import MagazinArticle from "./pages/MagazinArticle";
 import Bemutatkozas from "./pages/Bemutatkozas";
 import Arak from "./pages/Arak";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -52,6 +53,7 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/magazin" element={<Magazin />} />
+          <Route path="/magazin/:slug" element={<MagazinArticle />} />
           <Route path="/bemutatkozas" element={<Bemutatkozas />} />
           <Route path="/arak" element={<Arak />} />
           <Route
