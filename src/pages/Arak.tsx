@@ -217,7 +217,7 @@ const Arak = () => {
         </div>
 
         {/* Additional Info */}
-        <Card className="bg-muted/50">
+        <Card className="bg-background border">
           <CardHeader>
             <CardTitle>Gyakran Ismételt Kérdések</CardTitle>
           </CardHeader>

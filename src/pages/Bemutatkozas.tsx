@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, CheckCircle2, TrendingUp, Users, Award } from 'lucide-react';
 import logo from '@/assets/logo.png';
+import eapPulseTeam from '@/assets/eap-pulse-team.jpg';
 import { useAuth } from '@/hooks/useAuth';
 
 const Bemutatkozas = () => {
@@ -96,6 +97,13 @@ const Bemutatkozas = () => {
         {/* Content based on active tab */}
         {activeTab === 'eap-pulse' && (
           <div className="space-y-8">
+            <div className="rounded-lg overflow-hidden">
+              <img 
+                src={eapPulseTeam} 
+                alt="EAP Pulse csapat értekezlet" 
+                className="w-full h-64 object-cover"
+              />
+            </div>
             <Card>
               <CardHeader>
                 <CardTitle className="text-3xl text-foreground animate-pulse-glow">Bemutatkozik az EAP Pulse!</CardTitle>
@@ -137,6 +145,13 @@ const Bemutatkozas = () => {
 
         {activeTab === '4score' && (
           <div className="space-y-8">
+            <div className="rounded-lg overflow-hidden">
+              <img 
+                src={eapPulseTeam} 
+                alt="EAP Pulse csapat értekezlet" 
+                className="w-full h-64 object-cover"
+              />
+            </div>
             <Card>
               <CardHeader>
                 <CardTitle className="text-3xl">4Score módszertan</CardTitle>
@@ -217,6 +232,13 @@ const Bemutatkozas = () => {
 
         {activeTab === 'vallalati' && (
           <div className="space-y-8">
+            <div className="rounded-lg overflow-hidden">
+              <img 
+                src={eapPulseTeam} 
+                alt="EAP Pulse csapat értekezlet" 
+                className="w-full h-64 object-cover"
+              />
+            </div>
             <Card>
               <CardHeader>
                 <CardTitle className="text-3xl">Vállalati előnyök</CardTitle>
@@ -258,6 +280,13 @@ const Bemutatkozas = () => {
 
         {activeTab === 'eap-szolgaltatok' && (
           <div className="space-y-8">
+            <div className="rounded-lg overflow-hidden">
+              <img 
+                src={eapPulseTeam} 
+                alt="EAP Pulse csapat értekezlet" 
+                className="w-full h-64 object-cover"
+              />
+            </div>
             <Card>
               <CardHeader>
                 <CardTitle className="text-3xl">Ajánlat EAP szolgáltatók számára</CardTitle>
