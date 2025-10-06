@@ -286,8 +286,8 @@ const Index = () => {
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'create-audit' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
+                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
                   }`}
                 >
                   Új Felmérés
@@ -296,8 +296,8 @@ const Index = () => {
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'running-audits' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'running-audits' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
+                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
                   }`}
                 >
                   Futó Felmérések
@@ -306,8 +306,8 @@ const Index = () => {
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'audit-questionnaire' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'audit-questionnaire' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
+                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
                   }`}
                 >
                   EAP Pulse demo
@@ -326,8 +326,8 @@ const Index = () => {
                   onClick={() => setSearchParams({ section: 'reports', sub: 'overview' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
                     (!subSection || subSection === 'overview') 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
+                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
                   }`}
                 >
                   Összefoglaló
@@ -336,8 +336,8 @@ const Index = () => {
                   onClick={() => setSearchParams({ section: 'reports', sub: 'awareness' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'awareness' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
+                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
                   }`}
                 >
                   Ismertség
@@ -346,8 +346,8 @@ const Index = () => {
                   onClick={() => setSearchParams({ section: 'reports', sub: 'trust' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'trust' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
+                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
                   }`}
                 >
                   Bizalom
@@ -356,8 +356,8 @@ const Index = () => {
                   onClick={() => setSearchParams({ section: 'reports', sub: 'usage' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'usage' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
+                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
                   }`}
                 >
                   Használat
@@ -366,8 +366,8 @@ const Index = () => {
                   onClick={() => setSearchParams({ section: 'reports', sub: 'impact' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'impact' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
+                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
                   }`}
                 >
                   Hatás
@@ -376,8 +376,8 @@ const Index = () => {
                   onClick={() => setSearchParams({ section: 'reports', sub: 'motivation' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'motivation' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
+                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
                   }`}
                 >
                   Motiváció
@@ -386,8 +386,8 @@ const Index = () => {
                   onClick={() => setSearchParams({ section: 'reports', sub: 'demographics' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'demographics' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
+                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
                   }`}
                 >
                   Demográfia
@@ -396,8 +396,8 @@ const Index = () => {
                   onClick={() => setSearchParams({ section: 'reports', sub: 'trends' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'trends' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
+                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
                   }`}
                 >
                   Trendek
@@ -406,8 +406,8 @@ const Index = () => {
                   onClick={() => setSearchParams({ section: 'reports', sub: 'compare' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'compare' 
-                      ? 'text-primary font-semibold border-primary' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
+                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
                   }`}
                 >
                   Összehasonlítás
