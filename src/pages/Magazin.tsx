@@ -296,7 +296,13 @@ const Magazin = () => {
                           <span>{article.readTime}</span>
                         </div>
                       </div>
-                      <Button className="group mt-4 bg-[hsl(var(--magazine-red))] hover:bg-[hsl(var(--magazine-red))]/90 text-white">
+                      <Button 
+                        className="group mt-4 bg-[hsl(var(--magazine-red))] hover:bg-[hsl(var(--magazine-red))]/90 text-white"
+                        onClick={() => {
+                          const slugs = ['mitoszok-es-tevhitek', '4score-mutatok', 'eap-jovoje'];
+                          navigate(`/magazin/${slugs[index]}`);
+                        }}
+                      >
                         Tovább olvasom 
                         <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </Button>
