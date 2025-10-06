@@ -137,7 +137,7 @@ const Bemutatkozas = () => {
                     <Eye className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold mb-3">Awareness</h3>
+                    <h3 className="text-2xl font-bold mb-3">Ismertség</h3>
                     <p className="text-muted-foreground leading-relaxed">
                       Méri, hogy a munkavállalók mennyire ismerik az EAP-t, tudják-e, hogyan és mire használható.
                     </p>
@@ -150,7 +150,7 @@ const Bemutatkozas = () => {
                     <Shield className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold mb-3">Trust & Willingness</h3>
+                    <h3 className="text-2xl font-bold mb-3">Bizalom</h3>
                     <p className="text-muted-foreground leading-relaxed">
                       Vizsgálja a programba vetett bizalmat és a segítségkérésre való hajlandóságot – az anonimitás érzésétől a vezetői példáig.
                     </p>
@@ -163,7 +163,7 @@ const Bemutatkozas = () => {
                     <Activity className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold mb-3">Usage</h3>
+                    <h3 className="text-2xl font-bold mb-3">Használat</h3>
                     <p className="text-muted-foreground leading-relaxed">
                       Értékeli a tényleges igénybevételt és a használat mintázatait – hol és miért aktivizálódnak az emberek.
                     </p>
@@ -176,7 +176,7 @@ const Bemutatkozas = () => {
                     <Target className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold mb-3">Impact</h3>
+                    <h3 className="text-2xl font-bold mb-3">Hatás</h3>
                     <p className="text-muted-foreground leading-relaxed">
                       Méri a program valós hatását a jóllétre és a szervezeti működésre: hiányzás, fluktuáció, elégedettség, ajánlási szándék.
                     </p>

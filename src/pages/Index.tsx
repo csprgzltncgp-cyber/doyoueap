@@ -534,28 +534,28 @@ const Index = () => {
                   <div className="flex items-start gap-3">
                     <Award className="h-5 w-5 text-primary mt-1" />
                     <div>
-                      <h4 className="font-medium">Awareness - Ismertség</h4>
+                      <h4 className="font-medium">Ismertség</h4>
                       <p className="text-sm text-muted-foreground">Mennyire ismerik a dolgozók a programot?</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-primary mt-1" />
                     <div>
-                      <h4 className="font-medium">Trust - Bizalom</h4>
+                      <h4 className="font-medium">Bizalom</h4>
                       <p className="text-sm text-muted-foreground">Megbíznak-e a dolgozók a szolgáltatásban?</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <Users className="h-5 w-5 text-primary mt-1" />
                     <div>
-                      <h4 className="font-medium">Usage - Használat</h4>
+                      <h4 className="font-medium">Használat</h4>
                       <p className="text-sm text-muted-foreground">Hányan veszik igénybe a szolgáltatást?</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <TrendingUp className="h-5 w-5 text-primary mt-1" />
                     <div>
-                      <h4 className="font-medium">Impact - Hatás</h4>
+                      <h4 className="font-medium">Hatás</h4>
                       <p className="text-sm text-muted-foreground">Milyen eredményeket hoz a program?</p>
                     </div>
                   </div>
@@ -602,7 +602,7 @@ const Index = () => {
                   <Eye className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold mb-3">Awareness</h3>
+                  <h3 className="text-2xl font-bold mb-3">Ismertség</h3>
                   <p className="text-muted-foreground leading-relaxed">
                     Felmérjük, hogy a munkatársak mennyire ismerik az EAP programot, 
                     milyen csatornákon értesültek róla, és milyen szolgáltatásokról tudnak.
@@ -616,7 +616,7 @@ const Index = () => {
                   <Shield className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold mb-3">Trust</h3>
+                  <h3 className="text-2xl font-bold mb-3">Bizalom</h3>
                   <p className="text-muted-foreground leading-relaxed">
                     Mérjük a bizalmat és hajlandóságot: mennyire érzik biztonságosnak a dolgozók 
                     a szolgáltatást, és milyen tényezők befolyásolják a használatot.
@@ -630,7 +630,7 @@ const Index = () => {
                   <Activity className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold mb-3">Usage</h3>
+                  <h3 className="text-2xl font-bold mb-3">Használat</h3>
                   <p className="text-muted-foreground leading-relaxed">
                     Megismerjük a tényleges használatot: ki, mikor és miért veszi igénybe a programot, 
                     milyen motivációk húzódnak meg a háttérben.
@@ -644,7 +644,7 @@ const Index = () => {
                   <Target className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold mb-3">Impact</h3>
+                  <h3 className="text-2xl font-bold mb-3">Hatás</h3>
                   <p className="text-muted-foreground leading-relaxed">
                     Kimutatjuk a hatást: hogyan értékelik a dolgozók a kapott segítséget, 
                     milyen változásokat tapasztaltak, és ajánlanák-e másoknak.
