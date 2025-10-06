@@ -726,7 +726,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
               </div>
               <Progress 
                 value={item.score * 20} 
-                style={{ '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #ff66ff 100%)' } as React.CSSProperties}
+                style={{ '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #7a8ff5 100%)' } as React.CSSProperties}
                 className="h-3"
               />
               <div className="flex justify-between text-xs text-muted-foreground">
