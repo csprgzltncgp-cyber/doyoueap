@@ -5,6 +5,9 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, CheckCircle2, TrendingUp, Users, Award } from 'lucide-react';
 import logo from '@/assets/logo.png';
 import eapPulseTeam from '@/assets/eap-pulse-team.jpg';
+import fourScoreTeam from '@/assets/4score-team.jpg';
+import corporateBenefits from '@/assets/corporate-benefits.jpg';
+import eapProviders from '@/assets/eap-providers.jpg';
 import { useAuth } from '@/hooks/useAuth';
 
 const Bemutatkozas = () => {
@@ -222,8 +225,8 @@ const Bemutatkozas = () => {
             </Card>
             <div className="rounded-lg overflow-hidden h-full">
               <img 
-                src={eapPulseTeam} 
-                alt="EAP Pulse csapat értekezlet" 
+                src={fourScoreTeam} 
+                alt="4Score módszertan csapatmunka" 
                 className="w-full h-full object-cover"
               />
             </div>
@@ -270,8 +273,8 @@ const Bemutatkozas = () => {
             </Card>
             <div className="rounded-lg overflow-hidden h-full">
               <img 
-                src={eapPulseTeam} 
-                alt="EAP Pulse csapat értekezlet" 
+                src={corporateBenefits} 
+                alt="Vállalati előnyök megbeszélése" 
                 className="w-full h-full object-cover"
               />
             </div>
@@ -332,8 +335,8 @@ const Bemutatkozas = () => {
             </Card>
             <div className="rounded-lg overflow-hidden h-full">
               <img 
-                src={eapPulseTeam} 
-                alt="EAP Pulse csapat értekezlet" 
+                src={eapProviders} 
+                alt="EAP szolgáltatók együttműködése" 
                 className="w-full h-full object-cover"
               />
             </div>
