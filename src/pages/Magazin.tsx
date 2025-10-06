@@ -190,27 +190,31 @@ const Magazin = () => {
       </header>
 
       {/* Hero Section - Newspaper Style Header */}
-      <section className="relative py-8 px-4 overflow-hidden border-b-4 border-primary/20" style={{ backgroundColor: '#feeeff' }}>
+      <section className="relative py-8 px-4 overflow-hidden" style={{ backgroundColor: '#feeeff' }}>
         <div className="max-w-7xl mx-auto relative z-10">
-          {/* Top bar with date and issue */}
-          <div className="flex justify-between items-center mb-4 text-sm text-muted-foreground border-b border-primary/10 pb-3">
-            <div className="flex items-center gap-4">
+          {/* Horizontal layout: Date - Logo - Text */}
+          <div className="flex items-center justify-between gap-8">
+            {/* Left: Date and Issue */}
+            <div className="flex flex-col items-start text-sm text-muted-foreground">
               <span className="font-semibold">2025. JANUÁR</span>
-              <span className="hidden sm:inline">|</span>
-              <span className="hidden sm:inline">16. Szám</span>
+              <span className="text-xs">16. Szám</span>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="hidden md:inline">EMPLOYEE ASSISTANCE PROGRAM SZAKFOLYÓIRAT</span>
-            </div>
-          </div>
 
-          {/* Main Logo */}
-          <div className="text-center mb-6">
-            <img 
-              src={journalistLogo} 
-              alt="The Journalis" 
-              className="h-32 object-contain mx-auto"
-            />
+            {/* Center: Logo */}
+            <div className="flex-shrink-0">
+              <img 
+                src={journalistLogo} 
+                alt="The Journalis" 
+                className="h-24 object-contain"
+              />
+            </div>
+
+            {/* Right: Magazine description */}
+            <div className="flex items-center text-right">
+              <span className="text-sm font-medium text-muted-foreground hidden md:inline">
+                EMPLOYEE ASSISTANCE<br />PROGRAM SZAKFOLYÓIRAT
+              </span>
+            </div>
           </div>
         </div>
       </section>
