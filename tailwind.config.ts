@@ -103,11 +103,22 @@ export default {
             textShadow: "0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.6)",
           },
         },
+        "pulse-glow-dark": {
+          "0%, 100%": {
+            opacity: "1",
+            textShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
+          },
+          "50%": {
+            opacity: "0.9",
+            textShadow: "0 0 20px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 0, 0, 0.4)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "pulse-glow": "pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "pulse-glow-dark": "pulse-glow-dark 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },
   },

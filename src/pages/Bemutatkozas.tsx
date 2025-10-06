@@ -98,7 +98,7 @@ const Bemutatkozas = () => {
           <div className="space-y-8">
             <Card>
               <CardHeader>
-                <CardTitle className="text-3xl bg-gradient-to-r from-[#3abef9] via-[#ff66ff] to-[#ff66ff] bg-clip-text text-transparent">Bemutatkozik az EAP Pulse!</CardTitle>
+                <CardTitle className="text-3xl text-foreground animate-pulse-glow-dark">Bemutatkozik az EAP Pulse!</CardTitle>
                 <CardDescription className="text-base">
                   A következő generációs EAP értékelési platform
                 </CardDescription>
