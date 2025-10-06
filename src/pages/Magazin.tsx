@@ -186,7 +186,7 @@ const Magazin = () => {
             <img 
               src={journalistLogo} 
               alt="The Journalis" 
-              className="h-32 object-contain"
+              className="h-48 object-contain"
             />
           </div>
         </div>
