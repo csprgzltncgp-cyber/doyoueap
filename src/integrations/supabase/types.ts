@@ -342,6 +342,21 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      get_audit_for_survey: {
+        Args: { _access_token: string }
+        Returns: {
+          available_languages: string[]
+          communication_text: string
+          custom_colors: Json
+          eap_program_url: string
+          expires_at: string
+          id: string
+          is_active: boolean
+          logo_url: string
+          program_name: string
+          questionnaire_id: string
+        }[]
+      }
       get_company_users: {
         Args: { company_name_param: string }
         Returns: {

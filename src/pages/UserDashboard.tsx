@@ -64,44 +64,35 @@ const UserDashboard = () => {
 
   const fetchAudit = async () => {
     try {
-      const { data, error } = await supabase
-        .from('audits')
-        .select(`
-          id,
-          program_name,
-          is_active,
-          expires_at,
-          logo_url,
-          eap_program_url,
-          available_languages,
-          custom_colors,
-          questionnaire:questionnaires (
-            title,
-            description,
-            questions
-          )
-        `)
-        .eq('access_token', token)
-        .maybeSingle();
+      // Use the secure function to get audit data
+      const { data: auditData, error: auditError } = await supabase
+        .rpc('get_audit_for_survey', { _access_token: token });
 
-      if (error) throw error;
+      if (auditError) throw auditError;
 
-      if (!data) {
+      if (!auditData || auditData.length === 0) {
         setError('Érvénytelen felmérés link');
         return;
       }
 
-      if (!data.is_active) {
-        setError('Ez a felmérés már nem aktív');
-        return;
-      }
+      const audit = auditData[0];
 
-      if (data.expires_at && new Date(data.expires_at) < new Date()) {
-        setError('Ez a felmérés lejárt');
-        return;
-      }
+      // Fetch the questionnaire separately
+      const { data: questionnaireData, error: questionnaireError } = await supabase
+        .from('questionnaires')
+        .select('title, description, questions')
+        .eq('id', audit.questionnaire_id)
+        .single();
 
-      setAudit(data as any);
+      if (questionnaireError) throw questionnaireError;
+
+      // Combine the data
+      const combinedData = {
+        ...audit,
+        questionnaire: questionnaireData
+      };
+
+      setAudit(combinedData as any);
     } catch (err) {
       console.error('Error fetching audit:', err);
       setError('Hiba történt a felmérés betöltésekor');
