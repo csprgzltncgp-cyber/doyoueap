@@ -595,7 +595,7 @@ const Index = () => {
       </section>
 
       {/* 4Score Section */}
-      <section id="4score" className="py-20 bg-gradient-to-br from-primary/5 via-background to-primary/10">
+      <section id="4score" className="py-20 bg-gradient-to-br from-[#3abef9]/20 to-[#ff66ff]/20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <div className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
