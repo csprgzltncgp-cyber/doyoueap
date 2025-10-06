@@ -1,23 +1,53 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Clock, User } from 'lucide-react';
+import { Clock, User, TrendingUp, Calendar, ChevronRight } from 'lucide-react';
 import logo from '@/assets/doyoueap-logo.png';
 import { useAuth } from '@/hooks/useAuth';
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselNext, 
+  CarouselPrevious 
+} from '@/components/ui/carousel';
 
 const Magazin = () => {
   const navigate = useNavigate();
   const { user, role, loading, signOut } = useAuth();
+  const [activeCategory, setActiveCategory] = useState('all');
 
-  const featuredArticle = {
-    title: "A mentális egészség munkahelyi jelentősége 2025-ben",
-    excerpt: "Az elmúlt évek tapasztalatai alapján a vállalatok egyre nagyobb figyelmet fordítanak munkavállalóik mentális jólétére. Nézzük meg, milyen trendek várhatóak idén.",
-    author: "Dr. Kovács Anna",
-    date: "2025. január 15.",
-    readTime: "8 perc",
-    category: "Trendek"
-  };
+  const featuredArticles = [
+    {
+      title: "A mentális egészség munkahelyi jelentősége 2025-ben",
+      excerpt: "Az elmúlt évek tapasztalatai alapján a vállalatok egyre nagyobb figyelmet fordítanak munkavállalóik mentális jólétére. Nézzük meg, milyen trendek várhatóak idén.",
+      author: "Dr. Kovács Anna",
+      date: "2025. január 15.",
+      readTime: "8 perc",
+      category: "Trendek",
+      image: "gradient-1"
+    },
+    {
+      title: "Az EAP program ROI-ja: számok, amelyek beszélnek",
+      excerpt: "Mennyire térül meg egy jól működő EAP program? Esettanulmányok és statisztikák a befektetés megtérüléséről.",
+      author: "Szabó Katalin",
+      date: "2025. január 10.",
+      readTime: "6 perc",
+      category: "Elemzések",
+      image: "gradient-2"
+    },
+    {
+      title: "Stresszkezelési technikák a mindennapokban",
+      excerpt: "Praktikus módszerek, amelyeket azonnal alkalmazhatunk a munkahelyi stressz csökkentésére.",
+      author: "Tóth László",
+      date: "2025. január 8.",
+      readTime: "4 perc",
+      category: "Gyakorlatok",
+      image: "gradient-3"
+    }
+  ];
 
   const articles = [
     {
@@ -29,30 +59,67 @@ const Magazin = () => {
       category: "Tanácsok"
     },
     {
-      title: "Az EAP program ROI-ja: számok, amelyek beszélnek",
-      excerpt: "Mennyire térül meg egy jól működő EAP program? Esettanulmányok és statisztikák a befektetés megtérüléséről.",
-      author: "Szabó Katalin",
-      date: "2025. január 10.",
-      readTime: "6 perc",
-      category: "Elemzések"
-    },
-    {
-      title: "Stresszkezelési technikák a mindennapokban",
-      excerpt: "Praktikus módszerek, amelyeket azonnal alkalmazhatunk a munkahelyi stressz csökkentésére.",
-      author: "Tóth László",
-      date: "2025. január 8.",
-      readTime: "4 perc",
-      category: "Gyakorlatok"
-    },
-    {
       title: "A hibrid munkavégzés kihívásai",
       excerpt: "Hogyan őrizhetjük meg a mentális egyensúlyt az otthoni és irodai munka között?",
       author: "Kiss Mónika",
       date: "2025. január 5.",
       readTime: "7 perc",
       category: "Munkakörnyezet"
+    },
+    {
+      title: "Vezetői támogatás és empátia",
+      excerpt: "A jó vezetők kulcsszerepet játszanak a munkavállalók mentális jólétében.",
+      author: "Farkas Balázs",
+      date: "2025. január 3.",
+      readTime: "6 perc",
+      category: "Vezetés"
+    },
+    {
+      title: "Mindfulness a munkahelyen",
+      excerpt: "Egyszerű tudatossági gyakorlatok, amelyek segítenek megőrizni a fókuszt és a nyugalmat.",
+      author: "Molnár Eszter",
+      date: "2024. december 28.",
+      readTime: "5 perc",
+      category: "Gyakorlatok"
+    },
+    {
+      title: "Az EAP szolgáltatások fejlődése",
+      excerpt: "Hogyan változtak az EAP programok az elmúlt évtizedben?",
+      author: "Horváth Gábor",
+      date: "2024. december 25.",
+      readTime: "9 perc",
+      category: "Történet"
+    },
+    {
+      title: "Generációs különbségek a munkahelyen",
+      excerpt: "Különböző generációk, különböző igények - hogyan lehet mindenkit támogatni?",
+      author: "Varga Júlia",
+      date: "2024. december 22.",
+      readTime: "6 perc",
+      category: "Elemzések"
     }
   ];
+
+  const popularArticles = [
+    { title: "Top 10 mentális egészség tipp", views: "12.5k" },
+    { title: "EAP program sikersztori", views: "9.8k" },
+    { title: "Vezetői interjú", views: "8.2k" },
+    { title: "Statisztikák 2024", views: "7.5k" }
+  ];
+
+  const categories = [
+    { id: 'all', label: 'Összes' },
+    { id: 'trends', label: 'Trendek' },
+    { id: 'analysis', label: 'Elemzések' },
+    { id: 'interviews', label: 'Interjúk' },
+    { id: 'tips', label: 'Tanácsok' }
+  ];
+
+  const gradients = {
+    'gradient-1': 'from-blue-500/20 to-purple-500/20',
+    'gradient-2': 'from-green-500/20 to-teal-500/20',
+    'gradient-3': 'from-orange-500/20 to-red-500/20'
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -71,7 +138,7 @@ const Magazin = () => {
                 onClick={() => navigate('/magazin')}
                 className="text-sm bg-primary text-primary-foreground font-semibold transition-colors px-3 py-2 rounded"
               >
-                Magazin
+                The Journalis
               </button>
               <button
                 onClick={() => navigate('/bemutatkozas')}
@@ -111,76 +178,220 @@ const Magazin = () => {
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold mb-2">EAP Pulse Magazin</h1>
-        <p className="text-muted-foreground mb-12">
-          Cikkek, tanácsok és szakértői vélemények a munkahelyi mentális egészségről
-        </p>
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-primary/10 via-primary/5 to-background py-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-4">
+            <Badge className="mb-4" variant="outline">The Journalis</Badge>
+            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              Munkahelyi Mentális Egészség
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Cikkek, kutatások és szakértői vélemények az EAP programokról és a munkavállalói jólétről
+            </p>
+          </div>
+        </div>
+      </section>
 
-        {/* Featured Article */}
-        <Card className="mb-12 overflow-hidden">
-          <div className="md:flex">
-            <div className="md:w-2/3 p-8">
-              <Badge className="mb-4">{featuredArticle.category}</Badge>
-              <CardHeader className="p-0 mb-4">
-                <CardTitle className="text-3xl mb-2">{featuredArticle.title}</CardTitle>
-                <CardDescription className="text-base">{featuredArticle.excerpt}</CardDescription>
-              </CardHeader>
-              <CardContent className="p-0">
-                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                  <div className="flex items-center gap-1">
-                    <User className="h-4 w-4" />
-                    <span>{featuredArticle.author}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-4 w-4" />
-                    <span>{featuredArticle.readTime}</span>
-                  </div>
-                  <span>{featuredArticle.date}</span>
-                </div>
-                <Button>Tovább olvasom</Button>
-              </CardContent>
-            </div>
-            <div className="md:w-1/3 bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center p-8">
-              <div className="text-center">
-                <div className="text-6xl font-bold text-primary mb-2">★</div>
-                <p className="text-sm text-muted-foreground">Kiemelt cikk</p>
+      {/* Featured Carousel */}
+      <section className="py-12 px-4 bg-muted/30">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold">Kiemelt Cikkek</h2>
+            <TrendingUp className="h-6 w-6 text-primary" />
+          </div>
+          <Carousel className="w-full">
+            <CarouselContent>
+              {featuredArticles.map((article, index) => (
+                <CarouselItem key={index}>
+                  <Card className="overflow-hidden border-none shadow-lg hover:shadow-xl transition-shadow">
+                    <div className="md:flex">
+                      <div className={`md:w-2/5 bg-gradient-to-br ${gradients[article.image as keyof typeof gradients]} flex items-center justify-center p-12`}>
+                        <div className="text-center">
+                          <div className="text-6xl font-bold text-primary/40 mb-2">★</div>
+                          <Badge variant="secondary">{article.category}</Badge>
+                        </div>
+                      </div>
+                      <div className="md:w-3/5 p-8">
+                        <Badge className="mb-4">{article.category}</Badge>
+                        <CardTitle className="text-3xl mb-4 hover:text-primary transition-colors cursor-pointer">
+                          {article.title}
+                        </CardTitle>
+                        <CardDescription className="text-base mb-6">
+                          {article.excerpt}
+                        </CardDescription>
+                        <div className="flex items-center gap-6 text-sm text-muted-foreground mb-6">
+                          <div className="flex items-center gap-2">
+                            <User className="h-4 w-4" />
+                            <span>{article.author}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Calendar className="h-4 w-4" />
+                            <span>{article.date}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Clock className="h-4 w-4" />
+                            <span>{article.readTime}</span>
+                          </div>
+                        </div>
+                        <Button className="group">
+                          Tovább olvasom 
+                          <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-2" />
+            <CarouselNext className="right-2" />
+          </Carousel>
+        </div>
+      </section>
+
+      {/* Main Content with Sidebar */}
+      <section className="py-12 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Main Articles */}
+            <div className="lg:col-span-2">
+              {/* Category Filter */}
+              <div className="flex gap-3 mb-8 overflow-x-auto pb-2">
+                {categories.map((cat) => (
+                  <Button
+                    key={cat.id}
+                    variant={activeCategory === cat.id ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setActiveCategory(cat.id)}
+                    className="whitespace-nowrap"
+                  >
+                    {cat.label}
+                  </Button>
+                ))}
+              </div>
+
+              <h2 className="text-2xl font-bold mb-6">Legújabb Cikkek</h2>
+              
+              <div className="space-y-6">
+                {articles.map((article, index) => (
+                  <Card key={index} className="hover:shadow-lg transition-all hover:scale-[1.02] cursor-pointer group">
+                    <div className="md:flex">
+                      <div className="md:w-48 h-48 bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                        <div className="text-4xl font-bold text-primary/30">{index + 1}</div>
+                      </div>
+                      <div className="flex-1">
+                        <CardHeader>
+                          <Badge className="w-fit mb-2">{article.category}</Badge>
+                          <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                            {article.title}
+                          </CardTitle>
+                          <CardDescription className="mt-2">{article.excerpt}</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                            <div className="flex items-center gap-1">
+                              <User className="h-4 w-4" />
+                              <span>{article.author}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Clock className="h-4 w-4" />
+                              <span>{article.readTime}</span>
+                            </div>
+                            <span>{article.date}</span>
+                          </div>
+                        </CardContent>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+
+              <div className="mt-8 text-center">
+                <Button variant="outline" size="lg">
+                  További Cikkek Betöltése
+                </Button>
               </div>
             </div>
-          </div>
-        </Card>
 
-        {/* Articles Grid */}
-        <h2 className="text-2xl font-bold mb-6">Ajánlott cikkek</h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          {articles.map((article, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Badge className="w-fit mb-2">{article.category}</Badge>
-                <CardTitle className="text-xl mb-2">{article.title}</CardTitle>
-                <CardDescription>{article.excerpt}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                  <div className="flex items-center gap-1">
-                    <User className="h-4 w-4" />
-                    <span>{article.author}</span>
+            {/* Sidebar */}
+            <div className="space-y-6">
+              {/* Newsletter */}
+              <Card className="bg-primary text-primary-foreground">
+                <CardHeader>
+                  <CardTitle>Hírlevél Feliratkozás</CardTitle>
+                  <CardDescription className="text-primary-foreground/80">
+                    Heti összefoglaló a legújabb cikkekről
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <input 
+                    type="email" 
+                    placeholder="Email cím"
+                    className="w-full px-4 py-2 rounded mb-3 bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60"
+                  />
+                  <Button variant="secondary" className="w-full">
+                    Feliratkozom
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Popular Articles */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <TrendingUp className="h-5 w-5 text-primary" />
+                    Népszerű Cikkek
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {popularArticles.map((item, index) => (
+                      <div 
+                        key={index}
+                        className="flex items-start gap-3 p-3 rounded hover:bg-muted transition-colors cursor-pointer group"
+                      >
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
+                          {index + 1}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2">
+                            {item.title}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
+                            <TrendingUp className="h-3 w-3" />
+                            {item.views} megtekintés
+                          </p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-4 w-4" />
-                    <span>{article.readTime}</span>
+                </CardContent>
+              </Card>
+
+              {/* Categories */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Kategóriák</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {['Trendek', 'Elemzések', 'Interjúk', 'Tanácsok', 'Statisztikák', 'Történet'].map((cat) => (
+                      <button
+                        key={cat}
+                        className="w-full text-left px-3 py-2 rounded hover:bg-muted transition-colors text-sm flex items-center justify-between group"
+                      >
+                        <span>{cat}</span>
+                        <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                      </button>
+                    ))}
                   </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">{article.date}</span>
-                  <Button variant="outline" size="sm">Tovább olvasom</Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </div>
-      </main>
+      </section>
     </div>
   );
 };

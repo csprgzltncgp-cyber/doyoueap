@@ -77,7 +77,7 @@ const Arak = () => {
                 onClick={() => navigate('/magazin')}
                 className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
               >
-                Magazin
+                The Journalis
               </button>
               <button
                 onClick={() => navigate('/bemutatkozas')}
