@@ -180,7 +180,15 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
         <Button variant="outline" onClick={onBack}>
           Vissza
         </Button>
-        <Button onClick={onSubmit} disabled={loading}>
+        <Button 
+          onClick={onSubmit} 
+          disabled={loading}
+          style={{
+            backgroundColor: '#3572ef',
+            color: 'white'
+          }}
+          className="hover:opacity-90"
+        >
           {loading ? 'Felmérés indítása...' : 'Felmérés indítása'}
         </Button>
       </div>

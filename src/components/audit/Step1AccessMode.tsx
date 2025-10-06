@@ -85,7 +85,15 @@ export const Step1AccessMode = ({ accessMode, onAccessModeChange, onNext, onBack
         <Button variant="outline" onClick={onBack}>
           Vissza
         </Button>
-        <Button onClick={onNext} disabled={!accessMode}>
+        <Button 
+          onClick={onNext} 
+          disabled={!accessMode}
+          style={{
+            backgroundColor: '#3572ef',
+            color: 'white'
+          }}
+          className="hover:opacity-90"
+        >
           Következő lépés
         </Button>
       </div>

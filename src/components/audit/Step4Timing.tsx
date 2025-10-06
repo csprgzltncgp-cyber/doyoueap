@@ -114,7 +114,15 @@ export const Step4Timing = ({
         <Button variant="outline" onClick={onBack}>
           Vissza
         </Button>
-        <Button onClick={onNext} disabled={!expiresAt}>
+        <Button 
+          onClick={onNext} 
+          disabled={!expiresAt}
+          style={{
+            backgroundColor: '#3572ef',
+            color: 'white'
+          }}
+          className="hover:opacity-90"
+        >
           Következő lépés
         </Button>
       </div>

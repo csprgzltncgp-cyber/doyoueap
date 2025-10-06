@@ -180,7 +180,13 @@ const CreateAudit = () => {
         <p className="text-muted-foreground text-sm">
           Lépés {currentStep} / {totalSteps}
         </p>
-        <Progress value={(currentStep / totalSteps) * 100} className="mt-4" />
+        <Progress 
+          value={(currentStep / totalSteps) * 100} 
+          className="mt-4"
+          style={{
+            '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #3572ef 100%)'
+          } as React.CSSProperties}
+        />
       </div>
 
       <div className="space-y-6">

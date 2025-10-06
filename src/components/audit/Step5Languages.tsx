@@ -96,7 +96,15 @@ export const Step5Languages = ({
         <Button variant="outline" onClick={onBack}>
           Vissza
         </Button>
-        <Button onClick={onNext} disabled={selectedLanguages.length === 0}>
+        <Button 
+          onClick={onNext} 
+          disabled={selectedLanguages.length === 0}
+          style={{
+            backgroundColor: '#3572ef',
+            color: 'white'
+          }}
+          className="hover:opacity-90"
+        >
           Következő lépés
         </Button>
       </div>

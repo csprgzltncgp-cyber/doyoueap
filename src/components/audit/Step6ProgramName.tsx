@@ -78,7 +78,14 @@ export const Step6ProgramName = ({
         <Button variant="outline" onClick={onBack}>
           Vissza
         </Button>
-        <Button onClick={onNext}>
+        <Button 
+          onClick={onNext}
+          style={{
+            backgroundColor: '#3572ef',
+            color: 'white'
+          }}
+          className="hover:opacity-90"
+        >
           Következő lépés
         </Button>
       </div>
