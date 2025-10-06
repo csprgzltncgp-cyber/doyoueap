@@ -195,7 +195,9 @@ const Bemutatkozas = () => {
         </Card>
 
         {/* Benefits Section */}
-        <div className="grid md:grid-cols-4 gap-6 mb-16">
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-center mb-8">Vállalati előnyök</h2>
+          <div className="grid md:grid-cols-4 gap-6">
           <Card className="text-center">
             <CardHeader>
               <CheckCircle2 className="h-12 w-12 mx-auto text-primary mb-2" />
@@ -243,6 +245,7 @@ const Bemutatkozas = () => {
               </p>
             </CardContent>
           </Card>
+          </div>
         </div>
 
         {/* CTA Section */}
