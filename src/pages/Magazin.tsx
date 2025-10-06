@@ -11,6 +11,7 @@ import mythsArticleImg from '@/assets/myths-article.jpg';
 import scoreArticleImg from '@/assets/4score-article.jpg';
 import futureArticleImg from '@/assets/future-article.jpg';
 import climateArticleImg from '@/assets/climate-article.jpg';
+import digitalWellbeingArticleImg from '@/assets/digital-wellbeing-article.jpg';
 import { useAuth } from '@/hooks/useAuth';
 import { 
   Carousel, 
@@ -71,7 +72,8 @@ const Magazin = () => {
       author: "doyoueap",
       date: "2025. január 6.",
       readTime: "7 perc",
-      category: "Technológia"
+      category: "Technológia",
+      image: digitalWellbeingArticleImg
     },
     {
       title: "Globális kitekintés: EAP-használat régiók szerint",
