@@ -93,21 +93,21 @@ export default {
             height: "0",
           },
         },
-        "pulse-strong": {
+        "pulse-glow": {
           "0%, 100%": {
             opacity: "1",
-            transform: "scale(1)",
+            textShadow: "0 0 10px rgba(59, 130, 246, 0.5)",
           },
           "50%": {
-            opacity: "0.7",
-            transform: "scale(1.05)",
+            opacity: "0.8",
+            textShadow: "0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.6)",
           },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "pulse-strong": "pulse-strong 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "pulse-glow": "pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },
   },
