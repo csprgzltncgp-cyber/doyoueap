@@ -72,44 +72,43 @@ const Bemutatkozas = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold mb-12">Miért az EAP Pulse?</h1>
+        {/* Hero Section */}
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            Tedd láthatóvá az EAP-programod valódi értékét – valós idejű pulzusméréssel
+          </h1>
+          <p className="text-xl text-muted-foreground mb-8 max-w-4xl mx-auto">
+            Az EAP Pulse rövid, rendszeres felmérésekkel méri a munkavállalói élményt, és a 4Score módszertan szerint mutatja meg, hol erős a programod és hol érdemes fejleszteni. Extra riportadatok, tiszta trendek, jobb döntések – szolgáltatóval együttműködve, nem helyette.
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Button size="lg" onClick={() => navigate('/auth')} className="bg-[#3572ef] hover:bg-[#3572ef]/90">
+              Kezdje el most
+            </Button>
+            <Button size="lg" variant="outline" onClick={() => {
+              const element = document.getElementById('learn-more');
+              element?.scrollIntoView({ behavior: 'smooth' });
+            }}>
+              Tudjon meg többet
+            </Button>
+          </div>
+        </div>
 
         {/* Section 1: EAP Pulse Introduction */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
+        <div className="grid md:grid-cols-2 gap-8 mb-16" id="learn-more">
           <Card>
             <CardHeader>
-              <CardTitle className="text-3xl text-foreground animate-pulse-glow">Bemutatkozik az EAP Pulse!</CardTitle>
-              <CardDescription className="text-base">
-                A következő generációs EAP értékelési platform
-              </CardDescription>
+              <CardTitle className="text-3xl">Mi az EAP Pulse?</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <p className="text-lg">
-                Az EAP Pulse egy innovatív platform, amely forradalmasítja a munkavállalói támogató programok (EAP) értékelését és hatékonyságmérését.
+                Az EAP Pulse egy gyors és kíméletes „pulzusmérő" a futó EAP-programokhoz. Rövid, mobilbarát kérdőívekkel rendszeresen visszajelzést kérünk a munkatársaktól, majd az eredményeket a 4Score keretben jelenítjük meg – így egy pillantással látszik, mennyire ismert a program, mennyire bíznak benne és használják, valamint milyen kézzelfogható hatást ér el.
               </p>
-              <div className="space-y-4">
-                <div className="flex gap-3">
-                  <CheckCircle2 className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Adatalapú döntések</h3>
-                    <p className="text-muted-foreground">Valós idejű adatok és elemzések, amelyek segítenek megérteni az EAP program hatékonyságát.</p>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <CheckCircle2 className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Egyszerű használat</h3>
-                    <p className="text-muted-foreground">Felhasználóbarát felület, amely megkönnyíti az adatok gyűjtését és értelmezését.</p>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <CheckCircle2 className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Rugalmas konfiguráció</h3>
-                    <p className="text-muted-foreground">Testre szabható kérdőívek és értékelési módszerek a szervezet egyedi igényei szerint.</p>
-                  </div>
-                </div>
-              </div>
+              <p className="text-muted-foreground">
+                A Pulse nem váltja ki az EAP-szolgáltatódat, hanem kiegészíti: több adatot ad a kezébe (és a HR kezébe) a jobb kommunikációhoz, fejlesztési döntésekhez és a vezetői riportokhoz. A cél egy win–win: hiteles, átlátható kép a menedzsment felé, és egyre használhatóbb program a dolgozóknak.
+              </p>
+              <p className="text-muted-foreground">
+                A megvalósítás egyszerű: előre összeállított vagy testre szabható kérdések, automatikus kiküldés, real-time dashboardok és kész menedzsment-riportok. A válaszadás anonim, az adatok összesítve jelennek meg.
+              </p>
             </CardContent>
           </Card>
           <div className="rounded-lg overflow-hidden h-full">
@@ -121,170 +120,196 @@ const Bemutatkozas = () => {
           </div>
         </div>
 
-        {/* Section 2: 4Score Methodology & Corporate Benefits */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl">4Score módszertan</CardTitle>
-              <CardDescription className="text-base">
-                Komplex értékelési rendszer négy kulcsfontosságú dimenzióban
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <p className="text-lg">
-                A 4Score módszertan egy átfogó értékelési keretrendszer, amely négy alapvető területen méri az EAP program hatékonyságát.
-              </p>
-              <div className="grid grid-cols-2 gap-4 bg-gradient-to-br from-[#3abef9]/30 to-[#ff66ff]/30 p-4 rounded-lg">
-                <Card className="bg-background/80 backdrop-blur-sm">
-                  <CardHeader className="p-4">
-                    <div className="flex items-center gap-2">
-                      <div className="p-1.5 bg-primary/10 rounded-lg">
-                        <TrendingUp className="h-5 w-5 text-primary" />
-                      </div>
-                      <CardTitle className="text-base">1. Tudatosság</CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="p-4 pt-0">
-                    <p className="text-xs text-muted-foreground">
-                      Méri, hogy a munkavállalók mennyire ismerik az EAP programot.
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card className="bg-background/80 backdrop-blur-sm">
-                  <CardHeader className="p-4">
-                    <div className="flex items-center gap-2">
-                      <div className="p-1.5 bg-primary/10 rounded-lg">
-                        <Users className="h-5 w-5 text-primary" />
-                      </div>
-                      <CardTitle className="text-base">2. Használat</CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="p-4 pt-0">
-                    <p className="text-xs text-muted-foreground">
-                      Értékeli a program tényleges igénybevételét.
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card className="bg-background/80 backdrop-blur-sm">
-                  <CardHeader className="p-4">
-                    <div className="flex items-center gap-2">
-                      <div className="p-1.5 bg-primary/10 rounded-lg">
-                        <CheckCircle2 className="h-5 w-5 text-primary" />
-                      </div>
-                      <CardTitle className="text-base">3. Bizalom</CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="p-4 pt-0">
-                    <p className="text-xs text-muted-foreground">
-                      Vizsgálja a munkavállalók bizalmát a programban.
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card className="bg-background/80 backdrop-blur-sm">
-                  <CardHeader className="p-4">
-                    <div className="flex items-center gap-2">
-                      <div className="p-1.5 bg-primary/10 rounded-lg">
-                        <Award className="h-5 w-5 text-primary" />
-                      </div>
-                      <CardTitle className="text-base">4. Hatás</CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="p-4 pt-0">
-                    <p className="text-xs text-muted-foreground">
-                      Méri a program valós hatását a jólétre.
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl">Vállalati előnyök</CardTitle>
-              <CardDescription className="text-base">
-                Miért válassza az EAP Pulse-t a szervezete?
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid gap-6">
-                <div className="space-y-4">
-                  <h3 className="text-xl font-semibold">ROI növelés</h3>
-                  <p className="text-muted-foreground">
-                    Mérhető eredmények, amelyek segítenek igazolni az EAP programba való befektetés megtérülését.
-                  </p>
-                </div>
-                <div className="space-y-4">
-                  <h3 className="text-xl font-semibold">Adatvezérelt stratégia</h3>
-                  <p className="text-muted-foreground">
-                    Valós adatok alapján optimalizálhatja az EAP programot és a kommunikációs stratégiát.
-                  </p>
-                </div>
-                <div className="space-y-4">
-                  <h3 className="text-xl font-semibold">Gyors implementáció</h3>
-                  <p className="text-muted-foreground">
-                    Azonnal elindítható platform minimális IT erőforrás igénnyel.
-                  </p>
-                </div>
-                <div className="space-y-4">
-                  <h3 className="text-xl font-semibold">Megfelelés és biztonság</h3>
-                  <p className="text-muted-foreground">
-                    GDPR-kompatibilis adatkezelés és teljes anonimitás a munkavállalók számára.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Section 4: EAP Providers */}
-        <Card>
+        {/* Section 2: 4Score Methodology */}
+        <Card className="mb-16">
           <CardHeader>
-            <CardTitle className="text-3xl">Ajánlat EAP szolgáltatók számára</CardTitle>
-            <CardDescription className="text-base">
-              Partner program szolgáltatóknak
-            </CardDescription>
+            <CardTitle className="text-3xl text-center">A 4Score négy dimenzióban ad teljes képet az EAP-ról:</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <p className="text-lg">
-              Az EAP Pulse kiváló lehetőség az EAP szolgáltatók számára, hogy értéket adjanak ügyfeleiknek és megkülönböztessék magukat a piacon.
-            </p>
-            <div className="space-y-4">
-              <Card className="bg-primary/5 border-primary/20">
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="border-l-4 border-l-[#3572ef]">
                 <CardHeader>
-                  <CardTitle>White-label megoldás</CardTitle>
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-[#3572ef]/10 rounded-lg">
+                      <TrendingUp className="h-6 w-6 text-[#3572ef]" />
+                    </div>
+                    <CardTitle className="text-xl">1. Tudatosság (Awareness)</CardTitle>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Saját márkával és arculattal használhatja a platformot, így erősítve saját brand-jét.
+                    Méri, hogy a munkavállalók mennyire ismerik az EAP-t, tudják-e, hogyan és mire használható.
                   </p>
                 </CardContent>
               </Card>
-              <Card className="bg-primary/5 border-primary/20">
+
+              <Card className="border-l-4 border-l-[#3abef9]">
                 <CardHeader>
-                  <CardTitle>Versenyelőny</CardTitle>
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-[#3abef9]/10 rounded-lg">
+                      <Users className="h-6 w-6 text-[#3abef9]" />
+                    </div>
+                    <CardTitle className="text-xl">2. Használat (Usage)</CardTitle>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Kínáljon adatalapú értékelést ügyfeleinek, ami megkülönbözteti Önt a konkurenciától.
+                    Értékeli a tényleges igénybevételt és a használat mintázatait – hol és miért aktivizálódnak az emberek.
                   </p>
                 </CardContent>
               </Card>
-              <Card className="bg-primary/5 border-primary/20">
+
+              <Card className="border-l-4 border-l-[#ff66ff]">
                 <CardHeader>
-                  <CardTitle>Ügyfélmegtartás</CardTitle>
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-[#ff66ff]/10 rounded-lg">
+                      <CheckCircle2 className="h-6 w-6 text-[#ff66ff]" />
+                    </div>
+                    <CardTitle className="text-xl">3. Bizalom & Hajlandóság (Trust & Willingness)</CardTitle>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    A rendszeres értékelések és átlátható eredmények növelik az ügyfélelégedettséget és -megtartást.
+                    Vizsgálja a programba vetett bizalmat és a segítségkérésre való hajlandóságot – az anonimitás érzésétől a vezetői példáig.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-l-4 border-l-[#050c9c]">
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-[#050c9c]/10 rounded-lg">
+                      <Award className="h-6 w-6 text-[#050c9c]" />
+                    </div>
+                    <CardTitle className="text-xl">4. Hatás (Impact)</CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    Méri a program valós hatását a jóllétre és a szervezeti működésre: hiányzás, fluktuáció, elégedettség, ajánlási szándék.
                   </p>
                 </CardContent>
               </Card>
             </div>
-            <div className="pt-6">
-              <Button size="lg" onClick={() => navigate('/arak')} className="bg-[#050c9c] hover:bg-[#050c9c]/90">
-                Ismerje meg a partner programot
-              </Button>
+          </CardContent>
+        </Card>
+
+        {/* Benefits Section */}
+        <div className="grid md:grid-cols-4 gap-6 mb-16">
+          <Card className="text-center">
+            <CardHeader>
+              <CheckCircle2 className="h-12 w-12 mx-auto text-primary mb-2" />
+              <CardTitle className="text-lg">Hiteles visszajelzés</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                Anonim, összesített, torzítatlan nézőpont a dolgozóktól – rendszeresen, összehasonlíthatóan.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="text-center">
+            <CardHeader>
+              <TrendingUp className="h-12 w-12 mx-auto text-primary mb-2" />
+              <CardTitle className="text-lg">Jobb döntések</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                4Score riportokkal gyorsan azonosíthatók a fejlesztési pontok és a működő gyakorlatok.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="text-center">
+            <CardHeader>
+              <Award className="h-12 w-12 mx-auto text-primary mb-2" />
+              <CardTitle className="text-lg">Menedzsment-riport egy kattintásra</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                Kész vizualizációk és exportok a vezetői prezentációkhoz.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="text-center">
+            <CardHeader>
+              <Users className="h-12 w-12 mx-auto text-primary mb-2" />
+              <CardTitle className="text-lg">Szolgáltató-barát megoldás</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                Az EAP-partnerrel együttműködve működik; API-val és white-label opcióval is bővíthető.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* CTA Section */}
+        <Card className="mb-16 bg-gradient-to-r from-[#3572ef] to-[#3abef9] text-white border-none">
+          <CardHeader className="text-center">
+            <CardTitle className="text-3xl md:text-4xl text-white">Indítsa el az első EAP Pulse felmérését</CardTitle>
+            <CardDescription className="text-xl text-white/90">
+              Beállítás 15 perc alatt. Azonnali 4Score-riportok. 100% anonim válaszadás.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="text-center">
+            <Button size="lg" variant="secondary" onClick={() => navigate('/auth')} className="bg-white text-[#3572ef] hover:bg-white/90">
+              Regisztráció
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Detailed Description */}
+        <Card className="mb-16">
+          <CardContent className="py-8">
+            <p className="text-lg text-muted-foreground">
+              Az EAP Pulse a napi működés ritmusára hangolt mérőeszköz: nem évente egyszer vizsgál, hanem folyamatosan, így a kampányok, vezetői üzenetek és szervezeti változások hatása hetek alatt láthatóvá válik. A 4Score dimenziók világos fejlesztési térképet adnak, a trendek pedig segítenek abban, hogy ott avatkozz be, ahol a legnagyobb értéket teremtheti a fejlesztés.
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* FAQ Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-3xl">Gyakran Ismételt Kérdések (GYIK)</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Az EAP Pulse helyettesíti az EAP-szolgáltatót?</h3>
+                <p className="text-muted-foreground">
+                  Nem. A Pulse a meglévő EAP-ot egészíti ki extra adatokkal és riportokkal.
+                </p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Mennyi idő a bevezetés?</h3>
+                <p className="text-muted-foreground">
+                  Általában 15–30 perc a kezdeti beállítás, utána a kiküldések és riportok automatizálhatók.
+                </p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Anonim a válaszadás?</h3>
+                <p className="text-muted-foreground">
+                  Igen. A válaszok anonimek, az eredmények összesítve jelennek meg.
+                </p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Testre szabható a kérdőív?</h3>
+                <p className="text-muted-foreground">
+                  Igen. Előre összeállított blokkokból dolgozunk, de saját kérdéseket is hozzáadhatsz.
+                </p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Hogyan jelenik meg a 4Score?</h3>
+                <p className="text-muted-foreground">
+                  Valós idejű dashboardon, letölthető jelentésekben és időbeli trendekben.
+                </p>
+              </div>
             </div>
           </CardContent>
         </Card>
