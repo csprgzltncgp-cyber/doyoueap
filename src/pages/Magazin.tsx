@@ -12,6 +12,7 @@ import scoreArticleImg from '@/assets/4score-article.jpg';
 import futureArticleImg from '@/assets/future-article.jpg';
 import climateArticleImg from '@/assets/climate-article.jpg';
 import digitalWellbeingArticleImg from '@/assets/digital-wellbeing-article.jpg';
+import globalArticleImg from '@/assets/global-article.jpg';
 import { useAuth } from '@/hooks/useAuth';
 import { 
   Carousel, 
@@ -81,7 +82,8 @@ const Magazin = () => {
       author: "doyoueap",
       date: "2025. január 5.",
       readTime: "8 perc",
-      category: "Globális"
+      category: "Globális",
+      image: globalArticleImg
     },
     {
       title: "A vezetők szerepe és felelőssége az EAP sikerében",
