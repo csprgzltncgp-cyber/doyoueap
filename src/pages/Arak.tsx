@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Check } from 'lucide-react';
+import { ArrowLeft, Check, CheckCircle } from 'lucide-react';
 import logo from '@/assets/doyoueap-logo.png';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -127,7 +127,7 @@ const Arak = () => {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
+        <div className="grid md:grid-cols-4 gap-8 mb-12">
           {packages.map((pkg, index) => (
             <Card 
               key={index} 
@@ -167,6 +167,53 @@ const Arak = () => {
               </CardContent>
             </Card>
           ))}
+
+          {/* EAP Provider / Partner Program Card */}
+          <Card className="flex flex-col bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
+            <CardHeader>
+              <div className="text-xs font-medium text-primary mb-2">SZOLGÁLTATÓKNAK</div>
+              <CardTitle className="text-2xl">Partner Program</CardTitle>
+              <CardDescription>Emeld új szintre az ügyfélriportjaidat</CardDescription>
+              <div className="mt-4">
+                <div className="text-3xl font-bold">Egyedi ajánlat</div>
+              </div>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col justify-between">
+              <div className="space-y-3 mb-4">
+                <p className="text-sm font-medium mb-3">
+                  Bővítsd szolgáltatásportfóliód olyan riportadatokkal, amelyek egyedivé teszik ajánlatodat.
+                </p>
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                  <div>
+                    <p className="font-medium">REST API integráció</p>
+                    <p className="text-sm text-muted-foreground">Zökkenőmentes adatkapcsolat rendszereiddel</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                  <div>
+                    <p className="font-medium">White-label megoldás</p>
+                    <p className="text-sm text-muted-foreground">Saját arculatoddal, a te nevedben</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                  <div>
+                    <p className="font-medium">Partner központ</p>
+                    <p className="text-sm text-muted-foreground">Összes ügyfeled átlátható menedzselése</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                  <p className="font-medium">Dedikált technikai támogatás</p>
+                </div>
+              </div>
+              <Button className="w-full" variant="default">
+                Kérj egyedi ajánlatot
+              </Button>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Additional Info */}
