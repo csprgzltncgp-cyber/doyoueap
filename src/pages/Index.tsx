@@ -748,9 +748,9 @@ const Index = () => {
             </Card>
 
             {/* Pro */}
-            <Card className="border-primary shadow-lg flex flex-col">
+            <Card className="shadow-lg flex flex-col" style={{ borderColor: '#3572ef', borderWidth: '2px' }}>
               <CardHeader>
-                <div className="text-xs font-medium text-primary mb-2">NÉPSZERŰ</div>
+                <div className="text-xs font-medium mb-2" style={{ color: '#3572ef' }}>NÉPSZERŰ</div>
                 <CardTitle className="text-2xl">Pro</CardTitle>
                 <CardDescription>Közepes cégeknek, 250-1000 fő</CardDescription>
                 <div className="mt-4">
