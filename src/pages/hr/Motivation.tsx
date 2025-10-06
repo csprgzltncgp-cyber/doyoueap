@@ -240,7 +240,7 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange }: MotivationProps)
                   </div>
                   <Progress 
                     value={percentage} 
-                    style={{ '--progress-background': '#3366ff' } as React.CSSProperties}
+                    style={{ '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #ff66ff 100%)' } as React.CSSProperties}
                     className="h-3"
                   />
                 </div>
@@ -279,7 +279,7 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange }: MotivationProps)
                   </div>
                   <Progress 
                     value={percentage} 
-                    style={{ '--progress-background': '#3366ff' } as React.CSSProperties}
+                    style={{ '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #ff66ff 100%)' } as React.CSSProperties}
                     className="h-3"
                   />
                 </div>
@@ -318,7 +318,7 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange }: MotivationProps)
                   </div>
                   <Progress 
                     value={percentage} 
-                    style={{ '--progress-background': '#3366ff' } as React.CSSProperties}
+                    style={{ '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #ff66ff 100%)' } as React.CSSProperties}
                     className="h-3"
                   />
                 </div>
