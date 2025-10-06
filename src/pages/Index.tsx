@@ -750,8 +750,8 @@ const Index = () => {
             {/* Pro */}
             <Card className="shadow-lg flex flex-col" style={{ borderColor: '#3572ef', borderWidth: '2px' }}>
               <CardHeader>
-                <div className="text-xs font-medium mb-2" style={{ color: '#3abef9' }}>NÉPSZERŰ</div>
-                <CardTitle className="text-2xl" style={{ color: '#3572ef' }}>Pro</CardTitle>
+                <div className="text-xs font-medium mb-2" style={{ color: '#3572ef' }}>NÉPSZERŰ</div>
+                <CardTitle className="text-2xl">Pro</CardTitle>
                 <CardDescription>Közepes cégeknek, 250-1000 fő</CardDescription>
                 <div className="mt-4">
                   <div className="text-3xl font-bold">399 €<span className="text-lg font-normal text-muted-foreground">/hó</span></div>
@@ -761,36 +761,36 @@ const Index = () => {
               <CardContent className="flex-1 flex flex-col justify-between">
                 <div className="space-y-2 mb-4">
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 mt-0.5" style={{ color: '#3572ef' }} />
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <div>
                       <p className="font-medium">Negyedévente felmérés</p>
                       <p className="text-sm text-muted-foreground">Ismétlés funkcióval</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 mt-0.5" style={{ color: '#3572ef' }} />
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <div>
                       <p className="font-medium">4Score bővített riportok</p>
                       <p className="text-sm text-muted-foreground">Demográfia, trendek, összehasonlítás</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 mt-0.5" style={{ color: '#3572ef' }} />
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <p className="font-medium">PDF + Excel export</p>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 mt-0.5" style={{ color: '#3572ef' }} />
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <div>
                       <p className="font-medium">Brandelhető User App</p>
                       <p className="text-sm text-muted-foreground">Logó + 4 szín módosítható</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 mt-0.5" style={{ color: '#3572ef' }} />
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <p className="font-medium">Kommunikációs támogatás</p>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 mt-0.5" style={{ color: '#3572ef' }} />
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                     <p className="font-medium">Email + chat support</p>
                   </div>
                 </div>
