@@ -160,7 +160,8 @@ const Index = () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }} 
             />
-            <nav className="hidden md:flex gap-6 items-center">
+          </div>
+          <nav className="hidden md:flex gap-6 items-center">
             <button
               onClick={() => navigate('/bemutatkozas')}
               className="text-sm border border-transparent transition-colors px-3 py-2 rounded-sm hover:bg-muted"
@@ -191,8 +192,7 @@ const Index = () => {
                 Dashboard
               </button>
             )}
-            </nav>
-          </div>
+          </nav>
           <div className="flex items-center gap-4">
             {user ? (
               <Button onClick={handleLogout} variant="outline">
