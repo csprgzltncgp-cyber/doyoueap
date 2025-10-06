@@ -147,26 +147,26 @@ const Magazin = () => {
             <nav className="hidden md:flex gap-6 items-center">
               <button
                 onClick={() => navigate('/magazin')}
-                className="text-sm bg-primary text-primary-foreground font-semibold transition-colors px-3 py-2 rounded"
+                className="text-sm bg-white border-2 border-black font-semibold transition-colors px-3 py-2 rounded-md"
               >
                 The Journalist!
               </button>
               <button
                 onClick={() => navigate('/bemutatkozas')}
-                className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
+                className="text-sm transition-colors px-3 py-2 rounded-md hover:bg-muted"
               >
                 Bemutatkozás
               </button>
               <button
                 onClick={() => navigate('/arak')}
-                className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
+                className="text-sm transition-colors px-3 py-2 rounded-md hover:bg-muted"
               >
                 Árak és Csomagok
               </button>
               {user && role === 'hr' && (
                 <button
                   onClick={() => navigate('/?section=eap-pulse&sub=create-audit')}
-                  className="text-sm transition-colors px-3 py-2 rounded hover:bg-muted"
+                  className="text-sm transition-colors px-3 py-2 rounded-md hover:bg-muted"
                 >
                   Dashboard
                 </button>
