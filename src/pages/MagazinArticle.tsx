@@ -413,9 +413,9 @@ const MagazinArticle = () => {
           <div 
             className="prose prose-lg md:prose-xl max-w-none 
                        prose-headings:font-bold 
-                       prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-16 prose-h2:mb-6 
-                       prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:mt-12 prose-h3:mb-4 
-                       prose-p:mb-6 prose-p:leading-relaxed prose-p:text-lg
+                       prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-16 prose-h2:mb-8 
+                       prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:mt-12 prose-h3:mb-6 
+                       prose-p:mb-8 prose-p:leading-relaxed prose-p:text-lg
                        prose-ul:my-8 prose-ul:space-y-3 prose-li:text-lg
                        prose-strong:font-semibold prose-strong:text-foreground"
             dangerouslySetInnerHTML={{ __html: article.content }}
