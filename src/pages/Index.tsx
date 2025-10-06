@@ -598,7 +598,7 @@ const Index = () => {
       <section id="4score" className="py-20 bg-gradient-to-br from-[#3abef9]/20 to-[#ff66ff]/20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <div className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+            <div className="inline-block px-4 py-1 bg-gradient-to-r from-[#3abef9] to-[#ff66ff] text-white rounded-full text-sm font-medium mb-4">
               4Score Módszertan
             </div>
             <h2 className="text-4xl font-bold mb-4">Négy dimenzió, egy átfogó kép</h2>
