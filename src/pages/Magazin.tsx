@@ -33,8 +33,8 @@ const Magazin = () => {
       image: "gradient-1"
     },
     {
-      title: "A 4A mutatók ereje: Awareness, Access, Activation, Adherence",
-      excerpt: "Az Employee Assistance Programok értékének mérése sokszor nehézségekbe ütközik. A 4A keretrendszer négy dimenzióban méri az EAP sikerességét, átfogó képet adva arról, mennyire ismert, elérhető, használt és hosszú távon beépülő a program.",
+      title: "A 4Score mutatók ereje: hogyan mérhető az EAP valódi értéke",
+      excerpt: "Egy Employee Assistance Program (EAP) sikerességét ma már nem elég érzésre vagy eseti visszajelzésekre alapozni. A szervezetek elvárják, hogy a támogatási programok hatása mérhető, összehasonlítható és kimutatható legyen — emberi és üzleti szinten egyaránt. A 4Score modell négy kulcsmutatón keresztül ad átfogó képet: Tudatosság, Használat, Bizalom & Hajlandóság, valamint Hatás.",
       author: "doyoueap",
       date: "2025. január 12.",
       readTime: "7 perc",
