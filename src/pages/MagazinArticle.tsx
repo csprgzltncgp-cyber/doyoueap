@@ -719,19 +719,8 @@ const MagazinArticle = () => {
             Vissza a magazinhoz
           </Button>
 
-          {/* Featured Image - Half Width */}
-          {article.image && (
-            <div className="mb-12">
-              <img 
-                src={article.image} 
-                alt={article.title}
-                className="w-1/2 mx-auto rounded-lg shadow-lg"
-              />
-            </div>
-          )}
-
           {/* Article Header */}
-          <div className="mb-12">
+          <div className="mb-8">
             <Badge className="mb-4 text-base px-4 py-1">{article.category}</Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
               {article.title}
@@ -757,6 +746,17 @@ const MagazinArticle = () => {
               </Button>
             </div>
           </div>
+
+          {/* Featured Image - Full Width */}
+          {article.image && (
+            <div className="mb-12">
+              <img 
+                src={article.image} 
+                alt={article.title}
+                className="w-full rounded-lg shadow-lg"
+              />
+            </div>
+          )}
 
           {/* Excerpt */}
           <p className="text-xl md:text-2xl leading-relaxed text-muted-foreground mb-12 font-light">
