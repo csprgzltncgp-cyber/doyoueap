@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Clock, User, TrendingUp, Calendar, ChevronRight } from 'lucide-react';
 import logo from '@/assets/doyoueap-logo.png';
 import journalistLogo from '@/assets/thejournalist_logo.png';
+import featuredArticleImg from '@/assets/featured-article.jpg';
 import { useAuth } from '@/hooks/useAuth';
 import { 
   Carousel, 
@@ -206,11 +207,11 @@ const Magazin = () => {
                   <div className="grid md:grid-cols-2 gap-8 items-center">
                     {/* Large Featured Image */}
                     <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
-                      <div className={`absolute inset-0 bg-gradient-to-br ${gradients[article.image as keyof typeof gradients]}`}>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="text-9xl font-bold text-primary/20">★</div>
-                        </div>
-                      </div>
+                      <img 
+                        src={featuredArticleImg} 
+                        alt={article.title}
+                        className="w-full h-full object-cover"
+                      />
                       <Badge className="absolute top-4 left-4 z-10">{article.category}</Badge>
                     </div>
                     
