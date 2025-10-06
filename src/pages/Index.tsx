@@ -500,7 +500,7 @@ const Index = () => {
                 Új: EAP Pulse
               </div>
               <h1 className="text-5xl font-bold mb-6 leading-tight">
-                Legyen teljesebb képe cége EAP programjáról - bővítse riportját akár további 48 extra statisztikai adattal!
+                Legyen teljesebb képe cége EAP programjáról - bővítse riportját akár <span style={{ color: '#3abef9' }}>további 48 extra statisztikai adattal!</span>
               </h1>
               <p className="text-xl text-muted-foreground mb-8">
                 Egészítse ki az EAP szolgáltatója riportjait a 4Score módszertannal. Szerezzen egyedi 
