@@ -1,5 +1,8 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
+import { Resend } from "https://esm.sh/resend@4.0.0";
+
+const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -85,6 +88,24 @@ const handler = async (req: Request): Promise<Response> => {
       .from('admin_approval_requests')
       .update({ approved: true, approved_at: new Date().toISOString() })
       .eq('approval_token', token);
+
+    // Send approval notification to user
+    await resend.emails.send({
+      from: "DoYouEAP <onboarding@resend.dev>",
+      to: [approvalData.email],
+      subject: "Admin Hozzáférés Aktiválva",
+      html: `
+        <h1>Admin Hozzáférésed Aktiválva!</h1>
+        <p>Kedves ${approvalData.full_name}!</p>
+        <p>Az admin hozzáférésed sikeresen jóváhagyásra került.</p>
+        <p>Most már beléphetsz a rendszerbe az alábbi linken:</p>
+        <a href="https://6e44bc2c-27c6-473f-a4f2-cb11764cf132.lovableproject.com/superadmin" style="display: inline-block; padding: 12px 24px; background-color: #3572ef; color: white; text-decoration: none; border-radius: 6px;">
+          Bejelentkezés
+        </a>
+        <br><br>
+        <p style="color: #666;">Üdvözlünk a DoYouEAP admin felületén!</p>
+      `,
+    });
 
     console.log('Admin access approved for user:', userId);
 

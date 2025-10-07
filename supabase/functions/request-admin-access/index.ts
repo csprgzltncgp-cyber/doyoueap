@@ -53,7 +53,8 @@ const handler = async (req: Request): Promise<Response> => {
     const baseUrl = 'https://6e44bc2c-27c6-473f-a4f2-cb11764cf132.lovableproject.com';
     const approvalUrl = `${baseUrl}/approve-admin?token=${approvalToken}&userId=${userId}`;
     
-    const emailResponse = await resend.emails.send({
+    // Send approval email to admin
+    const adminEmailResponse = await resend.emails.send({
       from: "DoYouEAP <onboarding@resend.dev>",
       to: ["zoltan.csepregi@cgpeu.com"],
       subject: "Új Admin Regisztráció - Jóváhagyás Szükséges",
@@ -74,14 +75,32 @@ const handler = async (req: Request): Promise<Response> => {
       `,
     });
 
-    console.log("Email response:", JSON.stringify(emailResponse));
+    console.log("Admin email response:", JSON.stringify(adminEmailResponse));
 
-    if (emailResponse.error) {
-      console.error("Resend error:", emailResponse.error);
-      throw new Error(`Email sending failed: ${JSON.stringify(emailResponse.error)}`);
+    if (adminEmailResponse.error) {
+      console.error("Resend error:", adminEmailResponse.error);
+      throw new Error(`Admin email sending failed: ${JSON.stringify(adminEmailResponse.error)}`);
     }
 
-    console.log("Approval email sent successfully:", emailResponse.data?.id);
+    // Send confirmation email to user
+    const userEmailResponse = await resend.emails.send({
+      from: "DoYouEAP <onboarding@resend.dev>",
+      to: [email],
+      subject: "Admin Regisztráció Fogadva",
+      html: `
+        <h1>Regisztrációd Fogadva</h1>
+        <p>Kedves ${fullName}!</p>
+        <p>Admin regisztrációdat sikeresen fogadtuk.</p>
+        <p>A rendszergazda hamarosan áttekinti a kérésedet, és email értesítést kapsz, amikor a hozzáférésed aktiválásra kerül.</p>
+        <br>
+        <p style="color: #666;">Köszönjük a türelmedet!</p>
+        <p style="color: #666;">DoYouEAP Csapat</p>
+      `,
+    });
+
+    console.log("User confirmation email sent:", userEmailResponse.data?.id);
+
+    console.log("Approval email sent successfully:", adminEmailResponse.data?.id);
 
     return new Response(
       JSON.stringify({ success: true, message: "Approval request sent" }),
