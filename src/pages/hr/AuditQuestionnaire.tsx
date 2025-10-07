@@ -33,9 +33,7 @@ export default function AuditQuestionnaire() {
 
   // Automatikus görgetés az oldal tetejére lépésváltáskor
   useEffect(() => {
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentStep, currentBlockIndex]);
 
   const fetchQuestionnaire = async () => {
