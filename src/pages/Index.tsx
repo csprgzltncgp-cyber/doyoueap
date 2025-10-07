@@ -38,11 +38,6 @@ const Index = () => {
       navigate('/admin');
     }
     
-    // Set default section to Focus for HR users
-    if (!loading && user && role === 'hr' && !section) {
-      setSearchParams({ section: 'focus' });
-    }
-    
     // Set default subsection for EAP Pulse
     if (user && role === 'hr' && section === 'eap-pulse' && !subSection) {
       setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });
