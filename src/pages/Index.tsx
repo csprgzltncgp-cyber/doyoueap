@@ -123,7 +123,7 @@ const Index = () => {
 
     switch (section) {
       case 'dashboard':
-        return <HRDashboard />;
+        return <Focus />;
       case 'focus':
         return <Focus />;
       case 'eap-pulse':
@@ -133,7 +133,7 @@ const Index = () => {
           case 'audit-questionnaire':
             return <EAPAudit />;
           default:
-            return <HRDashboard />;
+            return <Focus />;
         }
       case 'reports':
         return <Reports />;
@@ -144,7 +144,7 @@ const Index = () => {
       case 'settings':
         return <Settings />;
       default:
-        return null;
+        return <Focus />;
     }
   };
 
@@ -164,9 +164,13 @@ const Index = () => {
               alt="doyoueap" 
               className="h-8 cursor-pointer" 
               onClick={() => {
-                setSearchParams({});
+                if (user && role === 'hr') {
+                  setSearchParams({ section: 'focus' });
+                } else {
+                  setSearchParams({});
+                }
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-              }} 
+              }}
             />
           </div>
           <nav className="hidden md:flex gap-6 items-center absolute left-1/2 -translate-x-1/2">
