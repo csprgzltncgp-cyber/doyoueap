@@ -298,34 +298,34 @@ const Reports = () => {
     if (activeTab === "overview") {
       return (
         <div className="space-y-6">
-          <div className="flex justify-between items-start gap-4 mb-6">
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold mb-2">Összefoglaló Riport</h2>
-              <p className="text-muted-foreground">
-                A program átfogó mutatói: igénybevétel, elégedettség és részvétel
-              </p>
+          <div className="space-y-4 mb-6">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold mb-2">Összefoglaló Riport</h2>
+                <p className="text-muted-foreground">
+                  A program átfogó mutatói: igénybevétel, elégedettség és részvétel
+                </p>
+              </div>
             </div>
-            <div className="flex items-end gap-4">
-              {audits.length > 0 && (
-                <div className="min-w-[300px]">
-                  <label className="text-xs text-muted-foreground mb-1.5 block">
-                    Felmérés kiválasztása
-                  </label>
-                  <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Válassz felmérést" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {audits.map((audit) => (
-                        <SelectItem key={audit.id} value={audit.id}>
-                          {formatAuditName(audit)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-            </div>
+            {audits.length > 0 && (
+              <div className="w-full md:max-w-[300px] md:ml-auto">
+                <label className="text-xs text-muted-foreground mb-1.5 block">
+                  Felmérés kiválasztása
+                </label>
+                <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Válassz felmérést" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {audits.map((audit) => (
+                      <SelectItem key={audit.id} value={audit.id}>
+                        {formatAuditName(audit)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
           </div>
           {/* Top Row: Utilization and Satisfaction Gauges */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
