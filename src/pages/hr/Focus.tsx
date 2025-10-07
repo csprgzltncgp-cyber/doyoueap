@@ -198,7 +198,7 @@ const Focus = () => {
             {getGreeting()}, {userName || 'Felhasználó'}!
           </CardTitle>
           <CardDescription className="text-base">
-            Üdv újra itt! Itt találod a futó felmérések áttekintését és a letöltési előzményeidet.
+            Üdv újra itt! Itt találja a futó felmérések áttekintését és a letöltési előzményeit.
           </CardDescription>
         </CardHeader>
       </Card>
