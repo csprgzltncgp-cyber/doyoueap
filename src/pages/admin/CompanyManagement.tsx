@@ -14,16 +14,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 interface Company {
   id: string;
   company_name: string;
-  contact_email: string;
+  email: string;
   contact_phone: string | null;
   industry: string | null;
   employee_count: string | null;
-  subscription_status: string;
-  subscription_package: string | null;
-  subscription_start_date: string | null;
-  subscription_end_date: string | null;
-  notes: string | null;
+  selected_package: string | null;
   created_at: string;
+  full_name: string | null;
 }
 
 export default function CompanyManagement() {
@@ -51,8 +48,9 @@ export default function CompanyManagement() {
   const fetchCompanies = async () => {
     try {
       const { data, error } = await supabase
-        .from("companies")
-        .select("*")
+        .from("profiles")
+        .select("id, company_name, email, contact_phone, industry, employee_count, selected_package, created_at, full_name")
+        .not("company_name", "is", null)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -69,22 +67,25 @@ export default function CompanyManagement() {
     e.preventDefault();
 
     try {
-      if (editingCompany) {
-        const { error } = await supabase
-          .from("companies")
-          .update(formData)
-          .eq("id", editingCompany.id);
-
-        if (error) throw error;
-        toast.success("Cég sikeresen frissítve");
-      } else {
-        const { error } = await supabase
-          .from("companies")
-          .insert([formData]);
-
-        if (error) throw error;
-        toast.success("Cég sikeresen létrehozva");
+      // Only allow editing existing companies
+      if (!editingCompany) {
+        toast.error("Új cég csak regisztrációval hozható létre");
+        return;
       }
+
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          company_name: formData.company_name,
+          contact_phone: formData.contact_phone,
+          industry: formData.industry,
+          employee_count: formData.employee_count,
+          selected_package: formData.subscription_package,
+        })
+        .eq("id", editingCompany.id);
+
+      if (error) throw error;
+      toast.success("Cég sikeresen frissítve");
 
       setOpen(false);
       resetForm();
@@ -96,16 +97,14 @@ export default function CompanyManagement() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Biztosan törölni szeretnéd ezt a céget?")) return;
+    if (!confirm("Biztosan törölni szeretnéd ezt a céget? Ez törölni fogja a felhasználót is!")) return;
 
     try {
-      const { error } = await supabase
-        .from("companies")
-        .delete()
-        .eq("id", id);
+      // Delete user - this will cascade to profiles due to foreign key
+      const { error } = await supabase.auth.admin.deleteUser(id);
 
       if (error) throw error;
-      toast.success("Cég sikeresen törölve");
+      toast.success("Cég és felhasználó sikeresen törölve");
       fetchCompanies();
     } catch (error) {
       console.error("Error deleting company:", error);
@@ -133,15 +132,15 @@ export default function CompanyManagement() {
     setEditingCompany(company);
     setFormData({
       company_name: company.company_name,
-      contact_email: company.contact_email,
+      contact_email: company.email,
       contact_phone: company.contact_phone || "",
       industry: company.industry || "",
       employee_count: company.employee_count || "",
-      subscription_status: company.subscription_status,
-      subscription_package: company.subscription_package || "",
-      subscription_start_date: company.subscription_start_date || "",
-      subscription_end_date: company.subscription_end_date || "",
-      notes: company.notes || "",
+      subscription_status: "active",
+      subscription_package: company.selected_package || "",
+      subscription_start_date: "",
+      subscription_end_date: "",
+      notes: "",
     });
     setOpen(true);
   };
@@ -154,13 +153,10 @@ export default function CompanyManagement() {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Cégek kezelése</h1>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={resetForm}>
-              <Plus className="mr-2 h-4 w-4" />
-              Új cég
-            </Button>
-          </DialogTrigger>
+        <p className="text-sm text-muted-foreground">Új cég csak regisztrációval hozható létre</p>
+      </div>
+
+      <Dialog open={open} onOpenChange={setOpen}>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>{editingCompany ? "Cég szerkesztése" : "Új cég hozzáadása"}</DialogTitle>
@@ -284,7 +280,6 @@ export default function CompanyManagement() {
             </form>
           </DialogContent>
         </Dialog>
-      </div>
 
       <Card>
         <CardHeader>
@@ -295,11 +290,12 @@ export default function CompanyManagement() {
             <TableHeader>
               <TableRow>
                 <TableHead>Cégnév</TableHead>
+                <TableHead>Kapcsolattartó</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Telefon</TableHead>
                 <TableHead>Iparág</TableHead>
                 <TableHead>Létszám</TableHead>
-                <TableHead>Státusz</TableHead>
+                <TableHead>Csomag</TableHead>
                 <TableHead className="text-right">Műveletek</TableHead>
               </TableRow>
             </TableHeader>
@@ -307,23 +303,12 @@ export default function CompanyManagement() {
               {companies.map((company) => (
                 <TableRow key={company.id}>
                   <TableCell className="font-medium">{company.company_name}</TableCell>
-                  <TableCell>{company.contact_email}</TableCell>
+                  <TableCell>{company.full_name || "-"}</TableCell>
+                  <TableCell>{company.email}</TableCell>
                   <TableCell>{company.contact_phone || "-"}</TableCell>
                   <TableCell>{company.industry || "-"}</TableCell>
                   <TableCell>{company.employee_count || "-"}</TableCell>
-                  <TableCell>
-                    <span className={`px-2 py-1 rounded text-xs ${
-                      company.subscription_status === 'active' ? 'bg-green-100 text-green-800' :
-                      company.subscription_status === 'trial' ? 'bg-blue-100 text-blue-800' :
-                      company.subscription_status === 'expired' ? 'bg-red-100 text-red-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
-                      {company.subscription_status === 'active' ? 'Aktív' :
-                       company.subscription_status === 'trial' ? 'Próba' :
-                       company.subscription_status === 'expired' ? 'Lejárt' :
-                       'Lemondva'}
-                    </span>
-                  </TableCell>
+                  <TableCell>{company.selected_package || "-"}</TableCell>
                   <TableCell className="text-right">
                     <Button
                       variant="ghost"
