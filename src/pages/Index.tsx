@@ -16,6 +16,7 @@ import Reports from './hr/Reports';
 import Export from './hr/Export';
 import CustomSurvey from './hr/CustomSurvey';
 import Settings from './hr/Settings';
+import Focus from './hr/Focus';
 
 const Index = () => {
   const { user, role, loading, signIn, signOut } = useAuth();
@@ -118,6 +119,8 @@ const Index = () => {
     switch (section) {
       case 'dashboard':
         return <HRDashboard />;
+      case 'focus':
+        return <Focus />;
       case 'eap-pulse':
         switch (subSection) {
           case 'create-audit':
@@ -212,6 +215,17 @@ const Index = () => {
             <div className="max-w-7xl mx-auto px-4 py-3">
               <nav className="flex gap-6 justify-center">
                 <button
+                  onClick={() => setSearchParams({ section: 'focus' })}
+                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                    section === 'focus' 
+                      ? 'text-white font-semibold border-white' 
+                      : 'text-white/80 border-transparent hover:text-white'
+                  }`}
+                >
+                  <Target className="h-4 w-4" />
+                  Focus
+                </button>
+                <button
                   onClick={() => {
                     console.log('Clicked EAP Pulse navigation');
                     setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });
@@ -282,16 +296,6 @@ const Index = () => {
           <div className="border-t bg-muted/20">
             <div className="max-w-7xl mx-auto px-4 py-2">
               <nav className="flex gap-6 justify-center">
-                <button
-                  onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'focus' })}
-                  className={`text-sm transition-colors pb-2 border-b-2 ${
-                    subSection === 'focus' 
-                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
-                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
-                  }`}
-                >
-                  Focus
-                </button>
                 <button
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
