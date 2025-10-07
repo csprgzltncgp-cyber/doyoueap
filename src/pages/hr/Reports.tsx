@@ -40,6 +40,9 @@ const Reports = () => {
   const [loadingResponses, setLoadingResponses] = useState(false);
   const [employeeCount, setEmployeeCount] = useState<number>(0);
   const activeTab = searchParams.get("sub") || "overview";
+  const autoExport = searchParams.get("autoExport");
+  const fileName = searchParams.get("fileName");
+  const inIframe = searchParams.get("inIframe") === "true";
 
   useEffect(() => {
     fetchAudits();
@@ -51,6 +54,55 @@ const Reports = () => {
       fetchResponses();
     }
   }, [selectedAuditId]);
+
+  // Auto-export functionality for iframe mode
+  useEffect(() => {
+    if (autoExport && fileName && responses.length > 0) {
+      // Wait a bit for rendering to complete
+      const timer = setTimeout(async () => {
+        try {
+          const html2canvas = (await import('html2canvas')).default;
+          const element = document.getElementById(autoExport);
+          
+          if (!element) {
+            if (inIframe) {
+              window.parent.postMessage({ 
+                type: 'EXPORT_ERROR', 
+                error: 'Element not found' 
+              }, '*');
+            }
+            return;
+          }
+
+          const canvas = await html2canvas(element, {
+            backgroundColor: '#ffffff',
+            scale: 2,
+          });
+
+          const imageData = canvas.toDataURL('image/png');
+          
+          if (inIframe) {
+            // Send data back to parent window
+            window.parent.postMessage({ 
+              type: 'EXPORT_COMPLETE', 
+              imageData, 
+              fileName 
+            }, '*');
+          }
+        } catch (error) {
+          console.error('Auto-export error:', error);
+          if (inIframe) {
+            window.parent.postMessage({ 
+              type: 'EXPORT_ERROR', 
+              error: String(error) 
+            }, '*');
+          }
+        }
+      }, 1500); // Wait for charts to render
+
+      return () => clearTimeout(timer);
+    }
+  }, [autoExport, fileName, responses, inIframe]);
 
   const fetchEmployeeCount = async () => {
     try {
