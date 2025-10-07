@@ -83,7 +83,10 @@ export default function MagazineManagement() {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('handleImageChange called');
     const file = e.target.files?.[0];
+    console.log('Selected file:', file);
+    
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
         toast.error("A kép mérete maximum 5MB lehet");
@@ -93,12 +96,18 @@ export default function MagazineManagement() {
         toast.error("Csak képfájlokat lehet feltölteni");
         return;
       }
+      
+      console.log('Setting image file:', file.name);
       setImageFile(file);
+      
       const reader = new FileReader();
       reader.onloadend = () => {
+        console.log('Preview loaded');
         setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+    } else {
+      console.log('No file selected');
     }
   };
 
@@ -187,6 +196,7 @@ export default function MagazineManagement() {
   };
 
   const resetForm = () => {
+    console.log('resetForm called');
     setFormData({
       title: "",
       slug: "",
