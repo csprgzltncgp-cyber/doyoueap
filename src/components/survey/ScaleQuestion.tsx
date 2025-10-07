@@ -22,16 +22,9 @@ export const ScaleQuestion = ({ question, value, onChange }: ScaleQuestionProps)
       </Label>
       
       {labels && (
-        <div className="bg-muted/30 rounded-lg p-3 space-y-1.5">
-          <p className="text-sm font-medium text-center">
-            A válaszadás során az{' '}
-            <span className="font-bold text-foreground">1-es szám</span>
-            {' '}jelentése: <span className="italic">{labels['1']}</span>,
-            {' '}míg a{' '}
-            <span className="font-bold text-foreground">{scale}-es szám</span>
-            {' '}jelentése: <span className="italic">{labels[scale.toString()]}</span>
-          </p>
-        </div>
+        <p className="text-sm text-muted-foreground italic">
+          A skálán az 1-es érték azt jelenti, hogy {labels['1']}, míg a {scale}-ös azt, hogy {labels[scale.toString()]}.
+        </p>
       )}
       
       <div className="flex justify-between gap-2 md:gap-3">

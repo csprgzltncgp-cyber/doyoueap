@@ -22,16 +22,9 @@ export const NPSQuestion = ({ question, value, onChange }: NPSQuestionProps) => 
       </Label>
       
       {labels && (
-        <div className="bg-muted/30 rounded-lg p-3 space-y-1.5">
-          <p className="text-sm font-medium text-center">
-            A válaszadás során a{' '}
-            <span className="font-bold text-foreground">0</span>
-            {' '}jelentése: <span className="italic">{labels['0']}</span>,
-            {' '}míg a{' '}
-            <span className="font-bold text-foreground">{scale}</span>
-            {' '}jelentése: <span className="italic">{labels[scale.toString()]}</span>
-          </p>
-        </div>
+        <p className="text-sm text-muted-foreground italic">
+          A skálán a 0 érték azt jelenti, hogy {labels['0']}, míg a {scale} azt, hogy {labels[scale.toString()]}.
+        </p>
       )}
       
       <div className="grid grid-cols-11 gap-1.5 md:gap-2">
