@@ -538,36 +538,30 @@ const UserDashboard = () => {
 
   return (
     <div className="min-h-screen bg-background p-4 sm:p-8">
-      <div className="max-w-3xl mx-auto">
-        <Card>
-          <CardHeader>
-            <div className="flex justify-center mb-4">
-              <img 
-                src={audit?.logo_url || logo} 
-                alt="Logo" 
-                className="h-12 object-contain"
-              />
-            </div>
-            {currentStep === 'branch_questions' && (
-              <Progress 
-                value={getTotalProgress()} 
-                className="mt-4"
-                style={{
-                  '--progress-background': primaryColor
-                } as React.CSSProperties}
-              />
-            )}
-          </CardHeader>
-          <CardContent>
-            {currentStep === 'language_select' && renderLanguageSelect()}
-            {currentStep === 'welcome' && renderWelcome()}
-            {currentStep === 'demographics' && renderDemographics()}
-            {currentStep === 'branch_selector' && renderBranchSelector()}
-            {currentStep === 'branch_questions' && renderBranchQuestions()}
-            {currentStep === 'eap_info' && renderEapInfo()}
-            {currentStep === 'thank_you' && renderThankYou()}
-          </CardContent>
-        </Card>
+      <div className="max-w-3xl mx-auto space-y-6">
+        <div className="flex justify-center">
+          <img 
+            src={audit?.logo_url || logo} 
+            alt="Logo" 
+            className="h-12 object-contain"
+          />
+        </div>
+        {currentStep === 'branch_questions' && (
+          <Progress 
+            value={getTotalProgress()} 
+            className="mt-4"
+            style={{
+              '--progress-background': primaryColor
+            } as React.CSSProperties}
+          />
+        )}
+        {currentStep === 'language_select' && renderLanguageSelect()}
+        {currentStep === 'welcome' && renderWelcome()}
+        {currentStep === 'demographics' && renderDemographics()}
+        {currentStep === 'branch_selector' && renderBranchSelector()}
+        {currentStep === 'branch_questions' && renderBranchQuestions()}
+        {currentStep === 'eap_info' && renderEapInfo()}
+        {currentStep === 'thank_you' && renderThankYou()}
       </div>
     </div>
   );
