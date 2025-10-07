@@ -405,17 +405,14 @@ export default function AuditQuestionnaire() {
                 className="h-12 object-contain"
               />
             </div>
-            {currentStep !== 'welcome' && currentStep !== 'branch_selector' && currentStep !== 'eap_info' && (() => {
+            {(() => {
               const progress = getOverallProgress();
               return (
                 <div className="space-y-2">
                   <div className="flex items-center justify-center text-sm text-muted-foreground">
                     <span>Lépés {progress.current} / {progress.total}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium">2 /</span>
-                    <Progress value={progress.percent} className="flex-1" />
-                  </div>
+                  <Progress value={progress.percent} className="flex-1" />
                 </div>
               );
             })()}
