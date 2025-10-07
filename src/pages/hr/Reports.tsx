@@ -306,14 +306,6 @@ const Reports = () => {
               </p>
             </div>
             <div className="flex items-end gap-4">
-              <Button 
-                onClick={() => exportAllChartsToPPT(activeTab)} 
-                className="flex items-center gap-2"
-                variant="default"
-              >
-                <Presentation className="h-4 w-4" />
-                PPT Export
-              </Button>
               {audits.length > 0 && (
                 <div className="min-w-[300px]">
                   <label className="text-xs text-muted-foreground mb-1.5 block">
