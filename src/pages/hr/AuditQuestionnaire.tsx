@@ -405,16 +405,16 @@ export default function AuditQuestionnaire() {
                 className="h-12 object-contain"
               />
             </div>
-            {(currentStep === 'demographics' || currentStep === 'branch_questions') && (() => {
+            {currentStep !== 'welcome' && currentStep !== 'branch_selector' && currentStep !== 'eap_info' && (() => {
               const progress = getOverallProgress();
-              return progress.total > 0 ? (
+              return (
                 <div className="space-y-2">
                   <div className="flex items-center justify-center text-sm text-muted-foreground">
                     <span>Lépés {progress.current} / {progress.total}</span>
                   </div>
                   <Progress value={progress.percent} />
                 </div>
-              ) : null;
+              );
             })()}
           </CardHeader>
           <CardContent>
