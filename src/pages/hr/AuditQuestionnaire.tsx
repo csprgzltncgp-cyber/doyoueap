@@ -33,7 +33,13 @@ export default function AuditQuestionnaire() {
 
   // Automatikus görgetés az oldal tetejére lépésváltáskor
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Keresünk egy main elemet vagy görgetjük a window-t
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      mainElement.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }, [currentStep, currentBlockIndex]);
 
   const fetchQuestionnaire = async () => {
