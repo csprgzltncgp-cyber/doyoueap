@@ -13,6 +13,8 @@ import MagazinArticle from "./pages/MagazinArticle";
 import Bemutatkozas from "./pages/Bemutatkozas";
 import Arak from "./pages/Arak";
 import AdminDashboard from "./pages/AdminDashboard";
+import SuperAdmin from "./pages/SuperAdmin";
+import ApproveAdmin from "./pages/ApproveAdmin";
 import HRDashboard from "./pages/HRDashboard";
 import EAPAudit from "./pages/hr/EAPAudit";
 import Reports from "./pages/hr/Reports";
@@ -56,6 +58,8 @@ const App = () => (
           <Route path="/magazin/:slug" element={<MagazinArticle />} />
           <Route path="/bemutatkozas" element={<Bemutatkozas />} />
           <Route path="/arak" element={<Arak />} />
+          <Route path="/superadmin" element={<SuperAdmin />} />
+          <Route path="/approve-admin" element={<ApproveAdmin />} />
           <Route
             path="/admin" 
             element={

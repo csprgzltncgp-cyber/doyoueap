@@ -1,0 +1,110 @@
+import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+
+interface ApprovalRequest {
+  token: string;
+  userId: string;
+}
+
+const handler = async (req: Request): Promise<Response> => {
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    const { token, userId }: ApprovalRequest = await req.json();
+    
+    console.log('Approving admin access:', { token, userId });
+
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    );
+
+    // Verify approval token
+    const { data: approvalData, error: approvalError } = await supabaseClient
+      .from('admin_approval_requests')
+      .select('*')
+      .eq('approval_token', token)
+      .eq('user_id', userId)
+      .single();
+
+    if (approvalError || !approvalData) {
+      console.error('Invalid token:', approvalError);
+      return new Response(
+        JSON.stringify({ success: false, message: "Érvénytelen jóváhagyási link" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Check if expired
+    if (new Date(approvalData.expires_at) < new Date()) {
+      return new Response(
+        JSON.stringify({ success: false, message: "A jóváhagyási link lejárt" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Check if already approved
+    if (approvalData.approved) {
+      return new Response(
+        JSON.stringify({ success: false, message: "Ez a kérés már jóváhagyásra került" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Add admin role
+    const { error: roleError } = await supabaseClient
+      .from('user_roles')
+      .insert({
+        user_id: userId,
+        role: 'admin',
+      });
+
+    if (roleError) {
+      console.error('Error adding admin role:', roleError);
+      throw new Error('Failed to assign admin role');
+    }
+
+    // Mark as approved
+    await supabaseClient
+      .from('admin_approval_requests')
+      .update({ approved: true, approved_at: new Date().toISOString() })
+      .eq('approval_token', token);
+
+    console.log('Admin access approved for user:', userId);
+
+    return new Response(
+      JSON.stringify({ success: true, message: "Admin jogosultság sikeresen jóváhagyva" }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      }
+    );
+  } catch (error: any) {
+    console.error("Error in approve-admin-access:", error);
+    return new Response(
+      JSON.stringify({ error: error.message }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      }
+    );
+  }
+};
+
+serve(handler);

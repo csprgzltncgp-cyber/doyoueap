@@ -1,0 +1,235 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+import logo from '@/assets/logo.png';
+
+const SuperAdmin = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
+  const [showVerification, setShowVerification] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      // Create user account
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+          },
+        },
+      });
+
+      if (authError) throw authError;
+
+      // Send admin approval request
+      const { error: functionError } = await supabase.functions.invoke('request-admin-access', {
+        body: { 
+          email,
+          fullName,
+          userId: authData.user?.id 
+        },
+      });
+
+      if (functionError) {
+        console.error('Error sending approval request:', functionError);
+      }
+
+      toast.success('Regisztráció sikeres! Várj a jóváhagyásra.');
+      setIsLogin(true);
+      setEmail('');
+      setPassword('');
+      setFullName('');
+    } catch (error: any) {
+      toast.error(error.message || 'Regisztrációs hiba');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      // Send verification code
+      const { error: functionError } = await supabase.functions.invoke('send-admin-verification', {
+        body: { email },
+      });
+
+      if (functionError) throw functionError;
+
+      setShowVerification(true);
+      toast.success('Ellenőrző kód elküldve az email címedre!');
+    } catch (error: any) {
+      toast.error(error.message || 'Bejelentkezési hiba');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('verify-admin-code', {
+        body: { 
+          email,
+          code: verificationCode 
+        },
+      });
+
+      if (error) throw error;
+
+      if (data?.verified) {
+        toast.success('Sikeres bejelentkezés!');
+        navigate('/admin');
+      } else {
+        toast.error('Érvénytelen ellenőrző kód');
+      }
+    } catch (error: any) {
+      toast.error(error.message || 'Ellenőrzési hiba');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (showVerification) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <img src={logo} alt="doyoueap" className="h-12 mx-auto mb-4" />
+            <CardTitle>Email Ellenőrzés</CardTitle>
+            <CardDescription>
+              Írd be az emailben kapott 6 jegyű kódot
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleVerifyCode} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="code">Ellenőrző Kód</Label>
+                <Input
+                  id="code"
+                  type="text"
+                  placeholder="000000"
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value)}
+                  maxLength={6}
+                  required
+                />
+              </div>
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? 'Ellenőrzés...' : 'Ellenőrzés'}
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                className="w-full"
+                onClick={() => {
+                  setShowVerification(false);
+                  setVerificationCode('');
+                }}
+              >
+                Vissza
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <img src={logo} alt="doyoueap" className="h-12 mx-auto mb-4" />
+          <CardTitle>Super Admin</CardTitle>
+          <CardDescription>
+            {isLogin ? 'Jelentkezz be az admin felületre' : 'Regisztrálj admin jogosultságért'}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={isLogin ? handleLogin : handleRegister} className="space-y-4">
+            {!isLogin && (
+              <div className="space-y-2">
+                <Label htmlFor="fullName">Teljes Név</Label>
+                <Input
+                  id="fullName"
+                  type="text"
+                  placeholder="Teljes Neved"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
+                />
+              </div>
+            )}
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="email@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Jelszó</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? 'Feldolgozás...' : (isLogin ? 'Bejelentkezés' : 'Regisztráció')}
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              className="w-full"
+              onClick={() => {
+                setIsLogin(!isLogin);
+                setEmail('');
+                setPassword('');
+                setFullName('');
+              }}
+            >
+              {isLogin ? 'Regisztráció' : 'Már van fiókom'}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+export default SuperAdmin;
