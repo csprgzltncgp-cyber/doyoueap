@@ -3,7 +3,9 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Download, FileImage, Clock, Play, Flag } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Calendar, Download, FileImage, Clock, Play, Flag, Trash2 } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
 import { format, differenceInDays } from 'date-fns';
 import { hu } from 'date-fns/locale';
@@ -128,6 +130,33 @@ const Focus = () => {
     }
   };
 
+  const deleteAllExportHistory = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { error } = await supabase
+        .from('export_history')
+        .delete()
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      setExportDownloads([]);
+      toast({
+        title: "Előzmények törölve",
+        description: "Az összes export előzmény sikeresen törölve lett.",
+      });
+    } catch (error) {
+      console.error('Error deleting export history:', error);
+      toast({
+        title: "Hiba",
+        description: "Az előzmények törlése sikertelen volt.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Jó reggelt';
@@ -231,9 +260,22 @@ const Focus = () => {
 
       {/* Export letöltések történet */}
       <div className="space-y-4">
-        <div className="flex items-center gap-2">
-          <Download className="h-5 w-5 text-primary" />
-          <h2 className="text-xl font-semibold">Export előzmények</h2>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Download className="h-5 w-5 text-primary" />
+            <h2 className="text-xl font-semibold">Export előzmények</h2>
+          </div>
+          {Object.keys(groupedDownloads).length > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={deleteAllExportHistory}
+              className="gap-2"
+            >
+              <Trash2 className="h-4 w-4" />
+              Előzmények törlése
+            </Button>
+          )}
         </div>
 
         {Object.keys(groupedDownloads).length === 0 ? (
