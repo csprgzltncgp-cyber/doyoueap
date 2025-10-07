@@ -869,7 +869,7 @@ const Export = () => {
               disabled={exporting || !selectedAuditId}
               className="w-full"
               style={{
-                backgroundColor: '#3572ef',
+                backgroundColor: '#000000',
                 color: 'white'
               }}
             >
