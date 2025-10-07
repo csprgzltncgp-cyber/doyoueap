@@ -48,7 +48,7 @@ const SuperAdmin = () => {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/superadmin`,
+          emailRedirectTo: `${window.location.origin}/email-confirmed`,
           data: {
             full_name: fullName,
           },
