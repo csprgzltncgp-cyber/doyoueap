@@ -412,10 +412,7 @@ export default function AuditQuestionnaire() {
                   <div className="flex items-center justify-center text-sm text-muted-foreground">
                     <span>Lépés {progress.current} / {progress.total}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium">2 /</span>
-                    <Progress value={progress.percent} className="flex-1" />
-                  </div>
+                  <Progress value={progress.percent} label="2/" />
                 </div>
               );
             })()}
