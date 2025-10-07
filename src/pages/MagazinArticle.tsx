@@ -192,18 +192,6 @@ const MagazinArticle = () => {
       {/* The Journalist Header */}
       <section className="relative py-8 overflow-hidden bg-gradient-to-b from-muted/50 to-background border-t border-border">
         <div className="max-w-7xl mx-auto px-4 relative z-10">
-          {/* Back Button */}
-          <div className="mb-4">
-            <Button
-              variant="ghost"
-              onClick={() => navigate('/magazin')}
-              className="group"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2 transition-transform group-hover:-translate-x-1" />
-              Vissza a cikkekhez
-            </Button>
-          </div>
-          
           {/* Three column layout: Date - Logo - Text */}
           <div className="flex items-center justify-between gap-8">
             <div className="flex flex-col items-start text-sm text-black">
@@ -233,6 +221,18 @@ const MagazinArticle = () => {
 
       {/* Article Content */}
       <article className="max-w-4xl mx-auto px-4 py-12">
+        {/* Back Button */}
+        <div className="mb-4">
+          <Button
+            variant="ghost"
+            onClick={() => navigate('/magazin')}
+            className="group -ml-4"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2 transition-transform group-hover:-translate-x-1" />
+            Vissza a cikkekhez
+          </Button>
+        </div>
+
         {/* Category Badge */}
         <div className="mb-4">
           <Badge variant="outline" className="text-sm">
@@ -276,11 +276,11 @@ const MagazinArticle = () => {
 
         {/* Featured Image */}
         {article.image_url && (
-          <div className="mb-8 rounded-lg overflow-hidden">
+          <div className="mb-8 rounded-lg overflow-hidden max-h-[600px]">
             <img
               src={article.image_url}
               alt={article.title}
-              className="w-full h-auto object-cover"
+              className="w-full h-full object-cover max-h-[600px]"
             />
           </div>
         )}
