@@ -23,11 +23,12 @@ const SuperAdmin = () => {
     setIsLoading(true);
 
     try {
-      // Create user account
+      // Create user account with email verification
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
         options: {
+          emailRedirectTo: `${window.location.origin}/superadmin`,
           data: {
             full_name: fullName,
           },
@@ -36,20 +37,25 @@ const SuperAdmin = () => {
 
       if (authError) throw authError;
 
-      // Send admin approval request
-      const { error: functionError } = await supabase.functions.invoke('request-admin-access', {
-        body: { 
-          email,
-          fullName,
-          userId: authData.user?.id 
-        },
-      });
+      // Store pending approval request (will be processed after email verification)
+      if (authData.user) {
+        const { error: dbError } = await supabase
+          .from('admin_approval_requests')
+          .insert({
+            user_id: authData.user.id,
+            email: email,
+            full_name: fullName,
+            approval_token: '', // Will be set after email verification
+            pending_verification: true,
+            expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
+          });
 
-      if (functionError) {
-        console.error('Error sending approval request:', functionError);
+        if (dbError) {
+          console.error('Database error:', dbError);
+        }
       }
 
-      toast.success('Regisztráció sikeres! Várj a jóváhagyásra.');
+      toast.success('Regisztráció sikeres! Ellenőrizd az email címedet a megerősítő linkért.');
       setIsLogin(true);
       setEmail('');
       setPassword('');
