@@ -56,7 +56,7 @@ const Magazin = () => {
       author: "doyoueap",
       date: "2025. január 10.",
       readTime: "6 perc",
-      category: "Jövő",
+      category: "Kultúra",
       image: futureArticleImg
     }
   ];
@@ -68,7 +68,7 @@ const Magazin = () => {
       author: "doyoueap",
       date: "2025. január 8.",
       readTime: "6 perc",
-      category: "Kultúra",
+      category: "Jövő",
       image: climateArticleImg
     },
     {
@@ -77,7 +77,7 @@ const Magazin = () => {
       author: "doyoueap",
       date: "2025. január 6.",
       readTime: "7 perc",
-      category: "Technológia",
+      category: "Alapok",
       image: digitalWellbeingArticleImg
     },
     {
@@ -86,7 +86,7 @@ const Magazin = () => {
       author: "doyoueap",
       date: "2025. január 5.",
       readTime: "8 perc",
-      category: "Globális",
+      category: "Kultúra",
       image: globalArticleImg
     },
     {
@@ -95,7 +95,7 @@ const Magazin = () => {
       author: "doyoueap",
       date: "2025. január 3.",
       readTime: "6 perc",
-      category: "Vezetés",
+      category: "Kultúra",
       image: leadershipArticleImg
     },
     {
@@ -104,7 +104,7 @@ const Magazin = () => {
       author: "doyoueap",
       date: "2025. január 2.",
       readTime: "7 perc",
-      category: "Kommunikáció",
+      category: "Mérés",
       image: stigmaArticleImg
     },
     {
@@ -113,7 +113,7 @@ const Magazin = () => {
       author: "doyoueap",
       date: "2024. december 30.",
       readTime: "6 perc",
-      category: "HR",
+      category: "Mérés",
       image: engagementArticleImg
     },
     {
@@ -122,7 +122,7 @@ const Magazin = () => {
       author: "doyoueap",
       date: "2024. december 28.",
       readTime: "8 perc",
-      category: "ROI",
+      category: "Jövő",
       image: roiArticleImg
     }
   ];
