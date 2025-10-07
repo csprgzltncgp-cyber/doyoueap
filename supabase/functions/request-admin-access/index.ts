@@ -69,10 +69,19 @@ const handler = async (req: Request): Promise<Response> => {
         </a>
         <br><br>
         <p style="color: #666; font-size: 14px;">Ez a link 24 órán belül lejár.</p>
+        <br>
+        <p style="color: #999; font-size: 12px;">Link: ${approvalUrl}</p>
       `,
     });
 
-    console.log("Approval email sent:", emailResponse);
+    console.log("Email response:", JSON.stringify(emailResponse));
+
+    if (emailResponse.error) {
+      console.error("Resend error:", emailResponse.error);
+      throw new Error(`Email sending failed: ${JSON.stringify(emailResponse.error)}`);
+    }
+
+    console.log("Approval email sent successfully:", emailResponse.data?.id);
 
     return new Response(
       JSON.stringify({ success: true, message: "Approval request sent" }),
