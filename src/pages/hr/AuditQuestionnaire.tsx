@@ -33,13 +33,18 @@ export default function AuditQuestionnaire() {
 
   // Automatikus görgetés az oldal tetejére lépésváltáskor
   useEffect(() => {
-    // Keresünk egy main elemet vagy görgetjük a window-t
-    const mainElement = document.querySelector('main');
-    if (mainElement) {
-      mainElement.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    // Próbáljuk meg azonnal és kis késleltetéssel is
+    const scrollToTop = () => {
+      const mainElement = document.querySelector('main');
+      if (mainElement) {
+        mainElement.scrollTop = 0;
+      }
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+    };
+    
+    scrollToTop();
+    setTimeout(scrollToTop, 50);
   }, [currentStep, currentBlockIndex]);
 
   const fetchQuestionnaire = async () => {
