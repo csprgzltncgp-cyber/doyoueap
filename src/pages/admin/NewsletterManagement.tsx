@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Mail, Plus, Send, Trash2, Users } from "lucide-react";
+import { Mail, Plus, Send, Trash2, Users, Upload } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { format } from "date-fns";
 
@@ -34,8 +34,13 @@ export default function NewsletterManagement() {
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [newSubscriber, setNewSubscriber] = useState({ email: "", name: "" });
-  const [newsletter, setNewsletter] = useState({ subject: "", content: "" });
+  const [newsletter, setNewsletter] = useState({ 
+    subject: "", 
+    content: "<h2>Új cikkek a The Journalist! magazinban</h2>\n\n<p>Kedves Olvasóink!</p>\n\n<p>Örömmel jelentjük be, hogy megjelent magazinunk legújabb száma, amely számos érdekes cikket tartalmaz az EAP világából:</p>\n\n<ul>\n  <li><strong>EAP Mítoszok és Tévhitek</strong> - Tisztázzuk a leggyakoribb félreértéseket</li>\n  <li><strong>ROI Számítás EAP Programokhoz</strong> - Hogyan mérjük a megtérülést?</li>\n  <li><strong>Digitális Jólét a Munkahelyen</strong> - Modern megoldások stressz kezelésére</li>\n</ul>\n\n<p>Látogasson el magazinunk oldalára és fedezze fel a teljes tartalmat!</p>\n\n<p>Üdvözlettel,<br>A doyoueap csapata</p>",
+    fromEmail: "noreply@doyoueap.com"
+  });
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     fetchSubscribers();
@@ -122,6 +127,71 @@ export default function NewsletterManagement() {
     }
   };
 
+  const handleExcelUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      // Dynamically import xlsx
+      const XLSX = await import('xlsx');
+      
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        try {
+          const data = new Uint8Array(event.target?.result as ArrayBuffer);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+          const jsonData = XLSX.utils.sheet_to_json(firstSheet) as Array<{
+            email?: string;
+            Email?: string;
+            name?: string;
+            Name?: string;
+            Név?: string;
+          }>;
+
+          // Process and insert subscribers
+          const subscribersToAdd = jsonData
+            .map(row => ({
+              email: (row.email || row.Email || '').trim().toLowerCase(),
+              name: (row.name || row.Name || row.Név || '').trim() || null,
+              source: 'excel_import'
+            }))
+            .filter(s => s.email && s.email.includes('@'));
+
+          if (subscribersToAdd.length === 0) {
+            toast.error("Nem található érvényes email cím az Excel fájlban");
+            return;
+          }
+
+          // Insert all subscribers
+          const { data: insertedData, error } = await supabase
+            .from("newsletter_subscribers")
+            .upsert(subscribersToAdd, { 
+              onConflict: 'email',
+              ignoreDuplicates: true 
+            })
+            .select();
+
+          if (error) throw error;
+
+          toast.success(`${subscribersToAdd.length} feliratkozó sikeresen feltöltve!`);
+          fetchSubscribers();
+        } catch (error: any) {
+          console.error("Error processing Excel:", error);
+          toast.error("Hiba az Excel feldolgozása közben");
+        } finally {
+          setUploading(false);
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    } catch (error) {
+      console.error("Error reading file:", error);
+      toast.error("Hiba a fájl beolvasása közben");
+      setUploading(false);
+    }
+  };
+
   const handleSendNewsletter = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -145,6 +215,7 @@ export default function NewsletterManagement() {
         body: {
           subject: newsletter.subject,
           content: newsletter.content,
+          fromEmail: newsletter.fromEmail,
           subscribers: subscribers.map(s => ({ email: s.email, name: s.name }))
         }
       });
@@ -165,7 +236,11 @@ export default function NewsletterManagement() {
       if (campaignError) throw campaignError;
 
       toast.success(`Hírlevél sikeresen elküldve ${subscribers.length} címzettnek!`);
-      setNewsletter({ subject: "", content: "" });
+      setNewsletter({ 
+        subject: "", 
+        content: "",
+        fromEmail: "noreply@doyoueap.com"
+      });
       fetchCampaigns();
     } catch (error: any) {
       console.error("Error sending newsletter:", error);
@@ -205,6 +280,20 @@ export default function NewsletterManagement() {
         <CardContent>
           <form onSubmit={handleSendNewsletter} className="space-y-4">
             <div className="space-y-2">
+              <Label htmlFor="fromEmail">Feladó email*</Label>
+              <Input
+                id="fromEmail"
+                type="email"
+                value={newsletter.fromEmail}
+                onChange={(e) => setNewsletter({ ...newsletter, fromEmail: e.target.value })}
+                placeholder="noreply@doyoueap.com"
+                required
+              />
+              <p className="text-xs text-muted-foreground">
+                A hírlevél feladója (pl. noreply@doyoueap.com vagy info@doyoueap.com)
+              </p>
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="subject">Tárgy*</Label>
               <Input
                 id="subject"
@@ -215,17 +304,19 @@ export default function NewsletterManagement() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="content">Üzenet*</Label>
+              <Label htmlFor="content">Üzenet (HTML)*</Label>
               <Textarea
                 id="content"
                 value={newsletter.content}
                 onChange={(e) => setNewsletter({ ...newsletter, content: e.target.value })}
-                rows={10}
-                placeholder="Írja meg a hírlevél tartalmát..."
+                rows={15}
+                placeholder="HTML tartalom a hírlevélhez..."
                 required
+                className="font-mono text-sm"
               />
               <p className="text-xs text-muted-foreground">
-                HTML formázás támogatott. A hírlevélben automatikusan megjelenik a doyoueap branding.
+                HTML formázás támogatott. Használjon &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt; címkéket. 
+                A hírlevél automatikusan tartalmazza a doyoueap brandingot.
               </p>
             </div>
             <Button type="submit" disabled={sending || subscribers.length === 0}>
@@ -245,51 +336,65 @@ export default function NewsletterManagement() {
       {/* Subscribers Management */}
       <Card>
         <CardHeader>
-          <div className="flex justify-between items-center">
-            <div>
-              <CardTitle>Feliratkozók</CardTitle>
-              <CardDescription>Kezelheti a hírlevél feliratkozóit</CardDescription>
-            </div>
-            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-              <DialogTrigger asChild>
-                <Button>
-                  <Plus className="mr-2 h-4 w-4" />
-                  Új feliratkozó
+            <div className="flex justify-between items-center">
+              <div>
+                <CardTitle>Feliratkozók</CardTitle>
+                <CardDescription>Kezelheti a hírlevél feliratkozóit</CardDescription>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" disabled={uploading} asChild>
+                  <label className="cursor-pointer">
+                    <Upload className="mr-2 h-4 w-4" />
+                    {uploading ? "Feltöltés..." : "Excel feltöltés"}
+                    <input
+                      type="file"
+                      accept=".xlsx,.xls"
+                      onChange={handleExcelUpload}
+                      className="hidden"
+                    />
+                  </label>
                 </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Új feliratkozó hozzáadása</DialogTitle>
-                </DialogHeader>
-                <form onSubmit={handleAddSubscriber} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email cím*</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={newSubscriber.email}
-                      onChange={(e) => setNewSubscriber({ ...newSubscriber, email: e.target.value })}
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Név</Label>
-                    <Input
-                      id="name"
-                      value={newSubscriber.name}
-                      onChange={(e) => setNewSubscriber({ ...newSubscriber, name: e.target.value })}
-                    />
-                  </div>
-                  <div className="flex gap-2 justify-end">
-                    <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
-                      Mégse
+                <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button>
+                      <Plus className="mr-2 h-4 w-4" />
+                      Új feliratkozó
                     </Button>
-                    <Button type="submit">Hozzáadás</Button>
-                  </div>
-                </form>
-              </DialogContent>
-            </Dialog>
-          </div>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Új feliratkozó hozzáadása</DialogTitle>
+                    </DialogHeader>
+                    <form onSubmit={handleAddSubscriber} className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="email">Email cím*</Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          value={newSubscriber.email}
+                          onChange={(e) => setNewSubscriber({ ...newSubscriber, email: e.target.value })}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="name">Név</Label>
+                        <Input
+                          id="name"
+                          value={newSubscriber.name}
+                          onChange={(e) => setNewSubscriber({ ...newSubscriber, name: e.target.value })}
+                        />
+                      </div>
+                      <div className="flex gap-2 justify-end">
+                        <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
+                          Mégse
+                        </Button>
+                        <Button type="submit">Hozzáadás</Button>
+                      </div>
+                    </form>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
         </CardHeader>
         <CardContent>
           <Table>
