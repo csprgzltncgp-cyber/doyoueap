@@ -16,7 +16,7 @@ export type Database = {
     Tables: {
       admin_approval_requests: {
         Row: {
-          approval_token: string
+          approval_token: string | null
           approved: boolean | null
           approved_at: string | null
           created_at: string
@@ -24,10 +24,11 @@ export type Database = {
           expires_at: string
           full_name: string
           id: string
+          pending_verification: boolean | null
           user_id: string
         }
         Insert: {
-          approval_token: string
+          approval_token?: string | null
           approved?: boolean | null
           approved_at?: string | null
           created_at?: string
@@ -35,10 +36,11 @@ export type Database = {
           expires_at: string
           full_name: string
           id?: string
+          pending_verification?: boolean | null
           user_id: string
         }
         Update: {
-          approval_token?: string
+          approval_token?: string | null
           approved?: boolean | null
           approved_at?: string | null
           created_at?: string
@@ -46,6 +48,7 @@ export type Database = {
           expires_at?: string
           full_name?: string
           id?: string
+          pending_verification?: boolean | null
           user_id?: string
         }
         Relationships: []
