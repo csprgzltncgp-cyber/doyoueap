@@ -47,7 +47,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send verification email
     const emailResponse = await resend.emails.send({
-      from: "DoYouEAP <onboarding@resend.dev>",
+      from: "DoYouEAP <noreply@doyoueap.hu>",
       to: [email],
       subject: "Admin Bejelentkezés - Ellenőrző Kód",
       html: `

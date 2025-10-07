@@ -67,7 +67,7 @@ const handler = async (req: Request): Promise<Response> => {
     const approvalUrl = `${baseUrl}/approve-admin?token=${approvalData.approval_token}&userId=${userId}`;
     
     const adminEmailResponse = await resend.emails.send({
-      from: "DoYouEAP <onboarding@resend.dev>",
+      from: "DoYouEAP <noreply@doyoueap.hu>",
       to: ["zoltan.csepregi@cgpeu.com"],
       subject: "Új Admin Regisztráció - Jóváhagyás Szükséges",
       html: `
