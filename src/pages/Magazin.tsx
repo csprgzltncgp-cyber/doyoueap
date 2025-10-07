@@ -139,10 +139,26 @@ const Magazin = () => {
       </header>
 
       {/* Hero Section - Newspaper Style Header */}
-      <section className="relative py-8 overflow-hidden bg-gradient-to-b from-muted/50 to-background border-t border-border">
+      <section className="relative py-4 md:py-8 overflow-hidden bg-gradient-to-b from-muted/50 to-background border-t border-border">
         <div className="max-w-7xl mx-auto px-4 relative z-10">
-          {/* Three column layout: Date - Logo - Text */}
-          <div className="flex items-center justify-between gap-8">
+          {/* Mobile: centered logo only */}
+          <div className="flex md:hidden flex-col items-center gap-2">
+            <div className="flex-shrink-0">
+              <img 
+                src={journalistLogo} 
+                alt="The Journalist!" 
+                className="h-16 object-contain"
+              />
+            </div>
+            <div className="text-xs text-black text-center">
+              <span className="font-semibold">2025. JANUÁR</span>
+              <span className="mx-2">•</span>
+              <span>16. Szám</span>
+            </div>
+          </div>
+
+          {/* Desktop: Three column layout */}
+          <div className="hidden md:flex items-center justify-between gap-8">
             {/* Left: Date and Issue */}
             <div className="flex flex-col items-start text-sm text-black">
               <span className="font-semibold">2025. JANUÁR</span>
@@ -160,7 +176,7 @@ const Magazin = () => {
 
             {/* Right: Magazine description */}
             <div className="flex items-end text-right">
-              <span className="text-sm font-medium text-black hidden md:inline uppercase tracking-wide">
+              <span className="text-sm font-medium text-black uppercase tracking-wide">
                 Az EAP világ<br />szakfolyóirata
               </span>
             </div>
