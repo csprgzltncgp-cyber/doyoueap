@@ -22,7 +22,7 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button variant="ghost" className="md:hidden text-white hover:text-white hover:bg-white/20">
-          Dashboard menü
+          Dashboard Menü
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-[320px] overflow-y-auto">
