@@ -37,7 +37,7 @@ export const NPSQuestion = ({ question, value, onChange }: NPSQuestionProps) => 
               aspect-square rounded-lg border transition-all
               flex items-center justify-center font-semibold text-sm md:text-base
               ${value === val
-                ? 'bg-primary text-primary-foreground shadow-lg scale-110' 
+                ? 'border-primary bg-primary/5 shadow-md' 
                 : 'border-border hover:border-primary/50 hover:bg-muted/50 hover:scale-105'
               }
               min-h-[44px]
