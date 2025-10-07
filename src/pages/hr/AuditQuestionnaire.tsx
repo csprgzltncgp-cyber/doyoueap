@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,7 @@ export default function AuditQuestionnaire() {
   const [currentStep, setCurrentStep] = useState<'welcome' | 'demographics' | 'branch_selector' | 'branch_questions' | 'eap_info'>('welcome');
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
   const [currentBlockIndex, setCurrentBlockIndex] = useState(0);
+  const topRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetchQuestionnaire();
@@ -33,18 +34,13 @@ export default function AuditQuestionnaire() {
 
   // Automatikus görgetés az oldal tetejére lépésváltáskor
   useEffect(() => {
-    // Próbáljuk meg azonnal és kis késleltetéssel is
-    const scrollToTop = () => {
-      const mainElement = document.querySelector('main');
-      if (mainElement) {
-        mainElement.scrollTop = 0;
-      }
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-    };
-    
-    scrollToTop();
-    setTimeout(scrollToTop, 50);
+    console.log('🔄 Scroll effect triggered - step:', currentStep, 'block:', currentBlockIndex);
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      console.log('✅ Scrolled to topRef');
+    } else {
+      console.log('❌ topRef not found');
+    }
   }, [currentStep, currentBlockIndex]);
 
   const fetchQuestionnaire = async () => {
@@ -374,7 +370,7 @@ export default function AuditQuestionnaire() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" ref={topRef}>
       <div>
         <div className="mb-6 flex items-center justify-between">
           <div>
