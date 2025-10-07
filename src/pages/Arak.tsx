@@ -94,7 +94,7 @@ const Arak = () => {
             </button>
             {user && role === 'hr' && (
               <button
-                onClick={() => navigate('/?section=eap-pulse&sub=create-audit')}
+                onClick={() => navigate('/?section=focus')}
                 className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
               >
                 Dashboard
