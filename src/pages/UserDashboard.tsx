@@ -469,19 +469,21 @@ const UserDashboard = () => {
           statisztikai formában jelennek meg.
         </p>
       </div>
-      <Button 
-        onClick={() => {
-          setCurrentStep('demographics');
-          setTimeout(scrollToTop, 100);
-        }} 
-        className="w-full"
-        style={{
-          backgroundColor: primaryColor,
-          borderColor: primaryColor,
-        }}
-      >
-        Kezdés
-      </Button>
+      <div className="flex justify-center">
+        <Button 
+          onClick={() => {
+            setCurrentStep('demographics');
+            setTimeout(scrollToTop, 100);
+          }} 
+          className="px-12"
+          style={{
+            backgroundColor: primaryColor,
+            borderColor: primaryColor,
+          }}
+        >
+          Kezdés
+        </Button>
+      </div>
     </div>
   );
 
