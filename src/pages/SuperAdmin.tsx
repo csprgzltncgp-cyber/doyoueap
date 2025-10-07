@@ -18,26 +18,6 @@ const SuperAdmin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Check if user just verified email and process approval
-  useEffect(() => {
-    const processEmailVerification = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (user && user.email_confirmed_at) {
-        // User has verified email, trigger approval email
-        const { error } = await supabase.functions.invoke('process-email-verification', {
-          body: { userId: user.id },
-        });
-
-        if (error) {
-          console.error('Error processing email verification:', error);
-        }
-      }
-    };
-
-    processEmailVerification();
-  }, []);
-
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -74,14 +54,6 @@ const SuperAdmin = () => {
           console.error('Database error:', dbError);
         }
       }
-
-      // Send registration confirmation email
-      await supabase.functions.invoke('send-registration-confirmation', {
-        body: { 
-          email,
-          fullName 
-        },
-      });
 
       toast.success('Regisztráció sikeres! Ellenőrizd az email címedet a megerősítő linkért.');
       setIsLogin(true);
