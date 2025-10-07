@@ -10,7 +10,7 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Plus, Edit, Trash2, Eye } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, Upload, X } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { format } from "date-fns";
 
@@ -34,6 +34,9 @@ export default function MagazineManagement() {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
@@ -79,16 +82,66 @@ export default function MagazineManagement() {
       .trim();
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("A kép mérete maximum 5MB lehet");
+        return;
+      }
+      if (!file.type.startsWith('image/')) {
+        toast.error("Csak képfájlokat lehet feltölteni");
+        return;
+      }
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const uploadImage = async (file: File): Promise<string> => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+    const filePath = `${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('magazine-images')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+
+    if (uploadError) throw uploadError;
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('magazine-images')
+      .getPublicUrl(filePath);
+
+    return publicUrl;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const slug = formData.slug || generateSlug(formData.title);
+    setUploading(true);
 
     try {
+      let imageUrl = formData.image_url;
+
+      // Upload new image if selected
+      if (imageFile) {
+        imageUrl = await uploadImage(imageFile);
+      }
+
+      const slug = formData.slug || generateSlug(formData.title);
+      const dataToSave = { ...formData, slug, image_url: imageUrl };
+
       if (editingArticle) {
         const { error } = await supabase
           .from("magazine_articles")
-          .update({ ...formData, slug })
+          .update(dataToSave)
           .eq("id", editingArticle.id);
 
         if (error) throw error;
@@ -96,18 +149,20 @@ export default function MagazineManagement() {
       } else {
         const { error } = await supabase
           .from("magazine_articles")
-          .insert([{ ...formData, slug }]);
+          .insert([dataToSave]);
 
         if (error) throw error;
         toast.success("Cikk sikeresen létrehozva");
       }
 
       setOpen(false);
-      resetForm();
       fetchArticles();
+      resetForm();
     } catch (error) {
       console.error("Error saving article:", error);
-      toast.error("Hiba a cikk mentésekor");
+      toast.error("Hiba történt a cikk mentése közben");
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -143,6 +198,8 @@ export default function MagazineManagement() {
       is_published: true,
     });
     setEditingArticle(null);
+    setImageFile(null);
+    setImagePreview(null);
   };
 
   const openEditDialog = (article: Article) => {
@@ -229,22 +286,6 @@ export default function MagazineManagement() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="category">Kategória*</Label>
-                  <select
-                    id="category"
-                    value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    required
-                  >
-                    <option value="EAP">EAP</option>
-                    <option value="Alapok">Alapok</option>
-                    <option value="Mérés">Mérés</option>
-                    <option value="Kultúra">Kultúra</option>
-                    <option value="Jövő">Jövő</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
                   <Label htmlFor="published_date">Publikálás dátuma*</Label>
                   <Input
                     id="published_date"
@@ -256,13 +297,44 @@ export default function MagazineManagement() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="image_url">Kép URL</Label>
-                <Input
-                  id="image_url"
-                  value={formData.image_url}
-                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                  placeholder="https://..."
-                />
+                <Label htmlFor="image">Borítókép</Label>
+                <div className="flex flex-col gap-3">
+                  {imagePreview && (
+                    <div className="relative w-full aspect-video rounded-lg overflow-hidden border">
+                      <img 
+                        src={imagePreview} 
+                        alt="Preview" 
+                        className="w-full h-full object-cover"
+                      />
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="icon"
+                        className="absolute top-2 right-2"
+                        onClick={() => {
+                          setImageFile(null);
+                          setImagePreview(null);
+                          setFormData({ ...formData, image_url: "" });
+                        }}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <Input
+                      id="image"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="flex-1"
+                    />
+                    <Upload className="h-5 w-5 text-muted-foreground" />
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Maximum 5MB, JPG, PNG vagy WEBP formátum
+                  </p>
+                </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="excerpt">Kivonat*</Label>
@@ -306,8 +378,8 @@ export default function MagazineManagement() {
                 <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                   Mégse
                 </Button>
-                <Button type="submit">
-                  {editingArticle ? "Mentés" : "Létrehozás"}
+                <Button type="submit" disabled={uploading}>
+                  {uploading ? "Mentés..." : editingArticle ? "Frissítés" : "Létrehozás"}
                 </Button>
               </div>
             </form>
