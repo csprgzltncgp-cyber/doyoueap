@@ -34,7 +34,7 @@ const handler = async (req: Request): Promise<Response> => {
       .eq('code', code)
       .order('created_at', { ascending: false })
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (verificationError || !verificationData) {
       console.error('Invalid code:', verificationError);
