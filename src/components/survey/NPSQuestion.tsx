@@ -19,7 +19,6 @@ export const NPSQuestion = ({ question, value, onChange }: NPSQuestionProps) => 
     <div className="space-y-4">
       <Label className="text-lg font-semibold block">
         {text}
-        {question.required && <span className="text-destructive ml-1">*</span>}
       </Label>
       
       {labels && (

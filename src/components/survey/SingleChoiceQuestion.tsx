@@ -17,7 +17,6 @@ export const SingleChoiceQuestion = ({ question, value, onChange }: SingleChoice
     <div className="space-y-4">
       <Label className="text-lg font-semibold block">
         {question.question}
-        {question.required && <span className="text-destructive ml-1">*</span>}
       </Label>
       <div className="grid gap-3">
         {question.options.map((option) => (

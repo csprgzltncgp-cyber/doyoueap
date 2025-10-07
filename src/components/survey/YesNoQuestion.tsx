@@ -16,7 +16,6 @@ export const YesNoQuestion = ({ question, value, onChange }: YesNoQuestionProps)
     <div className="space-y-4">
       <Label className="text-lg font-semibold block">
         {question.question}
-        {question.required && <span className="text-destructive ml-1">*</span>}
       </Label>
       <div className="grid grid-cols-2 gap-4">
         <button

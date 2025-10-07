@@ -16,7 +16,6 @@ export const TextQuestion = ({ question, value, onChange }: TextQuestionProps) =
     <div className="space-y-4">
       <Label className="text-lg font-semibold block">
         {question.question}
-        {question.required && <span className="text-destructive ml-1">*</span>}
       </Label>
       <Textarea
         value={value || ''}
