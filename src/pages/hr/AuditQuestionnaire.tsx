@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -26,23 +26,18 @@ export default function AuditQuestionnaire() {
   const [currentStep, setCurrentStep] = useState<'welcome' | 'demographics' | 'branch_selector' | 'branch_questions' | 'eap_info'>('welcome');
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
   const [currentBlockIndex, setCurrentBlockIndex] = useState(0);
-  const topRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetchQuestionnaire();
   }, []);
 
-  // Scroll to top funkció
+  // Scroll to top funkció - közvetlenül a main elemre görgeti
   const scrollToTop = () => {
-    if (topRef.current) {
-      topRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      mainElement.scrollTop = 0;
     }
   };
-
-  // Automatikus görgetés az oldal tetejére lépésváltáskor
-  useEffect(() => {
-    scrollToTop();
-  }, [currentStep, currentBlockIndex]);
 
   const fetchQuestionnaire = async () => {
     try {
@@ -383,7 +378,7 @@ export default function AuditQuestionnaire() {
   );
 
   return (
-    <div className="space-y-6" ref={topRef}>
+    <div className="space-y-6">
       <div>
         <div className="mb-6 flex items-center justify-between">
           <div>
