@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus, Edit, Trash2, Eye } from "lucide-react";
@@ -200,6 +201,24 @@ export default function MagazineManagement() {
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="category">Kategória*</Label>
+                  <Select
+                    value={formData.category}
+                    onValueChange={(value) => setFormData({ ...formData, category: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Válassz kategóriát" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Alapok">Alapok</SelectItem>
+                      <SelectItem value="Mérés">Mérés</SelectItem>
+                      <SelectItem value="Kultúra">Kultúra</SelectItem>
+                      <SelectItem value="Jövő">Jövő</SelectItem>
+                      <SelectItem value="EAP">EAP</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="author">Szerző*</Label>
                   <Input
