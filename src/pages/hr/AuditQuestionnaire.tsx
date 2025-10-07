@@ -71,18 +71,23 @@ export default function AuditQuestionnaire() {
   };
 
   const getTotalProgress = () => {
-    if (!questionnaire || !selectedBranch) return 0;
+    if (!questionnaire || !selectedBranch) return { percent: 0, current: 0, total: 0 };
     
     const branch = questionnaire.questions.branches[selectedBranch];
-    if (!branch) return 0;
+    if (!branch) return { percent: 0, current: 0, total: 0 };
     
-    const totalBlocks = branch.blocks.length + 2;
-    let completedSteps = 0;
+    const totalBlocks = branch.blocks.length;
+    let currentStepNum = 0;
     
-    if (currentStep === 'branch_selector') completedSteps = 1;
-    else if (currentStep === 'branch_questions') completedSteps = 2 + currentBlockIndex;
+    if (currentStep === 'branch_questions') {
+      currentStepNum = currentBlockIndex + 1;
+    }
     
-    return (completedSteps / totalBlocks) * 100;
+    return {
+      percent: (currentStepNum / totalBlocks) * 100,
+      current: currentStepNum,
+      total: totalBlocks
+    };
   };
 
   if (loading) {
@@ -401,8 +406,13 @@ export default function AuditQuestionnaire() {
                 className="h-12 object-contain"
               />
             </div>
-            {currentStep === 'branch_questions' && (
-              <Progress value={getTotalProgress()} className="mt-4" />
+            {currentStep === 'branch_questions' && selectedBranch && (
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm text-muted-foreground">
+                  <span>{getTotalProgress().current} / {getTotalProgress().total} kérdésblokk</span>
+                </div>
+                <Progress value={getTotalProgress().percent} className="mt-2" />
+              </div>
             )}
           </CardHeader>
           <CardContent>
