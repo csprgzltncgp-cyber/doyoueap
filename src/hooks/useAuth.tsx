@@ -52,14 +52,17 @@ export const useAuth = () => {
       const { data, error } = await supabase
         .from('user_roles')
         .select('role')
-        .eq('user_id', userId)
-        .maybeSingle();
+        .eq('user_id', userId);
 
       if (error) {
         console.error('Error fetching role:', error);
         setRole(null);
+      } else if (data && data.length > 0) {
+        // If user has multiple roles, prioritize admin
+        const hasAdmin = data.some((r: any) => r.role === 'admin');
+        setRole(hasAdmin ? 'admin' : data[0].role as AppRole);
       } else {
-        setRole(data?.role as AppRole || null);
+        setRole(null);
       }
     } catch (error) {
       console.error('Error fetching role:', error);
