@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, Clock, User, Share2, ArrowLeft, TrendingUp } from 'lucide-react';
+import { Calendar, Clock, User, Share2, ArrowLeft, TrendingUp, Heart } from 'lucide-react';
 import logo from '@/assets/logo.png';
 import journalistLogo from '@/assets/thejournalist_logo.png';
 import { useAuth } from '@/hooks/useAuth';
@@ -296,6 +296,13 @@ const MagazinArticle = () => {
           dangerouslySetInnerHTML={{ __html: article.content.replace(/\n/g, '<br />') }}
         />
 
+        {/* Like Section */}
+        <div className="mt-12 pt-8 border-t">
+          <div className="flex items-center justify-center gap-2 text-muted-foreground">
+            <span className="text-sm">Tetszett a cikk?</span>
+            <Heart className="h-5 w-5 fill-red-500 text-red-500" />
+          </div>
+        </div>
       </article>
 
       {/* Related Articles */}
