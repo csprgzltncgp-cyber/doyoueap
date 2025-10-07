@@ -23,6 +23,7 @@ const Magazin = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [featuredArticles, setFeaturedArticles] = useState<any[]>([]);
   const [articles, setArticles] = useState<any[]>([]);
+  const [popularArticles, setPopularArticles] = useState<any[]>([]);
   const [loadingArticles, setLoadingArticles] = useState(true);
 
   useEffect(() => {
@@ -45,6 +46,12 @@ const Magazin = () => {
         const regular = data.filter(article => !article.is_featured);
         setFeaturedArticles(featured);
         setArticles(regular);
+        
+        // Get top 4 most viewed articles for popular section
+        const popular = [...data]
+          .sort((a, b) => (b.view_count || 0) - (a.view_count || 0))
+          .slice(0, 4);
+        setPopularArticles(popular);
       }
     } catch (error) {
       console.error('Error fetching articles:', error);
@@ -54,12 +61,6 @@ const Magazin = () => {
     }
   };
 
-  const popularArticles = [
-    { title: "Mítoszok és tévhitek az EAP-ról", views: "15.2k" },
-    { title: "4A mutatók a gyakorlatban", views: "12.8k" },
-    { title: "EAP ROI számokban", views: "11.5k" },
-    { title: "Digitalizáció az EAP-ban", views: "9.3k" }
-  ];
 
   const categories = [
     { id: 'all', label: 'Összes' },
@@ -360,7 +361,8 @@ const Magazin = () => {
                   <div className="space-y-3">
                     {popularArticles.map((item, index) => (
                       <div 
-                        key={index}
+                        key={item.id}
+                        onClick={() => navigate(`/magazin/${item.slug}`)}
                         className="flex items-start gap-3 p-3 rounded hover:bg-muted transition-colors cursor-pointer group"
                       >
                         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
@@ -372,7 +374,7 @@ const Magazin = () => {
                           </p>
                           <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
                             <TrendingUp className="h-3 w-3" />
-                            {item.views} megtekintés
+                            {item.view_count || 0} megtekintés
                           </p>
                         </div>
                       </div>
