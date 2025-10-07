@@ -132,7 +132,9 @@ export default function MagazineManagement() {
 
       // Upload new image if selected
       if (imageFile) {
+        console.log('Uploading image:', imageFile.name);
         imageUrl = await uploadImage(imageFile);
+        console.log('Image uploaded, URL:', imageUrl);
       }
 
       const slug = formData.slug || generateSlug(formData.title);
@@ -156,7 +158,7 @@ export default function MagazineManagement() {
       }
 
       setOpen(false);
-      fetchArticles();
+      await fetchArticles();
       resetForm();
     } catch (error) {
       console.error("Error saving article:", error);
@@ -227,9 +229,17 @@ export default function MagazineManagement() {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Magazin cikkek kezelése</h1>
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={(isOpen) => {
+          setOpen(isOpen);
+          if (!isOpen) {
+            resetForm();
+          }
+        }}>
           <DialogTrigger asChild>
-            <Button onClick={resetForm}>
+            <Button onClick={() => {
+              resetForm();
+              setOpen(true);
+            }}>
               <Plus className="mr-2 h-4 w-4" />
               Új cikk
             </Button>
