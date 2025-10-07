@@ -532,7 +532,7 @@ const Index = () => {
                 visszajelzéseket dolgozóitól, gazdagítsa az adatokat, mutassa ki a program értékét 
                 – évről évre. Mindez támogatja az EAP szolgáltatójával való együttműködést.
               </p>
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg" variant="cta" onClick={() => navigate('/auth')}>
                   Kezdje el most <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
