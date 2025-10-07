@@ -46,6 +46,11 @@ const UserDashboard = () => {
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
   const [currentBlockIndex, setCurrentBlockIndex] = useState(0);
 
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   useEffect(() => {
     if (token) {
       fetchAudit();
@@ -58,6 +63,7 @@ const UserDashboard = () => {
       if (audit.available_languages && audit.available_languages.length === 1) {
         setSelectedLanguage(audit.available_languages[0]);
         setCurrentStep('welcome');
+        setTimeout(scrollToTop, 100);
       }
     }
   }, [audit, currentStep]);
@@ -124,6 +130,7 @@ const UserDashboard = () => {
       return;
     }
     setCurrentStep('branch_selector');
+    setTimeout(scrollToTop, 100);
   };
 
   const handleBranchSelection = () => {
@@ -139,12 +146,14 @@ const UserDashboard = () => {
     if (branchKey === 'redirect') {
       // Show EAP info page
       setCurrentStep('eap_info');
+      setTimeout(scrollToTop, 100);
       return;
     }
 
     setSelectedBranch(branchKey);
     setCurrentStep('branch_questions');
     setCurrentBlockIndex(0);
+    setTimeout(scrollToTop, 100);
   };
 
   const handleBlockNext = () => {
@@ -160,6 +169,7 @@ const UserDashboard = () => {
 
     if (currentBlockIndex < branch.blocks.length - 1) {
       setCurrentBlockIndex(currentBlockIndex + 1);
+      setTimeout(scrollToTop, 100);
     } else {
       // Last block, submit
       handleSubmit(new Event('submit') as any);
@@ -169,8 +179,10 @@ const UserDashboard = () => {
   const handleBlockPrevious = () => {
     if (currentBlockIndex > 0) {
       setCurrentBlockIndex(currentBlockIndex - 1);
+      setTimeout(scrollToTop, 100);
     } else {
       setCurrentStep('branch_selector');
+      setTimeout(scrollToTop, 100);
     }
   };
 
@@ -293,7 +305,10 @@ const UserDashboard = () => {
         ))}
         <div className="flex gap-4">
           <Button 
-            onClick={() => setCurrentStep('welcome')} 
+            onClick={() => {
+              setCurrentStep('welcome');
+              setTimeout(scrollToTop, 100);
+            }} 
             variant="outline"
             className="flex-1"
           >
@@ -333,7 +348,10 @@ const UserDashboard = () => {
         />
         <div className="flex gap-4">
           <Button 
-            onClick={() => setCurrentStep('demographics')} 
+            onClick={() => {
+              setCurrentStep('demographics');
+              setTimeout(scrollToTop, 100);
+            }} 
             variant="outline"
             className="flex-1"
           >
@@ -439,6 +457,7 @@ const UserDashboard = () => {
             onClick={() => {
               setSelectedLanguage(langCode);
               setCurrentStep('welcome');
+              setTimeout(scrollToTop, 100);
             }}
             style={selectedLanguage === langCode ? {
               backgroundColor: primaryColor,
@@ -462,7 +481,10 @@ const UserDashboard = () => {
         </p>
       </div>
       <Button 
-        onClick={() => setCurrentStep('demographics')} 
+        onClick={() => {
+          setCurrentStep('demographics');
+          setTimeout(scrollToTop, 100);
+        }} 
         className="w-full"
         style={{
           backgroundColor: primaryColor,
