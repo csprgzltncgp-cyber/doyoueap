@@ -92,94 +92,14 @@ const SuperAdmin = () => {
         body: { userId: data.user.id },
       });
 
-      // Send verification code for 2FA
-      const { error: functionError } = await supabase.functions.invoke('send-admin-verification', {
-        body: { email },
-      });
-
-      if (functionError) throw functionError;
-
-      setShowVerification(true);
-      toast.success('Ellenőrző kód elküldve az email címedre!');
+      toast.success('Sikeres bejelentkezés!');
+      navigate('/admin');
     } catch (error: any) {
       toast.error(error.message || 'Bejelentkezési hiba');
     } finally {
       setIsLoading(false);
     }
   };
-
-  const handleVerifyCode = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      const { data, error } = await supabase.functions.invoke('verify-admin-code', {
-        body: { 
-          email,
-          code: verificationCode 
-        },
-      });
-
-      if (error) throw error;
-
-      if (data?.verified) {
-        toast.success('Sikeres bejelentkezés!');
-        navigate('/admin');
-      } else {
-        toast.error('Érvénytelen ellenőrző kód');
-      }
-    } catch (error: any) {
-      toast.error(error.message || 'Ellenőrzési hiba');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  if (showVerification) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <img src={logo} alt="doyoueap" className="h-12 mx-auto mb-4" />
-            <CardTitle>Email Ellenőrzés</CardTitle>
-            <CardDescription>
-              Írd be az emailben kapott 6 jegyű kódot
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleVerifyCode} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="code">Ellenőrző Kód</Label>
-                <Input
-                  id="code"
-                  type="text"
-                  placeholder="000000"
-                  value={verificationCode}
-                  onChange={(e) => setVerificationCode(e.target.value)}
-                  maxLength={6}
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? 'Ellenőrzés...' : 'Ellenőrzés'}
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                className="w-full"
-                onClick={() => {
-                  setShowVerification(false);
-                  setVerificationCode('');
-                }}
-              >
-                Vissza
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">

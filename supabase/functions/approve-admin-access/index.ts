@@ -91,7 +91,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send approval notification to user
     await resend.emails.send({
-      from: "DoYouEAP <noreply@doyoueap.hu>",
+      from: "DoYouEAP <noreply@doyoueap.com>",
       to: [approvalData.email],
       subject: "Admin Hozzáférés Aktiválva",
       html: `
