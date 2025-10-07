@@ -394,7 +394,7 @@ export default function AuditQuestionnaire() {
           </Button>
         </div>
 
-        <Card>
+        <Card className="border-0 shadow-none">
           <CardHeader>
             <div className="flex justify-center mb-4">
               <img 
