@@ -100,36 +100,32 @@ const Focus = () => {
     }
   };
 
-  const loadExportDownloads = () => {
-    // Load from new key
-    const stored = localStorage.getItem('exportDownloadHistory');
-    let downloads: ExportDownload[] = stored ? JSON.parse(stored) : [];
-    
-    // Migrate old PNG downloads if they exist
-    const oldPngStored = localStorage.getItem('pngDownloadHistory');
-    if (oldPngStored) {
-      const oldPngDownloads = JSON.parse(oldPngStored);
-      // Convert old format to new format
-      const migratedPngs = oldPngDownloads.map((download: any) => ({
-        ...download,
-        fileName: download.fileName.endsWith('.png') ? download.fileName : `${download.fileName}.png`,
-        fileType: 'PNG'
+  const loadExportDownloads = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('export_history')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(50);
+
+      if (error) throw error;
+
+      // Transform database records to ExportDownload format
+      const downloads: ExportDownload[] = (data || []).map(record => ({
+        auditId: record.audit_id,
+        auditName: record.audit_name,
+        fileName: record.file_name,
+        fileType: record.file_type,
+        timestamp: record.created_at
       }));
-      
-      // Merge with existing downloads (avoid duplicates by timestamp)
-      const existingTimestamps = new Set(downloads.map(d => d.timestamp));
-      const newDownloads = migratedPngs.filter((d: ExportDownload) => !existingTimestamps.has(d.timestamp));
-      
-      if (newDownloads.length > 0) {
-        downloads = [...downloads, ...newDownloads];
-        // Save merged data
-        localStorage.setItem('exportDownloadHistory', JSON.stringify(downloads));
-        // Optionally remove old key
-        localStorage.removeItem('pngDownloadHistory');
-      }
+
+      setExportDownloads(downloads);
+    } catch (error) {
+      console.error('Error loading export downloads:', error);
     }
-    
-    setExportDownloads(downloads);
   };
 
   const getGreeting = () => {
