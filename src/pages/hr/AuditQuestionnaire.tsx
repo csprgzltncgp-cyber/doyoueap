@@ -115,7 +115,10 @@ export default function AuditQuestionnaire() {
           statisztikai formában jelennek meg.
         </p>
       </div>
-      <Button onClick={() => setCurrentStep('demographics')} className="w-full bg-demo-primary hover:bg-demo-primary/90 text-white">
+      <Button onClick={() => {
+        setCurrentStep('demographics');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }} className="w-full bg-demo-primary hover:bg-demo-primary/90 text-white">
         Kezdés (Demo)
       </Button>
     </div>
@@ -150,7 +153,10 @@ export default function AuditQuestionnaire() {
           >
             Vissza
           </Button>
-          <Button onClick={() => setCurrentStep('branch_selector')} className="flex-1 bg-demo-primary hover:bg-demo-primary/90 text-white">
+          <Button onClick={() => {
+            setCurrentStep('branch_selector');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }} className="flex-1 bg-demo-primary hover:bg-demo-primary/90 text-white">
             Tovább (Demo)
           </Button>
         </div>
@@ -188,6 +194,7 @@ export default function AuditQuestionnaire() {
           <Button 
             onClick={() => {
               setCurrentStep('eap_info');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             className="w-full justify-start h-auto py-4 bg-demo-primary hover:bg-demo-primary/90 text-white"
           >
@@ -199,10 +206,10 @@ export default function AuditQuestionnaire() {
 
           <Button 
             onClick={() => {
-              // Use "not_used" branch directly
               setSelectedBranch('not_used');
               setCurrentStep('branch_questions');
               setCurrentBlockIndex(0);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             className="w-full justify-start h-auto py-4 bg-demo-primary hover:bg-demo-primary/90 text-white"
           >
@@ -214,10 +221,10 @@ export default function AuditQuestionnaire() {
 
           <Button 
             onClick={() => {
-              // Use "used" branch directly
               setSelectedBranch('used');
               setCurrentStep('branch_questions');
               setCurrentBlockIndex(0);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             className="w-full justify-start h-auto py-4 bg-demo-primary hover:bg-demo-primary/90 text-white"
           >
@@ -299,6 +306,7 @@ export default function AuditQuestionnaire() {
                 setCurrentBlockIndex(0);
                 setSelectedBranch(null);
               }
+              window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             className="flex-1 bg-demo-primary hover:bg-demo-primary/90 text-white"
           >
@@ -346,6 +354,7 @@ export default function AuditQuestionnaire() {
             setCurrentStep('welcome');
             setCurrentBlockIndex(0);
             setSelectedBranch(null);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           }} 
           className="flex-1 bg-demo-primary hover:bg-demo-primary/90 text-white"
         >
