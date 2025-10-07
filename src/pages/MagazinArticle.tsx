@@ -55,11 +55,10 @@ const MagazinArticle = () => {
       if (articleData) {
         setArticle(articleData);
         
-        // Increment view count
-        const { error: updateError } = await supabase
-          .from('magazine_articles')
-          .update({ view_count: (articleData.view_count || 0) + 1 })
-          .eq('id', articleData.id);
+        // Increment view count using database function
+        const { error: updateError } = await supabase.rpc('increment_article_view_count', {
+          _article_id: articleData.id
+        });
 
         if (updateError) {
           console.error('Error updating view count:', updateError);

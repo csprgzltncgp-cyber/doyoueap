@@ -646,6 +646,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      increment_article_view_count: {
+        Args: { _article_id: string }
+        Returns: undefined
+      }
       same_company_as_user: {
         Args: { _profile_id: string; _user_id: string }
         Returns: boolean
