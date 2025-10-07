@@ -35,7 +35,7 @@ export const MultipleChoiceQuestion = ({ question, value = [], onChange }: Multi
             type="button"
             onClick={() => handleToggle(option)}
             className={`
-              relative w-full p-4 rounded-lg border-2 transition-all text-left
+              relative w-full p-4 rounded-lg border transition-all text-left
               ${value.includes(option)
                 ? 'border-primary bg-primary/5 shadow-md' 
                 : 'border-border hover:border-primary/50 hover:bg-muted/50'

@@ -34,10 +34,10 @@ export const NPSQuestion = ({ question, value, onChange }: NPSQuestionProps) => 
             type="button"
             onClick={() => onChange(val)}
             className={`
-              aspect-square rounded-lg border-2 transition-all
+              aspect-square rounded-lg border transition-all
               flex items-center justify-center font-semibold text-sm md:text-base
               ${value === val
-                ? 'border-primary bg-primary text-primary-foreground shadow-lg scale-110' 
+                ? 'bg-primary text-primary-foreground shadow-lg scale-110' 
                 : 'border-border hover:border-primary/50 hover:bg-muted/50 hover:scale-105'
               }
               min-h-[44px]

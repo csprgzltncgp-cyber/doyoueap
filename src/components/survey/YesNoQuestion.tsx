@@ -22,7 +22,7 @@ export const YesNoQuestion = ({ question, value, onChange }: YesNoQuestionProps)
           type="button"
           onClick={() => onChange('yes')}
           className={`
-            p-6 rounded-lg border-2 transition-all
+            p-6 rounded-lg border transition-all
             ${value === 'yes' 
               ? 'border-green-500 bg-green-50 dark:bg-green-950/20 shadow-md' 
               : 'border-border hover:border-green-500/50 hover:bg-muted/50'
@@ -37,7 +37,7 @@ export const YesNoQuestion = ({ question, value, onChange }: YesNoQuestionProps)
           type="button"
           onClick={() => onChange('no')}
           className={`
-            p-6 rounded-lg border-2 transition-all
+            p-6 rounded-lg border transition-all
             ${value === 'no' 
               ? 'border-red-500 bg-red-50 dark:bg-red-950/20 shadow-md' 
               : 'border-border hover:border-red-500/50 hover:bg-muted/50'
