@@ -1,5 +1,5 @@
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Check } from 'lucide-react';
 
 interface MultipleChoiceQuestionProps {
   question: {
@@ -21,25 +21,36 @@ export const MultipleChoiceQuestion = ({ question, value = [], onChange }: Multi
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <div className="space-y-1">
-        <Label className="text-base font-medium">
+        <Label className="text-lg font-semibold block">
           {question.question}
+          {question.required && <span className="text-destructive ml-1">*</span>}
         </Label>
         <p className="text-sm text-muted-foreground italic">Több válasz lehetséges</p>
       </div>
-      <div className="space-y-2">
+      <div className="grid gap-3">
         {question.options.map((option) => (
-          <div key={option} className="flex items-center space-x-2">
-            <Checkbox
-              id={`${question.id}-${option}`}
-              checked={value.includes(option)}
-              onCheckedChange={() => handleToggle(option)}
-            />
-            <Label htmlFor={`${question.id}-${option}`} className="font-normal">
-              {option}
-            </Label>
-          </div>
+          <button
+            key={option}
+            type="button"
+            onClick={() => handleToggle(option)}
+            className={`
+              relative w-full p-4 rounded-lg border-2 transition-all text-left
+              ${value.includes(option)
+                ? 'border-primary bg-primary/5 shadow-md' 
+                : 'border-border hover:border-primary/50 hover:bg-muted/50'
+              }
+              min-h-[60px] flex items-center justify-between
+            `}
+          >
+            <span className="text-base pr-2">{option}</span>
+            {value.includes(option) && (
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                <Check className="w-4 h-4 text-primary-foreground" />
+              </div>
+            )}
+          </button>
         ))}
       </div>
     </div>

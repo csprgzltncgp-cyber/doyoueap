@@ -1,5 +1,5 @@
 import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Check, X } from 'lucide-react';
 
 interface YesNoQuestionProps {
   question: {
@@ -13,20 +13,43 @@ interface YesNoQuestionProps {
 
 export const YesNoQuestion = ({ question, value, onChange }: YesNoQuestionProps) => {
   return (
-    <div className="space-y-3">
-      <Label className="text-base font-medium">
+    <div className="space-y-4">
+      <Label className="text-lg font-semibold block">
         {question.question}
+        {question.required && <span className="text-destructive ml-1">*</span>}
       </Label>
-      <RadioGroup value={value} onValueChange={onChange} className="flex gap-4">
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="yes" id={`${question.id}-yes`} />
-          <Label htmlFor={`${question.id}-yes`} className="font-normal">Igen</Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="no" id={`${question.id}-no`} />
-          <Label htmlFor={`${question.id}-no`} className="font-normal">Nem</Label>
-        </div>
-      </RadioGroup>
+      <div className="grid grid-cols-2 gap-4">
+        <button
+          type="button"
+          onClick={() => onChange('yes')}
+          className={`
+            p-6 rounded-lg border-2 transition-all
+            ${value === 'yes' 
+              ? 'border-green-500 bg-green-50 dark:bg-green-950/20 shadow-md' 
+              : 'border-border hover:border-green-500/50 hover:bg-muted/50'
+            }
+            min-h-[80px] flex flex-col items-center justify-center gap-2
+          `}
+        >
+          <Check className={`w-8 h-8 ${value === 'yes' ? 'text-green-600' : 'text-muted-foreground'}`} />
+          <span className="text-base font-semibold">Igen</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => onChange('no')}
+          className={`
+            p-6 rounded-lg border-2 transition-all
+            ${value === 'no' 
+              ? 'border-red-500 bg-red-50 dark:bg-red-950/20 shadow-md' 
+              : 'border-border hover:border-red-500/50 hover:bg-muted/50'
+            }
+            min-h-[80px] flex flex-col items-center justify-center gap-2
+          `}
+        >
+          <X className={`w-8 h-8 ${value === 'no' ? 'text-red-600' : 'text-muted-foreground'}`} />
+          <span className="text-base font-semibold">Nem</span>
+        </button>
+      </div>
     </div>
   );
 };
