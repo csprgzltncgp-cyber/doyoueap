@@ -296,16 +296,6 @@ const MagazinArticle = () => {
           dangerouslySetInnerHTML={{ __html: article.content.replace(/\n/g, '<br />') }}
         />
 
-        {/* Share Section */}
-        <div className="mt-12 pt-8 border-t">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">Tetszett a cikk?</span>
-            <Button onClick={handleShare} variant="outline">
-              <Share2 className="h-4 w-4 mr-2" />
-              Megosztás
-            </Button>
-          </div>
-        </div>
       </article>
 
       {/* Related Articles */}
