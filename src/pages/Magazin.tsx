@@ -202,9 +202,9 @@ const Magazin = () => {
             <div className="text-center py-12 text-muted-foreground">Nincsenek kiemelt cikkek</div>
           ) : (
             <Carousel className="w-full">
-              <CarouselContent>
+              <CarouselContent className="-ml-2 md:-ml-4">
                 {featuredArticles.map((article) => (
-                  <CarouselItem key={article.id}>
+                  <CarouselItem key={article.id} className="pl-2 md:pl-4">
                     <div className="grid md:grid-cols-2 gap-8 items-center">
                       {/* Large Featured Image */}
                       <div 
@@ -258,8 +258,8 @@ const Magazin = () => {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="-left-12" />
-              <CarouselNext className="-right-12" />
+              <CarouselPrevious className="hidden md:flex -left-12" />
+              <CarouselNext className="hidden md:flex -right-12" />
             </Carousel>
           )}
         </div>
@@ -272,7 +272,7 @@ const Magazin = () => {
             {/* Main Articles */}
             <div className="lg:col-span-2">
               {/* Category Filter */}
-              <div className="flex gap-3 mb-8 overflow-x-auto pb-2">
+              <div className="flex gap-3 mb-8 overflow-x-auto pb-2 -mx-4 px-4">
                 {categories.map((cat) => (
                   <Button
                     key={cat.id}
