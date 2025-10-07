@@ -208,6 +208,7 @@ const UserDashboard = () => {
       if (error) throw error;
 
       setCurrentStep('thank_you');
+      setTimeout(scrollToTop, 100);
     } catch (err) {
       console.error('Error submitting response:', err);
       toast.error('Hiba történt a válaszok mentésekor');
