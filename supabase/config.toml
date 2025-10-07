@@ -1,1 +1,13 @@
 project_id = "xvtglebdgoxqwxunjrqs"
+
+[functions.request-admin-access]
+verify_jwt = false
+
+[functions.approve-admin-access]
+verify_jwt = false
+
+[functions.send-admin-verification]
+verify_jwt = false
+
+[functions.verify-admin-code]
+verify_jwt = false

@@ -14,6 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_approval_requests: {
+        Row: {
+          approval_token: string
+          approved: boolean | null
+          approved_at: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          full_name: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          approval_token: string
+          approved?: boolean | null
+          approved_at?: string | null
+          created_at?: string
+          email: string
+          expires_at: string
+          full_name: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          approval_token?: string
+          approved?: boolean | null
+          approved_at?: string | null
+          created_at?: string
+          email?: string
+          expires_at?: string
+          full_name?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      admin_verification_codes: {
+        Row: {
+          code: string
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          used: boolean | null
+          used_at: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          email: string
+          expires_at: string
+          id?: string
+          used?: boolean | null
+          used_at?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          used?: boolean | null
+          used_at?: string | null
+        }
+        Relationships: []
+      }
       audit_responses: {
         Row: {
           audit_id: string

@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { Resend } from "npm:resend@2.0.0";
+import { Resend } from "https://esm.sh/resend@4.0.0";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
@@ -50,7 +50,8 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     // Send approval email
-    const approvalUrl = `${Deno.env.get('SUPABASE_URL')?.replace('supabase.co', 'lovableproject.com')}/approve-admin?token=${approvalToken}&userId=${userId}`;
+    const baseUrl = 'https://6e44bc2c-27c6-473f-a4f2-cb11764cf132.lovableproject.com';
+    const approvalUrl = `${baseUrl}/approve-admin?token=${approvalToken}&userId=${userId}`;
     
     const emailResponse = await resend.emails.send({
       from: "DoYouEAP <onboarding@resend.dev>",
