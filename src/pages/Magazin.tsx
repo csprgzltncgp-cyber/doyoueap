@@ -16,6 +16,7 @@ import {
   CarouselNext, 
   CarouselPrevious 
 } from '@/components/ui/carousel';
+import { MobileNav } from '@/components/navigation/MobileNav';
 
 const Magazin = () => {
   const navigate = useNavigate();
@@ -86,7 +87,14 @@ const Magazin = () => {
       {/* Header with Navigation */}
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center relative">
-          <div className="flex items-center">
+          <div className="flex items-center gap-2">
+            <MobileNav 
+              user={user}
+              role={role}
+              section=""
+              onNavigate={navigate}
+              onLogout={signOut}
+            />
             <img 
               src={logo} 
               alt="EAP Pulse" 
@@ -125,11 +133,11 @@ const Magazin = () => {
           <div className="flex items-center gap-4">
             {!loading && (
               user ? (
-                <Button onClick={signOut} variant="outline">
+                <Button onClick={signOut} variant="outline" className="hidden md:flex">
                   Kilépés
                 </Button>
               ) : (
-                <Button onClick={() => navigate('/auth')}>
+                <Button onClick={() => navigate('/auth')} className="hidden md:flex">
                   Bejelentkezés
                 </Button>
               )
@@ -300,7 +308,7 @@ const Magazin = () => {
                       className="grid md:grid-cols-[200px_1fr] gap-4 cursor-pointer group"
                       onClick={() => navigate(`/magazin/${article.slug}`)}
                     >
-                      <Card className="hover:shadow-lg transition-all group-hover:scale-[1.02] overflow-hidden">
+                      <Card className="hover:shadow-lg transition-shadow overflow-hidden aspect-video md:aspect-auto">
                         {article.image_url ? (
                           <img 
                             src={article.image_url} 
@@ -313,7 +321,7 @@ const Magazin = () => {
                           </div>
                         )}
                       </Card>
-                      <Card className="hover:shadow-lg transition-all group-hover:scale-[1.02]">
+                      <Card className="hover:shadow-lg transition-shadow">
                         <CardHeader>
                           <Badge className="w-fit mb-2">{article.category}</Badge>
                           <CardTitle className="text-xl group-hover:text-primary transition-colors">
@@ -322,12 +330,12 @@ const Magazin = () => {
                           <CardDescription className="mt-2">{article.excerpt}</CardDescription>
                         </CardHeader>
                         <CardContent>
-                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                             <div className="flex items-center gap-1">
                               <User className="h-4 w-4" />
                               <span>{article.author}</span>
                             </div>
-                            <span>{new Date(article.published_date).toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                            <span className="text-xs">{new Date(article.published_date).toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                           </div>
                         </CardContent>
                       </Card>

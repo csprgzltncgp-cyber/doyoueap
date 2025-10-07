@@ -9,6 +9,7 @@ import journalistLogo from '@/assets/thejournalist_logo.png';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { MobileNav } from '@/components/navigation/MobileNav';
 
 interface Article {
   id: string;
@@ -136,7 +137,14 @@ const MagazinArticle = () => {
       {/* Header with Navigation */}
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center relative">
-          <div className="flex items-center">
+          <div className="flex items-center gap-2">
+            <MobileNav 
+              user={user}
+              role={role}
+              section=""
+              onNavigate={navigate}
+              onLogout={signOut}
+            />
             <img 
               src={logo} 
               alt="EAP Pulse" 
@@ -175,11 +183,11 @@ const MagazinArticle = () => {
           <div className="flex items-center gap-4">
             {!loading && (
               user ? (
-                <Button onClick={signOut} variant="outline">
+                <Button onClick={signOut} variant="outline" className="hidden md:flex">
                   Kilépés
                 </Button>
               ) : (
-                <Button onClick={() => navigate('/auth')}>
+                <Button onClick={() => navigate('/auth')} className="hidden md:flex">
                   Bejelentkezés
                 </Button>
               )
