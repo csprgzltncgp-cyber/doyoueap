@@ -56,7 +56,7 @@ export const ScaleQuestion = ({ question, value, onChange }: ScaleQuestionProps)
                 }
               `}
             >
-              <span className="font-medium">{option.label}</span>
+              {option.label}
             </button>
           ))
         ) : (
