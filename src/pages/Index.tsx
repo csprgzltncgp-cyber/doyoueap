@@ -190,7 +190,7 @@ const Index = () => {
             </button>
             {user && role === 'hr' && (
               <button
-                onClick={() => setSearchParams({ section: 'focus' })}
+                onClick={() => navigate('/?section=focus')}
                 className={`text-sm border border-transparent transition-colors px-3 py-2 rounded-md ${
                   section 
                     ? 'bg-[#3572ef] text-white font-semibold' 
