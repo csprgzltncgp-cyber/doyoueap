@@ -25,11 +25,33 @@ const Focus = () => {
   const [audits, setAudits] = useState<AuditWithStats[]>([]);
   const [pngDownloads, setPngDownloads] = useState<PngDownload[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userName, setUserName] = useState<string>('');
 
   useEffect(() => {
+    fetchUserProfile();
     fetchAudits();
     loadPngDownloads();
   }, []);
+
+  const fetchUserProfile = async () => {
+    if (!user?.id) return;
+    
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('full_name')
+        .eq('id', user.id)
+        .single();
+
+      if (error) throw error;
+      
+      if (data?.full_name) {
+        setUserName(data.full_name);
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  };
 
   const fetchAudits = async () => {
     try {
@@ -114,7 +136,7 @@ const Focus = () => {
       <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
         <CardHeader>
           <CardTitle className="text-2xl">
-            {getGreeting()}, {user?.email?.split('@')[0] || 'Felhasználó'}! 👋
+            {getGreeting()}, {userName || 'Felhasználó'}!
           </CardTitle>
           <CardDescription className="text-base">
             Üdv újra itt! Itt találod a futó felmérések áttekintését és a letöltési előzményeidet.
