@@ -137,15 +137,7 @@ const MagazinArticle = () => {
       {/* Header with Navigation */}
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center relative">
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate('/magazin')}
-              className="rounded-full"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
+          <div className="flex items-center">
             <img 
               src={logo} 
               alt="EAP Pulse" 
@@ -156,25 +148,25 @@ const MagazinArticle = () => {
           <nav className="hidden md:flex gap-6 items-center absolute left-1/2 -translate-x-1/2">
             <button
               onClick={() => navigate('/bemutatkozas')}
-              className="text-sm border border-transparent transition-colors px-3 py-2 rounded-sm hover:bg-muted"
+              className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
             >
               EAP Pulse
             </button>
             <button
               onClick={() => navigate('/arak')}
-              className="text-sm border border-transparent transition-colors px-3 py-2 rounded-sm hover:bg-muted"
+              className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
             >
               Árak és Csomagok
             </button>
             <button
               onClick={() => navigate('/magazin')}
-              className="text-sm bg-white border border-black font-semibold transition-colors px-3 py-2 rounded-sm"
+              className="text-sm bg-white border border-black font-semibold transition-colors px-3 py-2 rounded-md"
             >
               The Journalist!
             </button>
             {user && role === 'hr' && (
               <button
-                onClick={() => navigate('/?section=eap-pulse&sub=create-audit')}
+                onClick={() => navigate('/?section=focus')}
                 className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
               >
                 Dashboard
@@ -198,8 +190,21 @@ const MagazinArticle = () => {
       </header>
 
       {/* The Journalist Header */}
-      <section className="relative py-8 px-4 overflow-hidden bg-white border-t border-border">
-        <div className="max-w-7xl mx-auto relative z-10">
+      <section className="relative py-8 overflow-hidden bg-gradient-to-b from-muted/50 to-background border-t border-border">
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          {/* Back Button */}
+          <div className="mb-4">
+            <Button
+              variant="ghost"
+              onClick={() => navigate('/magazin')}
+              className="group"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2 transition-transform group-hover:-translate-x-1" />
+              Vissza a cikkekhez
+            </Button>
+          </div>
+          
+          {/* Three column layout: Date - Logo - Text */}
           <div className="flex items-center justify-between gap-8">
             <div className="flex flex-col items-start text-sm text-black">
               <span className="font-semibold">2025. JANUÁR</span>
@@ -218,6 +223,11 @@ const MagazinArticle = () => {
               </span>
             </div>
           </div>
+        </div>
+        {/* Bottom borders - thick then thin */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <div className="border-b-4 border-black"></div>
+          <div className="border-b border-black mt-1"></div>
         </div>
       </section>
 
