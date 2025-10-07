@@ -401,14 +401,17 @@ export default function AuditQuestionnaire() {
                 className="h-12 object-contain"
               />
             </div>
-            {currentStep === 'branch_questions' && selectedBranch && (
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm text-muted-foreground">
-                  <span>{getTotalProgress().current} / {getTotalProgress().total} kérdésblokk</span>
+            {currentStep === 'branch_questions' && selectedBranch && (() => {
+              const progress = getTotalProgress();
+              return (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-center text-sm text-muted-foreground">
+                    <span>{progress.current} / {progress.total} kérdésblokk</span>
+                  </div>
+                  <Progress value={progress.percent} className="mt-2" />
                 </div>
-                <Progress value={getTotalProgress().percent} className="mt-2" />
-              </div>
-            )}
+              );
+            })()}
           </CardHeader>
           <CardContent>
             {currentStep === 'welcome' && renderWelcome()}
