@@ -101,10 +101,35 @@ const Focus = () => {
   };
 
   const loadExportDownloads = () => {
+    // Load from new key
     const stored = localStorage.getItem('exportDownloadHistory');
-    if (stored) {
-      setExportDownloads(JSON.parse(stored));
+    let downloads: ExportDownload[] = stored ? JSON.parse(stored) : [];
+    
+    // Migrate old PNG downloads if they exist
+    const oldPngStored = localStorage.getItem('pngDownloadHistory');
+    if (oldPngStored) {
+      const oldPngDownloads = JSON.parse(oldPngStored);
+      // Convert old format to new format
+      const migratedPngs = oldPngDownloads.map((download: any) => ({
+        ...download,
+        fileName: download.fileName.endsWith('.png') ? download.fileName : `${download.fileName}.png`,
+        fileType: 'PNG'
+      }));
+      
+      // Merge with existing downloads (avoid duplicates by timestamp)
+      const existingTimestamps = new Set(downloads.map(d => d.timestamp));
+      const newDownloads = migratedPngs.filter((d: ExportDownload) => !existingTimestamps.has(d.timestamp));
+      
+      if (newDownloads.length > 0) {
+        downloads = [...downloads, ...newDownloads];
+        // Save merged data
+        localStorage.setItem('exportDownloadHistory', JSON.stringify(downloads));
+        // Optionally remove old key
+        localStorage.removeItem('pngDownloadHistory');
+      }
     }
+    
+    setExportDownloads(downloads);
   };
 
   const getGreeting = () => {
