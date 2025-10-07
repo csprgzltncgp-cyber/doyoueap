@@ -279,16 +279,25 @@ const UserDashboard = () => {
             onChange={(value) => handleResponseChange(q.id, value)}
           />
         ))}
-        <Button 
-          onClick={handleDemographicsNext} 
-          className="w-full"
-          style={{
-            backgroundColor: primaryColor,
-            borderColor: primaryColor,
-          }}
-        >
-          Tovább
-        </Button>
+        <div className="flex gap-4">
+          <Button 
+            onClick={() => setCurrentStep('welcome')} 
+            variant="outline"
+            className="flex-1"
+          >
+            Vissza
+          </Button>
+          <Button 
+            onClick={handleDemographicsNext} 
+            className="flex-1"
+            style={{
+              backgroundColor: primaryColor,
+              borderColor: primaryColor,
+            }}
+          >
+            Tovább
+          </Button>
+        </div>
       </div>
     );
   };
@@ -310,16 +319,25 @@ const UserDashboard = () => {
           value={responses[branchSelector.id]}
           onChange={(value) => handleResponseChange(branchSelector.id, value)}
         />
-        <Button 
-          onClick={handleBranchSelection} 
-          className="w-full"
-          style={{
-            backgroundColor: primaryColor,
-            borderColor: primaryColor,
-          }}
-        >
-          Tovább
-        </Button>
+        <div className="flex gap-4">
+          <Button 
+            onClick={() => setCurrentStep('demographics')} 
+            variant="outline"
+            className="flex-1"
+          >
+            Vissza
+          </Button>
+          <Button 
+            onClick={handleBranchSelection} 
+            className="flex-1"
+            style={{
+              backgroundColor: primaryColor,
+              borderColor: primaryColor,
+            }}
+          >
+            Tovább
+          </Button>
+        </div>
       </div>
     );
   };
