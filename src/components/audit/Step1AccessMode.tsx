@@ -89,7 +89,7 @@ export const Step1AccessMode = ({ accessMode, onAccessModeChange, onNext, onBack
           onClick={onNext} 
           disabled={!accessMode}
           style={{
-            backgroundColor: '#3572ef',
+            backgroundColor: '#000000',
             color: 'white'
           }}
           className="hover:opacity-90"

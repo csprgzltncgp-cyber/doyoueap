@@ -309,7 +309,7 @@ export const Step3Distribution = ({
         <Button 
           onClick={onNext}
           style={{
-            backgroundColor: '#3572ef',
+            backgroundColor: '#000000',
             color: 'white'
           }}
           className="hover:opacity-90"

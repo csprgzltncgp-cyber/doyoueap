@@ -184,7 +184,7 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
           onClick={onSubmit} 
           disabled={loading}
           style={{
-            backgroundColor: '#3572ef',
+            backgroundColor: '#000000',
             color: 'white'
           }}
           className="hover:opacity-90"

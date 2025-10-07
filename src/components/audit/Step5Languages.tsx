@@ -100,7 +100,7 @@ export const Step5Languages = ({
           onClick={onNext} 
           disabled={selectedLanguages.length === 0}
           style={{
-            backgroundColor: '#3572ef',
+            backgroundColor: '#000000',
             color: 'white'
           }}
           className="hover:opacity-90"

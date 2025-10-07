@@ -118,7 +118,7 @@ export const Step4Timing = ({
           onClick={onNext} 
           disabled={!expiresAt}
           style={{
-            backgroundColor: '#3572ef',
+            backgroundColor: '#000000',
             color: 'white'
           }}
           className="hover:opacity-90"
