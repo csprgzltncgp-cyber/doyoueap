@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { formatAuditName } from '@/lib/auditUtils';
 import { exportableCharts } from '@/lib/exportUtils';
 import { exportAllChartsToPPT } from '@/lib/pptExportUtils';
-import { Presentation, Image as ImageIcon, Download, FileSpreadsheet } from 'lucide-react';
+import { Presentation, Image as ImageIcon, Download, FileSpreadsheet, History, Trash2 } from 'lucide-react';
 
 let exportIframe: HTMLIFrameElement | null = null;
 
@@ -28,9 +28,12 @@ const Export = () => {
   const [selectedAuditId, setSelectedAuditId] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
+  const [exportHistory, setExportHistory] = useState<any[]>([]);
+  const [loadingHistory, setLoadingHistory] = useState(true);
 
   useEffect(() => {
     fetchAudits();
+    fetchExportHistory();
 
     // Listen for messages from the iframe
     const handleMessage = (event: MessageEvent) => {
@@ -83,6 +86,70 @@ const Export = () => {
       toast.error('Hiba történt a felmérések betöltésekor');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchExportHistory = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('export_history')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(50);
+
+      if (error) throw error;
+      setExportHistory(data || []);
+    } catch (error) {
+      console.error('Error fetching export history:', error);
+    } finally {
+      setLoadingHistory(false);
+    }
+  };
+
+  const saveExportToHistory = async (auditId: string, fileName: string, fileType: string) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const audit = audits.find(a => a.id === auditId);
+      const auditName = audit ? formatAuditName(audit) : 'Ismeretlen felmérés';
+
+      const { error } = await supabase
+        .from('export_history')
+        .insert({
+          user_id: user.id,
+          audit_id: auditId,
+          audit_name: auditName,
+          file_name: fileName,
+          file_type: fileType
+        });
+
+      if (error) throw error;
+      
+      // Refresh history
+      await fetchExportHistory();
+    } catch (error) {
+      console.error('Error saving export history:', error);
+    }
+  };
+
+  const deleteHistoryItem = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('export_history')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      toast.success('Előzmény törölve');
+      await fetchExportHistory();
+    } catch (error) {
+      console.error('Error deleting history item:', error);
+      toast.error('Hiba történt a törlés során');
     }
   };
 
@@ -572,23 +639,7 @@ const Export = () => {
       await pres.writeFile({ fileName });
       
       // Save download to history
-      if (selectedAuditId) {
-        const audit = audits.find(a => a.id === selectedAuditId);
-        const auditName = audit ? formatAuditName(audit) : 'Ismeretlen felmérés';
-        
-        const download = {
-          auditId: selectedAuditId,
-          auditName,
-          fileName,
-          fileType: 'PowerPoint',
-          timestamp: new Date().toISOString(),
-        };
-        
-        const stored = localStorage.getItem('exportDownloadHistory');
-        const history = stored ? JSON.parse(stored) : [];
-        history.push(download);
-        localStorage.setItem('exportDownloadHistory', JSON.stringify(history));
-      }
+      await saveExportToHistory(selectedAuditId, fileName, 'PowerPoint');
       
       toast.success('PowerPoint sikeresen exportálva!');
     } catch (error) {
@@ -606,23 +657,7 @@ const Export = () => {
     setExporting(true);
     
     // Save download to history
-    if (selectedAuditId) {
-      const audit = audits.find(a => a.id === selectedAuditId);
-      const auditName = audit ? formatAuditName(audit) : 'Ismeretlen felmérés';
-      
-      const download = {
-        auditId: selectedAuditId,
-        auditName,
-        fileName: `${fileName}.png`,
-        fileType: 'PNG',
-        timestamp: new Date().toISOString(),
-      };
-      
-      const stored = localStorage.getItem('exportDownloadHistory');
-      const history = stored ? JSON.parse(stored) : [];
-      history.push(download);
-      localStorage.setItem('exportDownloadHistory', JSON.stringify(history));
-    }
+    await saveExportToHistory(selectedAuditId, `${fileName}.png`, 'PNG');
     
     // Create hidden iframe
     if (exportIframe && exportIframe.parentNode) {
@@ -789,23 +824,7 @@ const Export = () => {
       XLSX.writeFile(wb, fileName);
       
       // Save download to history
-      if (selectedAuditId) {
-        const audit = audits.find(a => a.id === selectedAuditId);
-        const auditName = audit ? formatAuditName(audit) : 'Ismeretlen felmérés';
-        
-        const download = {
-          auditId: selectedAuditId,
-          auditName,
-          fileName,
-          fileType: 'Excel',
-          timestamp: new Date().toISOString(),
-        };
-        
-        const stored = localStorage.getItem('exportDownloadHistory');
-        const history = stored ? JSON.parse(stored) : [];
-        history.push(download);
-        localStorage.setItem('exportDownloadHistory', JSON.stringify(history));
-      }
+      await saveExportToHistory(selectedAuditId, fileName, 'Excel');
       
       toast.success('Excel sikeresen exportálva!');
     } catch (error) {
@@ -859,23 +878,7 @@ const Export = () => {
       document.body.removeChild(link);
 
       // Save download to history
-      if (selectedAuditId) {
-        const audit = audits.find(a => a.id === selectedAuditId);
-        const auditName = audit ? formatAuditName(audit) : 'Ismeretlen felmérés';
-        
-        const download = {
-          auditId: selectedAuditId,
-          auditName,
-          fileName,
-          fileType: 'CSV',
-          timestamp: new Date().toISOString(),
-        };
-        
-        const stored = localStorage.getItem('exportDownloadHistory');
-        const history = stored ? JSON.parse(stored) : [];
-        history.push(download);
-        localStorage.setItem('exportDownloadHistory', JSON.stringify(history));
-      }
+      await saveExportToHistory(selectedAuditId, fileName, 'CSV');
 
       toast.success('CSV sikeresen exportálva!');
     } catch (error) {
@@ -1177,6 +1180,50 @@ const Export = () => {
               </div>
             </TabsContent>
           </Tabs>
+        </CardContent>
+      </Card>
+
+      {/* Export History */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <History className="h-5 w-5" />
+            Export Előzmények
+          </CardTitle>
+          <CardDescription>
+            Letöltött fájlok listája
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {loadingHistory ? (
+            <p className="text-muted-foreground text-center py-8">Betöltés...</p>
+          ) : exportHistory.length === 0 ? (
+            <p className="text-muted-foreground text-center py-8">Még nincs export előzmény</p>
+          ) : (
+            <div className="space-y-2">
+              {exportHistory.map((item) => (
+                <div 
+                  key={item.id} 
+                  className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors"
+                >
+                  <div className="flex-1">
+                    <p className="font-medium">{item.file_name}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {item.audit_name} • {item.file_type} • {new Date(item.created_at).toLocaleString('hu-HU')}
+                    </p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => deleteHistoryItem(item.id)}
+                    className="text-destructive hover:text-destructive"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
         </CardContent>
       </Card>
 

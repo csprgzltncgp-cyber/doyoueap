@@ -261,6 +261,44 @@ export type Database = {
         }
         Relationships: []
       }
+      export_history: {
+        Row: {
+          audit_id: string
+          audit_name: string
+          created_at: string
+          file_name: string
+          file_type: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          audit_id: string
+          audit_name: string
+          created_at?: string
+          file_name: string
+          file_type: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          audit_id?: string
+          audit_name?: string
+          created_at?: string
+          file_name?: string
+          file_type?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "export_history_audit_id_fkey"
+            columns: ["audit_id"]
+            isOneToOne: false
+            referencedRelation: "audits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       magazine_articles: {
         Row: {
           author: string
