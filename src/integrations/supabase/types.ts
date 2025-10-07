@@ -117,6 +117,54 @@ export type Database = {
           },
         ]
       }
+      companies: {
+        Row: {
+          company_name: string
+          contact_email: string
+          contact_phone: string | null
+          created_at: string
+          employee_count: string | null
+          id: string
+          industry: string | null
+          notes: string | null
+          subscription_end_date: string | null
+          subscription_package: string | null
+          subscription_start_date: string | null
+          subscription_status: string | null
+          updated_at: string
+        }
+        Insert: {
+          company_name: string
+          contact_email: string
+          contact_phone?: string | null
+          created_at?: string
+          employee_count?: string | null
+          id?: string
+          industry?: string | null
+          notes?: string | null
+          subscription_end_date?: string | null
+          subscription_package?: string | null
+          subscription_start_date?: string | null
+          subscription_status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          company_name?: string
+          contact_email?: string
+          contact_phone?: string | null
+          created_at?: string
+          employee_count?: string | null
+          id?: string
+          industry?: string | null
+          notes?: string | null
+          subscription_end_date?: string | null
+          subscription_package?: string | null
+          subscription_start_date?: string | null
+          subscription_status?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       email_verifications: {
         Row: {
           created_at: string | null
@@ -141,6 +189,54 @@ export type Database = {
           id?: string
           token?: string
           verified?: boolean | null
+        }
+        Relationships: []
+      }
+      magazine_articles: {
+        Row: {
+          author: string
+          category: string
+          content: string
+          created_at: string
+          excerpt: string
+          id: string
+          image_url: string | null
+          is_featured: boolean | null
+          is_published: boolean | null
+          published_date: string
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author: string
+          category?: string
+          content: string
+          created_at?: string
+          excerpt: string
+          id?: string
+          image_url?: string | null
+          is_featured?: boolean | null
+          is_published?: boolean | null
+          published_date?: string
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string
+          category?: string
+          content?: string
+          created_at?: string
+          excerpt?: string
+          id?: string
+          image_url?: string | null
+          is_featured?: boolean | null
+          is_published?: boolean | null
+          published_date?: string
+          slug?: string
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }
