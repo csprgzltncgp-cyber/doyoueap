@@ -66,26 +66,20 @@ export default function AuditQuestionnaire() {
   };
 
   const getOverallProgress = () => {
-    // Teljes felmérés progress számítása
-    let current = 0;
-    let total = 5; // welcome, demographics, branch_selector, branch_questions (több blokk), befejezés
-    
-    if (currentStep === 'welcome') current = 0;
-    else if (currentStep === 'demographics') current = 1;
-    else if (currentStep === 'branch_selector') current = 2;
-    else if (currentStep === 'eap_info') current = 4;
-    else if (currentStep === 'branch_questions' && selectedBranch) {
-      const branch = questionnaire?.questions.branches[selectedBranch];
-      if (branch) {
-        total = 2 + branch.blocks.length; // demographics + branch_selector + blocks
-        current = 2 + currentBlockIndex + 1;
-      }
+    if (!selectedBranch || currentStep !== 'branch_questions') {
+      return { percent: 0, current: 0, total: 0 };
     }
     
+    const branch = questionnaire?.questions.branches[selectedBranch];
+    if (!branch) return { percent: 0, current: 0, total: 0 };
+    
+    const totalSteps = branch.blocks.length;
+    const currentStepNum = currentBlockIndex + 1;
+    
     return {
-      percent: total > 0 ? (current / total) * 100 : 0,
-      current: current,
-      total: total
+      percent: totalSteps > 0 ? (currentStepNum / totalSteps) * 100 : 0,
+      current: currentStepNum,
+      total: totalSteps
     };
   };
 
@@ -132,12 +126,14 @@ export default function AuditQuestionnaire() {
           statisztikai formában jelennek meg.
         </p>
       </div>
-      <Button onClick={() => {
-        setCurrentStep('demographics');
-        setTimeout(scrollToTop, 100);
-      }} className="w-full bg-demo-primary hover:bg-demo-primary/90 text-white">
-        Kezdés (Demo)
-      </Button>
+      <div className="flex justify-center">
+        <Button onClick={() => {
+          setCurrentStep('demographics');
+          setTimeout(scrollToTop, 100);
+        }} className="px-12 bg-demo-primary hover:bg-demo-primary/90 text-white">
+          Kezdés (Demo)
+        </Button>
+      </div>
     </div>
   );
 
@@ -306,8 +302,10 @@ export default function AuditQuestionnaire() {
             onClick={() => {
               if (currentBlockIndex > 0) {
                 setCurrentBlockIndex(currentBlockIndex - 1);
+                setTimeout(scrollToTop, 100);
               } else {
                 setCurrentStep('branch_selector');
+                setTimeout(scrollToTop, 100);
               }
             }}
             className="flex-1"
@@ -405,7 +403,7 @@ export default function AuditQuestionnaire() {
                 className="h-12 object-contain"
               />
             </div>
-            {(() => {
+            {currentStep === 'branch_questions' && (() => {
               const progress = getOverallProgress();
               return (
                 <div className="space-y-2">
