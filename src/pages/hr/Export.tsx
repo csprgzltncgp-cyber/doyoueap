@@ -583,6 +583,24 @@ const Export = () => {
 
     setExporting(true);
     
+    // Save download to history
+    if (selectedAuditId) {
+      const audit = audits.find(a => a.id === selectedAuditId);
+      const auditName = audit ? formatAuditName(audit) : 'Ismeretlen felmérés';
+      
+      const download = {
+        auditId: selectedAuditId,
+        auditName,
+        fileName,
+        timestamp: new Date().toISOString(),
+      };
+      
+      const stored = localStorage.getItem('pngDownloadHistory');
+      const history = stored ? JSON.parse(stored) : [];
+      history.push(download);
+      localStorage.setItem('pngDownloadHistory', JSON.stringify(history));
+    }
+    
     // Create hidden iframe
     if (exportIframe && exportIframe.parentNode) {
       exportIframe.parentNode.removeChild(exportIframe);

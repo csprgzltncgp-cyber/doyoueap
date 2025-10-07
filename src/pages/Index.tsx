@@ -283,6 +283,16 @@ const Index = () => {
             <div className="max-w-7xl mx-auto px-4 py-2">
               <nav className="flex gap-6 justify-center">
                 <button
+                  onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'focus' })}
+                  className={`text-sm transition-colors pb-2 border-b-2 ${
+                    subSection === 'focus' 
+                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
+                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
+                  }`}
+                >
+                  Focus
+                </button>
+                <button
                   onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
                   className={`text-sm transition-colors pb-2 border-b-2 ${
                     subSection === 'create-audit' 
