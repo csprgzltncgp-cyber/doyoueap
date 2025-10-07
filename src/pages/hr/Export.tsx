@@ -849,12 +849,32 @@ const Export = () => {
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement('a');
       const url = URL.createObjectURL(blob);
+      const fileName = `audit_export_${selectedAuditId}_${Date.now()}.csv`;
       link.setAttribute('href', url);
-      link.setAttribute('download', `audit_export_${selectedAuditId}_${Date.now()}.csv`);
+      link.setAttribute('download', fileName);
       link.style.visibility = 'hidden';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+
+      // Save download to history
+      if (selectedAuditId) {
+        const audit = audits.find(a => a.id === selectedAuditId);
+        const auditName = audit ? formatAuditName(audit) : 'Ismeretlen felmérés';
+        
+        const download = {
+          auditId: selectedAuditId,
+          auditName,
+          fileName,
+          fileType: 'CSV',
+          timestamp: new Date().toISOString(),
+        };
+        
+        const stored = localStorage.getItem('exportDownloadHistory');
+        const history = stored ? JSON.parse(stored) : [];
+        history.push(download);
+        localStorage.setItem('exportDownloadHistory', JSON.stringify(history));
+      }
 
       toast.success('CSV sikeresen exportálva!');
     } catch (error) {
