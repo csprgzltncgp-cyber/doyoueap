@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -6,18 +6,9 @@ import { Button } from '@/components/ui/button';
 import { Clock, User, TrendingUp, Calendar, ChevronRight } from 'lucide-react';
 import logo from '@/assets/logo.png';
 import journalistLogo from '@/assets/thejournalist_logo.png';
-import journalistBg from '@/assets/journalist-bg.jpg';
-import mythsArticleImg from '@/assets/myths-article.jpg';
-import scoreArticleImg from '@/assets/4score-article.jpg';
-import futureArticleImg from '@/assets/future-article.jpg';
-import climateArticleImg from '@/assets/climate-article.jpg';
-import digitalWellbeingArticleImg from '@/assets/digital-wellbeing-article.jpg';
-import globalArticleImg from '@/assets/global-article.jpg';
-import leadershipArticleImg from '@/assets/leadership-article.jpg';
-import stigmaArticleImg from '@/assets/stigma-article.jpg';
-import engagementArticleImg from '@/assets/engagement-article.jpg';
-import roiArticleImg from '@/assets/roi-article.jpg';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 import { 
   Carousel, 
   CarouselContent, 
@@ -30,102 +21,38 @@ const Magazin = () => {
   const navigate = useNavigate();
   const { user, role, loading, signOut } = useAuth();
   const [activeCategory, setActiveCategory] = useState('all');
+  const [featuredArticles, setFeaturedArticles] = useState<any[]>([]);
+  const [articles, setArticles] = useState<any[]>([]);
+  const [loadingArticles, setLoadingArticles] = useState(true);
 
-  const featuredArticles = [
-    {
-      title: "Mítoszok és tévhitek: mi nem EAP – és mi az valójában",
-      excerpt: "Az elmúlt években a vállalati jól-lét (wellbeing) fogalma világszerte központi témává vált. Tisztázzuk szakmai érvekkel: mi az EAP, mi az, ami hasznos kiegészítés lehet, és mikor kell különbséget tenni az eltérő megoldások között.",
-      author: "doyoueap",
-      date: "2025. január 15.",
-      readTime: "8 perc",
-      category: "Alapok",
-      image: mythsArticleImg
-    },
-    {
-      title: "A 4Score mutatók ereje: hogyan mérhető az EAP valódi értéke",
-      excerpt: "Egy Employee Assistance Program (EAP) sikerességét ma már nem elég érzésre vagy eseti visszajelzésekre alapozni. A szervezetek elvárják, hogy a támogatási programok hatása mérhető, összehasonlítható és kimutatható legyen — emberi és üzleti szinten egyaránt. A 4Score modell négy kulcsmutatón keresztül ad átfogó képet: Tudatosság, Használat, Bizalom & Hajlandóság, valamint Hatás.",
-      author: "doyoueap",
-      date: "2025. január 12.",
-      readTime: "7 perc",
-      category: "Mérés",
-      image: scoreArticleImg
-    },
-    {
-      title: "Az EAP jövője és a digitalizáció szerepe",
-      excerpt: "A jövő EAP-ja nem egyszerűen a múlt modelljeinek digitális másolata, hanem egy új, hibrid rendszer, amely ötvözi a technológia előnyeit a személyes kapcsolattartás értékeivel.",
-      author: "doyoueap",
-      date: "2025. január 10.",
-      readTime: "6 perc",
-      category: "Kultúra",
-      image: futureArticleImg
-    }
-  ];
+  useEffect(() => {
+    fetchArticles();
+  }, []);
 
-  const articles = [
-    {
-      title: "A szervezeti klíma szerepe az EAP hatékonyságában",
-      excerpt: "Egy EAP soha nem a vákuumban működik. A program hatását mindig befolyásolja a szervezet kultúrája, a vezetők attitűdje és a munkahelyi környezet.",
-      author: "doyoueap",
-      date: "2025. január 8.",
-      readTime: "6 perc",
-      category: "Jövő",
-      image: climateArticleImg
-    },
-    {
-      title: "Digitális wellbeing platformok és az EAP – kiegészítés vagy verseny?",
-      excerpt: "Az elmúlt években gombamód szaporodtak a digitális wellbeing platformok. Nem arról van szó, hogy az egyik jobb, a másik rosszabb – inkább arról, hogy más funkciót töltenek be.",
-      author: "doyoueap",
-      date: "2025. január 6.",
-      readTime: "7 perc",
-      category: "Alapok",
-      image: digitalWellbeingArticleImg
-    },
-    {
-      title: "Globális kitekintés: EAP-használat régiók szerint",
-      excerpt: "Az Employee Assistance Programok nemzetközi elterjedtsége és használata nagyon különböző képet mutat a világ régióiban. Nincs egyetlen univerzális modell – az EAP sikeressége mindig kontextusfüggő.",
-      author: "doyoueap",
-      date: "2025. január 5.",
-      readTime: "8 perc",
-      category: "Kultúra",
-      image: globalArticleImg
-    },
-    {
-      title: "A vezetők szerepe és felelőssége az EAP sikerében",
-      excerpt: "Egy Employee Assistance Program sikerének kulcsa nemcsak a szolgáltatások minőségén múlik, hanem azon is, hogy a vezetők hogyan viszonyulnak hozzá.",
-      author: "doyoueap",
-      date: "2025. január 3.",
-      readTime: "6 perc",
-      category: "Kultúra",
-      image: leadershipArticleImg
-    },
-    {
-      title: "A stigma lebontása és a kommunikáció szerepe",
-      excerpt: "Az EAP egyik legnagyobb akadálya világszerte a stigma. A stigma lebontásának első lépése a kommunikáció – folyamatosan, változatos formában kell találkozniuk a munkavállalóknak az üzenettel.",
-      author: "doyoueap",
-      date: "2025. január 2.",
-      readTime: "7 perc",
-      category: "Mérés",
-      image: stigmaArticleImg
-    },
-    {
-      title: "Az EAP és a munkavállalói elköteleződés kapcsolata",
-      excerpt: "Az elkötelezett dolgozók produktívabbak, lojálisabbak, kevésbé hajlamosak a fluktuációra. Az EAP ugyan elsősorban támogató szolgáltatásként ismert, mégis közvetlenül és közvetve is erősíti az elköteleződést.",
-      author: "doyoueap",
-      date: "2024. december 30.",
-      readTime: "6 perc",
-      category: "Mérés",
-      image: engagementArticleImg
-    },
-    {
-      title: "Az EAP mérhetősége és a megtérülés (ROI) kérdése",
-      excerpt: "Számos kutatás bizonyítja, hogy az EAP nemcsak humánus és etikus megoldás, hanem gazdaságilag is kifizetődő. A programok átlagosan 3-10-szeres megtérülést hoznak.",
-      author: "doyoueap",
-      date: "2024. december 28.",
-      readTime: "8 perc",
-      category: "Jövő",
-      image: roiArticleImg
+  const fetchArticles = async () => {
+    try {
+      setLoadingArticles(true);
+      const { data, error } = await supabase
+        .from('magazine_articles')
+        .select('*')
+        .eq('is_published', true)
+        .order('published_date', { ascending: false });
+
+      if (error) throw error;
+
+      if (data) {
+        const featured = data.filter(article => article.is_featured);
+        const regular = data.filter(article => !article.is_featured);
+        setFeaturedArticles(featured);
+        setArticles(regular);
+      }
+    } catch (error) {
+      console.error('Error fetching articles:', error);
+      toast.error('Hiba történt a cikkek betöltése közben');
+    } finally {
+      setLoadingArticles(false);
     }
-  ];
+  };
 
   const popularArticles = [
     { title: "Mítoszok és tévhitek az EAP-ról", views: "15.2k" },
@@ -136,11 +63,16 @@ const Magazin = () => {
 
   const categories = [
     { id: 'all', label: 'Összes' },
-    { id: 'basics', label: 'Alapok' },
-    { id: 'measurement', label: 'Mérés' },
-    { id: 'culture', label: 'Kultúra' },
-    { id: 'future', label: 'Jövő' }
+    { id: 'Alapok', label: 'Alapok' },
+    { id: 'Mérés', label: 'Mérés' },
+    { id: 'Kultúra', label: 'Kultúra' },
+    { id: 'Jövő', label: 'Jövő' },
+    { id: 'EAP', label: 'EAP' }
   ];
+
+  const filteredArticles = activeCategory === 'all' 
+    ? articles 
+    : articles.filter(article => article.category === activeCategory);
 
   const gradients = {
     'gradient-1': 'from-blue-500/20 to-purple-500/20',
@@ -247,73 +179,72 @@ const Magazin = () => {
             <h2 className="text-2xl font-bold">Kiemelt Cikkek</h2>
             <TrendingUp className="h-6 w-6 text-primary" />
           </div>
-          <Carousel className="w-full">
-            <CarouselContent>
-              {featuredArticles.map((article, index) => (
-                  <CarouselItem key={index}>
-                  <div className="grid md:grid-cols-2 gap-8 items-center">
-                    {/* Large Featured Image */}
-                    <div 
-                      className="relative aspect-[4/3] overflow-hidden rounded-lg cursor-pointer"
-                      onClick={() => {
-                        const slugs = ['mitoszok-es-tevhitek', '4score-mutatok', 'eap-jovoje'];
-                        navigate(`/magazin/${slugs[index]}`);
-                      }}
-                    >
-                      <img 
-                        src={article.image} 
-                        alt={article.title}
-                        className="w-full h-full object-cover"
-                      />
-                      <Badge className="absolute top-4 left-4 z-10">{article.category}</Badge>
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="space-y-4">
-                      <h3 
-                        className="text-4xl font-bold hover:text-primary transition-colors cursor-pointer leading-tight"
-                        onClick={() => {
-                          const slugs = ['mitoszok-es-tevhitek', '4score-mutatok', 'eap-jovoje'];
-                          navigate(`/magazin/${slugs[index]}`);
-                        }}
+          {loadingArticles ? (
+            <div className="text-center py-12">Betöltés...</div>
+          ) : featuredArticles.length === 0 ? (
+            <div className="text-center py-12 text-muted-foreground">Nincsenek kiemelt cikkek</div>
+          ) : (
+            <Carousel className="w-full">
+              <CarouselContent>
+                {featuredArticles.map((article) => (
+                  <CarouselItem key={article.id}>
+                    <div className="grid md:grid-cols-2 gap-8 items-center">
+                      {/* Large Featured Image */}
+                      <div 
+                        className="relative aspect-[4/3] overflow-hidden rounded-lg cursor-pointer"
+                        onClick={() => navigate(`/magazin/${article.slug}`)}
                       >
-                        {article.title}
-                      </h3>
-                      <p className="text-lg text-muted-foreground leading-relaxed">
-                        {article.excerpt}
-                      </p>
-                      <div className="flex items-center gap-6 text-sm text-muted-foreground pt-2">
-                        <div className="flex items-center gap-2">
-                          <User className="h-4 w-4" />
-                          <span>{article.author}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4" />
-                          <span>{article.date}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Clock className="h-4 w-4" />
-                          <span>{article.readTime}</span>
-                        </div>
+                        {article.image_url ? (
+                          <img 
+                            src={article.image_url} 
+                            alt={article.title}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                            <span className="text-4xl font-bold text-primary/30">?</span>
+                          </div>
+                        )}
+                        <Badge className="absolute top-4 left-4 z-10">{article.category}</Badge>
                       </div>
-                      <Button 
-                        className="group mt-4 bg-[hsl(var(--magazine-red))] hover:bg-[hsl(var(--magazine-red))]/90 text-white"
-                        onClick={() => {
-                          const slugs = ['mitoszok-es-tevhitek', '4score-mutatok', 'eap-jovoje'];
-                          navigate(`/magazin/${slugs[index]}`);
-                        }}
-                      >
-                        Tovább olvasom 
-                        <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      </Button>
+                      
+                      {/* Content */}
+                      <div className="space-y-4">
+                        <h3 
+                          className="text-4xl font-bold hover:text-primary transition-colors cursor-pointer leading-tight"
+                          onClick={() => navigate(`/magazin/${article.slug}`)}
+                        >
+                          {article.title}
+                        </h3>
+                        <p className="text-lg text-muted-foreground leading-relaxed">
+                          {article.excerpt}
+                        </p>
+                        <div className="flex items-center gap-6 text-sm text-muted-foreground pt-2">
+                          <div className="flex items-center gap-2">
+                            <User className="h-4 w-4" />
+                            <span>{article.author}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Calendar className="h-4 w-4" />
+                            <span>{new Date(article.published_date).toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                          </div>
+                        </div>
+                        <Button 
+                          className="group mt-4 bg-[hsl(var(--magazine-red))] hover:bg-[hsl(var(--magazine-red))]/90 text-white"
+                          onClick={() => navigate(`/magazin/${article.slug}`)}
+                        >
+                          Tovább olvasom 
+                          <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="-left-12" />
-            <CarouselNext className="-right-12" />
-          </Carousel>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="-left-12" />
+              <CarouselNext className="-right-12" />
+            </Carousel>
+          )}
         </div>
       </section>
 
@@ -340,64 +271,53 @@ const Magazin = () => {
 
               <h2 className="text-2xl font-bold mb-6">Legújabb Cikkek</h2>
               
-              <div className="space-y-6">
-                {articles.map((article, index) => {
-                  // Map articles to their slugs
-                  const slugMap: Record<number, string> = {
-                    0: 'szervezeti-klima-szerepe',
-                    1: 'digitalis-wellbeing-platformok',
-                    2: 'globalis-kitekintes',
-                    3: 'vezetok-szerepe',
-                    4: 'stigma-lebontasa',
-                    5: 'munkavallaoi-elkotelezoedes',
-                    6: 'eap-merhetosege-roi'
-                  };
-
-                  return (
+              {loadingArticles ? (
+                <div className="text-center py-12">Betöltés...</div>
+              ) : filteredArticles.length === 0 ? (
+                <div className="text-center py-12 text-muted-foreground">Nincsenek cikkek ebben a kategóriában</div>
+              ) : (
+                <div className="space-y-6">
+                  {filteredArticles.map((article) => (
                     <div 
-                      key={index} 
+                      key={article.id} 
                       className="grid md:grid-cols-[200px_1fr] gap-4 cursor-pointer group"
-                      onClick={() => navigate(`/magazin/${slugMap[index]}`)}
+                      onClick={() => navigate(`/magazin/${article.slug}`)}
                     >
-                    <Card className="hover:shadow-lg transition-all group-hover:scale-[1.02] overflow-hidden">
-                      {article.image ? (
-                        <img 
-                          src={article.image} 
-                          alt={article.title}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                          <div className="text-4xl font-bold text-primary/30">{index + 1}</div>
-                        </div>
-                      )}
-                    </Card>
-                    <Card className="hover:shadow-lg transition-all group-hover:scale-[1.02]">
-                      <CardHeader>
-                        <Badge className="w-fit mb-2">{article.category}</Badge>
-                        <CardTitle className="text-xl group-hover:text-primary transition-colors">
-                          {article.title}
-                        </CardTitle>
-                        <CardDescription className="mt-2">{article.excerpt}</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                          <div className="flex items-center gap-1">
-                            <User className="h-4 w-4" />
-                            <span>{article.author}</span>
+                      <Card className="hover:shadow-lg transition-all group-hover:scale-[1.02] overflow-hidden">
+                        {article.image_url ? (
+                          <img 
+                            src={article.image_url} 
+                            alt={article.title}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                            <div className="text-4xl font-bold text-primary/30">?</div>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
-                            <span>{article.readTime}</span>
+                        )}
+                      </Card>
+                      <Card className="hover:shadow-lg transition-all group-hover:scale-[1.02]">
+                        <CardHeader>
+                          <Badge className="w-fit mb-2">{article.category}</Badge>
+                          <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                            {article.title}
+                          </CardTitle>
+                          <CardDescription className="mt-2">{article.excerpt}</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                            <div className="flex items-center gap-1">
+                              <User className="h-4 w-4" />
+                              <span>{article.author}</span>
+                            </div>
+                            <span>{new Date(article.published_date).toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                           </div>
-                          <span>{article.date}</span>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                );
-              })}
-              </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <div className="mt-8 text-center">
                 <Button variant="outline" size="lg">
