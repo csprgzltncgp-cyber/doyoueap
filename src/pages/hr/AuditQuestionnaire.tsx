@@ -32,15 +32,16 @@ export default function AuditQuestionnaire() {
     fetchQuestionnaire();
   }, []);
 
-  // Automatikus görgetés az oldal tetejére lépésváltáskor
-  useEffect(() => {
-    console.log('🔄 Scroll effect triggered - step:', currentStep, 'block:', currentBlockIndex);
+  // Scroll to top funkció
+  const scrollToTop = () => {
     if (topRef.current) {
       topRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      console.log('✅ Scrolled to topRef');
-    } else {
-      console.log('❌ topRef not found');
     }
+  };
+
+  // Automatikus görgetés az oldal tetejére lépésváltáskor
+  useEffect(() => {
+    scrollToTop();
   }, [currentStep, currentBlockIndex]);
 
   const fetchQuestionnaire = async () => {
@@ -129,6 +130,7 @@ export default function AuditQuestionnaire() {
       </div>
       <Button onClick={() => {
         setCurrentStep('demographics');
+        setTimeout(scrollToTop, 100);
       }} className="w-full bg-demo-primary hover:bg-demo-primary/90 text-white">
         Kezdés (Demo)
       </Button>
@@ -166,6 +168,7 @@ export default function AuditQuestionnaire() {
           </Button>
           <Button onClick={() => {
             setCurrentStep('branch_selector');
+            setTimeout(scrollToTop, 100);
           }} className="flex-1 bg-demo-primary hover:bg-demo-primary/90 text-white">
             Tovább (Demo)
           </Button>
@@ -204,6 +207,7 @@ export default function AuditQuestionnaire() {
           <Button 
             onClick={() => {
               setCurrentStep('eap_info');
+              setTimeout(scrollToTop, 100);
             }}
             className="w-full justify-start h-auto py-4 bg-demo-primary hover:bg-demo-primary/90 text-white"
           >
@@ -218,6 +222,7 @@ export default function AuditQuestionnaire() {
               setSelectedBranch('not_used');
               setCurrentStep('branch_questions');
               setCurrentBlockIndex(0);
+              setTimeout(scrollToTop, 100);
             }}
             className="w-full justify-start h-auto py-4 bg-demo-primary hover:bg-demo-primary/90 text-white"
           >
@@ -232,6 +237,7 @@ export default function AuditQuestionnaire() {
               setSelectedBranch('used');
               setCurrentStep('branch_questions');
               setCurrentBlockIndex(0);
+              setTimeout(scrollToTop, 100);
             }}
             className="w-full justify-start h-auto py-4 bg-demo-primary hover:bg-demo-primary/90 text-white"
           >
@@ -313,6 +319,7 @@ export default function AuditQuestionnaire() {
                 setCurrentBlockIndex(0);
                 setSelectedBranch(null);
               }
+              setTimeout(scrollToTop, 100);
             }}
             className="flex-1 bg-demo-primary hover:bg-demo-primary/90 text-white"
           >
@@ -360,6 +367,7 @@ export default function AuditQuestionnaire() {
             setCurrentStep('welcome');
             setCurrentBlockIndex(0);
             setSelectedBranch(null);
+            setTimeout(scrollToTop, 100);
           }} 
           className="flex-1 bg-demo-primary hover:bg-demo-primary/90 text-white"
         >
