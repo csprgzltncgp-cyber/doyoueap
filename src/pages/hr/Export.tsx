@@ -91,14 +91,24 @@ const Export = () => {
 
   const fetchExportHistory = async () => {
     try {
+      console.log('fetchExportHistory called');
+      
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      console.log('Fetching history for user:', user?.id);
+      
+      if (!user) {
+        console.error('No user found in fetchExportHistory');
+        return;
+      }
 
       const { data, error } = await supabase
         .from('export_history')
         .select('*')
         .order('created_at', { ascending: false })
         .limit(50);
+
+      console.log('Export history data:', data);
+      console.log('Export history error:', error);
 
       if (error) throw error;
       setExportHistory(data || []);
@@ -111,13 +121,29 @@ const Export = () => {
 
   const saveExportToHistory = async (auditId: string, fileName: string, fileType: string) => {
     try {
+      console.log('saveExportToHistory called:', { auditId, fileName, fileType });
+      
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      console.log('User:', user?.id);
+      
+      if (!user) {
+        console.error('No user found');
+        toast.error('Nincs bejelentkezve felhasználó');
+        return;
+      }
 
       const audit = audits.find(a => a.id === auditId);
       const auditName = audit ? formatAuditName(audit) : 'Ismeretlen felmérés';
+      
+      console.log('Inserting to export_history:', {
+        user_id: user.id,
+        audit_id: auditId,
+        audit_name: auditName,
+        file_name: fileName,
+        file_type: fileType
+      });
 
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('export_history')
         .insert({
           user_id: user.id,
@@ -125,9 +151,16 @@ const Export = () => {
           audit_name: auditName,
           file_name: fileName,
           file_type: fileType
-        });
+        })
+        .select();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error saving export history:', error);
+        toast.error(`Hiba az előzmény mentésekor: ${error.message}`);
+        throw error;
+      }
+      
+      console.log('Export history saved successfully:', data);
       
       // Refresh history
       await fetchExportHistory();
