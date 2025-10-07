@@ -260,22 +260,9 @@ const Focus = () => {
 
       {/* Export letöltések történet */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Download className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-semibold">Export előzmények</h2>
-          </div>
-          {Object.keys(groupedDownloads).length > 0 && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={deleteAllExportHistory}
-              className="gap-2"
-            >
-              <Trash2 className="h-4 w-4" />
-              Előzmények törlése
-            </Button>
-          )}
+        <div className="flex items-center gap-2">
+          <Download className="h-5 w-5 text-primary" />
+          <h2 className="text-xl font-semibold">Export előzmények</h2>
         </div>
 
         {Object.keys(groupedDownloads).length === 0 ? (
@@ -285,39 +272,55 @@ const Focus = () => {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid gap-4">
-            {Object.entries(groupedDownloads).map(([auditId, data]) => (
-              <Card key={auditId}>
-                <CardHeader>
-                  <CardTitle className="text-lg">{data.auditName}</CardTitle>
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-lg">Letöltési előzmények</CardTitle>
                   <CardDescription>
-                    {data.downloads.length} export fájl
+                    {exportDownloads.length} export fájl összesen
                   </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {data.downloads.map((download, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-center justify-between p-2 rounded-lg bg-muted/50"
-                      >
-                        <div className="flex items-center gap-2">
-                          <FileImage className="h-4 w-4 text-muted-foreground" />
-                          <div className="flex flex-col">
-                            <span className="text-sm font-medium">{download.fileName}</span>
-                            <span className="text-xs text-muted-foreground">{download.fileType}</span>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={deleteAllExportHistory}
+                  className="gap-2"
+                >
+                  <Trash2 className="h-4 w-4" />
+                  Előzmények törlése
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {Object.entries(groupedDownloads).map(([auditId, data]) => (
+                  <div key={auditId} className="border-b last:border-0 pb-4 last:pb-0">
+                    <h3 className="font-semibold mb-3">{data.auditName}</h3>
+                    <div className="space-y-2">
+                      {data.downloads.map((download, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-center justify-between p-2 rounded-lg bg-muted/50"
+                        >
+                          <div className="flex items-center gap-2">
+                            <FileImage className="h-4 w-4 text-muted-foreground" />
+                            <div className="flex flex-col">
+                              <span className="text-sm font-medium">{download.fileName}</span>
+                              <span className="text-xs text-muted-foreground">{download.fileType}</span>
+                            </div>
                           </div>
+                          <span className="text-xs text-muted-foreground">
+                            {format(new Date(download.timestamp), 'yyyy. MM. dd. HH:mm', { locale: hu })}
+                          </span>
                         </div>
-                        <span className="text-xs text-muted-foreground">
-                          {format(new Date(download.timestamp), 'yyyy. MM. dd. HH:mm', { locale: hu })}
-                        </span>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         )}
       </div>
     </div>
