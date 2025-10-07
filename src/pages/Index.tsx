@@ -541,11 +541,11 @@ const Index = () => {
                 </Button>
               </div>
             </div>
-            <div className="rounded-lg overflow-hidden shadow-lg">
+            <div className="rounded-lg overflow-hidden shadow-lg max-w-full">
               <img 
                 src={dashboardPreview} 
                 alt="Dashboard előnézet - analitikai grafikonok és jelentések" 
-                className="w-full h-full object-cover"
+                className="w-full h-auto object-contain"
               />
             </div>
           </div>

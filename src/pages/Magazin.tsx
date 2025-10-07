@@ -279,14 +279,14 @@ const Magazin = () => {
             {/* Main Articles */}
             <div className="lg:col-span-2 min-w-0">
               {/* Category Filter */}
-              <div className="flex gap-3 mb-8 overflow-x-auto pb-2 -mx-4 px-4">
+              <div className="flex gap-3 mb-8 overflow-x-auto pb-2 scrollbar-hide">
                 {categories.map((cat) => (
                   <Button
                     key={cat.id}
                     variant={activeCategory === cat.id ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => setActiveCategory(cat.id)}
-                    className={`whitespace-nowrap ${activeCategory !== cat.id ? 'bg-primary/10 hover:bg-primary/15 border-primary/10' : ''}`}
+                    className={`whitespace-nowrap flex-shrink-0 ${activeCategory !== cat.id ? 'bg-primary/10 hover:bg-primary/15 border-primary/10' : ''}`}
                   >
                     {cat.label}
                   </Button>
