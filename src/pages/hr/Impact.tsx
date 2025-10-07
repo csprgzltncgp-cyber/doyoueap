@@ -68,15 +68,22 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
 
   const fetchImpactData = async (auditId: string) => {
     try {
+      console.log('Fetching impact data for audit:', auditId);
       const { data, error } = await supabase
         .from('audit_responses')
         .select('responses, employee_metadata')
         .eq('audit_id', auditId)
         .eq('employee_metadata->>branch', 'used');
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching impact data:', error);
+        throw error;
+      }
+
+      console.log('Impact data received:', data?.length, 'used responses');
 
       if (!data || data.length === 0) {
+        console.log('No used responses found for audit:', auditId);
         setImpactData([]);
         setNpsData({ promoters: 0, passives: 0, detractors: 0, npsScore: 0 });
         setUsedCount(0);
