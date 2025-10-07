@@ -65,23 +65,27 @@ export default function AuditQuestionnaire() {
     }));
   };
 
-  const getTotalProgress = () => {
-    if (!questionnaire || !selectedBranch) return { percent: 0, current: 0, total: 0 };
+  const getOverallProgress = () => {
+    // Teljes felmérés progress számítása
+    let current = 0;
+    let total = 5; // welcome, demographics, branch_selector, branch_questions (több blokk), befejezés
     
-    const branch = questionnaire.questions.branches[selectedBranch];
-    if (!branch) return { percent: 0, current: 0, total: 0 };
-    
-    const totalBlocks = branch.blocks.length;
-    let currentStepNum = 0;
-    
-    if (currentStep === 'branch_questions') {
-      currentStepNum = currentBlockIndex + 1;
+    if (currentStep === 'welcome') current = 0;
+    else if (currentStep === 'demographics') current = 1;
+    else if (currentStep === 'branch_selector') current = 2;
+    else if (currentStep === 'eap_info') current = 4;
+    else if (currentStep === 'branch_questions' && selectedBranch) {
+      const branch = questionnaire?.questions.branches[selectedBranch];
+      if (branch) {
+        total = 2 + branch.blocks.length; // demographics + branch_selector + blocks
+        current = 2 + currentBlockIndex + 1;
+      }
     }
     
     return {
-      percent: (currentStepNum / totalBlocks) * 100,
-      current: currentStepNum,
-      total: totalBlocks
+      percent: total > 0 ? (current / total) * 100 : 0,
+      current: current,
+      total: total
     };
   };
 
@@ -401,16 +405,16 @@ export default function AuditQuestionnaire() {
                 className="h-12 object-contain"
               />
             </div>
-            {currentStep === 'branch_questions' && selectedBranch && (() => {
-              const progress = getTotalProgress();
-              return (
+            {(currentStep === 'demographics' || currentStep === 'branch_questions') && (() => {
+              const progress = getOverallProgress();
+              return progress.total > 0 ? (
                 <div className="space-y-2">
                   <div className="flex items-center justify-center text-sm text-muted-foreground">
-                    <span>{progress.current} / {progress.total} kérdésblokk</span>
+                    <span>Lépés {progress.current} / {progress.total}</span>
                   </div>
-                  <Progress value={progress.percent} className="mt-2" />
+                  <Progress value={progress.percent} />
                 </div>
-              );
+              ) : null;
             })()}
           </CardHeader>
           <CardContent>
