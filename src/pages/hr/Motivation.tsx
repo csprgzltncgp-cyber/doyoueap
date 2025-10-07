@@ -42,15 +42,22 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange }: MotivationProps)
 
   const fetchMotivationData = async (auditId: string) => {
     try {
+      console.log('Fetching motivation data for audit:', auditId);
       const { data, error } = await supabase
         .from('audit_responses')
         .select('responses')
         .eq('audit_id', auditId)
         .eq('employee_metadata->>branch', 'not_used');
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching motivation data:', error);
+        throw error;
+      }
+
+      console.log('Motivation data received:', data?.length, 'responses');
 
       if (!data || data.length === 0) {
+        console.log('No not_used responses found');
         setMotivatorsData([]);
         setExpertData([]);
         setChannelData([]);
