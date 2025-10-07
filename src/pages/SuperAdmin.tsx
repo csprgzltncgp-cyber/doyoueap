@@ -100,14 +100,27 @@ const SuperAdmin = () => {
     setIsLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) throw error;
 
-      // Send verification code
+      // Check if email is verified
+      if (!data.user?.email_confirmed_at) {
+        await supabase.auth.signOut();
+        toast.error('Kérlek erősítsd meg az email címedet először!');
+        setIsLoading(false);
+        return;
+      }
+
+      // Check and send approval email if needed
+      await supabase.functions.invoke('check-email-verification', {
+        body: { userId: data.user.id },
+      });
+
+      // Send verification code for 2FA
       const { error: functionError } = await supabase.functions.invoke('send-admin-verification', {
         body: { email },
       });
