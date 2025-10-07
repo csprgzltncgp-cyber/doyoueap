@@ -28,7 +28,12 @@ const Focus = () => {
   const [userName, setUserName] = useState<string>('');
 
   useEffect(() => {
-    fetchUserProfile();
+    if (user?.id) {
+      fetchUserProfile();
+    }
+  }, [user?.id]);
+
+  useEffect(() => {
     fetchAudits();
     loadPngDownloads();
   }, []);
@@ -41,9 +46,12 @@ const Focus = () => {
         .from('profiles')
         .select('full_name')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching user profile:', error);
+        return;
+      }
       
       if (data?.full_name) {
         setUserName(data.full_name);
