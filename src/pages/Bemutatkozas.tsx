@@ -194,7 +194,7 @@ const Bemutatkozas = () => {
           <div className="grid md:grid-cols-4 gap-6">
           <Card className="text-center">
             <CardHeader>
-              <CheckCircle2 className="h-12 w-12 mx-auto text-primary mb-2" />
+              <CheckCircle2 className="h-12 w-12 mx-auto mb-2" style={{ color: '#3366ff' }} />
               <CardTitle className="text-lg">Hiteles visszajelzés</CardTitle>
             </CardHeader>
             <CardContent>
@@ -206,7 +206,7 @@ const Bemutatkozas = () => {
 
           <Card className="text-center">
             <CardHeader>
-              <TrendingUp className="h-12 w-12 mx-auto text-primary mb-2" />
+              <TrendingUp className="h-12 w-12 mx-auto mb-2" style={{ color: '#3366ff' }} />
               <CardTitle className="text-lg">Jobb döntések</CardTitle>
             </CardHeader>
             <CardContent>
@@ -218,7 +218,7 @@ const Bemutatkozas = () => {
 
           <Card className="text-center">
             <CardHeader>
-              <Award className="h-12 w-12 mx-auto text-primary mb-2" />
+              <Award className="h-12 w-12 mx-auto mb-2" style={{ color: '#3366ff' }} />
               <CardTitle className="text-lg">Menedzsment-riport egy kattintásra</CardTitle>
             </CardHeader>
             <CardContent>
@@ -230,7 +230,7 @@ const Bemutatkozas = () => {
 
           <Card className="text-center">
             <CardHeader>
-              <Users className="h-12 w-12 mx-auto text-primary mb-2" />
+              <Users className="h-12 w-12 mx-auto mb-2" style={{ color: '#3366ff' }} />
               <CardTitle className="text-lg">Szolgáltató-barát megoldás</CardTitle>
             </CardHeader>
             <CardContent>
