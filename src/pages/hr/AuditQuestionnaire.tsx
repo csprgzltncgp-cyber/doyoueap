@@ -381,19 +381,19 @@ export default function AuditQuestionnaire() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <div className="mb-6 flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold mb-2">EAP Pulse felmérés előnézet</h2>
-            <p className="text-muted-foreground text-sm">
-              Így látják a munkavállalók a kérdőívet a felmérés során
-            </p>
-          </div>
-          <Button onClick={fetchQuestionnaire} variant="outline">
-            Újratöltés
-          </Button>
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold mb-2">EAP Pulse felmérés előnézet</h2>
+          <p className="text-muted-foreground text-sm">
+            Így látják a munkavállalók a kérdőívet a felmérés során
+          </p>
         </div>
+        <Button onClick={fetchQuestionnaire} variant="outline">
+          Újratöltés
+        </Button>
+      </div>
 
+      <div className="max-w-3xl mx-auto space-y-6">
         <Card className="border-0 shadow-none">
           <CardHeader>
             <div className="flex justify-center mb-4">
