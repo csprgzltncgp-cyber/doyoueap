@@ -468,7 +468,7 @@ const Magazin = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    {['Alapok', 'Mérés', 'Kultúra', 'Vezetés', 'ROI', 'Kommunikáció', 'Globális', 'Jövő'].map((cat) => (
+                    {['Alapok', 'Mérés', 'Kultúra', 'Jövő'].map((cat) => (
                       <button
                         key={cat}
                         className="w-full text-left px-3 py-2 rounded-sm bg-primary/10 hover:bg-primary/15 transition-colors text-sm flex items-center justify-between group"
