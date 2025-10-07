@@ -217,24 +217,13 @@ const UserDashboard = () => {
   };
 
   const getTotalProgress = () => {
-    if (!audit) return { percent: 0, current: 0, total: 0 };
-    
-    if (!selectedBranch) {
-      // Demographics or branch_selector
-      if (currentStep === 'demographics') return { percent: 33, current: 1, total: 3 };
-      if (currentStep === 'branch_selector') return { percent: 66, current: 2, total: 3 };
-      return { percent: 0, current: 0, total: 0 };
-    }
+    if (!audit || !selectedBranch) return { percent: 0, current: 0, total: 0 };
     
     const branch = audit.questionnaire.questions.branches[selectedBranch];
     if (!branch) return { percent: 0, current: 0, total: 0 };
     
-    const totalSteps = branch.blocks.length + 2; // +2 for demographics and branch selector
-    let currentStepNum = 0;
-    
-    if (currentStep === 'demographics') currentStepNum = 1;
-    else if (currentStep === 'branch_selector') currentStepNum = 2;
-    else if (currentStep === 'branch_questions') currentStepNum = 2 + currentBlockIndex + 1;
+    const totalSteps = branch.blocks.length;
+    const currentStepNum = currentBlockIndex + 1;
     
     return {
       percent: totalSteps > 0 ? (currentStepNum / totalSteps) * 100 : 0,
@@ -580,7 +569,7 @@ const UserDashboard = () => {
             className="h-12 object-contain"
           />
         </div>
-        {(currentStep === 'demographics' || currentStep === 'branch_selector' || currentStep === 'branch_questions') && (() => {
+        {currentStep === 'branch_questions' && (() => {
           const progress = getTotalProgress();
           return (
             <div className="space-y-2">
