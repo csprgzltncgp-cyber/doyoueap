@@ -5,17 +5,25 @@ import { CheckCircle2, TrendingUp, Users, Award, Eye, Shield, Activity, Target }
 import logo from '@/assets/logo.png';
 import eapPulseAnalytics from '@/assets/eap-pulse-analytics.jpg';
 import { useAuth } from '@/hooks/useAuth';
+import { MobileNav } from '@/components/navigation/MobileNav';
 
 const Bemutatkozas = () => {
   const navigate = useNavigate();
   const { user, role, loading, signOut } = useAuth();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Header with Navigation */}
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center relative">
-          <div className="flex items-center">
+          <div className="flex items-center gap-2">
+            <MobileNav 
+              user={user}
+              role={role}
+              section=""
+              onNavigate={navigate}
+              onLogout={signOut}
+            />
             <img 
               src={logo} 
               alt="EAP Pulse" 
@@ -54,11 +62,11 @@ const Bemutatkozas = () => {
           <div className="flex items-center gap-4">
             {!loading && (
               user ? (
-                <Button onClick={signOut} variant="outline">
+                <Button onClick={signOut} variant="outline" className="hidden md:flex">
                   Kilépés
                 </Button>
               ) : (
-                <Button onClick={() => navigate('/auth')}>
+                <Button onClick={() => navigate('/auth')} className="hidden md:flex">
                   Bejelentkezés
                 </Button>
               )

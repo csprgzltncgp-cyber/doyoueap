@@ -273,12 +273,11 @@ const Magazin = () => {
         </div>
       </section>
 
-      {/* Main Content with Sidebar */}
       <section className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Main Articles */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 min-w-0">
               {/* Category Filter */}
               <div className="flex gap-3 mb-8 overflow-x-auto pb-2 -mx-4 px-4">
                 {categories.map((cat) => (
@@ -352,7 +351,7 @@ const Magazin = () => {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
+            <div className="space-y-6 min-w-0">
               {/* Newsletter */}
               <Card className="bg-gradient-to-br from-[hsl(var(--magazine-red))] to-[hsl(var(--magazine-yellow))] text-white border-0">
                 <CardHeader>
