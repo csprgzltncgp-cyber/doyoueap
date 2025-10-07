@@ -198,11 +198,12 @@ const Index = () => {
           </nav>
           <div className="flex items-center gap-4">
             {role === 'admin' && (
-              <button
+              <Button
                 onClick={() => navigate('/admin')}
-                className="opacity-0 hover:opacity-100 transition-opacity w-8 h-8"
-                aria-label="Admin"
-              />
+                variant="outline"
+              >
+                Admin
+              </Button>
             )}
             {user ? (
               <Button onClick={handleLogout} variant="outline">
