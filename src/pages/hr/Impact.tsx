@@ -97,6 +97,8 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
         .map(r => r.responses?.u_impact_satisfaction)
         .filter(v => v !== undefined && v !== null) as number[];
       
+      console.log('Satisfaction values:', satisfaction);
+      
       const problemSolving = data
         .map(r => r.responses?.u_impact_problem_solving)
         .filter(v => v !== undefined && v !== null) as number[];
@@ -121,6 +123,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
         { metric: 'Szolgáltatás konzisztencia', average: Number(calculateAverage(consistency).toFixed(2)) },
       ];
 
+      console.log('Impact metrics:', metrics);
       setImpactData(metrics);
 
       // NPS calculation (0-10 scale)
