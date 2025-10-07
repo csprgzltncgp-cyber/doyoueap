@@ -215,6 +215,7 @@ export default function MagazineManagement() {
   };
 
   const openEditDialog = (article: Article) => {
+    console.log('openEditDialog called with article:', article);
     setEditingArticle(article);
     setFormData({
       title: article.title,
@@ -228,6 +229,14 @@ export default function MagazineManagement() {
       is_featured: article.is_featured,
       is_published: article.is_published,
     });
+    // Set existing image as preview if available
+    if (article.image_url) {
+      console.log('Setting existing image preview:', article.image_url);
+      setImagePreview(article.image_url);
+    } else {
+      setImagePreview(null);
+    }
+    setImageFile(null);
     setOpen(true);
   };
 
@@ -319,10 +328,10 @@ export default function MagazineManagement() {
               <div className="space-y-2">
                 <Label htmlFor="image">Borítókép</Label>
                 <div className="flex flex-col gap-3">
-                  {imagePreview && (
+                  {(imagePreview || formData.image_url) && (
                     <div className="relative w-full aspect-video rounded-lg overflow-hidden border">
                       <img 
-                        src={imagePreview} 
+                        src={imagePreview || formData.image_url} 
                         alt="Preview" 
                         className="w-full h-full object-cover"
                       />
@@ -334,7 +343,9 @@ export default function MagazineManagement() {
                         onClick={() => {
                           setImageFile(null);
                           setImagePreview(null);
-                          setFormData({ ...formData, image_url: "" });
+                          if (!editingArticle) {
+                            setFormData({ ...formData, image_url: "" });
+                          }
                         }}
                       >
                         <X className="h-4 w-4" />
@@ -352,7 +363,7 @@ export default function MagazineManagement() {
                     <Upload className="h-5 w-5 text-muted-foreground" />
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Maximum 5MB, JPG, PNG vagy WEBP formátum
+                    {(imagePreview || formData.image_url) ? 'Új kép feltöltése lecseréli a meglévőt' : 'Maximum 5MB, JPG, PNG vagy WEBP formátum'}
                   </p>
                 </div>
               </div>
