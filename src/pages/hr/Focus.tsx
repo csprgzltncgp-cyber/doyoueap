@@ -8,10 +8,11 @@ import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
 import { format, differenceInDays } from 'date-fns';
 import { hu } from 'date-fns/locale';
 
-interface PngDownload {
+interface ExportDownload {
   auditId: string;
   auditName: string;
   fileName: string;
+  fileType: string;
   timestamp: string;
 }
 
@@ -23,7 +24,7 @@ interface AuditWithStats extends StandardAudit {
 const Focus = () => {
   const { user } = useAuth();
   const [audits, setAudits] = useState<AuditWithStats[]>([]);
-  const [pngDownloads, setPngDownloads] = useState<PngDownload[]>([]);
+  const [exportDownloads, setExportDownloads] = useState<ExportDownload[]>([]);
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState<string>('');
 
@@ -35,7 +36,7 @@ const Focus = () => {
 
   useEffect(() => {
     fetchAudits();
-    loadPngDownloads();
+    loadExportDownloads();
   }, []);
 
   const fetchUserProfile = async () => {
@@ -99,10 +100,10 @@ const Focus = () => {
     }
   };
 
-  const loadPngDownloads = () => {
-    const stored = localStorage.getItem('pngDownloadHistory');
+  const loadExportDownloads = () => {
+    const stored = localStorage.getItem('exportDownloadHistory');
     if (stored) {
-      setPngDownloads(JSON.parse(stored));
+      setExportDownloads(JSON.parse(stored));
     }
   };
 
@@ -114,7 +115,7 @@ const Focus = () => {
   };
 
   const groupDownloadsByAudit = () => {
-    const grouped = pngDownloads.reduce((acc, download) => {
+    const grouped = exportDownloads.reduce((acc, download) => {
       if (!acc[download.auditId]) {
         acc[download.auditId] = {
           auditName: download.auditName,
@@ -123,7 +124,7 @@ const Focus = () => {
       }
       acc[download.auditId].downloads.push(download);
       return acc;
-    }, {} as Record<string, { auditName: string; downloads: PngDownload[] }>);
+    }, {} as Record<string, { auditName: string; downloads: ExportDownload[] }>);
 
     return grouped;
   };
@@ -207,17 +208,17 @@ const Focus = () => {
         )}
       </div>
 
-      {/* PNG letöltések történet */}
+      {/* Export letöltések történet */}
       <div className="space-y-4">
         <div className="flex items-center gap-2">
           <Download className="h-5 w-5 text-primary" />
-          <h2 className="text-xl font-semibold">Letöltési előzmények</h2>
+          <h2 className="text-xl font-semibold">Export előzmények</h2>
         </div>
 
         {Object.keys(groupedDownloads).length === 0 ? (
           <Card>
             <CardContent className="py-8 text-center text-muted-foreground">
-              Még nem töltöttél le PNG riportot
+              Még nem exportáltál riportot
             </CardContent>
           </Card>
         ) : (
@@ -227,7 +228,7 @@ const Focus = () => {
                 <CardHeader>
                   <CardTitle className="text-lg">{data.auditName}</CardTitle>
                   <CardDescription>
-                    {data.downloads.length} letöltött riport
+                    {data.downloads.length} export fájl
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -239,7 +240,10 @@ const Focus = () => {
                       >
                         <div className="flex items-center gap-2">
                           <FileImage className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-sm font-medium">{download.fileName}</span>
+                          <div className="flex flex-col">
+                            <span className="text-sm font-medium">{download.fileName}</span>
+                            <span className="text-xs text-muted-foreground">{download.fileType}</span>
+                          </div>
                         </div>
                         <span className="text-xs text-muted-foreground">
                           {format(new Date(download.timestamp), 'yyyy. MM. dd. HH:mm', { locale: hu })}

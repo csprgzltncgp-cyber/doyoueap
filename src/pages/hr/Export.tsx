@@ -567,7 +567,28 @@ const Export = () => {
       });
 
       // Save presentation
-      await pres.writeFile({ fileName: `eap_pulse_jelentes_${formatAuditName(selectedAudit)}_${Date.now()}.pptx` });
+      const fileName = `eap_pulse_jelentes_${formatAuditName(selectedAudit)}_${Date.now()}.pptx`;
+      await pres.writeFile({ fileName });
+      
+      // Save download to history
+      if (selectedAuditId) {
+        const audit = audits.find(a => a.id === selectedAuditId);
+        const auditName = audit ? formatAuditName(audit) : 'Ismeretlen felmérés';
+        
+        const download = {
+          auditId: selectedAuditId,
+          auditName,
+          fileName,
+          fileType: 'PowerPoint',
+          timestamp: new Date().toISOString(),
+        };
+        
+        const stored = localStorage.getItem('exportDownloadHistory');
+        const history = stored ? JSON.parse(stored) : [];
+        history.push(download);
+        localStorage.setItem('exportDownloadHistory', JSON.stringify(history));
+      }
+      
       toast.success('PowerPoint sikeresen exportálva!');
     } catch (error) {
       console.error('Error exporting PPT:', error);
@@ -591,14 +612,15 @@ const Export = () => {
       const download = {
         auditId: selectedAuditId,
         auditName,
-        fileName,
+        fileName: `${fileName}.png`,
+        fileType: 'PNG',
         timestamp: new Date().toISOString(),
       };
       
-      const stored = localStorage.getItem('pngDownloadHistory');
+      const stored = localStorage.getItem('exportDownloadHistory');
       const history = stored ? JSON.parse(stored) : [];
       history.push(download);
-      localStorage.setItem('pngDownloadHistory', JSON.stringify(history));
+      localStorage.setItem('exportDownloadHistory', JSON.stringify(history));
     }
     
     // Create hidden iframe
@@ -762,7 +784,28 @@ const Export = () => {
         XLSX.utils.book_append_sheet(wb, wsNonUsers, 'Nem használók');
       }
 
-      XLSX.writeFile(wb, `eap_pulse_export_${selectedAuditId}_${Date.now()}.xlsx`);
+      const fileName = `eap_pulse_export_${selectedAuditId}_${Date.now()}.xlsx`;
+      XLSX.writeFile(wb, fileName);
+      
+      // Save download to history
+      if (selectedAuditId) {
+        const audit = audits.find(a => a.id === selectedAuditId);
+        const auditName = audit ? formatAuditName(audit) : 'Ismeretlen felmérés';
+        
+        const download = {
+          auditId: selectedAuditId,
+          auditName,
+          fileName,
+          fileType: 'Excel',
+          timestamp: new Date().toISOString(),
+        };
+        
+        const stored = localStorage.getItem('exportDownloadHistory');
+        const history = stored ? JSON.parse(stored) : [];
+        history.push(download);
+        localStorage.setItem('exportDownloadHistory', JSON.stringify(history));
+      }
+      
       toast.success('Excel sikeresen exportálva!');
     } catch (error) {
       console.error('Error exporting Excel:', error);
