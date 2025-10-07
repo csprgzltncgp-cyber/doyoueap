@@ -5,11 +5,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Download, Eye, Shield, Activity, Target, Users, TrendingUp } from "lucide-react";
+import { Download, Eye, Shield, Activity, Target, Users, TrendingUp, Presentation } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, BarChart, Bar, XAxis, YAxis, RadialBarChart, RadialBar, Legend } from "recharts";
 import { formatAuditName } from "@/lib/auditUtils";
 import { GaugeChart } from "@/components/ui/gauge-chart";
+import { exportAllChartsToPPT } from "@/lib/pptExportUtils";
 import Awareness from "./Awareness";
 import TrustWillingness from "./TrustWillingness";
 import Usage from "./Usage";
@@ -304,25 +305,35 @@ const Reports = () => {
                 A program átfogó mutatói: igénybevétel, elégedettség és részvétel
               </p>
             </div>
-            {audits.length > 0 && (
-              <div className="min-w-[300px]">
-                <label className="text-xs text-muted-foreground mb-1.5 block">
-                  Felmérés kiválasztása
-                </label>
-                <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Válassz felmérést" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {audits.map((audit) => (
-                      <SelectItem key={audit.id} value={audit.id}>
-                        {formatAuditName(audit)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
+            <div className="flex items-end gap-4">
+              <Button 
+                onClick={() => exportAllChartsToPPT(activeTab)} 
+                className="flex items-center gap-2"
+                variant="default"
+              >
+                <Presentation className="h-4 w-4" />
+                PPT Export
+              </Button>
+              {audits.length > 0 && (
+                <div className="min-w-[300px]">
+                  <label className="text-xs text-muted-foreground mb-1.5 block">
+                    Felmérés kiválasztása
+                  </label>
+                  <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Válassz felmérést" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {audits.map((audit) => (
+                        <SelectItem key={audit.id} value={audit.id}>
+                          {formatAuditName(audit)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+            </div>
           </div>
           {/* Top Row: Utilization and Satisfaction Gauges */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import { formatAuditName } from '@/lib/auditUtils';
 import { exportableCharts } from '@/lib/exportUtils';
+import { exportAllChartsToPPT } from '@/lib/pptExportUtils';
 import { Presentation, Image as ImageIcon, Download, FileSpreadsheet } from 'lucide-react';
 
 let exportIframe: HTMLIFrameElement | null = null;
