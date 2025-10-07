@@ -139,7 +139,7 @@ const Magazin = () => {
     { id: 'basics', label: 'Alapok' },
     { id: 'measurement', label: 'Mérés' },
     { id: 'culture', label: 'Kultúra' },
-    { id: 'roi', label: 'ROI' }
+    { id: 'future', label: 'Jövő' }
   ];
 
   const gradients = {
