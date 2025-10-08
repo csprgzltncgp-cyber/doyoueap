@@ -536,7 +536,7 @@ const Index = () => {
                 <Button size="lg" variant="cta" onClick={() => navigate('/auth')}>
                   Kezdje el most <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="outline" onClick={() => navigate('/bemutatkozas')}>
                   Tudjon meg többet
                 </Button>
               </div>
