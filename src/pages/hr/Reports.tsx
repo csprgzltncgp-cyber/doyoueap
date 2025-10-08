@@ -203,7 +203,7 @@ const Reports = () => {
     responses
       .filter(r => r.employee_metadata?.branch === 'used')
       .map(r => r.responses?.u_impact_satisfaction)
-      .filter(v => v !== undefined)
+      .filter(v => typeof v === 'number' && !isNaN(v))
   );
   const satisfactionIndex = (parseFloat(satisfactionScore) / 5) * 100;
 
