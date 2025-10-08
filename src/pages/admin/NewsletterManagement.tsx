@@ -59,6 +59,10 @@ interface NewsletterTemplate {
   extra_content: string | null;
   sender_email: string;
   sender_name: string;
+  greeting_color: string;
+  logo_url: string | null;
+  featured_image_url: string | null;
+  footer_logo_url: string | null;
 }
 
 const NewsletterManagement = () => {
@@ -71,11 +75,13 @@ const NewsletterManagement = () => {
   const [newSubscriber, setNewSubscriber] = useState({ email: "", name: "" });
   const [newsletterSubject, setNewsletterSubject] = useState("");
   const [newsletterContent, setNewsletterContent] = useState("");
-  const [logoFile, setLogoFile] = useState<File | null>(null);
-  const [logoPreview, setLogoPreview] = useState<string | null>(null);
-  const [featuredImage, setFeaturedImage] = useState<File | null>(null);
-  const [featuredImagePreview, setFeaturedImagePreview] = useState<string | null>(null);
   const [editingTemplateId, setEditingTemplateId] = useState<string | null>(null);
+  const [templateLogoFile, setTemplateLogoFile] = useState<File | null>(null);
+  const [templateLogoPreview, setTemplateLogoPreview] = useState<string | null>(null);
+  const [templateFeaturedImage, setTemplateFeaturedImage] = useState<File | null>(null);
+  const [templateFeaturedImagePreview, setTemplateFeaturedImagePreview] = useState<string | null>(null);
+  const [templateFooterLogoFile, setTemplateFooterLogoFile] = useState<File | null>(null);
+  const [templateFooterLogoPreview, setTemplateFooterLogoPreview] = useState<string | null>(null);
   const [templateForm, setTemplateForm] = useState({
     name: "",
     header_title: "DoYouEAP Hírlevél",
@@ -233,23 +239,33 @@ const NewsletterManagement = () => {
     }
   };
 
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTemplateLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setLogoFile(file);
+    setTemplateLogoFile(file);
     const reader = new FileReader();
-    reader.onloadend = () => setLogoPreview(reader.result as string);
+    reader.onloadend = () => setTemplateLogoPreview(reader.result as string);
     reader.readAsDataURL(file);
   };
 
-  const handleFeaturedImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTemplateFeaturedImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setFeaturedImage(file);
+    setTemplateFeaturedImage(file);
     const reader = new FileReader();
-    reader.onloadend = () => setFeaturedImagePreview(reader.result as string);
+    reader.onloadend = () => setTemplateFeaturedImagePreview(reader.result as string);
+    reader.readAsDataURL(file);
+  };
+
+  const handleTemplateFooterLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setTemplateFooterLogoFile(file);
+    const reader = new FileReader();
+    reader.onloadend = () => setTemplateFooterLogoPreview(reader.result as string);
     reader.readAsDataURL(file);
   };
 
@@ -288,17 +304,6 @@ const NewsletterManagement = () => {
     }
 
     try {
-      let logoUrl = null;
-      let featuredImageUrl = null;
-
-      if (logoFile) {
-        logoUrl = await uploadNewsletterAsset(logoFile, "logo");
-      }
-
-      if (featuredImage) {
-        featuredImageUrl = await uploadNewsletterAsset(featuredImage, "featured");
-      }
-
       const { error: functionError } = await supabase.functions.invoke(
         "send-newsletter",
         {
@@ -306,8 +311,6 @@ const NewsletterManagement = () => {
             subject: newsletterSubject,
             content: newsletterContent,
             subscribers: activeSubscribers,
-            logoUrl,
-            featuredImageUrl,
             template: selectedTemplate,
           },
         }
@@ -326,10 +329,7 @@ const NewsletterManagement = () => {
 
       toast.success(`Hírlevél sikeresen elküldve ${activeSubscribers.length} címzettnek!`);
       setNewsletterContent("");
-      setLogoFile(null);
-      setLogoPreview(null);
-      setFeaturedImage(null);
-      setFeaturedImagePreview(null);
+      setNewsletterSubject("");
       fetchCampaigns();
     } catch (error: any) {
       console.error("Error sending newsletter:", error);
@@ -346,6 +346,22 @@ const NewsletterManagement = () => {
     try {
       const { data: userData } = await supabase.auth.getUser();
       
+      let logoUrl = editingTemplateId ? templates.find(t => t.id === editingTemplateId)?.logo_url : null;
+      let featuredImageUrl = editingTemplateId ? templates.find(t => t.id === editingTemplateId)?.featured_image_url : null;
+      let footerLogoUrl = editingTemplateId ? templates.find(t => t.id === editingTemplateId)?.footer_logo_url : null;
+
+      if (templateLogoFile) {
+        logoUrl = await uploadNewsletterAsset(templateLogoFile, "template-logo");
+      }
+
+      if (templateFeaturedImage) {
+        featuredImageUrl = await uploadNewsletterAsset(templateFeaturedImage, "template-featured");
+      }
+
+      if (templateFooterLogoFile) {
+        footerLogoUrl = await uploadNewsletterAsset(templateFooterLogoFile, "template-footer-logo");
+      }
+      
       if (editingTemplateId) {
         // Update existing template
         const { error } = await supabase
@@ -353,6 +369,9 @@ const NewsletterManagement = () => {
           .update({
             ...templateForm,
             footer_links: templateForm.footer_links,
+            logo_url: logoUrl,
+            featured_image_url: featuredImageUrl,
+            footer_logo_url: footerLogoUrl,
           })
           .eq("id", editingTemplateId);
 
@@ -366,6 +385,9 @@ const NewsletterManagement = () => {
             ...templateForm,
             footer_links: templateForm.footer_links,
             created_by: userData.user?.id,
+            logo_url: logoUrl,
+            featured_image_url: featuredImageUrl,
+            footer_logo_url: footerLogoUrl,
           });
 
         if (error) throw error;
@@ -374,6 +396,12 @@ const NewsletterManagement = () => {
 
       setIsTemplateDialogOpen(false);
       setEditingTemplateId(null);
+      setTemplateLogoFile(null);
+      setTemplateLogoPreview(null);
+      setTemplateFeaturedImage(null);
+      setTemplateFeaturedImagePreview(null);
+      setTemplateFooterLogoFile(null);
+      setTemplateFooterLogoPreview(null);
       setTemplateForm({
         name: "",
         header_title: "DoYouEAP Hírlevél",
@@ -431,8 +459,11 @@ const NewsletterManagement = () => {
       extra_content: template.extra_content || "",
       sender_email: template.sender_email || "noreply@doyoueap.com",
       sender_name: template.sender_name || "DoYouEAP",
-      greeting_color: (template as any).greeting_color || template.header_color || "#0ea5e9",
+      greeting_color: template.greeting_color || template.header_color || "#0ea5e9",
     });
+    setTemplateLogoPreview(template.logo_url);
+    setTemplateFeaturedImagePreview(template.featured_image_url);
+    setTemplateFooterLogoPreview(template.footer_logo_url);
     setIsTemplateDialogOpen(true);
   };
 
@@ -659,6 +690,93 @@ const NewsletterManagement = () => {
                   </div>
                 </div>
                 <div className="border-t pt-4 mt-4">
+                  <h3 className="text-sm font-semibold mb-4">Képek</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <Label>Logo (fejléchez)</Label>
+                      <div className="space-y-2">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleTemplateLogoChange}
+                          className="block w-full text-sm"
+                        />
+                        {templateLogoPreview && (
+                          <div className="relative">
+                            <img src={templateLogoPreview} alt="Logo előnézet" className="h-20 object-contain" />
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="absolute top-0 right-0"
+                              onClick={() => {
+                                setTemplateLogoFile(null);
+                                setTemplateLogoPreview(null);
+                              }}
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <Label>Kiemelt kép</Label>
+                      <div className="space-y-2">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleTemplateFeaturedImageChange}
+                          className="block w-full text-sm"
+                        />
+                        {templateFeaturedImagePreview && (
+                          <div className="relative">
+                            <img src={templateFeaturedImagePreview} alt="Kiemelt kép előnézet" className="h-20 object-contain" />
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="absolute top-0 right-0"
+                              onClick={() => {
+                                setTemplateFeaturedImage(null);
+                                setTemplateFeaturedImagePreview(null);
+                              }}
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <Label>Lábléc logo (opcionális)</Label>
+                      <p className="text-xs text-muted-foreground mb-2">Ha nincs megadva, az alap logót használja</p>
+                      <div className="space-y-2">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleTemplateFooterLogoChange}
+                          className="block w-full text-sm"
+                        />
+                        {templateFooterLogoPreview && (
+                          <div className="relative">
+                            <img src={templateFooterLogoPreview} alt="Lábléc logo előnézet" className="h-20 object-contain" />
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="absolute top-0 right-0"
+                              onClick={() => {
+                                setTemplateFooterLogoFile(null);
+                                setTemplateFooterLogoPreview(null);
+                              }}
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="border-t pt-4 mt-4">
                   <Label>Extra tartalom (pl. EAP Pulse ajánló szöveg)</Label>
                   <Textarea
                     value={templateForm.extra_content}
@@ -871,64 +989,6 @@ const NewsletterManagement = () => {
             <p className="text-sm text-muted-foreground mt-1">
               Egyszerű formázás: **félkövér**, *dőlt*, új sor = új bekezdés
             </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label>Logo (opcionális)</Label>
-              <div className="space-y-2">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleLogoChange}
-                  className="block w-full text-sm"
-                />
-                {logoPreview && (
-                  <div className="relative">
-                    <img src={logoPreview} alt="Logo előnézet" className="h-20 object-contain" />
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="absolute top-0 right-0"
-                      onClick={() => {
-                        setLogoFile(null);
-                        setLogoPreview(null);
-                      }}
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <Label>Kiemelt kép (opcionális)</Label>
-              <div className="space-y-2">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFeaturedImageChange}
-                  className="block w-full text-sm"
-                />
-                {featuredImagePreview && (
-                  <div className="relative">
-                    <img src={featuredImagePreview} alt="Kép előnézet" className="h-20 object-contain" />
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="absolute top-0 right-0"
-                      onClick={() => {
-                        setFeaturedImage(null);
-                        setFeaturedImagePreview(null);
-                      }}
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </div>
-                )}
-              </div>
-            </div>
           </div>
 
           <Button onClick={handleSendNewsletter} className="w-full">

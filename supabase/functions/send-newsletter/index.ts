@@ -36,14 +36,15 @@ interface NewsletterTemplate {
   sender_email: string;
   sender_name: string;
   greeting_color?: string;
+  logo_url?: string | null;
+  featured_image_url?: string | null;
+  footer_logo_url?: string | null;
 }
 
 interface NewsletterRequest {
   subject: string;
   content: string;
   subscribers: Array<{ email: string; name: string | null }>;
-  logoUrl?: string;
-  featuredImageUrl?: string;
   template: NewsletterTemplate;
 }
 
@@ -76,15 +77,16 @@ const createNewsletterHTML = (
   recipientName: string | null, 
   content: string, 
   subject: string,
-  template: NewsletterTemplate,
-  logoUrl?: string,
-  featuredImageUrl?: string
+  template: NewsletterTemplate
 ): string => {
   const formattedContent = formatContent(content);
   const extraFormattedContent = template.extra_content ? formatContent(template.extra_content) : null;
   const headerBg = template.header_gradient || template.header_color;
   const buttonBg = template.button_gradient || template.button_color;
   const footerBg = template.footer_gradient || template.footer_color;
+  const logoUrl = template.logo_url;
+  const featuredImageUrl = template.featured_image_url;
+  const footerLogoUrl = template.footer_logo_url || template.logo_url;
   
   return `<!DOCTYPE html>
 <html lang="hu">
@@ -404,9 +406,9 @@ const createNewsletterHTML = (
         
         <!-- Footer -->
         <div class="email-footer">
-          ${logoUrl ? `
+          ${footerLogoUrl ? `
           <div class="footer-logo">
-            <img src="${logoUrl}" alt="${template.footer_company}" style="filter: brightness(0) invert(1);" />
+            <img src="${footerLogoUrl}" alt="${template.footer_company}" style="filter: brightness(0) invert(1);" />
           </div>
           ` : ''}
           
@@ -438,7 +440,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { subject, content, subscribers, logoUrl, featuredImageUrl, template }: NewsletterRequest = await req.json();
+    const { subject, content, subscribers, template }: NewsletterRequest = await req.json();
 
     if (!subject || !content || !subscribers || subscribers.length === 0 || !template) {
       return new Response(
@@ -454,7 +456,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send emails to all subscribers
     const emailPromises = subscribers.map(async (subscriber) => {
-      const html = createNewsletterHTML(subscriber.name, content, subject, template, logoUrl, featuredImageUrl);
+      const html = createNewsletterHTML(subscriber.name, content, subject, template);
 
       try {
         const emailResponse = await resend.emails.send({

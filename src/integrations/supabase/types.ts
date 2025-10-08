@@ -434,11 +434,13 @@ export type Database = {
           created_by: string | null
           cta_button_url: string | null
           extra_content: string | null
+          featured_image_url: string | null
           footer_address: string | null
           footer_color: string
           footer_company: string
           footer_gradient: string | null
           footer_links: Json | null
+          footer_logo_url: string | null
           footer_text: string
           greeting_text: string
           header_color: string
@@ -447,6 +449,7 @@ export type Database = {
           header_title: string
           id: string
           is_default: boolean | null
+          logo_url: string | null
           name: string
           primary_color: string
           sender_email: string
@@ -463,11 +466,13 @@ export type Database = {
           created_by?: string | null
           cta_button_url?: string | null
           extra_content?: string | null
+          featured_image_url?: string | null
           footer_address?: string | null
           footer_color?: string
           footer_company?: string
           footer_gradient?: string | null
           footer_links?: Json | null
+          footer_logo_url?: string | null
           footer_text?: string
           greeting_text?: string
           header_color?: string
@@ -476,6 +481,7 @@ export type Database = {
           header_title?: string
           id?: string
           is_default?: boolean | null
+          logo_url?: string | null
           name: string
           primary_color?: string
           sender_email?: string
@@ -492,11 +498,13 @@ export type Database = {
           created_by?: string | null
           cta_button_url?: string | null
           extra_content?: string | null
+          featured_image_url?: string | null
           footer_address?: string | null
           footer_color?: string
           footer_company?: string
           footer_gradient?: string | null
           footer_links?: Json | null
+          footer_logo_url?: string | null
           footer_text?: string
           greeting_text?: string
           header_color?: string
@@ -505,6 +513,7 @@ export type Database = {
           header_title?: string
           id?: string
           is_default?: boolean | null
+          logo_url?: string | null
           name?: string
           primary_color?: string
           sender_email?: string
