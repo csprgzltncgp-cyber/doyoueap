@@ -92,7 +92,6 @@ const createNewsletterHTML = (
   // Use header_color_1 for logo section, header_color_2 for title section
   const logoSectionBg = template.header_gradient || template.header_color_1 || template.header_color;
   const titleSectionBg = template.header_color_2 || template.header_color;
-  const buttonBg = template.button_gradient || template.button_color;
   const footerBg = template.footer_gradient || template.footer_color;
   const logoUrl = template.logo_url;
   const featuredImageUrl = template.featured_image_url;
@@ -250,21 +249,6 @@ const createNewsletterHTML = (
         border-bottom-color: ${template.header_color};
       }
       
-      /* CTA Button */
-      .cta-button {
-        display: inline-block;
-        background: ${buttonBg};
-        color: ${template.button_text_color} !important;
-        text-decoration: none !important;
-        padding: 14px 32px;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 16px;
-        margin: 20px 0;
-        box-shadow: 0 4px 12px ${template.button_shadow_color}4D;
-        border: none !important;
-      }
-      
       /* Extra content box */
       .extra-content {
         background: ${template.extra_content_bg_color || `${template.header_color}15`};
@@ -390,12 +374,6 @@ const createNewsletterHTML = (
           ${recipientName ? `<div class="greeting-badge">Kedves ${recipientName}!</div>` : `<div class="greeting-badge">${template.greeting_text}</div>`}
           
           ${formattedContent}
-          
-          ${template.show_cta_button && template.cta_button_url ? `
-          <div style="text-align: center; margin: 30px 0;">
-            <a href="${template.cta_button_url}" class="cta-button" style="display: inline-block; background: ${buttonBg}; color: ${template.button_text_color} !important; text-decoration: none !important; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; margin: 20px 0; box-shadow: 0 4px 12px ${template.button_shadow_color}4D; border: none !important;">${template.button_text}</a>
-          </div>
-          ` : ''}
           
           ${extraFormattedContent ? `
           <div class="divider"></div>

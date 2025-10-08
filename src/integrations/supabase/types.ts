@@ -427,14 +427,8 @@ export type Database = {
       newsletter_templates: {
         Row: {
           background_color: string
-          button_color: string
-          button_gradient: string | null
-          button_shadow_color: string
-          button_text: string
-          button_text_color: string
           created_at: string
           created_by: string | null
-          cta_button_url: string | null
           extra_content: string | null
           extra_content_bg_color: string
           extra_content_border_color: string
@@ -461,19 +455,12 @@ export type Database = {
           primary_color: string
           sender_email: string
           sender_name: string
-          show_cta_button: boolean | null
           updated_at: string
         }
         Insert: {
           background_color?: string
-          button_color?: string
-          button_gradient?: string | null
-          button_shadow_color?: string
-          button_text?: string
-          button_text_color?: string
           created_at?: string
           created_by?: string | null
-          cta_button_url?: string | null
           extra_content?: string | null
           extra_content_bg_color?: string
           extra_content_border_color?: string
@@ -500,19 +487,12 @@ export type Database = {
           primary_color?: string
           sender_email?: string
           sender_name?: string
-          show_cta_button?: boolean | null
           updated_at?: string
         }
         Update: {
           background_color?: string
-          button_color?: string
-          button_gradient?: string | null
-          button_shadow_color?: string
-          button_text?: string
-          button_text_color?: string
           created_at?: string
           created_by?: string | null
-          cta_button_url?: string | null
           extra_content?: string | null
           extra_content_bg_color?: string
           extra_content_border_color?: string
@@ -539,7 +519,6 @@ export type Database = {
           primary_color?: string
           sender_email?: string
           sender_name?: string
-          show_cta_button?: boolean | null
           updated_at?: string
         }
         Relationships: []
