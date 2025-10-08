@@ -451,7 +451,9 @@ export type Database = {
           footer_links: Json | null
           footer_logo_url: string | null
           footer_text: string
+          greeting_bg_color: string | null
           greeting_text: string
+          greeting_text_color: string | null
           header_color: string
           header_color_1: string
           header_color_2: string
@@ -496,7 +498,9 @@ export type Database = {
           footer_links?: Json | null
           footer_logo_url?: string | null
           footer_text?: string
+          greeting_bg_color?: string | null
           greeting_text?: string
+          greeting_text_color?: string | null
           header_color?: string
           header_color_1?: string
           header_color_2?: string
@@ -541,7 +545,9 @@ export type Database = {
           footer_links?: Json | null
           footer_logo_url?: string | null
           footer_text?: string
+          greeting_bg_color?: string | null
           greeting_text?: string
+          greeting_text_color?: string | null
           header_color?: string
           header_color_1?: string
           header_color_2?: string

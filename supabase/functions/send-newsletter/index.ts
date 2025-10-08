@@ -26,6 +26,8 @@ interface NewsletterTemplate {
   footer_color: string;
   header_gradient_1?: string | null;
   header_gradient_2?: string | null;
+  greeting_text_color?: string | null;
+  greeting_bg_color?: string | null;
   footer_gradient?: string | null;
   sender_email: string;
   sender_name: string;
@@ -189,8 +191,8 @@ const createNewsletterHTML = (
       
       .greeting-badge {
         display: inline-block;
-        background: ${template.header_color_1 || template.header_color};
-        color: white;
+        background: ${template.greeting_bg_color || template.header_color_1 || template.header_color};
+        color: ${template.greeting_text_color || 'white'};
         padding: 8px 16px;
         border-radius: 20px;
         font-size: 14px;

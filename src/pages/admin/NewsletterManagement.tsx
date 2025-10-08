@@ -52,6 +52,8 @@ interface NewsletterTemplate {
   footer_color: string;
   header_gradient_1?: string | null;
   header_gradient_2?: string | null;
+  greeting_text_color?: string | null;
+  greeting_bg_color?: string | null;
   footer_gradient?: string | null;
   sender_email: string;
   sender_name: string;
@@ -112,6 +114,8 @@ const NewsletterManagement = () => {
     footer_color: "#1a1a1a",
     header_gradient_1: "",
     header_gradient_2: "",
+    greeting_text_color: "#ffffff",
+    greeting_bg_color: "#0ea5e9",
     footer_gradient: "",
     sender_email: "noreply@doyoueap.com",
     sender_name: "DoYouEAP",
@@ -498,6 +502,8 @@ const NewsletterManagement = () => {
         footer_color: "#1a1a1a",
         header_gradient_1: "",
         header_gradient_2: "",
+        greeting_text_color: "#ffffff",
+        greeting_bg_color: "#0ea5e9",
         footer_gradient: "",
         sender_email: "noreply@doyoueap.com",
         sender_name: "DoYouEAP",
@@ -559,6 +565,8 @@ const NewsletterManagement = () => {
       footer_color: template.footer_color || "#1a1a1a",
       header_gradient_1: (template as any).header_gradient_1 || "",
       header_gradient_2: (template as any).header_gradient_2 || "",
+      greeting_text_color: (template as any).greeting_text_color || "#ffffff",
+      greeting_bg_color: (template as any).greeting_bg_color || "#0ea5e9",
       footer_gradient: template.footer_gradient || "",
       sender_email: template.sender_email || "noreply@doyoueap.com",
       sender_name: template.sender_name || "DoYouEAP",
@@ -632,6 +640,8 @@ const NewsletterManagement = () => {
               footer_color: "#1a1a1a",
               header_gradient_1: "",
               header_gradient_2: "",
+              greeting_text_color: "#ffffff",
+              greeting_bg_color: "#0ea5e9",
               footer_gradient: "",
               sender_email: "noreply@doyoueap.com",
               sender_name: "DoYouEAP",
@@ -864,6 +874,40 @@ const NewsletterManagement = () => {
                     placeholder="pl: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
                   />
                   <p className="text-xs text-muted-foreground mt-1">CSS gradient szintaxis</p>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label>Megszólítás szövegének színe</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        type="color"
+                        value={templateForm.greeting_text_color}
+                        onChange={(e) => setTemplateForm({ ...templateForm, greeting_text_color: e.target.value })}
+                        className="w-20 h-10"
+                      />
+                      <Input
+                        value={templateForm.greeting_text_color}
+                        onChange={(e) => setTemplateForm({ ...templateForm, greeting_text_color: e.target.value })}
+                        placeholder="#ffffff"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label>Megszólítás mögötti flekk színe</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        type="color"
+                        value={templateForm.greeting_bg_color}
+                        onChange={(e) => setTemplateForm({ ...templateForm, greeting_bg_color: e.target.value })}
+                        className="w-20 h-10"
+                      />
+                      <Input
+                        value={templateForm.greeting_bg_color}
+                        onChange={(e) => setTemplateForm({ ...templateForm, greeting_bg_color: e.target.value })}
+                        placeholder="#0ea5e9"
+                      />
+                    </div>
+                  </div>
                 </div>
                 <div>
                   <Label>Lábléc háttérszíne</Label>
