@@ -428,52 +428,82 @@ export type Database = {
         Row: {
           background_color: string
           button_color: string
+          button_gradient: string | null
           button_text: string
           created_at: string
           created_by: string | null
+          cta_button_url: string | null
+          extra_content: string | null
           footer_address: string | null
+          footer_color: string
           footer_company: string
+          footer_gradient: string | null
+          footer_links: Json | null
           footer_text: string
+          greeting_text: string
+          header_color: string
+          header_gradient: string | null
           header_subtitle: string | null
           header_title: string
           id: string
           is_default: boolean | null
           name: string
           primary_color: string
+          show_cta_button: boolean | null
           updated_at: string
         }
         Insert: {
           background_color?: string
           button_color?: string
+          button_gradient?: string | null
           button_text?: string
           created_at?: string
           created_by?: string | null
+          cta_button_url?: string | null
+          extra_content?: string | null
           footer_address?: string | null
+          footer_color?: string
           footer_company?: string
+          footer_gradient?: string | null
+          footer_links?: Json | null
           footer_text?: string
+          greeting_text?: string
+          header_color?: string
+          header_gradient?: string | null
           header_subtitle?: string | null
           header_title?: string
           id?: string
           is_default?: boolean | null
           name: string
           primary_color?: string
+          show_cta_button?: boolean | null
           updated_at?: string
         }
         Update: {
           background_color?: string
           button_color?: string
+          button_gradient?: string | null
           button_text?: string
           created_at?: string
           created_by?: string | null
+          cta_button_url?: string | null
+          extra_content?: string | null
           footer_address?: string | null
+          footer_color?: string
           footer_company?: string
+          footer_gradient?: string | null
+          footer_links?: Json | null
           footer_text?: string
+          greeting_text?: string
+          header_color?: string
+          header_gradient?: string | null
           header_subtitle?: string | null
           header_title?: string
           id?: string
           is_default?: boolean | null
           name?: string
           primary_color?: string
+          show_cta_button?: boolean | null
           updated_at?: string
         }
         Relationships: []

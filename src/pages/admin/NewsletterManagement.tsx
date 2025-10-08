@@ -29,6 +29,11 @@ interface Campaign {
   status: string;
 }
 
+interface FooterLink {
+  text: string;
+  url: string;
+}
+
 interface NewsletterTemplate {
   id: string;
   name: string;
@@ -42,6 +47,16 @@ interface NewsletterTemplate {
   primary_color: string;
   background_color: string;
   is_default: boolean;
+  greeting_text: string;
+  footer_links: FooterLink[];
+  header_color: string;
+  footer_color: string;
+  header_gradient: string | null;
+  button_gradient: string | null;
+  footer_gradient: string | null;
+  cta_button_url: string | null;
+  show_cta_button: boolean;
+  extra_content: string | null;
 }
 
 const NewsletterManagement = () => {
@@ -58,6 +73,7 @@ const NewsletterManagement = () => {
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [featuredImage, setFeaturedImage] = useState<File | null>(null);
   const [featuredImagePreview, setFeaturedImagePreview] = useState<string | null>(null);
+  const [editingTemplateId, setEditingTemplateId] = useState<string | null>(null);
   const [templateForm, setTemplateForm] = useState({
     name: "",
     header_title: "DoYouEAP Hírlevél",
@@ -65,10 +81,20 @@ const NewsletterManagement = () => {
     footer_text: "Ez egy automatikus üzenet. Kérjük, ne válaszoljon erre az emailre.",
     footer_company: "DoYouEAP",
     footer_address: "",
-    button_text: "Tovább a cikkhez",
+    button_text: "Olvassa el",
     button_color: "#0ea5e9",
     primary_color: "#0ea5e9",
     background_color: "#f8fafc",
+    greeting_text: "Kedves Feliratkozónk!",
+    footer_links: [] as FooterLink[],
+    header_color: "#0ea5e9",
+    footer_color: "#1a1a1a",
+    header_gradient: "",
+    button_gradient: "",
+    footer_gradient: "",
+    cta_button_url: "",
+    show_cta_button: true,
+    extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel,\nA doyoueap csapata",
   });
 
   useEffect(() => {
@@ -314,19 +340,35 @@ const NewsletterManagement = () => {
 
     try {
       const { data: userData } = await supabase.auth.getUser();
-      const { data, error } = await supabase
-        .from("newsletter_templates")
-        .insert({
-          ...templateForm,
-          created_by: userData.user?.id,
-        })
-        .select()
-        .single();
+      
+      if (editingTemplateId) {
+        // Update existing template
+        const { error } = await supabase
+          .from("newsletter_templates")
+          .update({
+            ...templateForm,
+            footer_links: templateForm.footer_links,
+          })
+          .eq("id", editingTemplateId);
 
-      if (error) throw error;
+        if (error) throw error;
+        toast.success("Sablon sikeresen frissítve!");
+      } else {
+        // Insert new template
+        const { error } = await supabase
+          .from("newsletter_templates")
+          .insert({
+            ...templateForm,
+            footer_links: templateForm.footer_links,
+            created_by: userData.user?.id,
+          });
 
-      toast.success("Sablon sikeresen mentve!");
+        if (error) throw error;
+        toast.success("Sablon sikeresen mentve!");
+      }
+
       setIsTemplateDialogOpen(false);
+      setEditingTemplateId(null);
       setTemplateForm({
         name: "",
         header_title: "DoYouEAP Hírlevél",
@@ -334,10 +376,20 @@ const NewsletterManagement = () => {
         footer_text: "Ez egy automatikus üzenet. Kérjük, ne válaszoljon erre az emailre.",
         footer_company: "DoYouEAP",
         footer_address: "",
-        button_text: "Tovább a cikkhez",
+        button_text: "Olvassa el",
         button_color: "#0ea5e9",
         primary_color: "#0ea5e9",
         background_color: "#f8fafc",
+        greeting_text: "Kedves Feliratkozónk!",
+        footer_links: [],
+        header_color: "#0ea5e9",
+        footer_color: "#1a1a1a",
+        header_gradient: "",
+        button_gradient: "",
+        footer_gradient: "",
+        cta_button_url: "",
+        show_cta_button: true,
+        extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel,\nA doyoueap csapata",
       });
       fetchTemplates();
     } catch (error: any) {
@@ -346,26 +398,82 @@ const NewsletterManagement = () => {
     }
   };
 
+  const handleEditTemplate = (template: NewsletterTemplate) => {
+    setEditingTemplateId(template.id);
+    setTemplateForm({
+      name: template.name,
+      header_title: template.header_title,
+      header_subtitle: template.header_subtitle || "",
+      footer_text: template.footer_text,
+      footer_company: template.footer_company,
+      footer_address: template.footer_address || "",
+      button_text: template.button_text,
+      button_color: template.button_color,
+      primary_color: template.primary_color,
+      background_color: template.background_color,
+      greeting_text: template.greeting_text || "Kedves Feliratkozónk!",
+      footer_links: template.footer_links || [],
+      header_color: template.header_color || template.primary_color,
+      footer_color: template.footer_color || "#1a1a1a",
+      header_gradient: template.header_gradient || "",
+      button_gradient: template.button_gradient || "",
+      footer_gradient: template.footer_gradient || "",
+      cta_button_url: template.cta_button_url || "",
+      show_cta_button: template.show_cta_button ?? true,
+      extra_content: template.extra_content || "",
+    });
+    setIsTemplateDialogOpen(true);
+  };
+
+  const handleAddFooterLink = () => {
+    setTemplateForm({
+      ...templateForm,
+      footer_links: [...templateForm.footer_links, { text: "", url: "" }]
+    });
+  };
+
+  const handleRemoveFooterLink = (index: number) => {
+    setTemplateForm({
+      ...templateForm,
+      footer_links: templateForm.footer_links.filter((_, i) => i !== index)
+    });
+  };
+
+  const handleUpdateFooterLink = (index: number, field: 'text' | 'url', value: string) => {
+    const newLinks = [...templateForm.footer_links];
+    newLinks[index][field] = value;
+    setTemplateForm({
+      ...templateForm,
+      footer_links: newLinks
+    });
+  };
+
   return (
     <div className="container mx-auto py-8 space-y-8">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Hírlevél kezelés</h1>
-        <Dialog open={isTemplateDialogOpen} onOpenChange={setIsTemplateDialogOpen}>
+        <Dialog open={isTemplateDialogOpen} onOpenChange={(open) => {
+          setIsTemplateDialogOpen(open);
+          if (!open) {
+            setEditingTemplateId(null);
+          }
+        }}>
           <DialogTrigger asChild>
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => setEditingTemplateId(null)}>
               <Settings className="mr-2 h-4 w-4" />
-              Sablon kezelés
+              Új sablon
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Hírlevél sablon szerkesztése</DialogTitle>
+              <DialogTitle>{editingTemplateId ? "Sablon szerkesztése" : "Új sablon létrehozása"}</DialogTitle>
             </DialogHeader>
             <Tabs defaultValue="content" className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
+              <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="content">Tartalom</TabsTrigger>
-                <TabsTrigger value="style">Stílus</TabsTrigger>
+                <TabsTrigger value="style">Színek</TabsTrigger>
                 <TabsTrigger value="footer">Lábléc</TabsTrigger>
+                <TabsTrigger value="templates">Sablonok</TabsTrigger>
               </TabsList>
               
               <TabsContent value="content" className="space-y-4">
@@ -375,6 +483,14 @@ const NewsletterManagement = () => {
                     value={templateForm.name}
                     onChange={(e) => setTemplateForm({ ...templateForm, name: e.target.value })}
                     placeholder="pl. Alap sablon"
+                  />
+                </div>
+                <div>
+                  <Label>Megszólítás</Label>
+                  <Input
+                    value={templateForm.greeting_text}
+                    onChange={(e) => setTemplateForm({ ...templateForm, greeting_text: e.target.value })}
+                    placeholder="pl. Kedves Feliratkozónk!"
                   />
                 </div>
                 <div>
@@ -399,24 +515,59 @@ const NewsletterManagement = () => {
                     onChange={(e) => setTemplateForm({ ...templateForm, button_text: e.target.value })}
                   />
                 </div>
+                <div>
+                  <Label>Gomb URL (opcionális)</Label>
+                  <Input
+                    value={templateForm.cta_button_url}
+                    onChange={(e) => setTemplateForm({ ...templateForm, cta_button_url: e.target.value })}
+                    placeholder="https://..."
+                  />
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="show_cta_button"
+                    checked={templateForm.show_cta_button}
+                    onChange={(e) => setTemplateForm({ ...templateForm, show_cta_button: e.target.checked })}
+                    className="h-4 w-4"
+                  />
+                  <Label htmlFor="show_cta_button">Gomb megjelenítése</Label>
+                </div>
+                <div>
+                  <Label>Extra tartalom (pl. EAP Pulse szöveg)</Label>
+                  <Textarea
+                    value={templateForm.extra_content}
+                    onChange={(e) => setTemplateForm({ ...templateForm, extra_content: e.target.value })}
+                    rows={6}
+                    placeholder="További információk vagy ajánlások..."
+                  />
+                </div>
               </TabsContent>
 
               <TabsContent value="style" className="space-y-4">
                 <div>
-                  <Label>Elsődleges szín</Label>
+                  <Label>Fejléc szín</Label>
                   <div className="flex gap-2">
                     <Input
                       type="color"
-                      value={templateForm.primary_color}
-                      onChange={(e) => setTemplateForm({ ...templateForm, primary_color: e.target.value })}
+                      value={templateForm.header_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, header_color: e.target.value })}
                       className="w-20 h-10"
                     />
                     <Input
-                      value={templateForm.primary_color}
-                      onChange={(e) => setTemplateForm({ ...templateForm, primary_color: e.target.value })}
+                      value={templateForm.header_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, header_color: e.target.value })}
                       placeholder="#0ea5e9"
                     />
                   </div>
+                </div>
+                <div>
+                  <Label>Fejléc gradient (opcionális, pl: linear-gradient(135deg, #667eea 0%, #764ba2 100%))</Label>
+                  <Input
+                    value={templateForm.header_gradient}
+                    onChange={(e) => setTemplateForm({ ...templateForm, header_gradient: e.target.value })}
+                    placeholder="linear-gradient(...)"
+                  />
                 </div>
                 <div>
                   <Label>Gomb színe</Label>
@@ -433,6 +584,38 @@ const NewsletterManagement = () => {
                       placeholder="#0ea5e9"
                     />
                   </div>
+                </div>
+                <div>
+                  <Label>Gomb gradient (opcionális)</Label>
+                  <Input
+                    value={templateForm.button_gradient}
+                    onChange={(e) => setTemplateForm({ ...templateForm, button_gradient: e.target.value })}
+                    placeholder="linear-gradient(...)"
+                  />
+                </div>
+                <div>
+                  <Label>Lábléc szín</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      type="color"
+                      value={templateForm.footer_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, footer_color: e.target.value })}
+                      className="w-20 h-10"
+                    />
+                    <Input
+                      value={templateForm.footer_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, footer_color: e.target.value })}
+                      placeholder="#1a1a1a"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label>Lábléc gradient (opcionális)</Label>
+                  <Input
+                    value={templateForm.footer_gradient}
+                    onChange={(e) => setTemplateForm({ ...templateForm, footer_gradient: e.target.value })}
+                    placeholder="linear-gradient(...)"
+                  />
                 </div>
                 <div>
                   <Label>Háttérszín</Label>
@@ -475,6 +658,64 @@ const NewsletterManagement = () => {
                     onChange={(e) => setTemplateForm({ ...templateForm, footer_address: e.target.value })}
                     placeholder="pl. 1234 Budapest, Példa utca 1."
                   />
+                </div>
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <Label>Lábléc linkek</Label>
+                    <Button type="button" variant="outline" size="sm" onClick={handleAddFooterLink}>
+                      <Plus className="h-4 w-4 mr-1" />
+                      Link hozzáadása
+                    </Button>
+                  </div>
+                  <div className="space-y-2">
+                    {templateForm.footer_links.map((link, index) => (
+                      <div key={index} className="flex gap-2 items-start p-3 border rounded-md">
+                        <div className="flex-1 space-y-2">
+                          <Input
+                            value={link.text}
+                            onChange={(e) => handleUpdateFooterLink(index, 'text', e.target.value)}
+                            placeholder="Link szövege"
+                          />
+                          <Input
+                            value={link.url}
+                            onChange={(e) => handleUpdateFooterLink(index, 'url', e.target.value)}
+                            placeholder="https://..."
+                          />
+                        </div>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleRemoveFooterLink(index)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="templates" className="space-y-4">
+                <div className="space-y-2">
+                  <Label>Meglévő sablonok</Label>
+                  <div className="grid gap-2">
+                    {templates.map((template) => (
+                      <div key={template.id} className="flex justify-between items-center p-3 border rounded-md">
+                        <div>
+                          <p className="font-medium">{template.name}</p>
+                          {template.is_default && <span className="text-xs text-muted-foreground">(Alapértelmezett)</span>}
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleEditTemplate(template)}
+                        >
+                          Szerkesztés
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </TabsContent>
             </Tabs>

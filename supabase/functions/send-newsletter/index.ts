@@ -8,6 +8,11 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+interface FooterLink {
+  text: string;
+  url: string;
+}
+
 interface NewsletterTemplate {
   header_title: string;
   header_subtitle: string | null;
@@ -18,6 +23,16 @@ interface NewsletterTemplate {
   button_color: string;
   primary_color: string;
   background_color: string;
+  greeting_text: string;
+  footer_links: FooterLink[];
+  header_color: string;
+  footer_color: string;
+  header_gradient: string | null;
+  button_gradient: string | null;
+  footer_gradient: string | null;
+  cta_button_url: string | null;
+  show_cta_button: boolean;
+  extra_content: string | null;
 }
 
 interface NewsletterRequest {
@@ -63,6 +78,10 @@ const createNewsletterHTML = (
   featuredImageUrl?: string
 ): string => {
   const formattedContent = formatContent(content);
+  const extraFormattedContent = template.extra_content ? formatContent(template.extra_content) : null;
+  const headerBg = template.header_gradient || template.header_color;
+  const buttonBg = template.button_gradient || template.button_color;
+  const footerBg = template.footer_gradient || template.footer_color;
   
   return `<!DOCTYPE html>
 <html lang="hu">
@@ -102,7 +121,7 @@ const createNewsletterHTML = (
       
       /* Header with gradient */
       .email-header {
-        background: ${template.primary_color};
+        background: ${headerBg};
         padding: 0;
         text-align: center;
         position: relative;
@@ -153,7 +172,7 @@ const createNewsletterHTML = (
       
       .greeting-badge {
         display: inline-block;
-        background: ${template.primary_color};
+        background: ${template.header_color};
         color: white;
         padding: 8px 16px;
         border-radius: 20px;
@@ -171,7 +190,7 @@ const createNewsletterHTML = (
       }
       
       .email-content h3 {
-        color: ${template.primary_color};
+        color: ${template.header_color};
         font-size: 20px;
         margin: 28px 0 12px 0;
         font-weight: 600;
@@ -207,21 +226,21 @@ const createNewsletterHTML = (
       }
       
       .email-content a {
-        color: ${template.primary_color};
+        color: ${template.header_color};
         text-decoration: none;
         font-weight: 500;
-        border-bottom: 2px solid ${template.primary_color}33;
+        border-bottom: 2px solid ${template.header_color}33;
         transition: border-color 0.3s;
       }
       
       .email-content a:hover {
-        border-bottom-color: ${template.primary_color};
+        border-bottom-color: ${template.header_color};
       }
       
       /* CTA Button */
       .cta-button {
         display: inline-block;
-        background: ${template.button_color};
+        background: ${buttonBg};
         color: white !important;
         text-decoration: none !important;
         padding: 14px 32px;
@@ -233,6 +252,19 @@ const createNewsletterHTML = (
         border: none !important;
       }
       
+      /* Extra content box */
+      .extra-content {
+        background: linear-gradient(135deg, ${template.header_color}15, ${template.header_color}05);
+        border-left: 4px solid ${template.header_color};
+        padding: 20px;
+        margin: 30px 0;
+        border-radius: 8px;
+      }
+      
+      .extra-content h3 {
+        margin-top: 0;
+      }
+      
       /* Divider */
       .divider {
         height: 1px;
@@ -242,7 +274,7 @@ const createNewsletterHTML = (
       
       /* Footer */
       .email-footer {
-        background: #1a1a1a;
+        background: ${footerBg};
         color: #ffffff;
         padding: 40px 30px;
         text-align: center;
@@ -267,7 +299,7 @@ const createNewsletterHTML = (
       }
       
       .footer-links a {
-        color: ${template.primary_color};
+        color: ${template.header_color};
         text-decoration: none;
         margin: 0 12px;
         font-size: 14px;
@@ -328,9 +360,22 @@ const createNewsletterHTML = (
         
         <!-- Main Content -->
         <div class="email-content">
-          ${recipientName ? `<div class="greeting-badge">Kedves ${recipientName}!</div>` : '<div class="greeting-badge">Kedves Feliratkozónk!</div>'}
+          ${recipientName ? `<div class="greeting-badge">Kedves ${recipientName}!</div>` : `<div class="greeting-badge">${template.greeting_text}</div>`}
           
           ${formattedContent}
+          
+          ${template.show_cta_button && template.cta_button_url ? `
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${template.cta_button_url}" class="cta-button">${template.button_text}</a>
+          </div>
+          ` : ''}
+          
+          ${extraFormattedContent ? `
+          <div class="divider"></div>
+          <div class="extra-content">
+            ${extraFormattedContent}
+          </div>
+          ` : ''}
           
           <div class="divider"></div>
           
@@ -347,11 +392,11 @@ const createNewsletterHTML = (
           </div>
           ` : ''}
           
+          ${template.footer_links && template.footer_links.length > 0 ? `
           <div class="footer-links">
-            <a href="https://doyoueap.com">Főoldal</a>
-            <a href="https://doyoueap.com/magazin">The Journalist!</a>
-            <a href="https://doyoueap.com/bemutatkozas">EAP Pulse</a>
+            ${template.footer_links.map(link => `<a href="${link.url}">${link.text}</a>`).join('\n            ')}
           </div>
+          ` : ''}
           
           <p><strong>${template.footer_company}</strong></p>
           ${template.footer_address ? `<p>${template.footer_address}</p>` : ''}
