@@ -61,11 +61,14 @@ interface NewsletterTemplate {
   extra_content: string | null;
   sender_email: string;
   sender_name: string;
-  header_color_1: string; // Logó mögötti szín
-  header_color_2: string; // Szöveg alatti szín
+  header_color_1: string;
+  header_color_2: string;
   logo_url: string | null;
   featured_image_url: string | null;
   footer_logo_url: string | null;
+  footer_link_color: string;
+  extra_content_border_color: string;
+  extra_content_bg_color: string;
 }
 
 const NewsletterManagement = () => {
@@ -98,6 +101,9 @@ const NewsletterManagement = () => {
     primary_color: "#0ea5e9",
     background_color: "#f8fafc",
     greeting_text: "Kedves Feliratkozónk!",
+    footer_link_color: "#ffffff",
+    extra_content_border_color: "#0ea5e9",
+    extra_content_bg_color: "#0ea5e915",
     footer_links: [] as FooterLink[],
     header_color: "#0ea5e9",
     footer_color: "#1a1a1a",
@@ -203,6 +209,44 @@ const NewsletterManagement = () => {
 
     toast.success("Feliratkozó törölve!");
     fetchSubscribers();
+  };
+
+  const handleDeleteTemplate = async (id: string) => {
+    if (!confirm("Biztosan törölni szeretné ezt a sablont?")) {
+      return;
+    }
+
+    const { error } = await supabase
+      .from("newsletter_templates")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      toast.error("Hiba a sablon törlése során");
+      return;
+    }
+
+    toast.success("Sablon törölve!");
+    fetchTemplates();
+  };
+
+  const handleDeleteCampaign = async (id: string) => {
+    if (!confirm("Biztosan törölni szeretné ezt a kampányt?")) {
+      return;
+    }
+
+    const { error } = await supabase
+      .from("newsletter_campaigns")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      toast.error("Hiba a kampány törlése során");
+      return;
+    }
+
+    toast.success("Kampány törölve!");
+    fetchCampaigns();
   };
 
   const handleExcelUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -452,6 +496,9 @@ const NewsletterManagement = () => {
         sender_name: "DoYouEAP",
         header_color_1: "#0ea5e9",
         header_color_2: "#0ea5e9",
+        footer_link_color: "#ffffff",
+        extra_content_border_color: "#0ea5e9",
+        extra_content_bg_color: "#0ea5e915",
       });
       fetchTemplates();
       console.log("Template save completed successfully");
@@ -466,7 +513,6 @@ const NewsletterManagement = () => {
     setTemplateForm({
       name: template.name,
       header_title: template.header_title,
-      
       footer_text: template.footer_text,
       footer_company: template.footer_company,
       footer_address: template.footer_address || "",
@@ -490,6 +536,9 @@ const NewsletterManagement = () => {
       sender_name: template.sender_name || "DoYouEAP",
       header_color_1: template.header_color_1 || template.header_color || "#0ea5e9",
       header_color_2: template.header_color_2 || template.header_color || "#0ea5e9",
+      footer_link_color: template.footer_link_color || "#ffffff",
+      extra_content_border_color: template.extra_content_border_color || "#0ea5e9",
+      extra_content_bg_color: template.extra_content_bg_color || "#0ea5e915",
     });
     setTemplateLogoPreview(template.logo_url);
     setTemplateFeaturedImagePreview(template.featured_image_url);
@@ -555,6 +604,9 @@ const NewsletterManagement = () => {
               sender_name: "DoYouEAP",
               header_color_1: "#0ea5e9",
               header_color_2: "#0ea5e9",
+              footer_link_color: "#ffffff",
+              extra_content_border_color: "#0ea5e9",
+              extra_content_bg_color: "#0ea5e915",
             });
           }
         }}>
@@ -617,30 +669,12 @@ const NewsletterManagement = () => {
                   </div>
                 </div>
                 <div className="border-t pt-4 mt-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label>Fejléc cím</Label>
-                      <Input
-                        value={templateForm.header_title}
-                        onChange={(e) => setTemplateForm({ ...templateForm, header_title: e.target.value })}
-                      />
-                    </div>
-                    <div>
-                      <Label>Fejléc háttérszíne</Label>
-                      <div className="flex gap-2">
-                        <Input
-                          type="color"
-                          value={templateForm.header_color}
-                          onChange={(e) => setTemplateForm({ ...templateForm, header_color: e.target.value })}
-                          className="w-20 h-10"
-                        />
-                        <Input
-                          value={templateForm.header_color}
-                          onChange={(e) => setTemplateForm({ ...templateForm, header_color: e.target.value })}
-                          placeholder="#0ea5e9"
-                        />
-                      </div>
-                    </div>
+                  <div>
+                    <Label>Fejléc cím</Label>
+                    <Input
+                      value={templateForm.header_title}
+                      onChange={(e) => setTemplateForm({ ...templateForm, header_title: e.target.value })}
+                    />
                   </div>
                 </div>
                 <div className="border-t pt-4 mt-4">
@@ -914,6 +948,43 @@ const NewsletterManagement = () => {
                     />
                   </div>
                 </div>
+                <div className="border-t pt-4 mt-4">
+                  <h3 className="text-sm font-semibold mb-4">Extra tartalom színek</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label>Extra tartalom szegély színe</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type="color"
+                          value={templateForm.extra_content_border_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, extra_content_border_color: e.target.value })}
+                          className="w-20 h-10"
+                        />
+                        <Input
+                          value={templateForm.extra_content_border_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, extra_content_border_color: e.target.value })}
+                          placeholder="#0ea5e9"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <Label>Extra tartalom háttérszíne</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type="color"
+                          value={templateForm.extra_content_bg_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, extra_content_bg_color: e.target.value })}
+                          className="w-20 h-10"
+                        />
+                        <Input
+                          value={templateForm.extra_content_bg_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, extra_content_bg_color: e.target.value })}
+                          placeholder="#0ea5e915"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </TabsContent>
 
               <TabsContent value="footer" className="space-y-4">
@@ -939,6 +1010,22 @@ const NewsletterManagement = () => {
                     onChange={(e) => setTemplateForm({ ...templateForm, footer_address: e.target.value })}
                     placeholder="pl. 1234 Budapest, Példa utca 1."
                   />
+                </div>
+                <div>
+                  <Label>Lábléc link szövegek színe</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      type="color"
+                      value={templateForm.footer_link_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, footer_link_color: e.target.value })}
+                      className="w-20 h-10"
+                    />
+                    <Input
+                      value={templateForm.footer_link_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, footer_link_color: e.target.value })}
+                      placeholder="#ffffff"
+                    />
+                  </div>
                 </div>
                 <div>
                   <div className="flex justify-between items-center mb-2">
@@ -1003,13 +1090,22 @@ const NewsletterManagement = () => {
                     Fejléc: {template.header_title} • Gomb: {template.button_text}
                   </p>
                 </div>
-                <Button
-                  variant="outline"
-                  onClick={() => handleEditTemplate(template)}
-                >
-                  <Settings className="h-4 w-4 mr-2" />
-                  Szerkesztés
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => handleEditTemplate(template)}
+                  >
+                    <Settings className="h-4 w-4 mr-2" />
+                    Szerkesztés
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleDeleteTemplate(template.id)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             ))}
             {templates.length === 0 && (
@@ -1174,6 +1270,7 @@ const NewsletterManagement = () => {
                 <TableHead>Küldés ideje</TableHead>
                 <TableHead>Címzettek</TableHead>
                 <TableHead>Státusz</TableHead>
+                <TableHead>Műveletek</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -1183,6 +1280,15 @@ const NewsletterManagement = () => {
                   <TableCell>{new Date(campaign.sent_at).toLocaleString()}</TableCell>
                   <TableCell>{campaign.recipient_count}</TableCell>
                   <TableCell>{campaign.status}</TableCell>
+                  <TableCell>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleDeleteCampaign(campaign.id)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

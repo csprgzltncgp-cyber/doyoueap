@@ -41,6 +41,9 @@ interface NewsletterTemplate {
   logo_url?: string | null;
   featured_image_url?: string | null;
   footer_logo_url?: string | null;
+  footer_link_color?: string;
+  extra_content_border_color?: string;
+  extra_content_bg_color?: string;
 }
 
 interface NewsletterRequest {
@@ -262,8 +265,8 @@ const createNewsletterHTML = (
       
       /* Extra content box */
       .extra-content {
-        background: linear-gradient(135deg, ${template.header_color}15, ${template.header_color}05);
-        border-left: 4px solid ${template.header_color};
+        background: ${template.extra_content_bg_color || `${template.header_color}15`};
+        border-left: 4px solid ${template.extra_content_border_color || template.header_color};
         padding: 20px;
         margin: 30px 0;
         border-radius: 8px;
@@ -271,7 +274,7 @@ const createNewsletterHTML = (
       
       .extra-content h3 {
         margin-top: 0;
-        color: ${template.header_color};
+        color: ${template.extra_content_border_color || template.header_color};
         font-size: 20px;
         font-weight: 600;
       }
@@ -322,7 +325,7 @@ const createNewsletterHTML = (
       }
       
       .footer-links a {
-        color: ${template.header_color};
+        color: ${template.footer_link_color || '#ffffff'};
         text-decoration: none;
         margin: 0 12px;
         font-size: 14px;
