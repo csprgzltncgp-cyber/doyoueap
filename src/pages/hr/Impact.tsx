@@ -117,25 +117,25 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
       // Impact metrics (Likert 1-5)
       const satisfaction = data
         .map(r => r.responses?.u_impact_satisfaction)
-        .filter(v => v !== undefined && v !== null) as number[];
+        .filter(v => typeof v === 'number' && !isNaN(v)) as number[];
       
       console.log('Satisfaction values:', satisfaction);
       
       const problemSolving = data
         .map(r => r.responses?.u_impact_problem_solving)
-        .filter(v => v !== undefined && v !== null) as number[];
+        .filter(v => typeof v === 'number' && !isNaN(v)) as number[];
       
       const wellbeing = data
         .map(r => r.responses?.u_impact_wellbeing)
-        .filter(v => v !== undefined && v !== null) as number[];
+        .filter(v => typeof v === 'number' && !isNaN(v)) as number[];
       
       const performance = data
         .map(r => r.responses?.u_impact_performance)
-        .filter(v => v !== undefined && v !== null) as number[];
+        .filter(v => typeof v === 'number' && !isNaN(v)) as number[];
       
       const consistency = data
         .map(r => r.responses?.u_impact_consistency)
-        .filter(v => v !== undefined && v !== null) as number[];
+        .filter(v => typeof v === 'number' && !isNaN(v)) as number[];
 
       const metrics: ImpactMetric[] = [
         { metric: 'Elégedettség', average: Number(calculateAverage(satisfaction).toFixed(2)) },
@@ -151,7 +151,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
       // NPS calculation (0-10 scale)
       const npsScores = data
         .map(r => r.responses?.u_impact_nps)
-        .filter(v => v !== undefined && v !== null) as number[];
+        .filter(v => typeof v === 'number' && !isNaN(v)) as number[];
 
       if (npsScores.length > 0) {
         const promoters = npsScores.filter(score => score >= 9).length;
