@@ -444,6 +444,8 @@ export type Database = {
           footer_text: string
           greeting_text: string
           header_color: string
+          header_color_1: string
+          header_color_2: string
           header_gradient: string | null
           header_subtitle: string | null
           header_title: string
@@ -476,6 +478,8 @@ export type Database = {
           footer_text?: string
           greeting_text?: string
           header_color?: string
+          header_color_1?: string
+          header_color_2?: string
           header_gradient?: string | null
           header_subtitle?: string | null
           header_title?: string
@@ -508,6 +512,8 @@ export type Database = {
           footer_text?: string
           greeting_text?: string
           header_color?: string
+          header_color_1?: string
+          header_color_2?: string
           header_gradient?: string | null
           header_subtitle?: string | null
           header_title?: string
