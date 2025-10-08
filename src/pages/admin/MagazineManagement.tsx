@@ -343,9 +343,7 @@ export default function MagazineManagement() {
                         onClick={() => {
                           setImageFile(null);
                           setImagePreview(null);
-                          if (!editingArticle) {
-                            setFormData({ ...formData, image_url: "" });
-                          }
+                          setFormData({ ...formData, image_url: "" });
                         }}
                       >
                         <X className="h-4 w-4" />
