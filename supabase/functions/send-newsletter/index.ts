@@ -18,10 +18,6 @@ interface NewsletterTemplate {
   footer_text: string;
   footer_company: string;
   footer_address: string | null;
-  button_text: string;
-  button_text_color: string;
-  button_color: string;
-  button_shadow_color: string;
   primary_color: string;
   background_color: string;
   greeting_text: string;
@@ -29,11 +25,7 @@ interface NewsletterTemplate {
   header_color: string;
   footer_color: string;
   header_gradient: string | null;
-  button_gradient: string | null;
   footer_gradient: string | null;
-  cta_button_url: string | null;
-  show_cta_button: boolean;
-  extra_content: string | null;
   sender_email: string;
   sender_name: string;
   header_color_1?: string;
@@ -44,6 +36,18 @@ interface NewsletterTemplate {
   footer_link_color?: string;
   extra_content_border_color?: string;
   extra_content_bg_color?: string;
+  content_button_text?: string;
+  content_button_text_color?: string;
+  content_button_color?: string;
+  content_button_shadow_color?: string;
+  content_button_url?: string | null;
+  show_content_button?: boolean;
+  extra_button_text?: string;
+  extra_button_text_color?: string;
+  extra_button_color?: string;
+  extra_button_shadow_color?: string;
+  extra_button_url?: string | null;
+  show_extra_button?: boolean;
 }
 
 interface NewsletterRequest {
@@ -249,6 +253,43 @@ const createNewsletterHTML = (
         border-bottom-color: ${template.header_color};
       }
       
+      /* Button styles */
+      .email-button {
+        display: inline-block;
+        padding: 14px 32px;
+        margin: 24px 0;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 16px;
+        text-align: center;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+      
+      .email-button:hover {
+        transform: translateY(-2px);
+      }
+      
+      .content-button {
+        background: ${template.content_button_color || '#0ea5e9'};
+        color: ${template.content_button_text_color || '#ffffff'};
+        box-shadow: 0 4px 12px ${template.content_button_shadow_color || '#0ea5e933'};
+      }
+      
+      .content-button:hover {
+        box-shadow: 0 6px 16px ${template.content_button_shadow_color || '#0ea5e933'};
+      }
+      
+      .extra-button {
+        background: ${template.extra_button_color || '#0ea5e9'};
+        color: ${template.extra_button_text_color || '#ffffff'};
+        box-shadow: 0 4px 12px ${template.extra_button_shadow_color || '#0ea5e933'};
+      }
+      
+      .extra-button:hover {
+        box-shadow: 0 6px 16px ${template.extra_button_shadow_color || '#0ea5e933'};
+      }
+      
       /* Extra content box */
       .extra-content {
         background: ${template.extra_content_bg_color || `${template.header_color}15`};
@@ -375,11 +416,26 @@ const createNewsletterHTML = (
           
           ${formattedContent}
           
+          ${template.show_content_button && template.content_button_url ? `
+          <div style="text-align: center;">
+            <a href="${template.content_button_url}" class="email-button content-button">
+              ${template.content_button_text || 'Olvass tovább'}
+            </a>
+          </div>
+          ` : ''}
+          
           ${extraFormattedContent ? `
           <div class="divider"></div>
           <div class="extra-content">
             ${extraFormattedContent}
           </div>
+          ${template.show_extra_button && template.extra_button_url ? `
+          <div style="text-align: center; margin-top: 20px;">
+            <a href="${template.extra_button_url}" class="email-button extra-button">
+              ${template.extra_button_text || 'További információ'}
+            </a>
+          </div>
+          ` : ''}
           ` : ''}
           
           <div class="divider"></div>

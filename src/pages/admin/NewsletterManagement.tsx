@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { Plus, Send, Trash2, Upload, X, Settings } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 import * as XLSX from 'xlsx';
 
 interface Subscriber {
@@ -61,6 +62,18 @@ interface NewsletterTemplate {
   footer_link_color: string;
   extra_content_border_color: string;
   extra_content_bg_color: string;
+  content_button_text?: string;
+  content_button_text_color?: string;
+  content_button_color?: string;
+  content_button_shadow_color?: string;
+  content_button_url?: string | null;
+  show_content_button?: boolean;
+  extra_button_text?: string;
+  extra_button_text_color?: string;
+  extra_button_color?: string;
+  extra_button_shadow_color?: string;
+  extra_button_url?: string | null;
+  show_extra_button?: boolean;
 }
 
 const NewsletterManagement = () => {
@@ -102,6 +115,18 @@ const NewsletterManagement = () => {
     sender_name: "DoYouEAP",
     header_color_1: "#0ea5e9",
     header_color_2: "#0ea5e9",
+    content_button_text: "Olvass tovább",
+    content_button_text_color: "#ffffff",
+    content_button_color: "#0ea5e9",
+    content_button_shadow_color: "#0ea5e933",
+    content_button_url: "",
+    show_content_button: false,
+    extra_button_text: "További információ",
+    extra_button_text_color: "#ffffff",
+    extra_button_color: "#0ea5e9",
+    extra_button_shadow_color: "#0ea5e933",
+    extra_button_url: "",
+    show_extra_button: false,
   });
 
   useEffect(() => {
@@ -478,6 +503,18 @@ const NewsletterManagement = () => {
         footer_link_color: "#ffffff",
         extra_content_border_color: "#0ea5e9",
         extra_content_bg_color: "#0ea5e915",
+        content_button_text: "Olvass tovább",
+        content_button_text_color: "#ffffff",
+        content_button_color: "#0ea5e9",
+        content_button_shadow_color: "#0ea5e933",
+        content_button_url: "",
+        show_content_button: false,
+        extra_button_text: "További információ",
+        extra_button_text_color: "#ffffff",
+        extra_button_color: "#0ea5e9",
+        extra_button_shadow_color: "#0ea5e933",
+        extra_button_url: "",
+        show_extra_button: false,
       });
       fetchTemplates();
       console.log("Template save completed successfully");
@@ -510,6 +547,18 @@ const NewsletterManagement = () => {
       footer_link_color: template.footer_link_color || "#ffffff",
       extra_content_border_color: template.extra_content_border_color || "#0ea5e9",
       extra_content_bg_color: template.extra_content_bg_color || "#0ea5e915",
+      content_button_text: template.content_button_text || "Olvass tovább",
+      content_button_text_color: template.content_button_text_color || "#ffffff",
+      content_button_color: template.content_button_color || "#0ea5e9",
+      content_button_shadow_color: template.content_button_shadow_color || "#0ea5e933",
+      content_button_url: template.content_button_url || "",
+      show_content_button: template.show_content_button || false,
+      extra_button_text: template.extra_button_text || "További információ",
+      extra_button_text_color: template.extra_button_text_color || "#ffffff",
+      extra_button_color: template.extra_button_color || "#0ea5e9",
+      extra_button_shadow_color: template.extra_button_shadow_color || "#0ea5e933",
+      extra_button_url: template.extra_button_url || "",
+      show_extra_button: template.show_extra_button || false,
     });
     setTemplateLogoPreview(template.logo_url);
     setTemplateFeaturedImagePreview(template.featured_image_url);
@@ -570,6 +619,18 @@ const NewsletterManagement = () => {
               footer_link_color: "#ffffff",
               extra_content_border_color: "#0ea5e9",
               extra_content_bg_color: "#0ea5e915",
+              content_button_text: "Olvass tovább",
+              content_button_text_color: "#ffffff",
+              content_button_color: "#0ea5e9",
+              content_button_shadow_color: "#0ea5e933",
+              content_button_url: "",
+              show_content_button: false,
+              extra_button_text: "További információ",
+              extra_button_text_color: "#ffffff",
+              extra_button_color: "#0ea5e9",
+              extra_button_shadow_color: "#0ea5e933",
+              extra_button_url: "",
+              show_extra_button: false,
             });
           }
         }}>
@@ -584,9 +645,10 @@ const NewsletterManagement = () => {
               <DialogTitle>{editingTemplateId ? "Sablon szerkesztése" : "Új sablon létrehozása"}</DialogTitle>
             </DialogHeader>
             <Tabs defaultValue="content" className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
+              <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="content">Tartalom</TabsTrigger>
                 <TabsTrigger value="style">Színek</TabsTrigger>
+                <TabsTrigger value="buttons">Gombok</TabsTrigger>
                 <TabsTrigger value="footer">Lábléc</TabsTrigger>
               </TabsList>
               
@@ -925,6 +987,220 @@ const NewsletterManagement = () => {
                         </Button>
                       </div>
                     ))}
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="buttons" className="space-y-4">
+                <div className="space-y-4 p-4 border rounded-lg">
+                  <h4 className="font-semibold">Tartalom gomb</h4>
+                  
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="show_content_button"
+                      checked={templateForm.show_content_button}
+                      onCheckedChange={(checked) =>
+                        setTemplateForm({ ...templateForm, show_content_button: checked as boolean })
+                      }
+                    />
+                    <Label htmlFor="show_content_button">Tartalom gomb megjelenítése</Label>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="content_button_text">Tartalom gomb szövege</Label>
+                    <Input
+                      id="content_button_text"
+                      value={templateForm.content_button_text}
+                      onChange={(e) =>
+                        setTemplateForm({ ...templateForm, content_button_text: e.target.value })
+                      }
+                      placeholder="Olvass tovább"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="content_button_url">Tartalom gomb URL linkje</Label>
+                    <Input
+                      id="content_button_url"
+                      type="url"
+                      value={templateForm.content_button_url}
+                      onChange={(e) =>
+                        setTemplateForm({ ...templateForm, content_button_url: e.target.value })
+                      }
+                      placeholder="https://..."
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="content_button_text_color">Tartalom gomb szövegének színe</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="content_button_text_color"
+                        type="color"
+                        value={templateForm.content_button_text_color}
+                        onChange={(e) =>
+                          setTemplateForm({ ...templateForm, content_button_text_color: e.target.value })
+                        }
+                        className="w-20 h-10"
+                      />
+                      <Input
+                        value={templateForm.content_button_text_color}
+                        onChange={(e) =>
+                          setTemplateForm({ ...templateForm, content_button_text_color: e.target.value })
+                        }
+                        placeholder="#ffffff"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="content_button_color">Tartalom gomb színe</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="content_button_color"
+                        type="color"
+                        value={templateForm.content_button_color}
+                        onChange={(e) =>
+                          setTemplateForm({ ...templateForm, content_button_color: e.target.value })
+                        }
+                        className="w-20 h-10"
+                      />
+                      <Input
+                        value={templateForm.content_button_color}
+                        onChange={(e) =>
+                          setTemplateForm({ ...templateForm, content_button_color: e.target.value })
+                        }
+                        placeholder="#0ea5e9"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="content_button_shadow_color">Tartalom gomb árnyékának színe</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="content_button_shadow_color"
+                        type="color"
+                        value={templateForm.content_button_shadow_color}
+                        onChange={(e) =>
+                          setTemplateForm({ ...templateForm, content_button_shadow_color: e.target.value })
+                        }
+                        className="w-20 h-10"
+                      />
+                      <Input
+                        value={templateForm.content_button_shadow_color}
+                        onChange={(e) =>
+                          setTemplateForm({ ...templateForm, content_button_shadow_color: e.target.value })
+                        }
+                        placeholder="#0ea5e933"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4 p-4 border rounded-lg">
+                  <h4 className="font-semibold">Extra tartalom gomb</h4>
+                  
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="show_extra_button"
+                      checked={templateForm.show_extra_button}
+                      onCheckedChange={(checked) =>
+                        setTemplateForm({ ...templateForm, show_extra_button: checked as boolean })
+                      }
+                    />
+                    <Label htmlFor="show_extra_button">Extra tartalom gomb megjelenítése</Label>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="extra_button_text">Extra tartalom gomb szövege</Label>
+                    <Input
+                      id="extra_button_text"
+                      value={templateForm.extra_button_text}
+                      onChange={(e) =>
+                        setTemplateForm({ ...templateForm, extra_button_text: e.target.value })
+                      }
+                      placeholder="További információ"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="extra_button_url">Extra tartalom gomb URL linkje</Label>
+                    <Input
+                      id="extra_button_url"
+                      type="url"
+                      value={templateForm.extra_button_url}
+                      onChange={(e) =>
+                        setTemplateForm({ ...templateForm, extra_button_url: e.target.value })
+                      }
+                      placeholder="https://..."
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="extra_button_text_color">Extra tartalom gomb szövegének színe</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="extra_button_text_color"
+                        type="color"
+                        value={templateForm.extra_button_text_color}
+                        onChange={(e) =>
+                          setTemplateForm({ ...templateForm, extra_button_text_color: e.target.value })
+                        }
+                        className="w-20 h-10"
+                      />
+                      <Input
+                        value={templateForm.extra_button_text_color}
+                        onChange={(e) =>
+                          setTemplateForm({ ...templateForm, extra_button_text_color: e.target.value })
+                        }
+                        placeholder="#ffffff"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="extra_button_color">Extra tartalom gomb színe</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="extra_button_color"
+                        type="color"
+                        value={templateForm.extra_button_color}
+                        onChange={(e) =>
+                          setTemplateForm({ ...templateForm, extra_button_color: e.target.value })
+                        }
+                        className="w-20 h-10"
+                      />
+                      <Input
+                        value={templateForm.extra_button_color}
+                        onChange={(e) =>
+                          setTemplateForm({ ...templateForm, extra_button_color: e.target.value })
+                        }
+                        placeholder="#0ea5e9"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="extra_button_shadow_color">Extra tartalom gomb árnyékának színe</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="extra_button_shadow_color"
+                        type="color"
+                        value={templateForm.extra_button_shadow_color}
+                        onChange={(e) =>
+                          setTemplateForm({ ...templateForm, extra_button_shadow_color: e.target.value })
+                        }
+                        className="w-20 h-10"
+                      />
+                      <Input
+                        value={templateForm.extra_button_shadow_color}
+                        onChange={(e) =>
+                          setTemplateForm({ ...templateForm, extra_button_shadow_color: e.target.value })
+                        }
+                        placeholder="#0ea5e933"
+                      />
+                    </div>
                   </div>
                 </div>
               </TabsContent>

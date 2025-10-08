@@ -427,8 +427,18 @@ export type Database = {
       newsletter_templates: {
         Row: {
           background_color: string
+          content_button_color: string | null
+          content_button_shadow_color: string | null
+          content_button_text: string | null
+          content_button_text_color: string | null
+          content_button_url: string | null
           created_at: string
           created_by: string | null
+          extra_button_color: string | null
+          extra_button_shadow_color: string | null
+          extra_button_text: string | null
+          extra_button_text_color: string | null
+          extra_button_url: string | null
           extra_content: string | null
           extra_content_bg_color: string
           extra_content_border_color: string
@@ -455,12 +465,24 @@ export type Database = {
           primary_color: string
           sender_email: string
           sender_name: string
+          show_content_button: boolean | null
+          show_extra_button: boolean | null
           updated_at: string
         }
         Insert: {
           background_color?: string
+          content_button_color?: string | null
+          content_button_shadow_color?: string | null
+          content_button_text?: string | null
+          content_button_text_color?: string | null
+          content_button_url?: string | null
           created_at?: string
           created_by?: string | null
+          extra_button_color?: string | null
+          extra_button_shadow_color?: string | null
+          extra_button_text?: string | null
+          extra_button_text_color?: string | null
+          extra_button_url?: string | null
           extra_content?: string | null
           extra_content_bg_color?: string
           extra_content_border_color?: string
@@ -487,12 +509,24 @@ export type Database = {
           primary_color?: string
           sender_email?: string
           sender_name?: string
+          show_content_button?: boolean | null
+          show_extra_button?: boolean | null
           updated_at?: string
         }
         Update: {
           background_color?: string
+          content_button_color?: string | null
+          content_button_shadow_color?: string | null
+          content_button_text?: string | null
+          content_button_text_color?: string | null
+          content_button_url?: string | null
           created_at?: string
           created_by?: string | null
+          extra_button_color?: string | null
+          extra_button_shadow_color?: string | null
+          extra_button_text?: string | null
+          extra_button_text_color?: string | null
+          extra_button_url?: string | null
           extra_content?: string | null
           extra_content_bg_color?: string
           extra_content_border_color?: string
@@ -519,6 +553,8 @@ export type Database = {
           primary_color?: string
           sender_email?: string
           sender_name?: string
+          show_content_button?: boolean | null
+          show_extra_button?: boolean | null
           updated_at?: string
         }
         Relationships: []
