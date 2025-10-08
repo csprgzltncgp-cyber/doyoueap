@@ -140,7 +140,7 @@ const createNewsletterHTML = (
       }
       
       .header-title {
-        background: rgba(255,255,255,0.15);
+        background: ${template.header_gradient ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.15)'};
         padding: 20px;
         backdrop-filter: blur(10px);
       }
@@ -250,7 +250,7 @@ const createNewsletterHTML = (
         font-weight: 600;
         font-size: 16px;
         margin: 20px 0;
-        box-shadow: 0 4px 12px ${template.button_color}33;
+        box-shadow: 0 4px 12px ${template.header_color}4D;
         border: none !important;
       }
       
@@ -265,6 +265,21 @@ const createNewsletterHTML = (
       
       .extra-content h3 {
         margin-top: 0;
+        color: ${template.header_color};
+        font-size: 20px;
+        font-weight: 600;
+      }
+      
+      .extra-content p {
+        margin: 8px 0;
+        color: #4a5568;
+        font-size: 16px;
+        line-height: 1.7;
+      }
+      
+      .extra-content strong {
+        color: #1a1a1a;
+        font-weight: 600;
       }
       
       /* Divider */
@@ -403,10 +418,10 @@ const createNewsletterHTML = (
           <p><strong>${template.footer_company}</strong></p>
           ${template.footer_address ? `<p>${template.footer_address}</p>` : ''}
           
-          <p class="copyright">© ${new Date().getFullYear()} ${template.footer_company}. Minden jog fenntartva.</p>
+          <p class="copyright">© ${new Date().getFullYear()} Az EAP világ vezető szakfolyóirata. Minden jog fenntartva.</p>
           
           <p style="font-size: 11px; margin-top: 20px;">
-            Ha le szeretne iratkozni hírlevelünkről, kérjük írjon nekünk.
+            Ha le szeretne iratkozni hírlevelünkről, <a href="mailto:${template.sender_email}?subject=Leiratkozás" style="color: rgba(255,255,255,0.8); text-decoration: underline;">kattintson ide</a>.
           </p>
         </div>
       </div>
