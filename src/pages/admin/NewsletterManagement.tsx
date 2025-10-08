@@ -81,6 +81,8 @@ interface NewsletterTemplate {
   extra_button_shadow_color?: string;
   extra_button_url?: string | null;
   show_extra_button?: boolean;
+  footer_copyright_text?: string;
+  footer_copyright_color?: string;
 }
 
 const NewsletterManagement = () => {
@@ -141,6 +143,8 @@ const NewsletterManagement = () => {
     extra_button_shadow_color: "#0ea5e933",
     extra_button_url: "",
     show_extra_button: false,
+    footer_copyright_text: "© 2025 Az EAP világ vezető szakfolyóirata. Minden jog fenntartva.",
+    footer_copyright_color: "#ffffff",
   });
 
   useEffect(() => {
@@ -536,6 +540,8 @@ const NewsletterManagement = () => {
         extra_button_shadow_color: "#0ea5e933",
         extra_button_url: "",
         show_extra_button: false,
+        footer_copyright_text: "© 2025 Az EAP világ vezető szakfolyóirata. Minden jog fenntartva.",
+        footer_copyright_color: "#ffffff",
       });
       
       // Reload templates and update selectedTemplate if it was edited
@@ -603,6 +609,8 @@ const NewsletterManagement = () => {
       extra_button_shadow_color: template.extra_button_shadow_color || "#0ea5e933",
       extra_button_url: template.extra_button_url || "",
       show_extra_button: template.show_extra_button || false,
+      footer_copyright_text: template.footer_copyright_text || "© 2025 Az EAP világ vezető szakfolyóirata. Minden jog fenntartva.",
+      footer_copyright_color: template.footer_copyright_color || "#ffffff",
     });
     setTemplateLogoPreview(template.logo_url);
     setTemplateFeaturedImagePreview(template.featured_image_url);
@@ -682,6 +690,8 @@ const NewsletterManagement = () => {
               extra_button_shadow_color: "#0ea5e933",
               extra_button_url: "",
               show_extra_button: false,
+              footer_copyright_text: "© 2025 Az EAP világ vezető szakfolyóirata. Minden jog fenntartva.",
+              footer_copyright_color: "#ffffff",
             });
           }
         }}>
@@ -1087,6 +1097,30 @@ const NewsletterManagement = () => {
                     onChange={(e) => setTemplateForm({ ...templateForm, footer_address: e.target.value })}
                     placeholder="pl. 1234 Budapest, Példa utca 1."
                   />
+                </div>
+                <div>
+                  <Label>Copyright szöveg</Label>
+                  <Input
+                    value={templateForm.footer_copyright_text}
+                    onChange={(e) => setTemplateForm({ ...templateForm, footer_copyright_text: e.target.value })}
+                    placeholder="© 2025 Az EAP világ vezető szakfolyóirata. Minden jog fenntartva."
+                  />
+                </div>
+                <div>
+                  <Label>Copyright szöveg színe</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      type="color"
+                      value={templateForm.footer_copyright_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, footer_copyright_color: e.target.value })}
+                      className="w-20 h-10"
+                    />
+                    <Input
+                      value={templateForm.footer_copyright_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, footer_copyright_color: e.target.value })}
+                      placeholder="#ffffff"
+                    />
+                  </div>
                 </div>
                 <div>
                   <Label>Lábléc link szövegek színe</Label>
