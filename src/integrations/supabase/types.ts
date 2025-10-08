@@ -429,7 +429,9 @@ export type Database = {
           background_color: string
           button_color: string
           button_gradient: string | null
+          button_shadow_color: string
           button_text: string
+          button_text_color: string
           created_at: string
           created_by: string | null
           cta_button_url: string | null
@@ -463,7 +465,9 @@ export type Database = {
           background_color?: string
           button_color?: string
           button_gradient?: string | null
+          button_shadow_color?: string
           button_text?: string
+          button_text_color?: string
           created_at?: string
           created_by?: string | null
           cta_button_url?: string | null
@@ -497,7 +501,9 @@ export type Database = {
           background_color?: string
           button_color?: string
           button_gradient?: string | null
+          button_shadow_color?: string
           button_text?: string
+          button_text_color?: string
           created_at?: string
           created_by?: string | null
           cta_button_url?: string | null

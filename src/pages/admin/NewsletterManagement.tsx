@@ -43,7 +43,9 @@ interface NewsletterTemplate {
   footer_company: string;
   footer_address: string | null;
   button_text: string;
+  button_text_color: string;
   button_color: string;
+  button_shadow_color: string;
   primary_color: string;
   background_color: string;
   is_default: boolean;
@@ -90,7 +92,9 @@ const NewsletterManagement = () => {
     footer_company: "DoYouEAP",
     footer_address: "",
     button_text: "Olvassa el",
+    button_text_color: "#ffffff",
     button_color: "#0ea5e9",
+    button_shadow_color: "#0ea5e9",
     primary_color: "#0ea5e9",
     background_color: "#f8fafc",
     greeting_text: "Kedves Feliratkozónk!",
@@ -429,7 +433,9 @@ const NewsletterManagement = () => {
         footer_company: "DoYouEAP",
         footer_address: "",
         button_text: "Olvassa el",
+        button_text_color: "#ffffff",
         button_color: "#0ea5e9",
+        button_shadow_color: "#0ea5e9",
         primary_color: "#0ea5e9",
         background_color: "#f8fafc",
         greeting_text: "Kedves Feliratkozónk!",
@@ -465,7 +471,9 @@ const NewsletterManagement = () => {
       footer_company: template.footer_company,
       footer_address: template.footer_address || "",
       button_text: template.button_text,
+      button_text_color: template.button_text_color || "#ffffff",
       button_color: template.button_color,
+      button_shadow_color: template.button_shadow_color || "#0ea5e9",
       primary_color: template.primary_color,
       background_color: template.background_color,
       greeting_text: template.greeting_text || "Kedves Feliratkozónk!",
@@ -528,7 +536,9 @@ const NewsletterManagement = () => {
               footer_company: "DoYouEAP",
               footer_address: "",
               button_text: "Olvassa el",
+              button_text_color: "#ffffff",
               button_color: "#0ea5e9",
+              button_shadow_color: "#0ea5e9",
               primary_color: "#0ea5e9",
               background_color: "#f8fafc",
               greeting_text: "Kedves Feliratkozónk!",
@@ -643,6 +653,24 @@ const NewsletterManagement = () => {
                       />
                     </div>
                     <div>
+                      <Label>Gomb szövegének színe</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type="color"
+                          value={templateForm.button_text_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, button_text_color: e.target.value })}
+                          className="w-20 h-10"
+                        />
+                        <Input
+                          value={templateForm.button_text_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, button_text_color: e.target.value })}
+                          placeholder="#ffffff"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div>
                       <Label>Gomb színe</Label>
                       <div className="flex gap-2">
                         <Input
@@ -654,6 +682,22 @@ const NewsletterManagement = () => {
                         <Input
                           value={templateForm.button_color}
                           onChange={(e) => setTemplateForm({ ...templateForm, button_color: e.target.value })}
+                          placeholder="#0ea5e9"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <Label>Gomb árnyékának színe</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type="color"
+                          value={templateForm.button_shadow_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, button_shadow_color: e.target.value })}
+                          className="w-20 h-10"
+                        />
+                        <Input
+                          value={templateForm.button_shadow_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, button_shadow_color: e.target.value })}
                           placeholder="#0ea5e9"
                         />
                       </div>

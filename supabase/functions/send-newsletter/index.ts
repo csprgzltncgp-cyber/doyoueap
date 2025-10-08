@@ -19,7 +19,9 @@ interface NewsletterTemplate {
   footer_company: string;
   footer_address: string | null;
   button_text: string;
+  button_text_color: string;
   button_color: string;
+  button_shadow_color: string;
   primary_color: string;
   background_color: string;
   greeting_text: string;
@@ -247,14 +249,14 @@ const createNewsletterHTML = (
       .cta-button {
         display: inline-block;
         background: ${buttonBg};
-        color: white !important;
+        color: ${template.button_text_color} !important;
         text-decoration: none !important;
         padding: 14px 32px;
         border-radius: 8px;
         font-weight: 600;
         font-size: 16px;
         margin: 20px 0;
-        box-shadow: 0 4px 12px ${template.header_color}4D;
+        box-shadow: 0 4px 12px ${template.button_shadow_color}4D;
         border: none !important;
       }
       
