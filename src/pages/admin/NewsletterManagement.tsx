@@ -1101,9 +1101,12 @@ const NewsletterManagement = () => {
                 <div>
                   <Label>Copyright szöveg</Label>
                   <Input
-                    value={templateForm.footer_copyright_text}
-                    onChange={(e) => setTemplateForm({ ...templateForm, footer_copyright_text: e.target.value })}
-                    placeholder="© 2025 Az EAP világ vezető szakfolyóirata. Minden jog fenntartva."
+                    value={templateForm.footer_copyright_text || ""}
+                    onChange={(e) => {
+                      console.log("Copyright text changing to:", e.target.value);
+                      setTemplateForm({ ...templateForm, footer_copyright_text: e.target.value });
+                    }}
+                    placeholder="© 2025 Az EAP-világ vezető szakfolyóirata. Minden jog fenntartva."
                   />
                 </div>
                 <div>
