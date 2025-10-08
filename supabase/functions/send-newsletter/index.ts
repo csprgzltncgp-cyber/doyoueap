@@ -24,7 +24,8 @@ interface NewsletterTemplate {
   footer_links: FooterLink[];
   header_color: string;
   footer_color: string;
-  header_gradient: string | null;
+  header_gradient_1: string | null;
+  header_gradient_2: string | null;
   footer_gradient: string | null;
   sender_email: string;
   sender_name: string;
@@ -94,8 +95,8 @@ const createNewsletterHTML = (
   const extraFormattedContent = extraContent ? formatContent(extraContent) : null;
   
   // Use header_color_1 for logo section, header_color_2 for title section
-  const logoSectionBg = template.header_gradient || template.header_color_1 || template.header_color;
-  const titleSectionBg = template.header_color_2 || template.header_color;
+  const logoSectionBg = template.header_gradient_1 || template.header_color_1 || template.header_color;
+  const titleSectionBg = template.header_gradient_2 || template.header_color_2 || template.header_color;
   const footerBg = template.footer_gradient || template.footer_color;
   const logoUrl = template.logo_url;
   const featuredImageUrl = template.featured_image_url;
