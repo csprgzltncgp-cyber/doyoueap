@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Download, Eye, Shield, Activity, Target, Users, TrendingUp, Presentation } from "lucide-react";
+import { Download, Eye, Shield, Activity, Target, Users, TrendingUp, Presentation, RefreshCw } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, BarChart, Bar, XAxis, YAxis, RadialBarChart, RadialBar, Legend } from "recharts";
 import { formatAuditName } from "@/lib/auditUtils";
@@ -53,6 +53,28 @@ const Reports = () => {
   useEffect(() => {
     if (selectedAuditId) {
       fetchResponses();
+      
+      // Set up real-time subscription for new responses
+      const channel = supabase
+        .channel('audit_responses_changes')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'audit_responses',
+            filter: `audit_id=eq.${selectedAuditId}`
+          },
+          (payload) => {
+            console.log('Response updated:', payload);
+            fetchResponses(); // Refresh responses when there's a change
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
     }
   }, [selectedAuditId]);
 
@@ -306,6 +328,16 @@ const Reports = () => {
                   A program átfogó mutatói: igénybevétel, elégedettség és részvétel
                 </p>
               </div>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => fetchResponses()}
+                disabled={loadingResponses}
+                className="gap-2"
+              >
+                <RefreshCw className={`h-4 w-4 ${loadingResponses ? 'animate-spin' : ''}`} />
+                Frissítés
+              </Button>
             </div>
             {audits.length > 0 && (
               <div className="w-full md:max-w-[300px] md:ml-auto">
