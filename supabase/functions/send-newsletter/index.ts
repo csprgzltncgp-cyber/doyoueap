@@ -8,22 +8,62 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+interface NewsletterTemplate {
+  header_title: string;
+  header_subtitle: string | null;
+  footer_text: string;
+  footer_company: string;
+  footer_address: string | null;
+  button_text: string;
+  button_color: string;
+  primary_color: string;
+  background_color: string;
+}
+
 interface NewsletterRequest {
   subject: string;
   content: string;
-  fromEmail: string;
   subscribers: Array<{ email: string; name: string | null }>;
   logoUrl?: string;
   featuredImageUrl?: string;
+  template: NewsletterTemplate;
 }
+
+// Simple markdown-like formatting to HTML
+const formatContent = (content: string): string => {
+  // Split by paragraphs
+  let formatted = content
+    // Bold: **text** -> <strong>text</strong>
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    // Italic: *text* -> <em>text</em>
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    // Lists: lines starting with - or *
+    .split('\n')
+    .map(line => {
+      const trimmed = line.trim();
+      if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+        return `<li>${trimmed.substring(2)}</li>`;
+      }
+      return trimmed ? `<p>${trimmed}</p>` : '';
+    })
+    .join('\n');
+
+  // Wrap consecutive <li> in <ul>
+  formatted = formatted.replace(/(<li>.*<\/li>\n?)+/g, match => `<ul>${match}</ul>`);
+  
+  return formatted;
+};
 
 const createNewsletterHTML = (
   recipientName: string | null, 
   content: string, 
   subject: string,
+  template: NewsletterTemplate,
   logoUrl?: string,
   featuredImageUrl?: string
 ): string => {
+  const formattedContent = formatContent(content);
+  
   return `<!DOCTYPE html>
 <html lang="hu">
   <head>
@@ -38,7 +78,7 @@ const createNewsletterHTML = (
       
       body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        background-color: #f5f5f5;
+        background-color: ${template.background_color};
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         line-height: 1.6;
@@ -47,7 +87,7 @@ const createNewsletterHTML = (
       /* Container */
       .email-wrapper {
         width: 100%;
-        background-color: #f5f5f5;
+        background-color: ${template.background_color};
         padding: 40px 20px;
       }
       
@@ -62,7 +102,7 @@ const createNewsletterHTML = (
       
       /* Header with gradient */
       .email-header {
-        background: linear-gradient(135deg, #3572ef 0%, #3abef9 100%);
+        background: ${template.primary_color};
         padding: 0;
         text-align: center;
         position: relative;
@@ -92,6 +132,12 @@ const createNewsletterHTML = (
         letter-spacing: -0.5px;
       }
       
+      .header-subtitle {
+        color: rgba(255,255,255,0.9);
+        font-size: 16px;
+        margin-top: 8px;
+      }
+      
       /* Featured Image */
       .featured-image {
         width: 100%;
@@ -107,7 +153,7 @@ const createNewsletterHTML = (
       
       .greeting-badge {
         display: inline-block;
-        background: linear-gradient(135deg, #3572ef 0%, #3abef9 100%);
+        background: ${template.primary_color};
         color: white;
         padding: 8px 16px;
         border-radius: 20px;
@@ -125,7 +171,7 @@ const createNewsletterHTML = (
       }
       
       .email-content h3 {
-        color: #3572ef;
+        color: ${template.primary_color};
         font-size: 20px;
         margin: 28px 0 12px 0;
         font-weight: 600;
@@ -138,9 +184,10 @@ const createNewsletterHTML = (
         line-height: 1.7;
       }
       
-      .email-content ul, .email-content ol {
+      .email-content ul {
         margin: 20px 0;
         padding-left: 24px;
+        list-style-type: disc;
       }
       
       .email-content li {
@@ -155,22 +202,26 @@ const createNewsletterHTML = (
         font-weight: 600;
       }
       
+      .email-content em {
+        font-style: italic;
+      }
+      
       .email-content a {
-        color: #3572ef;
+        color: ${template.primary_color};
         text-decoration: none;
         font-weight: 500;
-        border-bottom: 2px solid rgba(53,114,239,0.3);
+        border-bottom: 2px solid ${template.primary_color}33;
         transition: border-color 0.3s;
       }
       
       .email-content a:hover {
-        border-bottom-color: #3572ef;
+        border-bottom-color: ${template.primary_color};
       }
       
       /* CTA Button */
       .cta-button {
         display: inline-block;
-        background: linear-gradient(135deg, #3572ef 0%, #3abef9 100%);
+        background: ${template.button_color};
         color: white !important;
         text-decoration: none !important;
         padding: 14px 32px;
@@ -178,7 +229,7 @@ const createNewsletterHTML = (
         font-weight: 600;
         font-size: 16px;
         margin: 20px 0;
-        box-shadow: 0 4px 12px rgba(53,114,239,0.3);
+        box-shadow: 0 4px 12px ${template.button_color}33;
         border: none !important;
       }
       
@@ -189,18 +240,9 @@ const createNewsletterHTML = (
         margin: 30px 0;
       }
       
-      /* Quote/Highlight box */
-      .highlight-box {
-        background: linear-gradient(135deg, rgba(53,114,239,0.05) 0%, rgba(58,190,249,0.05) 100%);
-        border-left: 4px solid #3572ef;
-        padding: 20px;
-        margin: 24px 0;
-        border-radius: 8px;
-      }
-      
       /* Footer */
       .email-footer {
-        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        background: #1a1a1a;
         color: #ffffff;
         padding: 40px 30px;
         text-align: center;
@@ -225,7 +267,7 @@ const createNewsletterHTML = (
       }
       
       .footer-links a {
-        color: #3abef9;
+        color: ${template.primary_color};
         text-decoration: none;
         margin: 0 12px;
         font-size: 14px;
@@ -234,23 +276,6 @@ const createNewsletterHTML = (
       
       .footer-links a:hover {
         text-decoration: underline;
-      }
-      
-      .social-links {
-        margin: 20px 0;
-      }
-      
-      .social-links a {
-        display: inline-block;
-        margin: 0 8px;
-        width: 36px;
-        height: 36px;
-        background: rgba(255,255,255,0.1);
-        border-radius: 50%;
-        line-height: 36px;
-        text-align: center;
-        color: white;
-        text-decoration: none;
       }
       
       .email-footer p {
@@ -283,15 +308,16 @@ const createNewsletterHTML = (
         <div class="email-header">
           ${logoUrl ? `
           <div class="logo-section">
-            <img src="${logoUrl}" alt="DoYouEAP" />
+            <img src="${logoUrl}" alt="${template.footer_company}" />
           </div>
           ` : `
           <div class="logo-section">
-            <h1 style="color: white; font-size: 32px; font-weight: 700; margin: 0;">doyoueap</h1>
+            <h1 style="color: white; font-size: 32px; font-weight: 700; margin: 0;">${template.header_title}</h1>
           </div>
           `}
           <div class="header-title">
             <h1>${subject}</h1>
+            ${template.header_subtitle ? `<p class="header-subtitle">${template.header_subtitle}</p>` : ''}
           </div>
         </div>
         
@@ -304,20 +330,22 @@ const createNewsletterHTML = (
         <div class="email-content">
           ${recipientName ? `<div class="greeting-badge">Kedves ${recipientName}!</div>` : '<div class="greeting-badge">Kedves Feliratkozónk!</div>'}
           
-          ${content}
+          ${formattedContent}
           
           <div class="divider"></div>
           
           <p style="text-align: center; color: #6b7280; font-size: 14px; margin-top: 30px;">
-            Ez egy automatikus üzenet. Ha bármilyen kérdése van, válaszoljon erre az emailre.
+            ${template.footer_text}
           </p>
         </div>
         
         <!-- Footer -->
         <div class="email-footer">
+          ${logoUrl ? `
           <div class="footer-logo">
-            ${logoUrl ? `<img src="${logoUrl}" alt="DoYouEAP" style="filter: brightness(0) invert(1);" />` : ''}
+            <img src="${logoUrl}" alt="${template.footer_company}" style="filter: brightness(0) invert(1);" />
           </div>
+          ` : ''}
           
           <div class="footer-links">
             <a href="https://doyoueap.com">Főoldal</a>
@@ -325,10 +353,10 @@ const createNewsletterHTML = (
             <a href="https://doyoueap.com/bemutatkozas">EAP Pulse</a>
           </div>
           
-          <p>Az EAP világ vezető szakfolyóirata</p>
-          <p>Segítünk mérni és javítani EAP programját</p>
+          <p><strong>${template.footer_company}</strong></p>
+          ${template.footer_address ? `<p>${template.footer_address}</p>` : ''}
           
-          <p class="copyright">© ${new Date().getFullYear()} doyoueap.com. Minden jog fenntartva.</p>
+          <p class="copyright">© ${new Date().getFullYear()} ${template.footer_company}. Minden jog fenntartva.</p>
           
           <p style="font-size: 11px; margin-top: 20px;">
             Ha le szeretne iratkozni hírlevelünkről, kérjük írjon nekünk.
@@ -347,9 +375,9 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { subject, content, fromEmail, subscribers, logoUrl, featuredImageUrl }: NewsletterRequest = await req.json();
+    const { subject, content, subscribers, logoUrl, featuredImageUrl, template }: NewsletterRequest = await req.json();
 
-    if (!subject || !content || !subscribers || subscribers.length === 0) {
+    if (!subject || !content || !subscribers || subscribers.length === 0 || !template) {
       return new Response(
         JSON.stringify({ error: "Missing required fields" }),
         {
@@ -359,15 +387,15 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    console.log(`Sending newsletter to ${subscribers.length} subscribers from ${fromEmail}`);
+    console.log(`Sending newsletter to ${subscribers.length} subscribers`);
 
     // Send emails to all subscribers
     const emailPromises = subscribers.map(async (subscriber) => {
-      const html = createNewsletterHTML(subscriber.name, content, subject, logoUrl, featuredImageUrl);
+      const html = createNewsletterHTML(subscriber.name, content, subject, template, logoUrl, featuredImageUrl);
 
       try {
         const emailResponse = await resend.emails.send({
-          from: `doyoueap <${fromEmail}>`,
+          from: `${template.footer_company} <noreply@doyoueap.com>`,
           to: [subscriber.email],
           subject: subject,
           html: html,

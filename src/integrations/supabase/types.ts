@@ -360,6 +360,7 @@ export type Database = {
           sent_by: string
           status: string
           subject: string
+          template_id: string | null
         }
         Insert: {
           content: string
@@ -370,6 +371,7 @@ export type Database = {
           sent_by: string
           status?: string
           subject: string
+          template_id?: string | null
         }
         Update: {
           content?: string
@@ -380,8 +382,17 @@ export type Database = {
           sent_by?: string
           status?: string
           subject?: string
+          template_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "newsletter_campaigns_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "newsletter_templates"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       newsletter_subscribers: {
         Row: {
@@ -410,6 +421,60 @@ export type Database = {
           name?: string | null
           source?: string | null
           subscribed_at?: string
+        }
+        Relationships: []
+      }
+      newsletter_templates: {
+        Row: {
+          background_color: string
+          button_color: string
+          button_text: string
+          created_at: string
+          created_by: string | null
+          footer_address: string | null
+          footer_company: string
+          footer_text: string
+          header_subtitle: string | null
+          header_title: string
+          id: string
+          is_default: boolean | null
+          name: string
+          primary_color: string
+          updated_at: string
+        }
+        Insert: {
+          background_color?: string
+          button_color?: string
+          button_text?: string
+          created_at?: string
+          created_by?: string | null
+          footer_address?: string | null
+          footer_company?: string
+          footer_text?: string
+          header_subtitle?: string | null
+          header_title?: string
+          id?: string
+          is_default?: boolean | null
+          name: string
+          primary_color?: string
+          updated_at?: string
+        }
+        Update: {
+          background_color?: string
+          button_color?: string
+          button_text?: string
+          created_at?: string
+          created_by?: string | null
+          footer_address?: string | null
+          footer_company?: string
+          footer_text?: string
+          header_subtitle?: string | null
+          header_title?: string
+          id?: string
+          is_default?: boolean | null
+          name?: string
+          primary_color?: string
+          updated_at?: string
         }
         Relationships: []
       }

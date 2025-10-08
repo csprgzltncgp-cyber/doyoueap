@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Mail, Plus, Send, Trash2, Users, Upload, X, Image as ImageIcon } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { format } from "date-fns";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from "@/components/ui/label";
+import { Plus, Send, Trash2, Upload, X, Settings } from "lucide-react";
+import * as XLSX from 'xlsx';
 
 interface Subscriber {
   id: string;
@@ -28,614 +29,631 @@ interface Campaign {
   status: string;
 }
 
-export default function NewsletterManagement() {
+interface NewsletterTemplate {
+  id: string;
+  name: string;
+  header_title: string;
+  header_subtitle: string | null;
+  footer_text: string;
+  footer_company: string;
+  footer_address: string | null;
+  button_text: string;
+  button_color: string;
+  primary_color: string;
+  background_color: string;
+  is_default: boolean;
+}
+
+const NewsletterManagement = () => {
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [sending, setSending] = useState(false);
+  const [templates, setTemplates] = useState<NewsletterTemplate[]>([]);
+  const [selectedTemplate, setSelectedTemplate] = useState<NewsletterTemplate | null>(null);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isTemplateDialogOpen, setIsTemplateDialogOpen] = useState(false);
   const [newSubscriber, setNewSubscriber] = useState({ email: "", name: "" });
-  const [newsletter, setNewsletter] = useState({ 
-    subject: "", 
-    content: `<h2>Üdvözöljük hírlevelünkben!</h2>
-
-<p>Kedves Olvasóink!</p>
-
-<div class="highlight-box">
-  <p><strong>Fontos bejelentés:</strong> Megjelent magazinunk legújabb száma!</p>
-</div>
-
-<h3>Új cikkek a The Journalist! magazinban</h3>
-
-<p>Örömmel jelentjük be, hogy megjelent magazinunk januári száma, amely számos érdekes cikket tartalmaz az EAP világából:</p>
-
-<ul>
-  <li><strong>EAP Mítoszok és Tévhitek</strong> - Tisztázzuk a leggyakoribb félreértéseket az EAP programokról</li>
-  <li><strong>ROI Számítás EAP Programokhoz</strong> - Hogyan mérjük a befektetés megtérülését?</li>
-  <li><strong>Digitális Jólét a Munkahelyen</strong> - Modern megoldások a stressz kezelésére</li>
-  <li><strong>Globális EAP Trendek 2025</strong> - Mit hoz az új év?</li>
-</ul>
-
-<p style="text-align: center;">
-  <a href="https://doyoueap.com/magazin" class="cta-button">Olvassa el most!</a>
-</p>
-
-<div class="divider"></div>
-
-<h3>EAP Pulse - Mérje programja hatékonyságát</h3>
-
-<p>Tudta, hogy az EAP Pulse segítségével <strong>60+ extra statisztikai adattal</strong> bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!</p>
-
-<p>Üdvözlettel,<br><strong>A doyoueap csapata</strong></p>`,
-    fromEmail: "noreply@doyoueap.com",
-    logoUrl: "",
-    featuredImageUrl: ""
-  });
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [newsletterSubject, setNewsletterSubject] = useState("");
+  const [newsletterContent, setNewsletterContent] = useState("");
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
-  const [featuredImageFile, setFeaturedImageFile] = useState<File | null>(null);
+  const [featuredImage, setFeaturedImage] = useState<File | null>(null);
   const [featuredImagePreview, setFeaturedImagePreview] = useState<string | null>(null);
+  const [templateForm, setTemplateForm] = useState({
+    name: "",
+    header_title: "DoYouEAP Hírlevél",
+    header_subtitle: "",
+    footer_text: "Ez egy automatikus üzenet. Kérjük, ne válaszoljon erre az emailre.",
+    footer_company: "DoYouEAP",
+    footer_address: "",
+    button_text: "Tovább a cikkhez",
+    button_color: "#0ea5e9",
+    primary_color: "#0ea5e9",
+    background_color: "#f8fafc",
+  });
 
   useEffect(() => {
     fetchSubscribers();
     fetchCampaigns();
+    fetchTemplates();
   }, []);
 
   const fetchSubscribers = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("newsletter_subscribers")
-        .select("*")
-        .eq("is_active", true)
-        .order("subscribed_at", { ascending: false });
+    const { data, error } = await supabase
+      .from("newsletter_subscribers")
+      .select("*")
+      .eq("is_active", true)
+      .order("subscribed_at", { ascending: false });
 
-      if (error) throw error;
-      setSubscribers(data || []);
-    } catch (error) {
-      console.error("Error fetching subscribers:", error);
+    if (error) {
       toast.error("Hiba a feliratkozók betöltésekor");
-    } finally {
-      setLoading(false);
+      return;
     }
+
+    setSubscribers(data || []);
   };
 
   const fetchCampaigns = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("newsletter_campaigns")
-        .select("*")
-        .order("sent_at", { ascending: false })
-        .limit(10);
+    const { data, error } = await supabase
+      .from("newsletter_campaigns")
+      .select("*")
+      .order("sent_at", { ascending: false });
 
-      if (error) throw error;
-      setCampaigns(data || []);
-    } catch (error) {
-      console.error("Error fetching campaigns:", error);
+    if (error) {
       toast.error("Hiba a kampányok betöltésekor");
+      return;
+    }
+
+    setCampaigns(data || []);
+  };
+
+  const fetchTemplates = async () => {
+    const { data, error } = await supabase
+      .from("newsletter_templates")
+      .select("*")
+      .order("is_default", { ascending: false });
+
+    if (error) {
+      toast.error("Hiba a sablonok betöltésekor");
+      return;
+    }
+
+    setTemplates(data || []);
+    const defaultTemplate = data?.find(t => t.is_default);
+    if (defaultTemplate) {
+      setSelectedTemplate(defaultTemplate);
     }
   };
 
-  const handleAddSubscriber = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const { error } = await supabase
-        .from("newsletter_subscribers")
-        .insert([{
-          email: newSubscriber.email,
-          name: newSubscriber.name || null,
-          source: 'admin'
-        }]);
-
-      if (error) throw error;
-      
-      toast.success("Feliratkozó hozzáadva!");
-      setNewSubscriber({ email: "", name: "" });
-      setDialogOpen(false);
-      fetchSubscribers();
-    } catch (error: any) {
-      console.error("Error adding subscriber:", error);
-      if (error.code === '23505') {
-        toast.error("Ez az email cím már fel van iratkozva");
-      } else {
-        toast.error("Hiba történt a feliratkozó hozzáadásakor");
-      }
+  const handleAddSubscriber = async () => {
+    if (!newSubscriber.email) {
+      toast.error("Kérem, adja meg az email címet");
+      return;
     }
+
+    const { error } = await supabase.from("newsletter_subscribers").insert({
+      email: newSubscriber.email,
+      name: newSubscriber.name || null,
+    });
+
+    if (error) {
+      toast.error("Hiba a feliratkozó hozzáadásakor");
+      return;
+    }
+
+    toast.success("Feliratkozó hozzáadva!");
+    setNewSubscriber({ email: "", name: "" });
+    setIsAddDialogOpen(false);
+    fetchSubscribers();
   };
 
   const handleDeleteSubscriber = async (id: string) => {
-    if (!confirm("Biztosan törölni szeretnéd ezt a feliratkozót?")) return;
+    if (!confirm("Biztosan törölni szeretné ezt a feliratkozót?")) return;
 
-    try {
-      const { error } = await supabase
-        .from("newsletter_subscribers")
-        .update({ is_active: false })
-        .eq("id", id);
+    const { error } = await supabase
+      .from("newsletter_subscribers")
+      .update({ is_active: false })
+      .eq("id", id);
 
-      if (error) throw error;
-      
-      toast.success("Feliratkozó törölve");
-      fetchSubscribers();
-    } catch (error) {
-      console.error("Error deleting subscriber:", error);
-      toast.error("Hiba történt a törlés során");
+    if (error) {
+      toast.error("Hiba a törlés során");
+      return;
     }
+
+    toast.success("Feliratkozó törölve!");
+    fetchSubscribers();
   };
 
   const handleExcelUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setUploading(true);
     try {
-      // Dynamically import xlsx
-      const XLSX = await import('xlsx');
-      
-      const reader = new FileReader();
-      reader.onload = async (event) => {
-        try {
-          const data = new Uint8Array(event.target?.result as ArrayBuffer);
-          const workbook = XLSX.read(data, { type: 'array' });
-          const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-          const jsonData = XLSX.utils.sheet_to_json(firstSheet) as Array<{
-            email?: string;
-            Email?: string;
-            name?: string;
-            Name?: string;
-            Név?: string;
-          }>;
+      const data = await file.arrayBuffer();
+      const workbook = XLSX.read(data);
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet) as any[];
 
-          // Process and insert subscribers
-          const subscribersToAdd = jsonData
-            .map(row => ({
-              email: (row.email || row.Email || '').trim().toLowerCase(),
-              name: (row.name || row.Name || row.Név || '').trim() || null,
-              source: 'excel_import'
-            }))
-            .filter(s => s.email && s.email.includes('@'));
+      const subscribersToAdd = jsonData
+        .filter((row: any) => row.email || row.Email)
+        .map((row: any) => ({
+          email: row.email || row.Email,
+          name: row.name || row.Name || null,
+        }));
 
-          if (subscribersToAdd.length === 0) {
-            toast.error("Nem található érvényes email cím az Excel fájlban");
-            return;
-          }
+      if (subscribersToAdd.length === 0) {
+        toast.error("Nem található email cím az Excel fájlban");
+        return;
+      }
 
-          // Insert all subscribers
-          const { data: insertedData, error } = await supabase
-            .from("newsletter_subscribers")
-            .upsert(subscribersToAdd, { 
-              onConflict: 'email',
-              ignoreDuplicates: true 
-            })
-            .select();
+      const { error } = await supabase
+        .from("newsletter_subscribers")
+        .insert(subscribersToAdd);
 
-          if (error) throw error;
+      if (error) {
+        toast.error("Hiba az importálás során");
+        return;
+      }
 
-          toast.success(`${subscribersToAdd.length} feliratkozó sikeresen feltöltve!`);
-          fetchSubscribers();
-        } catch (error: any) {
-          console.error("Error processing Excel:", error);
-          toast.error("Hiba az Excel feldolgozása közben");
-        } finally {
-          setUploading(false);
-        }
-      };
-      reader.readAsArrayBuffer(file);
+      toast.success(`${subscribersToAdd.length} feliratkozó importálva!`);
+      fetchSubscribers();
     } catch (error) {
-      console.error("Error reading file:", error);
-      toast.error("Hiba a fájl beolvasása közben");
-      setUploading(false);
+      console.error("Excel upload error:", error);
+      toast.error("Hiba az Excel feldolgozása során");
     }
   };
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        toast.error("A logo mérete maximum 2MB lehet");
-        return;
-      }
-      if (!file.type.startsWith('image/')) {
-        toast.error("Csak képfájlokat lehet feltölteni");
-        return;
-      }
-      setLogoFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setLogoPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+    if (!file) return;
+
+    setLogoFile(file);
+    const reader = new FileReader();
+    reader.onloadend = () => setLogoPreview(reader.result as string);
+    reader.readAsDataURL(file);
   };
 
   const handleFeaturedImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error("A kép mérete maximum 5MB lehet");
-        return;
-      }
-      if (!file.type.startsWith('image/')) {
-        toast.error("Csak képfájlokat lehet feltölteni");
-        return;
-      }
-      setFeaturedImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFeaturedImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+    if (!file) return;
+
+    setFeaturedImage(file);
+    const reader = new FileReader();
+    reader.onloadend = () => setFeaturedImagePreview(reader.result as string);
+    reader.readAsDataURL(file);
   };
 
-  const uploadNewsletterAsset = async (file: File, type: 'logo' | 'featured'): Promise<string> => {
+  const uploadNewsletterAsset = async (file: File, type: string): Promise<string> => {
     const fileExt = file.name.split('.').pop();
-    const fileName = `${type}-${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
-    
+    const fileName = `${type}-${Date.now()}.${fileExt}`;
+
     const { error: uploadError } = await supabase.storage
       .from('newsletter-assets')
-      .upload(fileName, file, {
-        cacheControl: '3600',
-        upsert: false
-      });
+      .upload(fileName, file);
 
     if (uploadError) throw uploadError;
 
-    const { data: { publicUrl } } = supabase.storage
+    const { data } = supabase.storage
       .from('newsletter-assets')
       .getPublicUrl(fileName);
 
-    return publicUrl;
+    return data.publicUrl;
   };
 
-  const handleSendNewsletter = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (subscribers.length === 0) {
-      toast.error("Nincs aktív feliratkozó!");
+  const handleSendNewsletter = async () => {
+    if (!newsletterSubject || !newsletterContent) {
+      toast.error("Kérem, töltse ki a tárgy és tartalom mezőket");
       return;
     }
 
-    if (!newsletter.subject || !newsletter.content) {
-      toast.error("Minden mezőt ki kell tölteni!");
+    if (!selectedTemplate) {
+      toast.error("Kérem, válasszon sablont");
       return;
     }
 
-    setSending(true);
+    const activeSubscribers = subscribers.filter(s => s.is_active);
+    if (activeSubscribers.length === 0) {
+      toast.error("Nincsenek aktív feliratkozók");
+      return;
+    }
+
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Nincs bejelentkezve");
+      let logoUrl = null;
+      let featuredImageUrl = null;
 
-      let logoUrl = newsletter.logoUrl;
-      let featuredImageUrl = newsletter.featuredImageUrl;
-
-      // Upload logo if selected
       if (logoFile) {
-        logoUrl = await uploadNewsletterAsset(logoFile, 'logo');
+        logoUrl = await uploadNewsletterAsset(logoFile, "logo");
       }
 
-      // Upload featured image if selected
-      if (featuredImageFile) {
-        featuredImageUrl = await uploadNewsletterAsset(featuredImageFile, 'featured');
+      if (featuredImage) {
+        featuredImageUrl = await uploadNewsletterAsset(featuredImage, "featured");
       }
 
-      // Call edge function to send emails
-      const { data, error } = await supabase.functions.invoke('send-newsletter', {
-        body: {
-          subject: newsletter.subject,
-          content: newsletter.content,
-          fromEmail: newsletter.fromEmail,
-          subscribers: subscribers.map(s => ({ email: s.email, name: s.name })),
-          logoUrl: logoUrl || undefined,
-          featuredImageUrl: featuredImageUrl || undefined
+      const { error: functionError } = await supabase.functions.invoke(
+        "send-newsletter",
+        {
+          body: {
+            subject: newsletterSubject,
+            content: newsletterContent,
+            subscribers: activeSubscribers,
+            logoUrl,
+            featuredImageUrl,
+            template: selectedTemplate,
+          },
         }
+      );
+
+      if (functionError) throw functionError;
+
+      const { data: userData } = await supabase.auth.getUser();
+      await supabase.from("newsletter_campaigns").insert({
+        subject: newsletterSubject,
+        content: newsletterContent,
+        recipient_count: activeSubscribers.length,
+        sent_by: userData.user?.id,
+        template_id: selectedTemplate.id,
       });
 
-      if (error) throw error;
-
-      // Save campaign to database
-      const { error: campaignError } = await supabase
-        .from("newsletter_campaigns")
-        .insert([{
-          subject: newsletter.subject,
-          content: newsletter.content,
-          sent_by: user.id,
-          recipient_count: subscribers.length,
-          status: 'sent'
-        }]);
-
-      if (campaignError) throw campaignError;
-
-      toast.success(`Hírlevél sikeresen elküldve ${subscribers.length} címzettnek!`);
-      setNewsletter({ 
-        subject: "", 
-        content: "",
-        fromEmail: "noreply@doyoueap.com",
-        logoUrl: "",
-        featuredImageUrl: ""
-      });
+      toast.success(`Hírlevél sikeresen elküldve ${activeSubscribers.length} címzettnek!`);
+      setNewsletterContent("");
       setLogoFile(null);
       setLogoPreview(null);
-      setFeaturedImageFile(null);
+      setFeaturedImage(null);
       setFeaturedImagePreview(null);
       fetchCampaigns();
     } catch (error: any) {
       console.error("Error sending newsletter:", error);
-      toast.error("Hiba történt a hírlevél küldésekor: " + (error.message || "Ismeretlen hiba"));
-    } finally {
-      setSending(false);
+      toast.error("Hiba a hírlevél küldése közben");
     }
   };
 
-  if (loading) {
-    return <div className="p-6">Betöltés...</div>;
-  }
+  const handleSaveTemplate = async () => {
+    if (!templateForm.name) {
+      toast.error("Kérem, adja meg a sablon nevét");
+      return;
+    }
+
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      const { data, error } = await supabase
+        .from("newsletter_templates")
+        .insert({
+          ...templateForm,
+          created_by: userData.user?.id,
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      toast.success("Sablon sikeresen mentve!");
+      setIsTemplateDialogOpen(false);
+      setTemplateForm({
+        name: "",
+        header_title: "DoYouEAP Hírlevél",
+        header_subtitle: "",
+        footer_text: "Ez egy automatikus üzenet. Kérjük, ne válaszoljon erre az emailre.",
+        footer_company: "DoYouEAP",
+        footer_address: "",
+        button_text: "Tovább a cikkhez",
+        button_color: "#0ea5e9",
+        primary_color: "#0ea5e9",
+        background_color: "#f8fafc",
+      });
+      fetchTemplates();
+    } catch (error: any) {
+      console.error("Error saving template:", error);
+      toast.error("Hiba a sablon mentésekor");
+    }
+  };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="container mx-auto py-8 space-y-8">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Hírlevél kezelés</h1>
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 px-4 py-2 bg-muted rounded-lg">
-            <Users className="h-4 w-4" />
-            <span className="font-medium">{subscribers.length} feliratkozó</span>
-          </div>
-        </div>
+        <Dialog open={isTemplateDialogOpen} onOpenChange={setIsTemplateDialogOpen}>
+          <DialogTrigger asChild>
+            <Button variant="outline">
+              <Settings className="mr-2 h-4 w-4" />
+              Sablon kezelés
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Hírlevél sablon szerkesztése</DialogTitle>
+            </DialogHeader>
+            <Tabs defaultValue="content" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="content">Tartalom</TabsTrigger>
+                <TabsTrigger value="style">Stílus</TabsTrigger>
+                <TabsTrigger value="footer">Lábléc</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="content" className="space-y-4">
+                <div>
+                  <Label>Sablon neve</Label>
+                  <Input
+                    value={templateForm.name}
+                    onChange={(e) => setTemplateForm({ ...templateForm, name: e.target.value })}
+                    placeholder="pl. Alap sablon"
+                  />
+                </div>
+                <div>
+                  <Label>Fejléc cím</Label>
+                  <Input
+                    value={templateForm.header_title}
+                    onChange={(e) => setTemplateForm({ ...templateForm, header_title: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label>Fejléc alcím (opcionális)</Label>
+                  <Input
+                    value={templateForm.header_subtitle}
+                    onChange={(e) => setTemplateForm({ ...templateForm, header_subtitle: e.target.value })}
+                    placeholder="pl. Hírek és információk"
+                  />
+                </div>
+                <div>
+                  <Label>Gomb szövege</Label>
+                  <Input
+                    value={templateForm.button_text}
+                    onChange={(e) => setTemplateForm({ ...templateForm, button_text: e.target.value })}
+                  />
+                </div>
+              </TabsContent>
+
+              <TabsContent value="style" className="space-y-4">
+                <div>
+                  <Label>Elsődleges szín</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      type="color"
+                      value={templateForm.primary_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, primary_color: e.target.value })}
+                      className="w-20 h-10"
+                    />
+                    <Input
+                      value={templateForm.primary_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, primary_color: e.target.value })}
+                      placeholder="#0ea5e9"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label>Gomb színe</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      type="color"
+                      value={templateForm.button_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, button_color: e.target.value })}
+                      className="w-20 h-10"
+                    />
+                    <Input
+                      value={templateForm.button_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, button_color: e.target.value })}
+                      placeholder="#0ea5e9"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label>Háttérszín</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      type="color"
+                      value={templateForm.background_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, background_color: e.target.value })}
+                      className="w-20 h-10"
+                    />
+                    <Input
+                      value={templateForm.background_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, background_color: e.target.value })}
+                      placeholder="#f8fafc"
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="footer" className="space-y-4">
+                <div>
+                  <Label>Lábléc szöveg</Label>
+                  <Textarea
+                    value={templateForm.footer_text}
+                    onChange={(e) => setTemplateForm({ ...templateForm, footer_text: e.target.value })}
+                    rows={2}
+                  />
+                </div>
+                <div>
+                  <Label>Cégnév</Label>
+                  <Input
+                    value={templateForm.footer_company}
+                    onChange={(e) => setTemplateForm({ ...templateForm, footer_company: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label>Cím (opcionális)</Label>
+                  <Input
+                    value={templateForm.footer_address}
+                    onChange={(e) => setTemplateForm({ ...templateForm, footer_address: e.target.value })}
+                    placeholder="pl. 1234 Budapest, Példa utca 1."
+                  />
+                </div>
+              </TabsContent>
+            </Tabs>
+            <div className="flex justify-end gap-2 pt-4">
+              <Button variant="outline" onClick={() => setIsTemplateDialogOpen(false)}>
+                Mégse
+              </Button>
+              <Button onClick={handleSaveTemplate}>Sablon mentése</Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
 
-      {/* Send Newsletter Card */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Mail className="h-5 w-5" />
-            Új hírlevél küldése
-          </CardTitle>
-          <CardDescription>
-            Küldjön hírleveleket az összes aktív feliratkozónak
-          </CardDescription>
+          <CardTitle>Hírlevél küldése</CardTitle>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSendNewsletter} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="fromEmail">Feladó email*</Label>
-              <Input
-                id="fromEmail"
-                type="email"
-                value={newsletter.fromEmail}
-                onChange={(e) => setNewsletter({ ...newsletter, fromEmail: e.target.value })}
-                placeholder="noreply@doyoueap.com"
-                required
-              />
-              <p className="text-xs text-muted-foreground">
-                A hírlevél feladója (pl. noreply@doyoueap.com vagy info@doyoueap.com)
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <CardContent className="space-y-4">
+          <div>
+            <Label>Sablon kiválasztása</Label>
+            <select
+              className="w-full p-2 border rounded-md"
+              value={selectedTemplate?.id || ""}
+              onChange={(e) => {
+                const template = templates.find(t => t.id === e.target.value);
+                setSelectedTemplate(template || null);
+              }}
+            >
+              <option value="">Válasszon sablont...</option>
+              {templates.map((template) => (
+                <option key={template.id} value={template.id}>
+                  {template.name} {template.is_default && "(Alapértelmezett)"}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <Label>Tárgy</Label>
+            <Input
+              value={newsletterSubject}
+              onChange={(e) => setNewsletterSubject(e.target.value)}
+              placeholder="Hírlevél tárgya..."
+            />
+          </div>
+
+          <div>
+            <Label>Tartalom</Label>
+            <Textarea
+              value={newsletterContent}
+              onChange={(e) => setNewsletterContent(e.target.value)}
+              placeholder="Írja ide a hírlevél tartalmát... Használjon egyszerű formázást: **félkövér**, *dőlt*, - lista"
+              rows={10}
+            />
+            <p className="text-sm text-muted-foreground mt-1">
+              Egyszerű formázás: **félkövér**, *dőlt*, új sor = új bekezdés
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label>Logo (opcionális)</Label>
               <div className="space-y-2">
-                <Label htmlFor="logo">Logo (opcionális)</Label>
-                <div className="space-y-2">
-                  {logoPreview ? (
-                    <div className="relative">
-                      <img src={logoPreview} alt="Logo előnézet" className="w-full h-32 object-contain bg-gray-100 rounded" />
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="icon"
-                        className="absolute top-2 right-2"
-                        onClick={() => {
-                          setLogoFile(null);
-                          setLogoPreview(null);
-                          setNewsletter({ ...newsletter, logoUrl: "" });
-                        }}
-                      >
-                        <X className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ) : newsletter.logoUrl ? (
-                    <div className="relative">
-                      <img src={newsletter.logoUrl} alt="Logo" className="w-full h-32 object-contain bg-gray-100 rounded" />
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="icon"
-                        className="absolute top-2 right-2"
-                        onClick={() => setNewsletter({ ...newsletter, logoUrl: "" })}
-                      >
-                        <X className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ) : null}
-                  <Button type="button" variant="outline" className="w-full" asChild>
-                    <label className="cursor-pointer">
-                      <ImageIcon className="mr-2 h-4 w-4" />
-                      Logo feltöltése
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleLogoChange}
-                        className="hidden"
-                      />
-                    </label>
-                  </Button>
-                  <Input
-                    id="logoUrl"
-                    type="url"
-                    value={newsletter.logoUrl}
-                    onChange={(e) => setNewsletter({ ...newsletter, logoUrl: e.target.value })}
-                    placeholder="vagy URL: https://example.com/logo.png"
-                  />
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Ajánlott méret: 180x60px, max 2MB
-                </p>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="featuredImage">Kiemelt kép (opcionális)</Label>
-                <div className="space-y-2">
-                  {featuredImagePreview ? (
-                    <div className="relative">
-                      <img src={featuredImagePreview} alt="Kiemelt kép előnézet" className="w-full h-32 object-cover rounded" />
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="icon"
-                        className="absolute top-2 right-2"
-                        onClick={() => {
-                          setFeaturedImageFile(null);
-                          setFeaturedImagePreview(null);
-                          setNewsletter({ ...newsletter, featuredImageUrl: "" });
-                        }}
-                      >
-                        <X className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ) : newsletter.featuredImageUrl ? (
-                    <div className="relative">
-                      <img src={newsletter.featuredImageUrl} alt="Kiemelt kép" className="w-full h-32 object-cover rounded" />
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="icon"
-                        className="absolute top-2 right-2"
-                        onClick={() => setNewsletter({ ...newsletter, featuredImageUrl: "" })}
-                      >
-                        <X className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ) : null}
-                  <Button type="button" variant="outline" className="w-full" asChild>
-                    <label className="cursor-pointer">
-                      <ImageIcon className="mr-2 h-4 w-4" />
-                      Kiemelt kép feltöltése
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFeaturedImageChange}
-                        className="hidden"
-                      />
-                    </label>
-                  </Button>
-                  <Input
-                    id="featuredImageUrl"
-                    type="url"
-                    value={newsletter.featuredImageUrl}
-                    onChange={(e) => setNewsletter({ ...newsletter, featuredImageUrl: e.target.value })}
-                    placeholder="vagy URL: https://example.com/image.jpg"
-                  />
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Ajánlott méret: 600x300px, max 5MB
-                </p>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleLogoChange}
+                  className="block w-full text-sm"
+                />
+                {logoPreview && (
+                  <div className="relative">
+                    <img src={logoPreview} alt="Logo előnézet" className="h-20 object-contain" />
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-0 right-0"
+                      onClick={() => {
+                        setLogoFile(null);
+                        setLogoPreview(null);
+                      }}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="subject">Tárgy*</Label>
-              <Input
-                id="subject"
-                value={newsletter.subject}
-                onChange={(e) => setNewsletter({ ...newsletter, subject: e.target.value })}
-                placeholder="pl. Új cikkeink januárban"
-                required
-              />
+
+            <div>
+              <Label>Kiemelt kép (opcionális)</Label>
+              <div className="space-y-2">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFeaturedImageChange}
+                  className="block w-full text-sm"
+                />
+                {featuredImagePreview && (
+                  <div className="relative">
+                    <img src={featuredImagePreview} alt="Kép előnézet" className="h-20 object-contain" />
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-0 right-0"
+                      onClick={() => {
+                        setFeaturedImage(null);
+                        setFeaturedImagePreview(null);
+                      }}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="content">Üzenet (HTML)*</Label>
-              <Textarea
-                id="content"
-                value={newsletter.content}
-                onChange={(e) => setNewsletter({ ...newsletter, content: e.target.value })}
-                rows={15}
-                placeholder="HTML tartalom a hírlevélhez..."
-                required
-                className="font-mono text-sm"
-              />
-              <p className="text-xs text-muted-foreground">
-                <strong>HTML formázási lehetőségek:</strong><br/>
-                • Címsorok: &lt;h2&gt;, &lt;h3&gt;<br/>
-                • Bekezdés: &lt;p&gt;<br/>
-                • Felsorolás: &lt;ul&gt;&lt;li&gt;Elem&lt;/li&gt;&lt;/ul&gt;<br/>
-                • Vastag szöveg: &lt;strong&gt;Szöveg&lt;/strong&gt;<br/>
-                • Link: &lt;a href="URL"&gt;Szöveg&lt;/a&gt;<br/>
-                • Gomb: &lt;a href="URL" class="cta-button"&gt;Kattints!&lt;/a&gt;<br/>
-                • Kiemelő doboz: &lt;div class="highlight-box"&gt;&lt;p&gt;Szöveg&lt;/p&gt;&lt;/div&gt;<br/>
-                • Elválasztó: &lt;div class="divider"&gt;&lt;/div&gt;
-              </p>
-            </div>
-            <Button type="submit" disabled={sending || subscribers.length === 0}>
-              {sending ? (
-                <>Küldés folyamatban...</>
-              ) : (
-                <>
-                  <Send className="mr-2 h-4 w-4" />
-                  Hírlevél küldése ({subscribers.length} címzett)
-                </>
-              )}
-            </Button>
-          </form>
+          </div>
+
+          <Button onClick={handleSendNewsletter} className="w-full">
+            <Send className="mr-2 h-4 w-4" />
+            Hírlevél küldése ({subscribers.length} címzett)
+          </Button>
         </CardContent>
       </Card>
 
-      {/* Subscribers Management */}
       <Card>
         <CardHeader>
-            <div className="flex justify-between items-center">
-              <div>
-                <CardTitle>Feliratkozók</CardTitle>
-                <CardDescription>Kezelheti a hírlevél feliratkozóit</CardDescription>
-              </div>
-              <div className="flex gap-2">
-                <Button variant="outline" disabled={uploading} asChild>
-                  <label className="cursor-pointer">
-                    <Upload className="mr-2 h-4 w-4" />
-                    {uploading ? "Feltöltés..." : "Excel feltöltés"}
-                    <input
-                      type="file"
-                      accept=".xlsx,.xls"
-                      onChange={handleExcelUpload}
-                      className="hidden"
-                    />
-                  </label>
-                </Button>
-                <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                  <DialogTrigger asChild>
-                    <Button>
-                      <Plus className="mr-2 h-4 w-4" />
-                      Új feliratkozó
+          <div className="flex justify-between items-center">
+            <CardTitle>Feliratkozók ({subscribers.length})</CardTitle>
+            <div className="flex gap-2">
+              <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button>
+                    <Plus className="mr-2 h-4 w-4" />
+                    Új feliratkozó
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Új feliratkozó hozzáadása</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <div>
+                      <Label>Email cím *</Label>
+                      <Input
+                        type="email"
+                        value={newSubscriber.email}
+                        onChange={(e) => setNewSubscriber({ ...newSubscriber, email: e.target.value })}
+                        placeholder="email@example.com"
+                      />
+                    </div>
+                    <div>
+                      <Label>Név (opcionális)</Label>
+                      <Input
+                        value={newSubscriber.name}
+                        onChange={(e) => setNewSubscriber({ ...newSubscriber, name: e.target.value })}
+                        placeholder="Teljes név"
+                      />
+                    </div>
+                    <Button onClick={handleAddSubscriber} className="w-full">
+                      Hozzáadás
                     </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Új feliratkozó hozzáadása</DialogTitle>
-                    </DialogHeader>
-                    <form onSubmit={handleAddSubscriber} className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="email">Email cím*</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          value={newSubscriber.email}
-                          onChange={(e) => setNewSubscriber({ ...newSubscriber, email: e.target.value })}
-                          required
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="name">Név</Label>
-                        <Input
-                          id="name"
-                          value={newSubscriber.name}
-                          onChange={(e) => setNewSubscriber({ ...newSubscriber, name: e.target.value })}
-                        />
-                      </div>
-                      <div className="flex gap-2 justify-end">
-                        <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
-                          Mégse
-                        </Button>
-                        <Button type="submit">Hozzáadás</Button>
-                      </div>
-                    </form>
-                  </DialogContent>
-                </Dialog>
-              </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+
+              <Button variant="outline">
+                <Upload className="mr-2 h-4 w-4" />
+                <label className="cursor-pointer">
+                  Excel import
+                  <input
+                    type="file"
+                    accept=".xlsx,.xls"
+                    onChange={handleExcelUpload}
+                    className="hidden"
+                  />
+                </label>
+              </Button>
             </div>
+          </div>
         </CardHeader>
         <CardContent>
           <Table>
@@ -644,18 +662,16 @@ export default function NewsletterManagement() {
                 <TableHead>Email</TableHead>
                 <TableHead>Név</TableHead>
                 <TableHead>Feliratkozás dátuma</TableHead>
-                <TableHead>Forrás</TableHead>
-                <TableHead className="text-right">Műveletek</TableHead>
+                <TableHead>Műveletek</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {subscribers.map((subscriber) => (
                 <TableRow key={subscriber.id}>
-                  <TableCell className="font-medium">{subscriber.email}</TableCell>
-                  <TableCell>{subscriber.name || '-'}</TableCell>
-                  <TableCell>{format(new Date(subscriber.subscribed_at), 'yyyy.MM.dd')}</TableCell>
-                  <TableCell>{subscriber.is_active ? 'Aktív' : 'Inaktív'}</TableCell>
-                  <TableCell className="text-right">
+                  <TableCell>{subscriber.email}</TableCell>
+                  <TableCell>{subscriber.name || "-"}</TableCell>
+                  <TableCell>{new Date(subscriber.subscribed_at).toLocaleDateString()}</TableCell>
+                  <TableCell>
                     <Button
                       variant="ghost"
                       size="sm"
@@ -671,18 +687,16 @@ export default function NewsletterManagement() {
         </CardContent>
       </Card>
 
-      {/* Campaign History */}
       <Card>
         <CardHeader>
-          <CardTitle>Küldési előzmények</CardTitle>
-          <CardDescription>Az utoljára küldött hírlevelek</CardDescription>
+          <CardTitle>Kampány előzmények</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Tárgy</TableHead>
-                <TableHead>Küldés dátuma</TableHead>
+                <TableHead>Küldés ideje</TableHead>
                 <TableHead>Címzettek</TableHead>
                 <TableHead>Státusz</TableHead>
               </TableRow>
@@ -690,14 +704,10 @@ export default function NewsletterManagement() {
             <TableBody>
               {campaigns.map((campaign) => (
                 <TableRow key={campaign.id}>
-                  <TableCell className="font-medium">{campaign.subject}</TableCell>
-                  <TableCell>{format(new Date(campaign.sent_at), 'yyyy.MM.dd HH:mm')}</TableCell>
+                  <TableCell>{campaign.subject}</TableCell>
+                  <TableCell>{new Date(campaign.sent_at).toLocaleString()}</TableCell>
                   <TableCell>{campaign.recipient_count}</TableCell>
-                  <TableCell>
-                    <span className="px-2 py-1 rounded text-xs bg-green-100 text-green-800">
-                      {campaign.status}
-                    </span>
-                  </TableCell>
+                  <TableCell>{campaign.status}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -706,4 +716,6 @@ export default function NewsletterManagement() {
       </Card>
     </div>
   );
-}
+};
+
+export default NewsletterManagement;
