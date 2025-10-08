@@ -55,6 +55,8 @@ interface NewsletterTemplate {
   extra_button_shadow_color?: string;
   extra_button_url?: string | null;
   show_extra_button?: boolean;
+  footer_copyright_text?: string;
+  footer_copyright_color?: string;
 }
 
 interface NewsletterRequest {
@@ -471,7 +473,7 @@ const createNewsletterHTML = (
           <p><strong>${template.footer_company}</strong></p>
           ${template.footer_address ? `<p>${template.footer_address}</p>` : ''}
           
-          <p class="copyright">© ${new Date().getFullYear()} Az EAP világ vezető szakfolyóirata. Minden jog fenntartva.</p>
+          <p class="copyright" style="color: ${template.footer_copyright_color || '#ffffff'};">${template.footer_copyright_text || `© ${new Date().getFullYear()} Az EAP-világ vezető szakfolyóirata. Minden jog fenntartva.`}</p>
           
           <p style="font-size: 11px; margin-top: 20px;">
             Ha le szeretne iratkozni hírlevelünkről, <a href="mailto:${template.sender_email}?subject=Leiratkozás" style="color: rgba(255,255,255,0.8); text-decoration: underline;">kattintson ide</a>.

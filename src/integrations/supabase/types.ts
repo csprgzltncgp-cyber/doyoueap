@@ -450,6 +450,8 @@ export type Database = {
           footer_address: string | null
           footer_color: string
           footer_company: string
+          footer_copyright_color: string | null
+          footer_copyright_text: string | null
           footer_gradient: string | null
           footer_link_color: string
           footer_links: Json | null
@@ -501,6 +503,8 @@ export type Database = {
           footer_address?: string | null
           footer_color?: string
           footer_company?: string
+          footer_copyright_color?: string | null
+          footer_copyright_text?: string | null
           footer_gradient?: string | null
           footer_link_color?: string
           footer_links?: Json | null
@@ -552,6 +556,8 @@ export type Database = {
           footer_address?: string | null
           footer_color?: string
           footer_company?: string
+          footer_copyright_color?: string | null
+          footer_copyright_text?: string | null
           footer_gradient?: string | null
           footer_link_color?: string
           footer_links?: Json | null

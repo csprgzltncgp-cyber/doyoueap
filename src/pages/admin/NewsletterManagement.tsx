@@ -1099,6 +1099,30 @@ const NewsletterManagement = () => {
                   />
                 </div>
                 <div>
+                  <Label>Copyright szövege</Label>
+                  <Input
+                    value={templateForm.footer_copyright_text}
+                    onChange={(e) => setTemplateForm({ ...templateForm, footer_copyright_text: e.target.value })}
+                    placeholder="© 2025 Az EAP-világ vezető szakfolyóirata. Minden jog fenntartva."
+                  />
+                </div>
+                <div>
+                  <Label>Copyright szöveg színe</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      type="color"
+                      value={templateForm.footer_copyright_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, footer_copyright_color: e.target.value })}
+                      className="w-20 h-10"
+                    />
+                    <Input
+                      value={templateForm.footer_copyright_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, footer_copyright_color: e.target.value })}
+                      placeholder="#ffffff"
+                    />
+                  </div>
+                </div>
+                <div>
                   <Label>Lábléc link szövegek színe</Label>
                   <div className="flex gap-2">
                     <Input
