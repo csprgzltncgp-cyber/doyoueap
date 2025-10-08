@@ -91,8 +91,7 @@ const Bemutatkozas = () => {
               Kezdje el most
             </Button>
             <Button size="lg" variant="outline" onClick={() => {
-              const element = document.getElementById('learn-more');
-              element?.scrollIntoView({ behavior: 'smooth' });
+              window.location.href = 'mailto:info@doyoueap.com';
             }}>
               Tudjon meg többet
             </Button>
