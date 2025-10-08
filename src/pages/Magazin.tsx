@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Clock, User, TrendingUp, Calendar, ChevronRight } from 'lucide-react';
 import logo from '@/assets/logo.png';
-import journalistLogo from '@/assets/thejournalist_logo.png';
+import journalistLogo from '@/assets/thejournalist_logo_2.png';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
