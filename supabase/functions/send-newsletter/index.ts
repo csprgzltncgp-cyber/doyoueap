@@ -391,7 +391,7 @@ const createNewsletterHTML = (
           
           ${template.show_cta_button && template.cta_button_url ? `
           <div style="text-align: center; margin: 30px 0;">
-            <a href="${template.cta_button_url}" class="cta-button">${template.button_text}</a>
+            <a href="${template.cta_button_url}" class="cta-button" style="display: inline-block; background: ${buttonBg}; color: ${template.button_text_color} !important; text-decoration: none !important; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; margin: 20px 0; box-shadow: 0 4px 12px ${template.button_shadow_color}4D; border: none !important;">${template.button_text}</a>
           </div>
           ` : ''}
           
