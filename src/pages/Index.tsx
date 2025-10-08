@@ -942,7 +942,10 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <h3 className="font-bold mb-4">doyoueap</h3>
+              <h3 className="font-bold mb-4 cursor-pointer hover:text-primary transition-colors" onClick={() => {
+                navigate('/');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}>doyoueap</h3>
               <p className="text-sm text-muted-foreground">
                 EAP Pulse platform a dolgozói jóllét méréséhez
               </p>
@@ -950,24 +953,81 @@ const Index = () => {
             <div>
               <h4 className="font-medium mb-4">Platform</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#pulse" className="hover:text-foreground">Mi az EAP Pulse?</a></li>
-                <li><a href="#elonyok" className="hover:text-foreground">Előnyök</a></li>
-                <li><a href="#arak" className="hover:text-foreground">Árak</a></li>
+                <li>
+                  <button onClick={() => navigate('/bemutatkozas')} className="hover:text-foreground transition-colors">
+                    Bemutatkozás
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => navigate('/arak')} className="hover:text-foreground transition-colors">
+                    Árak és Csomagok
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => {
+                    navigate('/');
+                    setTimeout(() => {
+                      const element = document.getElementById('4score');
+                      element?.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }} className="hover:text-foreground transition-colors">
+                    4Score Módszertan
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => navigate('/auth')} className="hover:text-foreground transition-colors">
+                    Bejelentkezés
+                  </button>
+                </li>
               </ul>
             </div>
             <div>
               <h4 className="font-medium mb-4">The EAP Journalist!</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#magazin" className="hover:text-foreground">Hírek</a></li>
-                <li><a href="#magazin" className="hover:text-foreground">Elemzések</a></li>
-                <li><a href="#magazin" className="hover:text-foreground">Interjúk</a></li>
+                <li>
+                  <button onClick={() => navigate('/magazin')} className="hover:text-foreground transition-colors">
+                    Magazin
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => {
+                    navigate('/magazin');
+                    setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+                  }} className="hover:text-foreground transition-colors">
+                    Alapok
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => {
+                    navigate('/magazin');
+                    setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+                  }} className="hover:text-foreground transition-colors">
+                    Hatékonyság
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => {
+                    navigate('/magazin');
+                    setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+                  }} className="hover:text-foreground transition-colors">
+                    Jövő
+                  </button>
+                </li>
               </ul>
             </div>
             <div>
               <h4 className="font-medium mb-4">Kapcsolat</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>info@doyoueap.hu</li>
-                <li>+36 1 234 5678</li>
+                <li>
+                  <a href="mailto:info@doyoueap.com" className="hover:text-foreground transition-colors">
+                    info@doyoueap.com
+                  </a>
+                </li>
+                <li>
+                  <button onClick={() => window.location.href = 'mailto:info@doyoueap.com'} className="hover:text-foreground transition-colors">
+                    Kapcsolatfelvétel
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
