@@ -57,6 +57,8 @@ interface NewsletterTemplate {
   cta_button_url: string | null;
   show_cta_button: boolean;
   extra_content: string | null;
+  sender_email: string;
+  sender_name: string;
 }
 
 const NewsletterManagement = () => {
@@ -95,6 +97,8 @@ const NewsletterManagement = () => {
     cta_button_url: "",
     show_cta_button: true,
     extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel,\nA doyoueap csapata",
+    sender_email: "noreply@doyoueap.com",
+    sender_name: "DoYouEAP",
   });
 
   useEffect(() => {
@@ -390,6 +394,8 @@ const NewsletterManagement = () => {
         cta_button_url: "",
         show_cta_button: true,
         extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel,\nA doyoueap csapata",
+        sender_email: "noreply@doyoueap.com",
+        sender_name: "DoYouEAP",
       });
       fetchTemplates();
     } catch (error: any) {
@@ -421,6 +427,8 @@ const NewsletterManagement = () => {
       cta_button_url: template.cta_button_url || "",
       show_cta_button: template.show_cta_button ?? true,
       extra_content: template.extra_content || "",
+      sender_email: template.sender_email || "noreply@doyoueap.com",
+      sender_name: template.sender_name || "DoYouEAP",
     });
     setIsTemplateDialogOpen(true);
   };
@@ -478,6 +486,8 @@ const NewsletterManagement = () => {
               cta_button_url: "",
               show_cta_button: true,
               extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel,\nA doyoueap csapata",
+              sender_email: "noreply@doyoueap.com",
+              sender_name: "DoYouEAP",
             });
           }
         }}>
@@ -506,6 +516,25 @@ const NewsletterManagement = () => {
                     onChange={(e) => setTemplateForm({ ...templateForm, name: e.target.value })}
                     placeholder="pl. Alap sablon"
                   />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label>Feladó név *</Label>
+                    <Input
+                      value={templateForm.sender_name}
+                      onChange={(e) => setTemplateForm({ ...templateForm, sender_name: e.target.value })}
+                      placeholder="pl. DoYouEAP"
+                    />
+                  </div>
+                  <div>
+                    <Label>Feladó email *</Label>
+                    <Input
+                      type="email"
+                      value={templateForm.sender_email}
+                      onChange={(e) => setTemplateForm({ ...templateForm, sender_email: e.target.value })}
+                      placeholder="noreply@doyoueap.com"
+                    />
+                  </div>
                 </div>
                 <div>
                   <Label>Megszólítás</Label>

@@ -33,6 +33,8 @@ interface NewsletterTemplate {
   cta_button_url: string | null;
   show_cta_button: boolean;
   extra_content: string | null;
+  sender_email: string;
+  sender_name: string;
 }
 
 interface NewsletterRequest {
@@ -440,7 +442,7 @@ const handler = async (req: Request): Promise<Response> => {
 
       try {
         const emailResponse = await resend.emails.send({
-          from: `${template.footer_company} <noreply@doyoueap.com>`,
+          from: `${template.sender_name} <${template.sender_email}>`,
           to: [subscriber.email],
           subject: subject,
           html: html,

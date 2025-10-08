@@ -449,6 +449,8 @@ export type Database = {
           is_default: boolean | null
           name: string
           primary_color: string
+          sender_email: string
+          sender_name: string
           show_cta_button: boolean | null
           updated_at: string
         }
@@ -476,6 +478,8 @@ export type Database = {
           is_default?: boolean | null
           name: string
           primary_color?: string
+          sender_email?: string
+          sender_name?: string
           show_cta_button?: boolean | null
           updated_at?: string
         }
@@ -503,6 +507,8 @@ export type Database = {
           is_default?: boolean | null
           name?: string
           primary_color?: string
+          sender_email?: string
+          sender_name?: string
           show_cta_button?: boolean | null
           updated_at?: string
         }
