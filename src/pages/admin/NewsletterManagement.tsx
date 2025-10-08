@@ -519,7 +519,23 @@ const NewsletterManagement = () => {
         extra_button_url: "",
         show_extra_button: false,
       });
-      fetchTemplates();
+      
+      // Reload templates and update selectedTemplate if it was edited
+      await fetchTemplates();
+      
+      // If we edited the currently selected template, refresh it
+      if (editingTemplateId && selectedTemplate?.id === editingTemplateId) {
+        const { data: updatedTemplate } = await supabase
+          .from("newsletter_templates")
+          .select("*")
+          .eq("id", editingTemplateId)
+          .single();
+        
+        if (updatedTemplate) {
+          setSelectedTemplate(updatedTemplate as any);
+        }
+      }
+      
       console.log("Template save completed successfully");
     } catch (error: any) {
       console.error("Error saving template:", error);
