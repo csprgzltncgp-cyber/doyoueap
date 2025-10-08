@@ -158,20 +158,26 @@ const Magazin = () => {
                 className="h-16 object-contain"
               />
             </div>
-            <div className="text-xs text-black text-center">
+            <button 
+              onClick={() => navigate('/admin')}
+              className="text-xs text-black text-center hover:text-primary transition-colors cursor-pointer"
+            >
               <span className="font-semibold">2025. JANUÁR</span>
               <span className="mx-2">•</span>
               <span>16. Szám</span>
-            </div>
+            </button>
           </div>
 
           {/* Desktop: Three column layout */}
           <div className="hidden md:flex items-center justify-between gap-8">
             {/* Left: Date and Issue */}
-            <div className="flex flex-col items-start text-sm text-black">
+            <button 
+              onClick={() => navigate('/admin')}
+              className="flex flex-col items-start text-sm text-black hover:text-primary transition-colors cursor-pointer"
+            >
               <span className="font-semibold">2025. JANUÁR</span>
               <span className="text-xs">16. Szám</span>
-            </div>
+            </button>
 
             {/* Center: Logo */}
             <div className="flex-shrink-0">
