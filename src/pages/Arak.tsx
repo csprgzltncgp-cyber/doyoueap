@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,6 +10,8 @@ import { MobileNav } from '@/components/navigation/MobileNav';
 const Arak = () => {
   const navigate = useNavigate();
   const { user, role, loading, signOut } = useAuth();
+
+  const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
 
   const packages = [
     {
@@ -60,6 +63,18 @@ const Arak = () => {
       recommended: false
     }
   ];
+
+  const handlePackageClick = (pkgName: string) => {
+    if (pkgName === 'Enterprise') {
+      window.location.href = 'mailto:info@doyoueap.com';
+    } else {
+      if (user) {
+        navigate('/?section=focus');
+      } else {
+        navigate('/auth');
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
@@ -140,7 +155,14 @@ const Arak = () => {
           {packages.map((pkg, index) => (
             <Card 
               key={index} 
-              className={`relative flex flex-col ${pkg.recommended ? 'border-[#3572ef] shadow-lg' : ''}`}
+              className={`relative flex flex-col cursor-pointer transition-all ${
+                selectedPackage === pkg.name 
+                  ? 'border-[#3572ef] shadow-xl scale-105' 
+                  : pkg.recommended 
+                    ? 'border-[#3572ef] shadow-lg' 
+                    : 'hover:shadow-md'
+              }`}
+              onClick={() => setSelectedPackage(pkg.name)}
             >
               <CardHeader className="pb-6">
                 {pkg.recommended && (
@@ -164,9 +186,12 @@ const Arak = () => {
                 <Button 
                   className={`w-full ${pkg.recommended ? 'bg-[#3572ef] hover:bg-[#3572ef]/90' : ''}`}
                   variant={pkg.recommended ? 'default' : 'outline'}
-                  onClick={() => navigate('/auth')}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePackageClick(pkg.name);
+                  }}
                 >
-                  {pkg.name === 'Enterprise' ? 'Kapcsolatfelvétel' : 'Kezdjük el'}
+                  {pkg.name === 'Enterprise' ? 'Kapcsolatfelvétel' : 'Kiválasztom'}
                 </Button>
               </CardContent>
             </Card>
@@ -213,7 +238,11 @@ const Arak = () => {
                   <p className="font-medium">Dedikált technikai támogatás</p>
                 </div>
               </div>
-              <Button className="w-full bg-[#050c9c] hover:bg-[#050c9c]/90" variant="default">
+              <Button 
+                className="w-full bg-[#050c9c] hover:bg-[#050c9c]/90" 
+                variant="default"
+                onClick={() => window.location.href = 'mailto:info@doyoueap.com'}
+              >
                 Kérj egyedi ajánlatot
               </Button>
             </CardContent>

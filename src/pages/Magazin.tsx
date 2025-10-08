@@ -112,8 +112,7 @@ const Magazin = () => {
     { id: 'Alapok', label: 'Alapok' },
     { id: 'Mérés', label: 'Mérés' },
     { id: 'Kultúra', label: 'Kultúra' },
-    { id: 'Jövő', label: 'Jövő' },
-    { id: 'EAP', label: 'EAP' }
+    { id: 'Jövő', label: 'Jövő' }
   ];
 
   const filteredArticles = activeCategory === 'all' 
@@ -206,9 +205,9 @@ const Magazin = () => {
               onClick={() => window.open('/superadmin', '_blank')}
               className="text-xs text-black text-center hover:text-primary transition-colors cursor-pointer"
             >
-              <span className="font-semibold">2025. JANUÁR</span>
+              <span className="font-semibold">2025. OKTÓBER</span>
               <span className="mx-2">•</span>
-              <span>16. Szám</span>
+              <span>1. Szám</span>
             </button>
           </div>
 
@@ -219,8 +218,8 @@ const Magazin = () => {
               onClick={() => window.open('/superadmin', '_blank')}
               className="flex flex-col items-start text-sm text-black hover:text-primary transition-colors cursor-pointer"
             >
-              <span className="font-semibold">2025. JANUÁR</span>
-              <span className="text-xs">16. Szám</span>
+              <span className="font-semibold">2025. OKTÓBER</span>
+              <span className="text-xs">1. Szám</span>
             </button>
 
             {/* Center: Logo */}
@@ -477,6 +476,10 @@ const Magazin = () => {
                     {['Alapok', 'Mérés', 'Kultúra', 'Jövő'].map((cat) => (
                       <button
                         key={cat}
+                        onClick={() => {
+                          setActiveCategory(cat);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
                         className="w-full text-left px-3 py-2 rounded-sm bg-primary/10 hover:bg-primary/15 transition-colors text-sm flex items-center justify-between group"
                       >
                         <span>{cat}</span>

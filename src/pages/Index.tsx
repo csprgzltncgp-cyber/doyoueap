@@ -589,15 +589,27 @@ const Index = () => {
 
             {/* Right: Recent Articles */}
             <div className="space-y-4">
-              {featuredArticles.map((article) => (
-                <Card key={article.id} className="hover:shadow-md transition-shadow cursor-pointer">
-                  <CardHeader>
-                    <div className="text-xs font-medium mb-1" style={{ color: 'rgb(115, 115, 115)' }}>{article.category}</div>
-                    <CardTitle className="text-lg">{article.title}</CardTitle>
-                    <CardDescription>{article.excerpt}</CardDescription>
-                  </CardHeader>
-                </Card>
-              ))}
+              <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/magazin/eap-tudasbazis-es-onsegelyseg')}>
+                <CardHeader>
+                  <div className="text-xs font-medium mb-1" style={{ color: 'rgb(115, 115, 115)' }}>Alapok</div>
+                  <CardTitle className="text-lg">EAP tudásbázis és önsegélyesség</CardTitle>
+                  <CardDescription>Hogyan működik az EAP tudásbázis és miért fontos az önsegélyesség támogatása a munkavállalók körében?</CardDescription>
+                </CardHeader>
+              </Card>
+              <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/magazin/a-jovo-eapje')}>
+                <CardHeader>
+                  <div className="text-xs font-medium mb-1" style={{ color: 'rgb(115, 115, 115)' }}>Jövő</div>
+                  <CardTitle className="text-lg">A jövő EAP-je</CardTitle>
+                  <CardDescription>Milyen újítások várhatók az EAP programokban? Mesterséges intelligencia, digitalizáció és a holisztikus megközelítés.</CardDescription>
+                </CardHeader>
+              </Card>
+              <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/magazin/az-eap-merese-es-a-4score-modszertan')}>
+                <CardHeader>
+                  <div className="text-xs font-medium mb-1" style={{ color: 'rgb(115, 115, 115)' }}>Mérés</div>
+                  <CardTitle className="text-lg">Az EAP mérése és a 4Score módszertan</CardTitle>
+                  <CardDescription>Ismertség, bizalom, használat és hatás – a négy dimenzió, amely átfogó képet ad az EAP program hatékonyságáról.</CardDescription>
+                </CardHeader>
+              </Card>
             </div>
           </div>
         </div>
@@ -744,7 +756,7 @@ const Index = () => {
                     <p className="font-medium">Email támogatás</p>
                   </div>
                 </div>
-                <Button className="w-full" variant="outline" onClick={() => navigate('/auth')}>
+                <Button className="w-full" variant="outline" onClick={() => navigate('/arak')}>
                   Kezdjük el
                 </Button>
               </CardContent>
@@ -845,7 +857,7 @@ const Index = () => {
                     <p className="font-medium">Oktatás és tanácsadás</p>
                   </div>
                 </div>
-                <Button className="w-full" variant="outline" onClick={() => navigate('/auth')}>
+                <Button className="w-full" variant="outline" onClick={() => window.location.href = 'mailto:info@doyoueap.com'}>
                   Kapcsolatfelvétel
                 </Button>
               </CardContent>
@@ -892,7 +904,7 @@ const Index = () => {
                     <p className="font-medium">Dedikált technikai támogatás</p>
                   </div>
                 </div>
-                <Button className="w-full" variant="cta" style={{ backgroundColor: '#050c9c' }}>
+                <Button className="w-full" variant="cta" style={{ backgroundColor: '#050c9c' }} onClick={() => window.location.href = 'mailto:info@doyoueap.com'}>
                   Kérj egyedi ajánlatot
                 </Button>
               </CardContent>
