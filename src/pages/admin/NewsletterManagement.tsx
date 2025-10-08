@@ -54,6 +54,10 @@ interface NewsletterTemplate {
   header_gradient_2?: string | null;
   greeting_text_color?: string | null;
   greeting_bg_color?: string | null;
+  content_text_color?: string | null;
+  content_text_size?: string | null;
+  extra_content_text_color?: string | null;
+  extra_content_text_size?: string | null;
   footer_gradient?: string | null;
   sender_email: string;
   sender_name: string;
@@ -116,6 +120,10 @@ const NewsletterManagement = () => {
     header_gradient_2: "",
     greeting_text_color: "#ffffff",
     greeting_bg_color: "#0ea5e9",
+    content_text_color: "#4a5568",
+    content_text_size: "16px",
+    extra_content_text_color: "#4a5568",
+    extra_content_text_size: "16px",
     footer_gradient: "",
     sender_email: "noreply@doyoueap.com",
     sender_name: "DoYouEAP",
@@ -504,6 +512,10 @@ const NewsletterManagement = () => {
         header_gradient_2: "",
         greeting_text_color: "#ffffff",
         greeting_bg_color: "#0ea5e9",
+        content_text_color: "#4a5568",
+        content_text_size: "16px",
+        extra_content_text_color: "#4a5568",
+        extra_content_text_size: "16px",
         footer_gradient: "",
         sender_email: "noreply@doyoueap.com",
         sender_name: "DoYouEAP",
@@ -567,6 +579,10 @@ const NewsletterManagement = () => {
       header_gradient_2: (template as any).header_gradient_2 || "",
       greeting_text_color: (template as any).greeting_text_color || "#ffffff",
       greeting_bg_color: (template as any).greeting_bg_color || "#0ea5e9",
+      content_text_color: (template as any).content_text_color || "#4a5568",
+      content_text_size: (template as any).content_text_size || "16px",
+      extra_content_text_color: (template as any).extra_content_text_color || "#4a5568",
+      extra_content_text_size: (template as any).extra_content_text_size || "16px",
       footer_gradient: template.footer_gradient || "",
       sender_email: template.sender_email || "noreply@doyoueap.com",
       sender_name: template.sender_name || "DoYouEAP",
@@ -642,6 +658,10 @@ const NewsletterManagement = () => {
               header_gradient_2: "",
               greeting_text_color: "#ffffff",
               greeting_bg_color: "#0ea5e9",
+              content_text_color: "#4a5568",
+              content_text_size: "16px",
+              extra_content_text_color: "#4a5568",
+              extra_content_text_size: "16px",
               footer_gradient: "",
               sender_email: "noreply@doyoueap.com",
               sender_name: "DoYouEAP",
@@ -721,6 +741,62 @@ const NewsletterManagement = () => {
                         placeholder="pl. Kedves Feliratkozónk!"
                       />
                       <p className="text-xs text-muted-foreground mt-1">Ha a címzett nevét ismerjük, automatikusan "Kedves [Név]!" lesz</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div>
+                      <Label>Tartalom szöveg színe</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type="color"
+                          value={templateForm.content_text_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, content_text_color: e.target.value })}
+                          className="w-20 h-10"
+                        />
+                        <Input
+                          value={templateForm.content_text_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, content_text_color: e.target.value })}
+                          placeholder="#4a5568"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <Label>Tartalom szöveg mérete</Label>
+                      <Input
+                        value={templateForm.content_text_size}
+                        onChange={(e) => setTemplateForm({ ...templateForm, content_text_size: e.target.value })}
+                        placeholder="16px"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">pl. 16px, 1rem, 14px</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div>
+                      <Label>Extra tartalom szöveg színe</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type="color"
+                          value={templateForm.extra_content_text_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, extra_content_text_color: e.target.value })}
+                          className="w-20 h-10"
+                        />
+                        <Input
+                          value={templateForm.extra_content_text_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, extra_content_text_color: e.target.value })}
+                          placeholder="#4a5568"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <Label>Extra tartalom szöveg mérete</Label>
+                      <Input
+                        value={templateForm.extra_content_text_size}
+                        onChange={(e) => setTemplateForm({ ...templateForm, extra_content_text_size: e.target.value })}
+                        placeholder="16px"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">pl. 16px, 1rem, 14px</p>
                     </div>
                   </div>
                 </div>

@@ -28,6 +28,10 @@ interface NewsletterTemplate {
   header_gradient_2?: string | null;
   greeting_text_color?: string | null;
   greeting_bg_color?: string | null;
+  content_text_color?: string | null;
+  content_text_size?: string | null;
+  extra_content_text_color?: string | null;
+  extra_content_text_size?: string | null;
   footer_gradient?: string | null;
   sender_email: string;
   sender_name: string;
@@ -217,8 +221,8 @@ const createNewsletterHTML = (
       
       .email-content p {
         margin: 0 0 16px 0;
-        color: #4a5568;
-        font-size: 16px;
+        color: ${template.content_text_color || '#4a5568'};
+        font-size: ${template.content_text_size || '16px'};
         line-height: 1.7;
       }
       
@@ -230,8 +234,8 @@ const createNewsletterHTML = (
       
       .email-content li {
         margin: 12px 0;
-        color: #4a5568;
-        font-size: 16px;
+        color: ${template.content_text_color || '#4a5568'};
+        font-size: ${template.content_text_size || '16px'};
         line-height: 1.6;
       }
       
@@ -300,6 +304,8 @@ const createNewsletterHTML = (
         padding: 20px;
         margin: 30px 0;
         border-radius: 8px;
+        color: ${template.extra_content_text_color || '#4a5568'};
+        font-size: ${template.extra_content_text_size || '16px'};
       }
       
       .extra-content h3 {

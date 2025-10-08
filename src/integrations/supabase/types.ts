@@ -432,6 +432,8 @@ export type Database = {
           content_button_text: string | null
           content_button_text_color: string | null
           content_button_url: string | null
+          content_text_color: string | null
+          content_text_size: string | null
           created_at: string
           created_by: string | null
           extra_button_color: string | null
@@ -442,6 +444,8 @@ export type Database = {
           extra_content: string | null
           extra_content_bg_color: string
           extra_content_border_color: string
+          extra_content_text_color: string | null
+          extra_content_text_size: string | null
           featured_image_url: string | null
           footer_address: string | null
           footer_color: string
@@ -479,6 +483,8 @@ export type Database = {
           content_button_text?: string | null
           content_button_text_color?: string | null
           content_button_url?: string | null
+          content_text_color?: string | null
+          content_text_size?: string | null
           created_at?: string
           created_by?: string | null
           extra_button_color?: string | null
@@ -489,6 +495,8 @@ export type Database = {
           extra_content?: string | null
           extra_content_bg_color?: string
           extra_content_border_color?: string
+          extra_content_text_color?: string | null
+          extra_content_text_size?: string | null
           featured_image_url?: string | null
           footer_address?: string | null
           footer_color?: string
@@ -526,6 +534,8 @@ export type Database = {
           content_button_text?: string | null
           content_button_text_color?: string | null
           content_button_url?: string | null
+          content_text_color?: string | null
+          content_text_size?: string | null
           created_at?: string
           created_by?: string | null
           extra_button_color?: string | null
@@ -536,6 +546,8 @@ export type Database = {
           extra_content?: string | null
           extra_content_bg_color?: string
           extra_content_border_color?: string
+          extra_content_text_color?: string | null
+          extra_content_text_size?: string | null
           featured_image_url?: string | null
           footer_address?: string | null
           footer_color?: string
