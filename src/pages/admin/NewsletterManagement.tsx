@@ -388,7 +388,7 @@ const NewsletterManagement = () => {
         console.log("Updating template:", editingTemplateId);
         const { error } = await supabase
           .from("newsletter_templates")
-          .update(templateData)
+          .update(templateData as any)
           .eq("id", editingTemplateId);
 
         if (error) {
@@ -404,7 +404,7 @@ const NewsletterManagement = () => {
           .insert({
             ...templateData,
             created_by: userData.user?.id,
-          });
+          } as any);
 
         if (error) {
           console.error("Insert error:", error);
