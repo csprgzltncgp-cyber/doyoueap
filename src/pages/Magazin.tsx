@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Clock, User, TrendingUp, Calendar, ChevronRight } from 'lucide-react';
 import logo from '@/assets/logo.png';
 import journalistLogo from '@/assets/thejournalist_logo.png';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { z } from 'zod';
 import { 
   Carousel, 
   CarouselContent, 
@@ -26,6 +28,10 @@ const Magazin = () => {
   const [articles, setArticles] = useState<any[]>([]);
   const [popularArticles, setPopularArticles] = useState<any[]>([]);
   const [loadingArticles, setLoadingArticles] = useState(true);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [subscribing, setSubscribing] = useState(false);
+
+  const emailSchema = z.string().trim().email({ message: "Érvénytelen email cím" }).max(255);
 
   useEffect(() => {
     fetchArticles();
@@ -59,6 +65,44 @@ const Magazin = () => {
       toast.error('Hiba történt a cikkek betöltése közben');
     } finally {
       setLoadingArticles(false);
+    }
+  };
+
+  const handleNewsletterSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate email
+    const validation = emailSchema.safeParse(newsletterEmail);
+    if (!validation.success) {
+      toast.error(validation.error.errors[0].message);
+      return;
+    }
+
+    setSubscribing(true);
+    try {
+      const { error } = await supabase
+        .from('newsletter_subscribers')
+        .insert([{
+          email: validation.data,
+          source: 'magazine',
+          is_active: true
+        }]);
+
+      if (error) {
+        if (error.code === '23505') {
+          toast.error('Ez az email cím már feliratkozott a hírlevélre');
+        } else {
+          throw error;
+        }
+      } else {
+        toast.success('Sikeresen feliratkozott a hírlevélre!');
+        setNewsletterEmail('');
+      }
+    } catch (error: any) {
+      console.error('Newsletter subscription error:', error);
+      toast.error('Hiba történt a feliratkozás során');
+    } finally {
+      setSubscribing(false);
     }
   };
 
@@ -367,14 +411,25 @@ const Magazin = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <input 
-                    type="email" 
-                    placeholder="Email cím"
-                    className="w-full px-4 py-2 rounded-sm mb-3 bg-white/20 border border-white/30 text-white placeholder:text-white/70"
-                  />
-                  <Button variant="secondary" className="w-full">
-                    Feliratkozom
-                  </Button>
+                  <form onSubmit={handleNewsletterSubscribe}>
+                    <Input 
+                      type="email" 
+                      placeholder="Email cím"
+                      value={newsletterEmail}
+                      onChange={(e) => setNewsletterEmail(e.target.value)}
+                      required
+                      disabled={subscribing}
+                      className="w-full px-4 py-2 rounded-sm mb-3 bg-white/20 border border-white/30 text-white placeholder:text-white/70"
+                    />
+                    <Button 
+                      type="submit" 
+                      variant="secondary" 
+                      className="w-full"
+                      disabled={subscribing}
+                    >
+                      {subscribing ? 'Feliratkozás...' : 'Feliratkozom'}
+                    </Button>
+                  </form>
                 </CardContent>
               </Card>
 
