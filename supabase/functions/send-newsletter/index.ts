@@ -418,7 +418,7 @@ const createNewsletterHTML = (
           
           ${template.show_content_button && template.content_button_url && template.content_button_url.trim() !== '' ? `
           <div style="text-align: center;">
-            <a href="${template.content_button_url}" class="email-button content-button">
+            <a href="${template.content_button_url}" class="email-button content-button" style="background: ${template.content_button_color || '#0ea5e9'}; color: ${template.content_button_text_color || '#ffffff'}; box-shadow: 0 4px 12px ${template.content_button_shadow_color || '#0ea5e933'};">
               ${template.content_button_text || 'Olvass tovább'}
             </a>
           </div>
@@ -431,7 +431,7 @@ const createNewsletterHTML = (
           </div>
           ${template.show_extra_button && template.extra_button_url && template.extra_button_url.trim() !== '' ? `
           <div style="text-align: center; margin-top: 20px;">
-            <a href="${template.extra_button_url}" class="email-button extra-button">
+            <a href="${template.extra_button_url}" class="email-button extra-button" style="background: ${template.extra_button_color || '#0ea5e9'}; color: ${template.extra_button_text_color || '#ffffff'}; box-shadow: 0 4px 12px ${template.extra_button_shadow_color || '#0ea5e933'};">
               ${template.extra_button_text || 'További információ'}
             </a>
           </div>
