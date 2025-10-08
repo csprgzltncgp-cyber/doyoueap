@@ -416,7 +416,7 @@ const createNewsletterHTML = (
           
           ${formattedContent}
           
-          ${template.show_content_button && template.content_button_url ? `
+          ${template.show_content_button && template.content_button_url && template.content_button_url.trim() !== '' ? `
           <div style="text-align: center;">
             <a href="${template.content_button_url}" class="email-button content-button">
               ${template.content_button_text || 'Olvass tovább'}
@@ -429,7 +429,7 @@ const createNewsletterHTML = (
           <div class="extra-content">
             ${extraFormattedContent}
           </div>
-          ${template.show_extra_button && template.extra_button_url ? `
+          ${template.show_extra_button && template.extra_button_url && template.extra_button_url.trim() !== '' ? `
           <div style="text-align: center; margin-top: 20px;">
             <a href="${template.extra_button_url}" class="email-button extra-button">
               ${template.extra_button_text || 'További információ'}
