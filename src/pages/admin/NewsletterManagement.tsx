@@ -59,7 +59,8 @@ interface NewsletterTemplate {
   extra_content: string | null;
   sender_email: string;
   sender_name: string;
-  greeting_color: string;
+  header_color_1: string; // Logó mögötti szín
+  header_color_2: string; // Szöveg alatti szín
   logo_url: string | null;
   featured_image_url: string | null;
   footer_logo_url: string | null;
@@ -105,7 +106,8 @@ const NewsletterManagement = () => {
     extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel,\nA doyoueap csapata",
     sender_email: "noreply@doyoueap.com",
     sender_name: "DoYouEAP",
-    greeting_color: "#0ea5e9",
+    header_color_1: "#0ea5e9",
+    header_color_2: "#0ea5e9",
   });
 
   useEffect(() => {
@@ -373,11 +375,8 @@ const NewsletterManagement = () => {
         console.log("Footer logo uploaded:", footerLogoUrl);
       }
       
-      // Extract greeting_color separately to avoid schema cache issue
-      const { greeting_color, ...templateDataWithoutGreeting } = templateForm;
-      
       const templateData = {
-        ...templateDataWithoutGreeting,
+        ...templateForm,
         footer_links: templateForm.footer_links,
         logo_url: logoUrl,
         featured_image_url: featuredImageUrl,
@@ -386,57 +385,35 @@ const NewsletterManagement = () => {
 
       console.log("Template data to save:", templateData);
 
-      let savedTemplateId = editingTemplateId;
-
       if (editingTemplateId) {
         // Update existing template
         console.log("Updating template:", editingTemplateId);
         const { error } = await supabase
           .from("newsletter_templates")
-          .update(templateData)
+          .update(templateData as any)
           .eq("id", editingTemplateId);
 
         if (error) {
           console.error("Update error:", error);
           throw error;
         }
+        toast.success("Sablon sikeresen frissítve!");
       } else {
         // Insert new template
         console.log("Inserting new template");
-        const { data: newTemplate, error } = await supabase
+        const { error } = await supabase
           .from("newsletter_templates")
           .insert({
             ...templateData,
             created_by: userData.user?.id,
-          })
-          .select()
-          .single();
+          } as any);
 
         if (error) {
           console.error("Insert error:", error);
           throw error;
         }
-        savedTemplateId = newTemplate?.id;
+        toast.success("Sablon sikeresen mentve!");
       }
-
-      // Update greeting_color separately using direct update with type cast to bypass schema cache
-      if (savedTemplateId && greeting_color) {
-        console.log("Updating greeting_color separately:", greeting_color);
-        try {
-          const { error: greetingError } = await supabase
-            .from("newsletter_templates")
-            .update({ greeting_color } as any)
-            .eq("id", savedTemplateId);
-
-          if (greetingError) {
-            console.warn("Could not update greeting_color:", greetingError);
-          }
-        } catch (err) {
-          console.warn("Exception updating greeting_color:", err);
-        }
-      }
-
-      toast.success(editingTemplateId ? "Sablon sikeresen frissítve!" : "Sablon sikeresen mentve!");
 
       setIsTemplateDialogOpen(false);
       setEditingTemplateId(null);
@@ -469,7 +446,8 @@ const NewsletterManagement = () => {
         extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel\nA doyoueap csapata",
         sender_email: "noreply@doyoueap.com",
         sender_name: "DoYouEAP",
-        greeting_color: "#0ea5e9",
+        header_color_1: "#0ea5e9",
+        header_color_2: "#0ea5e9",
       });
       fetchTemplates();
       console.log("Template save completed successfully");
@@ -504,7 +482,8 @@ const NewsletterManagement = () => {
       extra_content: template.extra_content || "",
       sender_email: template.sender_email || "noreply@doyoueap.com",
       sender_name: template.sender_name || "DoYouEAP",
-      greeting_color: template.greeting_color || template.header_color || "#0ea5e9",
+      header_color_1: template.header_color_1 || template.header_color || "#0ea5e9",
+      header_color_2: template.header_color_2 || template.header_color || "#0ea5e9",
     });
     setTemplateLogoPreview(template.logo_url);
     setTemplateFeaturedImagePreview(template.featured_image_url);
@@ -567,7 +546,8 @@ const NewsletterManagement = () => {
               extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel,\nA doyoueap csapata",
               sender_email: "noreply@doyoueap.com",
               sender_name: "DoYouEAP",
-              greeting_color: "#0ea5e9",
+              header_color_1: "#0ea5e9",
+              header_color_2: "#0ea5e9",
             });
           }
         }}>
@@ -626,22 +606,6 @@ const NewsletterManagement = () => {
                         placeholder="pl. Kedves Feliratkozónk!"
                       />
                       <p className="text-xs text-muted-foreground mt-1">Ha a címzett nevét ismerjük, automatikusan "Kedves [Név]!" lesz</p>
-                    </div>
-                    <div>
-                      <Label>Megszólítás háttérszíne</Label>
-                      <div className="flex gap-2">
-                        <Input
-                          type="color"
-                          value={templateForm.greeting_color}
-                          onChange={(e) => setTemplateForm({ ...templateForm, greeting_color: e.target.value })}
-                          className="w-20 h-10"
-                        />
-                        <Input
-                          value={templateForm.greeting_color}
-                          onChange={(e) => setTemplateForm({ ...templateForm, greeting_color: e.target.value })}
-                          placeholder="#0ea5e9"
-                        />
-                      </div>
                     </div>
                   </div>
                 </div>
