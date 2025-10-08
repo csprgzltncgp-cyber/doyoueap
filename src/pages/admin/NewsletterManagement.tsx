@@ -99,6 +99,7 @@ const NewsletterManagement = () => {
     extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel,\nA doyoueap csapata",
     sender_email: "noreply@doyoueap.com",
     sender_name: "DoYouEAP",
+    greeting_color: "#0ea5e9",
   });
 
   useEffect(() => {
@@ -396,6 +397,7 @@ const NewsletterManagement = () => {
         extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel,\nA doyoueap csapata",
         sender_email: "noreply@doyoueap.com",
         sender_name: "DoYouEAP",
+        greeting_color: "#0ea5e9",
       });
       fetchTemplates();
     } catch (error: any) {
@@ -429,6 +431,7 @@ const NewsletterManagement = () => {
       extra_content: template.extra_content || "",
       sender_email: template.sender_email || "noreply@doyoueap.com",
       sender_name: template.sender_name || "DoYouEAP",
+      greeting_color: (template as any).greeting_color || template.header_color || "#0ea5e9",
     });
     setIsTemplateDialogOpen(true);
   };
@@ -488,6 +491,7 @@ const NewsletterManagement = () => {
               extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel,\nA doyoueap csapata",
               sender_email: "noreply@doyoueap.com",
               sender_name: "DoYouEAP",
+              greeting_color: "#0ea5e9",
             });
           }
         }}>
@@ -536,57 +540,125 @@ const NewsletterManagement = () => {
                     />
                   </div>
                 </div>
-                <div>
-                  <Label>Megszólítás</Label>
-                  <Input
-                    value={templateForm.greeting_text}
-                    onChange={(e) => setTemplateForm({ ...templateForm, greeting_text: e.target.value })}
-                    placeholder="pl. Kedves Feliratkozónk!"
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">Ha a címzett nevét ismerjük, automatikusan "Kedves [Név]!" lesz</p>
+                <div className="border-t pt-4 mt-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label>Megszólítás</Label>
+                      <Input
+                        value={templateForm.greeting_text}
+                        onChange={(e) => setTemplateForm({ ...templateForm, greeting_text: e.target.value })}
+                        placeholder="pl. Kedves Feliratkozónk!"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Ha a címzett nevét ismerjük, automatikusan "Kedves [Név]!" lesz</p>
+                    </div>
+                    <div>
+                      <Label>Megszólítás háttérszíne</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type="color"
+                          value={templateForm.greeting_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, greeting_color: e.target.value })}
+                          className="w-20 h-10"
+                        />
+                        <Input
+                          value={templateForm.greeting_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, greeting_color: e.target.value })}
+                          placeholder="#0ea5e9"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <Label>Fejléc cím</Label>
-                  <Input
-                    value={templateForm.header_title}
-                    onChange={(e) => setTemplateForm({ ...templateForm, header_title: e.target.value })}
-                  />
+                <div className="border-t pt-4 mt-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label>Fejléc cím</Label>
+                      <Input
+                        value={templateForm.header_title}
+                        onChange={(e) => setTemplateForm({ ...templateForm, header_title: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <Label>Fejléc háttérszíne</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type="color"
+                          value={templateForm.header_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, header_color: e.target.value })}
+                          className="w-20 h-10"
+                        />
+                        <Input
+                          value={templateForm.header_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, header_color: e.target.value })}
+                          placeholder="#0ea5e9"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <Label>Fejléc alcím (opcionális)</Label>
+                    <Input
+                      value={templateForm.header_subtitle}
+                      onChange={(e) => setTemplateForm({ ...templateForm, header_subtitle: e.target.value })}
+                      placeholder="pl. Hírek és információk"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <Label>Fejléc alcím (opcionális)</Label>
-                  <Input
-                    value={templateForm.header_subtitle}
-                    onChange={(e) => setTemplateForm({ ...templateForm, header_subtitle: e.target.value })}
-                    placeholder="pl. Hírek és információk"
-                  />
+                <div className="border-t pt-4 mt-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label>Gomb szövege</Label>
+                      <Input
+                        value={templateForm.button_text}
+                        onChange={(e) => setTemplateForm({ ...templateForm, button_text: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <Label>Gomb színe</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type="color"
+                          value={templateForm.button_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, button_color: e.target.value })}
+                          className="w-20 h-10"
+                        />
+                        <Input
+                          value={templateForm.button_color}
+                          onChange={(e) => setTemplateForm({ ...templateForm, button_color: e.target.value })}
+                          placeholder="#0ea5e9"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <Label>Gomb gradient (opcionális, felülírja a színt)</Label>
+                    <Input
+                      value={templateForm.button_gradient}
+                      onChange={(e) => setTemplateForm({ ...templateForm, button_gradient: e.target.value })}
+                      placeholder="pl: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                    />
+                  </div>
+                  <div className="mt-4">
+                    <Label>Gomb URL (opcionális)</Label>
+                    <Input
+                      value={templateForm.cta_button_url}
+                      onChange={(e) => setTemplateForm({ ...templateForm, cta_button_url: e.target.value })}
+                      placeholder="https://..."
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">Ha meg van adva, megjelenik egy kattintható gomb a hírlevélben</p>
+                  </div>
+                  <div className="flex items-center space-x-2 mt-4">
+                    <input
+                      type="checkbox"
+                      id="show_cta_button"
+                      checked={templateForm.show_cta_button}
+                      onChange={(e) => setTemplateForm({ ...templateForm, show_cta_button: e.target.checked })}
+                      className="h-4 w-4"
+                    />
+                    <Label htmlFor="show_cta_button">Gomb megjelenítése</Label>
+                  </div>
                 </div>
-                <div>
-                  <Label>Gomb szövege</Label>
-                  <Input
-                    value={templateForm.button_text}
-                    onChange={(e) => setTemplateForm({ ...templateForm, button_text: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <Label>Gomb URL (opcionális)</Label>
-                  <Input
-                    value={templateForm.cta_button_url}
-                    onChange={(e) => setTemplateForm({ ...templateForm, cta_button_url: e.target.value })}
-                    placeholder="https://..."
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">Ha meg van adva, megjelenik egy kattintható gomb a hírlevélben</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    id="show_cta_button"
-                    checked={templateForm.show_cta_button}
-                    onChange={(e) => setTemplateForm({ ...templateForm, show_cta_button: e.target.checked })}
-                    className="h-4 w-4"
-                  />
-                  <Label htmlFor="show_cta_button">Gomb megjelenítése</Label>
-                </div>
-                <div>
+                <div className="border-t pt-4 mt-4">
                   <Label>Extra tartalom (pl. EAP Pulse ajánló szöveg)</Label>
                   <Textarea
                     value={templateForm.extra_content}
@@ -600,55 +672,16 @@ const NewsletterManagement = () => {
 
               <TabsContent value="style" className="space-y-4">
                 <div>
-                  <Label>Fejléc szín</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      type="color"
-                      value={templateForm.header_color}
-                      onChange={(e) => setTemplateForm({ ...templateForm, header_color: e.target.value })}
-                      className="w-20 h-10"
-                    />
-                    <Input
-                      value={templateForm.header_color}
-                      onChange={(e) => setTemplateForm({ ...templateForm, header_color: e.target.value })}
-                      placeholder="#0ea5e9"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Label>Fejléc gradient (opcionális, pl: linear-gradient(135deg, #667eea 0%, #764ba2 100%))</Label>
+                  <Label>Fejléc gradient (opcionális, felülírja a fejléc színét)</Label>
                   <Input
                     value={templateForm.header_gradient}
                     onChange={(e) => setTemplateForm({ ...templateForm, header_gradient: e.target.value })}
-                    placeholder="linear-gradient(...)"
+                    placeholder="pl: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
                   />
+                  <p className="text-xs text-muted-foreground mt-1">CSS gradient szintaxis</p>
                 </div>
                 <div>
-                  <Label>Gomb színe</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      type="color"
-                      value={templateForm.button_color}
-                      onChange={(e) => setTemplateForm({ ...templateForm, button_color: e.target.value })}
-                      className="w-20 h-10"
-                    />
-                    <Input
-                      value={templateForm.button_color}
-                      onChange={(e) => setTemplateForm({ ...templateForm, button_color: e.target.value })}
-                      placeholder="#0ea5e9"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Label>Gomb gradient (opcionális)</Label>
-                  <Input
-                    value={templateForm.button_gradient}
-                    onChange={(e) => setTemplateForm({ ...templateForm, button_gradient: e.target.value })}
-                    placeholder="linear-gradient(...)"
-                  />
-                </div>
-                <div>
-                  <Label>Lábléc szín</Label>
+                  <Label>Lábléc háttérszíne</Label>
                   <div className="flex gap-2">
                     <Input
                       type="color"
@@ -664,15 +697,15 @@ const NewsletterManagement = () => {
                   </div>
                 </div>
                 <div>
-                  <Label>Lábléc gradient (opcionális)</Label>
+                  <Label>Lábléc gradient (opcionális, felülírja a lábléc színét)</Label>
                   <Input
                     value={templateForm.footer_gradient}
                     onChange={(e) => setTemplateForm({ ...templateForm, footer_gradient: e.target.value })}
-                    placeholder="linear-gradient(...)"
+                    placeholder="pl: linear-gradient(135deg, #1a1a1a 0%, #2d3748 100%)"
                   />
                 </div>
                 <div>
-                  <Label>Háttérszín</Label>
+                  <Label>Háttérszín (email külső háttere)</Label>
                   <div className="flex gap-2">
                     <Input
                       type="color"

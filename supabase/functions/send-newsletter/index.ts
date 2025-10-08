@@ -35,6 +35,7 @@ interface NewsletterTemplate {
   extra_content: string | null;
   sender_email: string;
   sender_name: string;
+  greeting_color?: string;
 }
 
 interface NewsletterRequest {
@@ -174,7 +175,7 @@ const createNewsletterHTML = (
       
       .greeting-badge {
         display: inline-block;
-        background: ${template.header_color};
+        background: ${template.greeting_color || template.header_color};
         color: white;
         padding: 8px 16px;
         border-radius: 20px;
