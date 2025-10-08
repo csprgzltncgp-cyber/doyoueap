@@ -15,7 +15,6 @@ interface FooterLink {
 
 interface NewsletterTemplate {
   header_title: string;
-  header_subtitle: string | null;
   footer_text: string;
   footer_company: string;
   footer_address: string | null;
@@ -370,8 +369,7 @@ const createNewsletterHTML = (
           </div>
           `}
           <div class="header-title">
-            <h1>${subject}</h1>
-            ${template.header_subtitle ? `<p class="header-subtitle">${template.header_subtitle}</p>` : ''}
+            <h1>${template.header_title}</h1>
           </div>
         </div>
         

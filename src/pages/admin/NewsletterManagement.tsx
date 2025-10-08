@@ -86,7 +86,6 @@ const NewsletterManagement = () => {
   const [templateForm, setTemplateForm] = useState({
     name: "",
     header_title: "DoYouEAP Hírlevél",
-    header_subtitle: "",
     footer_text: "Ez egy automatikus üzenet. Kérjük, ne válaszoljon erre az emailre.",
     footer_company: "DoYouEAP",
     footer_address: "",
@@ -426,7 +425,6 @@ const NewsletterManagement = () => {
       setTemplateForm({
         name: "",
         header_title: "DoYouEAP Hírlevél",
-        header_subtitle: "",
         footer_text: "Ez egy automatikus üzenet. Kérjük, ne válaszoljon erre az emailre.",
         footer_company: "DoYouEAP",
         footer_address: "",
@@ -462,7 +460,7 @@ const NewsletterManagement = () => {
     setTemplateForm({
       name: template.name,
       header_title: template.header_title,
-      header_subtitle: template.header_subtitle || "",
+      
       footer_text: template.footer_text,
       footer_company: template.footer_company,
       footer_address: template.footer_address || "",
@@ -526,7 +524,6 @@ const NewsletterManagement = () => {
             setTemplateForm({
               name: "",
               header_title: "DoYouEAP Hírlevél",
-              header_subtitle: "",
               footer_text: "Ez egy automatikus üzenet. Kérjük, ne válaszoljon erre az emailre.",
               footer_company: "DoYouEAP",
               footer_address: "",
@@ -634,14 +631,6 @@ const NewsletterManagement = () => {
                         />
                       </div>
                     </div>
-                  </div>
-                  <div className="mt-4">
-                    <Label>Fejléc alcím (opcionális)</Label>
-                    <Input
-                      value={templateForm.header_subtitle}
-                      onChange={(e) => setTemplateForm({ ...templateForm, header_subtitle: e.target.value })}
-                      placeholder="pl. Hírek és információk"
-                    />
                   </div>
                 </div>
                 <div className="border-t pt-4 mt-4">
