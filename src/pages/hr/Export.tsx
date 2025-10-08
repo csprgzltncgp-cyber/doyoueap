@@ -263,61 +263,125 @@ const Export = () => {
         color: '3572ef'
       });
 
-      const categoryData = [
-        {
-          name: 'Kategóriák',
-          labels: ['Használók', 'Nem használók', 'Nem tudtak róla'],
-          values: [usedBranch.length, notUsedBranch.length, notAwareBranch.length]
-        }
-      ];
+      // Main stats in boxes
+      const usagePercent = ((usedBranch.length / responses.length) * 100).toFixed(1);
+      const notUsedPercent = ((notUsedBranch.length / responses.length) * 100).toFixed(1);
+      const notAwarePercent = ((notAwareBranch.length / responses.length) * 100).toFixed(1);
 
-      slide.addChart(pres.ChartType.pie, categoryData, {
-        x: 0.5,
-        y: 1.2,
-        w: 5,
-        h: 3.5,
-        showLegend: true,
-        showTitle: true,
-        title: 'Válaszadók kategóriák szerint',
-        chartColors: ['22c55e', 'f59e0b', 'ef4444']
-      });
-
-      // Stats boxes
-      const statsY = 1.2;
-      slide.addText(`${responses.length}`, {
-        x: 6.0,
-        y: statsY,
-        w: 3.5,
-        h: 0.8,
-        fontSize: 36,
-        bold: true,
-        color: '3572ef',
-        align: 'center'
+      // Row 1: Total responses
+      slide.addShape(pres.ShapeType.rect, {
+        x: 1.5,
+        y: 1.5,
+        w: 7,
+        h: 1.2,
+        fill: { color: 'f0f9ff' },
+        line: { color: '3572ef', width: 2 }
       });
       slide.addText('Összesen válaszadó', {
-        x: 6.0,
-        y: statsY + 0.9,
+        x: 1.5,
+        y: 1.6,
         w: 3.5,
-        fontSize: 14,
+        fontSize: 20,
+        color: '1e40af',
         align: 'center'
+      });
+      slide.addText(`${responses.length}`, {
+        x: 5.0,
+        y: 1.5,
+        w: 3.5,
+        h: 1.2,
+        fontSize: 44,
+        bold: true,
+        color: '3572ef',
+        align: 'center',
+        valign: 'middle'
       });
 
-      slide.addText(`${((usedBranch.length / responses.length) * 100).toFixed(1)}%`, {
-        x: 6.0,
-        y: statsY + 1.8,
+      // Row 2: Használók
+      slide.addShape(pres.ShapeType.rect, {
+        x: 1.5,
+        y: 2.9,
+        w: 7,
+        h: 0.9,
+        fill: { color: 'dcfce7' },
+        line: { color: '22c55e', width: 2 }
+      });
+      slide.addText('Használók', {
+        x: 1.5,
+        y: 3.0,
         w: 3.5,
-        h: 0.8,
-        fontSize: 36,
-        bold: true,
-        color: '22c55e',
+        fontSize: 18,
+        color: '166534',
         align: 'center'
       });
-      slide.addText('Használati arány', {
-        x: 6.0,
-        y: statsY + 2.7,
+      slide.addText(`${usedBranch.length} (${usagePercent}%)`, {
+        x: 5.0,
+        y: 2.9,
         w: 3.5,
-        fontSize: 14,
+        h: 0.9,
+        fontSize: 24,
+        bold: true,
+        color: '22c55e',
+        align: 'center',
+        valign: 'middle'
+      });
+
+      // Row 3: Nem használók
+      slide.addShape(pres.ShapeType.rect, {
+        x: 1.5,
+        y: 3.9,
+        w: 7,
+        h: 0.9,
+        fill: { color: 'fef3c7' },
+        line: { color: 'f59e0b', width: 2 }
+      });
+      slide.addText('Nem használók', {
+        x: 1.5,
+        y: 4.0,
+        w: 3.5,
+        fontSize: 18,
+        color: '92400e',
         align: 'center'
+      });
+      slide.addText(`${notUsedBranch.length} (${notUsedPercent}%)`, {
+        x: 5.0,
+        y: 3.9,
+        w: 3.5,
+        h: 0.9,
+        fontSize: 24,
+        bold: true,
+        color: 'f59e0b',
+        align: 'center',
+        valign: 'middle'
+      });
+
+      // Row 4: Nem tudtak róla
+      slide.addShape(pres.ShapeType.rect, {
+        x: 1.5,
+        y: 4.9,
+        w: 7,
+        h: 0.9,
+        fill: { color: 'fee2e2' },
+        line: { color: 'ef4444', width: 2 }
+      });
+      slide.addText('Nem tudtak a programról', {
+        x: 1.5,
+        y: 5.0,
+        w: 3.5,
+        fontSize: 18,
+        color: '991b1b',
+        align: 'center'
+      });
+      slide.addText(`${notAwareBranch.length} (${notAwarePercent}%)`, {
+        x: 5.0,
+        y: 4.9,
+        w: 3.5,
+        h: 0.9,
+        fontSize: 24,
+        bold: true,
+        color: 'ef4444',
+        align: 'center',
+        valign: 'middle'
       });
 
       // Tudatosság slide
@@ -330,29 +394,46 @@ const Export = () => {
         color: '3572ef'
       });
 
-      // EAP knowledge levels
+      // EAP knowledge levels - as text stats
       const awarenessLevels = {};
       responses.forEach(r => {
         const level = r.responses?.eap_knowledge || 'Nincs adat';
         awarenessLevels[level] = (awarenessLevels[level] || 0) + 1;
       });
 
-      const awarenessData = [{
-        name: 'Ismertség',
-        labels: Object.keys(awarenessLevels),
-        values: Object.values(awarenessLevels)
-      }];
-
-      slide.addChart(pres.ChartType.bar, awarenessData, {
-        x: 0.5,
-        y: 1.2,
-        w: 9,
-        h: 3.5,
-        showLegend: false,
-        showTitle: true,
-        title: 'EAP program ismertsége',
-        barDir: 'bar',
-        chartColors: ['3572ef']
+      let yPos = 1.5;
+      Object.entries(awarenessLevels).forEach(([level, count], idx) => {
+        const percentage = ((count as number / responses.length) * 100).toFixed(1);
+        
+        slide.addShape(pres.ShapeType.rect, {
+          x: 1,
+          y: yPos,
+          w: 8,
+          h: 0.8,
+          fill: { color: idx === 0 ? '22c55e' : idx === 1 ? 'f59e0b' : 'ef4444' },
+          line: { type: 'none' }
+        });
+        
+        slide.addText(level, {
+          x: 1.2,
+          y: yPos + 0.1,
+          w: 5,
+          fontSize: 16,
+          color: 'FFFFFF',
+          bold: true
+        });
+        
+        slide.addText(`${count} (${percentage}%)`, {
+          x: 6.5,
+          y: yPos + 0.1,
+          w: 2.3,
+          fontSize: 16,
+          color: 'FFFFFF',
+          align: 'right',
+          bold: true
+        });
+        
+        yPos += 1.0;
       });
 
       // Bizalom & Hajlandóság slide
@@ -427,37 +508,16 @@ const Export = () => {
         color: '3572ef'
       });
 
-      // Usage frequency
+      // Usage stats as text
       const frequencyData = {};
       usedBranch.forEach(r => {
-        const freq = r.responses?.usage_frequency || r.responses?.u_usage_frequency || 'Nincs adat';
+        const freq = r.responses?.u_usage_frequency || 'Nincs adat';
         frequencyData[freq] = (frequencyData[freq] || 0) + 1;
       });
 
-      if (Object.keys(frequencyData).length > 0) {
-        const frequencyChartData = [{
-          name: 'Gyakoriság',
-          labels: Object.keys(frequencyData),
-          values: Object.values(frequencyData)
-        }];
-
-        slide.addChart(pres.ChartType.bar, frequencyChartData, {
-          x: 0.5,
-          y: 1.2,
-          w: 4.5,
-          h: 3.5,
-          showLegend: false,
-          showTitle: true,
-          title: 'Használati gyakoriság',
-          barDir: 'bar',
-          chartColors: ['3572ef']
-        });
-      }
-
-      // Topics used
       const topicsData = {};
       usedBranch.forEach(r => {
-        const topics = r.responses?.topics_used || r.responses?.u_usage_topic;
+        const topics = r.responses?.u_usage_topic;
         if (Array.isArray(topics)) {
           topics.forEach(topic => {
             topicsData[topic] = (topicsData[topic] || 0) + 1;
@@ -465,29 +525,49 @@ const Export = () => {
         }
       });
 
-      const topicsEntries = Object.entries(topicsData)
+      // Left column: Frequency
+      slide.addText('Gyakoriság:', {
+        x: 1,
+        y: 1.3,
+        fontSize: 20,
+        bold: true,
+        color: '3572ef'
+      });
+
+      let yFreq = 1.8;
+      Object.entries(frequencyData).slice(0, 5).forEach(([freq, count]) => {
+        slide.addText(`${freq}: ${count}`, {
+          x: 1,
+          y: yFreq,
+          w: 3.5,
+          fontSize: 16
+        });
+        yFreq += 0.5;
+      });
+
+      // Right column: Topics
+      slide.addText('Témakörök:', {
+        x: 5.5,
+        y: 1.3,
+        fontSize: 20,
+        bold: true,
+        color: '22c55e'
+      });
+
+      const topTopics = Object.entries(topicsData)
         .sort(([, a], [, b]) => (b as number) - (a as number))
         .slice(0, 5);
 
-      if (topicsEntries.length > 0) {
-        const topicsChartData = [{
-          name: 'Témakörök',
-          labels: topicsEntries.map(([name]) => name),
-          values: topicsEntries.map(([, value]) => value as number)
-        }];
-
-        slide.addChart(pres.ChartType.bar, topicsChartData, {
+      let yTopic = 1.8;
+      topTopics.forEach(([topic, count]) => {
+        slide.addText(`${topic}: ${count}`, {
           x: 5.5,
-          y: 1.2,
-          w: 4.5,
-          h: 3.5,
-          showLegend: false,
-          showTitle: true,
-          title: 'Top 5 használt témakör',
-          barDir: 'bar',
-          chartColors: ['22c55e']
+          y: yTopic,
+          w: 3.5,
+          fontSize: 16
         });
-      }
+        yTopic += 0.5;
+      });
 
       // Hatás slide
       slide = pres.addSlide();
@@ -618,53 +698,58 @@ const Export = () => {
         color: '3572ef'
       });
 
-      // Gender distribution
+      // Gender distribution - as text stats
       const genderData = {};
       responses.forEach(r => {
         const gender = r.responses?.gender || 'Nincs adat';
         genderData[gender] = (genderData[gender] || 0) + 1;
       });
 
-      const genderChartData = [{
-        name: 'Nem',
-        labels: Object.keys(genderData),
-        values: Object.values(genderData)
-      }];
-
-      slide.addChart(pres.ChartType.pie, genderChartData, {
-        x: 0.5,
-        y: 1.2,
-        w: 4.5,
-        h: 3.5,
-        showLegend: true,
-        showTitle: true,
-        title: 'Nem szerinti megoszlás',
-        chartColors: ['3572ef', 'ec4899', '8b5cf6']
+      slide.addText('Nem szerinti megoszlás:', {
+        x: 1,
+        y: 1.3,
+        fontSize: 20,
+        bold: true,
+        color: '3572ef'
       });
 
-      // Age distribution
+      let yGender = 1.8;
+      Object.entries(genderData).forEach(([gender, count]) => {
+        const percentage = ((count as number / responses.length) * 100).toFixed(1);
+        slide.addText(`${gender}: ${count} (${percentage}%)`, {
+          x: 1,
+          y: yGender,
+          w: 3.5,
+          fontSize: 16
+        });
+        yGender += 0.5;
+      });
+
+      // Age distribution - as text stats
       const ageData = {};
       responses.forEach(r => {
         const age = r.responses?.age || 'Nincs adat';
         ageData[age] = (ageData[age] || 0) + 1;
       });
 
-      const ageChartData = [{
-        name: 'Korosztály',
-        labels: Object.keys(ageData),
-        values: Object.values(ageData)
-      }];
-
-      slide.addChart(pres.ChartType.bar, ageChartData, {
+      slide.addText('Korosztály szerinti megoszlás:', {
         x: 5.5,
-        y: 1.2,
-        w: 4.5,
-        h: 3.5,
-        showLegend: false,
-        showTitle: true,
-        title: 'Korosztály szerinti megoszlás',
-        barDir: 'bar',
-        chartColors: ['22c55e']
+        y: 1.3,
+        fontSize: 20,
+        bold: true,
+        color: '22c55e'
+      });
+
+      let yAge = 1.8;
+      Object.entries(ageData).forEach(([age, count]) => {
+        const percentage = ((count as number / responses.length) * 100).toFixed(1);
+        slide.addText(`${age}: ${count} (${percentage}%)`, {
+          x: 5.5,
+          y: yAge,
+          w: 3.5,
+          fontSize: 16
+        });
+        yAge += 0.5;
       });
 
       // Save presentation
