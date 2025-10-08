@@ -156,7 +156,7 @@ const createNewsletterHTML = (
       }
       
       .logo-section img {
-        max-width: 180px;
+        max-width: 250px;
         height: auto;
         margin: 0 auto;
       }
