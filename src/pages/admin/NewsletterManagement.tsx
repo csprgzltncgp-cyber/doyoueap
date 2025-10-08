@@ -373,8 +373,11 @@ const NewsletterManagement = () => {
         console.log("Footer logo uploaded:", footerLogoUrl);
       }
       
+      // Extract greeting_color separately to avoid schema cache issue
+      const { greeting_color, ...templateDataWithoutGreeting } = templateForm;
+      
       const templateData = {
-        ...templateForm,
+        ...templateDataWithoutGreeting,
         footer_links: templateForm.footer_links,
         logo_url: logoUrl,
         featured_image_url: featuredImageUrl,
@@ -383,35 +386,57 @@ const NewsletterManagement = () => {
 
       console.log("Template data to save:", templateData);
 
+      let savedTemplateId = editingTemplateId;
+
       if (editingTemplateId) {
         // Update existing template
         console.log("Updating template:", editingTemplateId);
         const { error } = await supabase
           .from("newsletter_templates")
-          .update(templateData as any)
+          .update(templateData)
           .eq("id", editingTemplateId);
 
         if (error) {
           console.error("Update error:", error);
           throw error;
         }
-        toast.success("Sablon sikeresen frissítve!");
       } else {
         // Insert new template
         console.log("Inserting new template");
-        const { error } = await supabase
+        const { data: newTemplate, error } = await supabase
           .from("newsletter_templates")
           .insert({
             ...templateData,
             created_by: userData.user?.id,
-          } as any);
+          })
+          .select()
+          .single();
 
         if (error) {
           console.error("Insert error:", error);
           throw error;
         }
-        toast.success("Sablon sikeresen mentve!");
+        savedTemplateId = newTemplate?.id;
       }
+
+      // Update greeting_color separately using direct update with type cast to bypass schema cache
+      if (savedTemplateId && greeting_color) {
+        console.log("Updating greeting_color separately:", greeting_color);
+        try {
+          const { error: greetingError } = await supabase
+            .from("newsletter_templates")
+            .update({ greeting_color } as any)
+            .eq("id", savedTemplateId);
+
+          if (greetingError) {
+            console.warn("Could not update greeting_color:", greetingError);
+          }
+        } catch (err) {
+          console.warn("Exception updating greeting_color:", err);
+        }
+      }
+
+      toast.success(editingTemplateId ? "Sablon sikeresen frissítve!" : "Sablon sikeresen mentve!");
 
       setIsTemplateDialogOpen(false);
       setEditingTemplateId(null);
@@ -441,7 +466,7 @@ const NewsletterManagement = () => {
         footer_gradient: "",
         cta_button_url: "",
         show_cta_button: true,
-        extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel,\nA doyoueap csapata",
+        extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel\nA doyoueap csapata",
         sender_email: "noreply@doyoueap.com",
         sender_name: "DoYouEAP",
         greeting_color: "#0ea5e9",
