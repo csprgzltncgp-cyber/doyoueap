@@ -41,10 +41,10 @@ export default function NewsletterManagement() {
 <p>Kedves Olvasóink!</p>
 
 <div class="highlight-box">
-  <p><strong>🎉 Fontos bejelentés:</strong> Megjelent magazinunk legújabb száma!</p>
+  <p><strong>Fontos bejelentés:</strong> Megjelent magazinunk legújabb száma!</p>
 </div>
 
-<h3>📰 Új cikkek a The Journalist! magazinban</h3>
+<h3>Új cikkek a The Journalist! magazinban</h3>
 
 <p>Örömmel jelentjük be, hogy megjelent magazinunk januári száma, amely számos érdekes cikket tartalmaz az EAP világából:</p>
 
@@ -56,12 +56,12 @@ export default function NewsletterManagement() {
 </ul>
 
 <p style="text-align: center;">
-  <a href="https://doyoueap.com/magazin" class="cta-button">Olvassa el most! →</a>
+  <a href="https://doyoueap.com/magazin" class="cta-button">Olvassa el most!</a>
 </p>
 
 <div class="divider"></div>
 
-<h3>💡 EAP Pulse - Mérje programja hatékonyságát</h3>
+<h3>EAP Pulse - Mérje programja hatékonyságát</h3>
 
 <p>Tudta, hogy az EAP Pulse segítségével <strong>60+ extra statisztikai adattal</strong> bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!</p>
 
