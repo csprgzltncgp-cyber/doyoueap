@@ -24,9 +24,9 @@ interface NewsletterTemplate {
   footer_links: FooterLink[];
   header_color: string;
   footer_color: string;
-  header_gradient_1: string | null;
-  header_gradient_2: string | null;
-  footer_gradient: string | null;
+  header_gradient_1?: string | null;
+  header_gradient_2?: string | null;
+  footer_gradient?: string | null;
   sender_email: string;
   sender_name: string;
   header_color_1?: string;

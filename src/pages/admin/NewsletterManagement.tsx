@@ -50,9 +50,9 @@ interface NewsletterTemplate {
   footer_links: FooterLink[];
   header_color: string;
   footer_color: string;
-  header_gradient_1: string | null;
-  header_gradient_2: string | null;
-  footer_gradient: string | null;
+  header_gradient_1?: string | null;
+  header_gradient_2?: string | null;
+  footer_gradient?: string | null;
   sender_email: string;
   sender_name: string;
   header_color_1: string;
@@ -541,8 +541,8 @@ const NewsletterManagement = () => {
       footer_links: template.footer_links || [],
       header_color: template.header_color || template.primary_color,
       footer_color: template.footer_color || "#1a1a1a",
-      header_gradient_1: template.header_gradient_1 || "",
-      header_gradient_2: template.header_gradient_2 || "",
+      header_gradient_1: (template as any).header_gradient_1 || "",
+      header_gradient_2: (template as any).header_gradient_2 || "",
       footer_gradient: template.footer_gradient || "",
       sender_email: template.sender_email || "noreply@doyoueap.com",
       sender_name: template.sender_name || "DoYouEAP",
