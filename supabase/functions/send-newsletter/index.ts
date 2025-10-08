@@ -49,6 +49,7 @@ interface NewsletterTemplate {
 interface NewsletterRequest {
   subject: string;
   content: string;
+  extraContent?: string;
   subscribers: Array<{ email: string; name: string | null }>;
   template: NewsletterTemplate;
 }
@@ -80,12 +81,13 @@ const formatContent = (content: string): string => {
 
 const createNewsletterHTML = (
   recipientName: string | null, 
-  content: string, 
+  content: string,
+  extraContent: string | null,
   subject: string,
   template: NewsletterTemplate
 ): string => {
   const formattedContent = formatContent(content);
-  const extraFormattedContent = template.extra_content ? formatContent(template.extra_content) : null;
+  const extraFormattedContent = extraContent ? formatContent(extraContent) : null;
   
   // Use header_color_1 for logo section, header_color_2 for title section
   const logoSectionBg = template.header_gradient || template.header_color_1 || template.header_color;
@@ -445,7 +447,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { subject, content, subscribers, template }: NewsletterRequest = await req.json();
+    const { subject, content, extraContent, subscribers, template }: NewsletterRequest = await req.json();
 
     if (!subject || !content || !subscribers || subscribers.length === 0 || !template) {
       return new Response(
@@ -461,7 +463,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send emails to all subscribers
     const emailPromises = subscribers.map(async (subscriber) => {
-      const html = createNewsletterHTML(subscriber.name, content, subject, template);
+      const html = createNewsletterHTML(subscriber.name, content, extraContent || null, subject, template);
 
       try {
         const emailResponse = await resend.emails.send({

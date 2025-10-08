@@ -81,6 +81,7 @@ const NewsletterManagement = () => {
   const [newSubscriber, setNewSubscriber] = useState({ email: "", name: "" });
   const [newsletterSubject, setNewsletterSubject] = useState("");
   const [newsletterContent, setNewsletterContent] = useState("");
+  const [newsletterExtraContent, setNewsletterExtraContent] = useState("");
   const [editingTemplateId, setEditingTemplateId] = useState<string | null>(null);
   const [templateLogoFile, setTemplateLogoFile] = useState<File | null>(null);
   const [templateLogoPreview, setTemplateLogoPreview] = useState<string | null>(null);
@@ -112,7 +113,6 @@ const NewsletterManagement = () => {
     footer_gradient: "",
     cta_button_url: "",
     show_cta_button: true,
-    extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel,\nA doyoueap csapata",
     sender_email: "noreply@doyoueap.com",
     sender_name: "DoYouEAP",
     header_color_1: "#0ea5e9",
@@ -359,6 +359,7 @@ const NewsletterManagement = () => {
           body: {
             subject: newsletterSubject,
             content: newsletterContent,
+            extraContent: newsletterExtraContent,
             subscribers: activeSubscribers,
             template: selectedTemplate,
           },
@@ -378,6 +379,7 @@ const NewsletterManagement = () => {
 
       toast.success(`Hírlevél sikeresen elküldve ${activeSubscribers.length} címzettnek!`);
       setNewsletterContent("");
+      setNewsletterExtraContent("");
       setNewsletterSubject("");
       fetchCampaigns();
     } catch (error: any) {
@@ -491,7 +493,6 @@ const NewsletterManagement = () => {
         footer_gradient: "",
         cta_button_url: "",
         show_cta_button: true,
-        extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel\nA doyoueap csapata",
         sender_email: "noreply@doyoueap.com",
         sender_name: "DoYouEAP",
         header_color_1: "#0ea5e9",
@@ -531,7 +532,6 @@ const NewsletterManagement = () => {
       footer_gradient: template.footer_gradient || "",
       cta_button_url: template.cta_button_url || "",
       show_cta_button: template.show_cta_button ?? true,
-      extra_content: template.extra_content || "",
       sender_email: template.sender_email || "noreply@doyoueap.com",
       sender_name: template.sender_name || "DoYouEAP",
       header_color_1: template.header_color_1 || template.header_color || "#0ea5e9",
@@ -599,7 +599,6 @@ const NewsletterManagement = () => {
               footer_gradient: "",
               cta_button_url: "",
               show_cta_button: true,
-              extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel,\nA doyoueap csapata",
               sender_email: "noreply@doyoueap.com",
               sender_name: "DoYouEAP",
               header_color_1: "#0ea5e9",
@@ -851,16 +850,6 @@ const NewsletterManagement = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="border-t pt-4 mt-4">
-                  <Label>Extra tartalom (pl. EAP Pulse ajánló szöveg)</Label>
-                  <Textarea
-                    value={templateForm.extra_content}
-                    onChange={(e) => setTemplateForm({ ...templateForm, extra_content: e.target.value })}
-                    rows={6}
-                    placeholder="EAP Pulse - Mérje programja hatékonyságát&#10;&#10;Tudta, hogy az EAP Pulse segítségével..."
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">Ez a tartalom a fő tartalom után, külön dobozban jelenik meg</p>
                 </div>
               </TabsContent>
 
@@ -1160,6 +1149,19 @@ const NewsletterManagement = () => {
             />
             <p className="text-sm text-muted-foreground mt-1">
               Egyszerű formázás: **félkövér**, *dőlt*, új sor = új bekezdés
+            </p>
+          </div>
+
+          <div>
+            <Label>Extra tartalom</Label>
+            <Textarea
+              value={newsletterExtraContent}
+              onChange={(e) => setNewsletterExtraContent(e.target.value)}
+              placeholder="EAP Pulse - Mérje programja hatékonyságát&#10;&#10;Tudta, hogy az EAP Pulse segítségével..."
+              rows={6}
+            />
+            <p className="text-sm text-muted-foreground mt-1">
+              Ez a tartalom a fő tartalom után, külön dobozban jelenik meg. Formázás: **félkövér**, *dőlt*
             </p>
           </div>
 
