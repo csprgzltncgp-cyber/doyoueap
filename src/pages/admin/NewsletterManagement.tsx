@@ -338,6 +338,8 @@ const NewsletterManagement = () => {
   };
 
   const handleSaveTemplate = async () => {
+    console.log("handleSaveTemplate started", { templateForm, editingTemplateId });
+    
     if (!templateForm.name) {
       toast.error("Kérem, adja meg a sablon nevét");
       return;
@@ -345,52 +347,69 @@ const NewsletterManagement = () => {
 
     try {
       const { data: userData } = await supabase.auth.getUser();
+      console.log("User data:", userData);
       
       let logoUrl = editingTemplateId ? templates.find(t => t.id === editingTemplateId)?.logo_url : null;
       let featuredImageUrl = editingTemplateId ? templates.find(t => t.id === editingTemplateId)?.featured_image_url : null;
       let footerLogoUrl = editingTemplateId ? templates.find(t => t.id === editingTemplateId)?.footer_logo_url : null;
 
+      console.log("Initial URLs:", { logoUrl, featuredImageUrl, footerLogoUrl });
+
       if (templateLogoFile) {
+        console.log("Uploading template logo...");
         logoUrl = await uploadNewsletterAsset(templateLogoFile, "template-logo");
+        console.log("Logo uploaded:", logoUrl);
       }
 
       if (templateFeaturedImage) {
+        console.log("Uploading featured image...");
         featuredImageUrl = await uploadNewsletterAsset(templateFeaturedImage, "template-featured");
+        console.log("Featured image uploaded:", featuredImageUrl);
       }
 
       if (templateFooterLogoFile) {
+        console.log("Uploading footer logo...");
         footerLogoUrl = await uploadNewsletterAsset(templateFooterLogoFile, "template-footer-logo");
+        console.log("Footer logo uploaded:", footerLogoUrl);
       }
       
+      const templateData = {
+        ...templateForm,
+        footer_links: templateForm.footer_links,
+        logo_url: logoUrl,
+        featured_image_url: featuredImageUrl,
+        footer_logo_url: footerLogoUrl,
+      };
+
+      console.log("Template data to save:", templateData);
+
       if (editingTemplateId) {
         // Update existing template
+        console.log("Updating template:", editingTemplateId);
         const { error } = await supabase
           .from("newsletter_templates")
-          .update({
-            ...templateForm,
-            footer_links: templateForm.footer_links,
-            logo_url: logoUrl,
-            featured_image_url: featuredImageUrl,
-            footer_logo_url: footerLogoUrl,
-          })
+          .update(templateData)
           .eq("id", editingTemplateId);
 
-        if (error) throw error;
+        if (error) {
+          console.error("Update error:", error);
+          throw error;
+        }
         toast.success("Sablon sikeresen frissítve!");
       } else {
         // Insert new template
+        console.log("Inserting new template");
         const { error } = await supabase
           .from("newsletter_templates")
           .insert({
-            ...templateForm,
-            footer_links: templateForm.footer_links,
+            ...templateData,
             created_by: userData.user?.id,
-            logo_url: logoUrl,
-            featured_image_url: featuredImageUrl,
-            footer_logo_url: footerLogoUrl,
           });
 
-        if (error) throw error;
+        if (error) {
+          console.error("Insert error:", error);
+          throw error;
+        }
         toast.success("Sablon sikeresen mentve!");
       }
 
@@ -428,9 +447,10 @@ const NewsletterManagement = () => {
         greeting_color: "#0ea5e9",
       });
       fetchTemplates();
+      console.log("Template save completed successfully");
     } catch (error: any) {
       console.error("Error saving template:", error);
-      toast.error("Hiba a sablon mentésekor");
+      toast.error(`Hiba a sablon mentésekor: ${error.message || 'Ismeretlen hiba'}`);
     }
   };
 
