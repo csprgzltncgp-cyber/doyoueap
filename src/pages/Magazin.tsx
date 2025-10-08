@@ -163,7 +163,7 @@ const Magazin = () => {
               onClick={() => navigate('/magazin')}
               className="text-sm bg-white border border-black font-semibold transition-colors px-3 py-2 rounded-md"
             >
-              The Journalist!
+              The EAP Journalist!
             </button>
             {user && role === 'hr' && (
               <button
@@ -198,7 +198,7 @@ const Magazin = () => {
             <div className="flex-shrink-0">
               <img 
                 src={journalistLogo} 
-                alt="The Journalist!" 
+                alt="The EAP Journalist!"
                 className="h-16 object-contain"
               />
             </div>
@@ -227,7 +227,7 @@ const Magazin = () => {
             <div className="flex-shrink-0">
               <img 
                 src={journalistLogo} 
-                alt="The Journalist!" 
+                alt="The EAP Journalist!" 
                 className="h-24 object-contain"
               />
             </div>
