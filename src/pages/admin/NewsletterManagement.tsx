@@ -790,6 +790,23 @@ const NewsletterManagement = () => {
 
               <TabsContent value="style" className="space-y-4">
                 <div>
+                  <Label>Fejléc háttérszíne</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      type="color"
+                      value={templateForm.header_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, header_color: e.target.value })}
+                      className="w-20 h-10"
+                    />
+                    <Input
+                      value={templateForm.header_color}
+                      onChange={(e) => setTemplateForm({ ...templateForm, header_color: e.target.value })}
+                      placeholder="#0ea5e9"
+                    />
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">Alapszín, amit a gradient felülírhat</p>
+                </div>
+                <div>
                   <Label>Fejléc gradient (opcionális, felülírja a fejléc színét)</Label>
                   <Input
                     value={templateForm.header_gradient}
