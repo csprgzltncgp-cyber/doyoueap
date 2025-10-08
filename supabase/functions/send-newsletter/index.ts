@@ -35,7 +35,8 @@ interface NewsletterTemplate {
   extra_content: string | null;
   sender_email: string;
   sender_name: string;
-  greeting_color?: string;
+  header_color_1?: string;
+  header_color_2?: string;
   logo_url?: string | null;
   featured_image_url?: string | null;
   footer_logo_url?: string | null;
@@ -81,7 +82,10 @@ const createNewsletterHTML = (
 ): string => {
   const formattedContent = formatContent(content);
   const extraFormattedContent = template.extra_content ? formatContent(template.extra_content) : null;
-  const headerBg = template.header_gradient || template.header_color;
+  
+  // Use header_color_1 for logo section, header_color_2 for title section
+  const logoSectionBg = template.header_gradient || template.header_color_1 || template.header_color;
+  const titleSectionBg = template.header_color_2 || template.header_color;
   const buttonBg = template.button_gradient || template.button_color;
   const footerBg = template.footer_gradient || template.footer_color;
   const logoUrl = template.logo_url;
@@ -124,16 +128,15 @@ const createNewsletterHTML = (
         box-shadow: 0 4px 20px rgba(0,0,0,0.08);
       }
       
-      /* Header with gradient */
+      /* Header with two-color sections */
       .email-header {
-        background: ${headerBg};
-        padding: 0;
-        text-align: center;
         position: relative;
       }
       
       .logo-section {
+        background: ${logoSectionBg};
         padding: 30px 20px 20px 20px;
+        text-align: center;
       }
       
       .logo-section img {
@@ -143,9 +146,8 @@ const createNewsletterHTML = (
       }
       
       .header-title {
-        background: ${template.header_gradient ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.15)'};
+        background: ${titleSectionBg};
         padding: 20px;
-        backdrop-filter: blur(10px);
       }
       
       .header-title h1 {
@@ -177,7 +179,7 @@ const createNewsletterHTML = (
       
       .greeting-badge {
         display: inline-block;
-        background: ${template.greeting_color || template.header_color};
+        background: ${template.header_color_1 || template.header_color};
         color: white;
         padding: 8px 16px;
         border-radius: 20px;
