@@ -159,7 +159,7 @@ const Magazin = () => {
               />
             </div>
             <button 
-              onClick={() => navigate('/admin')}
+              onClick={() => navigate('/superadmin')}
               className="text-xs text-black text-center hover:text-primary transition-colors cursor-pointer"
             >
               <span className="font-semibold">2025. JANUÁR</span>
@@ -172,7 +172,7 @@ const Magazin = () => {
           <div className="hidden md:flex items-center justify-between gap-8">
             {/* Left: Date and Issue */}
             <button 
-              onClick={() => navigate('/admin')}
+              onClick={() => navigate('/superadmin')}
               className="flex flex-col items-start text-sm text-black hover:text-primary transition-colors cursor-pointer"
             >
               <span className="font-semibold">2025. JANUÁR</span>
