@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Mail, Plus, Send, Trash2, Users, Upload } from "lucide-react";
+import { Mail, Plus, Send, Trash2, Users, Upload, X, Image as ImageIcon } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { format } from "date-fns";
 
@@ -72,6 +72,10 @@ export default function NewsletterManagement() {
   });
   const [dialogOpen, setDialogOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [featuredImageFile, setFeaturedImageFile] = useState<File | null>(null);
+  const [featuredImagePreview, setFeaturedImagePreview] = useState<string | null>(null);
 
   useEffect(() => {
     fetchSubscribers();
@@ -223,6 +227,66 @@ export default function NewsletterManagement() {
     }
   };
 
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        toast.error("A logo mérete maximum 2MB lehet");
+        return;
+      }
+      if (!file.type.startsWith('image/')) {
+        toast.error("Csak képfájlokat lehet feltölteni");
+        return;
+      }
+      setLogoFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleFeaturedImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("A kép mérete maximum 5MB lehet");
+        return;
+      }
+      if (!file.type.startsWith('image/')) {
+        toast.error("Csak képfájlokat lehet feltölteni");
+        return;
+      }
+      setFeaturedImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFeaturedImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const uploadNewsletterAsset = async (file: File, type: 'logo' | 'featured'): Promise<string> => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${type}-${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+    
+    const { error: uploadError } = await supabase.storage
+      .from('newsletter-assets')
+      .upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+
+    if (uploadError) throw uploadError;
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('newsletter-assets')
+      .getPublicUrl(fileName);
+
+    return publicUrl;
+  };
+
   const handleSendNewsletter = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -241,6 +305,19 @@ export default function NewsletterManagement() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Nincs bejelentkezve");
 
+      let logoUrl = newsletter.logoUrl;
+      let featuredImageUrl = newsletter.featuredImageUrl;
+
+      // Upload logo if selected
+      if (logoFile) {
+        logoUrl = await uploadNewsletterAsset(logoFile, 'logo');
+      }
+
+      // Upload featured image if selected
+      if (featuredImageFile) {
+        featuredImageUrl = await uploadNewsletterAsset(featuredImageFile, 'featured');
+      }
+
       // Call edge function to send emails
       const { data, error } = await supabase.functions.invoke('send-newsletter', {
         body: {
@@ -248,8 +325,8 @@ export default function NewsletterManagement() {
           content: newsletter.content,
           fromEmail: newsletter.fromEmail,
           subscribers: subscribers.map(s => ({ email: s.email, name: s.name })),
-          logoUrl: newsletter.logoUrl || undefined,
-          featuredImageUrl: newsletter.featuredImageUrl || undefined
+          logoUrl: logoUrl || undefined,
+          featuredImageUrl: featuredImageUrl || undefined
         }
       });
 
@@ -276,6 +353,10 @@ export default function NewsletterManagement() {
         logoUrl: "",
         featuredImageUrl: ""
       });
+      setLogoFile(null);
+      setLogoPreview(null);
+      setFeaturedImageFile(null);
+      setFeaturedImagePreview(null);
       fetchCampaigns();
     } catch (error: any) {
       console.error("Error sending newsletter:", error);
@@ -330,29 +411,119 @@ export default function NewsletterManagement() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="logoUrl">Logo URL (opcionális)</Label>
-                <Input
-                  id="logoUrl"
-                  type="url"
-                  value={newsletter.logoUrl}
-                  onChange={(e) => setNewsletter({ ...newsletter, logoUrl: e.target.value })}
-                  placeholder="https://example.com/logo.png"
-                />
+                <Label htmlFor="logo">Logo (opcionális)</Label>
+                <div className="space-y-2">
+                  {logoPreview ? (
+                    <div className="relative">
+                      <img src={logoPreview} alt="Logo előnézet" className="w-full h-32 object-contain bg-gray-100 rounded" />
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="icon"
+                        className="absolute top-2 right-2"
+                        onClick={() => {
+                          setLogoFile(null);
+                          setLogoPreview(null);
+                          setNewsletter({ ...newsletter, logoUrl: "" });
+                        }}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : newsletter.logoUrl ? (
+                    <div className="relative">
+                      <img src={newsletter.logoUrl} alt="Logo" className="w-full h-32 object-contain bg-gray-100 rounded" />
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="icon"
+                        className="absolute top-2 right-2"
+                        onClick={() => setNewsletter({ ...newsletter, logoUrl: "" })}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : null}
+                  <Button type="button" variant="outline" className="w-full" asChild>
+                    <label className="cursor-pointer">
+                      <ImageIcon className="mr-2 h-4 w-4" />
+                      Logo feltöltése
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleLogoChange}
+                        className="hidden"
+                      />
+                    </label>
+                  </Button>
+                  <Input
+                    id="logoUrl"
+                    type="url"
+                    value={newsletter.logoUrl}
+                    onChange={(e) => setNewsletter({ ...newsletter, logoUrl: e.target.value })}
+                    placeholder="vagy URL: https://example.com/logo.png"
+                  />
+                </div>
                 <p className="text-xs text-muted-foreground">
-                  A hírlevél tetején megjelenő logo (ajánlott méret: 180x60px)
+                  Ajánlott méret: 180x60px, max 2MB
                 </p>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="featuredImageUrl">Kiemelt kép URL (opcionális)</Label>
-                <Input
-                  id="featuredImageUrl"
-                  type="url"
-                  value={newsletter.featuredImageUrl}
-                  onChange={(e) => setNewsletter({ ...newsletter, featuredImageUrl: e.target.value })}
-                  placeholder="https://example.com/image.jpg"
-                />
+                <Label htmlFor="featuredImage">Kiemelt kép (opcionális)</Label>
+                <div className="space-y-2">
+                  {featuredImagePreview ? (
+                    <div className="relative">
+                      <img src={featuredImagePreview} alt="Kiemelt kép előnézet" className="w-full h-32 object-cover rounded" />
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="icon"
+                        className="absolute top-2 right-2"
+                        onClick={() => {
+                          setFeaturedImageFile(null);
+                          setFeaturedImagePreview(null);
+                          setNewsletter({ ...newsletter, featuredImageUrl: "" });
+                        }}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : newsletter.featuredImageUrl ? (
+                    <div className="relative">
+                      <img src={newsletter.featuredImageUrl} alt="Kiemelt kép" className="w-full h-32 object-cover rounded" />
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="icon"
+                        className="absolute top-2 right-2"
+                        onClick={() => setNewsletter({ ...newsletter, featuredImageUrl: "" })}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : null}
+                  <Button type="button" variant="outline" className="w-full" asChild>
+                    <label className="cursor-pointer">
+                      <ImageIcon className="mr-2 h-4 w-4" />
+                      Kiemelt kép feltöltése
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFeaturedImageChange}
+                        className="hidden"
+                      />
+                    </label>
+                  </Button>
+                  <Input
+                    id="featuredImageUrl"
+                    type="url"
+                    value={newsletter.featuredImageUrl}
+                    onChange={(e) => setNewsletter({ ...newsletter, featuredImageUrl: e.target.value })}
+                    placeholder="vagy URL: https://example.com/image.jpg"
+                  />
+                </div>
                 <p className="text-xs text-muted-foreground">
-                  Nagy banner kép a címsor alatt (ajánlott méret: 600x300px)
+                  Ajánlott méret: 600x300px, max 5MB
                 </p>
               </div>
             </div>
