@@ -143,7 +143,7 @@ const NewsletterManagement = () => {
     extra_button_shadow_color: "#0ea5e933",
     extra_button_url: "",
     show_extra_button: false,
-    footer_copyright_text: "© 2025 Az EAP világ vezető szakfolyóirata. Minden jog fenntartva.",
+    footer_copyright_text: "© 2025 Az EAP-világ vezető szakfolyóirata. Minden jog fenntartva.",
     footer_copyright_color: "#ffffff",
   });
 
@@ -540,7 +540,7 @@ const NewsletterManagement = () => {
         extra_button_shadow_color: "#0ea5e933",
         extra_button_url: "",
         show_extra_button: false,
-        footer_copyright_text: "© 2025 Az EAP világ vezető szakfolyóirata. Minden jog fenntartva.",
+        footer_copyright_text: "© 2025 Az EAP-világ vezető szakfolyóirata. Minden jog fenntartva.",
         footer_copyright_color: "#ffffff",
       });
       
@@ -609,7 +609,7 @@ const NewsletterManagement = () => {
       extra_button_shadow_color: template.extra_button_shadow_color || "#0ea5e933",
       extra_button_url: template.extra_button_url || "",
       show_extra_button: template.show_extra_button || false,
-      footer_copyright_text: template.footer_copyright_text || "© 2025 Az EAP világ vezető szakfolyóirata. Minden jog fenntartva.",
+      footer_copyright_text: template.footer_copyright_text || "© 2025 Az EAP-világ vezető szakfolyóirata. Minden jog fenntartva.",
       footer_copyright_color: template.footer_copyright_color || "#ffffff",
     });
     setTemplateLogoPreview(template.logo_url);
