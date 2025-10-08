@@ -367,13 +367,13 @@ const Export = () => {
 
       // Trust index for users
       const trustScores = usedBranch
-        .map(r => r.responses?.trust_score)
-        .filter(score => score !== undefined && score !== null);
+        .map(r => r.responses?.u_trust_anonymity)
+        .filter(score => typeof score === 'number' && !isNaN(score));
       const avgTrust = trustScores.length > 0 
         ? (trustScores.reduce((a, b) => a + b, 0) / trustScores.length).toFixed(1)
         : 'N/A';
 
-      slide.addText(`${avgTrust}/10`, {
+      slide.addText(`${avgTrust}/5`, {
         x: 1.5,
         y: 1.5,
         w: 3,
@@ -501,8 +501,8 @@ const Export = () => {
 
       // NPS calculation
       const npsScores = usedBranch
-        .map(r => r.responses?.nps || r.responses?.u_impact_nps)
-        .filter(score => score !== undefined && score !== null);
+        .map(r => r.responses?.u_impact_nps)
+        .filter(score => typeof score === 'number' && !isNaN(score));
       
       const promoters = npsScores.filter(score => score >= 9).length;
       const detractors = npsScores.filter(score => score <= 6).length;
