@@ -215,7 +215,7 @@ const Reports = () => {
   const awarenessScore = calculateAverage(
     awarenessResponses
       .map(r => r.responses?.u_awareness_understanding || r.responses?.nu_awareness_understanding)
-      .filter(v => v !== undefined)
+      .filter(v => typeof v === 'number' && !isNaN(v))
   );
 
   const trustResponses = responses.filter(r => 
@@ -225,7 +225,7 @@ const Reports = () => {
   const trustScore = calculateAverage(
     trustResponses
       .map(r => r.responses?.u_trust_anonymity || r.responses?.nu_trust_anonymity)
-      .filter(v => v !== undefined)
+      .filter(v => typeof v === 'number' && !isNaN(v))
   );
 
   const usageScore = employeeCount > 0 ? ((usedBranch / employeeCount) * 100).toFixed(1) : '0.0';
@@ -234,7 +234,7 @@ const Reports = () => {
     responses
       .filter(r => r.employee_metadata?.branch === 'used')
       .map(r => r.responses?.u_impact_satisfaction)
-      .filter(v => v !== undefined)
+      .filter(v => typeof v === 'number' && !isNaN(v))
   );
 
   // Additional metrics for Overview tab
@@ -242,35 +242,35 @@ const Reports = () => {
     responses
       .filter(r => r.employee_metadata?.branch === 'used')
       .map(r => r.responses?.u_impact_nps)
-      .filter(v => v !== undefined)
+      .filter(v => typeof v === 'number' && !isNaN(v))
   );
 
   const problemSolvingScore = calculateAverage(
     responses
       .filter(r => r.employee_metadata?.branch === 'used')
       .map(r => r.responses?.u_impact_problem_solving)
-      .filter(v => v !== undefined)
+      .filter(v => typeof v === 'number' && !isNaN(v))
   );
 
   const performanceScore = calculateAverage(
     responses
       .filter(r => r.employee_metadata?.branch === 'used')
       .map(r => r.responses?.u_impact_performance)
-      .filter(v => v !== undefined)
+      .filter(v => typeof v === 'number' && !isNaN(v))
   );
 
   const wellbeingScore = calculateAverage(
     responses
       .filter(r => r.employee_metadata?.branch === 'used')
       .map(r => r.responses?.u_impact_wellbeing)
-      .filter(v => v !== undefined)
+      .filter(v => typeof v === 'number' && !isNaN(v))
   );
 
   const consistencyScore = calculateAverage(
     responses
       .filter(r => r.employee_metadata?.branch === 'used')
       .map(r => r.responses?.u_impact_consistency)
-      .filter(v => v !== undefined)
+      .filter(v => typeof v === 'number' && !isNaN(v))
   );
 
   // Pie chart data for participation breakdown
