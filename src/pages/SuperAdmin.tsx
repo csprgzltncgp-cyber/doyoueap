@@ -9,63 +9,12 @@ import { toast } from 'sonner';
 import logo from '@/assets/logo.png';
 
 const SuperAdmin = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [verificationCode, setVerificationCode] = useState('');
-  const [showVerification, setShowVerification] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      // Create user account with email verification
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/email-confirmed`,
-          data: {
-            full_name: fullName,
-          },
-        },
-      });
-
-      if (authError) throw authError;
-
-      // Store pending approval request (will be processed after email verification)
-      if (authData.user) {
-        const { error: dbError } = await supabase
-          .from('admin_approval_requests')
-          .insert({
-            user_id: authData.user.id,
-            email: email,
-            full_name: fullName,
-            approval_token: '', // Will be set after email verification
-            pending_verification: true,
-            expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
-          });
-
-        if (dbError) {
-          console.error('Database error:', dbError);
-        }
-      }
-
-      toast.success('Regisztráció sikeres! Ellenőrizd az email címedet a megerősítő linkért.');
-      setIsLogin(true);
-      setEmail('');
-      setPassword('');
-      setFullName('');
-    } catch (error: any) {
-      toast.error(error.message || 'Regisztrációs hiba');
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,24 +57,11 @@ const SuperAdmin = () => {
           <img src={logo} alt="doyoueap" className="h-12 mx-auto mb-4" />
           <CardTitle>Super Admin</CardTitle>
           <CardDescription>
-            {isLogin ? 'Jelentkezz be az admin felületre' : 'Regisztrálj admin jogosultságért'}
+            Jelentkezz be az admin felületre
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={isLogin ? handleLogin : handleRegister} className="space-y-4">
-            {!isLogin && (
-              <div className="space-y-2">
-                <Label htmlFor="fullName">Teljes Név</Label>
-                <Input
-                  id="fullName"
-                  type="text"
-                  placeholder="Teljes Neved"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  required
-                />
-              </div>
-            )}
+          <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -149,20 +85,7 @@ const SuperAdmin = () => {
               />
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Feldolgozás...' : (isLogin ? 'Bejelentkezés' : 'Regisztráció')}
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              className="w-full"
-              onClick={() => {
-                setIsLogin(!isLogin);
-                setEmail('');
-                setPassword('');
-                setFullName('');
-              }}
-            >
-              {isLogin ? 'Regisztráció' : 'Már van fiókom'}
+              {isLoading ? 'Feldolgozás...' : 'Bejelentkezés'}
             </Button>
           </form>
         </CardContent>
