@@ -452,15 +452,38 @@ const NewsletterManagement = () => {
     <div className="container mx-auto py-8 space-y-8">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Hírlevél kezelés</h1>
+      <div className="flex gap-2">
         <Dialog open={isTemplateDialogOpen} onOpenChange={(open) => {
           setIsTemplateDialogOpen(open);
           if (!open) {
             setEditingTemplateId(null);
+            setTemplateForm({
+              name: "",
+              header_title: "DoYouEAP Hírlevél",
+              header_subtitle: "",
+              footer_text: "Ez egy automatikus üzenet. Kérjük, ne válaszoljon erre az emailre.",
+              footer_company: "DoYouEAP",
+              footer_address: "",
+              button_text: "Olvassa el",
+              button_color: "#0ea5e9",
+              primary_color: "#0ea5e9",
+              background_color: "#f8fafc",
+              greeting_text: "Kedves Feliratkozónk!",
+              footer_links: [],
+              header_color: "#0ea5e9",
+              footer_color: "#1a1a1a",
+              header_gradient: "",
+              button_gradient: "",
+              footer_gradient: "",
+              cta_button_url: "",
+              show_cta_button: true,
+              extra_content: "EAP Pulse - Mérje programja hatékonyságát\n\nTudta, hogy az EAP Pulse segítségével 60+ extra statisztikai adattal bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!\n\nÜdvözlettel,\nA doyoueap csapata",
+            });
           }
         }}>
           <DialogTrigger asChild>
             <Button variant="outline" onClick={() => setEditingTemplateId(null)}>
-              <Settings className="mr-2 h-4 w-4" />
+              <Plus className="mr-2 h-4 w-4" />
               Új sablon
             </Button>
           </DialogTrigger>
@@ -469,16 +492,15 @@ const NewsletterManagement = () => {
               <DialogTitle>{editingTemplateId ? "Sablon szerkesztése" : "Új sablon létrehozása"}</DialogTitle>
             </DialogHeader>
             <Tabs defaultValue="content" className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
+              <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="content">Tartalom</TabsTrigger>
                 <TabsTrigger value="style">Színek</TabsTrigger>
                 <TabsTrigger value="footer">Lábléc</TabsTrigger>
-                <TabsTrigger value="templates">Sablonok</TabsTrigger>
               </TabsList>
               
               <TabsContent value="content" className="space-y-4">
                 <div>
-                  <Label>Sablon neve</Label>
+                  <Label>Sablon neve *</Label>
                   <Input
                     value={templateForm.name}
                     onChange={(e) => setTemplateForm({ ...templateForm, name: e.target.value })}
@@ -492,6 +514,7 @@ const NewsletterManagement = () => {
                     onChange={(e) => setTemplateForm({ ...templateForm, greeting_text: e.target.value })}
                     placeholder="pl. Kedves Feliratkozónk!"
                   />
+                  <p className="text-xs text-muted-foreground mt-1">Ha a címzett nevét ismerjük, automatikusan "Kedves [Név]!" lesz</p>
                 </div>
                 <div>
                   <Label>Fejléc cím</Label>
@@ -522,6 +545,7 @@ const NewsletterManagement = () => {
                     onChange={(e) => setTemplateForm({ ...templateForm, cta_button_url: e.target.value })}
                     placeholder="https://..."
                   />
+                  <p className="text-xs text-muted-foreground mt-1">Ha meg van adva, megjelenik egy kattintható gomb a hírlevélben</p>
                 </div>
                 <div className="flex items-center space-x-2">
                   <input
@@ -534,13 +558,14 @@ const NewsletterManagement = () => {
                   <Label htmlFor="show_cta_button">Gomb megjelenítése</Label>
                 </div>
                 <div>
-                  <Label>Extra tartalom (pl. EAP Pulse szöveg)</Label>
+                  <Label>Extra tartalom (pl. EAP Pulse ajánló szöveg)</Label>
                   <Textarea
                     value={templateForm.extra_content}
                     onChange={(e) => setTemplateForm({ ...templateForm, extra_content: e.target.value })}
                     rows={6}
-                    placeholder="További információk vagy ajánlások..."
+                    placeholder="EAP Pulse - Mérje programja hatékonyságát&#10;&#10;Tudta, hogy az EAP Pulse segítségével..."
                   />
+                  <p className="text-xs text-muted-foreground mt-1">Ez a tartalom a fő tartalom után, külön dobozban jelenik meg</p>
                 </div>
               </TabsContent>
 
@@ -695,39 +720,50 @@ const NewsletterManagement = () => {
                   </div>
                 </div>
               </TabsContent>
-
-              <TabsContent value="templates" className="space-y-4">
-                <div className="space-y-2">
-                  <Label>Meglévő sablonok</Label>
-                  <div className="grid gap-2">
-                    {templates.map((template) => (
-                      <div key={template.id} className="flex justify-between items-center p-3 border rounded-md">
-                        <div>
-                          <p className="font-medium">{template.name}</p>
-                          {template.is_default && <span className="text-xs text-muted-foreground">(Alapértelmezett)</span>}
-                        </div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleEditTemplate(template)}
-                        >
-                          Szerkesztés
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </TabsContent>
             </Tabs>
             <div className="flex justify-end gap-2 pt-4">
               <Button variant="outline" onClick={() => setIsTemplateDialogOpen(false)}>
                 Mégse
               </Button>
-              <Button onClick={handleSaveTemplate}>Sablon mentése</Button>
+              <Button onClick={handleSaveTemplate}>{editingTemplateId ? "Módosítások mentése" : "Sablon mentése"}</Button>
             </div>
           </DialogContent>
         </Dialog>
       </div>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Meglévő sablonok</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-3">
+            {templates.map((template) => (
+              <div key={template.id} className="flex justify-between items-center p-4 border rounded-md hover:bg-muted/50 transition-colors">
+                <div>
+                  <p className="font-medium text-lg">{template.name}</p>
+                  {template.is_default && <span className="text-xs text-muted-foreground">(Alapértelmezett sablon)</span>}
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Fejléc: {template.header_title} • Gomb: {template.button_text}
+                  </p>
+                </div>
+                <Button
+                  variant="outline"
+                  onClick={() => handleEditTemplate(template)}
+                >
+                  <Settings className="h-4 w-4 mr-2" />
+                  Szerkesztés
+                </Button>
+              </div>
+            ))}
+            {templates.length === 0 && (
+              <p className="text-center text-muted-foreground py-8">
+                Még nincs egyetlen sablon sem. Hozzon létre egyet az "Új sablon" gombbal.
+              </p>
+            )}
+          </div>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>
