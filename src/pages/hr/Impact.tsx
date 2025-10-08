@@ -56,6 +56,28 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
   useEffect(() => {
     if (selectedAuditId) {
       fetchImpactData(selectedAuditId);
+      
+      // Set up real-time subscription
+      const channel = supabase
+        .channel('impact_responses_changes')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'audit_responses',
+            filter: `audit_id=eq.${selectedAuditId}`
+          },
+          (payload) => {
+            console.log('Impact response updated:', payload);
+            fetchImpactData(selectedAuditId);
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
     }
   }, [selectedAuditId]);
 
