@@ -30,6 +30,14 @@ const Index = () => {
   const [password, setPassword] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
+  const handleGetStarted = () => {
+    if (user) {
+      navigate("/?section=focus");
+    } else {
+      navigate("/auth");
+    }
+  };
+
   // Get current section and subsection from URL params
   const section = searchParams.get('section') || '';
   const subSection = searchParams.get('sub') || '';
@@ -756,7 +764,7 @@ const Index = () => {
                     <p className="font-medium">Email támogatás</p>
                   </div>
                 </div>
-                <Button className="w-full" variant="outline" onClick={() => navigate('/arak')}>
+                <Button className="w-full" variant="outline" onClick={handleGetStarted}>
                   Kezdjük el
                 </Button>
               </CardContent>
@@ -803,7 +811,7 @@ const Index = () => {
                     <p className="font-medium">Testre szabható kérdőívek</p>
                   </div>
                 </div>
-                <Button className="w-full" variant="cta" onClick={() => navigate('/auth')}>
+                <Button className="w-full" variant="cta" onClick={handleGetStarted}>
                   Kezdjük el
                 </Button>
               </CardContent>
