@@ -36,8 +36,39 @@ export default function NewsletterManagement() {
   const [newSubscriber, setNewSubscriber] = useState({ email: "", name: "" });
   const [newsletter, setNewsletter] = useState({ 
     subject: "", 
-    content: "<h2>Új cikkek a The Journalist! magazinban</h2>\n\n<p>Kedves Olvasóink!</p>\n\n<p>Örömmel jelentjük be, hogy megjelent magazinunk legújabb száma, amely számos érdekes cikket tartalmaz az EAP világából:</p>\n\n<ul>\n  <li><strong>EAP Mítoszok és Tévhitek</strong> - Tisztázzuk a leggyakoribb félreértéseket</li>\n  <li><strong>ROI Számítás EAP Programokhoz</strong> - Hogyan mérjük a megtérülést?</li>\n  <li><strong>Digitális Jólét a Munkahelyen</strong> - Modern megoldások stressz kezelésére</li>\n</ul>\n\n<p>Látogasson el magazinunk oldalára és fedezze fel a teljes tartalmat!</p>\n\n<p>Üdvözlettel,<br>A doyoueap csapata</p>",
-    fromEmail: "noreply@doyoueap.com"
+    content: `<h2>Üdvözöljük hírlevelünkben!</h2>
+
+<p>Kedves Olvasóink!</p>
+
+<div class="highlight-box">
+  <p><strong>🎉 Fontos bejelentés:</strong> Megjelent magazinunk legújabb száma!</p>
+</div>
+
+<h3>📰 Új cikkek a The Journalist! magazinban</h3>
+
+<p>Örömmel jelentjük be, hogy megjelent magazinunk januári száma, amely számos érdekes cikket tartalmaz az EAP világából:</p>
+
+<ul>
+  <li><strong>EAP Mítoszok és Tévhitek</strong> - Tisztázzuk a leggyakoribb félreértéseket az EAP programokról</li>
+  <li><strong>ROI Számítás EAP Programokhoz</strong> - Hogyan mérjük a befektetés megtérülését?</li>
+  <li><strong>Digitális Jólét a Munkahelyen</strong> - Modern megoldások a stressz kezelésére</li>
+  <li><strong>Globális EAP Trendek 2025</strong> - Mit hoz az új év?</li>
+</ul>
+
+<p style="text-align: center;">
+  <a href="https://doyoueap.com/magazin" class="cta-button">Olvassa el most! →</a>
+</p>
+
+<div class="divider"></div>
+
+<h3>💡 EAP Pulse - Mérje programja hatékonyságát</h3>
+
+<p>Tudta, hogy az EAP Pulse segítségével <strong>60+ extra statisztikai adattal</strong> bővítheti szolgáltatója riportjait? Szerezzen egyedi visszajelzéseket dolgozóitól és mutassa ki a program valódi értékét!</p>
+
+<p>Üdvözlettel,<br><strong>A doyoueap csapata</strong></p>`,
+    fromEmail: "noreply@doyoueap.com",
+    logoUrl: "",
+    featuredImageUrl: ""
   });
   const [dialogOpen, setDialogOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -216,7 +247,9 @@ export default function NewsletterManagement() {
           subject: newsletter.subject,
           content: newsletter.content,
           fromEmail: newsletter.fromEmail,
-          subscribers: subscribers.map(s => ({ email: s.email, name: s.name }))
+          subscribers: subscribers.map(s => ({ email: s.email, name: s.name })),
+          logoUrl: newsletter.logoUrl || undefined,
+          featuredImageUrl: newsletter.featuredImageUrl || undefined
         }
       });
 
@@ -239,7 +272,9 @@ export default function NewsletterManagement() {
       setNewsletter({ 
         subject: "", 
         content: "",
-        fromEmail: "noreply@doyoueap.com"
+        fromEmail: "noreply@doyoueap.com",
+        logoUrl: "",
+        featuredImageUrl: ""
       });
       fetchCampaigns();
     } catch (error: any) {
@@ -293,6 +328,34 @@ export default function NewsletterManagement() {
                 A hírlevél feladója (pl. noreply@doyoueap.com vagy info@doyoueap.com)
               </p>
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="logoUrl">Logo URL (opcionális)</Label>
+                <Input
+                  id="logoUrl"
+                  type="url"
+                  value={newsletter.logoUrl}
+                  onChange={(e) => setNewsletter({ ...newsletter, logoUrl: e.target.value })}
+                  placeholder="https://example.com/logo.png"
+                />
+                <p className="text-xs text-muted-foreground">
+                  A hírlevél tetején megjelenő logo (ajánlott méret: 180x60px)
+                </p>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="featuredImageUrl">Kiemelt kép URL (opcionális)</Label>
+                <Input
+                  id="featuredImageUrl"
+                  type="url"
+                  value={newsletter.featuredImageUrl}
+                  onChange={(e) => setNewsletter({ ...newsletter, featuredImageUrl: e.target.value })}
+                  placeholder="https://example.com/image.jpg"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Nagy banner kép a címsor alatt (ajánlott méret: 600x300px)
+                </p>
+              </div>
+            </div>
             <div className="space-y-2">
               <Label htmlFor="subject">Tárgy*</Label>
               <Input
@@ -315,8 +378,15 @@ export default function NewsletterManagement() {
                 className="font-mono text-sm"
               />
               <p className="text-xs text-muted-foreground">
-                HTML formázás támogatott. Használjon &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt; címkéket. 
-                A hírlevél automatikusan tartalmazza a doyoueap brandingot.
+                <strong>HTML formázási lehetőségek:</strong><br/>
+                • Címsorok: &lt;h2&gt;, &lt;h3&gt;<br/>
+                • Bekezdés: &lt;p&gt;<br/>
+                • Felsorolás: &lt;ul&gt;&lt;li&gt;Elem&lt;/li&gt;&lt;/ul&gt;<br/>
+                • Vastag szöveg: &lt;strong&gt;Szöveg&lt;/strong&gt;<br/>
+                • Link: &lt;a href="URL"&gt;Szöveg&lt;/a&gt;<br/>
+                • Gomb: &lt;a href="URL" class="cta-button"&gt;Kattints!&lt;/a&gt;<br/>
+                • Kiemelő doboz: &lt;div class="highlight-box"&gt;&lt;p&gt;Szöveg&lt;/p&gt;&lt;/div&gt;<br/>
+                • Elválasztó: &lt;div class="divider"&gt;&lt;/div&gt;
               </p>
             </div>
             <Button type="submit" disabled={sending || subscribers.length === 0}>
