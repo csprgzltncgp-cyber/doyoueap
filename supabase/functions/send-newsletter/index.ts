@@ -281,18 +281,10 @@ const createNewsletterHTML = (
         box-shadow: 0 4px 12px ${template.content_button_shadow_color || '#0ea5e933'};
       }
       
-      .content-button:hover {
-        box-shadow: 0 6px 16px ${template.content_button_shadow_color || '#0ea5e933'};
-      }
-      
       .extra-button {
         background: ${template.extra_button_color || '#0ea5e9'};
         color: ${template.extra_button_text_color || '#ffffff'};
         box-shadow: 0 4px 12px ${template.extra_button_shadow_color || '#0ea5e933'};
-      }
-      
-      .extra-button:hover {
-        box-shadow: 0 6px 16px ${template.extra_button_shadow_color || '#0ea5e933'};
       }
       
       /* Extra content box */
