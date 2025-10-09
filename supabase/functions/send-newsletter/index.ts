@@ -477,7 +477,7 @@ const createNewsletterHTML = (
           <p class="copyright" style="color: ${template.footer_copyright_color || '#ffffff'};">${template.footer_copyright_text || `© ${new Date().getFullYear()} Az EAP-világ vezető szakfolyóirata. Minden jog fenntartva.`}</p>
           
           <p style="font-size: 11px; margin-top: 20px;">
-            Ha le szeretne iratkozni hírlevelünkről, <a href="https://xvtglebdgoxqwxunjrqs.lovable.app/leiratkozas?token=${encodeURIComponent(unsubscribeToken)}" style="color: rgba(255,255,255,0.8); text-decoration: underline;">kattintson ide</a>.
+            Ha le szeretne iratkozni hírlevelünkről, <a href="${Deno.env.get('SUPABASE_URL')}/functions/v1/unsubscribe-newsletter?token=${encodeURIComponent(unsubscribeToken)}" style="color: rgba(255,255,255,0.8); text-decoration: underline;">kattintson ide</a>.
           </p>
         </div>
       </div>

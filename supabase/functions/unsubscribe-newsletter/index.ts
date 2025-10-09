@@ -99,19 +99,24 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Subscriber unsubscribed: ${subscriber.email}`);
 
-    return new Response(
-      JSON.stringify({ 
-        success: true, 
-        message: "Leiratkozás sikeres" 
-      }),
-      {
-        status: 200,
-        headers: { 
-          "Content-Type": "application/json",
-          ...corsHeaders 
-        },
-      }
-    );
+    // Return HTML success page
+    const successHtml = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Leiratkozás sikeres</title>
+        </head>
+        <body>
+          <p>Leiratkozás sikeres. Üdvözlettel, doyoueap</p>
+        </body>
+      </html>
+    `;
+
+    return new Response(successHtml, {
+      status: 200,
+      headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders },
+    });
   } catch (error: any) {
     console.error("Error in unsubscribe function:", error);
     return new Response(JSON.stringify({ error: error.message }), {
