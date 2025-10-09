@@ -99,25 +99,76 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Subscriber unsubscribed: ${subscriber.email}`);
 
-    // Return HTML with redirect to the unsubscribe success page
-    const redirectHtml = `
+    // Return success page HTML
+    const successHtml = `
       <!DOCTYPE html>
-      <html>
+      <html lang="hu">
         <head>
           <meta charset="utf-8">
-          <title>Átirányítás...</title>
-          <meta http-equiv="refresh" content="0;url=/unsubscribe-success">
-          <script>
-            window.location.href = '/unsubscribe-success';
-          </script>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Sikeres leiratkozás - DoYouEAP</title>
+          <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body {
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              min-height: 100vh;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 20px;
+            }
+            .container {
+              background: white;
+              border-radius: 16px;
+              padding: 48px 32px;
+              max-width: 500px;
+              text-align: center;
+              box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            }
+            h1 {
+              color: #1a202c;
+              font-size: 32px;
+              margin-bottom: 24px;
+              font-weight: 700;
+            }
+            .logo {
+              width: 120px;
+              height: auto;
+              margin: 0 auto;
+              display: block;
+            }
+            .message {
+              color: #4a5568;
+              font-size: 18px;
+              margin-top: 16px;
+            }
+            .checkmark {
+              width: 64px;
+              height: 64px;
+              margin: 0 auto 24px;
+              background: #48bb78;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 40px;
+              color: white;
+            }
+          </style>
         </head>
         <body>
-          <p>Átirányítás...</p>
+          <div class="container">
+            <div class="checkmark">✓</div>
+            <h1>Sikeres leiratkozás!</h1>
+            <p class="message">Leiratkozott hírlevelünkről.</p>
+            <img src="https://xvtglebdgoxqwxunjrqs.supabase.co/storage/v1/object/public/newsletter-assets/doyoueap-logo.png" alt="DoYouEAP" class="logo" style="margin-top: 32px;">
+          </div>
         </body>
       </html>
     `;
     
-    return new Response(redirectHtml, {
+    return new Response(successHtml, {
       status: 200,
       headers: { 
         "Content-Type": "text/html; charset=utf-8",
