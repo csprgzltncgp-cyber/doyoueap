@@ -131,7 +131,7 @@ const Bemutatkozas = () => {
             <img 
               src={riportImage} 
               alt="Részletes riportok és analitika" 
-              className="absolute left-[40%] -top-[7px] w-auto object-contain object-left scale-[1.5] z-0"
+              className="absolute left-[45%] -top-[7px] w-auto object-contain object-left scale-[1.5] z-0"
             />
           </div>
         </div>
