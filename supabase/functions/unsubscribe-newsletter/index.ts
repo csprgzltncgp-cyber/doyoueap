@@ -104,10 +104,16 @@ const handler = async (req: Request): Promise<Response> => {
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Leiratkozás sikeres</title>
+  <title>Leiratkozás</title>
+  <script>
+    window.close();
+    setTimeout(function() {
+      window.location.href = 'about:blank';
+    }, 100);
+  </script>
 </head>
 <body>
-  <p>Leiratkozás sikeres. Üdvözlettel, doyoueap</p>
+  <p>Leiratkozás sikeres.</p>
 </body>
 </html>`,
       {
