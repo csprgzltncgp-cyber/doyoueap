@@ -99,76 +99,30 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Subscriber unsubscribed: ${subscriber.email}`);
 
-    // Return styled success page matching the /unsubscribe-success design
-    const successHtml = `
+    // Return HTML with redirect to the unsubscribe success page
+    const redirectHtml = `
       <!DOCTYPE html>
-      <html lang="hu">
+      <html>
         <head>
           <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Leiratkozás sikeres</title>
-          <style>
-            body {
-              margin: 0;
-              padding: 40px 20px;
-              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-              min-height: 100vh;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-            .container {
-              background: white;
-              border-radius: 16px;
-              padding: 48px;
-              max-width: 500px;
-              text-align: center;
-              box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            }
-            .logo {
-              max-width: 120px;
-              height: auto;
-              margin: 0 auto 32px;
-            }
-            h1 {
-              color: #1a1a1a;
-              font-size: 28px;
-              margin: 0 0 16px;
-            }
-            p {
-              color: #666;
-              font-size: 16px;
-              line-height: 1.6;
-              margin: 0 0 24px;
-            }
-            .button {
-              display: inline-block;
-              background: #667eea;
-              color: white;
-              padding: 12px 32px;
-              border-radius: 8px;
-              text-decoration: none;
-              font-weight: 600;
-              margin-top: 16px;
-            }
-          </style>
+          <title>Átirányítás...</title>
+          <meta http-equiv="refresh" content="0;url=/unsubscribe-success">
+          <script>
+            window.location.href = '/unsubscribe-success';
+          </script>
         </head>
         <body>
-          <div class="container">
-            <img src="https://xvtglebdgoxqwxunjrqs.supabase.co/storage/v1/object/public/newsletter-assets/logo-2.png" alt="DoYouEAP" class="logo">
-            <h1>Sikeres leiratkozás</h1>
-            <p>Leiratkozását rögzítettük. Többé nem fog tőlünk hírleveleket kapni.</p>
-            <p>Reméljük, hogy a jövőben újra találkozunk!</p>
-            <a href="https://doyoueap.hu" class="button">Vissza a főoldalra</a>
-          </div>
+          <p>Átirányítás...</p>
         </body>
       </html>
     `;
-
-    return new Response(successHtml, {
+    
+    return new Response(redirectHtml, {
       status: 200,
-      headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders },
+      headers: { 
+        "Content-Type": "text/html; charset=utf-8",
+        ...corsHeaders 
+      },
     });
   } catch (error: any) {
     console.error("Error in unsubscribe function:", error);
