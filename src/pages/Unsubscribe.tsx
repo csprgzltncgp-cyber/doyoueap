@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import { Loader2, CheckCircle2, XCircle } from "lucide-react";
 
 const Unsubscribe = () => {
@@ -18,6 +19,13 @@ const Unsubscribe = () => {
       }
 
       try {
+        const { data, error } = await supabase.functions.invoke("unsubscribe-newsletter", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
         // Construct the URL with token
         const response = await fetch(
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/unsubscribe-newsletter?token=${encodeURIComponent(token)}`
