@@ -92,36 +92,6 @@ const App = () => (
             } 
           />
           <Route 
-            path="/hr/create-audit" 
-            element={
-              <ProtectedRoute allowedRoles={['hr']}>
-                <HRLayout>
-                  <EAPAudit />
-                </HRLayout>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/hr/running-audits" 
-            element={
-              <ProtectedRoute allowedRoles={['hr']}>
-                <HRLayout>
-                  <EAPAudit />
-                </HRLayout>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/hr/audit-questionnaire" 
-            element={
-              <ProtectedRoute allowedRoles={['hr']}>
-                <HRLayout>
-                  <EAPAudit />
-                </HRLayout>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
             path="/hr/reports"
             element={
               <ProtectedRoute allowedRoles={['hr']}>
