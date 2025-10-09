@@ -203,7 +203,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
   const redirectRate = totalCount > 0 ? ((redirectResponses.length / totalCount) * 100).toFixed(1) : '0';
 
   return (
-    <div className="space-y-6 pt-20 md:pt-0">
+    <div className="space-y-6">
       {/* Fejléc és összefoglaló kártyák */}
       <div className="space-y-4 mb-6">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
