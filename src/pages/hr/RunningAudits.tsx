@@ -7,8 +7,19 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
-import { Calendar, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link } from 'lucide-react';
+import { Calendar, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2 } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 // NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface AuditMetrics {
@@ -129,6 +140,23 @@ const RunningAudits = () => {
     toast.success('Link vágólapra másolva!');
   };
 
+  const handleDelete = async (auditId: string) => {
+    try {
+      const { error } = await supabase
+        .from('audits')
+        .update({ is_active: false })
+        .eq('id', auditId);
+
+      if (error) throw error;
+
+      toast.success('Felmérés sikeresen törölve');
+      fetchRunningAudits();
+    } catch (error) {
+      console.error('Error deleting audit:', error);
+      toast.error('Hiba történt a felmérés törlésekor');
+    }
+  };
+
   if (loading) {
     return (
       <div className="p-8 flex items-center justify-center h-96">
@@ -179,6 +207,29 @@ const RunningAudits = () => {
                     </Badge>
                   </div>
                 </div>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="outline" size="sm" className="gap-2">
+                      <Trash2 className="h-4 w-4" />
+                      Törlés
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Biztosan törölni szeretnéd?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Ez a felmérés inaktívvá válik és nem jelenik meg a futó felmérések között. 
+                        A már kitöltött válaszok megmaradnak az adatbázisban.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Mégse</AlertDialogCancel>
+                      <AlertDialogAction onClick={() => handleDelete(metrics.audit.id)}>
+                        Törlés
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </CardHeader>
             <CardContent>
