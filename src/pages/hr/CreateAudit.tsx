@@ -177,9 +177,9 @@ const CreateAudit = () => {
   return (
     <div className="space-y-6">
       <div className="mb-6">
-        <div className="flex items-center gap-4 mb-4">
-          <img src={eapPulseLogo} alt="EAP Pulse" className="h-12" />
+        <div className="flex items-center justify-between mb-4">
           <h2 className="text-2xl font-bold">Új EAP Pulse Felmérés Indítása</h2>
+          <img src={eapPulseLogo} alt="EAP Pulse" className="h-6" />
         </div>
         <p className="text-muted-foreground text-sm">
           Lépés {currentStep} / {totalSteps}
