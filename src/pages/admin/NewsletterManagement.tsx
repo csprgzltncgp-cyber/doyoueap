@@ -327,9 +327,39 @@ const NewsletterManagement = () => {
         return;
       }
 
+      // Get existing email addresses from the database
+      const { data: existingSubscribers, error: fetchError } = await supabase
+        .from("newsletter_subscribers")
+        .select("email")
+        .eq("is_active", true);
+
+      if (fetchError) {
+        console.error("Fetch error:", fetchError);
+        toast.error("Hiba a meglévő feliratkozók lekérdezése során");
+        return;
+      }
+
+      // Create a set of existing emails for faster lookup
+      const existingEmails = new Set(
+        existingSubscribers?.map(s => s.email.toLowerCase()) || []
+      );
+
+      // Filter out subscribers that already exist
+      const newSubscribers = subscribersToAdd.filter(
+        subscriber => !existingEmails.has(subscriber.email.toLowerCase())
+      );
+
+      const skippedCount = subscribersToAdd.length - newSubscribers.length;
+
+      if (newSubscribers.length === 0) {
+        toast.info("Minden email cím már szerepel a rendszerben. Új feliratkozó nem lett hozzáadva.");
+        e.target.value = '';
+        return;
+      }
+
       const { error } = await supabase
         .from("newsletter_subscribers")
-        .insert(subscribersToAdd);
+        .insert(newSubscribers);
 
       if (error) {
         console.error("Insert error:", error);
@@ -337,7 +367,12 @@ const NewsletterManagement = () => {
         return;
       }
 
-      toast.success(`${subscribersToAdd.length} feliratkozó importálva!`);
+      let message = `${newSubscribers.length} új feliratkozó importálva!`;
+      if (skippedCount > 0) {
+        message += ` (${skippedCount} már létező email cím kihagyva)`;
+      }
+      
+      toast.success(message);
       fetchSubscribers();
       
       // Reset file input
