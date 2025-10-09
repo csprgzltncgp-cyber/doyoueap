@@ -272,7 +272,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
   const totalCount = responses.length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pt-20 md:pt-0">
       {/* Fejléc */}
       <div className="flex justify-between items-start gap-4 mb-6">
         <div className="flex-1">

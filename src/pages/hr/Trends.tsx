@@ -179,7 +179,7 @@ const Trends = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pt-20 md:pt-0">
       <div>
         <h2 className="text-2xl font-bold mb-2">Időbeli Trendek</h2>
         <p className="text-muted-foreground">Változások és trendek követése</p>

@@ -262,7 +262,7 @@ const Demographics = ({ selectedAuditId, audits, onAuditChange }: DemographicsPr
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pt-20 md:pt-0">
       <div className="flex justify-between items-start gap-4 mb-6">
         <div className="flex-1">
           <h2 className="text-2xl font-bold mb-2">Demográfiai Elemzés</h2>

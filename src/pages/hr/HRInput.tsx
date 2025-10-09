@@ -113,7 +113,7 @@ const HRInput = () => {
   }
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-8 space-y-6 pt-28 md:pt-8">
       <div>
         <h1 className="text-3xl font-bold mb-2">HR Input</h1>
         <p className="text-muted-foreground">Cégspecifikus adatok megadása az indexek pontosításához</p>
