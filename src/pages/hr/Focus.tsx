@@ -190,7 +190,7 @@ const Focus = () => {
   const groupedDownloads = groupDownloadsByAudit();
 
   return (
-    <div className="space-y-6 pt-20 md:pt-0">
+    <div className="space-y-6 pt-20">
       {/* Üdvözlő szekció */}
       <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
         <CardHeader>

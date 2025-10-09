@@ -1017,7 +1017,7 @@ const Export = () => {
   }
 
   return (
-    <div className="space-y-6 pt-20 md:pt-0">
+    <div className="space-y-6 pt-20">
       <div className="space-y-4 mb-6">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
           <div className="flex-1">

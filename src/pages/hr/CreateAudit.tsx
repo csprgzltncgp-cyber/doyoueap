@@ -175,7 +175,7 @@ const CreateAudit = () => {
   };
 
   return (
-    <div className="space-y-6 pt-20 md:pt-0">
+    <div className="space-y-6 pt-20">
       <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-2xl font-bold">Új EAP Pulse Felmérés Indítása</h2>

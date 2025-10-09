@@ -186,7 +186,7 @@ const Compare = () => {
   }
 
   return (
-    <div className="space-y-6 pt-20 md:pt-0">
+    <div className="space-y-6 pt-20">
       <div>
         <h2 className="text-2xl font-bold mb-2">Összehasonlító Nézet</h2>
         <p className="text-muted-foreground">Két felmérés összehasonlítása</p>
