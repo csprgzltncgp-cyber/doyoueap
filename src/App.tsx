@@ -25,6 +25,7 @@ import Settings from "./pages/hr/Settings";
 import UserDashboard from "./pages/UserDashboard";
 import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
+import Unsubscribe from "./pages/Unsubscribe";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -161,6 +162,7 @@ const App = () => (
             } 
           />
           <Route path="/survey/:token" element={<UserDashboard />} />
+          <Route path="/leiratkozas" element={<Unsubscribe />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
