@@ -273,11 +273,6 @@ const createNewsletterHTML = (
         font-weight: 600;
         font-size: 16px;
         text-align: center;
-        transition: transform 0.2s, box-shadow 0.2s;
-      }
-      
-      .email-button:hover {
-        opacity: 0.9;
       }
       
       .content-button {
