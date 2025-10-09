@@ -17,9 +17,9 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const url = new URL(req.url);
-    const token = url.searchParams.get("token");
+    const encodedToken = url.searchParams.get("token");
 
-    if (!token) {
+    if (!encodedToken) {
       return new Response(
         JSON.stringify({ error: "Hiányzó leiratkozási token" }),
         {
@@ -32,6 +32,9 @@ const handler = async (req: Request): Promise<Response> => {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    // Decode the token (it was URL encoded in the email)
+    const token = decodeURIComponent(encodedToken);
 
     // Find subscriber by token
     const { data: subscriber, error: fetchError } = await supabase
