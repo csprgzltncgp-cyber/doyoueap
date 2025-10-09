@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.check-email-verification]
 verify_jwt = false
+
+[functions.unsubscribe-newsletter]
+verify_jwt = false

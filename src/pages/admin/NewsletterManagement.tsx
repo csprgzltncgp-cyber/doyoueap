@@ -19,6 +19,7 @@ interface Subscriber {
   name: string | null;
   subscribed_at: string;
   is_active: boolean;
+  unsubscribe_token: string;
 }
 
 interface Campaign {

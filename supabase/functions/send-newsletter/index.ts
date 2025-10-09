@@ -63,7 +63,7 @@ interface NewsletterRequest {
   subject: string;
   content: string;
   extraContent?: string;
-  subscribers: Array<{ email: string; name: string | null }>;
+  subscribers: Array<{ email: string; name: string | null; unsubscribe_token?: string }>;
   template: NewsletterTemplate;
 }
 
@@ -97,7 +97,8 @@ const createNewsletterHTML = (
   content: string,
   extraContent: string | null,
   subject: string,
-  template: NewsletterTemplate
+  template: NewsletterTemplate,
+  unsubscribeToken: string
 ): string => {
   const formattedContent = formatContent(content);
   const extraFormattedContent = extraContent ? formatContent(extraContent) : null;
@@ -476,7 +477,7 @@ const createNewsletterHTML = (
           <p class="copyright" style="color: ${template.footer_copyright_color || '#ffffff'};">${template.footer_copyright_text || `© ${new Date().getFullYear()} Az EAP-világ vezető szakfolyóirata. Minden jog fenntartva.`}</p>
           
           <p style="font-size: 11px; margin-top: 20px;">
-            Ha le szeretne iratkozni hírlevelünkről, <a href="mailto:${template.sender_email}?subject=Leiratkozás" style="color: rgba(255,255,255,0.8); text-decoration: underline;">kattintson ide</a>.
+            Ha le szeretne iratkozni hírlevelünkről, <a href="${Deno.env.get('SUPABASE_URL')}/functions/v1/unsubscribe-newsletter?token=${unsubscribeToken}" style="color: rgba(255,255,255,0.8); text-decoration: underline;">kattintson ide</a>.
           </p>
         </div>
       </div>
@@ -508,7 +509,14 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send emails to all subscribers
     const emailPromises = subscribers.map(async (subscriber) => {
-      const html = createNewsletterHTML(subscriber.name, content, extraContent || null, subject, template);
+      const html = createNewsletterHTML(
+        subscriber.name, 
+        content, 
+        extraContent || null, 
+        subject, 
+        template,
+        subscriber.unsubscribe_token || ''
+      );
 
       try {
         const emailResponse = await resend.emails.send({
