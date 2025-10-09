@@ -119,7 +119,7 @@ const Bemutatkozas = () => {
           </Card>
           <div className="relative h-[500px] flex items-center justify-start">
             {/* Phone image with white rounded box background */}
-            <div className="relative z-10 h-full flex items-center scale-[2]">
+            <div className="relative z-10 h-full flex items-center">
               <div className="absolute inset-2 bg-white rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.4)]" />
               <img 
                 src={iphoneImage} 
@@ -128,12 +128,12 @@ const Bemutatkozas = () => {
               />
             </div>
             {/* Screen image with white rounded box background - right, behind phone, overflowing */}
-            <div className="absolute left-[35%] -top-[7px] scale-[2]">
-              <div className="absolute inset-0 bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)]" />
+            <div className="absolute left-[35%] -top-[7px]">
+              <div className="absolute inset-2 bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] scale-[1.2]" style={{ width: '600px', height: '450px' }} />
               <img 
                 src={riportImage} 
                 alt="Részletes riportok és analitika" 
-                className="relative w-auto object-contain object-left"
+                className="relative z-10 w-auto object-contain object-left scale-[1.2]"
               />
             </div>
           </div>
