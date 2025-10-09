@@ -99,11 +99,15 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Subscriber unsubscribed: ${subscriber.email}`);
 
-    // Redirect to homepage after successful unsubscribe
-    return new Response(null, {
-      status: 302,
+    // Return simple success message
+    const successHtml = new TextEncoder().encode(
+      `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Leiratkozás sikeres</title></head><body><p>Leiratkozás sikeres. Üdvözlettel, doyoueap</p></body></html>`
+    );
+
+    return new Response(successHtml, {
+      status: 200,
       headers: { 
-        "Location": "https://xvtglebdgoxqwxunjrqs.lovable.app/magazin",
+        "Content-Type": "text/html; charset=utf-8",
         ...corsHeaders 
       },
     });
