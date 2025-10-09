@@ -127,15 +127,12 @@ const Bemutatkozas = () => {
                 className="relative z-10 h-full w-auto object-contain"
               />
             </div>
-            {/* Screen image with white rounded box background - right, behind phone, overflowing */}
-            <div className="absolute left-[35%] -top-[7px]">
-              <div className="absolute inset-2 bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] scale-[1.2]" style={{ width: '600px', height: '450px' }} />
-              <img 
-                src={riportImage} 
-                alt="Részletes riportok és analitika" 
-                className="relative z-10 w-auto object-contain object-left scale-[1.2]"
-              />
-            </div>
+            {/* Screen image - right, behind phone, overflowing */}
+            <img 
+              src={riportImage} 
+              alt="Részletes riportok és analitika" 
+              className="absolute left-[35%] -top-[7px] w-auto object-contain object-left scale-[1.2]"
+            />
           </div>
         </div>
 
