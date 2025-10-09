@@ -117,7 +117,7 @@ const Bemutatkozas = () => {
               </p>
             </CardContent>
           </Card>
-          <div className="relative h-[500px] flex items-center justify-start">
+          <div className="relative h-[500px] flex items-center justify-center md:justify-start">
             {/* Phone image with white rounded box background */}
             <div className="relative z-10 h-full flex items-center">
               <div className="absolute inset-2 bg-white rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.4)]" />
