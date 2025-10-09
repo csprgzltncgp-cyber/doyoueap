@@ -151,7 +151,7 @@ const CreateAudit = () => {
       if (error) throw error;
 
       toast.success('EAP Pulse felmérés sikeresen létrehozva és elindítva!');
-      navigate('/hr/running-audits');
+      navigate('/hr?section=eap-pulse&sub=running-audits');
     } catch (error) {
       console.error('Error creating assessment:', error);
       toast.error('Hiba történt a felmérés létrehozásakor');
