@@ -47,6 +47,11 @@ const Index = () => {
       navigate('/admin');
     }
     
+    // If on /dashboard route without section, redirect to focus
+    if (!loading && user && role === 'hr' && window.location.pathname === '/dashboard' && !section) {
+      navigate('/?section=focus');
+    }
+    
     // Set default subsection for EAP Pulse
     if (user && role === 'hr' && section === 'eap-pulse' && !subSection) {
       setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });

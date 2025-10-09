@@ -3,8 +3,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { HRSidebar } from "@/components/hr/HRSidebar";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import VerifyEmail from "./pages/VerifyEmail";
@@ -16,12 +14,6 @@ import Arak from "./pages/Arak";
 import AdminDashboard from "./pages/AdminDashboard";
 import SuperAdmin from "./pages/SuperAdmin";
 import ApproveAdmin from "./pages/ApproveAdmin";
-import Focus from "./pages/hr/Focus";
-import EAPAudit from "./pages/hr/EAPAudit";
-import Reports from "./pages/hr/Reports";
-import Export from "./pages/hr/Export";
-import CustomSurvey from "./pages/hr/CustomSurvey";
-import Settings from "./pages/hr/Settings";
 import UserDashboard from "./pages/UserDashboard";
 import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
@@ -29,22 +21,6 @@ import UnsubscribeSuccess from "./pages/UnsubscribeSuccess";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
-
-const HRLayout = ({ children }: { children: React.ReactNode }) => (
-  <SidebarProvider>
-    <div className="min-h-screen flex w-full">
-      <HRSidebar />
-      <div className="flex-1 flex flex-col">
-        <header className="h-14 border-b flex items-center px-4">
-          <SidebarTrigger />
-        </header>
-        <main className="flex-1">
-          {children}
-        </main>
-      </div>
-    </div>
-  </SidebarProvider>
-);
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -72,62 +48,10 @@ const App = () => (
             } 
           />
           <Route 
-            path="/hr" 
+            path="/dashboard" 
             element={
               <ProtectedRoute allowedRoles={['hr']}>
-                <HRLayout>
-                  <Focus />
-                </HRLayout>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/hr/eap-audit" 
-            element={
-              <ProtectedRoute allowedRoles={['hr']}>
-                <HRLayout>
-                  <EAPAudit />
-                </HRLayout>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/hr/reports"
-            element={
-              <ProtectedRoute allowedRoles={['hr']}>
-                <HRLayout>
-                  <Reports />
-                </HRLayout>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/hr/export" 
-            element={
-              <ProtectedRoute allowedRoles={['hr']}>
-                <HRLayout>
-                  <Export />
-                </HRLayout>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/hr/custom-survey" 
-            element={
-              <ProtectedRoute allowedRoles={['hr']}>
-                <HRLayout>
-                  <CustomSurvey />
-                </HRLayout>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/hr/settings" 
-            element={
-              <ProtectedRoute allowedRoles={['hr']}>
-                <HRLayout>
-                  <Settings />
-                </HRLayout>
+                <Index />
               </ProtectedRoute>
             } 
           />
