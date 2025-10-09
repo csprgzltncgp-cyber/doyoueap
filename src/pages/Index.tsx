@@ -12,13 +12,12 @@ import { MobileNav } from '@/components/navigation/MobileNav';
 import { MobileDashboardNav } from '@/components/navigation/MobileDashboardNav';
 import logo from '@/assets/logo.png';
 import dashboardPreview from '@/assets/dashboard-preview.jpg';
-import HRDashboard from './HRDashboard';
+import Focus from './hr/Focus';
 import EAPAudit from './hr/EAPAudit';
 import Reports from './hr/Reports';
 import Export from './hr/Export';
 import CustomSurvey from './hr/CustomSurvey';
 import Settings from './hr/Settings';
-import Focus from './hr/Focus';
 
 const Index = () => {
   const { user, role, loading, signIn, signOut } = useAuth();
@@ -128,7 +127,7 @@ const Index = () => {
 
     switch (section) {
       case 'dashboard':
-        return <HRDashboard />;
+        return <Focus />;
       case 'focus':
         return <Focus />;
       case 'eap-pulse':
@@ -138,7 +137,7 @@ const Index = () => {
           case 'audit-questionnaire':
             return <EAPAudit />;
           default:
-            return <HRDashboard />;
+            return <EAPAudit />;
         }
       case 'reports':
         return <Reports />;

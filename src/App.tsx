@@ -16,7 +16,7 @@ import Arak from "./pages/Arak";
 import AdminDashboard from "./pages/AdminDashboard";
 import SuperAdmin from "./pages/SuperAdmin";
 import ApproveAdmin from "./pages/ApproveAdmin";
-import HRDashboard from "./pages/HRDashboard";
+import Focus from "./pages/hr/Focus";
 import EAPAudit from "./pages/hr/EAPAudit";
 import Reports from "./pages/hr/Reports";
 import Export from "./pages/hr/Export";
@@ -76,7 +76,7 @@ const App = () => (
             element={
               <ProtectedRoute allowedRoles={['hr']}>
                 <HRLayout>
-                  <HRDashboard />
+                  <Focus />
                 </HRLayout>
               </ProtectedRoute>
             } 
