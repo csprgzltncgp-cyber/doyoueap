@@ -199,7 +199,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     return new Response(successHtml, {
       status: 200,
-      headers: { "Content-Type": "text/html", ...corsHeaders },
+      headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders },
     });
   } catch (error: any) {
     console.error("Error in unsubscribe function:", error);
