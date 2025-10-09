@@ -179,7 +179,7 @@ const RunningAudits = () => {
   }
 
   return (
-    <div className="space-y-6 pt-20 md:pt-0">
+    <div className="space-y-6">
       <div className="mb-6">
         <h2 className="text-2xl font-bold mb-2">Futó Felmérések</h2>
         <p className="text-muted-foreground text-sm">
