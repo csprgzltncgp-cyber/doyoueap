@@ -128,7 +128,7 @@ const Bemutatkozas = () => {
               />
             </div>
             {/* Screen image with white rounded box background - right, behind phone, overflowing */}
-            <div className="absolute left-[35%] -top-[7px] scale-[1.2]">
+            <div className="absolute left-[35%] -top-[7px] scale-[2.4]">
               <div className="absolute inset-0 bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)]" />
               <img 
                 src={riportImage} 
