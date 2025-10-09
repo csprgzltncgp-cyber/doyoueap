@@ -205,8 +205,8 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
   return (
     <div className="space-y-6 pt-20 md:pt-0">
       {/* Fejléc és összefoglaló kártyák */}
-      <div className="mb-6">
-        <div className="mb-4">
+      <div className="space-y-4 mb-6">
+        <div className="flex-1">
           <h2 className="text-2xl font-bold mb-2">Ismertség Részletes Elemzése</h2>
           <p className="text-muted-foreground text-sm">
             Az EAP program ismeretének, megértésének és kommunikációjának átfogó kiértékelése
