@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { CheckCircle2, TrendingUp, Users, Award, Eye, Shield, Activity, Target } from 'lucide-react';
 import logo from '@/assets/logo.png';
 import riportImage from '@/assets/riport_ok.png';
-import iphoneImage from '@/assets/eap_pulse-3.png';
+import iphoneImage from '@/assets/iphone_eap_pulse_ok_2.png';
 import { useAuth } from '@/hooks/useAuth';
 import { MobileNav } from '@/components/navigation/MobileNav';
 
@@ -122,7 +122,7 @@ const Bemutatkozas = () => {
             <img 
               src={iphoneImage} 
               alt="EAP Pulse mobilalkalmazás" 
-              className="relative z-10 h-full w-auto object-contain"
+              className="relative z-10 h-full w-auto object-contain shadow-[0_20px_60px_-15px_rgba(0,0,0,0.4)]"
             />
             {/* Screen image - right, behind phone, overflowing */}
             <img 
