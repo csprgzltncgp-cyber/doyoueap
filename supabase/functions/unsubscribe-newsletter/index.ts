@@ -60,68 +60,23 @@ const handler = async (req: Request): Promise<Response> => {
       <html>
         <head>
           <meta charset="utf-8">
-          <style>
-            body {
-              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-              line-height: 1.6;
-              color: #333;
-              max-width: 600px;
-              margin: 0 auto;
-              padding: 20px;
-            }
-            .container {
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-              padding: 40px;
-              border-radius: 10px;
-              text-align: center;
-            }
-            .content {
-              background: white;
-              padding: 30px;
-              border-radius: 8px;
-              margin-top: 20px;
-            }
-            h1 {
-              color: white;
-              margin: 0;
-              font-size: 28px;
-            }
-            p {
-              margin: 15px 0;
-              font-size: 16px;
-            }
-            .footer {
-              margin-top: 30px;
-              padding-top: 20px;
-              border-top: 1px solid #eee;
-              font-size: 14px;
-              color: #666;
-            }
-          </style>
         </head>
         <body>
-          <div class="container">
-            <h1>Leiratkozás megerősítve</h1>
-            <div class="content">
-              <p><strong>Kedves ${subscriber.name || "Feliratkozónk"}!</strong></p>
-              <p>Sajnáljuk, hogy nem szeretne több hírlevelet kapni tőlünk.</p>
-              <p>Az Ön kérésének megfelelően <strong>${subscriber.email}</strong> email címét töröltük hírlevelünk listájáról.</p>
-              <p>Reméljük, hogy a jövőben újra találkozhatunk!</p>
-              <p>Ha véletlenül iratkozott le, bármikor újra feliratkozhat weboldalunkon.</p>
-              <div class="footer">
-                <p>Üdvözlettel,<br><strong>DoYouEAP csapata</strong></p>
-              </div>
-            </div>
-          </div>
+          <p>Kedves ${subscriber.name || "Feliratkozónk"}!</p>
+          <p>Sajnáljuk, hogy nem szeretne több hírlevelet kapni tőlünk.</p>
+          <p>Az Ön kérésének megfelelően <strong>${subscriber.email}</strong> email címét töröltük hírlevelünk listájáról.</p>
+          <p>Reméljük, hogy a jövőben újra találkozhatunk!</p>
+          <p>Ha véletlenül iratkozott le, bármikor újra feliratkozhat weboldalunkon.</p>
+          <p>Üdvözlettel,<br>doyoueap</p>
         </body>
       </html>
     `;
 
     // Send confirmation email
     await resend.emails.send({
-      from: "DoYouEAP <noreply@doyoueap.com>",
+      from: "doyoueap <noreply@doyoueap.com>",
       to: [subscriber.email],
-      subject: "Leiratkozás megerősítése - DoYouEAP Hírlevél",
+      subject: "Leiratkozás megerősítése - doyoueap Hírlevél",
       html: emailHtml,
     });
 
