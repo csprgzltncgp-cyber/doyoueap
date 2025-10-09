@@ -99,12 +99,11 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Subscriber unsubscribed: ${subscriber.email}`);
 
-    return new Response(
-      `<!DOCTYPE html>
+    const htmlContent = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Leiratkoz&aacute;s</title>
+  <title>Leiratkozás</title>
   <script>
     window.close();
     setTimeout(function() {
@@ -113,17 +112,20 @@ const handler = async (req: Request): Promise<Response> => {
   </script>
 </head>
 <body>
-  <p>Leiratkoz&aacute;s sikeres.</p>
+  <p>Leiratkozás sikeres.</p>
 </body>
-</html>`,
-      {
-        status: 200,
-        headers: { 
-          "Content-Type": "text/html; charset=utf-8",
-          ...corsHeaders 
-        },
-      }
-    );
+</html>`;
+
+    const encoder = new TextEncoder();
+    const htmlBytes = encoder.encode(htmlContent);
+
+    return new Response(htmlBytes, {
+      status: 200,
+      headers: { 
+        "Content-Type": "text/html; charset=utf-8",
+        ...corsHeaders 
+      },
+    });
   } catch (error: any) {
     console.error("Error in unsubscribe function:", error);
     return new Response(JSON.stringify({ error: error.message }), {
