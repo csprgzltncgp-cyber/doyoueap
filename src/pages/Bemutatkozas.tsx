@@ -87,7 +87,7 @@ const Bemutatkozas = () => {
           <p className="text-xl text-muted-foreground mb-8 max-w-4xl mx-auto">
             Az EAP Pulse rövid, rendszeres felmérésekkel méri a munkavállalói élményt, és a 4Score módszertan szerint mutatja meg, hol erős a programod és hol érdemes fejleszteni. Extra riportadatok, tiszta trendek, jobb döntések – szolgáltatóval együttműködve, nem helyette.
           </p>
-          <div className="flex gap-4 justify-center">
+          <div className="flex gap-4 justify-center relative z-10">
             <Button size="lg" onClick={() => navigate('/auth')} className="bg-[#3572ef] hover:bg-[#3572ef]/90">
               Kezdje el most
             </Button>
