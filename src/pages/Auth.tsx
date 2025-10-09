@@ -71,6 +71,19 @@ const Auth = () => {
               {isLoading ? 'Folyamatban...' : 'Bejelentkezés'}
             </Button>
           </form>
+          
+          <div className="mt-4 text-center border-t pt-4">
+            <p className="text-sm text-muted-foreground mb-2">
+              Még nincs fiókja?
+            </p>
+            <Button 
+              variant="outline" 
+              className="w-full"
+              onClick={() => setShowRegistration(true)}
+            >
+              Céges regisztráció
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>
