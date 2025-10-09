@@ -327,11 +327,10 @@ const NewsletterManagement = () => {
         return;
       }
 
-      // Get existing email addresses from the database
+      // Get ALL existing email addresses from the database (both active and inactive)
       const { data: existingSubscribers, error: fetchError } = await supabase
         .from("newsletter_subscribers")
-        .select("email")
-        .eq("is_active", true);
+        .select("email");
 
       if (fetchError) {
         console.error("Fetch error:", fetchError);
