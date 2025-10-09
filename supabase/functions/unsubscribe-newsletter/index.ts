@@ -100,22 +100,23 @@ const handler = async (req: Request): Promise<Response> => {
     console.log(`Subscriber unsubscribed: ${subscriber.email}`);
 
     // Return HTML success page
-    const successHtml = `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <title>Leiratkozás sikeres</title>
-        </head>
-        <body>
-          <p>Leiratkozás sikeres. Üdvözlettel, doyoueap</p>
-        </body>
-      </html>
-    `;
+    const successHtml = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Leiratkozás sikeres</title>
+</head>
+<body>
+  <p>Leiratkozás sikeres. Üdvözlettel, doyoueap</p>
+</body>
+</html>`;
 
     return new Response(successHtml, {
       status: 200,
-      headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders },
+      headers: { 
+        "Content-Type": "text/html; charset=utf-8",
+        ...corsHeaders 
+      },
     });
   } catch (error: any) {
     console.error("Error in unsubscribe function:", error);
