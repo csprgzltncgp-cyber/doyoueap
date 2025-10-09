@@ -233,9 +233,12 @@ const Magazin = () => {
 
             {/* Right: Magazine description */}
             <div className="flex items-end text-right">
-              <span className="text-sm font-medium text-black uppercase tracking-wide">
+              <button 
+                onClick={() => navigate('/unsubscribe-success')}
+                className="text-sm font-medium text-black uppercase tracking-wide hover:text-primary transition-colors cursor-pointer text-right"
+              >
                 Az EAP-világ<br />szakfolyóirata
-              </span>
+              </button>
             </div>
           </div>
         </div>
