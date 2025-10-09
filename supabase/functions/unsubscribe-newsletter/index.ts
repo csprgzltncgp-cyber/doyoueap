@@ -103,7 +103,7 @@ const handler = async (req: Request): Promise<Response> => {
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Leiratkozás</title>
+  <title>Unsubscribe</title>
   <script>
     window.close();
     setTimeout(function() {
@@ -112,7 +112,7 @@ const handler = async (req: Request): Promise<Response> => {
   </script>
 </head>
 <body>
-  <p>Leiratkozás sikeres.</p>
+  <p>Unsubscribe successful!</p>
 </body>
 </html>`;
 
