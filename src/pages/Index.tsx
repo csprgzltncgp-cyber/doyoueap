@@ -266,7 +266,7 @@ const Index = () => {
                       : 'text-white/80 border-transparent hover:text-white'
                   }`}
                 >
-                  <BarChart3 className="h-4 w-4" />
+                  <Activity className="h-4 w-4" />
                   EAP Pulse
                 </button>
                 <button
@@ -280,7 +280,7 @@ const Index = () => {
                       : 'text-white/80 border-transparent hover:text-white'
                   }`}
                 >
-                  <TrendingUp className="h-4 w-4" />
+                  <BarChart3 className="h-4 w-4" />
                   Riportok
                 </button>
                 <button
