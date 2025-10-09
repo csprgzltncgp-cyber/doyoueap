@@ -122,13 +122,13 @@ const Bemutatkozas = () => {
             <img 
               src={iphoneImage} 
               alt="EAP Pulse mobilalkalmazás" 
-              className="relative z-10 h-full w-auto object-contain shadow-[0_20px_60px_-15px_rgba(0,0,0,0.4)]"
+              className="relative z-10 h-full w-auto object-contain"
             />
             {/* Screen image - right, behind phone, overflowing */}
             <img 
               src={riportImage} 
               alt="Részletes riportok és analitika" 
-              className="absolute left-[35%] -top-[120px] h-full w-auto object-contain object-left shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)]"
+              className="absolute left-[35%] -top-[120px] h-full w-auto object-contain object-left"
             />
           </div>
         </div>
