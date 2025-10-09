@@ -334,7 +334,7 @@ const NewsletterManagement = () => {
       // Get ALL existing email addresses from the database (both active and inactive)
       const { data: existingSubscribers, error: fetchError } = await supabase
         .from("newsletter_subscribers")
-        .select("email");
+        .select("email, is_active");
 
       if (fetchError) {
         console.error("Fetch error:", fetchError);
@@ -342,41 +342,78 @@ const NewsletterManagement = () => {
         return;
       }
 
-      const existingEmails = new Set(
-        existingSubscribers?.map(s => s.email.toLowerCase()) || []
+      // Create maps for faster lookup
+      const existingActiveEmails = new Set(
+        existingSubscribers?.filter(s => s.is_active).map(s => s.email.toLowerCase()) || []
       );
       
-      console.log('Meglévő emailek az adatbázisban:', Array.from(existingEmails));
+      const existingInactiveEmails = new Set(
+        existingSubscribers?.filter(s => !s.is_active).map(s => s.email.toLowerCase()) || []
+      );
+      
+      console.log('Meglévő aktív emailek:', Array.from(existingActiveEmails));
+      console.log('Meglévő inaktív emailek:', Array.from(existingInactiveEmails));
 
+      // Filter: completely new subscribers to insert
       const newSubscribers = subscribersToAdd.filter(
-        subscriber => !existingEmails.has(subscriber.email.toLowerCase())
+        subscriber => !existingActiveEmails.has(subscriber.email.toLowerCase()) && 
+                      !existingInactiveEmails.has(subscriber.email.toLowerCase())
       );
 
-      console.log('Új feliratkozók szűrés után:', newSubscribers);
-      console.log('Új feliratkozók száma:', newSubscribers.length);
+      // Filter: inactive subscribers to reactivate
+      const reactivateEmails = subscribersToAdd
+        .filter(subscriber => existingInactiveEmails.has(subscriber.email.toLowerCase()))
+        .map(subscriber => subscriber.email.toLowerCase());
 
-      const skippedCount = subscribersToAdd.length - newSubscribers.length;
-      console.log('Kihagyott duplikált emailek száma:', skippedCount);
+      console.log('Új feliratkozók:', newSubscribers);
+      console.log('Újra aktiválandó emailek:', reactivateEmails);
 
-      if (newSubscribers.length === 0) {
-        toast.info("Minden email cím már szerepel a rendszerben. Új feliratkozó nem lett hozzáadva.");
+      const skippedCount = subscribersToAdd.length - newSubscribers.length - reactivateEmails.length;
+
+      // Reactivate inactive subscribers
+      if (reactivateEmails.length > 0) {
+        const { error: reactivateError } = await supabase
+          .from("newsletter_subscribers")
+          .update({ is_active: true })
+          .in('email', reactivateEmails);
+
+        if (reactivateError) {
+          console.error("Reactivate error:", reactivateError);
+          toast.error("Hiba az újraaktiválás során: " + reactivateError.message);
+          return;
+        }
+      }
+
+      // Insert new subscribers
+      if (newSubscribers.length > 0) {
+        const { error } = await supabase
+          .from("newsletter_subscribers")
+          .insert(newSubscribers);
+
+        if (error) {
+          console.error("Insert error:", error);
+          toast.error("Hiba az importálás során: " + error.message);
+          return;
+        }
+      }
+
+      // Build success message
+      let message = '';
+      if (newSubscribers.length > 0 && reactivateEmails.length > 0) {
+        message = `${newSubscribers.length} új feliratkozó importálva, ${reactivateEmails.length} újraaktiválva!`;
+      } else if (newSubscribers.length > 0) {
+        message = `${newSubscribers.length} új feliratkozó importálva!`;
+      } else if (reactivateEmails.length > 0) {
+        message = `${reactivateEmails.length} feliratkozó újraaktiválva!`;
+      } else {
+        toast.info("Minden email cím már aktív a rendszerben.");
         e.target.value = '';
+        fetchSubscribers();
         return;
       }
-
-      const { error } = await supabase
-        .from("newsletter_subscribers")
-        .insert(newSubscribers);
-
-      if (error) {
-        console.error("Insert error:", error);
-        toast.error("Hiba az importálás során: " + error.message);
-        return;
-      }
-
-      let message = `${newSubscribers.length} új feliratkozó importálva!`;
+      
       if (skippedCount > 0) {
-        message += ` (${skippedCount} már létező email cím kihagyva)`;
+        message += ` (${skippedCount} már aktív email cím kihagyva)`;
       }
       
       toast.success(message);
