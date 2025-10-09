@@ -121,7 +121,7 @@ const UserCategories = () => {
   }
 
   return (
-    <div className="space-y-6 pt-20">
+    <div className="space-y-6 pt-20 md:pt-0">
       <h2 className="text-2xl font-bold mb-4">Felhasználói Kategóriák</h2>
       <div className="text-center py-12 text-muted-foreground">
         Még nincs kiértékelt adat

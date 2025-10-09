@@ -510,7 +510,7 @@ function Settings() {
       <h2 className="text-2xl font-bold">Beállítások</h2>
 
       {/* SZEMÉLYES ÉS CÉGES INFORMÁCIÓK */}
-    <div className="space-y-6 pt-20">
+    <div className="space-y-6 pt-20 md:pt-0">
         <h2 className="text-xl font-semibold text-muted-foreground">Személyes és céges információk</h2>
 
       {/* Profil adatok */}

@@ -174,7 +174,7 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
   }
 
   return (
-    <div className="space-y-6 pt-20">
+    <div className="space-y-6 pt-20 md:pt-0">
       {/* Fejléc */}
       <div className="flex justify-between items-start gap-4 mb-6">
         <div className="flex-1">

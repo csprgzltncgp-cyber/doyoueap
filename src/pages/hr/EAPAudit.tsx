@@ -23,7 +23,7 @@ const EAPAudit = () => {
   };
 
   return (
-    <div className="space-y-6 pt-20">
+    <div className="space-y-6 pt-20 md:pt-0">
       {renderContent()}
     </div>
   );

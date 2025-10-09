@@ -4,7 +4,7 @@ import { BookOpen, Calculator, TrendingUp, Users, Shield, Activity, Target, Eye 
 
 const Methodology = () => {
   return (
-    <div className="space-y-6 pt-20">
+    <div className="space-y-6 pt-20 md:pt-0">
       <div>
         <h2 className="text-2xl font-bold mb-2">Metodológia és Magyarázatok</h2>
         <p className="text-muted-foreground">A mutatók és számítások részletes leírása</p>
