@@ -188,8 +188,8 @@ export const RegistrationWizard = () => {
         description: "Üdvözöljük a rendszerben.",
       });
 
-      // Step 5: Redirect to HR Dashboard
-      navigate('/hr');
+      // Step 5: Redirect to Dashboard
+      navigate('/?section=focus');
       
     } catch (error: any) {
       console.error('Registration error:', error);

@@ -791,7 +791,7 @@ const Export = () => {
     exportIframe.style.visibility = 'hidden';
     
     // Set the source to the reports page with auto-export parameters
-    exportIframe.src = `/hr/reports?sub=${chart.tab}&autoExport=${cardId}&fileName=${fileName}&inIframe=true`;
+    exportIframe.src = `/?section=reports&sub=${chart.tab}&autoExport=${cardId}&fileName=${fileName}&inIframe=true`;
     
     document.body.appendChild(exportIframe);
     

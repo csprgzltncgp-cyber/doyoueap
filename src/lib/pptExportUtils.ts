@@ -30,7 +30,7 @@ const generateChartPNG = (chartId: string, tab: string): Promise<string> => {
     
     window.addEventListener('message', handleMessage);
     
-    iframe.src = `/hr/reports?sub=${tab}&autoExport=${chartId}&fileName=temp&inIframe=true`;
+    iframe.src = `/?section=reports&sub=${tab}&autoExport=${chartId}&fileName=temp&inIframe=true`;
     document.body.appendChild(iframe);
     
     // Timeout after 10 seconds
