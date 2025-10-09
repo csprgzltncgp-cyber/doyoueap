@@ -13,6 +13,7 @@ import { Step4Timing } from '@/components/audit/Step4Timing';
 import { Step5Languages } from '@/components/audit/Step5Languages';
 import { Step6ProgramName } from '@/components/audit/Step6ProgramName';
 import { Step7Summary } from '@/components/audit/Step7Summary';
+import eapPulseLogo from '@/assets/eap-pulse-logo.png';
 
 const CreateAudit = () => {
   const { user } = useAuth();
@@ -176,7 +177,10 @@ const CreateAudit = () => {
   return (
     <div className="space-y-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-2">Új EAP Pulse Felmérés Indítása</h2>
+        <div className="flex items-center gap-4 mb-4">
+          <img src={eapPulseLogo} alt="EAP Pulse" className="h-12" />
+          <h2 className="text-2xl font-bold">Új EAP Pulse Felmérés Indítása</h2>
+        </div>
         <p className="text-muted-foreground text-sm">
           Lépés {currentStep} / {totalSteps}
         </p>
