@@ -29,6 +29,8 @@ interface Campaign {
   sent_at: string;
   recipient_count: number;
   status: string;
+  sent_count?: number;
+  failed_count?: number;
 }
 
 interface FooterLink {
@@ -492,7 +494,7 @@ const NewsletterManagement = () => {
     }
 
     try {
-      const { error: functionError } = await supabase.functions.invoke(
+      const { data: responseData, error: functionError } = await supabase.functions.invoke(
         "send-newsletter",
         {
           body: {
@@ -514,9 +516,19 @@ const NewsletterManagement = () => {
         recipient_count: activeSubscribers.length,
         sent_by: userData.user?.id,
         template_id: selectedTemplate.id,
+        sent_count: responseData?.sent || 0,
+        failed_count: responseData?.failed || 0,
       });
 
-      toast.success(`Hírlevél sikeresen elküldve ${activeSubscribers.length} címzettnek!`);
+      const sentCount = responseData?.sent || 0;
+      const failedCount = responseData?.failed || 0;
+      
+      if (failedCount > 0) {
+        toast.success(`Hírlevél elküldve: ${sentCount} sikeres, ${failedCount} sikertelen`);
+      } else {
+        toast.success(`Hírlevél sikeresen elküldve ${sentCount} címzettnek!`);
+      }
+      
       setNewsletterContent("");
       setNewsletterExtraContent("");
       setNewsletterSubject("");
@@ -1718,6 +1730,8 @@ const NewsletterManagement = () => {
                 <TableHead>Tárgy</TableHead>
                 <TableHead>Küldés ideje</TableHead>
                 <TableHead>Címzettek</TableHead>
+                <TableHead>Sikeresen kézbesítve</TableHead>
+                <TableHead>Sikertelen</TableHead>
                 <TableHead>Státusz</TableHead>
                 <TableHead>Műveletek</TableHead>
               </TableRow>
@@ -1728,6 +1742,12 @@ const NewsletterManagement = () => {
                   <TableCell>{campaign.subject}</TableCell>
                   <TableCell>{new Date(campaign.sent_at).toLocaleString()}</TableCell>
                   <TableCell>{campaign.recipient_count}</TableCell>
+                  <TableCell className="text-green-600 font-medium">
+                    {campaign.sent_count || 0}
+                  </TableCell>
+                  <TableCell className="text-red-600 font-medium">
+                    {campaign.failed_count || 0}
+                  </TableCell>
                   <TableCell>{campaign.status}</TableCell>
                   <TableCell>
                     <Button

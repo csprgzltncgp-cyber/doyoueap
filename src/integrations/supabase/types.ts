@@ -354,10 +354,12 @@ export type Database = {
         Row: {
           content: string
           created_at: string
+          failed_count: number | null
           id: string
           recipient_count: number
           sent_at: string
           sent_by: string
+          sent_count: number | null
           status: string
           subject: string
           template_id: string | null
@@ -365,10 +367,12 @@ export type Database = {
         Insert: {
           content: string
           created_at?: string
+          failed_count?: number | null
           id?: string
           recipient_count?: number
           sent_at?: string
           sent_by: string
+          sent_count?: number | null
           status?: string
           subject: string
           template_id?: string | null
@@ -376,10 +380,12 @@ export type Database = {
         Update: {
           content?: string
           created_at?: string
+          failed_count?: number | null
           id?: string
           recipient_count?: number
           sent_at?: string
           sent_by?: string
+          sent_count?: number | null
           status?: string
           subject?: string
           template_id?: string | null
