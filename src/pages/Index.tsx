@@ -517,7 +517,7 @@ const Index = () => {
 
       {/* Dashboard Content or Landing Page */}
       {renderDashboardContent() ? (
-        <div className="max-w-7xl mx-auto px-4 py-6 pt-20 md:pt-6">
+        <div className="max-w-7xl mx-auto px-4 py-6 pt-24 md:pt-6">
           {renderDashboardContent()}
         </div>
       ) : (
@@ -525,7 +525,7 @@ const Index = () => {
           {/* Hero Section */}
 
       {/* Hero Section */}
-      <section id="home" className="py-20 bg-gradient-to-b from-muted/50 to-background">
+      <section id="home" className="py-20 bg-gradient-to-b from-muted/50 to-background pt-24 md:pt-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
