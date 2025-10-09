@@ -240,16 +240,18 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
     : 0;
 
   return (
-    <div className="space-y-6 pt-20 md:pt-0">
-      <div className="flex justify-between items-start gap-4 mb-6">
-        <div className="flex-1">
-          <h2 className="text-2xl font-bold mb-2">Hatás Riport</h2>
-          <p className="text-muted-foreground">
-            A program használóinak elégedettsége, hatékonysága és ajánlási hajlandósága
-          </p>
+    <div className="space-y-6">
+      <div className="space-y-4 mb-6">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+          <div className="flex-1">
+            <h2 className="text-2xl font-bold mb-2">Hatás Riport</h2>
+            <p className="text-muted-foreground">
+              A program használóinak elégedettsége, hatékonysága és ajánlási hajlandósága
+            </p>
+          </div>
         </div>
         {audits.length > 0 && (
-          <div className="min-w-[300px]">
+          <div className="w-full md:max-w-[300px] md:ml-auto">
             <label className="text-xs text-muted-foreground mb-1.5 block">
               Felmérés kiválasztása
             </label>
