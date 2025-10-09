@@ -517,7 +517,7 @@ const Index = () => {
 
       {/* Dashboard Content or Landing Page */}
       {renderDashboardContent() ? (
-        <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="max-w-7xl mx-auto px-4 py-6 pt-20 md:pt-6">
           {renderDashboardContent()}
         </div>
       ) : (

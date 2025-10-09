@@ -77,7 +77,7 @@ const Bemutatkozas = () => {
       </header>
 
       {/* Main Content */}
-      <main className="bg-gradient-to-b from-muted/50 to-background">
+      <main className="bg-gradient-to-b from-muted/50 to-background pt-16 md:pt-0">
         <div className="max-w-7xl mx-auto px-4 py-12">
           {/* Hero Section */}
           <div className="text-center mb-16">

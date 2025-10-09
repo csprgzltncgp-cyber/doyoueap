@@ -190,7 +190,7 @@ const Magazin = () => {
       </header>
 
       {/* Hero Section - Newspaper Style Header */}
-      <section className="relative py-4 md:py-8 overflow-hidden bg-gradient-to-b from-muted/50 to-background border-t border-border">
+      <section className="relative py-4 md:py-8 overflow-hidden bg-gradient-to-b from-muted/50 to-background border-t border-border pt-20 md:pt-4">
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           {/* Mobile: centered logo only */}
           <div className="flex md:hidden flex-col items-center gap-2">
