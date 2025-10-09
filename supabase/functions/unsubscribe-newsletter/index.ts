@@ -99,13 +99,28 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Subscriber unsubscribed: ${subscriber.email}`);
 
-    // Redirect to the unsubscribe success page
-    const redirectUrl = `${supabaseUrl.replace('/functions/v1', '')}/unsubscribe-success`;
+    // Return HTML with redirect to the unsubscribe success page
+    const redirectHtml = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Átirányítás...</title>
+          <meta http-equiv="refresh" content="0;url=/unsubscribe-success">
+          <script>
+            window.location.href = '/unsubscribe-success';
+          </script>
+        </head>
+        <body>
+          <p>Átirányítás...</p>
+        </body>
+      </html>
+    `;
     
-    return new Response(null, {
-      status: 302,
+    return new Response(redirectHtml, {
+      status: 200,
       headers: { 
-        "Location": redirectUrl,
+        "Content-Type": "text/html; charset=utf-8",
         ...corsHeaders 
       },
     });
