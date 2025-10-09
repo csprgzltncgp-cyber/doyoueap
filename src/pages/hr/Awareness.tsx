@@ -205,15 +205,15 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
   return (
     <div className="space-y-6 pt-20 md:pt-0">
       {/* Fejléc és összefoglaló kártyák */}
-      <div className="flex justify-between items-start gap-4 mb-6">
-        <div className="flex-1">
+      <div className="mb-6">
+        <div className="mb-4">
           <h2 className="text-2xl font-bold mb-2">Ismertség Részletes Elemzése</h2>
           <p className="text-muted-foreground text-sm">
             Az EAP program ismeretének, megértésének és kommunikációjának átfogó kiértékelése
           </p>
         </div>
         {audits.length > 0 && (
-          <div className="min-w-[300px]">
+          <div className="w-full md:w-auto md:min-w-[300px]">
             <label className="text-xs text-muted-foreground mb-1.5 block">
               Felmérés kiválasztása
             </label>
