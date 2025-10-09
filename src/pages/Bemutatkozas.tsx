@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { CheckCircle2, TrendingUp, Users, Award, Eye, Shield, Activity, Target } from 'lucide-react';
 import logo from '@/assets/logo.png';
 import riportImage from '@/assets/riport_ok.png';
-import iphoneImage from '@/assets/iphone_eap_pulse_ok.png';
+import iphoneImage from '@/assets/iphone_eap_pulse_ok.svg';
 import { useAuth } from '@/hooks/useAuth';
 import { MobileNav } from '@/components/navigation/MobileNav';
 
