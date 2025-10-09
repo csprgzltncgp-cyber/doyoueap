@@ -14,7 +14,7 @@ const UnsubscribeSuccess = () => {
           <img 
             src={logo} 
             alt="DoYouEAP" 
-            className="h-32 cursor-pointer hover:opacity-80 transition-opacity"
+            className="h-16 cursor-pointer hover:opacity-80 transition-opacity"
             onClick={() => navigate('/')}
           />
         </div>
