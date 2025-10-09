@@ -209,13 +209,42 @@ const NewsletterManagement = () => {
       return;
     }
 
+    // Check if email already exists
+    const { data: existing } = await supabase
+      .from("newsletter_subscribers")
+      .select("id, is_active")
+      .eq("email", newSubscriber.email.toLowerCase())
+      .maybeSingle();
+
+    if (existing) {
+      if (existing.is_active) {
+        toast.error("Ez az email cím már fel van iratkozva");
+      } else {
+        // Reactivate inactive subscriber
+        const { error } = await supabase
+          .from("newsletter_subscribers")
+          .update({ is_active: true })
+          .eq("id", existing.id);
+
+        if (error) {
+          toast.error("Hiba a feliratkozó újraaktiválásakor");
+          return;
+        }
+        toast.success("Feliratkozó újraaktiválva!");
+      }
+      setNewSubscriber({ email: "", name: "" });
+      setIsAddDialogOpen(false);
+      fetchSubscribers();
+      return;
+    }
+
     const { error } = await supabase.from("newsletter_subscribers").insert({
       email: newSubscriber.email,
       name: newSubscriber.name || null,
     });
 
     if (error) {
-      toast.error("Hiba a feliratkozó hozzáadásakor");
+      toast.error("Hiba a feliratkozó hozzáadásakor: " + error.message);
       return;
     }
 
