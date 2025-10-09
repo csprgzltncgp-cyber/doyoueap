@@ -106,48 +106,9 @@ const handler = async (req: Request): Promise<Response> => {
         <head>
           <meta charset="utf-8">
           <title>Leiratkozás sikeres</title>
-          <style>
-            body {
-              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              height: 100vh;
-              margin: 0;
-            }
-            .container {
-              background: white;
-              padding: 40px;
-              border-radius: 10px;
-              text-align: center;
-              max-width: 500px;
-              box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            }
-            h1 {
-              color: #764ba2;
-              margin-bottom: 20px;
-            }
-            p {
-              color: #333;
-              line-height: 1.6;
-              margin: 10px 0;
-            }
-            .checkmark {
-              font-size: 60px;
-              color: #4CAF50;
-              margin-bottom: 20px;
-            }
-          </style>
         </head>
         <body>
-          <div class="container">
-            <div class="checkmark">✓</div>
-            <h1>Sikeresen leiratkozott!</h1>
-            <p>Email címét töröltük hírlevelünk listájáról.</p>
-            <p>Megerősítő emailt küldtünk Önnek.</p>
-            <p style="margin-top: 30px; color: #666;">Reméljük még visszatér! 💜</p>
-          </div>
+          <p>Leiratkozás sikeres. Üdvözlettel, doyoueap</p>
         </body>
       </html>
     `;
