@@ -11,7 +11,8 @@ import { RegistrationWizard } from '@/components/registration/RegistrationWizard
 import { MobileNav } from '@/components/navigation/MobileNav';
 import { MobileDashboardNav } from '@/components/navigation/MobileDashboardNav';
 import logo from '@/assets/logo.png';
-import dashboardPreview from '@/assets/dashboard-preview.jpg';
+import riportImage from '@/assets/riport_ok.png';
+import iphoneImage from '@/assets/iphone_eap_pulse_ok.png';
 import HRDashboard from './HRDashboard';
 import EAPAudit from './hr/EAPAudit';
 import Reports from './hr/Reports';
@@ -549,12 +550,21 @@ const Index = () => {
                 </Button>
               </div>
             </div>
-            <div className="rounded-lg overflow-hidden shadow-lg max-w-full">
-              <img 
-                src={dashboardPreview} 
-                alt="Dashboard előnézet - analitikai grafikonok és jelentések" 
-                className="w-full h-auto object-contain"
-              />
+            <div className="flex gap-4 items-center justify-center">
+              <div className="rounded-lg overflow-hidden shadow-lg flex-1 max-w-[600px]">
+                <img 
+                  src={riportImage} 
+                  alt="EAP Pulse riport - részletes ismertségi elemzés" 
+                  className="w-full h-auto object-contain"
+                />
+              </div>
+              <div className="rounded-lg overflow-hidden shadow-lg w-[280px] flex-shrink-0">
+                <img 
+                  src={iphoneImage} 
+                  alt="EAP Pulse mobilon - felmérés kitöltése" 
+                  className="w-full h-auto object-contain"
+                />
+              </div>
             </div>
           </div>
         </div>
