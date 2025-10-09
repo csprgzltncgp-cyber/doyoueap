@@ -255,12 +255,6 @@ const createNewsletterHTML = (
         color: ${template.header_color};
         text-decoration: none;
         font-weight: 500;
-        border-bottom: 2px solid ${template.header_color}33;
-        transition: border-color 0.3s;
-      }
-      
-      .email-content a:hover {
-        border-bottom-color: ${template.header_color};
       }
       
       /* Button styles */
