@@ -1,16 +1,39 @@
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, TrendingUp, Users, Award, Eye, Shield, Activity, Target } from 'lucide-react';
 import logo from '@/assets/logo.png';
-import riportImage from '@/assets/riport_ok.png';
-import iphoneImage from '@/assets/iphone_eap_pulse_ok.png';
+import riportImageOriginal from '@/assets/riport_ok.png';
+import iphoneImageOriginal from '@/assets/iphone_eap_pulse_ok.png';
+import { processIphoneImage, processRiportImage } from '@/lib/processImages';
 import { useAuth } from '@/hooks/useAuth';
 import { MobileNav } from '@/components/navigation/MobileNav';
 
 const Bemutatkozas = () => {
   const navigate = useNavigate();
   const { user, role, loading, signOut } = useAuth();
+  const [iphoneImage, setIphoneImage] = useState(iphoneImageOriginal);
+  const [riportImage, setRiportImage] = useState(riportImageOriginal);
+  const [imagesProcessing, setImagesProcessing] = useState(true);
+
+  useEffect(() => {
+    const processImages = async () => {
+      try {
+        const [processedIphone, processedRiport] = await Promise.all([
+          processIphoneImage(),
+          processRiportImage()
+        ]);
+        setIphoneImage(processedIphone);
+        setRiportImage(processedRiport);
+      } catch (error) {
+        console.error('Failed to process images:', error);
+      } finally {
+        setImagesProcessing(false);
+      }
+    };
+    processImages();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
