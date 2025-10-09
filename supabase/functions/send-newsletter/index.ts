@@ -507,8 +507,13 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Sending newsletter to ${subscribers.length} subscribers`);
 
-    // Send emails to all subscribers
-    const emailPromises = subscribers.map(async (subscriber) => {
+    // Helper function to delay execution
+    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+    // Send emails with rate limiting (max 2 per second for Resend)
+    const results = [];
+    for (let i = 0; i < subscribers.length; i++) {
+      const subscriber = subscribers[i];
       const html = createNewsletterHTML(
         subscriber.name, 
         content, 
@@ -527,14 +532,18 @@ const handler = async (req: Request): Promise<Response> => {
         });
 
         console.log(`Email sent to ${subscriber.email}:`, emailResponse);
-        return { success: true, email: subscriber.email };
+        results.push({ success: true, email: subscriber.email });
       } catch (error: any) {
         console.error(`Failed to send email to ${subscriber.email}:`, error);
-        return { success: false, email: subscriber.email, error: error.message };
+        results.push({ success: false, email: subscriber.email, error: error.message });
       }
-    });
 
-    const results = await Promise.all(emailPromises);
+      // Wait 600ms between emails (allowing ~1.6 emails/second, safely under 2/sec limit)
+      if (i < subscribers.length - 1) {
+        await delay(600);
+      }
+    }
+
     const successful = results.filter(r => r.success).length;
     const failed = results.filter(r => !r.success).length;
 
