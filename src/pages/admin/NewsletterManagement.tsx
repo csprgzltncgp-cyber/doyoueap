@@ -287,15 +287,42 @@ const NewsletterManagement = () => {
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
       const jsonData = XLSX.utils.sheet_to_json(worksheet) as any[];
 
+      console.log('Excel data:', jsonData); // Debug log
+
       const subscribersToAdd = jsonData
-        .filter((row: any) => row.email || row.Email)
-        .map((row: any) => ({
-          email: row.email || row.Email,
-          name: row.name || row.Name || null,
-        }));
+        .filter((row: any) => {
+          // Check for email field with case-insensitive matching and common variations
+          const emailField = Object.keys(row).find(key => 
+            key.toLowerCase().includes('email') || 
+            key.toLowerCase().includes('e-mail') ||
+            key.toLowerCase() === 'e'
+          );
+          return emailField && row[emailField];
+        })
+        .map((row: any) => {
+          // Find email field
+          const emailField = Object.keys(row).find(key => 
+            key.toLowerCase().includes('email') || 
+            key.toLowerCase().includes('e-mail') ||
+            key.toLowerCase() === 'e'
+          );
+          
+          // Find name field
+          const nameField = Object.keys(row).find(key => 
+            key.toLowerCase().includes('name') || 
+            key.toLowerCase().includes('név') ||
+            key.toLowerCase() === 'n'
+          );
+
+          return {
+            email: emailField ? row[emailField] : null,
+            name: nameField ? row[nameField] : null,
+          };
+        })
+        .filter(subscriber => subscriber.email); // Extra filter to ensure email exists
 
       if (subscribersToAdd.length === 0) {
-        toast.error("Nem található email cím az Excel fájlban");
+        toast.error("Nem található email cím az Excel fájlban. Ellenőrizd, hogy van-e 'email' vagy 'e-mail' nevű oszlop!");
         return;
       }
 
@@ -304,12 +331,16 @@ const NewsletterManagement = () => {
         .insert(subscribersToAdd);
 
       if (error) {
-        toast.error("Hiba az importálás során");
+        console.error("Insert error:", error);
+        toast.error("Hiba az importálás során: " + error.message);
         return;
       }
 
       toast.success(`${subscribersToAdd.length} feliratkozó importálva!`);
       fetchSubscribers();
+      
+      // Reset file input
+      e.target.value = '';
     } catch (error) {
       console.error("Excel upload error:", error);
       toast.error("Hiba az Excel feldolgozása során");
