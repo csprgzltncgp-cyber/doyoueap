@@ -47,6 +47,7 @@ const Trends = () => {
       const { data } = await supabase
         .from('audits')
         .select(AUDIT_SELECT_FIELDS)
+        .eq('is_active', true)
         .order('start_date', { ascending: true });
 
       if (data && data.length > 0) {

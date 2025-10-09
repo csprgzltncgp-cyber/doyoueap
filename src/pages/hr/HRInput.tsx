@@ -60,6 +60,7 @@ const HRInput = () => {
       const { data } = await supabase
         .from('audits')
         .select(AUDIT_SELECT_FIELDS)
+        .eq('is_active', true)
         .order('start_date', { ascending: false });
 
       if (data && data.length > 0) {

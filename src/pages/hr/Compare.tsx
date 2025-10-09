@@ -42,6 +42,7 @@ const Compare = () => {
       const { data } = await supabase
         .from('audits')
         .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at')
+        .eq('is_active', true)
         .order('start_date', { ascending: true });
 
       if (data && data.length > 0) {
