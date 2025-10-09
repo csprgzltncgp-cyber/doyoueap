@@ -99,8 +99,6 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Subscriber unsubscribed: ${subscriber.email}`);
 
-    console.log(`Subscriber unsubscribed: ${subscriber.email}`);
-
     return new Response(
       JSON.stringify({ 
         success: true, 
