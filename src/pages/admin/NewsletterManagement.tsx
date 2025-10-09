@@ -288,7 +288,8 @@ const NewsletterManagement = () => {
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
       const jsonData = XLSX.utils.sheet_to_json(worksheet) as any[];
 
-      console.log('Excel data:', jsonData); // Debug log
+      console.log('Excel data:', jsonData);
+      console.log('Excel sorok száma:', jsonData.length);
 
       const subscribersToAdd = jsonData
         .filter((row: any) => {
@@ -320,7 +321,10 @@ const NewsletterManagement = () => {
             name: nameField ? row[nameField] : null,
           };
         })
-        .filter(subscriber => subscriber.email); // Extra filter to ensure email exists
+        .filter(subscriber => subscriber.email);
+      
+      console.log('Feldolgozott feliratkozók:', subscribersToAdd);
+      console.log('Feldolgozott feliratkozók száma:', subscribersToAdd.length);
 
       if (subscribersToAdd.length === 0) {
         toast.error("Nem található email cím az Excel fájlban. Ellenőrizd, hogy van-e 'email' vagy 'e-mail' nevű oszlop!");
@@ -338,17 +342,21 @@ const NewsletterManagement = () => {
         return;
       }
 
-      // Create a set of existing emails for faster lookup
       const existingEmails = new Set(
         existingSubscribers?.map(s => s.email.toLowerCase()) || []
       );
+      
+      console.log('Meglévő emailek az adatbázisban:', Array.from(existingEmails));
 
-      // Filter out subscribers that already exist
       const newSubscribers = subscribersToAdd.filter(
         subscriber => !existingEmails.has(subscriber.email.toLowerCase())
       );
 
+      console.log('Új feliratkozók szűrés után:', newSubscribers);
+      console.log('Új feliratkozók száma:', newSubscribers.length);
+
       const skippedCount = subscribersToAdd.length - newSubscribers.length;
+      console.log('Kihagyott duplikált emailek száma:', skippedCount);
 
       if (newSubscribers.length === 0) {
         toast.info("Minden email cím már szerepel a rendszerben. Új feliratkozó nem lett hozzáadva.");
