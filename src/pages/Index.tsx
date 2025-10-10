@@ -246,7 +246,10 @@ const Index = () => {
               </div>
               <nav className="hidden md:flex gap-6 justify-center">
                 <button
-                  onClick={() => setSearchParams({ section: 'focus' })}
+                  onClick={() => {
+                    setSearchParams({ section: 'focus' });
+                    setOpenSubmenu(null);
+                  }}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                     section === 'focus' 
                       ? 'text-white font-semibold border-white' 
@@ -437,7 +440,10 @@ const Index = () => {
                   )}
                 </div>
                 <button
-                  onClick={() => setSearchParams({ section: 'export' })}
+                  onClick={() => {
+                    setSearchParams({ section: 'export' });
+                    setOpenSubmenu(null);
+                  }}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                     section === 'export' 
                       ? 'text-white font-semibold border-white' 
@@ -448,7 +454,10 @@ const Index = () => {
                   Export
                 </button>
                 <button
-                  onClick={() => setSearchParams({ section: 'custom-survey' })}
+                  onClick={() => {
+                    setSearchParams({ section: 'custom-survey' });
+                    setOpenSubmenu(null);
+                  }}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                     section === 'custom-survey' 
                       ? 'text-white font-semibold border-white' 
@@ -459,7 +468,10 @@ const Index = () => {
                   Egyedi Felmérés
                 </button>
                 <button
-                  onClick={() => setSearchParams({ section: 'settings' })}
+                  onClick={() => {
+                    setSearchParams({ section: 'settings' });
+                    setOpenSubmenu(null);
+                  }}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                     section === 'settings' 
                       ? 'text-white font-semibold border-white' 
