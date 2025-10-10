@@ -78,6 +78,7 @@ export interface StandardAudit {
   gift_id?: string | null;
   draw_mode?: 'auto' | 'manual' | null;
   draw_status?: 'none' | 'pending' | 'completed';
+  status?: 'draft' | 'running' | 'closed';
 }
 
 // Standard query string for fetching felmérések

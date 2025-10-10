@@ -46,7 +46,7 @@ const RunningAudits = () => {
       // Fetch active audits
       const { data: auditsData, error: auditsError } = await supabase
         .from('audits')
-        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, access_token, gift_id, draw_mode, draw_status')
+        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, access_token, gift_id, draw_mode, draw_status, status')
         .eq('is_active', true)
         .order('start_date', { ascending: false });
 
@@ -324,7 +324,11 @@ const RunningAudits = () => {
                       Jegyzőkönyv
                     </Button>
                   )}
-                  {metrics.audit.gift_id && metrics.audit.draw_mode === 'manual' && metrics.audit.draw_status === 'none' && metrics.responsesCount > 0 && (
+                  {metrics.audit.gift_id && 
+                   metrics.audit.draw_mode === 'manual' && 
+                   metrics.audit.draw_status === 'none' && 
+                   metrics.responsesCount > 0 && 
+                   (metrics.audit.status === 'closed' || (metrics.audit.expires_at && new Date(metrics.audit.expires_at) < new Date())) && (
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button variant="default" size="sm" className="gap-2">
