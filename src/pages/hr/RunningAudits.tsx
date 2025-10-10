@@ -302,7 +302,12 @@ const RunningAudits = () => {
                         }`}
                       >
                         <Trophy className="h-3 w-3" />
-                        {metrics.audit.draw_status === 'completed' ? 'Sorsolt' : 'Sorsolással'}
+                        {metrics.audit.draw_status === 'completed' 
+                          ? 'Sorsolt' 
+                          : metrics.audit.draw_mode === 'auto' 
+                            ? 'Automatikus sorsolással' 
+                            : 'Manuális sorsolással'
+                        }
                       </Badge>
                     )}
                   </div>
