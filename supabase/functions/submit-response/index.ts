@@ -82,7 +82,7 @@ serve(async (req) => {
       .from('audits')
       .select('gift_id, status, is_active, expires_at')
       .eq('id', audit_id)
-      .single();
+      .maybeSingle();
 
     if (auditError) throw auditError;
     if (!audit) throw new Error('Audit not found');

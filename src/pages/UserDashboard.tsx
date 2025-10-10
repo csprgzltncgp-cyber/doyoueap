@@ -644,7 +644,7 @@ const UserDashboard = () => {
   const renderEmailConsent = () => (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold">🎁 Nyereményjáték</h2>
+        <h2 className="text-2xl font-bold">Nyereményjáték</h2>
         <p className="text-muted-foreground">
           Köszönjük, hogy kitöltötted a felmérést! Részt vehetsz a nyereményjátékban.
         </p>
