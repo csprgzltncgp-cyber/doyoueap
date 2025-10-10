@@ -53,12 +53,7 @@ const Index = () => {
     if (!loading && user && role === 'hr' && window.location.pathname === '/dashboard' && !section) {
       navigate('/?section=focus');
     }
-    
-    // Set default subsection for EAP Pulse
-    if (user && role === 'hr' && section === 'eap-pulse' && !subSection) {
-      setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });
-    }
-  }, [user, role, loading, navigate, section, subSection, setSearchParams]);
+  }, [user, role, loading, navigate, section, setSearchParams]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
