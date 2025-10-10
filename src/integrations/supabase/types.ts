@@ -1004,7 +1004,7 @@ export type Database = {
       app_role: "admin" | "hr"
       audit_status: "draft" | "running" | "closed"
       draw_mode: "auto" | "manual"
-      draw_status: "none" | "ready" | "done"
+      draw_status: "none" | "ready" | "done" | "completed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1135,7 +1135,7 @@ export const Constants = {
       app_role: ["admin", "hr"],
       audit_status: ["draft", "running", "closed"],
       draw_mode: ["auto", "manual"],
-      draw_status: ["none", "ready", "done"],
+      draw_status: ["none", "ready", "done", "completed"],
     },
   },
 } as const
