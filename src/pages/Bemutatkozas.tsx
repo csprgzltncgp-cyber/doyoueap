@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, TrendingUp, Users, Award, Eye, Shield, Activity, Target } from 'lucide-react';
 import logo from '@/assets/logo.png';
-import riportImage from '@/assets/riport_ok.png';
+import riportImage from '@/assets/riport_ok.svg';
 import iphoneImage from '@/assets/iphone_eap_pulse_ok_2.png';
 import { useAuth } from '@/hooks/useAuth';
 import { MobileNav } from '@/components/navigation/MobileNav';
