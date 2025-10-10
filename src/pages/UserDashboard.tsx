@@ -519,7 +519,7 @@ const UserDashboard = () => {
       {hasLottery && audit.gift && (
         <Alert className="border-primary/20 bg-primary/5">
           <AlertDescription className="space-y-3">
-            <p className="font-semibold text-lg">🎁 Nyereményjáték!</p>
+            <p className="font-semibold text-lg">Nyereményjáték!</p>
             <p>
               A felmérés kitöltésével automatikusan részt veszel egy <strong>{audit.gift.name}</strong> értékű 
               ajándék sorsolásán (értéke: <strong>{formatEUR(audit.gift.value_eur)}</strong>).
@@ -531,8 +531,8 @@ const UserDashboard = () => {
               <ul className="list-disc list-inside space-y-1 text-left">
                 <li>A felmérés végén kapsz egy egyedi <strong>sorsolási kódot</strong></li>
                 <li>Ezt a kódot <strong>mindenképpen mentsd el vagy írd fel</strong> – ezzel tudsz nyerni!</li>
-                <li>A felmérés végén <strong>megadhatsz egy e-mail címet</strong> (opcionális), hogy értesítsünk a sorsolás eredményéről</li>
-                <li>A nyertest e-mailben vagy telefonon fogjuk értesíteni</li>
+                <li>A felmérés végén <strong>megadhatsz egy e-mail címet</strong>, amelyre értesítést küldhetsz magadnak</li>
+                <li>A HR osztály fogja közzétenni a nyertes sorszámot, így mindenképp értesülni fogsz arról, ha nyertél</li>
               </ul>
             </div>
           </AlertDescription>
