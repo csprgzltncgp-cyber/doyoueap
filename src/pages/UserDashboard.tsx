@@ -222,10 +222,14 @@ const UserDashboard = () => {
     setSubmitting(true);
     
     try {
+      // Generate a unique participant ID if lottery is enabled
+      const participantId = hasLottery ? crypto.randomUUID() : undefined;
+      
       const { data, error } = await supabase.functions.invoke('submit-response', {
         body: {
           audit_id: audit.id,
           responses,
+          participant_id: participantId,
           email: hasLottery && email ? email : undefined,
           email_consent: hasLottery && emailConsent,
           employee_metadata: {
