@@ -265,8 +265,6 @@ const Index = () => {
                       } else {
                         setOpenSubmenu('eap-pulse');
                       }
-                      // Only set section, NOT sub - let user choose from submenu
-                      setSearchParams({ section: 'eap-pulse' });
                     }}
                     className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                       section === 'eap-pulse' 
