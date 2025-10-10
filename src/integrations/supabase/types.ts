@@ -85,23 +85,32 @@ export type Database = {
       }
       audit_responses: {
         Row: {
+          anonymized_hash: string | null
           audit_id: string
+          draw_token: string | null
           employee_metadata: Json | null
           id: string
+          participant_id_hash: string | null
           responses: Json
           submitted_at: string
         }
         Insert: {
+          anonymized_hash?: string | null
           audit_id: string
+          draw_token?: string | null
           employee_metadata?: Json | null
           id?: string
+          participant_id_hash?: string | null
           responses?: Json
           submitted_at?: string
         }
         Update: {
+          anonymized_hash?: string | null
           audit_id?: string
+          draw_token?: string | null
           employee_metadata?: Json | null
           id?: string
+          participant_id_hash?: string | null
           responses?: Json
           submitted_at?: string
         }
@@ -120,12 +129,17 @@ export type Database = {
           access_mode: string | null
           access_token: string
           available_languages: string[] | null
+          closes_at: string | null
           communication_text: string | null
+          company_name: string
           created_at: string
           custom_colors: Json | null
+          draw_mode: Database["public"]["Enums"]["draw_mode"] | null
+          draw_status: Database["public"]["Enums"]["draw_status"]
           eap_program_url: string | null
           email_template: Json | null
           expires_at: string | null
+          gift_id: string | null
           hr_user_id: string
           id: string
           is_active: boolean | null
@@ -134,18 +148,24 @@ export type Database = {
           questionnaire_id: string
           recurrence_config: Json | null
           start_date: string | null
+          status: Database["public"]["Enums"]["audit_status"]
           updated_at: string
         }
         Insert: {
           access_mode?: string | null
           access_token: string
           available_languages?: string[] | null
+          closes_at?: string | null
           communication_text?: string | null
+          company_name: string
           created_at?: string
           custom_colors?: Json | null
+          draw_mode?: Database["public"]["Enums"]["draw_mode"] | null
+          draw_status?: Database["public"]["Enums"]["draw_status"]
           eap_program_url?: string | null
           email_template?: Json | null
           expires_at?: string | null
+          gift_id?: string | null
           hr_user_id: string
           id?: string
           is_active?: boolean | null
@@ -154,18 +174,24 @@ export type Database = {
           questionnaire_id: string
           recurrence_config?: Json | null
           start_date?: string | null
+          status?: Database["public"]["Enums"]["audit_status"]
           updated_at?: string
         }
         Update: {
           access_mode?: string | null
           access_token?: string
           available_languages?: string[] | null
+          closes_at?: string | null
           communication_text?: string | null
+          company_name?: string
           created_at?: string
           custom_colors?: Json | null
+          draw_mode?: Database["public"]["Enums"]["draw_mode"] | null
+          draw_status?: Database["public"]["Enums"]["draw_status"]
           eap_program_url?: string | null
           email_template?: Json | null
           expires_at?: string | null
+          gift_id?: string | null
           hr_user_id?: string
           id?: string
           is_active?: boolean | null
@@ -174,9 +200,17 @@ export type Database = {
           questionnaire_id?: string
           recurrence_config?: Json | null
           start_date?: string | null
+          status?: Database["public"]["Enums"]["audit_status"]
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "audits_gift_id_fkey"
+            columns: ["gift_id"]
+            isOneToOne: false
+            referencedRelation: "gifts"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "audits_questionnaire_id_fkey"
             columns: ["questionnaire_id"]
@@ -193,6 +227,7 @@ export type Database = {
           contact_phone: string | null
           created_at: string
           employee_count: string | null
+          enable_gifts: boolean
           id: string
           industry: string | null
           notes: string | null
@@ -208,6 +243,7 @@ export type Database = {
           contact_phone?: string | null
           created_at?: string
           employee_count?: string | null
+          enable_gifts?: boolean
           id?: string
           industry?: string | null
           notes?: string | null
@@ -223,6 +259,7 @@ export type Database = {
           contact_phone?: string | null
           created_at?: string
           employee_count?: string | null
+          enable_gifts?: boolean
           id?: string
           industry?: string | null
           notes?: string | null
@@ -233,6 +270,50 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      draws: {
+        Row: {
+          audit_id: string
+          candidates_count: number
+          company_name: string
+          created_by: string | null
+          id: string
+          report_url: string | null
+          seed: string
+          ts: string
+          winner_token: string
+        }
+        Insert: {
+          audit_id: string
+          candidates_count: number
+          company_name: string
+          created_by?: string | null
+          id?: string
+          report_url?: string | null
+          seed: string
+          ts?: string
+          winner_token: string
+        }
+        Update: {
+          audit_id?: string
+          candidates_count?: number
+          company_name?: string
+          created_by?: string | null
+          id?: string
+          report_url?: string | null
+          seed?: string
+          ts?: string
+          winner_token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "draws_audit_id_fkey"
+            columns: ["audit_id"]
+            isOneToOne: false
+            referencedRelation: "audits"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       email_verifications: {
         Row: {
@@ -298,6 +379,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      gifts: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          is_default: boolean
+          name: string
+          updated_at: string
+          value_eur: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          is_default?: boolean
+          name: string
+          updated_at?: string
+          value_eur: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          is_default?: boolean
+          name?: string
+          updated_at?: string
+          value_eur?: number
+        }
+        Relationships: []
       }
       magazine_articles: {
         Row: {
@@ -727,6 +844,32 @@ export type Database = {
         }
         Relationships: []
       }
+      response_notifications: {
+        Row: {
+          consent_ts: string
+          email: string
+          response_id: string
+        }
+        Insert: {
+          consent_ts?: string
+          email: string
+          response_id: string
+        }
+        Update: {
+          consent_ts?: string
+          email?: string
+          response_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "response_notifications_response_id_fkey"
+            columns: ["response_id"]
+            isOneToOne: true
+            referencedRelation: "audit_responses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_invitations: {
         Row: {
           accepted: boolean | null
@@ -817,6 +960,10 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_user_company_name: {
+        Args: { _user_id: string }
+        Returns: string
+      }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
@@ -855,6 +1002,9 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "hr"
+      audit_status: "draft" | "running" | "closed"
+      draw_mode: "auto" | "manual"
+      draw_status: "none" | "ready" | "done"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -983,6 +1133,9 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "hr"],
+      audit_status: ["draft", "running", "closed"],
+      draw_mode: ["auto", "manual"],
+      draw_status: ["none", "ready", "done"],
     },
   },
 } as const
