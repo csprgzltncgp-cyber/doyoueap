@@ -1,7 +1,9 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Link as LinkIcon, Upload, QrCode, Calendar, Languages, FileText } from "lucide-react";
+import { CheckCircle2, Link as LinkIcon, Upload, QrCode, Calendar, Languages, FileText, Gift } from "lucide-react";
+import { supabase } from '@/integrations/supabase/client';
 
 interface Step7Props {
   auditData: {
@@ -16,6 +18,8 @@ interface Step7Props {
     recurrenceFrequency: string;
     selectedLanguages: string[];
     eapProgramUrl: string;
+    giftId?: string;
+    drawMode?: 'auto' | 'manual';
   };
   onSubmit: () => void;
   onBack: () => void;
@@ -23,6 +27,37 @@ interface Step7Props {
 }
 
 export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Props) => {
+  const [giftName, setGiftName] = useState<string>('');
+  const [giftValue, setGiftValue] = useState<number>(0);
+
+  useEffect(() => {
+    if (auditData.giftId) {
+      fetchGift(auditData.giftId);
+    }
+  }, [auditData.giftId]);
+
+  const fetchGift = async (giftId: string) => {
+    const { data } = await supabase
+      .from('gifts')
+      .select('name, value_eur')
+      .eq('id', giftId)
+      .single();
+    
+    if (data) {
+      setGiftName(data.name);
+      setGiftValue(data.value_eur);
+    }
+  };
+
+  const formatEUR = (value: number): string => {
+    const formatted = new Intl.NumberFormat('hu-HU', {
+      style: 'decimal',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    }).format(value);
+    return formatted.replace(/\s/g, ' ') + ' €';
+  };
+
   const formatDate = (dateString: string) => {
     if (!dateString) return '-';
     return new Date(dateString).toLocaleString('hu-HU', {
@@ -129,6 +164,33 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
           )}
         </CardContent>
       </Card>
+
+      {auditData.giftId && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Gift className="h-5 w-5" />
+              Ajándéksorsolás
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div>
+              <p className="text-sm text-muted-foreground">Ajándék</p>
+              <p className="font-medium">{giftName}</p>
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Érték</p>
+              <p className="text-xl font-bold text-primary">{formatEUR(giftValue)}</p>
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Sorsolás módja</p>
+              <Badge variant="secondary">
+                {auditData.drawMode === 'auto' ? 'Automatikus záráskor' : 'Manuális indítás'}
+              </Badge>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <Card>
         <CardHeader>

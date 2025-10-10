@@ -7,6 +7,7 @@ import { Progress } from '@/components/ui/progress';
 import { toast } from 'sonner';
 import { Step1AccessMode } from '@/components/audit/Step1AccessMode';
 import { Step2Communication } from '@/components/audit/Step2Communication';
+import { Step3Lottery } from '@/components/audit/Step3Lottery';
 import { Step3Distribution } from '@/components/audit/Step3Distribution';
 import { Step3Branding } from '@/components/audit/Step3Branding';
 import { Step4Timing } from '@/components/audit/Step4Timing';
@@ -45,8 +46,13 @@ const CreateAudit = () => {
   const [emailSubject, setEmailSubject] = useState('Segítsd jobbá tenni a {{program_név}} programot!');
   const [emailFrom, setEmailFrom] = useState('noreply@doyoueap.com');
   const [eapProgramUrl, setEapProgramUrl] = useState('');
+  
+  // Lottery state
+  const [giftId, setGiftId] = useState('');
+  const [drawMode, setDrawMode] = useState<'auto' | 'manual'>('auto');
+  const [lotteryConsent, setLotteryConsent] = useState(false);
 
-  const totalSteps = 8;
+  const totalSteps = 9;
 
   const handleNext = async () => {
     // Generate token after step 3 (communication step, before distribution)
@@ -129,9 +135,21 @@ const CreateAudit = () => {
         throw new Error('Nincs aktív kérdőív');
       }
 
+      // Get company_name for the current user
+      const { data: profileData } = await supabase
+        .from('profiles')
+        .select('company_name')
+        .eq('id', user?.id)
+        .single();
+
+      if (!profileData?.company_name) {
+        throw new Error('A cég neve nincs kitöltve a profilban. Kérjük, adja meg, majd próbálja újra.');
+      }
+
       // Create EAP Pulse assessment
       const { error } = await supabase.from('audits').insert({
         hr_user_id: user?.id,
+        company_name: profileData.company_name,
         program_name: programName,
         questionnaire_id: questionnaires[0].id,
         access_token: accessToken,
@@ -141,11 +159,16 @@ const CreateAudit = () => {
         custom_colors: customColors,
         start_date: startDate,
         expires_at: expiresAt,
+        closes_at: expiresAt,
+        status: 'running',
         recurrence_config: enableRecurrence
           ? { enabled: true, frequency: recurrenceFrequency }
           : { enabled: false },
         available_languages: selectedLanguages,
         eap_program_url: eapProgramUrl,
+        gift_id: giftId || null,
+        draw_mode: giftId ? drawMode : null,
+        draw_status: giftId ? 'none' : 'none',
       });
 
       if (error) throw error;
@@ -172,6 +195,8 @@ const CreateAudit = () => {
     recurrenceFrequency,
     selectedLanguages,
     eapProgramUrl,
+    giftId,
+    drawMode,
   };
 
   return (
@@ -226,6 +251,19 @@ const CreateAudit = () => {
         )}
 
         {currentStep === 4 && (
+          <Step3Lottery
+            giftId={giftId}
+            drawMode={drawMode}
+            lotteryConsent={lotteryConsent}
+            onGiftIdChange={setGiftId}
+            onDrawModeChange={setDrawMode}
+            onLotteryConsentChange={setLotteryConsent}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        )}
+
+        {currentStep === 5 && (
           <Step3Distribution
             accessMode={accessMode}
             accessToken={accessToken}
@@ -241,6 +279,21 @@ const CreateAudit = () => {
         )}
 
         {currentStep === 5 && (
+          <Step3Distribution
+            accessMode={accessMode}
+            accessToken={accessToken}
+            communicationText={communicationText}
+            emailSubject={emailSubject}
+            emailFrom={emailFrom}
+            onEmailSubjectChange={setEmailSubject}
+            onEmailFromChange={setEmailFrom}
+            onEmailListUpload={setEmailListFile}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        )}
+
+        {currentStep === 6 && (
           <Step3Branding
             logoFile={logoFile}
             customColors={customColors}
@@ -251,7 +304,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {currentStep === 6 && (
+        {currentStep === 7 && (
           <Step4Timing
             startDate={startDate}
             expiresAt={expiresAt}
@@ -266,7 +319,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {currentStep === 7 && (
+        {currentStep === 8 && (
           <Step5Languages
             selectedLanguages={selectedLanguages}
             onLanguagesChange={setSelectedLanguages}
@@ -275,7 +328,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {currentStep === 8 && (
+        {currentStep === 9 && (
           <Step7Summary
             auditData={auditData}
             onSubmit={handleSubmit}
