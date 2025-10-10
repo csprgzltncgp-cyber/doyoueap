@@ -138,8 +138,8 @@ const Bemutatkozas = () => {
             </div>
           </div>
 
-          {/* Tablet/Mobile view - new layout */}
-          <div className="lg:hidden space-y-8">
+          {/* Tablet view - new layout */}
+          <div className="hidden md:block lg:hidden space-y-8">
             <Card>
               <CardHeader>
                 <CardTitle className="text-3xl animate-pulse-glow">Mi az EAP Pulse?</CardTitle>
@@ -173,6 +173,37 @@ const Bemutatkozas = () => {
                     className="relative z-10 w-full h-auto object-contain"
                   />
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile view - phone only, centered, full width */}
+          <div className="md:hidden space-y-8">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-3xl animate-pulse-glow">Mi az EAP Pulse?</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <p className="text-lg">
+                  Az EAP Pulse egy gyors és kíméletes „pulzusmérő" a futó EAP-programokhoz. Rövid, mobilbarát kérdőívekkel rendszeresen visszajelzést kérünk a munkatársaktól, majd az eredményeket a 4Score keretben jelenítjük meg – így egy pillantással látszik, mennyire ismert a program, mennyire bíznak benne és használják, valamint milyen kézzelfogható hatást ér el.
+                </p>
+                <p className="text-muted-foreground">
+                  A Pulse nem váltja ki az EAP-szolgáltatódat, hanem kiegészíti: több adatot ad a kezébe (és a HR kezébe) a jobb kommunikációhoz, fejlesztési döntésekhez és a vezetői riportokhoz. A cél egy win–win: hiteles, átlátható kép a menedzsment felé, és egyre használhatóbb program a dolgozóknak.
+                </p>
+                <p className="text-muted-foreground">
+                  A megvalósítás egyszerű: előre összeállított vagy testre szabható kérdések, automatikus kiküldés, real-time dashboardok és kész menedzsment-riportok. A válaszadás anonim, az adatok összesítve jelennek meg.
+                </p>
+              </CardContent>
+            </Card>
+            
+            <div className="flex justify-center">
+              <div className="relative w-full max-w-[300px]">
+                <div className="absolute inset-2 bg-white rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)]" />
+                <img 
+                  src={iphoneImage} 
+                  alt="EAP Pulse mobilalkalmazás" 
+                  className="relative z-10 w-full h-auto object-contain"
+                />
               </div>
             </div>
           </div>
