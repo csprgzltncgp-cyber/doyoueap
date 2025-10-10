@@ -9,8 +9,10 @@ import { Switch } from '@/components/ui/switch';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from '@/hooks/use-toast';
-import { Plus, Edit, Search, Upload, X } from 'lucide-react';
+import { Plus, Edit, Search, Upload, X, Trophy } from 'lucide-react';
+import DrawHistory from './DrawHistory';
 
 interface Gift {
   id: string;
@@ -293,9 +295,15 @@ const GiftManagement = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Ajándékok kezelése</h2>
+    <Tabs defaultValue="gifts" className="space-y-6">
+      <TabsList className="grid w-full grid-cols-2 max-w-md">
+        <TabsTrigger value="gifts">Ajándékok</TabsTrigger>
+        <TabsTrigger value="draws">Archív Sorsolások</TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="gifts" className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold">Ajándékok kezelése</h2>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
             <Button onClick={() => setEditingGift(null)}>
@@ -514,7 +522,12 @@ const GiftManagement = () => {
           )}
         </CardContent>
       </Card>
-    </div>
+      </TabsContent>
+
+      <TabsContent value="draws" className="space-y-6">
+        <DrawHistory />
+      </TabsContent>
+    </Tabs>
   );
 };
 
