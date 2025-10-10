@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { toast } from '@/hooks/use-toast';
-import { Plus, Edit, Search } from 'lucide-react';
+import { Plus, Edit, Search, Upload, X } from 'lucide-react';
 
 interface Gift {
   id: string;
@@ -50,6 +50,11 @@ const GiftManagement = () => {
     is_default: false,
     is_active: true,
   });
+
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetchGifts();
@@ -123,14 +128,49 @@ const GiftManagement = () => {
     return true;
   };
 
+  const uploadImage = async (): Promise<string | null> => {
+    if (!uploadedImage) return formData.image_url.trim() || null;
+
+    try {
+      setUploading(true);
+      const fileExt = uploadedImage.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+      const filePath = `gifts/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('audit-assets')
+        .upload(filePath, uploadedImage);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('audit-assets')
+        .getPublicUrl(filePath);
+
+      return publicUrl;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast({
+        title: 'Hiba',
+        description: 'Nem sikerült feltölteni a képet.',
+        variant: 'destructive',
+      });
+      return null;
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSubmit = async () => {
     if (!validateForm()) return;
 
     try {
+      const imageUrl = await uploadImage();
+
       const payload = {
         name: formData.name.trim(),
         description: formData.description.trim() || null,
-        image_url: formData.image_url.trim() || null,
+        image_url: imageUrl,
         value_eur: parseFloat(formData.value_eur),
         is_default: formData.is_default,
         is_active: formData.is_active,
@@ -165,6 +205,35 @@ const GiftManagement = () => {
     }
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        toast({
+          title: 'Érvénytelen fájl',
+          description: 'Csak képfájlokat lehet feltölteni.',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      setUploadedImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setUploadedImage(null);
+    setImagePreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const handleEdit = (gift: Gift) => {
     setEditingGift(gift);
     setFormData({
@@ -175,6 +244,8 @@ const GiftManagement = () => {
       is_default: gift.is_default,
       is_active: gift.is_active,
     });
+    setImagePreview(gift.image_url || null);
+    setUploadedImage(null);
     setDialogOpen(true);
   };
 
@@ -189,6 +260,11 @@ const GiftManagement = () => {
       is_default: false,
       is_active: true,
     });
+    setUploadedImage(null);
+    setImagePreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const toggleActive = async (gift: Gift) => {
@@ -269,14 +345,45 @@ const GiftManagement = () => {
               </div>
 
               <div>
-                <Label htmlFor="image_url">Kép URL</Label>
-                <Input
-                  id="image_url"
-                  type="url"
-                  value={formData.image_url}
-                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                  placeholder="https://..."
-                />
+                <Label htmlFor="image">Kép feltöltése</Label>
+                <div className="space-y-2">
+                  {imagePreview && (
+                    <div className="relative inline-block">
+                      <img
+                        src={imagePreview}
+                        alt="Előnézet"
+                        className="h-32 w-32 object-cover rounded border"
+                      />
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="icon"
+                        className="absolute -top-2 -right-2 h-6 w-6"
+                        onClick={handleRemoveImage}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  )}
+                  <div className="flex gap-2">
+                    <Input
+                      ref={fileInputRef}
+                      id="image"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="cursor-pointer"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <Upload className="h-4 w-4 mr-2" />
+                      Tallózás
+                    </Button>
+                  </div>
+                </div>
               </div>
 
               <div className="flex items-center space-x-2">
@@ -298,10 +405,10 @@ const GiftManagement = () => {
               </div>
 
               <div className="flex gap-2 pt-4">
-                <Button onClick={handleSubmit} className="flex-1">
-                  {editingGift ? 'Mentés' : 'Létrehozás'}
+                <Button onClick={handleSubmit} className="flex-1" disabled={uploading}>
+                  {uploading ? 'Feltöltés...' : editingGift ? 'Mentés' : 'Létrehozás'}
                 </Button>
-                <Button onClick={handleCloseDialog} variant="outline" className="flex-1">
+                <Button onClick={handleCloseDialog} variant="outline" className="flex-1" disabled={uploading}>
                   Mégse
                 </Button>
               </div>
