@@ -275,7 +275,7 @@ const Index = () => {
                     <Activity className="h-4 w-4" />
                     EAP Pulse
                   </button>
-                  {section === 'eap-pulse' && openSubmenu === 'eap-pulse' && (
+                  {openSubmenu === 'eap-pulse' && (
                     <div className="absolute top-full left-0 mt-2 bg-white rounded-md shadow-lg py-2 min-w-[200px] z-50">
                       <button
                         onClick={() => {
