@@ -539,18 +539,20 @@ const UserDashboard = () => {
               <ul className="list-disc list-inside space-y-1 text-left">
                 <li>A felmérés végén kapsz egy egyedi <strong>sorsolási kódot</strong></li>
                 <li>Ezt a kódot <strong>mindenképpen mentsd el vagy írd fel</strong> – ezzel tudsz nyerni!</li>
-                <li>A felmérés végén megadhatsz egy e-mail-címet, ha szeretnéd, hogy e-mailben értesítsünk a nyeremény esetén.</li>
                 <li>
-                  A sorsolás lezárultával azonban a HR-osztály a nyertes sorszámot is közzéteszi, így e-mail megadása nélkül is értesülni fogsz róla, ha Te nyertél.
+                  A felmérés végén megadhatsz egy e-mail-címet, ha szeretnéd, hogy e-mailben értesítsünk a nyeremény esetén.
+                </li>
+                <li>
+                  A sorsolás lezárultával azonban a HR-osztály a nyertes sorszámot közzéteszi, így e-mail megadása nélkül is értesülni fogsz róla, ha Te nyertél.
                   {audit.draw_mode === 'auto' ? (
                     audit.closes_at ? (
-                      <> A sorsolás automatikusan megtörténik: <strong>{new Date(audit.closes_at).toLocaleDateString('hu-HU')}</strong>.</>
+                      <> A sorsolás automatikusan megtörténik: <strong>{new Date(audit.closes_at).toLocaleDateString('hu-HU')}</strong></>
                     ) : (
                       <> A sorsolás automatikusan megtörténik.</>
                     )
                   ) : (
                     audit.closes_at ? (
-                      <> A sorsolás a felmérés lezárása után történik: <strong>{new Date(audit.closes_at).toLocaleDateString('hu-HU')}</strong>.</>
+                      <> A sorsolás a felmérés lezárása után történik: <strong>{new Date(audit.closes_at).toLocaleDateString('hu-HU')}</strong></>
                     ) : (
                       <> A sorsolás a felmérés lezárása után történik.</>
                     )
