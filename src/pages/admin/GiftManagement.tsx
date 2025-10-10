@@ -1,0 +1,414 @@
+import { useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { toast } from '@/hooks/use-toast';
+import { Plus, Edit, Search } from 'lucide-react';
+
+interface Gift {
+  id: string;
+  name: string;
+  description: string | null;
+  image_url: string | null;
+  value_eur: number;
+  is_default: boolean;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+const formatEUR = (value: number): string => {
+  const formatted = new Intl.NumberFormat('hu-HU', {
+    style: 'decimal',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(value);
+  return formatted.replace(/\s/g, ' ') + ' €';
+};
+
+const GiftManagement = () => {
+  const [gifts, setGifts] = useState<Gift[]>([]);
+  const [filteredGifts, setFilteredGifts] = useState<Gift[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editingGift, setEditingGift] = useState<Gift | null>(null);
+  
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    image_url: '',
+    value_eur: '',
+    is_default: false,
+    is_active: true,
+  });
+
+  useEffect(() => {
+    fetchGifts();
+  }, []);
+
+  useEffect(() => {
+    filterGifts();
+  }, [gifts, searchTerm, statusFilter]);
+
+  const fetchGifts = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('gifts')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setGifts(data || []);
+    } catch (error) {
+      console.error('Error fetching gifts:', error);
+      toast({
+        title: 'Hiba',
+        description: 'Nem sikerült betölteni az ajándékokat.',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filterGifts = () => {
+    let filtered = [...gifts];
+
+    if (searchTerm) {
+      filtered = filtered.filter(gift =>
+        gift.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        gift.description?.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    if (statusFilter === 'active') {
+      filtered = filtered.filter(gift => gift.is_active);
+    } else if (statusFilter === 'inactive') {
+      filtered = filtered.filter(gift => !gift.is_active);
+    }
+
+    setFilteredGifts(filtered);
+  };
+
+  const validateForm = (): boolean => {
+    if (!formData.name.trim()) {
+      toast({
+        title: 'Hiányzó mező',
+        description: 'A név kötelező.',
+        variant: 'destructive',
+      });
+      return false;
+    }
+
+    const value = parseFloat(formData.value_eur);
+    if (isNaN(value) || value < 1) {
+      toast({
+        title: 'Érvénytelen érték',
+        description: 'Az érték legalább 1 € kell legyen.',
+        variant: 'destructive',
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) return;
+
+    try {
+      const payload = {
+        name: formData.name.trim(),
+        description: formData.description.trim() || null,
+        image_url: formData.image_url.trim() || null,
+        value_eur: parseFloat(formData.value_eur),
+        is_default: formData.is_default,
+        is_active: formData.is_active,
+      };
+
+      if (editingGift) {
+        const { error } = await supabase
+          .from('gifts')
+          .update(payload)
+          .eq('id', editingGift.id);
+
+        if (error) throw error;
+        toast({ title: 'Sikeres módosítás', description: 'Az ajándék frissítve.' });
+      } else {
+        const { error } = await supabase
+          .from('gifts')
+          .insert([payload]);
+
+        if (error) throw error;
+        toast({ title: 'Sikeres létrehozás', description: 'Az ajándék létrehozva.' });
+      }
+
+      fetchGifts();
+      handleCloseDialog();
+    } catch (error) {
+      console.error('Error saving gift:', error);
+      toast({
+        title: 'Hiba',
+        description: 'Nem sikerült menteni az ajándékot.',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const handleEdit = (gift: Gift) => {
+    setEditingGift(gift);
+    setFormData({
+      name: gift.name,
+      description: gift.description || '',
+      image_url: gift.image_url || '',
+      value_eur: gift.value_eur.toString(),
+      is_default: gift.is_default,
+      is_active: gift.is_active,
+    });
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+    setEditingGift(null);
+    setFormData({
+      name: '',
+      description: '',
+      image_url: '',
+      value_eur: '',
+      is_default: false,
+      is_active: true,
+    });
+  };
+
+  const toggleActive = async (gift: Gift) => {
+    try {
+      const { error } = await supabase
+        .from('gifts')
+        .update({ is_active: !gift.is_active })
+        .eq('id', gift.id);
+
+      if (error) throw error;
+      
+      toast({
+        title: 'Státusz frissítve',
+        description: `Az ajándék most ${!gift.is_active ? 'aktív' : 'inaktív'}.`,
+      });
+      
+      fetchGifts();
+    } catch (error) {
+      console.error('Error toggling gift status:', error);
+      toast({
+        title: 'Hiba',
+        description: 'Nem sikerült frissíteni a státuszt.',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold">Ajándékok kezelése</h2>
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogTrigger asChild>
+            <Button onClick={() => setEditingGift(null)}>
+              <Plus className="mr-2 h-4 w-4" />
+              Új ajándék
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>
+                {editingGift ? 'Ajándék szerkesztése' : 'Új ajándék'}
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="name">Név *</Label>
+                <Input
+                  id="name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="pl. Amazon kupon"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="value_eur">Érték (EUR) *</Label>
+                <Input
+                  id="value_eur"
+                  type="number"
+                  step="0.01"
+                  min="1"
+                  value={formData.value_eur}
+                  onChange={(e) => setFormData({ ...formData, value_eur: e.target.value })}
+                  placeholder="50"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="description">Rövid leírás</Label>
+                <Textarea
+                  id="description"
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  placeholder="Opcionális leírás..."
+                  rows={3}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="image_url">Kép URL</Label>
+                <Input
+                  id="image_url"
+                  type="url"
+                  value={formData.image_url}
+                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                  placeholder="https://..."
+                />
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="is_default"
+                  checked={formData.is_default}
+                  onCheckedChange={(checked) => setFormData({ ...formData, is_default: checked })}
+                />
+                <Label htmlFor="is_default">Alapértelmezett</Label>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="is_active"
+                  checked={formData.is_active}
+                  onCheckedChange={(checked) => setFormData({ ...formData, is_active: checked })}
+                />
+                <Label htmlFor="is_active">Aktív</Label>
+              </div>
+
+              <div className="flex gap-2 pt-4">
+                <Button onClick={handleSubmit} className="flex-1">
+                  {editingGift ? 'Mentés' : 'Létrehozás'}
+                </Button>
+                <Button onClick={handleCloseDialog} variant="outline" className="flex-1">
+                  Mégse
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Szűrők és keresés</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex gap-4">
+            <div className="flex-1">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Keresés név vagy leírás alapján..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </div>
+            <Select value={statusFilter} onValueChange={(value: any) => setStatusFilter(value)}>
+              <SelectTrigger className="w-48">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Összes</SelectItem>
+                <SelectItem value="active">Aktív</SelectItem>
+                <SelectItem value="inactive">Inaktív</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Ajándékok ({filteredGifts.length})</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {loading ? (
+            <p className="text-center text-muted-foreground">Betöltés...</p>
+          ) : filteredGifts.length === 0 ? (
+            <p className="text-center text-muted-foreground">Nincs megjeleníthető ajándék.</p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Név</TableHead>
+                  <TableHead>Érték</TableHead>
+                  <TableHead>Leírás</TableHead>
+                  <TableHead>Kép</TableHead>
+                  <TableHead>Alapért.</TableHead>
+                  <TableHead>Státusz</TableHead>
+                  <TableHead className="text-right">Műveletek</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredGifts.map((gift) => (
+                  <TableRow key={gift.id}>
+                    <TableCell className="font-medium">{gift.name}</TableCell>
+                    <TableCell>{formatEUR(gift.value_eur)}</TableCell>
+                    <TableCell className="max-w-xs truncate">
+                      {gift.description || '—'}
+                    </TableCell>
+                    <TableCell>
+                      {gift.image_url ? (
+                        <img src={gift.image_url} alt={gift.name} className="h-10 w-10 object-cover rounded" />
+                      ) : (
+                        '—'
+                      )}
+                    </TableCell>
+                    <TableCell>{gift.is_default ? '✓' : '—'}</TableCell>
+                    <TableCell>
+                      <span className={`px-2 py-1 rounded text-xs ${gift.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                        {gift.is_active ? 'Aktív' : 'Inaktív'}
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-right space-x-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleEdit(gift)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => toggleActive(gift)}
+                      >
+                        {gift.is_active ? 'Inaktiválás' : 'Aktiválás'}
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+export default GiftManagement;

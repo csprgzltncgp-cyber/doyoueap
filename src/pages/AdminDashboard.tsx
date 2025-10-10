@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import CompanyManagement from './admin/CompanyManagement';
 import MagazineManagement from './admin/MagazineManagement';
 import NewsletterManagement from './admin/NewsletterManagement';
+import GiftManagement from './admin/GiftManagement';
 
 const AdminDashboard = () => {
   const { user, signOut } = useAuth();
@@ -22,14 +23,19 @@ const AdminDashboard = () => {
 
       <div className="max-w-7xl mx-auto px-8 py-6">
         <Tabs defaultValue="companies" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 max-w-lg">
+          <TabsList className="grid w-full grid-cols-4 max-w-2xl">
             <TabsTrigger value="companies">Cégek</TabsTrigger>
+            <TabsTrigger value="gifts">Ajándékok</TabsTrigger>
             <TabsTrigger value="magazine">Magazin</TabsTrigger>
             <TabsTrigger value="newsletter">Hírlevél</TabsTrigger>
           </TabsList>
 
           <TabsContent value="companies" className="space-y-4">
             <CompanyManagement />
+          </TabsContent>
+
+          <TabsContent value="gifts" className="space-y-4">
+            <GiftManagement />
           </TabsContent>
 
           <TabsContent value="magazine" className="space-y-4">
