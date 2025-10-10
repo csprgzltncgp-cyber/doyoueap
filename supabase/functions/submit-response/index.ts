@@ -76,6 +76,7 @@ serve(async (req) => {
     }
 
     console.log(`[submit-response] Submitting response for audit ${audit_id}`);
+    console.log(`[submit-response] participant_id:`, participant_id);
 
     // 1. Fetch audit to check if lottery is enabled
     const { data: audit, error: auditError } = await supabaseClient
@@ -86,6 +87,8 @@ serve(async (req) => {
 
     if (auditError) throw auditError;
     if (!audit) throw new Error('Audit not found');
+    
+    console.log(`[submit-response] Audit data:`, JSON.stringify(audit));
 
     // 2. Check if audit is open
     if (!audit.is_active || audit.status === 'closed') {
@@ -100,10 +103,14 @@ serve(async (req) => {
     let participantIdHash = null;
     let drawToken = null;
 
+    console.log(`[submit-response] Checking lottery - gift_id: ${audit.gift_id}, participant_id: ${participant_id}`);
+
     if (audit.gift_id && participant_id) {
       participantIdHash = await hashParticipantId(participant_id);
       drawToken = generateDrawToken();
       console.log(`[submit-response] Lottery enabled, generated token: ${drawToken}`);
+    } else {
+      console.log(`[submit-response] No lottery - gift_id: ${audit.gift_id}, participant_id: ${participant_id}`);
     }
 
     // 4. Insert response
