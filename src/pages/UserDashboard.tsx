@@ -9,7 +9,8 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import { QuestionRenderer } from '@/components/survey/QuestionRenderer';
 import { Progress } from '@/components/ui/progress';
-import { Globe } from 'lucide-react';
+import { Globe, Download } from 'lucide-react';
+import jsPDF from 'jspdf';
 import logo from '@/assets/eap-pulse-logo-blue.png';
 
 interface Questionnaire {
@@ -644,6 +645,40 @@ const UserDashboard = () => {
     </div>
   );
 
+  const downloadTokenPDF = () => {
+    if (!drawToken) return;
+
+    const doc = new jsPDF();
+    
+    // Title
+    doc.setFontSize(20);
+    doc.text('Sorsolási kód', 105, 30, { align: 'center' });
+    
+    // Info text
+    doc.setFontSize(12);
+    doc.text('Köszönjük a részvételt az EAP Pulse felmérésben!', 105, 50, { align: 'center' });
+    doc.text('A sorsolási kódod:', 105, 65, { align: 'center' });
+    
+    // Draw token
+    doc.setFontSize(24);
+    doc.setFont(undefined, 'bold');
+    doc.text(drawToken, 105, 85, { align: 'center' });
+    
+    // Instructions
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.text('Őrizd meg ezt a kódot a sorsolás időpontjáig!', 105, 105, { align: 'center' });
+    doc.text('A nyertest e-mailben vagy a felmérés szervezője révén értesítjük.', 105, 115, { align: 'center' });
+    
+    // Footer
+    doc.setFontSize(8);
+    doc.text('EAP Pulse - Munkavállalói Segítő Program Felmérés', 105, 280, { align: 'center' });
+    doc.text(new Date().toLocaleDateString('hu-HU'), 105, 285, { align: 'center' });
+    
+    doc.save(`sorsolasi-kod-${drawToken}.pdf`);
+    toast.success('PDF letöltve!');
+  };
+
   const renderThankYou = () => (
     <div className="space-y-6 text-center">
       <div className="space-y-4">
@@ -658,9 +693,17 @@ const UserDashboard = () => {
             <div className="text-3xl font-mono font-bold text-primary mb-3">
               {drawToken}
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground mb-4">
               Jegyezd fel vagy készíts róla képernyőképet! Ezt a kódot használjuk a nyertes kisorsolásához.
             </p>
+            <Button 
+              onClick={downloadTokenPDF}
+              variant="outline"
+              className="w-full gap-2"
+            >
+              <Download className="h-4 w-4" />
+              Kód letöltése PDF-ben
+            </Button>
           </div>
         )}
         <p className="text-muted-foreground">

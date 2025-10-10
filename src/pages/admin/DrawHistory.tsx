@@ -4,8 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
-import { Search, Calendar, Users, Trophy } from 'lucide-react';
+import { Search, Calendar, Users, Trophy, FileDown } from 'lucide-react';
+import jsPDF from 'jspdf';
 
 interface Draw {
   id: string;
@@ -77,6 +79,60 @@ const DrawHistory = () => {
     });
   };
 
+  const downloadDrawReport = (draw: Draw) => {
+    const doc = new jsPDF();
+    
+    // Header
+    doc.setFontSize(18);
+    doc.text('Sorsolási jegyzőkönyv', 105, 20, { align: 'center' });
+    
+    // Draw details
+    doc.setFontSize(12);
+    let yPos = 40;
+    
+    doc.setFont(undefined, 'bold');
+    doc.text('Cég neve:', 20, yPos);
+    doc.setFont(undefined, 'normal');
+    doc.text(draw.company_name, 70, yPos);
+    yPos += 10;
+    
+    doc.setFont(undefined, 'bold');
+    doc.text('Sorsolás időpontja:', 20, yPos);
+    doc.setFont(undefined, 'normal');
+    doc.text(formatDate(draw.ts), 70, yPos);
+    yPos += 10;
+    
+    doc.setFont(undefined, 'bold');
+    doc.text('Jelentkezők száma:', 20, yPos);
+    doc.setFont(undefined, 'normal');
+    doc.text(draw.candidates_count.toString(), 70, yPos);
+    yPos += 10;
+    
+    doc.setFont(undefined, 'bold');
+    doc.text('Nyertes token:', 20, yPos);
+    doc.setFont(undefined, 'normal');
+    doc.text(draw.winner_token, 70, yPos);
+    yPos += 15;
+    
+    // Seed info for transparency
+    doc.setFontSize(10);
+    doc.text('Kriptográfiai seed (audit célra):', 20, yPos);
+    yPos += 5;
+    doc.setFontSize(8);
+    doc.text(draw.seed, 20, yPos, { maxWidth: 170 });
+    
+    // Footer
+    doc.setFontSize(8);
+    doc.text('EAP Pulse - Auditálható és átlátható sorsolási rendszer', 105, 280, { align: 'center' });
+    doc.text(`Jegyzőkönyv készítve: ${new Date().toLocaleString('hu-HU')}`, 105, 285, { align: 'center' });
+    
+    doc.save(`sorsolas-jegyzokonyv-${draw.id.substring(0, 8)}.pdf`);
+    toast({
+      title: 'PDF letöltve',
+      description: 'A sorsolási jegyzőkönyv sikeresen letöltve.',
+    });
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -119,6 +175,7 @@ const DrawHistory = () => {
                   <TableHead>Jelentkezők száma</TableHead>
                   <TableHead>Nyertes token</TableHead>
                   <TableHead>Státusz</TableHead>
+                  <TableHead className="text-right">Műveletek</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -147,6 +204,17 @@ const DrawHistory = () => {
                         <Trophy className="h-3 w-3" />
                         Lezárva
                       </Badge>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => downloadDrawReport(draw)}
+                        className="gap-2"
+                      >
+                        <FileDown className="h-4 w-4" />
+                        Jegyzőkönyv
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

@@ -7,8 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
-import { Calendar, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2, Trophy } from 'lucide-react';
+import { Calendar, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2, Trophy, FileDown } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
+import jsPDF from 'jspdf';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -173,6 +174,76 @@ const RunningAudits = () => {
     }
   };
 
+  const downloadDrawReport = async (auditId: string) => {
+    try {
+      const { data: draw, error } = await supabase
+        .from('draws')
+        .select('*')
+        .eq('audit_id', auditId)
+        .order('ts', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error) throw error;
+      if (!draw) {
+        toast.error('Nincs elérhető sorsolási jegyzőkönyv');
+        return;
+      }
+
+      const doc = new jsPDF();
+      
+      // Header
+      doc.setFontSize(18);
+      doc.text('Sorsolási jegyzőkönyv', 105, 20, { align: 'center' });
+      
+      // Draw details
+      doc.setFontSize(12);
+      let yPos = 40;
+      
+      doc.setFont(undefined, 'bold');
+      doc.text('Cég neve:', 20, yPos);
+      doc.setFont(undefined, 'normal');
+      doc.text(draw.company_name, 70, yPos);
+      yPos += 10;
+      
+      doc.setFont(undefined, 'bold');
+      doc.text('Sorsolás időpontja:', 20, yPos);
+      doc.setFont(undefined, 'normal');
+      doc.text(new Date(draw.ts).toLocaleString('hu-HU'), 70, yPos);
+      yPos += 10;
+      
+      doc.setFont(undefined, 'bold');
+      doc.text('Jelentkezők száma:', 20, yPos);
+      doc.setFont(undefined, 'normal');
+      doc.text(draw.candidates_count.toString(), 70, yPos);
+      yPos += 10;
+      
+      doc.setFont(undefined, 'bold');
+      doc.text('Nyertes token:', 20, yPos);
+      doc.setFont(undefined, 'normal');
+      doc.text(draw.winner_token, 70, yPos);
+      yPos += 15;
+      
+      // Seed info for transparency
+      doc.setFontSize(10);
+      doc.text('Kriptográfiai seed (audit célra):', 20, yPos);
+      yPos += 5;
+      doc.setFontSize(8);
+      doc.text(draw.seed, 20, yPos, { maxWidth: 170 });
+      
+      // Footer
+      doc.setFontSize(8);
+      doc.text('EAP Pulse - Auditálható és átlátható sorsolási rendszer', 105, 280, { align: 'center' });
+      doc.text(`Jegyzőkönyv készítve: ${new Date().toLocaleString('hu-HU')}`, 105, 285, { align: 'center' });
+      
+      doc.save(`sorsolas-jegyzokonyv-${draw.id.substring(0, 8)}.pdf`);
+      toast.success('PDF letöltve!');
+    } catch (error) {
+      console.error('Error downloading draw report:', error);
+      toast.error('Hiba történt a jegyzőkönyv letöltésekor');
+    }
+  };
+
   if (loading) {
     return (
       <div className="p-8 flex items-center justify-center h-96">
@@ -222,14 +293,32 @@ const RunningAudits = () => {
                       {metrics.daysRemaining} nap van hátra
                     </Badge>
                     {metrics.audit.gift_id && (
-                      <Badge variant="outline" className="gap-1 bg-yellow-50 text-yellow-700 border-yellow-300">
+                      <Badge 
+                        variant="outline" 
+                        className={`gap-1 ${
+                          metrics.audit.draw_status === 'completed' 
+                            ? 'bg-green-50 text-green-700 border-green-300' 
+                            : 'bg-yellow-50 text-yellow-700 border-yellow-300'
+                        }`}
+                      >
                         <Trophy className="h-3 w-3" />
-                        Sorsolással
+                        {metrics.audit.draw_status === 'completed' ? 'Sorsolt' : 'Sorsolással'}
                       </Badge>
                     )}
                   </div>
                 </div>
                 <div className="flex gap-2">
+                  {metrics.audit.gift_id && metrics.audit.draw_status === 'completed' && (
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="gap-2"
+                      onClick={() => downloadDrawReport(metrics.audit.id)}
+                    >
+                      <FileDown className="h-4 w-4" />
+                      Jegyzőkönyv
+                    </Button>
+                  )}
                   {metrics.audit.gift_id && metrics.audit.draw_status === 'none' && metrics.responsesCount > 0 && (
                     <AlertDialog>
                       <AlertDialogTrigger asChild>

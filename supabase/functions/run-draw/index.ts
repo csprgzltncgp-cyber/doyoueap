@@ -77,16 +77,12 @@ serve(async (req) => {
     console.log(`[run-draw] Audit found: ${audit.program_name}, company: ${audit.company_name}`);
 
     // 2. Check audit status
-    if (audit.status !== 'closed') {
-      throw new Error('Audit must be closed before drawing');
-    }
-
-    if (audit.draw_status === 'done') {
-      throw new Error('Draw already completed for this audit');
+    if (audit.draw_status === 'completed') {
+      throw new Error('Már megtörtént a sorsolás ennél a felmérésnél');
     }
 
     if (!audit.gift_id) {
-      throw new Error('No gift configured for this audit');
+      throw new Error('Nincs ajándék beállítva ehhez a felméréshez');
     }
 
     // 3. Fetch eligible responses (fully completed, unique participant_id_hash)
@@ -136,10 +132,10 @@ serve(async (req) => {
 
     console.log(`[run-draw] Draw record created: ${drawRecord.id}`);
 
-    // 7. Update audit draw status
+    // 7. Update audit draw status to 'completed'
     const { error: updateError } = await supabaseClient
       .from('audits')
-      .update({ draw_status: 'done' })
+      .update({ draw_status: 'completed' })
       .eq('id', audit_id);
 
     if (updateError) throw updateError;
