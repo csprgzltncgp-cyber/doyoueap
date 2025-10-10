@@ -260,34 +260,142 @@ const Index = () => {
                   <Target className="h-4 w-4" />
                   Focus
                 </button>
-                <button
-                  onClick={() => {
-                    console.log('Clicked EAP Pulse navigation');
-                    setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });
-                  }}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
-                    section === 'eap-pulse' 
-                      ? 'text-white font-semibold border-white' 
-                      : 'text-white/80 border-transparent hover:text-white'
-                  }`}
-                >
-                  <Activity className="h-4 w-4" />
-                  EAP Pulse
-                </button>
-                <button
-                  onClick={() => {
-                    console.log('Clicked Riportok navigation');
-                    setSearchParams({ section: 'reports' });
-                  }}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
-                    section === 'reports' 
-                      ? 'text-white font-semibold border-white' 
-                      : 'text-white/80 border-transparent hover:text-white'
-                  }`}
-                >
-                  <BarChart3 className="h-4 w-4" />
-                  Riportok
-                </button>
+                <div className="relative group">
+                  <button
+                    onClick={() => {
+                      console.log('Clicked EAP Pulse navigation');
+                      setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });
+                    }}
+                    className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                      section === 'eap-pulse' 
+                        ? 'text-white font-semibold border-white' 
+                        : 'text-white/80 border-transparent hover:text-white'
+                    }`}
+                  >
+                    <Activity className="h-4 w-4" />
+                    EAP Pulse
+                  </button>
+                  {section === 'eap-pulse' && (
+                    <div className="absolute top-full left-0 mt-2 bg-white rounded-md shadow-lg py-2 min-w-[200px] z-50">
+                      <button
+                        onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'create-audit' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Új Felmérés
+                      </button>
+                      <button
+                        onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'running-audits' })}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'running-audits' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Futó Felmérések
+                      </button>
+                      <button
+                        onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'audit-questionnaire' })}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'audit-questionnaire' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        EAP Pulse demo
+                      </button>
+                    </div>
+                  )}
+                </div>
+                <div className="relative group">
+                  <button
+                    onClick={() => {
+                      console.log('Clicked Riportok navigation');
+                      setSearchParams({ section: 'reports' });
+                    }}
+                    className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                      section === 'reports' 
+                        ? 'text-white font-semibold border-white' 
+                        : 'text-white/80 border-transparent hover:text-white'
+                    }`}
+                  >
+                    <BarChart3 className="h-4 w-4" />
+                    Riportok
+                  </button>
+                  {section === 'reports' && (
+                    <div className="absolute top-full left-0 mt-2 bg-white rounded-md shadow-lg py-2 min-w-[200px] z-50">
+                      <button
+                        onClick={() => setSearchParams({ section: 'reports', sub: 'overview' })}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          (!subSection || subSection === 'overview') ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Összefoglaló
+                      </button>
+                      <button
+                        onClick={() => setSearchParams({ section: 'reports', sub: 'awareness' })}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'awareness' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Ismertség
+                      </button>
+                      <button
+                        onClick={() => setSearchParams({ section: 'reports', sub: 'trust' })}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'trust' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Bizalom
+                      </button>
+                      <button
+                        onClick={() => setSearchParams({ section: 'reports', sub: 'usage' })}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'usage' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Használat
+                      </button>
+                      <button
+                        onClick={() => setSearchParams({ section: 'reports', sub: 'impact' })}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'impact' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Hatás
+                      </button>
+                      <button
+                        onClick={() => setSearchParams({ section: 'reports', sub: 'motivation' })}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'motivation' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Motiváció
+                      </button>
+                      <button
+                        onClick={() => setSearchParams({ section: 'reports', sub: 'demographics' })}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'demographics' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Demográfia
+                      </button>
+                      <button
+                        onClick={() => setSearchParams({ section: 'reports', sub: 'trends' })}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'trends' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Trendek
+                      </button>
+                      <button
+                        onClick={() => setSearchParams({ section: 'reports', sub: 'compare' })}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'compare' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Összehasonlítás
+                      </button>
+                    </div>
+                  )}
+                </div>
                 <button
                   onClick={() => setSearchParams({ section: 'export' })}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
