@@ -128,11 +128,13 @@ const Bemutatkozas = () => {
               />
             </div>
             {/* Screen image - right, behind phone, overflowing */}
-            <img 
-              src={riportImage} 
-              alt="Részletes riportok és analitika" 
-              className="hidden md:block absolute left-[35%] -top-[7px] w-auto object-contain object-left scale-[1.2] z-0"
-            />
+            <div className="hidden md:block absolute left-[35%] -top-[7px] scale-[1.2] z-0 rounded-lg overflow-hidden">
+              <img 
+                src={riportImage} 
+                alt="Részletes riportok és analitika" 
+                className="w-auto object-contain object-left"
+              />
+            </div>
           </div>
         </div>
 
