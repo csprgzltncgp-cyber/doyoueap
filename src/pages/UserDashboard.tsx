@@ -644,7 +644,15 @@ const UserDashboard = () => {
           </div>
         </div>
         <Button 
-          onClick={() => handleSubmit(new Event('submit') as any)} 
+          onClick={() => {
+            // If lottery, go to email consent
+            if (hasLottery) {
+              setCurrentStep('email_consent');
+              setTimeout(scrollToTop, 100);
+            } else {
+              handleSubmit(new Event('submit') as any);
+            }
+          }}
           className="w-full"
           style={{
             backgroundColor: primaryColor,
