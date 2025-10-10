@@ -27,6 +27,8 @@ interface Step3LotteryProps {
   onBack: () => void;
 }
 
+const SKIP_LOTTERY_VALUE = 'skip_lottery';
+
 const formatEUR = (value: number): string => {
   const formatted = new Intl.NumberFormat('hu-HU', {
     style: 'decimal',
@@ -86,10 +88,17 @@ export const Step3Lottery = ({
   };
 
   const handleNext = () => {
+    // If "skip lottery" is selected, proceed without validation
+    if (giftId === SKIP_LOTTERY_VALUE) {
+      onGiftIdChange(''); // Clear the gift ID
+      onNext();
+      return;
+    }
+
     if (!giftId) {
       toast({
         title: 'Hiányzó mező',
-        description: 'Kérjük, válasszon ki egy ajándékot.',
+        description: 'Kérjük, válasszon ki egy ajándékot vagy a "Nincs ajándéksorsolás" opciót.',
         variant: 'destructive',
       });
       return;
@@ -125,6 +134,9 @@ export const Step3Lottery = ({
                 <SelectValue placeholder={loading ? 'Betöltés...' : 'Válasszon ajándékot'} />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value={SKIP_LOTTERY_VALUE}>
+                  <span className="text-muted-foreground italic">Nincs ajándéksorsolás</span>
+                </SelectItem>
                 {gifts.map((gift) => (
                   <SelectItem key={gift.id} value={gift.id}>
                     {gift.name} ({formatEUR(gift.value_eur)})
@@ -134,94 +146,99 @@ export const Step3Lottery = ({
             </Select>
           </div>
 
-          {/* Selected gift value (read-only) */}
-          {selectedGift && (
-            <div className="space-y-2">
-              <Label>Ajándék értéke</Label>
-              <div className="text-2xl font-bold text-primary">
-                {formatEUR(selectedGift.value_eur)}
+          {/* Show lottery options only if a gift is selected */}
+          {giftId && giftId !== SKIP_LOTTERY_VALUE && (
+            <>
+              {/* Selected gift value (read-only) */}
+              {selectedGift && (
+                <div className="space-y-2">
+                  <Label>Ajándék értéke</Label>
+                  <div className="text-2xl font-bold text-primary">
+                    {formatEUR(selectedGift.value_eur)}
+                  </div>
+                </div>
+              )}
+
+              {/* Draw mode */}
+              <div className="space-y-3">
+                <Label>Sorsolás módja *</Label>
+                <RadioGroup value={drawMode} onValueChange={onDrawModeChange}>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="auto" id="auto" />
+                    <Label htmlFor="auto" className="font-normal cursor-pointer">
+                      Automatikus záráskor
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="manual" id="manual" />
+                    <Label htmlFor="manual" className="font-normal cursor-pointer">
+                      Manuális indítás
+                    </Label>
+                  </div>
+                </RadioGroup>
               </div>
-            </div>
+
+              {/* Eligibility conditions */}
+              <div className="space-y-3">
+                <Label>Jogosultság feltételek</Label>
+                <div className="space-y-2 ml-2">
+                  <div className="flex items-start space-x-2">
+                    <Checkbox id="complete" checked disabled />
+                    <Label htmlFor="complete" className="font-normal text-sm leading-relaxed cursor-default">
+                      Csak teljesen kitöltött kérdőívek vehetnek részt
+                    </Label>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <Checkbox id="unique" checked disabled />
+                    <Label htmlFor="unique" className="font-normal text-sm leading-relaxed cursor-default">
+                      Egy beküldés = egy esély
+                    </Label>
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground ml-2">
+                  Ezek a feltételek alapértelmezetten érvényben vannak és nem módosíthatók.
+                </p>
+              </div>
+
+              {/* Legal consent */}
+              <div className="space-y-3">
+                <div className="flex items-start space-x-2">
+                  <Checkbox 
+                    id="consent" 
+                    checked={lotteryConsent}
+                    onCheckedChange={onLotteryConsentChange}
+                  />
+                  <Label htmlFor="consent" className="font-normal text-sm leading-relaxed cursor-pointer">
+                    Elolvastam és elfogadom az{' '}
+                    <a 
+                      href="#" 
+                      className="text-primary underline"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        // TODO: Open data processing modal
+                        toast({
+                          title: 'Adatkezelési tájékoztató',
+                          description: 'Az ajándéksorsolás céljából kezeljük a nyereménykódot és az opcionálisan megadott e-mail címet.',
+                        });
+                      }}
+                    >
+                      ajándéksorsolás adatkezelését
+                    </a>
+                    {' '}*
+                  </Label>
+                </div>
+              </div>
+
+              {/* Info alert */}
+              <Alert>
+                <Info className="h-4 w-4" />
+                <AlertDescription>
+                  <strong>Fontos:</strong> A sorsolás során generált nyereménykód jelenik meg a kitöltők számára. 
+                  Az anonimitás megőrzése érdekében a rendszer nem tárolja a személyes adatokat.
+                </AlertDescription>
+              </Alert>
+            </>
           )}
-
-          {/* Draw mode */}
-          <div className="space-y-3">
-            <Label>Sorsolás módja *</Label>
-            <RadioGroup value={drawMode} onValueChange={onDrawModeChange}>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="auto" id="auto" />
-                <Label htmlFor="auto" className="font-normal cursor-pointer">
-                  Automatikus záráskor
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="manual" id="manual" />
-                <Label htmlFor="manual" className="font-normal cursor-pointer">
-                  Manuális indítás
-                </Label>
-              </div>
-            </RadioGroup>
-          </div>
-
-          {/* Eligibility conditions */}
-          <div className="space-y-3">
-            <Label>Jogosultság feltételek</Label>
-            <div className="space-y-2 ml-2">
-              <div className="flex items-start space-x-2">
-                <Checkbox id="complete" checked disabled />
-                <Label htmlFor="complete" className="font-normal text-sm leading-relaxed cursor-default">
-                  Csak teljesen kitöltött kérdőívek vehetnek részt
-                </Label>
-              </div>
-              <div className="flex items-start space-x-2">
-                <Checkbox id="unique" checked disabled />
-                <Label htmlFor="unique" className="font-normal text-sm leading-relaxed cursor-default">
-                  Egy beküldés = egy esély
-                </Label>
-              </div>
-            </div>
-            <p className="text-xs text-muted-foreground ml-2">
-              Ezek a feltételek alapértelmezetten érvényben vannak és nem módosíthatók.
-            </p>
-          </div>
-
-          {/* Legal consent */}
-          <div className="space-y-3">
-            <div className="flex items-start space-x-2">
-              <Checkbox 
-                id="consent" 
-                checked={lotteryConsent}
-                onCheckedChange={onLotteryConsentChange}
-              />
-              <Label htmlFor="consent" className="font-normal text-sm leading-relaxed cursor-pointer">
-                Elolvastam és elfogadom az{' '}
-                <a 
-                  href="#" 
-                  className="text-primary underline"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // TODO: Open data processing modal
-                    toast({
-                      title: 'Adatkezelési tájékoztató',
-                      description: 'Az ajándéksorsolás céljából kezeljük a nyereménykódot és az opcionálisan megadott e-mail címet.',
-                    });
-                  }}
-                >
-                  ajándéksorsolás adatkezelését
-                </a>
-                {' '}*
-              </Label>
-            </div>
-          </div>
-
-          {/* Info alert */}
-          <Alert>
-            <Info className="h-4 w-4" />
-            <AlertDescription>
-              <strong>Fontos:</strong> A sorsolás során generált nyereménykód jelenik meg a kitöltők számára. 
-              Az anonimitás megőrzése érdekében a rendszer nem tárolja a személyes adatokat.
-            </AlertDescription>
-          </Alert>
         </CardContent>
       </Card>
 
