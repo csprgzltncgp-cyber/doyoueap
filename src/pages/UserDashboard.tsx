@@ -110,9 +110,11 @@ const UserDashboard = () => {
         .from('audits')
         .select('gift_id, draw_mode, closes_at, gifts(name, value_eur)')
         .eq('id', audit.id)
-        .single();
+        .maybeSingle();
 
-      if (giftError) throw giftError;
+      if (giftError) {
+        console.error('Error fetching gift:', giftError);
+      }
       
       setHasLottery(!!auditWithGift?.gift_id);
 
