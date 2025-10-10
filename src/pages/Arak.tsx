@@ -157,14 +157,14 @@ const Arak = () => {
               className={`relative flex flex-col cursor-pointer transition-all ${
                 selectedPackage === pkg.name 
                   ? 'border-[#3572ef] shadow-xl scale-105' 
-                  : pkg.recommended 
+                  : pkg.recommended && selectedPackage === null
                     ? 'border-[#3572ef] shadow-lg' 
                     : 'hover:shadow-md'
               }`}
               onClick={() => setSelectedPackage(pkg.name)}
             >
               <CardHeader className="pb-6">
-                {pkg.recommended && (
+                {pkg.recommended && selectedPackage === null && (
                   <div className="text-xs font-medium mb-2" style={{ color: '#3572ef' }}>AJÁNLOTT</div>
                 )}
                 <CardTitle className="text-2xl">{pkg.name}</CardTitle>
@@ -188,8 +188,8 @@ const Arak = () => {
                   ))}
                 </div>
                 <Button 
-                  className={`w-full ${pkg.recommended ? 'bg-[#3572ef] hover:bg-[#3572ef]/90' : ''}`}
-                  variant={pkg.recommended ? 'default' : 'outline'}
+                  className={`w-full ${pkg.recommended && selectedPackage === null ? 'bg-[#3572ef] hover:bg-[#3572ef]/90' : ''}`}
+                  variant={pkg.recommended && selectedPackage === null ? 'default' : 'outline'}
                   onClick={(e) => {
                     e.stopPropagation();
                     handlePackageClick(pkg.name);
