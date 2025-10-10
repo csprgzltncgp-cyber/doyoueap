@@ -39,8 +39,8 @@ interface Audit {
     name: string;
     value_eur: number;
   };
-  auto_draw: boolean;
-  audit_close_date: string | null;
+  draw_mode: 'auto' | 'manual' | null;
+  closes_at: string | null;
 }
 
 const UserDashboard = () => {
@@ -108,7 +108,7 @@ const UserDashboard = () => {
       // Check if lottery is enabled and fetch gift details
       const { data: auditWithGift, error: giftError } = await supabase
         .from('audits')
-        .select('gift_id, auto_draw, audit_close_date, gifts(name, value_eur)')
+        .select('gift_id, draw_mode, closes_at, gifts(name, value_eur)')
         .eq('id', audit.id)
         .single();
 
@@ -121,8 +121,8 @@ const UserDashboard = () => {
         ...audit,
         questionnaire: questionnaireData,
         gift: auditWithGift?.gift_id ? (auditWithGift as any).gifts : undefined,
-        auto_draw: auditWithGift?.auto_draw || false,
-        audit_close_date: auditWithGift?.audit_close_date || null
+        draw_mode: auditWithGift?.draw_mode || null,
+        closes_at: auditWithGift?.closes_at || null
       };
 
       setAudit(combinedData as any);
@@ -542,15 +542,15 @@ const UserDashboard = () => {
                 <li>A felmérés végén megadhatsz egy e-mail-címet, ha szeretnéd, hogy e-mailben értesítsünk a nyeremény esetén.</li>
                 <li>
                   A sorsolás lezárultával azonban a HR-osztály a nyertes sorszámot is közzéteszi, így e-mail megadása nélkül is értesülni fogsz róla, ha Te nyertél.
-                  {audit.auto_draw ? (
-                    audit.audit_close_date ? (
-                      <> A sorsolás automatikusan megtörténik: <strong>{new Date(audit.audit_close_date).toLocaleDateString('hu-HU')}</strong>.</>
+                  {audit.draw_mode === 'auto' ? (
+                    audit.closes_at ? (
+                      <> A sorsolás automatikusan megtörténik: <strong>{new Date(audit.closes_at).toLocaleDateString('hu-HU')}</strong>.</>
                     ) : (
                       <> A sorsolás automatikusan megtörténik.</>
                     )
                   ) : (
-                    audit.audit_close_date ? (
-                      <> A sorsolás a felmérés lezárása után történik: <strong>{new Date(audit.audit_close_date).toLocaleDateString('hu-HU')}</strong>.</>
+                    audit.closes_at ? (
+                      <> A sorsolás a felmérés lezárása után történik: <strong>{new Date(audit.closes_at).toLocaleDateString('hu-HU')}</strong>.</>
                     ) : (
                       <> A sorsolás a felmérés lezárása után történik.</>
                     )
