@@ -28,6 +28,7 @@ const Index = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
 
   const handleGetStarted = () => {
     if (user) {
@@ -599,7 +600,14 @@ const Index = () => {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
             {/* Starter */}
-            <Card className="flex flex-col hover:shadow-md transition-all cursor-pointer animate-fade-in">
+            <Card 
+              className={`flex flex-col cursor-pointer transition-all ${
+                selectedPackage === 'Starter' 
+                  ? 'border-[#3572ef] shadow-xl scale-105' 
+                  : 'hover:shadow-md'
+              } animate-fade-in`}
+              onClick={() => setSelectedPackage(selectedPackage === 'Starter' ? null : 'Starter')}
+            >
               <CardHeader className="pb-6">
                 <CardTitle className="text-2xl">Starter</CardTitle>
                 <CardDescription>Alapvető betekintés az EAP-programba</CardDescription>
@@ -631,16 +639,34 @@ const Index = () => {
                     <p className="font-medium text-sm">Alap dashboard + letölthető riportok</p>
                   </div>
                 </div>
-                <Button className="w-full" variant="outline" onClick={handleGetStarted}>
+                <Button 
+                  className="w-full" 
+                  variant="outline" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleGetStarted();
+                  }}
+                >
                   Kiválasztom
                 </Button>
               </CardContent>
             </Card>
 
             {/* Professional */}
-            <Card className="flex flex-col border-[#3572ef] shadow-lg hover:shadow-md transition-all cursor-pointer animate-fade-in">
+            <Card 
+              className={`flex flex-col cursor-pointer transition-all ${
+                selectedPackage === 'Professional' 
+                  ? 'border-[#3572ef] shadow-xl scale-105' 
+                  : selectedPackage === null
+                    ? 'border-[#3572ef] shadow-lg' 
+                    : 'hover:shadow-md'
+              } animate-fade-in`}
+              onClick={() => setSelectedPackage(selectedPackage === 'Professional' ? null : 'Professional')}
+            >
               <CardHeader className="pb-6">
-                <div className="text-xs font-medium mb-2" style={{ color: '#3572ef' }}>AJÁNLOTT</div>
+                {selectedPackage === null && (
+                  <div className="text-xs font-medium mb-2" style={{ color: '#3572ef' }}>AJÁNLOTT</div>
+                )}
                 <CardTitle className="text-2xl">Professional</CardTitle>
                 <CardDescription>Rendszeres és mélyreható elemzés</CardDescription>
                 <div className="mt-4">
@@ -675,14 +701,28 @@ const Index = () => {
                     <p className="font-medium text-sm">Trendösszevetések a felmérések között</p>
                   </div>
                 </div>
-                <Button className="w-full bg-[#3572ef] hover:bg-[#3572ef]/90" variant="default" onClick={handleGetStarted}>
+                <Button 
+                  className={`w-full ${selectedPackage === null ? 'bg-[#3572ef] hover:bg-[#3572ef]/90' : ''}`}
+                  variant={selectedPackage === null ? 'default' : 'outline'}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleGetStarted();
+                  }}
+                >
                   Kiválasztom
                 </Button>
               </CardContent>
             </Card>
 
             {/* Enterprise */}
-            <Card className="flex flex-col hover:shadow-md transition-all cursor-pointer animate-fade-in">
+            <Card 
+              className={`flex flex-col cursor-pointer transition-all ${
+                selectedPackage === 'Enterprise' 
+                  ? 'border-[#3572ef] shadow-xl scale-105' 
+                  : 'hover:shadow-md'
+              } animate-fade-in`}
+              onClick={() => setSelectedPackage(selectedPackage === 'Enterprise' ? null : 'Enterprise')}
+            >
               <CardHeader className="pb-6">
                 <CardTitle className="text-2xl">Enterprise</CardTitle>
                 <CardDescription>Maximális átláthatóság és integráció</CardDescription>
@@ -718,7 +758,14 @@ const Index = () => {
                     <p className="font-medium text-sm">API integráció</p>
                   </div>
                 </div>
-                <Button className="w-full" variant="outline" onClick={() => window.location.href = 'mailto:info@doyoueap.com'}>
+                <Button 
+                  className="w-full" 
+                  variant="outline" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.location.href = 'mailto:info@doyoueap.com';
+                  }}
+                >
                   Kapcsolatfelvétel
                 </Button>
               </CardContent>
