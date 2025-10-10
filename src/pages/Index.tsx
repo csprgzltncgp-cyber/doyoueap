@@ -322,7 +322,6 @@ const Index = () => {
                       } else {
                         setOpenSubmenu('reports');
                       }
-                      setSearchParams({ section: 'reports' });
                     }}
                     className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                       section === 'reports' 
@@ -333,7 +332,7 @@ const Index = () => {
                     <BarChart3 className="h-4 w-4" />
                     Riportok
                   </button>
-                  {section === 'reports' && openSubmenu === 'reports' && (
+                  {openSubmenu === 'reports' && (
                     <div className="absolute top-full left-0 mt-2 bg-white rounded-md shadow-lg py-2 min-w-[200px] z-50">
                       <button
                         onClick={() => {
