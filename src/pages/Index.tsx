@@ -325,45 +325,6 @@ const Index = () => {
           </div>
         )}
 
-        {/* EAP Pulse Sub-Sub-Navigation */}
-        {user && role === 'hr' && section === 'eap-pulse' && (
-          <div className="border-t bg-muted/20">
-            <div className="max-w-7xl mx-auto px-4 py-2">
-              <nav className="hidden md:flex gap-6 justify-center">
-                <button
-                  onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
-                  className={`text-sm transition-colors pb-2 border-b-2 ${
-                    subSection === 'create-audit' 
-                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
-                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
-                  }`}
-                >
-                  Új Felmérés
-                </button>
-                <button
-                  onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'running-audits' })}
-                  className={`text-sm transition-colors pb-2 border-b-2 ${
-                    subSection === 'running-audits' 
-                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
-                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
-                  }`}
-                >
-                  Futó Felmérések
-                </button>
-                <button
-                  onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'audit-questionnaire' })}
-                  className={`text-sm transition-colors pb-2 border-b-2 ${
-                    subSection === 'audit-questionnaire' 
-                      ? 'text-[#3572ef] font-semibold border-[#3572ef]' 
-                      : 'text-[#3572ef]/60 border-transparent hover:text-[#3572ef]'
-                  }`}
-                >
-                  EAP Pulse demo
-                </button>
-              </nav>
-            </div>
-          </div>
-        )}
 
         {/* Reports Sub-Sub-Navigation */}
         {user && role === 'hr' && section === 'reports' && (
