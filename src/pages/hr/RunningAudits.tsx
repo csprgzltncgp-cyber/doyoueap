@@ -332,7 +332,7 @@ const RunningAudits = () => {
               <Trophy className="h-10 w-10 text-primary" />
             </div>
             <AlertDialogTitle className="text-3xl font-bold text-center">
-              Gratulálunk! 🎉
+              Gratulálunk!
             </AlertDialogTitle>
             <AlertDialogDescription className="text-center space-y-4 pt-4">
               <p className="text-lg">
