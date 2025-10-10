@@ -36,6 +36,7 @@ interface AuditMetrics {
 const RunningAudits = () => {
   const [audits, setAudits] = useState<AuditMetrics[]>([]);
   const [loading, setLoading] = useState(true);
+  const [drawResult, setDrawResult] = useState<{ token: string; count: number } | null>(null);
 
   useEffect(() => {
     fetchRunningAudits();
@@ -166,7 +167,16 @@ const RunningAudits = () => {
 
       if (error) throw error;
 
-      toast.success(`Sorsolás sikeres! Nyertes token: ${data.winner_token.substring(0, 16)}...`);
+      // Fetch the response count for this audit
+      const { data: responses } = await supabase
+        .from('audit_responses')
+        .select('id')
+        .eq('audit_id', auditId);
+
+      setDrawResult({
+        token: data.winner_token,
+        count: responses?.length || 0
+      });
       fetchRunningAudits();
     } catch (error: any) {
       console.error('Error running draw:', error);
@@ -192,49 +202,96 @@ const RunningAudits = () => {
 
       const doc = new jsPDF();
       
-      // Header
-      doc.setFontSize(18);
-      doc.text('Sorsolási jegyzőkönyv', 105, 20, { align: 'center' });
+      // Header with larger font and color
+      doc.setFontSize(24);
+      doc.setFont(undefined, 'bold');
+      doc.setTextColor(14, 165, 233); // Primary blue color
+      doc.text('SORSOLÁSI JEGYZŐKÖNYV', 105, 25, { align: 'center' });
       
-      // Draw details
-      doc.setFontSize(12);
-      let yPos = 40;
+      // Subheader
+      doc.setFontSize(11);
+      doc.setFont(undefined, 'normal');
+      doc.setTextColor(100, 100, 100);
+      doc.text('EAP Pulse - Auditálható és átlátható sorsolási rendszer', 105, 35, { align: 'center' });
       
+      // Reset color for content
+      doc.setTextColor(0, 0, 0);
+      
+      // Draw a separator line
+      doc.setDrawColor(14, 165, 233);
+      doc.setLineWidth(0.5);
+      doc.line(20, 42, 190, 42);
+      
+      // Draw details with better formatting
+      let yPos = 55;
+      
+      // Company name
+      doc.setFontSize(14);
       doc.setFont(undefined, 'bold');
       doc.text('Cég neve:', 20, yPos);
+      doc.setFontSize(13);
       doc.setFont(undefined, 'normal');
-      doc.text(draw.company_name, 70, yPos);
-      yPos += 10;
+      doc.text(draw.company_name, 20, yPos + 7);
+      yPos += 22;
       
+      // Draw date
+      doc.setFontSize(14);
       doc.setFont(undefined, 'bold');
       doc.text('Sorsolás időpontja:', 20, yPos);
+      doc.setFontSize(13);
       doc.setFont(undefined, 'normal');
-      doc.text(new Date(draw.ts).toLocaleString('hu-HU'), 70, yPos);
-      yPos += 10;
+      doc.text(new Date(draw.ts).toLocaleString('hu-HU', { 
+        dateStyle: 'long', 
+        timeStyle: 'medium' 
+      }), 20, yPos + 7);
+      yPos += 22;
       
+      // Candidates count
+      doc.setFontSize(14);
       doc.setFont(undefined, 'bold');
       doc.text('Jelentkezők száma:', 20, yPos);
-      doc.setFont(undefined, 'normal');
-      doc.text(draw.candidates_count.toString(), 70, yPos);
+      doc.setFontSize(16);
+      doc.setFont(undefined, 'bold');
+      doc.setTextColor(14, 165, 233);
+      doc.text(draw.candidates_count.toString(), 20, yPos + 8);
+      doc.setTextColor(0, 0, 0);
+      yPos += 25;
+      
+      // Winner token - highlighted
+      doc.setFillColor(14, 165, 233);
+      doc.rect(15, yPos - 5, 180, 25, 'F');
+      doc.setFontSize(14);
+      doc.setFont(undefined, 'bold');
+      doc.setTextColor(255, 255, 255);
+      doc.text('NYERTES TOKEN:', 20, yPos + 3);
+      doc.setFontSize(18);
+      doc.setFont(undefined, 'bold');
+      doc.text(draw.winner_token, 20, yPos + 12);
+      doc.setTextColor(0, 0, 0);
+      yPos += 35;
+      
+      // Separator
+      doc.setDrawColor(200, 200, 200);
+      doc.setLineWidth(0.3);
+      doc.line(20, yPos, 190, yPos);
       yPos += 10;
       
-      doc.setFont(undefined, 'bold');
-      doc.text('Nyertes token:', 20, yPos);
-      doc.setFont(undefined, 'normal');
-      doc.text(draw.winner_token, 70, yPos);
-      yPos += 15;
-      
       // Seed info for transparency
-      doc.setFontSize(10);
+      doc.setFontSize(12);
+      doc.setFont(undefined, 'bold');
       doc.text('Kriptográfiai seed (audit célra):', 20, yPos);
-      yPos += 5;
-      doc.setFontSize(8);
+      yPos += 7;
+      doc.setFontSize(9);
+      doc.setFont(undefined, 'normal');
+      doc.setTextColor(60, 60, 60);
       doc.text(draw.seed, 20, yPos, { maxWidth: 170 });
       
       // Footer
+      doc.setFontSize(9);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Jegyzőkönyv készítve: ${new Date().toLocaleString('hu-HU')}`, 105, 280, { align: 'center' });
       doc.setFontSize(8);
-      doc.text('EAP Pulse - Auditálható és átlátható sorsolási rendszer', 105, 280, { align: 'center' });
-      doc.text(`Jegyzőkönyv készítve: ${new Date().toLocaleString('hu-HU')}`, 105, 285, { align: 'center' });
+      doc.text('A sorsolás auditálható és visszakereshető az EAP Pulse rendszerben', 105, 286, { align: 'center' });
       
       doc.save(`sorsolas-jegyzokonyv-${draw.id.substring(0, 8)}.pdf`);
       toast.success('PDF letöltve!');
@@ -267,6 +324,37 @@ const RunningAudits = () => {
 
   return (
     <div className="space-y-6">
+      {/* Draw Success Dialog */}
+      <AlertDialog open={!!drawResult} onOpenChange={() => setDrawResult(null)}>
+        <AlertDialogContent className="max-w-2xl">
+          <AlertDialogHeader className="text-center">
+            <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
+              <Trophy className="h-10 w-10 text-primary" />
+            </div>
+            <AlertDialogTitle className="text-3xl font-bold text-center">
+              Gratulálunk! 🎉
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-center space-y-4 pt-4">
+              <p className="text-lg">
+                A sorsolás sikeresen megtörtént <strong>{drawResult?.count}</strong> jelentkező közül!
+              </p>
+              <div className="bg-primary/5 border-2 border-primary/20 rounded-lg p-6 my-4">
+                <p className="text-sm font-medium text-muted-foreground mb-2">Nyertes token:</p>
+                <p className="text-2xl font-bold text-primary break-all">
+                  {drawResult?.token}
+                </p>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                A nyertes értesítése és a részletes jegyzőkönyv letöltése a "Jegyzőkönyv" gombbal történhet.
+              </p>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="sm:justify-center">
+            <AlertDialogAction className="px-8">Rendben</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <div className="mb-6">
         <h2 className="text-2xl font-bold mb-2">Futó Felmérések</h2>
         <p className="text-muted-foreground text-sm">
