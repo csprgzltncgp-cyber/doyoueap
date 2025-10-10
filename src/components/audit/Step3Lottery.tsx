@@ -27,8 +27,6 @@ interface Step3LotteryProps {
   onBack: () => void;
 }
 
-const SKIP_LOTTERY_VALUE = 'skip_lottery';
-
 const formatEUR = (value: number): string => {
   const formatted = new Intl.NumberFormat('hu-HU', {
     style: 'decimal',
@@ -51,6 +49,7 @@ export const Step3Lottery = ({
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedGift, setSelectedGift] = useState<Gift | null>(null);
+  const [hasLottery, setHasLottery] = useState<'yes' | 'no'>('no');
 
   useEffect(() => {
     fetchGifts();
@@ -60,6 +59,9 @@ export const Step3Lottery = ({
     if (giftId && gifts.length > 0) {
       const gift = gifts.find(g => g.id === giftId);
       setSelectedGift(gift || null);
+      setHasLottery('yes');
+    } else if (giftId) {
+      setHasLottery('yes');
     }
   }, [giftId, gifts]);
 
@@ -88,17 +90,18 @@ export const Step3Lottery = ({
   };
 
   const handleNext = () => {
-    // If "skip lottery" is selected, proceed without validation
-    if (giftId === SKIP_LOTTERY_VALUE) {
-      onGiftIdChange(''); // Clear the gift ID
+    // If "no lottery" is selected, clear gift ID and proceed
+    if (hasLottery === 'no') {
+      onGiftIdChange('');
       onNext();
       return;
     }
 
+    // If lottery is enabled, validate fields
     if (!giftId) {
       toast({
         title: 'Hiányzó mező',
-        description: 'Kérjük, válasszon ki egy ajándékot vagy a "Nincs ajándéksorsolás" opciót.',
+        description: 'Kérjük, válasszon ki egy ajándékot.',
         variant: 'destructive',
       });
       return;
@@ -126,29 +129,54 @@ export const Step3Lottery = ({
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Gift selection */}
-          <div className="space-y-2">
-            <Label htmlFor="gift">Ajándék kiválasztása *</Label>
-            <Select value={giftId} onValueChange={onGiftIdChange} disabled={loading}>
-              <SelectTrigger id="gift">
-                <SelectValue placeholder={loading ? 'Betöltés...' : 'Válasszon ajándékot'} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={SKIP_LOTTERY_VALUE}>
-                  <span className="text-muted-foreground italic">Nincs ajándéksorsolás</span>
-                </SelectItem>
-                {gifts.map((gift) => (
-                  <SelectItem key={gift.id} value={gift.id}>
-                    {gift.name} ({formatEUR(gift.value_eur)})
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          {/* Lottery enable/disable */}
+          <div className="space-y-3">
+            <Label>Ajándéksorsolás *</Label>
+            <RadioGroup 
+              value={hasLottery} 
+              onValueChange={(value: 'yes' | 'no') => {
+                setHasLottery(value);
+                if (value === 'no') {
+                  onGiftIdChange('');
+                  onLotteryConsentChange(false);
+                }
+              }}
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="no" id="no-lottery" />
+                <Label htmlFor="no-lottery" className="font-normal cursor-pointer">
+                  Nincs ajándéksorsolás
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="yes" id="yes-lottery" />
+                <Label htmlFor="yes-lottery" className="font-normal cursor-pointer">
+                  Van ajándéksorsolás
+                </Label>
+              </div>
+            </RadioGroup>
           </div>
 
-          {/* Show lottery options only if a gift is selected */}
-          {giftId && giftId !== SKIP_LOTTERY_VALUE && (
+          {/* Show lottery options only if enabled */}
+          {hasLottery === 'yes' && (
             <>
+              {/* Gift selection */}
+              <div className="space-y-2">
+                <Label htmlFor="gift">Ajándék kiválasztása *</Label>
+                <Select value={giftId} onValueChange={onGiftIdChange} disabled={loading}>
+                  <SelectTrigger id="gift">
+                    <SelectValue placeholder={loading ? 'Betöltés...' : 'Válasszon ajándékot'} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {gifts.map((gift) => (
+                      <SelectItem key={gift.id} value={gift.id}>
+                        {gift.name} ({formatEUR(gift.value_eur)})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
               {/* Selected gift value (read-only) */}
               {selectedGift && (
                 <div className="space-y-2">
