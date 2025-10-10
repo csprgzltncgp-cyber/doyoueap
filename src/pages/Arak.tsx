@@ -16,49 +16,48 @@ const Arak = () => {
   const packages = [
     {
       name: "Starter",
-      price: "290.000 Ft",
-      period: "/év",
-      description: "Kezdő csomagunk kisebb szervezeteknek",
+      price: "150 €",
+      monthlyPrice: "150 € / hó",
+      yearlyPrice: "1 800 € / év",
+      period: "/hó",
+      description: "Alapvető betekintés az EAP-programba",
       features: [
-        "Legfeljebb 200 munkavállaló",
-        "Éves EAP audit",
-        "4Score módszertan",
-        "Alapvető riportok",
-        "Email támogatás"
+        "2 felmérés / év (félévente)",
+        "Ajándéksorsolás minden felmérés végén",
+        "4Score riport (Tudatosság · Használat · Bizalom & Hajlandóság · Hatás)",
+        "Alap dashboard + letölthető riportok"
       ],
       recommended: false
     },
     {
       name: "Professional",
-      price: "490.000 Ft",
-      period: "/év",
-      description: "A legnépszerűbb választás",
+      price: "325 €",
+      monthlyPrice: "325 € / hó",
+      yearlyPrice: "3 900 € / év",
+      period: "/hó",
+      description: "Rendszeres és mélyreható elemzés",
       features: [
-        "Legfeljebb 500 munkavállaló",
-        "Féléves EAP auditok",
-        "4Score módszertan",
-        "Részletes riportok és elemzések",
-        "Trend-elemzés",
-        "Prioritásos támogatás",
-        "Testre szabható kérdőívek"
+        "3 felmérés / év",
+        "Ajándéksorsolás minden felmérés végén",
+        "Teljes riportkészlet (minden statisztika + 4Score)",
+        "Testreszabható kérdőív-design",
+        "Trendösszevetések a felmérések között"
       ],
       recommended: true
     },
     {
       name: "Enterprise",
-      price: "Egyedi",
-      period: "árazás",
-      description: "Nagy szervezetek számára",
+      price: "480 €",
+      monthlyPrice: "480 € / hó",
+      yearlyPrice: "5 760 € / év",
+      period: "/hó",
+      description: "Maximális átláthatóság és integráció",
       features: [
-        "Korlátlan munkavállaló",
-        "Negyedéves EAP auditok",
-        "4Score módszertan",
-        "Teljes körű elemzések",
-        "Prediktív modellek",
-        "Dedikált ügyfélmenedzser",
-        "API integráció",
+        "4 felmérés / év",
+        "Ajándéksorsolás minden felmérés végén",
+        "Teljes riportkészlet + trend- és összehasonlító elemzés",
         "White-label lehetőség",
-        "Oktatás és tanácsadás"
+        "API integráció"
       ],
       recommended: false
     }
@@ -146,7 +145,7 @@ const Arak = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Árak és Csomagok</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Válassza ki a szervezete méretének és igényeinek legmegfelelőbb csomagot
+            Válassza ki az igényeinek megfelelő csomagot a felmérések gyakorisága és a riportok mélysége szerint
           </p>
         </div>
 
@@ -172,11 +171,10 @@ const Arak = () => {
                 <CardDescription>{pkg.description}</CardDescription>
                 <div className="mt-4">
                   <div className="text-3xl font-bold">
-                    {pkg.name === 'Enterprise' ? (
-                      <span className="text-2xl">{pkg.price} {pkg.period}</span>
-                    ) : (
-                      <>{pkg.price}<span className="text-lg font-normal text-muted-foreground">{pkg.period}</span></>
-                    )}
+                    {pkg.price}<span className="text-lg font-normal text-muted-foreground">{pkg.period}</span>
+                  </div>
+                  <div className="text-sm text-muted-foreground mt-1">
+                    {pkg.yearlyPrice}
                   </div>
                 </div>
               </CardHeader>
@@ -275,9 +273,9 @@ const Arak = () => {
                 </p>
               </div>
               <div>
-                <h3 className="font-semibold mb-2">Hogyan működik a munkavállalói limit?</h3>
+                <h3 className="font-semibold mb-2">Mi a különbség a csomagok között?</h3>
                 <p className="text-muted-foreground">
-                  A limit a szervezet teljes munkavállalói létszámára vonatkozik. Ha túllépi a csomagban meghatározott limitet, automatikusan felajánljuk a következő csomagra való váltást.
+                  A fő különbség a felmérések gyakorisága és a riportok mélysége. Minél többször méri fel munkatársait, annál pontosabb trendeket láthat, és a magasabb csomagok részletesebb elemzéseket, testreszabási lehetőségeket kínálnak.
                 </p>
               </div>
               <div>
