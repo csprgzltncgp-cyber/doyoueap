@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, Target, BarChart3, TrendingUp, Download, FileEdit, Settings as SettingsIcon } from 'lucide-react';
+import { Menu, Target, BarChart3, TrendingUp, Download, FileEdit, Settings as SettingsIcon, Trophy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -87,6 +87,16 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
                     }`}
                   >
                     EAP Pulse demo
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('eap-pulse', 'raffles')}
+                    className={`px-4 py-2 rounded-md text-left text-sm ${
+                      subSection === 'raffles' 
+                        ? 'bg-muted font-medium' 
+                        : 'hover:bg-muted/50'
+                    }`}
+                  >
+                    Sorsolások
                   </button>
                 </div>
               </AccordionContent>

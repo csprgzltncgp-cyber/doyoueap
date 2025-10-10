@@ -18,6 +18,7 @@ import Reports from './hr/Reports';
 import Export from './hr/Export';
 import CustomSurvey from './hr/CustomSurvey';
 import Settings from './hr/Settings';
+import Raffles from './hr/Raffles';
 
 const Index = () => {
   const { user, role, loading, signIn, signOut } = useAuth();
@@ -138,6 +139,8 @@ const Index = () => {
           case 'running-audits':
           case 'audit-questionnaire':
             return <EAPAudit />;
+          case 'raffles':
+            return <Raffles />;
           default:
             return <EAPAudit />;
         }
@@ -312,6 +315,17 @@ const Index = () => {
                         }`}
                       >
                         EAP Pulse demo
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSearchParams({ section: 'eap-pulse', sub: 'raffles' });
+                          setOpenSubmenu(null);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'raffles' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Sorsolások
                       </button>
                     </div>
                   )}
