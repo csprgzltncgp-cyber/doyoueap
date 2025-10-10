@@ -108,21 +108,35 @@ const UserDashboard = () => {
       // Check if lottery is enabled and fetch gift details
       const { data: auditWithGift, error: giftError } = await supabase
         .from('audits')
-        .select('gift_id, draw_mode, closes_at, gifts(name, value_eur)')
+        .select('gift_id, draw_mode, closes_at')
         .eq('id', audit.id)
-        .maybeSingle();
+        .single();
 
       if (giftError) {
-        console.error('Error fetching gift:', giftError);
+        console.error('Error fetching audit gift info:', giftError);
       }
-      
+
       setHasLottery(!!auditWithGift?.gift_id);
+
+      // Fetch gift details if gift_id exists
+      let giftDetails = null;
+      if (auditWithGift?.gift_id) {
+        const { data: giftData, error: giftDetailsError } = await supabase
+          .from('gifts')
+          .select('name, value_eur')
+          .eq('id', auditWithGift.gift_id)
+          .single();
+
+        if (!giftDetailsError && giftData) {
+          giftDetails = giftData;
+        }
+      }
 
       // Combine the data
       const combinedData = {
         ...audit,
         questionnaire: questionnaireData,
-        gift: auditWithGift?.gift_id ? (auditWithGift as any).gifts : undefined,
+        gift: giftDetails,
         draw_mode: auditWithGift?.draw_mode || null,
         closes_at: auditWithGift?.closes_at || null
       };
