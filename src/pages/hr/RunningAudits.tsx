@@ -280,6 +280,7 @@ const RunningAudits = () => {
                     </AlertDialogContent>
                   </AlertDialog>
                 </div>
+              </div>
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="overview" className="w-full">
