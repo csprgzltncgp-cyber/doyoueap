@@ -324,7 +324,7 @@ const RunningAudits = () => {
                       Jegyzőkönyv
                     </Button>
                   )}
-                  {metrics.audit.gift_id && metrics.audit.draw_status === 'none' && metrics.responsesCount > 0 && (
+                  {metrics.audit.gift_id && metrics.audit.draw_mode === 'manual' && metrics.audit.draw_status === 'none' && metrics.responsesCount > 0 && (
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button variant="default" size="sm" className="gap-2">
