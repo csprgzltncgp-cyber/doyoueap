@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import { QuestionRenderer } from '@/components/survey/QuestionRenderer';
@@ -41,12 +43,14 @@ const UserDashboard = () => {
   const [error, setError] = useState<string | null>(null);
   const [responses, setResponses] = useState<Record<string, any>>({});
   const [submitting, setSubmitting] = useState(false);
-  const [currentStep, setCurrentStep] = useState<'language_select' | 'welcome' | 'demographics' | 'branch_selector' | 'branch_questions' | 'eap_info' | 'thank_you'>('language_select');
+  const [currentStep, setCurrentStep] = useState<'language_select' | 'welcome' | 'demographics' | 'branch_selector' | 'branch_questions' | 'eap_info' | 'email_consent' | 'thank_you'>('language_select');
   const [selectedLanguage, setSelectedLanguage] = useState<string>('');
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
   const [currentBlockIndex, setCurrentBlockIndex] = useState(0);
   const [drawToken, setDrawToken] = useState<string | null>(null);
   const [hasLottery, setHasLottery] = useState(false);
+  const [email, setEmail] = useState('');
+  const [emailConsent, setEmailConsent] = useState(false);
 
   // Scroll to top function
   const scrollToTop = () => {
@@ -93,6 +97,17 @@ const UserDashboard = () => {
         .single();
 
       if (questionnaireError) throw questionnaireError;
+
+      // Check if lottery is enabled
+      const { data: auditWithGift, error: giftError } = await supabase
+        .from('audits')
+        .select('gift_id')
+        .eq('id', audit.id)
+        .single();
+
+      if (giftError) throw giftError;
+      
+      setHasLottery(!!auditWithGift?.gift_id);
 
       // Combine the data
       const combinedData = {
@@ -173,8 +188,13 @@ const UserDashboard = () => {
       setCurrentBlockIndex(currentBlockIndex + 1);
       setTimeout(scrollToTop, 100);
     } else {
-      // Last block, submit
-      handleSubmit(new Event('submit') as any);
+      // Last block - check if lottery, then email consent, otherwise submit
+      if (hasLottery) {
+        setCurrentStep('email_consent');
+        setTimeout(scrollToTop, 100);
+      } else {
+        handleSubmit(new Event('submit') as any);
+      }
     }
   };
 
@@ -200,6 +220,8 @@ const UserDashboard = () => {
         body: {
           audit_id: audit.id,
           responses,
+          email: hasLottery && email ? email : undefined,
+          email_consent: hasLottery && emailConsent,
           employee_metadata: {
             submitted_at: new Date().toISOString(),
             branch: selectedBranch || 'redirect',
@@ -554,6 +576,74 @@ const UserDashboard = () => {
     );
   };
 
+  const renderEmailConsent = () => (
+    <div className="space-y-6">
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold">🎁 Nyereményjáték</h2>
+        <p className="text-muted-foreground">
+          Köszönjük, hogy kitöltötted a felmérést! Részt vehetsz a nyereményjátékban.
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Ha szeretnél értesítést kapni a sorsolás eredményéről, kérjük add meg az e-mail címed.
+          Ez opcionális, a nyereménykódot mindenképpen megkapod a következő oldalon.
+        </p>
+      </div>
+
+      <div className="space-y-4">
+        <div>
+          <Label htmlFor="email">E-mail cím (opcionális)</Label>
+          <Input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="pelda@email.com"
+          />
+        </div>
+
+        {email && (
+          <div className="flex items-start space-x-2">
+            <input
+              type="checkbox"
+              id="email_consent"
+              checked={emailConsent}
+              onChange={(e) => setEmailConsent(e.target.checked)}
+              className="mt-1"
+            />
+            <Label htmlFor="email_consent" className="text-sm cursor-pointer">
+              Hozzájárulok, hogy az email címemet a sorsolás eredményének közléséhez használják.
+              Az adatokat a sorsolás lezárását követően töröljük.
+            </Label>
+          </div>
+        )}
+      </div>
+
+      <div className="flex gap-4">
+        <Button
+          variant="outline"
+          onClick={() => {
+            setCurrentStep('branch_questions');
+            setTimeout(scrollToTop, 100);
+          }}
+          className="flex-1"
+        >
+          Vissza
+        </Button>
+        <Button
+          onClick={() => handleSubmit(new Event('submit') as any)}
+          disabled={submitting || (email && !emailConsent)}
+          className="flex-1"
+          style={{
+            backgroundColor: primaryColor,
+            borderColor: primaryColor,
+          }}
+        >
+          {submitting ? 'Küldés...' : email ? 'Rendben, küldd el!' : 'Kihagyom'}
+        </Button>
+      </div>
+    </div>
+  );
+
   const renderThankYou = () => (
     <div className="space-y-6 text-center">
       <div className="space-y-4">
@@ -613,6 +703,7 @@ const UserDashboard = () => {
         {currentStep === 'branch_selector' && renderBranchSelector()}
         {currentStep === 'branch_questions' && renderBranchQuestions()}
         {currentStep === 'eap_info' && renderEapInfo()}
+        {currentStep === 'email_consent' && renderEmailConsent()}
         {currentStep === 'thank_you' && renderThankYou()}
       </div>
     </div>

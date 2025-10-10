@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
-import { Calendar, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2 } from 'lucide-react';
+import { Calendar, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2, Trophy } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import {
   AlertDialog,
@@ -45,7 +45,7 @@ const RunningAudits = () => {
       // Fetch active audits
       const { data: auditsData, error: auditsError } = await supabase
         .from('audits')
-        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, access_token')
+        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, access_token, gift_id, draw_mode, draw_status')
         .eq('is_active', true)
         .order('start_date', { ascending: false });
 
@@ -157,6 +157,22 @@ const RunningAudits = () => {
     }
   };
 
+  const handleRunDraw = async (auditId: string) => {
+    try {
+      const { data, error } = await supabase.functions.invoke('run-draw', {
+        body: { audit_id: auditId },
+      });
+
+      if (error) throw error;
+
+      toast.success(`Sorsolás sikeres! Nyertes token: ${data.winner_token.substring(0, 16)}...`);
+      fetchRunningAudits();
+    } catch (error: any) {
+      console.error('Error running draw:', error);
+      toast.error(error.message || 'Hiba történt a sorsolás során');
+    }
+  };
+
   if (loading) {
     return (
       <div className="p-8 flex items-center justify-center h-96">
@@ -205,32 +221,65 @@ const RunningAudits = () => {
                       <Clock className="h-3 w-3" />
                       {metrics.daysRemaining} nap van hátra
                     </Badge>
+                    {metrics.audit.gift_id && (
+                      <Badge variant="outline" className="gap-1 bg-yellow-50 text-yellow-700 border-yellow-300">
+                        <Trophy className="h-3 w-3" />
+                        Sorsolással
+                      </Badge>
+                    )}
                   </div>
                 </div>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="outline" size="sm" className="gap-2">
-                      <Trash2 className="h-4 w-4" />
-                      Törlés
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Biztosan törölni szeretnéd?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Ez a felmérés inaktívvá válik és nem jelenik meg a futó felmérések között. 
-                        A már kitöltött válaszok megmaradnak az adatbázisban.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Mégse</AlertDialogCancel>
-                      <AlertDialogAction onClick={() => handleDelete(metrics.audit.id)}>
+                <div className="flex gap-2">
+                  {metrics.audit.gift_id && metrics.audit.draw_status === 'none' && metrics.responsesCount > 0 && (
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="default" size="sm" className="gap-2">
+                          <Trophy className="h-4 w-4" />
+                          Sorsolás
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Sorsolás indítása</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            {metrics.responsesCount} kitöltő közül fogsz nyertest sorsolni. 
+                            A sorsolás eredménye visszavonhatatlan és auditálható. 
+                            Biztosan elindítod a sorsolást?
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Mégse</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => handleRunDraw(metrics.audit.id)}>
+                            Sorsolás indítása
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  )}
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="outline" size="sm" className="gap-2">
+                        <Trash2 className="h-4 w-4" />
                         Törlés
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </div>
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Biztosan törölni szeretnéd?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Ez a felmérés inaktívvá válik és nem jelenik meg a futó felmérések között. 
+                          A már kitöltött válaszok megmaradnak az adatbázisban.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Mégse</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => handleDelete(metrics.audit.id)}>
+                          Törlés
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="overview" className="w-full">
