@@ -171,7 +171,13 @@ const Arak = () => {
                 <CardTitle className="text-2xl">{pkg.name}</CardTitle>
                 <CardDescription>{pkg.description}</CardDescription>
                 <div className="mt-4">
-                  <div className="text-3xl font-bold">{pkg.price}<span className="text-lg font-normal text-muted-foreground">{pkg.period}</span></div>
+                  <div className="text-3xl font-bold">
+                    {pkg.name === 'Enterprise' ? (
+                      <span className="text-2xl">{pkg.price} {pkg.period}</span>
+                    ) : (
+                      <>{pkg.price}<span className="text-lg font-normal text-muted-foreground">{pkg.period}</span></>
+                    )}
+                  </div>
                 </div>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col justify-between">
