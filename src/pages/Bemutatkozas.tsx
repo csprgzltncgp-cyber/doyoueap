@@ -101,7 +101,8 @@ const Bemutatkozas = () => {
 
         {/* Section 1: EAP Pulse Introduction */}
         <div className="mb-16" id="learn-more">
-          <div className="grid md:grid-cols-2 gap-8 mb-8">
+          {/* Desktop view - original layout */}
+          <div className="hidden lg:grid lg:grid-cols-2 gap-8">
             <Card>
               <CardHeader>
                 <CardTitle className="text-3xl animate-pulse-glow">Mi az EAP Pulse?</CardTitle>
@@ -118,8 +119,7 @@ const Bemutatkozas = () => {
                 </p>
               </CardContent>
             </Card>
-            {/* Desktop view - original layout */}
-            <div className="hidden lg:block relative h-[500px] flex items-center justify-center md:justify-start">
+            <div className="relative h-[500px] flex items-center justify-center md:justify-start">
               {/* Phone image with white rounded box background */}
               <div className="relative z-10 h-full flex items-center">
                 <div className="absolute inset-2 bg-white rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)]" />
@@ -137,23 +137,42 @@ const Bemutatkozas = () => {
               />
             </div>
           </div>
-          
-          {/* Tablet view - new layout */}
-          <div className="lg:hidden relative">
-            <img 
-              src={riportImage} 
-              alt="Részletes riportok és analitika" 
-              className="w-full rounded-lg shadow-lg"
-            />
-            {/* Phone image positioned on left, half size, in front */}
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-1/2 max-w-[250px]">
-              <div className="relative">
-                <div className="absolute inset-2 bg-white rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)]" />
-                <img 
-                  src={iphoneImage} 
-                  alt="EAP Pulse mobilalkalmazás" 
-                  className="relative z-10 w-full h-auto object-contain"
-                />
+
+          {/* Tablet/Mobile view - new layout */}
+          <div className="lg:hidden space-y-8">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-3xl animate-pulse-glow">Mi az EAP Pulse?</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <p className="text-lg">
+                  Az EAP Pulse egy gyors és kíméletes „pulzusmérő" a futó EAP-programokhoz. Rövid, mobilbarát kérdőívekkel rendszeresen visszajelzést kérünk a munkatársaktól, majd az eredményeket a 4Score keretben jelenítjük meg – így egy pillantással látszik, mennyire ismert a program, mennyire bíznak benne és használják, valamint milyen kézzelfogható hatást ér el.
+                </p>
+                <p className="text-muted-foreground">
+                  A Pulse nem váltja ki az EAP-szolgáltatódat, hanem kiegészíti: több adatot ad a kezébe (és a HR kezébe) a jobb kommunikációhoz, fejlesztési döntésekhez és a vezetői riportokhoz. A cél egy win–win: hiteles, átlátható kép a menedzsment felé, és egyre használhatóbb program a dolgozóknak.
+                </p>
+                <p className="text-muted-foreground">
+                  A megvalósítás egyszerű: előre összeállított vagy testre szabható kérdések, automatikus kiküldés, real-time dashboardok és kész menedzsment-riportok. A válaszadás anonim, az adatok összesítve jelennek meg.
+                </p>
+              </CardContent>
+            </Card>
+            
+            <div className="relative">
+              <img 
+                src={riportImage} 
+                alt="Részletes riportok és analitika" 
+                className="w-full rounded-lg shadow-lg translate-x-[3cm]"
+              />
+              {/* Phone image positioned on left, half size, in front */}
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-1/2 max-w-[250px]">
+                <div className="relative">
+                  <div className="absolute inset-2 bg-white rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)]" />
+                  <img 
+                    src={iphoneImage} 
+                    alt="EAP Pulse mobilalkalmazás" 
+                    className="relative z-10 w-full h-auto object-contain"
+                  />
+                </div>
               </div>
             </div>
           </div>
