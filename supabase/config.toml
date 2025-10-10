@@ -14,3 +14,9 @@ verify_jwt = false
 
 [functions.unsubscribe-newsletter]
 verify_jwt = false
+
+[functions.submit-response]
+verify_jwt = false
+
+[functions.run-draw]
+verify_jwt = true
