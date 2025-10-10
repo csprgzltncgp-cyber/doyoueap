@@ -161,7 +161,7 @@ const Arak = () => {
                     ? 'border-[#3572ef] shadow-lg' 
                     : 'hover:shadow-md'
               }`}
-              onClick={() => setSelectedPackage(pkg.name)}
+              onClick={() => setSelectedPackage(selectedPackage === pkg.name ? null : pkg.name)}
             >
               <CardHeader className="pb-6">
                 {pkg.recommended && selectedPackage === null && (
