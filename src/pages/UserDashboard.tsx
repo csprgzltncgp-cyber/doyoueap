@@ -738,30 +738,10 @@ const UserDashboard = () => {
 
     const doc = new jsPDF();
     
-    // Title
-    doc.setFontSize(20);
-    doc.text('Sorsolási kód', 105, 30, { align: 'center' });
-    
-    // Info text
-    doc.setFontSize(12);
-    doc.text('Köszönjük a részvételt az EAP Pulse felmérésben!', 105, 50, { align: 'center' });
-    doc.text('A sorsolási kódod:', 105, 65, { align: 'center' });
-    
-    // Draw token
-    doc.setFontSize(24);
+    // Draw token - centered, large
+    doc.setFontSize(32);
     doc.setFont(undefined, 'bold');
-    doc.text(drawToken, 105, 85, { align: 'center' });
-    
-    // Instructions
-    doc.setFontSize(10);
-    doc.setFont(undefined, 'normal');
-    doc.text('Őrizd meg ezt a kódot a sorsolás időpontjáig!', 105, 105, { align: 'center' });
-    doc.text('A nyertest e-mailben vagy a felmérés szervezője révén értesítjük.', 105, 115, { align: 'center' });
-    
-    // Footer
-    doc.setFontSize(8);
-    doc.text('EAP Pulse - Munkavállalói Segítő Program Felmérés', 105, 280, { align: 'center' });
-    doc.text(new Date().toLocaleDateString('hu-HU'), 105, 285, { align: 'center' });
+    doc.text(drawToken, 105, 150, { align: 'center' });
     
     doc.save(`sorsolasi-kod-${drawToken}.pdf`);
     toast.success('PDF letöltve!');
@@ -772,12 +752,12 @@ const UserDashboard = () => {
       <div className="space-y-4">
         <h2 className="text-2xl font-bold">Köszönjük a részvételt!</h2>
         <p className="text-muted-foreground">
-          Válaszaid segítenek abban, hogy munkáltatód még jobb munkahelyi környezetet 
-          alakíthasson ki.
+          Válaszaid segítenek abban, hogy még jobb munkahelyi környezetet 
+          alakíthassunk ki.
         </p>
         {hasLottery && drawToken && (
           <div className="mt-6 p-6 bg-primary/10 rounded-lg border-2 border-primary">
-            <h3 className="text-xl font-bold mb-3">🎉 Sorsolási kódod:</h3>
+            <h3 className="text-xl font-bold mb-3">Sorsolási kódod:</h3>
             <div className="text-3xl font-mono font-bold text-primary mb-3">
               {drawToken}
             </div>
