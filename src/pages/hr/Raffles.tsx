@@ -29,14 +29,18 @@ const Raffles = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetchDraws();
-  }, []);
+    if (user?.id) {
+      fetchDraws();
+    }
+  }, [user]);
 
   useEffect(() => {
     filterDraws();
   }, [draws, searchTerm]);
 
   const fetchDraws = async () => {
+    if (!user?.id) return;
+    
     try {
       setLoading(true);
       
@@ -44,7 +48,7 @@ const Raffles = () => {
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('company_name')
-        .eq('id', user?.id)
+        .eq('id', user.id)
         .single();
 
       if (profileError) throw profileError;
