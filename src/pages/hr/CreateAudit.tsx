@@ -278,21 +278,6 @@ const CreateAudit = () => {
           />
         )}
 
-        {currentStep === 5 && (
-          <Step3Distribution
-            accessMode={accessMode}
-            accessToken={accessToken}
-            communicationText={communicationText}
-            emailSubject={emailSubject}
-            emailFrom={emailFrom}
-            onEmailSubjectChange={setEmailSubject}
-            onEmailFromChange={setEmailFrom}
-            onEmailListUpload={setEmailListFile}
-            onNext={handleNext}
-            onBack={handleBack}
-          />
-        )}
-
         {currentStep === 6 && (
           <Step3Branding
             logoFile={logoFile}
