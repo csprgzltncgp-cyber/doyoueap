@@ -29,6 +29,7 @@ const Index = () => {
   const [password, setPassword] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
   const handleGetStarted = () => {
     if (user) {
@@ -264,6 +265,11 @@ const Index = () => {
                   <button
                     onClick={() => {
                       console.log('Clicked EAP Pulse navigation');
+                      if (openSubmenu === 'eap-pulse') {
+                        setOpenSubmenu(null);
+                      } else {
+                        setOpenSubmenu('eap-pulse');
+                      }
                       setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });
                     }}
                     className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
@@ -275,10 +281,13 @@ const Index = () => {
                     <Activity className="h-4 w-4" />
                     EAP Pulse
                   </button>
-                  {section === 'eap-pulse' && (
+                  {section === 'eap-pulse' && openSubmenu === 'eap-pulse' && (
                     <div className="absolute top-full left-0 mt-2 bg-white rounded-md shadow-lg py-2 min-w-[200px] z-50">
                       <button
-                        onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'create-audit' })}
+                        onClick={() => {
+                          setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });
+                          setOpenSubmenu(null);
+                        }}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
                           subSection === 'create-audit' ? 'bg-gray-100 font-medium' : ''
                         }`}
@@ -286,7 +295,10 @@ const Index = () => {
                         Új Felmérés
                       </button>
                       <button
-                        onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'running-audits' })}
+                        onClick={() => {
+                          setSearchParams({ section: 'eap-pulse', sub: 'running-audits' });
+                          setOpenSubmenu(null);
+                        }}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
                           subSection === 'running-audits' ? 'bg-gray-100 font-medium' : ''
                         }`}
@@ -294,7 +306,10 @@ const Index = () => {
                         Futó Felmérések
                       </button>
                       <button
-                        onClick={() => setSearchParams({ section: 'eap-pulse', sub: 'audit-questionnaire' })}
+                        onClick={() => {
+                          setSearchParams({ section: 'eap-pulse', sub: 'audit-questionnaire' });
+                          setOpenSubmenu(null);
+                        }}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
                           subSection === 'audit-questionnaire' ? 'bg-gray-100 font-medium' : ''
                         }`}
@@ -308,6 +323,11 @@ const Index = () => {
                   <button
                     onClick={() => {
                       console.log('Clicked Riportok navigation');
+                      if (openSubmenu === 'reports') {
+                        setOpenSubmenu(null);
+                      } else {
+                        setOpenSubmenu('reports');
+                      }
                       setSearchParams({ section: 'reports' });
                     }}
                     className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
@@ -319,10 +339,13 @@ const Index = () => {
                     <BarChart3 className="h-4 w-4" />
                     Riportok
                   </button>
-                  {section === 'reports' && (
+                  {section === 'reports' && openSubmenu === 'reports' && (
                     <div className="absolute top-full left-0 mt-2 bg-white rounded-md shadow-lg py-2 min-w-[200px] z-50">
                       <button
-                        onClick={() => setSearchParams({ section: 'reports', sub: 'overview' })}
+                        onClick={() => {
+                          setSearchParams({ section: 'reports', sub: 'overview' });
+                          setOpenSubmenu(null);
+                        }}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
                           (!subSection || subSection === 'overview') ? 'bg-gray-100 font-medium' : ''
                         }`}
@@ -330,7 +353,10 @@ const Index = () => {
                         Összefoglaló
                       </button>
                       <button
-                        onClick={() => setSearchParams({ section: 'reports', sub: 'awareness' })}
+                        onClick={() => {
+                          setSearchParams({ section: 'reports', sub: 'awareness' });
+                          setOpenSubmenu(null);
+                        }}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
                           subSection === 'awareness' ? 'bg-gray-100 font-medium' : ''
                         }`}
@@ -338,7 +364,10 @@ const Index = () => {
                         Ismertség
                       </button>
                       <button
-                        onClick={() => setSearchParams({ section: 'reports', sub: 'trust' })}
+                        onClick={() => {
+                          setSearchParams({ section: 'reports', sub: 'trust' });
+                          setOpenSubmenu(null);
+                        }}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
                           subSection === 'trust' ? 'bg-gray-100 font-medium' : ''
                         }`}
@@ -346,7 +375,10 @@ const Index = () => {
                         Bizalom
                       </button>
                       <button
-                        onClick={() => setSearchParams({ section: 'reports', sub: 'usage' })}
+                        onClick={() => {
+                          setSearchParams({ section: 'reports', sub: 'usage' });
+                          setOpenSubmenu(null);
+                        }}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
                           subSection === 'usage' ? 'bg-gray-100 font-medium' : ''
                         }`}
@@ -354,7 +386,10 @@ const Index = () => {
                         Használat
                       </button>
                       <button
-                        onClick={() => setSearchParams({ section: 'reports', sub: 'impact' })}
+                        onClick={() => {
+                          setSearchParams({ section: 'reports', sub: 'impact' });
+                          setOpenSubmenu(null);
+                        }}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
                           subSection === 'impact' ? 'bg-gray-100 font-medium' : ''
                         }`}
@@ -362,7 +397,10 @@ const Index = () => {
                         Hatás
                       </button>
                       <button
-                        onClick={() => setSearchParams({ section: 'reports', sub: 'motivation' })}
+                        onClick={() => {
+                          setSearchParams({ section: 'reports', sub: 'motivation' });
+                          setOpenSubmenu(null);
+                        }}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
                           subSection === 'motivation' ? 'bg-gray-100 font-medium' : ''
                         }`}
@@ -370,7 +408,10 @@ const Index = () => {
                         Motiváció
                       </button>
                       <button
-                        onClick={() => setSearchParams({ section: 'reports', sub: 'demographics' })}
+                        onClick={() => {
+                          setSearchParams({ section: 'reports', sub: 'demographics' });
+                          setOpenSubmenu(null);
+                        }}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
                           subSection === 'demographics' ? 'bg-gray-100 font-medium' : ''
                         }`}
@@ -378,7 +419,10 @@ const Index = () => {
                         Demográfia
                       </button>
                       <button
-                        onClick={() => setSearchParams({ section: 'reports', sub: 'trends' })}
+                        onClick={() => {
+                          setSearchParams({ section: 'reports', sub: 'trends' });
+                          setOpenSubmenu(null);
+                        }}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
                           subSection === 'trends' ? 'bg-gray-100 font-medium' : ''
                         }`}
@@ -386,7 +430,10 @@ const Index = () => {
                         Trendek
                       </button>
                       <button
-                        onClick={() => setSearchParams({ section: 'reports', sub: 'compare' })}
+                        onClick={() => {
+                          setSearchParams({ section: 'reports', sub: 'compare' });
+                          setOpenSubmenu(null);
+                        }}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
                           subSection === 'compare' ? 'bg-gray-100 font-medium' : ''
                         }`}
