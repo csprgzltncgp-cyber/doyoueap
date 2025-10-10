@@ -45,6 +45,8 @@ const UserDashboard = () => {
   const [selectedLanguage, setSelectedLanguage] = useState<string>('');
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
   const [currentBlockIndex, setCurrentBlockIndex] = useState(0);
+  const [drawToken, setDrawToken] = useState<string | null>(null);
+  const [hasLottery, setHasLottery] = useState(false);
 
   // Scroll to top function
   const scrollToTop = () => {
@@ -194,24 +196,29 @@ const UserDashboard = () => {
     setSubmitting(true);
     
     try {
-      const { error } = await supabase
-        .from('audit_responses')
-        .insert({
+      const { data, error } = await supabase.functions.invoke('submit-response', {
+        body: {
           audit_id: audit.id,
           responses,
           employee_metadata: {
             submitted_at: new Date().toISOString(),
             branch: selectedBranch || 'redirect',
           },
-        });
+        },
+      });
 
       if (error) throw error;
+      
+      if (data?.draw_token) {
+        setDrawToken(data.draw_token);
+        setHasLottery(data.has_lottery);
+      }
 
       setCurrentStep('thank_you');
       setTimeout(scrollToTop, 100);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error submitting response:', err);
-      toast.error('Hiba történt a válaszok mentésekor');
+      toast.error(err.message || 'Hiba történt a válaszok mentésekor');
     } finally {
       setSubmitting(false);
     }
@@ -555,6 +562,17 @@ const UserDashboard = () => {
           Válaszaid segítenek abban, hogy munkáltatód még jobb munkahelyi környezetet 
           alakíthasson ki.
         </p>
+        {hasLottery && drawToken && (
+          <div className="mt-6 p-6 bg-primary/10 rounded-lg border-2 border-primary">
+            <h3 className="text-xl font-bold mb-3">🎉 Sorsolási kódod:</h3>
+            <div className="text-3xl font-mono font-bold text-primary mb-3">
+              {drawToken}
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Jegyezd fel vagy készíts róla képernyőképet! Ezt a kódot használjuk a nyertes kisorsolásához.
+            </p>
+          </div>
+        )}
         <p className="text-muted-foreground">
           Ez az ablak most bezárható.
         </p>
