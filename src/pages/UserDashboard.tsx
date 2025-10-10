@@ -35,6 +35,10 @@ interface Audit {
   available_languages: string[];
   custom_colors: { primary?: string };
   questionnaire: Questionnaire;
+  gift?: {
+    name: string;
+    value_eur: number;
+  };
 }
 
 const UserDashboard = () => {
@@ -99,10 +103,10 @@ const UserDashboard = () => {
 
       if (questionnaireError) throw questionnaireError;
 
-      // Check if lottery is enabled
+      // Check if lottery is enabled and fetch gift details
       const { data: auditWithGift, error: giftError } = await supabase
         .from('audits')
-        .select('gift_id')
+        .select('gift_id, gifts(name, value_eur)')
         .eq('id', audit.id)
         .single();
 
@@ -113,7 +117,8 @@ const UserDashboard = () => {
       // Combine the data
       const combinedData = {
         ...audit,
-        questionnaire: questionnaireData
+        questionnaire: questionnaireData,
+        gift: auditWithGift?.gift_id ? (auditWithGift as any).gifts : undefined
       };
 
       setAudit(combinedData as any);
@@ -491,15 +496,49 @@ const UserDashboard = () => {
     </div>
   );
 
+  const formatEUR = (value: number): string => {
+    const formatted = new Intl.NumberFormat('hu-HU', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value);
+    return formatted.replace('EUR', '€').trim();
+  };
+
   const renderWelcome = () => (
-    <div className="space-y-6 text-center">
-      <div className="space-y-4">
+    <div className="space-y-6">
+      <div className="space-y-4 text-center">
         <h2 className="text-2xl font-bold">Üdvözlünk!</h2>
         <p className="text-muted-foreground">
           Ez a felmérés anonim, a kitöltés kb. 6–9 perc. A válaszok kizárólag összesítve, 
           statisztikai formában jelennek meg.
         </p>
       </div>
+      
+      {hasLottery && audit.gift && (
+        <Alert className="border-primary/20 bg-primary/5">
+          <AlertDescription className="space-y-3">
+            <p className="font-semibold text-lg">🎁 Nyereményjáték!</p>
+            <p>
+              A felmérés kitöltésével automatikusan részt veszel egy <strong>{audit.gift.name}</strong> értékű 
+              ajándék sorsolásán (értéke: <strong>{formatEUR(audit.gift.value_eur)}</strong>).
+            </p>
+            <div className="space-y-2 text-sm">
+              <p>
+                <strong>Fontos információk:</strong>
+              </p>
+              <ul className="list-disc list-inside space-y-1 text-left">
+                <li>A felmérés végén kapsz egy egyedi <strong>sorsolási kódot</strong></li>
+                <li>Ezt a kódot <strong>mindenképpen mentsd el vagy írd fel</strong> – ezzel tudsz nyerni!</li>
+                <li>A felmérés végén <strong>megadhatsz egy e-mail címet</strong> (opcionális), hogy értesítsünk a sorsolás eredményéről</li>
+                <li>A nyertest e-mailben vagy telefonon fogjuk értesíteni</li>
+              </ul>
+            </div>
+          </AlertDescription>
+        </Alert>
+      )}
+      
       <div className="flex justify-center">
         <Button 
           onClick={() => {
