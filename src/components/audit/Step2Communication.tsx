@@ -35,7 +35,29 @@ export const Step2Communication = ({
     const article = getArticle(program);
     
     if (accessMode === 'tokenes') {
-      return `Tárgy: Segítsd jobbá tenni a ${program} programot!
+      if (hasGift) {
+        return `Tárgy: Töltsd ki a kérdőívet és nyerj! – Segítsd jobbá tenni az EAP programot
+
+Helló!
+
+Most nemcsak segíthetsz jobbá tenni a vállalatod EAP programját, de még nyerhetsz is!
+
+A kérdőív kitöltői között ajándékot sorsolunk ki – mindössze néhány percet kell rászánnod, és máris részt veszel a sorsoláson.
+
+Az EAP program azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Most szeretnénk megtudni, hogyan tudnánk még jobban a Te igényeidre szabni a programot.
+
+Kérjük, töltsd ki rövid kérdőívünket az alábbi linken:
+
+[Kérdőív megnyitása]
+
+A kitöltés teljesen anonim, a válaszokat kizárólag statisztikai célokra használjuk. A felmérés végén megadhatsz egy e-mail-címet, ha szeretnéd, hogy értesítsünk, ha Te leszel a nyertes. A HR osztály a sorsolás után a nyertes sorszámot is közzéteszi, így e-mail megadása nélkül is megtudhatod, ha szerencséd volt.
+
+Köszönjük, hogy segítesz továbbfejleszteni az EAP programot – és sok sikert a sorsoláshoz! 
+
+Üdvözlettel,
+HR osztály`;
+      } else {
+        return `Tárgy: Segítsd jobbá tenni a ${program} programot!
 Helló!
 
 ${article.charAt(0).toUpperCase() + article.slice(1)} ${program} program azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
@@ -50,6 +72,7 @@ Előre is köszönjük, hogy segítesz jobbá tenni a ${program} programot!
 
 Üdvözlettel,
 HR osztály`;
+      }
     } else if (accessMode === 'qr_code') {
       return `Segítsd jobbá tenni a ${program} programot!
 
