@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, Download, FileImage, Clock, Play, Flag, Trash2 } from 'lucide-react';
+import { Calendar, Download, FileImage, Clock, Play, Flag, Trash2, CheckCircle2, Gift, Users, ExternalLink } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
 import { format, differenceInDays } from 'date-fns';
@@ -21,6 +21,18 @@ interface ExportDownload {
 interface AuditWithStats extends StandardAudit {
   responseCount: number;
   daysRemaining: number | null;
+  isExpired: boolean;
+  drawInfo?: {
+    id: string;
+    winner_token: string;
+    candidates_count: number;
+    created_at: string;
+    report_url: string | null;
+  };
+  giftInfo?: {
+    name: string;
+    value_eur: number;
+  };
 }
 
 const Focus = () => {
@@ -69,7 +81,7 @@ const Focus = () => {
       setLoading(true);
       const { data: auditsData, error: auditsError } = await supabase
         .from('audits')
-        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at')
+        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, gift_id')
         .eq('is_active', true)
         .order('start_date', { ascending: false });
 
@@ -86,10 +98,46 @@ const Focus = () => {
             ? differenceInDays(new Date(audit.expires_at), new Date())
             : null;
 
+          const isExpired = audit.expires_at 
+            ? new Date(audit.expires_at) < new Date()
+            : false;
+
+          // Fetch draw info if exists
+          const { data: drawData } = await supabase
+            .from('draws')
+            .select('id, winner_token, candidates_count, ts, report_url')
+            .eq('audit_id', audit.id)
+            .order('ts', { ascending: false })
+            .limit(1)
+            .maybeSingle();
+
+          // Fetch gift info if gift_id exists
+          let giftInfo = undefined;
+          if (audit.gift_id) {
+            const { data: giftData } = await supabase
+              .from('gifts')
+              .select('name, value_eur')
+              .eq('id', audit.gift_id)
+              .maybeSingle();
+            
+            if (giftData) {
+              giftInfo = giftData;
+            }
+          }
+
           return {
             ...audit,
             responseCount: count || 0,
             daysRemaining,
+            isExpired,
+            drawInfo: drawData ? {
+              id: drawData.id,
+              winner_token: drawData.winner_token,
+              candidates_count: drawData.candidates_count,
+              created_at: drawData.ts,
+              report_url: drawData.report_url
+            } : undefined,
+            giftInfo
           };
         })
       );
@@ -188,6 +236,8 @@ const Focus = () => {
   }
 
   const groupedDownloads = groupDownloadsByAudit();
+  const activeAudits = audits.filter(audit => !audit.isExpired);
+  const expiredAudits = audits.filter(audit => audit.isExpired);
 
   return (
     <div className="space-y-6 pt-20 md:pt-0">
@@ -210,7 +260,7 @@ const Focus = () => {
           <h2 className="text-xl font-semibold">Futó felmérések</h2>
         </div>
 
-        {audits.length === 0 ? (
+        {activeAudits.length === 0 ? (
           <Card>
             <CardContent className="py-8 text-center text-muted-foreground">
               Jelenleg nincs futó felmérés
@@ -218,7 +268,7 @@ const Focus = () => {
           </Card>
         ) : (
           <div className="grid gap-4">
-            {audits.map((audit) => (
+            {activeAudits.map((audit) => (
               <Card key={audit.id}>
                 <CardHeader>
                   <div className="flex items-start justify-between">
@@ -227,15 +277,14 @@ const Focus = () => {
                         {formatAuditName(audit)}
                       </CardTitle>
                       <CardDescription>
+                        <Users className="h-3 w-3 inline mr-1" />
                         {audit.responseCount} válasz érkezett
                       </CardDescription>
                     </div>
-                    {audit.daysRemaining !== null && (
+                    {audit.daysRemaining !== null && audit.daysRemaining >= 0 && (
                       <Badge variant={audit.daysRemaining < 7 ? 'destructive' : 'default'}>
                         <Clock className="h-3 w-3 mr-1" />
-                        {audit.daysRemaining > 0
-                          ? `${audit.daysRemaining} nap hátra`
-                          : 'Lejárt'}
+                        {audit.daysRemaining} nap hátra
                       </Badge>
                     )}
                   </div>
@@ -251,12 +300,110 @@ const Focus = () => {
                       <span>Vége: {format(new Date(audit.expires_at), 'yyyy. MM. dd.', { locale: hu })}</span>
                     </div>
                   )}
+                  {audit.giftInfo && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <Gift className="h-4 w-4 text-primary" />
+                      <span className="font-medium">{audit.giftInfo.name} ({audit.giftInfo.value_eur} EUR)</span>
+                    </div>
+                  )}
+                  {audit.drawInfo && (
+                    <div className="mt-3 p-3 bg-muted/50 rounded-md space-y-2">
+                      <div className="flex items-center gap-2 text-sm font-medium">
+                        <CheckCircle2 className="h-4 w-4 text-green-600" />
+                        <span>Sorsolás megtörtént</span>
+                      </div>
+                      <div className="text-xs text-muted-foreground space-y-1">
+                        <p>Résztvevők: {audit.drawInfo.candidates_count} fő</p>
+                        <p>Időpont: {format(new Date(audit.drawInfo.created_at), 'yyyy. MM. dd. HH:mm', { locale: hu })}</p>
+                      </div>
+                      {audit.drawInfo.report_url && (
+                        <Button variant="outline" size="sm" className="w-full mt-2" asChild>
+                          <a href={audit.drawInfo.report_url} target="_blank" rel="noopener noreferrer">
+                            <Download className="h-3 w-3 mr-2" />
+                            Sorsolás eredményének letöltése
+                          </a>
+                        </Button>
+                      )}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))}
           </div>
         )}
       </div>
+
+      {/* Lejárt felmérések */}
+      {expiredAudits.length > 0 && (
+        <div className="space-y-4">
+          <div className="flex items-center gap-2">
+            <Flag className="h-5 w-5 text-muted-foreground" />
+            <h2 className="text-xl font-semibold">Lejárt felmérések</h2>
+          </div>
+
+          <div className="grid gap-4">
+            {expiredAudits.map((audit) => (
+              <Card key={audit.id} className="opacity-75">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-1">
+                      <CardTitle className="text-lg">
+                        {formatAuditName(audit)}
+                      </CardTitle>
+                      <CardDescription>
+                        <Users className="h-3 w-3 inline mr-1" />
+                        {audit.responseCount} válasz érkezett
+                      </CardDescription>
+                    </div>
+                    <Badge variant="secondary">
+                      <CheckCircle2 className="h-3 w-3 mr-1" />
+                      Lezárva
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Calendar className="h-4 w-4" />
+                    <span>Kezdés: {format(new Date(audit.start_date), 'yyyy. MM. dd.', { locale: hu })}</span>
+                  </div>
+                  {audit.expires_at && (
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Flag className="h-4 w-4" />
+                      <span>Lezárva: {format(new Date(audit.expires_at), 'yyyy. MM. dd.', { locale: hu })}</span>
+                    </div>
+                  )}
+                  {audit.giftInfo && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <Gift className="h-4 w-4 text-primary" />
+                      <span className="font-medium">{audit.giftInfo.name} ({audit.giftInfo.value_eur} EUR)</span>
+                    </div>
+                  )}
+                  {audit.drawInfo && (
+                    <div className="mt-3 p-3 bg-muted/50 rounded-md space-y-2">
+                      <div className="flex items-center gap-2 text-sm font-medium">
+                        <CheckCircle2 className="h-4 w-4 text-green-600" />
+                        <span>Sorsolás megtörtént</span>
+                      </div>
+                      <div className="text-xs text-muted-foreground space-y-1">
+                        <p>Résztvevők: {audit.drawInfo.candidates_count} fő</p>
+                        <p>Időpont: {format(new Date(audit.drawInfo.created_at), 'yyyy. MM. dd. HH:mm', { locale: hu })}</p>
+                      </div>
+                      {audit.drawInfo.report_url && (
+                        <Button variant="outline" size="sm" className="w-full mt-2" asChild>
+                          <a href={audit.drawInfo.report_url} target="_blank" rel="noopener noreferrer">
+                            <Download className="h-3 w-3 mr-2" />
+                            Sorsolás eredményének letöltése
+                          </a>
+                        </Button>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Export letöltések történet */}
       <div className="space-y-4">
