@@ -74,7 +74,23 @@ Előre is köszönjük, hogy segítesz jobbá tenni a ${program} programot!
 HR osztály`;
       }
     } else if (accessMode === 'qr_code') {
-      return `Segítsd jobbá tenni a ${program} programot!
+      if (hasGift) {
+        return `Segítsd jobbá tenni az EAP programot! Töltsd ki egy rövid kérdőívet és nyerj!
+
+Az EAP program azért van, hogy támogasson – akár jogi vagy pénzügyi kérdésekről, akár pszichológiai segítségről van szó. Töltsd ki rövid kérdőívünket, mondd el a véleményed a programról, és nyerj értékes ajándékot!
+
+Olvasd be a QR-kódot és kezdheted is!
+
+QR kód
+
+- Néhány perc az egész
+- Teljesen anonim
+- Csak statisztikai célra használjuk
+- A kitöltők között ajándékot sorsolunk ki!
+
+Köszönjük, hogy segítesz fejleszteni az EAP programot – és sok szerencsét a sorsoláshoz!`;
+      } else {
+        return `Segítsd jobbá tenni a ${program} programot!
 
 ${article.charAt(0).toUpperCase() + article.slice(1)} ${program} program azért van, hogy támogasson – akár stresszről, jogi vagy pénzügyi kérdésekről, akár pszichológiai segítségről van szó.
 
@@ -87,6 +103,7 @@ Teljesen anonim
 Csak statisztikai céllal használjuk
 
 Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
+      }
     } else {
       if (hasGift) {
         return `Helló!
