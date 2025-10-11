@@ -47,7 +47,7 @@ export function MobileNav({ user, role, section, onNavigate, onLogout }: MobileN
             onClick={() => handleNavClick('/magazin')}
             className="text-left px-4 py-2 rounded-md hover:bg-muted transition-colors"
           >
-            The EAP Journalist!
+            Magazin
           </button>
           {user && role === 'hr' && (
             <button

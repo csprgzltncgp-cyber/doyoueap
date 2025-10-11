@@ -112,7 +112,7 @@ const Arak = () => {
               onClick={() => navigate('/magazin')}
               className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
             >
-              The EAP Journalist!
+              Magazin
             </button>
             {user && role === 'hr' && (
               <button
