@@ -1158,10 +1158,10 @@ const Export = () => {
                       variant="outline" 
                       onClick={() => handleExportPNG(chart.id, chart.fileName)}
                       disabled={exporting || !selectedAuditId}
-                      className="justify-start"
+                      className="justify-start truncate"
                     >
-                      <Download className="mr-2 h-4 w-4" />
-                      {chart.name}
+                      <Download className="mr-2 h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">{chart.name}</span>
                     </Button>
                   ))}
                 </div>
@@ -1176,10 +1176,10 @@ const Export = () => {
                       variant="outline" 
                       onClick={() => handleExportPNG(chart.id, chart.fileName)}
                       disabled={exporting || !selectedAuditId}
-                      className="justify-start"
+                      className="justify-start truncate"
                     >
-                      <Download className="mr-2 h-4 w-4" />
-                      {chart.name}
+                      <Download className="mr-2 h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">{chart.name}</span>
                     </Button>
                   ))}
                 </div>
@@ -1194,10 +1194,10 @@ const Export = () => {
                       variant="outline" 
                       onClick={() => handleExportPNG(chart.id, chart.fileName)}
                       disabled={exporting || !selectedAuditId}
-                      className="justify-start"
+                      className="justify-start truncate"
                     >
-                      <Download className="mr-2 h-4 w-4" />
-                      {chart.name}
+                      <Download className="mr-2 h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">{chart.name}</span>
                     </Button>
                   ))}
                 </div>
@@ -1212,10 +1212,10 @@ const Export = () => {
                       variant="outline" 
                       onClick={() => handleExportPNG(chart.id, chart.fileName)}
                       disabled={exporting || !selectedAuditId}
-                      className="justify-start"
+                      className="justify-start truncate"
                     >
-                      <Download className="mr-2 h-4 w-4" />
-                      {chart.name}
+                      <Download className="mr-2 h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">{chart.name}</span>
                     </Button>
                   ))}
                 </div>
@@ -1230,10 +1230,10 @@ const Export = () => {
                       variant="outline" 
                       onClick={() => handleExportPNG(chart.id, chart.fileName)}
                       disabled={exporting || !selectedAuditId}
-                      className="justify-start"
+                      className="justify-start truncate"
                     >
-                      <Download className="mr-2 h-4 w-4" />
-                      {chart.name}
+                      <Download className="mr-2 h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">{chart.name}</span>
                     </Button>
                   ))}
                 </div>
@@ -1250,10 +1250,10 @@ const Export = () => {
                           variant="outline" 
                           onClick={() => handleExportPNG(chart.id, chart.fileName)}
                           disabled={exporting || !selectedAuditId}
-                          className="justify-start"
+                          className="justify-start truncate"
                         >
-                          <Download className="mr-2 h-4 w-4" />
-                          {chart.name}
+                          <Download className="mr-2 h-4 w-4 flex-shrink-0" />
+                          <span className="truncate">{chart.name}</span>
                         </Button>
                       ))}
                     </div>
@@ -1268,10 +1268,10 @@ const Export = () => {
                           variant="outline" 
                           onClick={() => handleExportPNG(chart.id, chart.fileName)}
                           disabled={exporting || !selectedAuditId}
-                          className="justify-start"
+                          className="justify-start truncate"
                         >
-                          <Download className="mr-2 h-4 w-4" />
-                          {chart.name}
+                          <Download className="mr-2 h-4 w-4 flex-shrink-0" />
+                          <span className="truncate">{chart.name}</span>
                         </Button>
                       ))}
                     </div>
