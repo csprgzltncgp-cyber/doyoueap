@@ -1177,21 +1177,23 @@ const Export = () => {
           </CardHeader>
           <CardContent className="flex-1">
             <Tabs defaultValue="overview" className="w-full">
-              <TabsList className={`grid mb-4 ${packageType === 'starter' ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-5' : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9'}`}>
-                <TabsTrigger value="overview">Összefoglaló</TabsTrigger>
-                <TabsTrigger value="awareness">Ismertség</TabsTrigger>
-                <TabsTrigger value="trust">Bizalom</TabsTrigger>
-                <TabsTrigger value="usage">Használat</TabsTrigger>
-                <TabsTrigger value="impact">Hatás</TabsTrigger>
-                {(packageType === 'professional' || packageType === 'enterprise') && (
-                  <>
-                    <TabsTrigger value="motivation">Motiváció</TabsTrigger>
-                    <TabsTrigger value="demographics">Demográfia</TabsTrigger>
-                    <TabsTrigger value="trends">Trendek</TabsTrigger>
-                    <TabsTrigger value="compare">Összehasonlítás</TabsTrigger>
-                  </>
-                )}
-              </TabsList>
+              <div className="overflow-x-auto mb-4">
+                <TabsList className="inline-flex w-auto min-w-full">
+                  <TabsTrigger value="overview" className="flex-shrink-0">Összefoglaló</TabsTrigger>
+                  <TabsTrigger value="awareness" className="flex-shrink-0">Ismertség</TabsTrigger>
+                  <TabsTrigger value="trust" className="flex-shrink-0">Bizalom</TabsTrigger>
+                  <TabsTrigger value="usage" className="flex-shrink-0">Használat</TabsTrigger>
+                  <TabsTrigger value="impact" className="flex-shrink-0">Hatás</TabsTrigger>
+                  {(packageType === 'professional' || packageType === 'enterprise') && (
+                    <>
+                      <TabsTrigger value="motivation" className="flex-shrink-0">Motiváció</TabsTrigger>
+                      <TabsTrigger value="demographics" className="flex-shrink-0">Demográfia</TabsTrigger>
+                      <TabsTrigger value="trends" className="flex-shrink-0">Trendek</TabsTrigger>
+                      <TabsTrigger value="compare" className="flex-shrink-0">Összehasonlítás</TabsTrigger>
+                    </>
+                  )}
+                </TabsList>
+              </div>
 
               <TabsContent value="overview" className="space-y-2">
                 <p className="text-sm text-muted-foreground mb-4">Gyors áttekintés - főbb mutatók</p>
