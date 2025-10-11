@@ -28,7 +28,10 @@ export const usePackage = () => {
           console.error('Error fetching package:', error);
           setPackageType(null);
         } else {
-          setPackageType(data?.selected_package as PackageType || null);
+          // Map "pro" to "professional" for backwards compatibility
+          const rawPackage = data?.selected_package;
+          const mappedPackage = rawPackage === 'pro' ? 'professional' : rawPackage;
+          setPackageType(mappedPackage as PackageType || null);
         }
       } catch (error) {
         console.error('Error fetching package:', error);
