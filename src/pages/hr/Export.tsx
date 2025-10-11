@@ -1340,9 +1340,9 @@ const Export = () => {
                   key={item.id} 
                   className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors"
                 >
-                  <div className="flex-1">
-                    <p className="font-medium">{item.file_name}</p>
-                    <p className="text-sm text-muted-foreground">
+                  <div className="flex-1 min-w-0 pr-4">
+                    <p className="font-medium truncate">{item.file_name}</p>
+                    <p className="text-sm text-muted-foreground truncate">
                       {item.audit_name} • {item.file_type} • {new Date(item.created_at).toLocaleString('hu-HU')}
                     </p>
                   </div>
