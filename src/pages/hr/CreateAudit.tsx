@@ -55,8 +55,8 @@ const CreateAudit = () => {
   const totalSteps = 9;
 
   const handleNext = async () => {
-    // Generate token after step 3 (communication step, before distribution)
-    if (currentStep === 3 && !accessToken) {
+    // Generate token after step 4 (access mode step, before distribution)
+    if (currentStep === 4 && !accessToken) {
       try {
         const { data: tokenData, error: tokenError } = await supabase.rpc(
           'generate_access_token'
@@ -231,9 +231,13 @@ const CreateAudit = () => {
         )}
 
         {currentStep === 2 && (
-          <Step1AccessMode
-            accessMode={accessMode}
-            onAccessModeChange={setAccessMode}
+          <Step3Lottery
+            giftId={giftId}
+            drawMode={drawMode}
+            lotteryConsent={lotteryConsent}
+            onGiftIdChange={setGiftId}
+            onDrawModeChange={setDrawMode}
+            onLotteryConsentChange={setLotteryConsent}
             onNext={handleNext}
             onBack={handleBack}
           />
@@ -245,19 +249,16 @@ const CreateAudit = () => {
             onCommunicationTextChange={setCommunicationText}
             accessMode={accessMode}
             programName={programName}
+            hasGift={!!giftId}
             onNext={handleNext}
             onBack={handleBack}
           />
         )}
 
         {currentStep === 4 && (
-          <Step3Lottery
-            giftId={giftId}
-            drawMode={drawMode}
-            lotteryConsent={lotteryConsent}
-            onGiftIdChange={setGiftId}
-            onDrawModeChange={setDrawMode}
-            onLotteryConsentChange={setLotteryConsent}
+          <Step1AccessMode
+            accessMode={accessMode}
+            onAccessModeChange={setAccessMode}
             onNext={handleNext}
             onBack={handleBack}
           />

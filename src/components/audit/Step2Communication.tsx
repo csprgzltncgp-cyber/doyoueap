@@ -10,6 +10,7 @@ interface Step2Props {
   onCommunicationTextChange: (text: string) => void;
   accessMode: string;
   programName: string;
+  hasGift: boolean;
   onNext: () => void;
   onBack: () => void;
 }
@@ -19,6 +20,7 @@ export const Step2Communication = ({
   onCommunicationTextChange,
   accessMode,
   programName,
+  hasGift,
   onNext,
   onBack,
 }: Step2Props) => {
