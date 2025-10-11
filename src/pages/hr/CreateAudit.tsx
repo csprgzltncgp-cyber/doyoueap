@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { usePackage } from '@/hooks/usePackage';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -18,6 +19,7 @@ import eapPulseLogo from '@/assets/eap-pulse-logo.png';
 
 const CreateAudit = () => {
   const { user } = useAuth();
+  const { packageType } = usePackage();
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -52,7 +54,8 @@ const CreateAudit = () => {
   const [drawMode, setDrawMode] = useState<'auto' | 'manual'>('auto');
   const [lotteryConsent, setLotteryConsent] = useState(false);
 
-  const totalSteps = 9;
+  // Adjust total steps based on package - skip branding step for starter
+  const totalSteps = packageType === 'starter' ? 8 : 9;
 
   const handleNext = async () => {
     // Generate token after step 4 (access mode step, before distribution)
@@ -70,14 +73,25 @@ const CreateAudit = () => {
       }
     }
     
+    // Skip branding step (step 6) for starter package
+    let nextStep = currentStep + 1;
+    if (packageType === 'starter' && nextStep === 6) {
+      nextStep = 7; // Skip to timing step
+    }
+    
     if (currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
+      setCurrentStep(nextStep);
     }
   };
 
   const handleBack = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
+      // Skip branding step (step 6) for starter package when going back
+      let prevStep = currentStep - 1;
+      if (packageType === 'starter' && prevStep === 6) {
+        prevStep = 5; // Skip to distribution step
+      }
+      setCurrentStep(prevStep);
     }
   };
 
@@ -279,7 +293,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {currentStep === 6 && (
+        {currentStep === 6 && packageType !== 'starter' && (
           <Step3Branding
             logoFile={logoFile}
             customColors={customColors}
@@ -290,7 +304,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {currentStep === 7 && (
+        {((packageType === 'starter' && currentStep === 6) || (packageType !== 'starter' && currentStep === 7)) && (
           <Step4Timing
             startDate={startDate}
             expiresAt={expiresAt}
@@ -305,7 +319,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {currentStep === 8 && (
+        {((packageType === 'starter' && currentStep === 7) || (packageType !== 'starter' && currentStep === 8)) && (
           <Step5Languages
             selectedLanguages={selectedLanguages}
             onLanguagesChange={setSelectedLanguages}
@@ -314,7 +328,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {currentStep === 9 && (
+        {((packageType === 'starter' && currentStep === 8) || (packageType !== 'starter' && currentStep === 9)) && (
           <Step7Summary
             auditData={auditData}
             onSubmit={handleSubmit}

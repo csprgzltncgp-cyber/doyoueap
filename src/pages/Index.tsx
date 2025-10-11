@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { usePackage } from '@/hooks/usePackage';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowRight, CheckCircle, TrendingUp, Users, FileText, Award, BarChart3, Settings as SettingsIcon, Download, FileEdit, PlayCircle, ClipboardList, Eye, Shield, Activity, Target, Heart, UsersRound, LineChart, GitCompare } from 'lucide-react';
+import { ArrowRight, CheckCircle, TrendingUp, Users, FileText, Award, BarChart3, Settings as SettingsIcon, Download, FileEdit, PlayCircle, ClipboardList, Eye, Shield, Activity, Target, Heart, UsersRound, LineChart, GitCompare, Code, Building2 } from 'lucide-react';
 import { RegistrationWizard } from '@/components/registration/RegistrationWizard';
 import { MobileNav } from '@/components/navigation/MobileNav';
 import { MobileDashboardNav } from '@/components/navigation/MobileDashboardNav';
@@ -19,9 +20,12 @@ import Export from './hr/Export';
 import CustomSurvey from './hr/CustomSurvey';
 import Settings from './hr/Settings';
 import Raffles from './hr/Raffles';
+import API from './hr/API';
+import PartnerCenter from './hr/PartnerCenter';
 
 const Index = () => {
   const { user, role, loading, signIn, signOut } = useAuth();
+  const { packageType, loading: packageLoading } = usePackage();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [showLoginDialog, setShowLoginDialog] = useState(false);
@@ -149,7 +153,23 @@ const Index = () => {
       case 'export':
         return <Export />;
       case 'custom-survey':
-        return <CustomSurvey />;
+        // Only Professional and Enterprise can access custom surveys
+        if (packageType === 'professional' || packageType === 'enterprise') {
+          return <CustomSurvey />;
+        }
+        return null;
+      case 'api':
+        // Only Enterprise can access API
+        if (packageType === 'enterprise') {
+          return <API />;
+        }
+        return null;
+      case 'partner-center':
+        // Only Enterprise can access Partner Center
+        if (packageType === 'enterprise') {
+          return <PartnerCenter />;
+        }
+        return null;
       case 'settings':
         return <Settings />;
       default:
@@ -417,50 +437,54 @@ const Index = () => {
                       >
                         Hatás
                       </button>
-                      <button
-                        onClick={() => {
-                          setSearchParams({ section: 'reports', sub: 'motivation' });
-                          setOpenSubmenu(null);
-                        }}
-                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
-                          subSection === 'motivation' ? 'bg-gray-100 font-medium' : ''
-                        }`}
-                      >
-                        Motiváció
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSearchParams({ section: 'reports', sub: 'demographics' });
-                          setOpenSubmenu(null);
-                        }}
-                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
-                          subSection === 'demographics' ? 'bg-gray-100 font-medium' : ''
-                        }`}
-                      >
-                        Demográfia
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSearchParams({ section: 'reports', sub: 'trends' });
-                          setOpenSubmenu(null);
-                        }}
-                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
-                          subSection === 'trends' ? 'bg-gray-100 font-medium' : ''
-                        }`}
-                      >
-                        Trendek
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSearchParams({ section: 'reports', sub: 'compare' });
-                          setOpenSubmenu(null);
-                        }}
-                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
-                          subSection === 'compare' ? 'bg-gray-100 font-medium' : ''
-                        }`}
-                      >
-                        Összehasonlítás
-                      </button>
+                      {(packageType === 'professional' || packageType === 'enterprise') && (
+                        <>
+                          <button
+                            onClick={() => {
+                              setSearchParams({ section: 'reports', sub: 'motivation' });
+                              setOpenSubmenu(null);
+                            }}
+                            className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                              subSection === 'motivation' ? 'bg-gray-100 font-medium' : ''
+                            }`}
+                          >
+                            Motiváció
+                          </button>
+                          <button
+                            onClick={() => {
+                              setSearchParams({ section: 'reports', sub: 'demographics' });
+                              setOpenSubmenu(null);
+                            }}
+                            className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                              subSection === 'demographics' ? 'bg-gray-100 font-medium' : ''
+                            }`}
+                          >
+                            Demográfia
+                          </button>
+                          <button
+                            onClick={() => {
+                              setSearchParams({ section: 'reports', sub: 'trends' });
+                              setOpenSubmenu(null);
+                            }}
+                            className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                              subSection === 'trends' ? 'bg-gray-100 font-medium' : ''
+                            }`}
+                          >
+                            Trendek
+                          </button>
+                          <button
+                            onClick={() => {
+                              setSearchParams({ section: 'reports', sub: 'compare' });
+                              setOpenSubmenu(null);
+                            }}
+                            className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                              subSection === 'compare' ? 'bg-gray-100 font-medium' : ''
+                            }`}
+                          >
+                            Összehasonlítás
+                          </button>
+                        </>
+                      )}
                     </div>
                   )}
                 </div>
@@ -478,20 +502,54 @@ const Index = () => {
                   <Download className="h-4 w-4" />
                   Export
                 </button>
-                <button
-                  onClick={() => {
-                    setSearchParams({ section: 'custom-survey' });
-                    setOpenSubmenu(null);
-                  }}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
-                    section === 'custom-survey' 
-                      ? 'text-white font-semibold border-white' 
-                      : 'text-white/80 border-transparent hover:text-white'
-                  }`}
-                >
-                  <FileEdit className="h-4 w-4" />
-                  Egyedi Felmérés
-                </button>
+                {(packageType === 'professional' || packageType === 'enterprise') && (
+                  <button
+                    onClick={() => {
+                      setSearchParams({ section: 'custom-survey' });
+                      setOpenSubmenu(null);
+                    }}
+                    className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                      section === 'custom-survey' 
+                        ? 'text-white font-semibold border-white' 
+                        : 'text-white/80 border-transparent hover:text-white'
+                    }`}
+                  >
+                    <FileEdit className="h-4 w-4" />
+                    Egyedi Felmérés
+                  </button>
+                )}
+                {packageType === 'enterprise' && (
+                  <>
+                    <button
+                      onClick={() => {
+                        setSearchParams({ section: 'api' });
+                        setOpenSubmenu(null);
+                      }}
+                      className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                        section === 'api' 
+                          ? 'text-white font-semibold border-white' 
+                          : 'text-white/80 border-transparent hover:text-white'
+                      }`}
+                    >
+                      <Code className="h-4 w-4" />
+                      API
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSearchParams({ section: 'partner-center' });
+                        setOpenSubmenu(null);
+                      }}
+                      className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                        section === 'partner-center' 
+                          ? 'text-white font-semibold border-white' 
+                          : 'text-white/80 border-transparent hover:text-white'
+                      }`}
+                    >
+                      <Building2 className="h-4 w-4" />
+                      Partner Központ
+                    </button>
+                  </>
+                )}
                 <button
                   onClick={() => {
                     setSearchParams({ section: 'settings' });

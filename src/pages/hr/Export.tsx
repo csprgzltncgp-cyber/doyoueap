@@ -9,6 +9,7 @@ import { formatAuditName } from '@/lib/auditUtils';
 import { exportableCharts } from '@/lib/exportUtils';
 import { exportAllChartsToPPT } from '@/lib/pptExportUtils';
 import { Presentation, Image as ImageIcon, Download, FileSpreadsheet, History, Trash2 } from 'lucide-react';
+import { usePackage } from '@/hooks/usePackage';
 
 let exportIframe: HTMLIFrameElement | null = null;
 
@@ -24,6 +25,7 @@ interface Audit {
 }
 
 const Export = () => {
+  const { packageType } = usePackage();
   const [audits, setAudits] = useState<Audit[]>([]);
   const [selectedAuditId, setSelectedAuditId] = useState<string>('');
   const [loading, setLoading] = useState(true);
@@ -1045,44 +1047,46 @@ const Export = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="flex flex-col">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Presentation className="h-5 w-5" />
-              PowerPoint Prezentáció
-            </CardTitle>
-            <CardDescription>
-              Komplett jelentés prezentációs formában
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4 flex-1 flex flex-col">
-            <div className="text-sm space-y-2 flex-1">
-              <p><strong>Tartalom (slide-onként):</strong></p>
-              <ul className="list-disc list-inside ml-4 space-y-1">
-                <li>Címlap</li>
-                <li>Összefoglaló statisztikák</li>
-                <li>Tudatosság</li>
-                <li>Bizalom & Hajlandóság</li>
-                <li>Használat</li>
-                <li>Hatás</li>
-                <li>Motiváció</li>
-                <li>Demográfia</li>
-              </ul>
-            </div>
-            <Button 
-              onClick={handleExportPPT} 
-              disabled={exporting || !selectedAuditId}
-              className="w-full"
-              style={{
-                backgroundColor: '#000000',
-                color: 'white'
-              }}
-            >
-              <Download className="mr-2 h-4 w-4" />
-              PowerPoint Letöltése
-            </Button>
-          </CardContent>
-        </Card>
+        {(packageType === 'professional' || packageType === 'enterprise') && (
+          <Card className="flex flex-col">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Presentation className="h-5 w-5" />
+                PowerPoint Prezentáció
+              </CardTitle>
+              <CardDescription>
+                Komplett jelentés prezentációs formában
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4 flex-1 flex flex-col">
+              <div className="text-sm space-y-2 flex-1">
+                <p><strong>Tartalom (slide-onként):</strong></p>
+                <ul className="list-disc list-inside ml-4 space-y-1">
+                  <li>Címlap</li>
+                  <li>Összefoglaló statisztikák</li>
+                  <li>Tudatosság</li>
+                  <li>Bizalom & Hajlandóság</li>
+                  <li>Használat</li>
+                  <li>Hatás</li>
+                  <li>Motiváció</li>
+                  <li>Demográfia</li>
+                </ul>
+              </div>
+              <Button 
+                onClick={handleExportPPT} 
+                disabled={exporting || !selectedAuditId}
+                className="w-full"
+                style={{
+                  backgroundColor: '#000000',
+                  color: 'white'
+                }}
+              >
+                <Download className="mr-2 h-4 w-4" />
+                PowerPoint Letöltése
+              </Button>
+            </CardContent>
+          </Card>
+        )}
 
         <Card className="flex flex-col">
           <CardHeader>
@@ -1119,37 +1123,39 @@ const Export = () => {
           </CardContent>
         </Card>
 
-        <Card className="flex flex-col">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Download className="h-5 w-5" />
-              CSV Adatexport
-            </CardTitle>
-            <CardDescription>
-              Nyers válaszadatok exportálása
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4 flex-1 flex flex-col">
-            <div className="text-sm space-y-2 flex-1">
-              <p><strong>Tartalom:</strong></p>
-              <ul className="list-disc list-inside ml-4 space-y-1">
-                <li>Összes válaszadó összes válasza</li>
-                <li>Demográfiai adatok</li>
-                <li>Beküldés időpontja</li>
-                <li>Kategória (ág) információ</li>
-              </ul>
-            </div>
-            <Button 
-              onClick={handleExportCSV} 
-              disabled={exporting || !selectedAuditId}
-              variant="outline"
-              className="w-full"
-            >
-              <Download className="mr-2 h-4 w-4" />
-              CSV Letöltése
-            </Button>
-          </CardContent>
-        </Card>
+        {(packageType === 'professional' || packageType === 'enterprise') && (
+          <Card className="flex flex-col">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Download className="h-5 w-5" />
+                CSV Adatexport
+              </CardTitle>
+              <CardDescription>
+                Nyers válaszadatok exportálása
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4 flex-1 flex flex-col">
+              <div className="text-sm space-y-2 flex-1">
+                <p><strong>Tartalom:</strong></p>
+                <ul className="list-disc list-inside ml-4 space-y-1">
+                  <li>Összes válaszadó összes válasza</li>
+                  <li>Demográfiai adatok</li>
+                  <li>Beküldés időpontja</li>
+                  <li>Kategória (ág) információ</li>
+                </ul>
+              </div>
+              <Button 
+                onClick={handleExportCSV} 
+                disabled={exporting || !selectedAuditId}
+                variant="outline"
+                className="w-full"
+              >
+                <Download className="mr-2 h-4 w-4" />
+                CSV Letöltése
+              </Button>
+            </CardContent>
+          </Card>
+        )}
       </div>
 
       <Card>

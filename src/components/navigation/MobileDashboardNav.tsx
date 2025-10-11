@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Menu, Target, BarChart3, TrendingUp, Download, FileEdit, Settings as SettingsIcon, Trophy } from 'lucide-react';
+import { Menu, Target, BarChart3, TrendingUp, Download, FileEdit, Settings as SettingsIcon, Trophy, Code, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { usePackage } from '@/hooks/usePackage';
 
 interface MobileDashboardNavProps {
   section: string;
@@ -11,6 +12,7 @@ interface MobileDashboardNavProps {
 }
 
 export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDashboardNavProps) {
+  const { packageType } = usePackage();
   const [open, setOpen] = useState(false);
 
   const handleNavClick = (newSection: string, newSub?: string) => {
@@ -179,46 +181,50 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
                   >
                     Hatás
                   </button>
-                  <button
-                    onClick={() => handleNavClick('reports', 'motivation')}
-                    className={`px-4 py-2 rounded-md text-left text-sm ${
-                      subSection === 'motivation' 
-                        ? 'bg-muted font-medium' 
-                        : 'hover:bg-muted/50'
-                    }`}
-                  >
-                    Motiváció
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('reports', 'demographics')}
-                    className={`px-4 py-2 rounded-md text-left text-sm ${
-                      subSection === 'demographics' 
-                        ? 'bg-muted font-medium' 
-                        : 'hover:bg-muted/50'
-                    }`}
-                  >
-                    Demográfia
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('reports', 'trends')}
-                    className={`px-4 py-2 rounded-md text-left text-sm ${
-                      subSection === 'trends' 
-                        ? 'bg-muted font-medium' 
-                        : 'hover:bg-muted/50'
-                    }`}
-                  >
-                    Trendek
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('reports', 'compare')}
-                    className={`px-4 py-2 rounded-md text-left text-sm ${
-                      subSection === 'compare' 
-                        ? 'bg-muted font-medium' 
-                        : 'hover:bg-muted/50'
-                    }`}
-                  >
-                    Összehasonlítás
-                  </button>
+                  {(packageType === 'professional' || packageType === 'enterprise') && (
+                    <>
+                      <button
+                        onClick={() => handleNavClick('reports', 'motivation')}
+                        className={`px-4 py-2 rounded-md text-left text-sm ${
+                          subSection === 'motivation' 
+                            ? 'bg-muted font-medium' 
+                            : 'hover:bg-muted/50'
+                        }`}
+                      >
+                        Motiváció
+                      </button>
+                      <button
+                        onClick={() => handleNavClick('reports', 'demographics')}
+                        className={`px-4 py-2 rounded-md text-left text-sm ${
+                          subSection === 'demographics' 
+                            ? 'bg-muted font-medium' 
+                            : 'hover:bg-muted/50'
+                        }`}
+                      >
+                        Demográfia
+                      </button>
+                      <button
+                        onClick={() => handleNavClick('reports', 'trends')}
+                        className={`px-4 py-2 rounded-md text-left text-sm ${
+                          subSection === 'trends' 
+                            ? 'bg-muted font-medium' 
+                            : 'hover:bg-muted/50'
+                        }`}
+                      >
+                        Trendek
+                      </button>
+                      <button
+                        onClick={() => handleNavClick('reports', 'compare')}
+                        className={`px-4 py-2 rounded-md text-left text-sm ${
+                          subSection === 'compare' 
+                            ? 'bg-muted font-medium' 
+                            : 'hover:bg-muted/50'
+                        }`}
+                      >
+                        Összehasonlítás
+                      </button>
+                    </>
+                  )}
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -236,17 +242,47 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
             <span>Export</span>
           </button>
 
-          <button
-            onClick={() => handleNavClick('custom-survey')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
-              section === 'custom-survey' 
-                ? 'bg-[#3572ef] text-white font-semibold' 
-                : 'hover:bg-muted'
-            }`}
-          >
-            <FileEdit className="h-4 w-4" />
-            <span>Egyedi Felmérés</span>
-          </button>
+          {(packageType === 'professional' || packageType === 'enterprise') && (
+            <button
+              onClick={() => handleNavClick('custom-survey')}
+              className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
+                section === 'custom-survey' 
+                  ? 'bg-[#3572ef] text-white font-semibold' 
+                  : 'hover:bg-muted'
+              }`}
+            >
+              <FileEdit className="h-4 w-4" />
+              <span>Egyedi Felmérés</span>
+            </button>
+          )}
+
+          {packageType === 'enterprise' && (
+            <>
+              <button
+                onClick={() => handleNavClick('api')}
+                className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
+                  section === 'api' 
+                    ? 'bg-[#3572ef] text-white font-semibold' 
+                    : 'hover:bg-muted'
+                }`}
+              >
+                <Code className="h-4 w-4" />
+                <span>API</span>
+              </button>
+
+              <button
+                onClick={() => handleNavClick('partner-center')}
+                className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
+                  section === 'partner-center' 
+                    ? 'bg-[#3572ef] text-white font-semibold' 
+                    : 'hover:bg-muted'
+                }`}
+              >
+                <Building2 className="h-4 w-4" />
+                <span>Partner Központ</span>
+              </button>
+            </>
+          )}
 
           <button
             onClick={() => handleNavClick('settings')}
