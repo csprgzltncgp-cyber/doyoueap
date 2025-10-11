@@ -37,7 +37,7 @@ const Bemutatkozas = () => {
               onClick={() => navigate('/bemutatkozas')}
               className="text-sm bg-white border border-black font-semibold transition-colors px-3 py-2 rounded-md"
             >
-              EAP Pulse
+              Bemutatkozás
             </button>
             <button
               onClick={() => navigate('/arak')}

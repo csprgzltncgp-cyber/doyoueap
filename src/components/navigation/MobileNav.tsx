@@ -35,7 +35,7 @@ export function MobileNav({ user, role, section, onNavigate, onLogout }: MobileN
             onClick={() => handleNavClick('/bemutatkozas')}
             className="text-left px-4 py-2 rounded-md hover:bg-muted transition-colors"
           >
-            EAP Pulse
+            Bemutatkozás
           </button>
           <button
             onClick={() => handleNavClick('/arak')}
