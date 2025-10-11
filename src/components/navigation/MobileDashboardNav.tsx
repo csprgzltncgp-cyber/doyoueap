@@ -98,6 +98,16 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
                   >
                     Sorsolások
                   </button>
+                  <button
+                    onClick={() => handleNavClick('eap-pulse', 'gifts')}
+                    className={`px-4 py-2 rounded-md text-left text-sm ${
+                      subSection === 'gifts' 
+                        ? 'bg-muted font-medium' 
+                        : 'hover:bg-muted/50'
+                    }`}
+                  >
+                    Ajándékok
+                  </button>
                 </div>
               </AccordionContent>
             </AccordionItem>

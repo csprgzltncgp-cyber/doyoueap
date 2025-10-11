@@ -3,6 +3,7 @@ import CreateAudit from './CreateAudit';
 import RunningAudits from './RunningAudits';
 import AuditQuestionnaire from './AuditQuestionnaire';
 import Focus from './Focus';
+import Gifts from './Gifts';
 
 const EAPAudit = () => {
   const [searchParams] = useSearchParams();
@@ -16,6 +17,8 @@ const EAPAudit = () => {
         return <RunningAudits />;
       case 'audit-questionnaire':
         return <AuditQuestionnaire />;
+      case 'gifts':
+        return <Gifts />;
       case 'create-audit':
       default:
         return <CreateAudit />;

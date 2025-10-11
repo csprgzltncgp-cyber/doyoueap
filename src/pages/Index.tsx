@@ -327,6 +327,17 @@ const Index = () => {
                       >
                         Sorsolások
                       </button>
+                      <button
+                        onClick={() => {
+                          setSearchParams({ section: 'eap-pulse', sub: 'gifts' });
+                          setOpenSubmenu(null);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'gifts' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Ajándékok
+                      </button>
                     </div>
                   )}
                 </div>
