@@ -167,7 +167,9 @@ const GiftManagement = () => {
     if (!validateForm()) return;
 
     try {
+      console.log('Starting image upload...', { hasUploadedImage: !!uploadedImage, imageUrl: formData.image_url });
       const imageUrl = await uploadImage();
+      console.log('Image upload result:', imageUrl);
 
       const payload = {
         name: formData.name.trim(),
@@ -177,6 +179,8 @@ const GiftManagement = () => {
         is_default: formData.is_default,
         is_active: formData.is_active,
       };
+
+      console.log('Payload to save:', payload);
 
       if (editingGift) {
         const { error } = await supabase
