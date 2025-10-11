@@ -73,25 +73,14 @@ const CreateAudit = () => {
       }
     }
     
-    // Skip branding step (step 6) for starter package
-    let nextStep = currentStep + 1;
-    if (packageType === 'starter' && nextStep === 6) {
-      nextStep = 7; // Skip to timing step
-    }
-    
     if (currentStep < totalSteps) {
-      setCurrentStep(nextStep);
+      setCurrentStep(currentStep + 1);
     }
   };
 
   const handleBack = () => {
     if (currentStep > 1) {
-      // Skip branding step (step 6) for starter package when going back
-      let prevStep = currentStep - 1;
-      if (packageType === 'starter' && prevStep === 6) {
-        prevStep = 5; // Skip to distribution step
-      }
-      setCurrentStep(prevStep);
+      setCurrentStep(currentStep - 1);
     }
   };
 
