@@ -353,44 +353,54 @@ const GiftManagement = () => {
               </div>
 
               <div>
-                <Label htmlFor="image">Kép feltöltése</Label>
+                <Label htmlFor="image">Kép feltöltése (opcionális)</Label>
                 <div className="space-y-2">
-                  {imagePreview && (
-                    <div className="relative inline-block">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
+                  />
+                  
+                  {imagePreview ? (
+                    <div className="relative w-full h-48 border rounded-lg overflow-hidden">
                       <img
                         src={imagePreview}
                         alt="Előnézet"
-                        className="h-32 w-32 object-cover rounded border"
+                        className="w-full h-full object-cover"
                       />
                       <Button
                         type="button"
                         variant="destructive"
                         size="icon"
-                        className="absolute -top-2 -right-2 h-6 w-6"
+                        className="absolute top-2 right-2"
                         onClick={handleRemoveImage}
                       >
                         <X className="h-4 w-4" />
                       </Button>
                     </div>
-                  )}
-                  <div className="flex gap-2">
-                    <Input
-                      ref={fileInputRef}
-                      id="image"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      className="cursor-pointer"
-                    />
+                  ) : (
                     <Button
                       type="button"
                       variant="outline"
                       onClick={() => fileInputRef.current?.click()}
+                      className="w-full"
                     >
-                      <Upload className="h-4 w-4 mr-2" />
-                      Tallózás
+                      <Upload className="mr-2 h-4 w-4" />
+                      Kép feltöltése
                     </Button>
+                  )}
+
+                  <div className="text-sm text-muted-foreground">
+                    vagy URL megadása:
                   </div>
+                  <Input
+                    value={formData.image_url}
+                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                    placeholder="https://example.com/image.jpg"
+                    disabled={!!uploadedImage}
+                  />
                 </div>
               </div>
 
@@ -488,9 +498,13 @@ const GiftManagement = () => {
                     </TableCell>
                     <TableCell>
                       {gift.image_url ? (
-                        <img src={gift.image_url} alt={gift.name} className="h-10 w-10 object-cover rounded" />
+                        <div className="h-10 w-10 rounded overflow-hidden bg-muted">
+                          <img src={gift.image_url} alt={gift.name} className="h-full w-full object-cover" />
+                        </div>
                       ) : (
-                        '—'
+                        <div className="h-10 w-10 rounded bg-muted flex items-center justify-center">
+                          <Trophy className="h-5 w-5 text-muted-foreground" />
+                        </div>
                       )}
                     </TableCell>
                     <TableCell>{gift.is_default ? '✓' : '—'}</TableCell>

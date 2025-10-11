@@ -417,15 +417,17 @@ const Gifts = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {gifts.map((gift) => (
               <Card key={gift.id} className="overflow-hidden">
-                {gift.image_url && (
-                  <div className="h-48 overflow-hidden bg-muted">
+                <div className="h-48 overflow-hidden bg-muted flex items-center justify-center">
+                  {gift.image_url ? (
                     <img
                       src={gift.image_url}
                       alt={gift.name}
                       className="w-full h-full object-cover"
                     />
-                  </div>
-                )}
+                  ) : (
+                    <GiftIcon className="h-16 w-16 text-muted-foreground" />
+                  )}
+                </div>
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
