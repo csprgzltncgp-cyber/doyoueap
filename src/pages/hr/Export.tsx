@@ -1046,7 +1046,7 @@ const Export = () => {
         </div>
       </div>
 
-      <div className={`grid gap-6 ${packageType === 'starter' ? 'grid-cols-1 max-w-md mx-auto' : 'grid-cols-1 md:grid-cols-3'}`}>
+      <div className={`grid gap-6 ${packageType === 'starter' ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-3'}`}>
         {(packageType === 'professional' || packageType === 'enterprise') && (
           <Card className="flex flex-col">
             <CardHeader>
