@@ -1123,191 +1123,199 @@ const Export = () => {
           </CardContent>
         </Card>
 
-        {(packageType === 'professional' || packageType === 'enterprise') && (
-          <Card className="flex flex-col">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Download className="h-5 w-5" />
-                CSV Adatexport
-              </CardTitle>
-              <CardDescription>
-                Nyers válaszadatok exportálása
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4 flex-1 flex flex-col">
-              <div className="text-sm space-y-2 flex-1">
-                <p><strong>Tartalom:</strong></p>
-                <ul className="list-disc list-inside ml-4 space-y-1">
-                  <li>Összes válaszadó összes válasza</li>
-                  <li>Demográfiai adatok</li>
-                  <li>Beküldés időpontja</li>
-                  <li>Kategória (ág) információ</li>
-                </ul>
-              </div>
-              <Button 
-                onClick={handleExportCSV} 
-                disabled={exporting || !selectedAuditId}
-                variant="outline"
-                className="w-full"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                CSV Letöltése
-              </Button>
-            </CardContent>
-          </Card>
-        )}
+        <Card className="flex flex-col">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <ImageIcon className="h-5 w-5" />
+              PNG Grafikonok
+            </CardTitle>
+            <CardDescription>
+              Letölthető grafikonok témakörök szerint
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex-1">
+            <Tabs defaultValue="overview" className="w-full">
+              <TabsList className={`grid mb-4 ${packageType === 'starter' ? 'grid-cols-5' : 'grid-cols-7'}`}>
+                <TabsTrigger value="overview">Összefoglaló</TabsTrigger>
+                <TabsTrigger value="awareness">Ismertség</TabsTrigger>
+                <TabsTrigger value="trust">Bizalom</TabsTrigger>
+                <TabsTrigger value="usage">Használat</TabsTrigger>
+                <TabsTrigger value="impact">Hatás</TabsTrigger>
+                {(packageType === 'professional' || packageType === 'enterprise') && (
+                  <>
+                    <TabsTrigger value="motivation">Motiváció</TabsTrigger>
+                    <TabsTrigger value="demographics">Demográfia</TabsTrigger>
+                  </>
+                )}
+              </TabsList>
+
+              <TabsContent value="overview" className="space-y-2">
+                <p className="text-sm text-muted-foreground mb-4">Gyors áttekintés - főbb mutatók</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {exportableCharts.filter(c => c.tab === 'overview').map(chart => (
+                    <Button 
+                      key={chart.id}
+                      variant="outline" 
+                      onClick={() => handleExportPNG(chart.id, chart.fileName)}
+                      disabled={exporting || !selectedAuditId}
+                      className="justify-start"
+                    >
+                      <Download className="mr-2 h-4 w-4" />
+                      {chart.name}
+                    </Button>
+                  ))}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="awareness" className="space-y-2">
+                <p className="text-sm text-muted-foreground mb-4">Ismertség és awareness mutatók</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {exportableCharts.filter(c => c.tab === 'awareness').map(chart => (
+                    <Button 
+                      key={chart.id}
+                      variant="outline" 
+                      onClick={() => handleExportPNG(chart.id, chart.fileName)}
+                      disabled={exporting || !selectedAuditId}
+                      className="justify-start"
+                    >
+                      <Download className="mr-2 h-4 w-4" />
+                      {chart.name}
+                    </Button>
+                  ))}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="trust" className="space-y-2">
+                <p className="text-sm text-muted-foreground mb-4">Bizalom és hajlandóság mutatók</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {exportableCharts.filter(c => c.tab === 'trust').map(chart => (
+                    <Button 
+                      key={chart.id}
+                      variant="outline" 
+                      onClick={() => handleExportPNG(chart.id, chart.fileName)}
+                      disabled={exporting || !selectedAuditId}
+                      className="justify-start"
+                    >
+                      <Download className="mr-2 h-4 w-4" />
+                      {chart.name}
+                    </Button>
+                  ))}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="usage" className="space-y-2">
+                <p className="text-sm text-muted-foreground mb-4">Használati statisztikák</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {exportableCharts.filter(c => c.tab === 'usage').map(chart => (
+                    <Button 
+                      key={chart.id}
+                      variant="outline" 
+                      onClick={() => handleExportPNG(chart.id, chart.fileName)}
+                      disabled={exporting || !selectedAuditId}
+                      className="justify-start"
+                    >
+                      <Download className="mr-2 h-4 w-4" />
+                      {chart.name}
+                    </Button>
+                  ))}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="impact" className="space-y-2">
+                <p className="text-sm text-muted-foreground mb-4">Hatás mutatók</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {exportableCharts.filter(c => c.tab === 'impact').map(chart => (
+                    <Button 
+                      key={chart.id}
+                      variant="outline" 
+                      onClick={() => handleExportPNG(chart.id, chart.fileName)}
+                      disabled={exporting || !selectedAuditId}
+                      className="justify-start"
+                    >
+                      <Download className="mr-2 h-4 w-4" />
+                      {chart.name}
+                    </Button>
+                  ))}
+                </div>
+              </TabsContent>
+
+              {(packageType === 'professional' || packageType === 'enterprise') && (
+                <>
+                  <TabsContent value="motivation" className="space-y-2">
+                    <p className="text-sm text-muted-foreground mb-4">Motivációs tényezők</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {exportableCharts.filter(c => c.tab === 'motivation').map(chart => (
+                        <Button 
+                          key={chart.id}
+                          variant="outline" 
+                          onClick={() => handleExportPNG(chart.id, chart.fileName)}
+                          disabled={exporting || !selectedAuditId}
+                          className="justify-start"
+                        >
+                          <Download className="mr-2 h-4 w-4" />
+                          {chart.name}
+                        </Button>
+                      ))}
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="demographics" className="space-y-2">
+                    <p className="text-sm text-muted-foreground mb-4">Demográfiai megoszlások</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {exportableCharts.filter(c => c.tab === 'demographics').map(chart => (
+                        <Button 
+                          key={chart.id}
+                          variant="outline" 
+                          onClick={() => handleExportPNG(chart.id, chart.fileName)}
+                          disabled={exporting || !selectedAuditId}
+                          className="justify-start"
+                        >
+                          <Download className="mr-2 h-4 w-4" />
+                          {chart.name}
+                        </Button>
+                      ))}
+                    </div>
+                  </TabsContent>
+                </>
+              )}
+            </Tabs>
+          </CardContent>
+        </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <ImageIcon className="h-5 w-5" />
-            PNG Grafikonok
-          </CardTitle>
-          <CardDescription>
-            Letölthető grafikonok témakörök szerint
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid grid-cols-7 mb-4">
-              <TabsTrigger value="overview">Összefoglaló</TabsTrigger>
-              <TabsTrigger value="awareness">Ismertség</TabsTrigger>
-              <TabsTrigger value="trust">Bizalom</TabsTrigger>
-              <TabsTrigger value="usage">Használat</TabsTrigger>
-              <TabsTrigger value="impact">Hatás</TabsTrigger>
-              <TabsTrigger value="motivation">Motiváció</TabsTrigger>
-              <TabsTrigger value="demographics">Demográfia</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="overview" className="space-y-2">
-              <p className="text-sm text-muted-foreground mb-4">Gyors áttekintés - főbb mutatók</p>
-              <div className="grid grid-cols-2 gap-2">
-                {exportableCharts.filter(c => c.tab === 'overview').map(chart => (
-                  <Button 
-                    key={chart.id}
-                    variant="outline" 
-                    onClick={() => handleExportPNG(chart.id, chart.fileName)}
-                    disabled={exporting || !selectedAuditId}
-                    className="justify-start"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    {chart.name}
-                  </Button>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="awareness" className="space-y-2">
-              <p className="text-sm text-muted-foreground mb-4">Ismertség és awareness mutatók</p>
-              <div className="grid grid-cols-2 gap-2">
-                {exportableCharts.filter(c => c.tab === 'awareness').map(chart => (
-                  <Button 
-                    key={chart.id}
-                    variant="outline" 
-                    onClick={() => handleExportPNG(chart.id, chart.fileName)}
-                    disabled={exporting || !selectedAuditId}
-                    className="justify-start"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    {chart.name}
-                  </Button>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="trust" className="space-y-2">
-              <p className="text-sm text-muted-foreground mb-4">Bizalom és hajlandóság mutatók</p>
-              <div className="grid grid-cols-2 gap-2">
-                {exportableCharts.filter(c => c.tab === 'trust').map(chart => (
-                  <Button 
-                    key={chart.id}
-                    variant="outline" 
-                    onClick={() => handleExportPNG(chart.id, chart.fileName)}
-                    disabled={exporting || !selectedAuditId}
-                    className="justify-start"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    {chart.name}
-                  </Button>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="usage" className="space-y-2">
-              <p className="text-sm text-muted-foreground mb-4">Használati statisztikák</p>
-              <div className="grid grid-cols-2 gap-2">
-                {exportableCharts.filter(c => c.tab === 'usage').map(chart => (
-                  <Button 
-                    key={chart.id}
-                    variant="outline" 
-                    onClick={() => handleExportPNG(chart.id, chart.fileName)}
-                    disabled={exporting || !selectedAuditId}
-                    className="justify-start"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    {chart.name}
-                  </Button>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="impact" className="space-y-2">
-              <p className="text-sm text-muted-foreground mb-4">Hatás mutatók</p>
-              <div className="grid grid-cols-2 gap-2">
-                {exportableCharts.filter(c => c.tab === 'impact').map(chart => (
-                  <Button 
-                    key={chart.id}
-                    variant="outline" 
-                    onClick={() => handleExportPNG(chart.id, chart.fileName)}
-                    disabled={exporting || !selectedAuditId}
-                    className="justify-start"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    {chart.name}
-                  </Button>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="motivation" className="space-y-2">
-              <p className="text-sm text-muted-foreground mb-4">Motivációs tényezők</p>
-              <div className="grid grid-cols-2 gap-2">
-                {exportableCharts.filter(c => c.tab === 'motivation').map(chart => (
-                  <Button 
-                    key={chart.id}
-                    variant="outline" 
-                    onClick={() => handleExportPNG(chart.id, chart.fileName)}
-                    disabled={exporting || !selectedAuditId}
-                    className="justify-start"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    {chart.name}
-                  </Button>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="demographics" className="space-y-2">
-              <p className="text-sm text-muted-foreground mb-4">Demográfiai megoszlások</p>
-              <div className="grid grid-cols-2 gap-2">
-                {exportableCharts.filter(c => c.tab === 'demographics').map(chart => (
-                  <Button 
-                    key={chart.id}
-                    variant="outline" 
-                    onClick={() => handleExportPNG(chart.id, chart.fileName)}
-                    disabled={exporting || !selectedAuditId}
-                    className="justify-start"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    {chart.name}
-                  </Button>
-                ))}
-              </div>
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+      {(packageType === 'professional' || packageType === 'enterprise') && (
+        <Card className="flex flex-col">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Download className="h-5 w-5" />
+              CSV Adatexport
+            </CardTitle>
+            <CardDescription>
+              Nyers válaszadatok exportálása
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 flex-1 flex flex-col">
+            <div className="text-sm space-y-2 flex-1">
+              <p><strong>Tartalom:</strong></p>
+              <ul className="list-disc list-inside ml-4 space-y-1">
+                <li>Összes válaszadó összes válasza</li>
+                <li>Demográfiai adatok</li>
+                <li>Beküldés időpontja</li>
+                <li>Kategória (ág) információ</li>
+              </ul>
+            </div>
+            <Button 
+              onClick={handleExportCSV} 
+              disabled={exporting || !selectedAuditId}
+              variant="outline"
+              className="w-full"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              CSV Letöltése
+            </Button>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Export History */}
       <Card>
