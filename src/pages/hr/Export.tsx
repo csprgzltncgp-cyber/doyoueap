@@ -1109,8 +1109,12 @@ const Export = () => {
                 <li>Bizalom - Használók és nem használók bizalmi indexei, hajlandóság</li>
                 <li>Használat - Gyakoriság, témák, csatornák, családi használat</li>
                 <li>Hatás - NPS, teljesítmény, jóllét, problémamegoldás mutatók</li>
-                <li>Motiváció - Motivátorok, szakértő típus, csatorna preferenciák (nem használók)</li>
-                <li>Demográfia - Nem, korcsoport, kategória megoszlások</li>
+                {(packageType === 'professional' || packageType === 'enterprise') && (
+                  <>
+                    <li>Motiváció - Motivátorok, szakértő típus, csatorna preferenciák (nem használók)</li>
+                    <li>Demográfia - Nem, korcsoport, kategória megoszlások</li>
+                  </>
+                )}
               </ul>
             </div>
             <Button 
@@ -1161,7 +1165,7 @@ const Export = () => {
           </Card>
         )}
 
-        <Card className="flex flex-col lg:col-span-3">
+        <Card className={`flex flex-col ${packageType === 'starter' ? '' : 'lg:col-span-3'}`}>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <ImageIcon className="h-5 w-5" />
