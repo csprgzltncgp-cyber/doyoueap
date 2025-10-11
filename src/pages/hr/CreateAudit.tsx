@@ -244,21 +244,21 @@ const CreateAudit = () => {
         )}
 
         {currentStep === 3 && (
-          <Step2Communication
-            communicationText={communicationText}
-            onCommunicationTextChange={setCommunicationText}
+          <Step1AccessMode
             accessMode={accessMode}
-            programName={programName}
-            hasGift={!!giftId}
+            onAccessModeChange={setAccessMode}
             onNext={handleNext}
             onBack={handleBack}
           />
         )}
 
         {currentStep === 4 && (
-          <Step1AccessMode
+          <Step2Communication
+            communicationText={communicationText}
+            onCommunicationTextChange={setCommunicationText}
             accessMode={accessMode}
-            onAccessModeChange={setAccessMode}
+            programName={programName}
+            hasGift={!!giftId}
             onNext={handleNext}
             onBack={handleBack}
           />
