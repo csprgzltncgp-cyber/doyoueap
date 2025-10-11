@@ -150,7 +150,7 @@ const Magazin = () => {
               onClick={() => navigate('/bemutatkozas')}
               className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
             >
-              EAP Pulse
+              Bemutatkozás
             </button>
             <button
               onClick={() => navigate('/arak')}
