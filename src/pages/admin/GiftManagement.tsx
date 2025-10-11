@@ -131,44 +131,64 @@ const GiftManagement = () => {
   };
 
   const uploadImage = async (): Promise<string | null> => {
-    console.log('uploadImage called:', { 
-      hasUploadedImage: !!uploadedImage, 
-      formDataImageUrl: formData.image_url 
-    });
+    console.log('📸 uploadImage called');
+    console.log('📸 Has uploaded image?', !!uploadedImage);
+    console.log('📸 Uploaded image details:', uploadedImage ? {
+      name: uploadedImage.name,
+      type: uploadedImage.type,
+      size: uploadedImage.size
+    } : 'none');
+    console.log('📸 Form data image URL:', formData.image_url);
     
     if (!uploadedImage) {
       const existingUrl = formData.image_url.trim() || null;
-      console.log('No new image to upload, using existing URL:', existingUrl);
+      console.log('ℹ️ No new image to upload, using existing URL:', existingUrl);
       return existingUrl;
     }
 
     try {
+      console.log('⏳ Setting uploading state to true');
       setUploading(true);
-      console.log('Uploading new image:', uploadedImage.name);
+      
+      console.log('📤 Starting upload for:', uploadedImage.name);
       
       const fileExt = uploadedImage.name.split('.').pop();
       const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
       const filePath = `gifts/${fileName}`;
 
-      console.log('Upload path:', filePath);
+      console.log('📂 Upload details:', {
+        fileExt,
+        fileName,
+        filePath,
+        bucket: 'audit-assets'
+      });
 
-      const { error: uploadError } = await supabase.storage
+      console.log('🔄 Calling supabase.storage.from("audit-assets").upload()...');
+      const { data: uploadData, error: uploadError } = await supabase.storage
         .from('audit-assets')
         .upload(filePath, uploadedImage);
 
+      console.log('📦 Upload response:', { uploadData, uploadError });
+
       if (uploadError) {
-        console.error('Upload error:', uploadError);
+        console.error('❌ Upload error details:', {
+          message: uploadError.message,
+          error: uploadError
+        });
         throw uploadError;
       }
 
+      console.log('✅ Upload successful, getting public URL...');
       const { data: { publicUrl } } = supabase.storage
         .from('audit-assets')
         .getPublicUrl(filePath);
 
-      console.log('Image uploaded successfully, public URL:', publicUrl);
+      console.log('🔗 Public URL generated:', publicUrl);
       return publicUrl;
-    } catch (error) {
-      console.error('Error uploading image:', error);
+    } catch (error: any) {
+      console.error('💥 Error in uploadImage:', error);
+      console.error('💥 Error message:', error?.message);
+      console.error('💥 Error stack:', error?.stack);
       toast({
         title: 'Hiba',
         description: 'Nem sikerült feltölteni a képet.',
@@ -176,17 +196,29 @@ const GiftManagement = () => {
       });
       return null;
     } finally {
+      console.log('⏸️ Setting uploading state to false');
       setUploading(false);
     }
   };
 
   const handleSubmit = async () => {
-    if (!validateForm()) return;
+    console.log('🚀 handleSubmit started');
+    console.log('📋 Form data:', formData);
+    console.log('🖼️ Uploaded image:', uploadedImage?.name);
+    console.log('🔧 Editing gift:', editingGift?.id);
+
+    if (!validateForm()) {
+      console.log('❌ Form validation failed');
+      return;
+    }
 
     try {
-      console.log('Starting image upload...', { hasUploadedImage: !!uploadedImage, imageUrl: formData.image_url });
+      console.log('✅ Form validation passed');
+      console.log('📤 Starting image upload process...');
+      
       const imageUrl = await uploadImage();
-      console.log('Image upload result:', imageUrl);
+      
+      console.log('📥 Image upload completed, URL:', imageUrl);
 
       const payload = {
         name: formData.name.trim(),
@@ -197,29 +229,53 @@ const GiftManagement = () => {
         is_active: formData.is_active,
       };
 
-      console.log('Payload to save:', payload);
+      console.log('💾 Payload to save:', JSON.stringify(payload, null, 2));
 
       if (editingGift) {
-        const { error } = await supabase
+        console.log('📝 Updating existing gift with ID:', editingGift.id);
+        const { data, error } = await supabase
           .from('gifts')
           .update(payload)
-          .eq('id', editingGift.id);
+          .eq('id', editingGift.id)
+          .select();
 
-        if (error) throw error;
+        console.log('📝 Update response:', { data, error });
+
+        if (error) {
+          console.error('❌ Update error:', error);
+          throw error;
+        }
+        
+        console.log('✅ Gift updated successfully');
         toast({ title: 'Sikeres módosítás', description: 'Az ajándék frissítve.' });
       } else {
-        const { error } = await supabase
+        console.log('➕ Creating new gift');
+        const { data, error } = await supabase
           .from('gifts')
-          .insert([payload]);
+          .insert([payload])
+          .select();
 
-        if (error) throw error;
+        console.log('➕ Insert response:', { data, error });
+
+        if (error) {
+          console.error('❌ Insert error:', error);
+          throw error;
+        }
+        
+        console.log('✅ Gift created successfully');
         toast({ title: 'Sikeres létrehozás', description: 'Az ajándék létrehozva.' });
       }
 
-      fetchGifts();
+      console.log('🔄 Fetching updated gifts list...');
+      await fetchGifts();
+      console.log('🔄 Gifts list refreshed');
+      
+      console.log('🚪 Closing dialog...');
       handleCloseDialog();
+      console.log('✅ handleSubmit completed successfully');
     } catch (error) {
-      console.error('Error saving gift:', error);
+      console.error('💥 Error in handleSubmit:', error);
+      console.error('💥 Error details:', JSON.stringify(error, null, 2));
       toast({
         title: 'Hiba',
         description: 'Nem sikerült menteni az ajándékot.',
@@ -229,9 +285,13 @@ const GiftManagement = () => {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('🖼️ handleImageChange triggered');
     const file = e.target.files?.[0];
+    console.log('📁 Selected file:', file?.name, 'Type:', file?.type, 'Size:', file?.size);
+    
     if (file) {
       if (!file.type.startsWith('image/')) {
+        console.log('❌ Invalid file type:', file.type);
         toast({
           title: 'Érvénytelen fájl',
           description: 'Csak képfájlokat lehet feltölteni.',
@@ -240,12 +300,18 @@ const GiftManagement = () => {
         return;
       }
 
+      console.log('✅ Valid image file, setting uploaded image');
       setUploadedImage(file);
+      
+      console.log('🔄 Creating image preview...');
       const reader = new FileReader();
       reader.onloadend = () => {
+        console.log('✅ Image preview created');
         setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+    } else {
+      console.log('⚠️ No file selected');
     }
   };
 
