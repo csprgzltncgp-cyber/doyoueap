@@ -88,7 +88,27 @@ Csak statisztikai céllal használjuk
 
 Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
     } else {
-      return `Helló!
+      if (hasGift) {
+        return `Helló!
+
+Most nemcsak segíthetsz jobbá tenni a vállalatod EAP programját, de ajándékot is nyerhetsz! 
+
+A kérdőív kitöltői között értékes nyereményt sorsolunk ki – a részvétel mindössze néhány percet vesz igénybe. Az EAP program azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről.
+
+Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
+
+Töltsd ki a rövid kérdőívet itt:
+
+[Link]
+
+A válaszadás teljesen anonim, az eredményeket kizárólag összesítve, statisztikai célokra használjuk. A felmérés végén megadhatsz egy e-mail-címet, ha szeretnéd, hogy értesítsünk, ha Te leszel a nyertes. A HR osztály a sorsolás után a nyertes sorszámot is közzéteszi, így e-mail megadása nélkül is megtudhatod, ha szerencséd volt.
+
+Köszönjük, hogy segítesz továbbfejleszteni az EAP programot – és sok sikert a sorsoláshoz! 
+
+Üdvözlettel,
+HR osztály`;
+      } else {
+        return `Helló!
 
 ${article.charAt(0).toUpperCase() + article.slice(1)} ${program} program azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
 
@@ -102,6 +122,7 @@ Előre is köszönjük, hogy segítesz jobbá tenni a ${program} programot!
 
 Üdvözlettel,
 HR osztály`;
+      }
     }
   };
 
