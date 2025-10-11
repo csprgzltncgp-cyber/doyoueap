@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
-import { Calendar, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2, Trophy, FileDown } from 'lucide-react';
+import { Calendar, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2, Trophy, FileDown, RefreshCw } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import jsPDF from 'jspdf';
 import {
@@ -380,6 +380,12 @@ const RunningAudits = () => {
                       <Clock className="h-3 w-3" />
                       {metrics.daysRemaining} nap van hátra
                     </Badge>
+                    {metrics.audit.recurrence_config?.enabled && (
+                      <Badge variant="outline" className="gap-1 bg-blue-50 text-blue-700 border-blue-300">
+                        <RefreshCw className="h-3 w-3" />
+                        Ismétlődő
+                      </Badge>
+                    )}
                     {metrics.audit.gift_id && (
                       <Badge 
                         variant="outline" 

@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, Download, FileImage, Clock, Play, Flag, Trash2, CheckCircle2, Gift, Users, ExternalLink } from 'lucide-react';
+import { Calendar, Download, FileImage, Clock, Play, Flag, Trash2, CheckCircle2, Gift, Users, ExternalLink, RefreshCw } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
 import { format, differenceInDays } from 'date-fns';
@@ -300,6 +300,12 @@ const Focus = () => {
                       <span>Vége: {format(new Date(audit.expires_at), 'yyyy. MM. dd.', { locale: hu })}</span>
                     </div>
                   )}
+                  {audit.recurrence_config?.enabled && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <RefreshCw className="h-4 w-4 text-blue-600" />
+                      <span className="font-medium text-blue-700">Ismétlődő felmérés</span>
+                    </div>
+                  )}
                   {audit.giftInfo && (
                     <div className="flex items-center gap-2 text-sm">
                       <Gift className="h-4 w-4 text-primary" />
@@ -370,6 +376,12 @@ const Focus = () => {
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Flag className="h-4 w-4" />
                       <span>Lezárva: {format(new Date(audit.expires_at), 'yyyy. MM. dd.', { locale: hu })}</span>
+                    </div>
+                  )}
+                  {audit.recurrence_config?.enabled && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <RefreshCw className="h-4 w-4 text-blue-600" />
+                      <span className="font-medium text-blue-700">Ismétlődő felmérés volt</span>
                     </div>
                   )}
                   {audit.giftInfo && (
