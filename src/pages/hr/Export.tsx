@@ -1195,7 +1195,7 @@ const Export = () => {
 
               <TabsContent value="overview" className="space-y-2">
                 <p className="text-sm text-muted-foreground mb-4">Gyors áttekintés - főbb mutatók</p>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {exportableCharts.filter(c => c.tab === 'overview').map(chart => (
                     <Button 
                       key={chart.id}
@@ -1213,7 +1213,7 @@ const Export = () => {
 
               <TabsContent value="awareness" className="space-y-2">
                 <p className="text-sm text-muted-foreground mb-4">Ismertség és awareness mutatók</p>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {exportableCharts.filter(c => c.tab === 'awareness').map(chart => (
                     <Button 
                       key={chart.id}
@@ -1231,7 +1231,7 @@ const Export = () => {
 
               <TabsContent value="trust" className="space-y-2">
                 <p className="text-sm text-muted-foreground mb-4">Bizalom és hajlandóság mutatók</p>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {exportableCharts.filter(c => c.tab === 'trust').map(chart => (
                     <Button 
                       key={chart.id}
@@ -1249,7 +1249,7 @@ const Export = () => {
 
               <TabsContent value="usage" className="space-y-2">
                 <p className="text-sm text-muted-foreground mb-4">Használati statisztikák</p>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {exportableCharts.filter(c => c.tab === 'usage').map(chart => (
                     <Button 
                       key={chart.id}
@@ -1267,7 +1267,7 @@ const Export = () => {
 
               <TabsContent value="impact" className="space-y-2">
                 <p className="text-sm text-muted-foreground mb-4">Hatás mutatók</p>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {exportableCharts.filter(c => c.tab === 'impact').map(chart => (
                     <Button 
                       key={chart.id}
@@ -1287,7 +1287,7 @@ const Export = () => {
               {(packageType === 'professional' || packageType === 'enterprise') && (
                 <TabsContent value="motivation" className="space-y-2">
                   <p className="text-sm text-muted-foreground mb-4">Motivációs tényezők</p>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {exportableCharts.filter(c => c.tab === 'motivation').map(chart => (
                       <Button 
                         key={chart.id}
@@ -1308,7 +1308,7 @@ const Export = () => {
               {(packageType === 'professional' || packageType === 'enterprise') && (
                 <TabsContent value="demographics" className="space-y-2">
                   <p className="text-sm text-muted-foreground mb-4">Demográfiai megoszlások</p>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {exportableCharts.filter(c => c.tab === 'demographics').map(chart => (
                       <Button 
                         key={chart.id}
@@ -1329,7 +1329,7 @@ const Export = () => {
               {(packageType === 'professional' || packageType === 'enterprise') && (
                 <TabsContent value="trends" className="space-y-2">
                   <p className="text-sm text-muted-foreground mb-4">Trendek időbeli elemzése</p>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {exportableCharts.filter(c => c.tab === 'trends').map(chart => (
                       <Button 
                         key={chart.id}
@@ -1350,7 +1350,7 @@ const Export = () => {
               {(packageType === 'professional' || packageType === 'enterprise') && (
                 <TabsContent value="compare" className="space-y-2">
                   <p className="text-sm text-muted-foreground mb-4">Összehasonlító elemzések</p>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {exportableCharts.filter(c => c.tab === 'compare').map(chart => (
                       <Button 
                         key={chart.id}
