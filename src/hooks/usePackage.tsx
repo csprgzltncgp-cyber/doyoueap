@@ -28,7 +28,10 @@ export const usePackage = () => {
           console.error('Error fetching package:', error);
           setPackageType(null);
         } else {
-          setPackageType(data?.selected_package as PackageType || null);
+          const rawPackage = data?.selected_package;
+          const mappedPackage = rawPackage === 'pro' ? 'professional' : rawPackage;
+          console.log('Package from DB:', rawPackage, '-> Mapped to:', mappedPackage);
+          setPackageType(mappedPackage as PackageType || null);
         }
       } catch (error) {
         console.error('Error fetching package:', error);
