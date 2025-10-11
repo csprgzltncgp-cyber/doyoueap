@@ -131,24 +131,41 @@ const GiftManagement = () => {
   };
 
   const uploadImage = async (): Promise<string | null> => {
-    if (!uploadedImage) return formData.image_url.trim() || null;
+    console.log('uploadImage called:', { 
+      hasUploadedImage: !!uploadedImage, 
+      formDataImageUrl: formData.image_url 
+    });
+    
+    if (!uploadedImage) {
+      const existingUrl = formData.image_url.trim() || null;
+      console.log('No new image to upload, using existing URL:', existingUrl);
+      return existingUrl;
+    }
 
     try {
       setUploading(true);
+      console.log('Uploading new image:', uploadedImage.name);
+      
       const fileExt = uploadedImage.name.split('.').pop();
       const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
       const filePath = `gifts/${fileName}`;
+
+      console.log('Upload path:', filePath);
 
       const { error: uploadError } = await supabase.storage
         .from('audit-assets')
         .upload(filePath, uploadedImage);
 
-      if (uploadError) throw uploadError;
+      if (uploadError) {
+        console.error('Upload error:', uploadError);
+        throw uploadError;
+      }
 
       const { data: { publicUrl } } = supabase.storage
         .from('audit-assets')
         .getPublicUrl(filePath);
 
+      console.log('Image uploaded successfully, public URL:', publicUrl);
       return publicUrl;
     } catch (error) {
       console.error('Error uploading image:', error);
