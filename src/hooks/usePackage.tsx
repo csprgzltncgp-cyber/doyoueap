@@ -29,7 +29,13 @@ export const usePackage = () => {
           setPackageType(null);
         } else {
           const rawPackage = data?.selected_package;
-          const mappedPackage = rawPackage === 'pro' ? 'professional' : rawPackage;
+          // Map database values to TypeScript types
+          let mappedPackage = rawPackage;
+          if (rawPackage === 'pro') {
+            mappedPackage = 'professional';
+          } else if (rawPackage === 'start') {
+            mappedPackage = 'starter';
+          }
           console.log('Package from DB:', rawPackage, '-> Mapped to:', mappedPackage);
           setPackageType(mappedPackage as PackageType || null);
         }
