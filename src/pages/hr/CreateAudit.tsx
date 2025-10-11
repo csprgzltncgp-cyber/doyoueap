@@ -5,6 +5,9 @@ import { usePackage } from '@/hooks/usePackage';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import { Button } from '@/components/ui/button';
+import { AlertCircle } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import { Step1AccessMode } from '@/components/audit/Step1AccessMode';
 import { Step2Communication } from '@/components/audit/Step2Communication';
@@ -23,6 +26,9 @@ const CreateAudit = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [auditsThisYear, setAuditsThisYear] = useState(0);
+  const [isLimitReached, setIsLimitReached] = useState(false);
+  const [checkingLimit, setCheckingLimit] = useState(true);
 
   // EAP Pulse data state
   const [programName, setProgramName] = useState('');
@@ -56,6 +62,50 @@ const CreateAudit = () => {
 
   // Adjust total steps based on package - skip branding step for starter
   const totalSteps = packageType === 'starter' ? 8 : 9;
+
+  // Check audit limit based on package
+  useEffect(() => {
+    const checkAuditLimit = async () => {
+      if (!user?.id || !packageType) {
+        setCheckingLimit(false);
+        return;
+      }
+
+      try {
+        // Calculate date one year ago
+        const oneYearAgo = new Date();
+        oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+        // Count audits created in the last year
+        const { count, error } = await supabase
+          .from('audits')
+          .select('*', { count: 'exact', head: true })
+          .eq('hr_user_id', user.id)
+          .gte('created_at', oneYearAgo.toISOString());
+
+        if (error) throw error;
+
+        const auditCount = count || 0;
+        setAuditsThisYear(auditCount);
+
+        // Set limits based on package
+        const limits = {
+          starter: 2,
+          professional: 3,
+          enterprise: Infinity // No limit for Enterprise
+        };
+
+        const limit = limits[packageType] || 0;
+        setIsLimitReached(auditCount >= limit && limit !== Infinity);
+      } catch (error) {
+        console.error('Error checking audit limit:', error);
+      } finally {
+        setCheckingLimit(false);
+      }
+    };
+
+    checkAuditLimit();
+  }, [user?.id, packageType]);
 
   const handleNext = async () => {
     // Generate token after step 4 (access mode step, before distribution)
@@ -201,6 +251,43 @@ const CreateAudit = () => {
     giftId,
     drawMode,
   };
+
+  
+  if (checkingLimit) {
+    return (
+      <div className="flex justify-center items-center min-h-[400px]">
+        <p className="text-muted-foreground">Betöltés...</p>
+      </div>
+    );
+  }
+
+  if (isLimitReached) {
+    return (
+      <div className="space-y-6">
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Elérted a felmérési limitedet</AlertTitle>
+          <AlertDescription>
+            {packageType === 'starter' && `Starter csomag esetén évente maximum 2 új felmérést indíthatsz. Jelenleg ${auditsThisYear} felmérést indítottál az elmúlt évben.`}
+            {packageType === 'professional' && `Professional csomag esetén évente maximum 3 új felmérést indíthatsz. Jelenleg ${auditsThisYear} felmérést indítottál az elmúlt évben.`}
+          </AlertDescription>
+        </Alert>
+        <Card>
+          <CardContent className="py-8 text-center space-y-4">
+            <p className="text-muted-foreground">
+              A limit újrakezdődik az első felmérés indításának évfordulóján.
+            </p>
+            <p className="font-medium">
+              Frissíts magasabb csomagra, hogy több felmérést indíthass!
+            </p>
+            <Button onClick={() => navigate('/?section=settings')}>
+              Csomag frissítése
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
