@@ -41,7 +41,7 @@ const CreateAudit = () => {
   });
   const [expiresAt, setExpiresAt] = useState('');
   const [enableRecurrence, setEnableRecurrence] = useState(false);
-  const [recurrenceFrequency, setRecurrenceFrequency] = useState('quarterly');
+  const [recurrenceFrequency, setRecurrenceFrequency] = useState('biannually');
   const [selectedLanguages, setSelectedLanguages] = useState(['HU']);
   const [emailListFile, setEmailListFile] = useState<File | null>(null);
   const [accessToken, setAccessToken] = useState('');
@@ -310,6 +310,7 @@ const CreateAudit = () => {
             expiresAt={expiresAt}
             enableRecurrence={enableRecurrence}
             recurrenceFrequency={recurrenceFrequency}
+            packageType={packageType}
             onStartDateChange={setStartDate}
             onExpiresAtChange={setExpiresAt}
             onEnableRecurrenceChange={setEnableRecurrence}

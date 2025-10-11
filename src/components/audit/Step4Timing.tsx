@@ -10,6 +10,7 @@ interface Step4Props {
   expiresAt: string;
   enableRecurrence: boolean;
   recurrenceFrequency: string;
+  packageType: 'starter' | 'professional' | 'enterprise' | null;
   onStartDateChange: (date: string) => void;
   onExpiresAtChange: (date: string) => void;
   onEnableRecurrenceChange: (enabled: boolean) => void;
@@ -23,6 +24,7 @@ export const Step4Timing = ({
   expiresAt,
   enableRecurrence,
   recurrenceFrequency,
+  packageType,
   onStartDateChange,
   onExpiresAtChange,
   onEnableRecurrenceChange,
@@ -30,6 +32,30 @@ export const Step4Timing = ({
   onNext,
   onBack,
 }: Step4Props) => {
+  // Define available frequencies based on package type
+  const getAvailableFrequencies = () => {
+    if (packageType === 'starter') {
+      return [
+        { value: 'biannually', label: 'Félévente' }
+      ];
+    } else if (packageType === 'professional') {
+      return [
+        { value: 'biannually', label: 'Félévente' },
+        { value: 'four-monthly', label: 'Négyhavonta' }
+      ];
+    } else if (packageType === 'enterprise') {
+      return [
+        { value: 'biannually', label: 'Félévente' },
+        { value: 'four-monthly', label: 'Négyhavonta' },
+        { value: 'quarterly', label: 'Negyedévente' }
+      ];
+    }
+    // Default fallback
+    return [{ value: 'biannually', label: 'Félévente' }];
+  };
+
+  const availableFrequencies = getAvailableFrequencies();
+
   return (
     <div className="space-y-6">
       <div>
@@ -96,10 +122,11 @@ export const Step4Timing = ({
                   <SelectValue placeholder="Válassz gyakoriságot" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="monthly">Havonta</SelectItem>
-                  <SelectItem value="quarterly">Negyedévente</SelectItem>
-                  <SelectItem value="biannually">Félévente</SelectItem>
-                  <SelectItem value="annually">Évente</SelectItem>
+                  {availableFrequencies.map((freq) => (
+                    <SelectItem key={freq.value} value={freq.value}>
+                      {freq.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <p className="text-sm text-muted-foreground">
