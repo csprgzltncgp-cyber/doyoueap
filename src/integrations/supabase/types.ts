@@ -278,6 +278,9 @@ export type Database = {
           company_name: string
           created_by: string | null
           id: string
+          notification_email: string | null
+          notification_sent_at: string | null
+          notification_status: string | null
           report_url: string | null
           seed: string
           ts: string
@@ -289,6 +292,9 @@ export type Database = {
           company_name: string
           created_by?: string | null
           id?: string
+          notification_email?: string | null
+          notification_sent_at?: string | null
+          notification_status?: string | null
           report_url?: string | null
           seed: string
           ts?: string
@@ -300,6 +306,9 @@ export type Database = {
           company_name?: string
           created_by?: string | null
           id?: string
+          notification_email?: string | null
+          notification_sent_at?: string | null
+          notification_status?: string | null
           report_url?: string | null
           seed?: string
           ts?: string

@@ -1,5 +1,6 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
+import { Resend } from 'npm:resend@4.0.0';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -112,7 +113,24 @@ serve(async (req) => {
     const { data: authData } = await supabaseClient.auth.getUser();
     const createdBy = authData?.user?.id || null;
 
-    // 6. Save draw record
+    // 6. Check if winner has email notification
+    const { data: notification } = await supabaseClient
+      .from('response_notifications')
+      .select('email')
+      .eq('response_id', winner.id)
+      .maybeSingle();
+
+    let notificationEmail = null;
+    let notificationStatus = 'not_applicable';
+    let notificationSentAt = null;
+
+    if (notification?.email) {
+      notificationEmail = notification.email;
+      notificationStatus = 'pending';
+      console.log(`[run-draw] Winner has email notification: ${notificationEmail}`);
+    }
+
+    // 7. Save draw record with notification info
     const { data: drawRecord, error: drawError } = await supabaseClient
       .from('draws')
       .insert({
@@ -122,8 +140,11 @@ serve(async (req) => {
         seed,
         candidates_count: candidatesCount,
         winner_token: winner.draw_token,
-        report_url: null, // PDF will be generated separately
+        report_url: null,
         created_by: createdBy,
+        notification_email: notificationEmail,
+        notification_status: notificationStatus,
+        notification_sent_at: notificationSentAt,
       })
       .select()
       .single();
@@ -132,7 +153,7 @@ serve(async (req) => {
 
     console.log(`[run-draw] Draw record created: ${drawRecord.id}`);
 
-    // 7. Update audit draw status to 'completed'
+    // 8. Update audit draw status to 'completed'
     const { error: updateError } = await supabaseClient
       .from('audits')
       .update({ draw_status: 'completed' })
@@ -140,17 +161,53 @@ serve(async (req) => {
 
     if (updateError) throw updateError;
 
-    // 8. Send email notification if winner opted in
-    const { data: notification } = await supabaseClient
-      .from('response_notifications')
-      .select('email')
-      .eq('response_id', winner.id)
-      .maybeSingle();
+    // 9. Send email notification if winner opted in
+    if (notificationEmail) {
+      try {
+        const resend = new Resend(Deno.env.get('RESEND_API_KEY'));
+        
+        const { error: emailError } = await resend.emails.send({
+          from: 'DoYouEAP <noreply@doyoueap.com>',
+          to: [notificationEmail],
+          subject: 'Gratulálunk! Nyertél az EAP felmérés sorsolásán!',
+          html: `
+            <h1>Gratulálunk!</h1>
+            <p>Örömmel értesítünk, hogy nyertél az <strong>${audit.program_name}</strong> program felmérésének sorsolásán!</p>
+            <p><strong>A nyertes kódod:</strong> <code style="background: #f3f4f6; padding: 4px 8px; border-radius: 4px;">${winner.draw_token}</code></p>
+            <p>Ajándékod: <strong>${audit.gifts?.name}</strong> (${audit.gifts?.value_eur} EUR értékben)</p>
+            <p>Kérjük, vedd fel a kapcsolatot a HR osztállyal a fenti kód megadásával az ajándék átvételéhez!</p>
+            <br>
+            <p>Üdvözlettel,<br>DoYouEAP csapata</p>
+          `,
+        });
 
-    if (notification?.email) {
-      console.log(`[run-draw] Winner has email notification: ${notification.email}`);
-      // TODO: Send email notification via edge function
-      // For now, just log it
+        if (emailError) {
+          console.error('[run-draw] Email sending failed:', emailError);
+          await supabaseClient
+            .from('draws')
+            .update({ 
+              notification_status: 'failed',
+            })
+            .eq('id', drawRecord.id);
+        } else {
+          console.log('[run-draw] Email sent successfully');
+          await supabaseClient
+            .from('draws')
+            .update({ 
+              notification_status: 'sent',
+              notification_sent_at: new Date().toISOString(),
+            })
+            .eq('id', drawRecord.id);
+        }
+      } catch (emailError) {
+        console.error('[run-draw] Email sending error:', emailError);
+        await supabaseClient
+          .from('draws')
+          .update({ 
+            notification_status: 'failed',
+          })
+          .eq('id', drawRecord.id);
+      }
     }
 
     console.log(`[run-draw] Draw completed successfully`);

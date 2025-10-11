@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
-import { Search, Calendar, Users, Trophy, FileDown } from 'lucide-react';
+import { Search, Calendar, Users, Trophy, FileDown, Mail, CheckCircle2, XCircle, MinusCircle } from 'lucide-react';
 import jsPDF from 'jspdf';
 
 interface Draw {
@@ -18,6 +18,9 @@ interface Draw {
   ts: string;
   report_url: string | null;
   seed: string;
+  notification_email: string | null;
+  notification_status: 'pending' | 'sent' | 'failed' | 'not_applicable';
+  notification_sent_at: string | null;
 }
 
 const DrawHistory = () => {
@@ -77,6 +80,42 @@ const DrawHistory = () => {
       hour: '2-digit',
       minute: '2-digit',
     });
+  };
+
+  const getNotificationBadge = (draw: Draw) => {
+    if (draw.notification_status === 'not_applicable') {
+      return (
+        <Badge variant="secondary" className="gap-1">
+          <MinusCircle className="h-3 w-3" />
+          Nincs email
+        </Badge>
+      );
+    }
+    if (draw.notification_status === 'sent') {
+      return (
+        <Badge variant="default" className="gap-1 bg-green-500">
+          <CheckCircle2 className="h-3 w-3" />
+          Kézbesítve
+        </Badge>
+      );
+    }
+    if (draw.notification_status === 'failed') {
+      return (
+        <Badge variant="destructive" className="gap-1">
+          <XCircle className="h-3 w-3" />
+          Sikertelen
+        </Badge>
+      );
+    }
+    if (draw.notification_status === 'pending') {
+      return (
+        <Badge variant="outline" className="gap-1">
+          <Mail className="h-3 w-3" />
+          Folyamatban
+        </Badge>
+      );
+    }
+    return null;
   };
 
   const downloadDrawReport = (draw: Draw) => {
@@ -174,6 +213,7 @@ const DrawHistory = () => {
                   <TableHead>Sorsolás időpontja</TableHead>
                   <TableHead>Jelentkezők száma</TableHead>
                   <TableHead>Nyertes token</TableHead>
+                  <TableHead>Email értesítés</TableHead>
                   <TableHead>Státusz</TableHead>
                   <TableHead className="text-right">Műveletek</TableHead>
                 </TableRow>
@@ -198,6 +238,19 @@ const DrawHistory = () => {
                       <code className="px-2 py-1 bg-muted rounded text-xs">
                         {draw.winner_token.substring(0, 16)}...
                       </code>
+                    </TableCell>
+                    <TableCell>
+                      {getNotificationBadge(draw)}
+                      {draw.notification_email && (
+                        <div className="text-xs text-muted-foreground mt-1">
+                          {draw.notification_email}
+                        </div>
+                      )}
+                      {draw.notification_sent_at && (
+                        <div className="text-xs text-muted-foreground mt-1">
+                          {formatDate(draw.notification_sent_at)}
+                        </div>
+                      )}
                     </TableCell>
                     <TableCell>
                       <Badge variant="secondary" className="gap-1">
