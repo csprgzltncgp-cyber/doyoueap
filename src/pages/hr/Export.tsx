@@ -1165,7 +1165,7 @@ const Export = () => {
           </Card>
         )}
 
-        <Card className="flex flex-col">
+        <Card className={`flex flex-col ${(packageType === 'professional' || packageType === 'enterprise') ? 'lg:col-span-3' : ''}`}>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <ImageIcon className="h-5 w-5" />
