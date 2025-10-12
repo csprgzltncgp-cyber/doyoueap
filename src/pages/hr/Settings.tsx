@@ -775,17 +775,18 @@ function Settings() {
               <h3 className="text-lg font-semibold">
                 {showPackageConfirm ? "Váltás előtti csomag: " : "Jelenlegi csomag: "}{
                   profileData.selected_package === "starter" ? "Starter" :
-                  profileData.selected_package === "pro" ? "Pro" :
+                  profileData.selected_package === "professional" ? "Professional" :
                   profileData.selected_package === "enterprise" ? "Enterprise" :
                   profileData.selected_package === "partner" ? "Partner Program" : "Nincs kiválasztva"
                 }
               </h3>
               <span className="text-lg font-bold">
-                {profileData.selected_package === "starter" && profileData.billing_cycle === "monthly" && "149 €/hó"}
-                {profileData.selected_package === "starter" && profileData.billing_cycle === "yearly" && "1 490 €/év"}
-                {profileData.selected_package === "pro" && profileData.billing_cycle === "monthly" && "399 €/hó"}
-                {profileData.selected_package === "pro" && profileData.billing_cycle === "yearly" && "3 990 €/év"}
-                {profileData.selected_package === "enterprise" && "Egyedi"}
+                {profileData.selected_package === "starter" && profileData.billing_cycle === "monthly" && "150 €/hó"}
+                {profileData.selected_package === "starter" && profileData.billing_cycle === "yearly" && "1 800 €/év"}
+                {profileData.selected_package === "professional" && profileData.billing_cycle === "monthly" && "325 €/hó"}
+                {profileData.selected_package === "professional" && profileData.billing_cycle === "yearly" && "3 900 €/év"}
+                {profileData.selected_package === "enterprise" && profileData.billing_cycle === "monthly" && "480 €/hó"}
+                {profileData.selected_package === "enterprise" && profileData.billing_cycle === "yearly" && "5 760 €/év"}
                 {profileData.selected_package === "partner" && "Egyedi"}
               </span>
             </div>
@@ -795,40 +796,36 @@ function Settings() {
             <ul className="text-sm space-y-1">
               {profileData.selected_package === "starter" && (
                 <>
-                  <li>✓ Évente max. 1 EAP Pulse felmérés</li>
-                  <li>✓ Alap KPI-k (Awareness, Trust, Usage, Impact)</li>
-                  <li>✓ PDF export</li>
-                  <li>✓ Email support</li>
+                  <li>✓ 2 felmérés / év (félévente)</li>
+                  <li>✓ Ajándéksorsolás minden felmérés végén</li>
+                  <li>✓ 4Score riport (Tudatosság · Használat · Bizalom & Hajlandóság · Hatás)</li>
+                  <li>✓ Alap dashboard + letölthető riportok</li>
                 </>
               )}
-              {profileData.selected_package === "pro" && (
+              {profileData.selected_package === "professional" && (
                 <>
-                  <li>✓ Negyedévente EAP Pulse felmérés (ismétlés funkcióval)</li>
-                  <li>✓ Demográfiai bontás, trendek, összehasonlítás</li>
-                  <li>✓ PDF + Excel export</li>
-                  <li>✓ Brandelhető User App (logó + 4 szín)</li>
-                  <li>✓ Kommunikációs támogatás (sablonok, QR generátor)</li>
-                  <li>✓ Email + chat support</li>
+                  <li>✓ 3 felmérés / év</li>
+                  <li>✓ Ajándéksorsolás minden felmérés végén</li>
+                  <li>✓ Teljes riportkészlet (minden statisztika + 4Score)</li>
+                  <li>✓ Testreszabható kérdőív-design</li>
+                  <li>✓ Trendösszevetések a felmérések között</li>
                 </>
               )}
               {profileData.selected_package === "enterprise" && (
                 <>
-                  <li>✓ Korlátlan EAP Pulse felmérés</li>
-                  <li>✓ Teljes funkcionalitás (KPI-k, trendek, benchmark, motivációk)</li>
-                  <li>✓ PDF, Excel, PowerPoint export</li>
-                  <li>✓ Teljes brandelés + saját domain opció</li>
-                  <li>✓ SSO integráció, jogosultságkezelés</li>
-                  <li>✓ Dedikált account manager, SLA</li>
+                  <li>✓ 4 felmérés / év</li>
+                  <li>✓ Ajándéksorsolás minden felmérés végén</li>
+                  <li>✓ Teljes riportkészlet + trend- és összehasonlító elemzés</li>
+                  <li>✓ White-label lehetőség</li>
+                  <li>✓ API integráció</li>
                 </>
               )}
               {profileData.selected_package === "partner" && (
                 <>
-                  <li>✓ Korlátlan EAP Pulse felmérés</li>
-                  <li>✓ Teljes funkcionalitás (KPI-k, trendek, benchmark, motivációk)</li>
-                  <li>✓ PDF, Excel, PowerPoint export</li>
-                  <li>✓ Teljes brandelés + saját domain opció</li>
-                  <li>✓ SSO integráció, jogosultságkezelés</li>
-                  <li>✓ Dedikált account manager, SLA</li>
+                  <li>✓ REST API integráció</li>
+                  <li>✓ White-label megoldás</li>
+                  <li>✓ Partner központ</li>
+                  <li>✓ Dedikált technikai támogatás</li>
                 </>
               )}
             </ul>
@@ -875,52 +872,54 @@ function Settings() {
                     <span className="text-xs bg-amber-500 text-white px-2 py-1 rounded">Kiválasztva</span>
                   )}
                 </div>
+                <p className="text-sm text-muted-foreground mb-2">Alapvető betekintés az EAP-programba</p>
                 <p className="text-2xl font-bold mb-2">
-                  {(selectedCycleTemp || profileData.billing_cycle) === "monthly" ? "149 €" : "1 490 €"}
+                  {(selectedCycleTemp || profileData.billing_cycle) === "monthly" ? "150 €" : "1 800 €"}
                   <span className="text-sm font-normal text-muted-foreground">
                     /{(selectedCycleTemp || profileData.billing_cycle) === "monthly" ? "hó" : "év"}
                   </span>
                 </p>
                 <ul className="text-xs space-y-1">
-                  <li>✓ Évente max. 1 EAP Pulse felmérés</li>
-                  <li>✓ Alap KPI-k</li>
-                  <li>✓ PDF export</li>
-                  <li>✓ Email support</li>
+                  <li>✓ 2 felmérés / év (félévente)</li>
+                  <li>✓ Ajándéksorsolás minden felmérés végén</li>
+                  <li>✓ 4Score riport</li>
+                  <li>✓ Alap dashboard + letölthető riportok</li>
                 </ul>
               </div>
 
-              {/* Pro */}
+              {/* Professional */}
               <div 
                 className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
-                  selectedPackageTemp === "pro" 
+                  selectedPackageTemp === "professional" 
                     ? "border-primary bg-primary/10 ring-2 ring-primary" 
-                    : profileData.selected_package === "pro"
+                    : profileData.selected_package === "professional"
                     ? "border-green-500 bg-green-50 dark:bg-green-950/20"
                     : "hover:border-primary/50"
                 }`}
-                onClick={() => handlePackageClick("pro")}
+                onClick={() => handlePackageClick("professional")}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <h4 className="font-semibold">Pro</h4>
-                  {profileData.selected_package === "pro" && selectedPackageTemp !== "pro" && (
+                  <h4 className="font-semibold">Professional</h4>
+                  {profileData.selected_package === "professional" && selectedPackageTemp !== "professional" && (
                     <span className="text-xs bg-green-500 text-white px-2 py-1 rounded">Aktív</span>
                   )}
-                  {selectedPackageTemp === "pro" && selectedPackageTemp !== profileData.selected_package && (
+                  {selectedPackageTemp === "professional" && selectedPackageTemp !== profileData.selected_package && (
                     <span className="text-xs bg-amber-500 text-white px-2 py-1 rounded">Kiválasztva</span>
                   )}
                 </div>
+                <p className="text-sm text-muted-foreground mb-2">Rendszeres és mélyreható elemzés</p>
                 <p className="text-2xl font-bold mb-2">
-                  {(selectedCycleTemp || profileData.billing_cycle) === "monthly" ? "399 €" : "3 990 €"}
+                  {(selectedCycleTemp || profileData.billing_cycle) === "monthly" ? "325 €" : "3 900 €"}
                   <span className="text-sm font-normal text-muted-foreground">
                     /{(selectedCycleTemp || profileData.billing_cycle) === "monthly" ? "hó" : "év"}
                   </span>
                 </p>
                 <ul className="text-xs space-y-1">
-                  <li>✓ Negyedévente EAP Pulse felmérés</li>
-                  <li>✓ Demográfia, trendek</li>
-                  <li>✓ PDF + Excel export</li>
-                  <li>✓ Brandelhető app</li>
-                  <li>✓ Email + chat support</li>
+                  <li>✓ 3 felmérés / év</li>
+                  <li>✓ Ajándéksorsolás minden felmérés végén</li>
+                  <li>✓ Teljes riportkészlet</li>
+                  <li>✓ Testreszabható kérdőív-design</li>
+                  <li>✓ Trendösszevetések</li>
                 </ul>
               </div>
 
@@ -944,26 +943,30 @@ function Settings() {
                     <span className="text-xs bg-amber-500 text-white px-2 py-1 rounded">Kiválasztva</span>
                   )}
                 </div>
+                <p className="text-sm text-muted-foreground mb-2">Maximális átláthatóság és integráció</p>
                 <p className="text-2xl font-bold mb-2">
-                  Egyedi
+                  {(selectedCycleTemp || profileData.billing_cycle) === "monthly" ? "480 €" : "5 760 €"}
+                  <span className="text-sm font-normal text-muted-foreground">
+                    /{(selectedCycleTemp || profileData.billing_cycle) === "monthly" ? "hó" : "év"}
+                  </span>
                 </p>
                 <ul className="text-xs space-y-1">
-                  <li>✓ Korlátlan EAP Pulse felmérés</li>
-                  <li>✓ Teljes funkcionalitás</li>
-                  <li>✓ PDF, Excel, PPT export</li>
-                  <li>✓ Teljes brandelés</li>
-                  <li>✓ SSO, dedikált manager</li>
+                  <li>✓ 4 felmérés / év</li>
+                  <li>✓ Ajándéksorsolás minden felmérés végén</li>
+                  <li>✓ Teljes riportkészlet + trendek</li>
+                  <li>✓ White-label lehetőség</li>
+                  <li>✓ API integráció</li>
                 </ul>
               </div>
 
               {/* Partner Program */}
               <div 
-                className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                className={`p-4 border-2 rounded-lg cursor-pointer transition-all bg-gradient-to-br from-primary/5 to-primary/10 ${
                   selectedPackageTemp === "partner" 
-                    ? "border-primary bg-primary/10 ring-2 ring-primary" 
+                    ? "border-primary ring-2 ring-primary" 
                     : profileData.selected_package === "partner"
-                    ? "border-green-500 bg-green-50 dark:bg-green-950/20"
-                    : "hover:border-primary/50"
+                    ? "border-green-500"
+                    : "border-primary/20 hover:border-primary/50"
                 }`}
                 onClick={() => handlePackageClick("partner")}
               >
@@ -976,15 +979,15 @@ function Settings() {
                     <span className="text-xs bg-amber-500 text-white px-2 py-1 rounded">Kiválasztva</span>
                   )}
                 </div>
+                <p className="text-sm text-muted-foreground mb-2">Emeld új szintre az ügyfélriportjaidat</p>
                 <p className="text-2xl font-bold mb-2">
-                  Egyedi
+                  Egyedi ajánlat
                 </p>
                 <ul className="text-xs space-y-1">
-                  <li>✓ Korlátlan EAP Pulse felmérés</li>
-                  <li>✓ Teljes funkcionalitás</li>
-                  <li>✓ PDF, Excel, PPT export</li>
-                  <li>✓ Teljes brandelés</li>
-                  <li>✓ SSO, dedikált manager</li>
+                  <li>✓ REST API integráció</li>
+                  <li>✓ White-label megoldás</li>
+                  <li>✓ Partner központ</li>
+                  <li>✓ Dedikált technikai támogatás</li>
                 </ul>
               </div>
             </div>
