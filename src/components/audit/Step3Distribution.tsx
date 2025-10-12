@@ -239,7 +239,7 @@ HR osztály`}
   );
 
   const renderPublicLinkMode = () => (
-    <div className="space-y-8 max-w-3xl mx-auto">
+    <div className="space-y-8 max-w-4xl mx-auto">
       <div className="text-center space-y-2">
         <h2 className="text-3xl font-bold">Nyilvános link</h2>
         <p className="text-muted-foreground text-lg">
@@ -268,7 +268,7 @@ HR osztály`}
   );
 
   const renderQRCodeMode = () => (
-    <div className="space-y-8 max-w-3xl mx-auto">
+    <div className="space-y-8 max-w-4xl mx-auto">
       <div className="text-center space-y-2">
         <h2 className="text-3xl font-bold">QR kód generálása</h2>
         <p className="text-muted-foreground text-lg">
