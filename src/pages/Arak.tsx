@@ -263,7 +263,7 @@ const Arak = () => {
               <div>
                 <h3 className="font-semibold mb-2">Milyen fizetési módokat fogadnak el?</h3>
                 <p className="text-muted-foreground">
-                  Banki átutalást és céges bankkártyás fizetést is elfogadunk. Az éves előfizetést egy összegben kell kiegyenlíteni.
+                  Céges bankkártyás fizetést fogadunk el. Az éves előfizetést egy összegben kell kiegyenlíteni.
                 </p>
               </div>
               <div>
