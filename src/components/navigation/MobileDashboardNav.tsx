@@ -191,7 +191,7 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
                   >
                     Hatás
                   </button>
-                  {(packageType === 'professional' || packageType === 'enterprise') && (
+                  {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
                     <>
                       <button
                         onClick={() => handleNavClick('reports', 'motivation')}
@@ -252,7 +252,7 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
             <span>Export</span>
           </button>
 
-          {(packageType === 'professional' || packageType === 'enterprise') && (
+          {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
             <button
               onClick={() => handleNavClick('custom-survey')}
               className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
@@ -266,7 +266,7 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
             </button>
           )}
 
-          {packageType === 'enterprise' && (
+          {(packageType === 'enterprise' || packageType === 'partner') && (
             <>
               <button
                 onClick={() => handleNavClick('api')}

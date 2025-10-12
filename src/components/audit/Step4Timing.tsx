@@ -10,7 +10,7 @@ interface Step4Props {
   expiresAt: string;
   enableRecurrence: boolean;
   recurrenceFrequency: string;
-  packageType: 'starter' | 'professional' | 'enterprise' | null;
+  packageType: 'starter' | 'professional' | 'enterprise' | 'partner' | null;
   onStartDateChange: (date: string) => void;
   onExpiresAtChange: (date: string) => void;
   onEnableRecurrenceChange: (enabled: boolean) => void;
@@ -43,7 +43,7 @@ export const Step4Timing = ({
         { value: 'biannually', label: 'Félévente' },
         { value: 'four-monthly', label: 'Négyhavonta' }
       ];
-    } else if (packageType === 'enterprise') {
+    } else if (packageType === 'enterprise' || packageType === 'partner') {
       return [
         { value: 'biannually', label: 'Félévente' },
         { value: 'four-monthly', label: 'Négyhavonta' },

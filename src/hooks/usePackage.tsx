@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 
-export type PackageType = 'starter' | 'professional' | 'enterprise' | null;
+export type PackageType = 'starter' | 'professional' | 'enterprise' | 'partner' | null;
 
 export const usePackage = () => {
   const { user } = useAuth();

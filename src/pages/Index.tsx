@@ -154,20 +154,20 @@ const Index = () => {
       case 'export':
         return <Export />;
       case 'custom-survey':
-        // Only Professional and Enterprise can access custom surveys
-        if (packageType === 'professional' || packageType === 'enterprise') {
+        // Only Professional, Enterprise and Partner can access custom surveys
+        if (packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') {
           return <CustomSurvey />;
         }
         return null;
       case 'api':
-        // Only Enterprise can access API
-        if (packageType === 'enterprise') {
+        // Only Enterprise and Partner can access API
+        if (packageType === 'enterprise' || packageType === 'partner') {
           return <API />;
         }
         return null;
       case 'partner-center':
-        // Only Enterprise can access Partner Center
-        if (packageType === 'enterprise') {
+        // Only Enterprise and Partner can access Partner Center
+        if (packageType === 'enterprise' || packageType === 'partner') {
           return <PartnerCenter />;
         }
         return null;
@@ -449,7 +449,7 @@ const Index = () => {
                       >
                         Hatás
                       </button>
-                      {(packageType === 'professional' || packageType === 'enterprise') && (
+                      {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
                         <>
                           <button
                             onClick={() => {
@@ -514,7 +514,7 @@ const Index = () => {
                   <Download className="h-4 w-4" />
                   Export
                 </button>
-                {(packageType === 'professional' || packageType === 'enterprise') && (
+                {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
                   <button
                     onClick={() => {
                       setSearchParams({ section: 'custom-survey' });
@@ -530,7 +530,7 @@ const Index = () => {
                     Egyedi Felmérés
                   </button>
                 )}
-                {packageType === 'enterprise' && (
+                {(packageType === 'enterprise' || packageType === 'partner') && (
                   <>
                     <button
                       onClick={() => {

@@ -1048,8 +1048,8 @@ const Export = () => {
 
       <div className={`grid gap-6 ${packageType === 'starter' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
 
-        {/* PowerPoint - Only for Professional and Enterprise */}
-        {(packageType === 'professional' || packageType === 'enterprise') && (
+        {/* PowerPoint - Only for Professional, Enterprise and Partner */}
+        {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
           <Card className="flex flex-col">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -1109,7 +1109,7 @@ const Export = () => {
                 <li>Bizalom - Használók és nem használók bizalmi indexei, hajlandóság</li>
                 <li>Használat - Gyakoriság, témák, csatornák, családi használat</li>
                 <li>Hatás - NPS, teljesítmény, jóllét, problémamegoldás mutatók</li>
-                {(packageType === 'professional' || packageType === 'enterprise') && (
+                {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
                   <>
                     <li>Motiváció - Motivátorok, szakértő típus, csatorna preferenciák (nem használók)</li>
                     <li>Demográfia - Nem, korcsoport, kategória megoszlások</li>
@@ -1130,8 +1130,8 @@ const Export = () => {
         </Card>
 
 
-        {/* CSV - Only for Professional and Enterprise */}
-        {(packageType === 'professional' || packageType === 'enterprise') && (
+        {/* CSV - Only for Professional, Enterprise and Partner */}
+        {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
           <Card className="flex flex-col">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -1165,7 +1165,7 @@ const Export = () => {
           </Card>
         )}
 
-        <Card className={`flex flex-col ${(packageType === 'professional' || packageType === 'enterprise') ? 'lg:col-span-3' : ''}`}>
+        <Card className={`flex flex-col ${(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') ? 'lg:col-span-3' : ''}`}>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <ImageIcon className="h-5 w-5" />
@@ -1184,7 +1184,7 @@ const Export = () => {
                   <TabsTrigger value="trust" className="flex-shrink-0">Bizalom</TabsTrigger>
                   <TabsTrigger value="usage" className="flex-shrink-0">Használat</TabsTrigger>
                   <TabsTrigger value="impact" className="flex-shrink-0">Hatás</TabsTrigger>
-                  {(packageType === 'professional' || packageType === 'enterprise') && (
+                  {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
                     <>
                       <TabsTrigger value="motivation" className="flex-shrink-0">Motiváció</TabsTrigger>
                       <TabsTrigger value="demographics" className="flex-shrink-0">Demográfia</TabsTrigger>
@@ -1286,7 +1286,7 @@ const Export = () => {
               </TabsContent>
 
 
-              {(packageType === 'professional' || packageType === 'enterprise') && (
+              {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
                 <TabsContent value="motivation" className="space-y-2">
                   <p className="text-sm text-muted-foreground mb-4">Motivációs tényezők</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -1307,7 +1307,7 @@ const Export = () => {
               )}
 
 
-              {(packageType === 'professional' || packageType === 'enterprise') && (
+              {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
                 <TabsContent value="demographics" className="space-y-2">
                   <p className="text-sm text-muted-foreground mb-4">Demográfiai megoszlások</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -1328,7 +1328,7 @@ const Export = () => {
               )}
 
 
-              {(packageType === 'professional' || packageType === 'enterprise') && (
+              {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
                 <TabsContent value="trends" className="space-y-2">
                   <p className="text-sm text-muted-foreground mb-4">Trendek időbeli elemzése</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -1349,7 +1349,7 @@ const Export = () => {
               )}
 
 
-              {(packageType === 'professional' || packageType === 'enterprise') && (
+              {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
                 <TabsContent value="compare" className="space-y-2">
                   <p className="text-sm text-muted-foreground mb-4">Összehasonlító elemzések</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
