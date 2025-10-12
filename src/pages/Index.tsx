@@ -350,6 +350,17 @@ const Index = () => {
                       </button>
                       <button
                         onClick={() => {
+                          setSearchParams({ section: 'eap-pulse', sub: 'running-audits' });
+                          setOpenSubmenu(null);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'running-audits' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Futó felmérések
+                      </button>
+                      <button
+                        onClick={() => {
                           setSearchParams({ section: 'eap-pulse', sub: 'raffles' });
                           setOpenSubmenu(null);
                         }}
