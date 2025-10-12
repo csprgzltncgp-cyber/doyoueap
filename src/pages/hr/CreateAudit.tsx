@@ -88,10 +88,11 @@ const CreateAudit = () => {
         setAuditsThisYear(auditCount);
 
         // Set limits based on package
-        const limits = {
+        const limits: Record<string, number> = {
           starter: 2,
           professional: 3,
-          enterprise: Infinity // No limit for Enterprise
+          enterprise: 4,
+          partner: Infinity // No limit for Partner Program
         };
 
         const limit = limits[packageType] || 0;
