@@ -266,7 +266,7 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
             </button>
           )}
 
-          {(packageType === 'enterprise' || packageType === 'partner') && (
+          {packageType === 'partner' && (
             <>
               <button
                 onClick={() => handleNavClick('api')}
@@ -292,6 +292,20 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
                 <span>Partner Központ</span>
               </button>
             </>
+          )}
+
+          {packageType === 'enterprise' && (
+            <button
+              onClick={() => handleNavClick('api')}
+              className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
+                section === 'api' 
+                  ? 'bg-[#3572ef] text-white font-semibold' 
+                  : 'hover:bg-muted'
+              }`}
+            >
+              <Code className="h-4 w-4" />
+              <span>API</span>
+            </button>
           )}
 
           <button

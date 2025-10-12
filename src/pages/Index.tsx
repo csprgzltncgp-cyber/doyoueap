@@ -166,8 +166,8 @@ const Index = () => {
         }
         return null;
       case 'partner-center':
-        // Only Enterprise and Partner can access Partner Center
-        if (packageType === 'enterprise' || packageType === 'partner') {
+        // Only Partner can access Partner Center
+        if (packageType === 'partner') {
           return <PartnerCenter />;
         }
         return null;
@@ -530,7 +530,7 @@ const Index = () => {
                     Egyedi Felmérés
                   </button>
                 )}
-                {(packageType === 'enterprise' || packageType === 'partner') && (
+                {packageType === 'partner' && (
                   <>
                     <button
                       onClick={() => {
@@ -561,6 +561,22 @@ const Index = () => {
                       Partner Központ
                     </button>
                   </>
+                )}
+                {packageType === 'enterprise' && (
+                  <button
+                    onClick={() => {
+                      setSearchParams({ section: 'api' });
+                      setOpenSubmenu(null);
+                    }}
+                    className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+                      section === 'api' 
+                        ? 'text-white font-semibold border-white' 
+                        : 'text-white/80 border-transparent hover:text-white'
+                    }`}
+                  >
+                    <Code className="h-4 w-4" />
+                    API
+                  </button>
                 )}
                 <button
                   onClick={() => {
