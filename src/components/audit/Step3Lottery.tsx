@@ -180,7 +180,7 @@ export const Step3Lottery = ({
         <CardContent className="space-y-6 pt-6">
           {/* Lottery enable/disable */}
           <div className="space-y-4">
-            <Label className="text-base font-medium">Nyereményjáték *</Label>
+            <Label className="text-base font-medium">Nyereményjáték</Label>
             <div className="grid gap-3">
               <button
                 type="button"
@@ -233,7 +233,7 @@ export const Step3Lottery = ({
             <>
               {/* Gift selection */}
               <div className="space-y-2">
-                <Label htmlFor="gift" className="text-base font-medium">Ajándék kiválasztása *</Label>
+                <Label htmlFor="gift" className="text-base font-medium">Ajándék kiválasztása</Label>
                 <Select value={giftId} onValueChange={onGiftIdChange} disabled={loading}>
                   <SelectTrigger id="gift" className="h-12 text-base">
                     <SelectValue placeholder={loading ? 'Betöltés...' : 'Válasszon ajándékot'} />
@@ -260,7 +260,7 @@ export const Step3Lottery = ({
 
               {/* Draw mode */}
               <div className="space-y-4">
-                <Label className="text-base font-medium">Sorsolás módja *</Label>
+                <Label className="text-base font-medium">Sorsolás módja</Label>
                 <div className="grid gap-3">
                   <button
                     type="button"
@@ -349,7 +349,6 @@ export const Step3Lottery = ({
                     >
                       nyereményjáték adatkezelését
                     </a>
-                    {' '}*
                   </Label>
                 </div>
               </div>
