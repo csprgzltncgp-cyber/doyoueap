@@ -138,7 +138,7 @@ export const Step3Lottery = ({
             <Popover>
               <PopoverTrigger asChild>
                 <button className="flex-shrink-0 text-muted-foreground hover:text-primary transition-colors">
-                  <Info className="h-5 w-5" />
+                  <Info className="h-6 w-6" />
                 </button>
               </PopoverTrigger>
               <PopoverContent side="left" className="w-96 p-4">
