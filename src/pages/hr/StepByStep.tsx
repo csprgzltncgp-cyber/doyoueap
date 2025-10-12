@@ -172,7 +172,7 @@ const StepByStep = () => {
               A nyereményjáték a felmérés opcionális része – nem kötelező, de segíthet abban, hogy többen vegyenek részt a kitöltésben.
             </p>
             <p className="text-muted-foreground">
-              A munkavállalók a kitöltés végén egyedi sorsolási kódot kapnak. Ha e-mail-címet is megadnak, a rendszer ezen keresztül 
+              A munkavállalók a kitöltés végén egyedi nyereménykódot kapnak. Ha e-mail-címet is megadnak, a rendszer ezen keresztül 
               értesíti a nyertest. Mivel a nyereményjáték – akárcsak a felmérés – anonim, a nyertes sorszámát minden esetben belső 
               csatornán is közzé kell tenni, így mindenki értesülhet az eredményről, függetlenül attól, hogy megadott-e e-mail címet.
             </p>
@@ -185,7 +185,7 @@ const StepByStep = () => {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                  <span><strong>Automatikusan:</strong> a rendszer a lezárás után véletlenszerűen kiválaszt egy sorsolási kódot, 
+                  <span><strong>Automatikusan:</strong> a rendszer a lezárás után véletlenszerűen kiválaszt egy nyereménykódot, 
                   és elküldi az értesítést a nyertesnek.</span>
                 </li>
                 <li className="flex items-start gap-2">
