@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { supabase } from '@/integrations/supabase/client';
 import { Gift, Info, Check } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
@@ -129,10 +130,52 @@ export const Step3Lottery = ({
 
       <Card className="border-2">
         <CardHeader className="bg-muted/30">
-          <CardTitle className="flex items-center gap-2 text-xl">
-            <Gift className="h-6 w-6" />
-            Nyereményjáték beállítása
-          </CardTitle>
+          <div className="flex items-start justify-between gap-4">
+            <CardTitle className="flex items-center gap-2 text-xl">
+              <Gift className="h-6 w-6" />
+              Nyereményjáték beállítása
+            </CardTitle>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button className="flex-shrink-0 text-muted-foreground hover:text-primary transition-colors">
+                    <Info className="h-5 w-5" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="left" className="max-w-md p-4">
+                  <div className="space-y-3">
+                    <p className="text-sm">
+                      A nyereményjáték a felmérés opcionális része – nem kötelező, de segíthet abban, hogy többen vegyenek részt a kitöltésben.
+                    </p>
+                    <p className="text-sm">
+                      A munkavállalók a kitöltés végén egyedi nyereménykódot kapnak. Ha e-mail-címet is megadnak, a rendszer ezen keresztül 
+                      értesíti a nyertest. Mivel a nyereményjáték – akárcsak a felmérés – anonim, a nyertes sorszámát minden esetben belső 
+                      csatornán is közzé kell tenni, így mindenki értesülhet az eredményről, függetlenül attól, hogy megadott-e e-mail címet.
+                    </p>
+                    <p className="text-sm">
+                      A csomag részeként biztosított ajándékok mellett lehetőség van saját ajándék hozzáadására is – például utalvány, 
+                      céges termék, vagy a vállalati kultúrához illő élmény formájában.
+                    </p>
+                    <div className="pt-2 border-t">
+                      <p className="text-xs font-medium mb-2">A sorsolás kétféleképpen működhet:</p>
+                      <ul className="space-y-1 text-xs">
+                        <li className="flex items-start gap-1">
+                          <span className="text-primary">•</span>
+                          <span><strong>Automatikusan:</strong> a rendszer a lezárás után véletlenszerűen kiválaszt egy nyereménykódot, 
+                          és elküldi az értesítést a nyertesnek.</span>
+                        </li>
+                        <li className="flex items-start gap-1">
+                          <span className="text-primary">•</span>
+                          <span><strong>Manuálisan:</strong> a vállalat saját döntése alapján indíthatja el a sorsolást és 
+                          teheti közzé az eredményt.</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </CardHeader>
         <CardContent className="space-y-6 pt-6">
           {/* Lottery enable/disable */}
