@@ -2,12 +2,11 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { supabase } from '@/integrations/supabase/client';
-import { Gift, Info } from 'lucide-react';
+import { Gift, Info, Check } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 interface Gift {
@@ -120,41 +119,70 @@ export const Step3Lottery = ({
   };
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Gift className="h-5 w-5" />
+    <div className="space-y-8 max-w-4xl mx-auto">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-bold">Ajándéksorsolás beállítása</h2>
+        <p className="text-muted-foreground text-lg">
+          Növeld a részvételi kedvet ajándéksorsolással
+        </p>
+      </div>
+
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <Gift className="h-6 w-6" />
             Ajándéksorsolás beállítása
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 pt-6">
           {/* Lottery enable/disable */}
-          <div className="space-y-3">
-            <Label>Ajándéksorsolás *</Label>
-            <RadioGroup 
-              value={hasLottery} 
-              onValueChange={(value: 'yes' | 'no') => {
-                setHasLottery(value);
-                if (value === 'no') {
+          <div className="space-y-4">
+            <Label className="text-base font-medium">Ajándéksorsolás *</Label>
+            <div className="grid gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setHasLottery('no');
                   onGiftIdChange('');
                   onLotteryConsentChange(false);
-                }
-              }}
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="no" id="no-lottery" />
-                <Label htmlFor="no-lottery" className="font-normal cursor-pointer">
-                  Nincs ajándéksorsolás
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="yes" id="yes-lottery" />
-                <Label htmlFor="yes-lottery" className="font-normal cursor-pointer">
-                  Van ajándéksorsolás
-                </Label>
-              </div>
-            </RadioGroup>
+                }}
+                className={`
+                  relative w-full p-4 rounded-lg border-2 transition-all text-left
+                  ${hasLottery === 'no' 
+                    ? 'border-primary bg-primary/5 shadow-md' 
+                    : 'border-border hover:border-primary/50 hover:bg-muted/30'
+                  }
+                  flex items-center justify-between
+                `}
+              >
+                <span className="text-base font-medium">Nincs ajándéksorsolás</span>
+                {hasLottery === 'no' && (
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                    <Check className="w-4 h-4 text-primary-foreground" />
+                  </div>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setHasLottery('yes')}
+                className={`
+                  relative w-full p-4 rounded-lg border-2 transition-all text-left
+                  ${hasLottery === 'yes' 
+                    ? 'border-primary bg-primary/5 shadow-md' 
+                    : 'border-border hover:border-primary/50 hover:bg-muted/30'
+                  }
+                  flex items-center justify-between
+                `}
+              >
+                <span className="text-base font-medium">Van ajándéksorsolás</span>
+                {hasLottery === 'yes' && (
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                    <Check className="w-4 h-4 text-primary-foreground" />
+                  </div>
+                )}
+              </button>
+            </div>
           </div>
 
           {/* Show lottery options only if enabled */}
@@ -162,9 +190,9 @@ export const Step3Lottery = ({
             <>
               {/* Gift selection */}
               <div className="space-y-2">
-                <Label htmlFor="gift">Ajándék kiválasztása *</Label>
+                <Label htmlFor="gift" className="text-base font-medium">Ajándék kiválasztása *</Label>
                 <Select value={giftId} onValueChange={onGiftIdChange} disabled={loading}>
-                  <SelectTrigger id="gift">
+                  <SelectTrigger id="gift" className="h-12 text-base">
                     <SelectValue placeholder={loading ? 'Betöltés...' : 'Válasszon ajándékot'} />
                   </SelectTrigger>
                   <SelectContent>
@@ -179,36 +207,63 @@ export const Step3Lottery = ({
 
               {/* Selected gift value (read-only) */}
               {selectedGift && (
-                <div className="space-y-2">
-                  <Label>Ajándék értéke</Label>
-                  <div className="text-2xl font-bold text-primary">
+                <div className="space-y-2 p-4 bg-primary/5 rounded-lg border border-primary/20">
+                  <Label className="text-base">Ajándék értéke</Label>
+                  <div className="text-3xl font-bold text-primary">
                     {formatEUR(selectedGift.value_eur)}
                   </div>
                 </div>
               )}
 
               {/* Draw mode */}
-              <div className="space-y-3">
-                <Label>Sorsolás módja *</Label>
-                <RadioGroup value={drawMode} onValueChange={onDrawModeChange}>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="auto" id="auto" />
-                    <Label htmlFor="auto" className="font-normal cursor-pointer">
-                      Automatikus záráskor
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="manual" id="manual" />
-                    <Label htmlFor="manual" className="font-normal cursor-pointer">
-                      Manuális indítás
-                    </Label>
-                  </div>
-                </RadioGroup>
+              <div className="space-y-4">
+                <Label className="text-base font-medium">Sorsolás módja *</Label>
+                <div className="grid gap-3">
+                  <button
+                    type="button"
+                    onClick={() => onDrawModeChange('auto')}
+                    className={`
+                      relative w-full p-4 rounded-lg border-2 transition-all text-left
+                      ${drawMode === 'auto' 
+                        ? 'border-primary bg-primary/5 shadow-md' 
+                        : 'border-border hover:border-primary/50 hover:bg-muted/30'
+                      }
+                      flex items-center justify-between
+                    `}
+                  >
+                    <span className="text-base">Automatikus záráskor</span>
+                    {drawMode === 'auto' && (
+                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                        <Check className="w-4 h-4 text-primary-foreground" />
+                      </div>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => onDrawModeChange('manual')}
+                    className={`
+                      relative w-full p-4 rounded-lg border-2 transition-all text-left
+                      ${drawMode === 'manual' 
+                        ? 'border-primary bg-primary/5 shadow-md' 
+                        : 'border-border hover:border-primary/50 hover:bg-muted/30'
+                      }
+                      flex items-center justify-between
+                    `}
+                  >
+                    <span className="text-base">Manuális indítás</span>
+                    {drawMode === 'manual' && (
+                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                        <Check className="w-4 h-4 text-primary-foreground" />
+                      </div>
+                    )}
+                  </button>
+                </div>
               </div>
 
               {/* Eligibility conditions */}
               <div className="space-y-3">
-                <Label>Jogosultság feltételek</Label>
+                <Label className="text-base font-medium">Jogosultság feltételek</Label>
                 <div className="space-y-2 ml-2">
                   <div className="flex items-start space-x-2">
                     <Checkbox id="complete" checked disabled />
@@ -243,7 +298,6 @@ export const Step3Lottery = ({
                       className="text-primary underline"
                       onClick={(e) => {
                         e.preventDefault();
-                        // TODO: Open data processing modal
                         toast({
                           title: 'Adatkezelési tájékoztató',
                           description: 'Az ajándéksorsolás céljából kezeljük a nyereménykódot és az opcionálisan megadott e-mail címet.',
@@ -258,9 +312,9 @@ export const Step3Lottery = ({
               </div>
 
               {/* Info alert */}
-              <Alert>
-                <Info className="h-4 w-4" />
-                <AlertDescription>
+              <Alert className="border-primary/50 bg-primary/5">
+                <Info className="h-5 w-5 text-primary" />
+                <AlertDescription className="text-base">
                   <strong>Fontos:</strong> A sorsolás során generált nyereménykód jelenik meg a kitöltők számára. 
                   Az anonimitás megőrzése érdekében a rendszer nem tárolja a személyes adatokat.
                 </AlertDescription>
@@ -271,12 +325,12 @@ export const Step3Lottery = ({
       </Card>
 
       {/* Navigation buttons */}
-      <div className="flex justify-between">
-        <Button type="button" variant="outline" onClick={onBack}>
+      <div className="flex justify-between pt-4">
+        <Button type="button" variant="outline" onClick={onBack} size="lg">
           Vissza
         </Button>
-        <Button type="button" onClick={handleNext}>
-          Tovább
+        <Button type="button" onClick={handleNext} size="lg" className="bg-primary hover:bg-primary/90">
+          Következő lépés
         </Button>
       </div>
     </div>

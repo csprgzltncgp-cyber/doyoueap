@@ -55,55 +55,65 @@ export const Step5Languages = ({
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-2">Nyelvek kiválasztása</h2>
-        <p className="text-muted-foreground">
-          Válassza ki, mely nyelveken legyen elérhető a kérdőív
+    <div className="space-y-8 max-w-4xl mx-auto">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-bold">Nyelvek kiválasztása</h2>
+        <p className="text-muted-foreground text-lg">
+          Válaszd ki, mely nyelveken legyen elérhető a kérdőív
         </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Elérhető nyelvek</CardTitle>
-          <CardDescription>
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="text-xl">Elérhető nyelvek</CardTitle>
+          <CardDescription className="text-base">
             A kiválasztott nyelvek jelennek meg a munkavállalók számára a kérdőív kitöltése előtt
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <CardContent className="pt-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {AVAILABLE_LANGUAGES.map((lang) => (
-              <div key={lang.code} className="flex items-center space-x-2">
+              <button
+                key={lang.code}
+                type="button"
+                onClick={() => toggleLanguage(lang.code)}
+                disabled={selectedLanguages.length === 1 && selectedLanguages.includes(lang.code)}
+                className={`
+                  relative p-3 rounded-lg border-2 transition-all text-left
+                  ${selectedLanguages.includes(lang.code)
+                    ? 'border-primary bg-primary/5 shadow-md' 
+                    : 'border-border hover:border-primary/50 hover:bg-muted/30'
+                  }
+                  ${selectedLanguages.length === 1 && selectedLanguages.includes(lang.code) ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                  flex items-center gap-3
+                `}
+              >
                 <Checkbox
-                  id={`lang-${lang.code}`}
                   checked={selectedLanguages.includes(lang.code)}
-                  onCheckedChange={() => toggleLanguage(lang.code)}
                   disabled={selectedLanguages.length === 1 && selectedLanguages.includes(lang.code)}
+                  className="pointer-events-none"
                 />
-                <Label htmlFor={`lang-${lang.code}`} className="cursor-pointer flex-1">
-                  {lang.name} ({lang.code})
-                </Label>
-              </div>
+                <span className="text-sm font-medium">
+                  {lang.name} <span className="text-muted-foreground">({lang.code})</span>
+                </span>
+              </button>
             ))}
           </div>
-          <p className="text-sm text-muted-foreground mt-4">
+          <p className="text-sm text-muted-foreground mt-6">
             * Legalább egy nyelv kiválasztása kötelező
           </p>
         </CardContent>
       </Card>
 
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onBack}>
+      <div className="flex justify-between pt-4">
+        <Button variant="outline" onClick={onBack} size="lg">
           Vissza
         </Button>
         <Button 
           onClick={onNext} 
           disabled={selectedLanguages.length === 0}
-          style={{
-            backgroundColor: '#000000',
-            color: 'white'
-          }}
-          className="hover:opacity-90"
+          size="lg"
+          className="bg-primary hover:bg-primary/90"
         >
           Következő lépés
         </Button>

@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Download, Link as LinkIcon, QrCode as QrCodeIcon, Mail, Info } from "lucide-react";
+import { Download, Link as LinkIcon, QrCode as QrCodeIcon, Mail, Info, Check } from "lucide-react";
 import { QRCodeSVG } from 'qrcode.react';
 import { useState } from "react";
 
@@ -90,54 +90,54 @@ export const Step3Distribution = ({
   };
 
   const renderTokenesMode = () => (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-2">Email beállítások és lista feltöltése</h2>
-        <p className="text-muted-foreground">
+    <div className="space-y-8 max-w-4xl mx-auto">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-bold">Email beállítások és lista feltöltése</h2>
+        <p className="text-muted-foreground text-lg">
           Állítsd be az email paramétereit, majd töltsd fel a munkavállalók adatait
         </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Email feladó, tárgy és szöveg</CardTitle>
-          <CardDescription>
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="text-xl">Email feladó, tárgy és szöveg</CardTitle>
+          <CardDescription className="text-base">
             Ezek az adatok fognak megjelenni az emailben
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6 pt-6">
           <div>
-            <Label htmlFor="email-from">Feladó email címe</Label>
+            <Label htmlFor="email-from" className="text-base font-medium">Feladó email címe</Label>
             <Input
               id="email-from"
               type="email"
               value={emailFrom || 'noreply@doyoueap.com'}
               onChange={(e) => onEmailFromChange?.(e.target.value)}
               placeholder="noreply@doyoueap.com"
-              className="mt-2"
+              className="mt-2 h-12 text-base"
             />
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-sm text-muted-foreground mt-2">
               Alapértelmezett: noreply@doyoueap.com
             </p>
           </div>
 
           <div>
-            <Label htmlFor="email-subject">Email tárgya</Label>
+            <Label htmlFor="email-subject" className="text-base font-medium">Email tárgya</Label>
             <Input
               id="email-subject"
               type="text"
               value={emailSubject || 'Fontos információ a munkavállalói támogatási programról'}
               onChange={(e) => onEmailSubjectChange?.(e.target.value)}
               placeholder="Email tárgya"
-              className="mt-2"
+              className="mt-2 h-12 text-base"
             />
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-sm text-muted-foreground mt-2">
               Rövid, informatív tárgy, amely felkelti a figyelmet
             </p>
           </div>
 
           <div>
-            <Label htmlFor="email-body">Email szövege</Label>
+            <Label htmlFor="email-body" className="text-base font-medium">Email szövege</Label>
             <Textarea
               id="email-body"
               value={emailBody || `Tárgy: Segítsd jobbá tenni a EAP programot!
@@ -159,32 +159,32 @@ HR osztály`}
               onChange={(e) => onEmailBodyChange?.(e.target.value)}
               placeholder="Email szövege"
               rows={15}
-              className="mt-2 font-mono text-sm"
+              className="mt-2 font-mono text-sm resize-y"
             />
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-sm text-muted-foreground mt-2">
               Az email szövege, amelyet a munkavállalók megkapnak. A [Link] helyére automatikusan bekerül a személyre szóló link.
             </p>
           </div>
         </CardContent>
       </Card>
 
-      <Alert className="border-info/50 bg-info/10">
-        <Info className="h-4 w-4" />
-        <AlertDescription>
+      <Alert className="border-primary/50 bg-primary/5">
+        <Info className="h-5 w-5 text-primary" />
+        <AlertDescription className="text-base">
           <strong>Fontos:</strong> A táblázatnak tartalmaznia kell egy "email" oszlopot. 
           Támogatott formátumok: CSV, Excel (.xlsx)
         </AlertDescription>
       </Alert>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Mintafájl letöltése</CardTitle>
-          <CardDescription>
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="text-xl">Mintafájl letöltése</CardTitle>
+          <CardDescription className="text-base">
             Töltsd le a mintafájlt, majd töltsd ki a munkavállalók adataival
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <Button variant="outline" className="w-full" onClick={() => {
+        <CardContent className="pt-6">
+          <Button variant="outline" size="lg" className="w-full h-14 text-base" onClick={() => {
             const csvContent = "email\npelda@ceg.hu\npelda2@ceg.hu\npelda3@ceg.hu";
             const blob = new Blob([csvContent], { type: 'text/csv' });
             const url = URL.createObjectURL(blob);
@@ -196,39 +196,40 @@ HR osztály`}
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
           }}>
-            <Download className="mr-2 h-4 w-4" />
+            <Download className="mr-2 h-5 w-5" />
             Mintafájl letöltése (CSV)
           </Button>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Email lista feltöltése</CardTitle>
-          <CardDescription>
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="text-xl">Email lista feltöltése</CardTitle>
+          <CardDescription className="text-base">
             Válaszd ki a kitöltött táblázatot
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 pt-6">
           <div>
-            <Label htmlFor="email-file">Fájl kiválasztása</Label>
+            <Label htmlFor="email-file" className="text-base font-medium">Fájl kiválasztása</Label>
             <Input
               id="email-file"
               type="file"
               accept=".csv,.xlsx,.xls"
               onChange={handleFileChange}
-              className="mt-2"
+              className="mt-2 h-12 text-base cursor-pointer"
             />
             {emailFile && (
-              <p className="text-sm text-muted-foreground mt-2">
-                Kiválasztva: {emailFile.name}
+              <p className="text-base text-muted-foreground mt-3 flex items-center gap-2">
+                <Check className="h-5 w-5 text-primary" />
+                Kiválasztva: <strong>{emailFile.name}</strong>
               </p>
             )}
           </div>
 
-          <Alert>
-            <Mail className="h-4 w-4" />
-            <AlertDescription>
+          <Alert className="border-primary/50 bg-primary/5">
+            <Mail className="h-5 w-5 text-primary" />
+            <AlertDescription className="text-base">
               Az emaileket a felmérés véglegesítése után küldjük ki automatikusan.
             </AlertDescription>
           </Alert>
@@ -238,27 +239,27 @@ HR osztály`}
   );
 
   const renderPublicLinkMode = () => (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-2">Nyilvános link</h2>
-        <p className="text-muted-foreground">
+    <div className="space-y-8 max-w-3xl mx-auto">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-bold">Nyilvános link</h2>
+        <p className="text-muted-foreground text-lg">
           Ez a link bárkinek elérhető, aki megkapja
         </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Felmérés link</CardTitle>
-          <CardDescription>
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="text-xl">Felmérés link</CardTitle>
+          <CardDescription className="text-base">
             Oszd meg ezt a linket a munkavállalókkal
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="p-4 bg-muted rounded-lg font-mono text-sm break-all">
+        <CardContent className="space-y-4 pt-6">
+          <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg font-mono text-sm break-all">
             {surveyUrl}
           </div>
-          <Button onClick={handleCopyLink} variant="outline" className="w-full">
-            <LinkIcon className="mr-2 h-4 w-4" />
+          <Button onClick={handleCopyLink} variant="outline" size="lg" className="w-full h-14 text-base">
+            <LinkIcon className="mr-2 h-5 w-5" />
             Link másolása
           </Button>
         </CardContent>
@@ -267,33 +268,33 @@ HR osztály`}
   );
 
   const renderQRCodeMode = () => (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-2">QR kód generálása</h2>
-        <p className="text-muted-foreground">
+    <div className="space-y-8 max-w-3xl mx-auto">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-bold">QR kód generálása</h2>
+        <p className="text-muted-foreground text-lg">
           Nyomtasd ki vagy digitálisan oszd meg a QR kódot
         </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>QR kód</CardTitle>
-          <CardDescription>
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="text-xl">QR kód</CardTitle>
+          <CardDescription className="text-base">
             A munkavállalók beolvashatják mobiltelefonjukkal
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex justify-center p-8 bg-white rounded-lg">
+        <CardContent className="space-y-4 pt-6">
+          <div className="flex justify-center p-10 bg-white rounded-xl border-2 border-dashed border-primary/30">
             <QRCodeSVG
               id="qr-code-svg"
               value={surveyUrl}
-              size={256}
+              size={280}
               level="H"
               includeMargin={true}
             />
           </div>
-          <Button onClick={handleDownloadQR} variant="outline" className="w-full">
-            <Download className="mr-2 h-4 w-4" />
+          <Button onClick={handleDownloadQR} variant="outline" size="lg" className="w-full h-14 text-base">
+            <Download className="mr-2 h-5 w-5" />
             QR kód letöltése (PNG)
           </Button>
         </CardContent>
@@ -307,17 +308,14 @@ HR osztály`}
       {accessMode === 'public_link' && renderPublicLinkMode()}
       {accessMode === 'qr_code' && renderQRCodeMode()}
 
-      <div className="flex justify-between pt-4">
-        <Button variant="outline" onClick={onBack}>
+      <div className="flex justify-between pt-6 max-w-3xl mx-auto">
+        <Button variant="outline" onClick={onBack} size="lg">
           Vissza
         </Button>
         <Button 
           onClick={onNext}
-          style={{
-            backgroundColor: '#000000',
-            color: 'white'
-          }}
-          className="hover:opacity-90"
+          size="lg"
+          className="bg-primary hover:bg-primary/90"
         >
           Következő lépés
         </Button>

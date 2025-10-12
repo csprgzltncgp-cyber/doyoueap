@@ -289,22 +289,37 @@ const CreateAudit = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="mb-6">
+    <div className="space-y-8 pb-8">
+      <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-6 border border-primary/20">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold">Új EAP Pulse Felmérés Indítása</h2>
-          <img src={eapPulseLogo} alt="EAP Pulse" className="h-6" />
+          <div>
+            <h2 className="text-3xl font-bold">Új EAP Pulse Felmérés</h2>
+            <p className="text-muted-foreground mt-2 text-base">
+              Lépés {currentStep} / {totalSteps}
+            </p>
+          </div>
+          <img src={eapPulseLogo} alt="EAP Pulse" className="h-10" />
         </div>
-        <p className="text-muted-foreground text-sm">
-          Lépés {currentStep} / {totalSteps}
-        </p>
-        <Progress 
-          value={(currentStep / totalSteps) * 100} 
-          className="mt-4"
-          style={{
-            '--progress-background': 'linear-gradient(90deg, #3572ef 0%, #3572ef 100%)'
-          } as React.CSSProperties}
-        />
+        <div className="relative">
+          <Progress 
+            value={(currentStep / totalSteps) * 100} 
+            className="h-3 bg-background/50"
+          />
+          <div className="absolute -top-1 left-0 w-full flex justify-between px-1">
+            {Array.from({ length: totalSteps }).map((_, i) => (
+              <div
+                key={i}
+                className={`w-5 h-5 rounded-full border-2 transition-all ${
+                  i < currentStep
+                    ? 'bg-primary border-primary'
+                    : i === currentStep - 1
+                    ? 'bg-primary border-primary scale-110'
+                    : 'bg-background border-muted-foreground/30'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="space-y-6">

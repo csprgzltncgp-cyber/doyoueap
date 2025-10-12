@@ -1,8 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Link, Mail, QrCode } from "lucide-react";
+import { Link, Mail, QrCode, Check } from "lucide-react";
 
 interface Step1Props {
   accessMode: string;
@@ -11,88 +8,89 @@ interface Step1Props {
   onBack: () => void;
 }
 
+const options = [
+  {
+    value: 'tokenes',
+    icon: Mail,
+    title: 'Egyedi tokenes link minden munkatársnak',
+    description: 'Email-cím lista feltöltése (XLSX/CSV formátumban). Minden munkatárs egyedi linket kap. Pontosan követhető a válaszarány.'
+  },
+  {
+    value: 'public_link',
+    icon: Link,
+    title: 'Egységes nyilvános link',
+    description: 'Egyetlen link, amit belső csatornákon kommunikálhat. Teljesen anonim kitöltés.'
+  },
+  {
+    value: 'qr_code',
+    icon: QrCode,
+    title: 'QR kód / plakát',
+    description: 'Automatikusan generált QR-kód és link. Letölthető PNG/SVG formátumban, plakátra helyezhető.'
+  }
+];
+
 export const Step1AccessMode = ({ accessMode, onAccessModeChange, onNext, onBack }: Step1Props) => {
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-2">Hozzáférés módja</h2>
-        <p className="text-muted-foreground">
-          Válassza ki, hogyan férhetnek hozzá a munkavállalók az EAP Pulse felmérés kérdőívhez
+    <div className="space-y-8 max-w-3xl mx-auto">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-bold">Hozzáférés módja</h2>
+        <p className="text-muted-foreground text-lg">
+          Válaszd ki, hogyan férhetnek hozzá a munkavállalók a kérdőívhez
         </p>
       </div>
 
-      <RadioGroup value={accessMode} onValueChange={onAccessModeChange}>
-        <Card className="cursor-pointer hover:border-primary">
-          <CardHeader>
-            <div className="flex items-center space-x-4">
-              <RadioGroupItem value="tokenes" id="tokenes" />
-              <div className="flex items-center gap-2">
-                <Mail className="h-5 w-5" />
-                <Label htmlFor="tokenes" className="cursor-pointer">
-                  <CardTitle className="text-lg">Egyedi tokenes link minden munkatársnak</CardTitle>
-                </Label>
+      <div className="grid gap-4">
+        {options.map((option) => {
+          const Icon = option.icon;
+          const isSelected = accessMode === option.value;
+          
+          return (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => onAccessModeChange(option.value)}
+              className={`
+                relative w-full p-6 rounded-xl border-2 transition-all text-left
+                ${isSelected 
+                  ? 'border-primary bg-primary/5 shadow-lg scale-[1.02]' 
+                  : 'border-border hover:border-primary/50 hover:bg-muted/30 hover:scale-[1.01]'
+                }
+                min-h-[120px] flex gap-4
+              `}
+            >
+              <div className={`
+                flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center
+                ${isSelected ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}
+              `}>
+                <Icon className="w-6 h-6" />
               </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <CardDescription>
-              Email-cím lista feltöltése (XLSX/CSV formátumban). Minden munkatárs egyedi linket kap.
-              Pontosan követhető a válaszarány.
-            </CardDescription>
-          </CardContent>
-        </Card>
-
-        <Card className="cursor-pointer hover:border-primary">
-          <CardHeader>
-            <div className="flex items-center space-x-4">
-              <RadioGroupItem value="public_link" id="public_link" />
-              <div className="flex items-center gap-2">
-                <Link className="h-5 w-5" />
-                <Label htmlFor="public_link" className="cursor-pointer">
-                  <CardTitle className="text-lg">Egységes nyilvános link</CardTitle>
-                </Label>
+              
+              <div className="flex-1 space-y-2">
+                <h3 className="text-lg font-semibold">{option.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {option.description}
+                </p>
               </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <CardDescription>
-              Egyetlen link, amit belső csatornákon kommunikálhat. Teljesen anonim kitöltés.
-            </CardDescription>
-          </CardContent>
-        </Card>
 
-        <Card className="cursor-pointer hover:border-primary">
-          <CardHeader>
-            <div className="flex items-center space-x-4">
-              <RadioGroupItem value="qr_code" id="qr_code" />
-              <div className="flex items-center gap-2">
-                <QrCode className="h-5 w-5" />
-                <Label htmlFor="qr_code" className="cursor-pointer">
-                  <CardTitle className="text-lg">QR kód / plakát</CardTitle>
-                </Label>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <CardDescription>
-              Automatikusan generált QR-kód és link. Letölthető PNG/SVG formátumban, plakátra helyezhető.
-            </CardDescription>
-          </CardContent>
-        </Card>
-      </RadioGroup>
+              {isSelected && (
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center self-start">
+                  <Check className="w-5 h-5 text-primary-foreground" />
+                </div>
+              )}
+            </button>
+          );
+        })}
+      </div>
 
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onBack}>
+      <div className="flex justify-between pt-4">
+        <Button variant="outline" onClick={onBack} size="lg">
           Vissza
         </Button>
         <Button 
           onClick={onNext} 
           disabled={!accessMode}
-          style={{
-            backgroundColor: '#000000',
-            color: 'white'
-          }}
-          className="hover:opacity-90"
+          size="lg"
+          className="bg-primary hover:bg-primary/90"
         >
           Következő lépés
         </Button>

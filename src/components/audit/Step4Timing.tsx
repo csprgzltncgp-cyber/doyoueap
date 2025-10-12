@@ -57,68 +57,71 @@ export const Step4Timing = ({
   const availableFrequencies = getAvailableFrequencies();
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-2">Időzítés és ismétlés</h2>
-        <p className="text-muted-foreground">
-          Állítsa be a felmérés időtartamát és opcionálisan az ismétlését
+    <div className="space-y-8 max-w-4xl mx-auto">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-bold">Időzítés és ismétlés</h2>
+        <p className="text-muted-foreground text-lg">
+          Állítsd be a felmérés időtartamát és opcionálisan az ismétlését
         </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Időtartam</CardTitle>
-          <CardDescription>
-            Határozza meg a felmérés kezdő és záró dátumát
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="text-xl">Időtartam</CardTitle>
+          <CardDescription className="text-base">
+            Határozd meg a felmérés kezdő és záró dátumát
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6 pt-6">
           <div className="space-y-2">
-            <Label htmlFor="start-date">Kezdő dátum</Label>
+            <Label htmlFor="start-date" className="text-base font-medium">Kezdő dátum</Label>
             <Input
               id="start-date"
               type="datetime-local"
               value={startDate}
               onChange={(e) => onStartDateChange(e.target.value)}
+              className="h-12 text-base"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="expires-at">Záró dátum</Label>
+            <Label htmlFor="expires-at" className="text-base font-medium">Záró dátum</Label>
             <Input
               id="expires-at"
               type="datetime-local"
               value={expiresAt}
               onChange={(e) => onExpiresAtChange(e.target.value)}
+              className="h-12 text-base"
             />
           </div>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Ismétlés (opcionális)</CardTitle>
-          <CardDescription>
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="text-xl">Ismétlés (opcionális)</CardTitle>
+          <CardDescription className="text-base">
             A felmérés automatikusan megismétlődhet megadott időközönként
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center space-x-2">
+        <CardContent className="space-y-4 pt-6">
+          <div className="flex items-center space-x-3">
             <Checkbox
               id="enable-recurrence"
               checked={enableRecurrence}
               onCheckedChange={(checked) => onEnableRecurrenceChange(checked as boolean)}
+              className="w-5 h-5"
             />
-            <Label htmlFor="enable-recurrence" className="cursor-pointer">
+            <Label htmlFor="enable-recurrence" className="cursor-pointer text-base font-medium">
               Ismétlődő felmérés beállítása
             </Label>
           </div>
 
           {enableRecurrence && (
-            <div className="space-y-2">
-              <Label htmlFor="recurrence-frequency">Gyakoriság</Label>
+            <div className="space-y-2 pt-4">
+              <Label htmlFor="recurrence-frequency" className="text-base font-medium">Gyakoriság</Label>
               <Select value={recurrenceFrequency} onValueChange={onRecurrenceFrequencyChange}>
-                <SelectTrigger id="recurrence-frequency">
+                <SelectTrigger id="recurrence-frequency" className="h-12 text-base">
                   <SelectValue placeholder="Válassz gyakoriságot" />
                 </SelectTrigger>
                 <SelectContent>
@@ -129,7 +132,7 @@ export const Step4Timing = ({
                   ))}
                 </SelectContent>
               </Select>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground mt-2">
                 A következő felmérések automatikusan létrejönnek a beállítások másolásával
               </p>
             </div>
@@ -137,18 +140,15 @@ export const Step4Timing = ({
         </CardContent>
       </Card>
 
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onBack}>
+      <div className="flex justify-between pt-4">
+        <Button variant="outline" onClick={onBack} size="lg">
           Vissza
         </Button>
         <Button 
           onClick={onNext} 
           disabled={!expiresAt}
-          style={{
-            backgroundColor: '#000000',
-            color: 'white'
-          }}
-          className="hover:opacity-90"
+          size="lg"
+          className="bg-primary hover:bg-primary/90"
         >
           Következő lépés
         </Button>
