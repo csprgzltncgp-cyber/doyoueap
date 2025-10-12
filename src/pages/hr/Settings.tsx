@@ -818,14 +818,20 @@ function Settings() {
                   <li>✓ Teljes riportkészlet + trend- és összehasonlító elemzés</li>
                   <li>✓ White-label lehetőség</li>
                   <li>✓ API integráció</li>
+                  <li>✓ Dedikált technikai támogatás</li>
                 </>
               )}
               {profileData.selected_package === "partner" && (
                 <>
+                  <li>✓ 4 felmérés / év</li>
+                  <li>✓ Ajándéksorsolás minden felmérés végén</li>
+                  <li>✓ Teljes riportkészlet + trend- és összehasonlító elemzés</li>
+                  <li>✓ White-label lehetőség</li>
+                  <li>✓ API integráció</li>
+                  <li>✓ Dedikált technikai támogatás</li>
                   <li>✓ REST API integráció</li>
                   <li>✓ White-label megoldás</li>
                   <li>✓ Partner központ</li>
-                  <li>✓ Dedikált technikai támogatás</li>
                 </>
               )}
             </ul>
@@ -956,6 +962,7 @@ function Settings() {
                   <li>✓ Teljes riportkészlet + trendek</li>
                   <li>✓ White-label lehetőség</li>
                   <li>✓ API integráció</li>
+                  <li>✓ Dedikált technikai támogatás</li>
                 </ul>
               </div>
 
@@ -984,10 +991,15 @@ function Settings() {
                   Egyedi ajánlat
                 </p>
                 <ul className="text-xs space-y-1">
+                  <li>✓ 4 felmérés / év</li>
+                  <li>✓ Ajándéksorsolás minden felmérés végén</li>
+                  <li>✓ Teljes riportkészlet + trendek</li>
+                  <li>✓ White-label lehetőség</li>
+                  <li>✓ API integráció</li>
+                  <li>✓ Dedikált technikai támogatás</li>
                   <li>✓ REST API integráció</li>
                   <li>✓ White-label megoldás</li>
                   <li>✓ Partner központ</li>
-                  <li>✓ Dedikált technikai támogatás</li>
                 </ul>
               </div>
             </div>
