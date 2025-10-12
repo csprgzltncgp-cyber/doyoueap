@@ -342,8 +342,8 @@ const Index = () => {
                           setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });
                           setOpenSubmenu(null);
                         }}
-                        className={`w-full text-left px-4 py-2 text-sm font-semibold bg-primary/10 hover:bg-primary/20 ${
-                          subSection === 'create-audit' ? 'bg-primary/20' : ''
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'create-audit' ? 'bg-gray-100 font-medium' : ''
                         }`}
                       >
                         Új Felmérés
