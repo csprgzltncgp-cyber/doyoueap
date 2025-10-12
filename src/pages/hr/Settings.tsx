@@ -776,7 +776,8 @@ function Settings() {
                 {showPackageConfirm ? "Váltás előtti csomag: " : "Jelenlegi csomag: "}{
                   profileData.selected_package === "starter" ? "Starter" :
                   profileData.selected_package === "pro" ? "Pro" :
-                  profileData.selected_package === "enterprise" ? "Enterprise" : "Nincs kiválasztva"
+                  profileData.selected_package === "enterprise" ? "Enterprise" :
+                  profileData.selected_package === "partner" ? "Partner Program" : "Nincs kiválasztva"
                 }
               </h3>
               <span className="text-lg font-bold">
@@ -785,6 +786,7 @@ function Settings() {
                 {profileData.selected_package === "pro" && profileData.billing_cycle === "monthly" && "399 €/hó"}
                 {profileData.selected_package === "pro" && profileData.billing_cycle === "yearly" && "3 990 €/év"}
                 {profileData.selected_package === "enterprise" && "Egyedi"}
+                {profileData.selected_package === "partner" && "Egyedi"}
               </span>
             </div>
             <p className="text-sm text-muted-foreground mb-3">
@@ -819,6 +821,16 @@ function Settings() {
                   <li>✓ Dedikált account manager, SLA</li>
                 </>
               )}
+              {profileData.selected_package === "partner" && (
+                <>
+                  <li>✓ Korlátlan EAP Pulse felmérés</li>
+                  <li>✓ Teljes funkcionalitás (KPI-k, trendek, benchmark, motivációk)</li>
+                  <li>✓ PDF, Excel, PowerPoint export</li>
+                  <li>✓ Teljes brandelés + saját domain opció</li>
+                  <li>✓ SSO integráció, jogosultságkezelés</li>
+                  <li>✓ Dedikált account manager, SLA</li>
+                </>
+              )}
             </ul>
           </div>
 
@@ -842,7 +854,7 @@ function Settings() {
           {/* Available packages */}
           <div className="space-y-3">
             <Label>Elérhető csomagok</Label>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {/* Starter */}
               <div 
                 className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
@@ -929,6 +941,38 @@ function Settings() {
                     <span className="text-xs bg-green-500 text-white px-2 py-1 rounded">Aktív</span>
                   )}
                   {selectedPackageTemp === "enterprise" && selectedPackageTemp !== profileData.selected_package && (
+                    <span className="text-xs bg-amber-500 text-white px-2 py-1 rounded">Kiválasztva</span>
+                  )}
+                </div>
+                <p className="text-2xl font-bold mb-2">
+                  Egyedi
+                </p>
+                <ul className="text-xs space-y-1">
+                  <li>✓ Korlátlan EAP Pulse felmérés</li>
+                  <li>✓ Teljes funkcionalitás</li>
+                  <li>✓ PDF, Excel, PPT export</li>
+                  <li>✓ Teljes brandelés</li>
+                  <li>✓ SSO, dedikált manager</li>
+                </ul>
+              </div>
+
+              {/* Partner Program */}
+              <div 
+                className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                  selectedPackageTemp === "partner" 
+                    ? "border-primary bg-primary/10 ring-2 ring-primary" 
+                    : profileData.selected_package === "partner"
+                    ? "border-green-500 bg-green-50 dark:bg-green-950/20"
+                    : "hover:border-primary/50"
+                }`}
+                onClick={() => handlePackageClick("partner")}
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <h4 className="font-semibold">Partner Program</h4>
+                  {profileData.selected_package === "partner" && selectedPackageTemp !== "partner" && (
+                    <span className="text-xs bg-green-500 text-white px-2 py-1 rounded">Aktív</span>
+                  )}
+                  {selectedPackageTemp === "partner" && selectedPackageTemp !== profileData.selected_package && (
                     <span className="text-xs bg-amber-500 text-white px-2 py-1 rounded">Kiválasztva</span>
                   )}
                 </div>
