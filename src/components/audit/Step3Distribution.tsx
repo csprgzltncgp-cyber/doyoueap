@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Download, Link as LinkIcon, QrCode as QrCodeIcon, Mail, Info } from "lucide-react";
 import { QRCodeSVG } from 'qrcode.react';
@@ -13,8 +14,10 @@ interface Step3Props {
   communicationText: string;
   emailSubject?: string;
   emailFrom?: string;
+  emailBody?: string;
   onEmailSubjectChange?: (subject: string) => void;
   onEmailFromChange?: (from: string) => void;
+  onEmailBodyChange?: (body: string) => void;
   onEmailListUpload?: (file: File) => void;
   onNext: () => void;
   onBack: () => void;
@@ -26,8 +29,10 @@ export const Step3Distribution = ({
   communicationText,
   emailSubject,
   emailFrom,
+  emailBody,
   onEmailSubjectChange,
   onEmailFromChange,
+  onEmailBodyChange,
   onEmailListUpload,
   onNext,
   onBack,
@@ -128,6 +133,21 @@ export const Step3Distribution = ({
             />
             <p className="text-xs text-muted-foreground mt-1">
               Rövid, informatív tárgy, amely felkelti a figyelmet
+            </p>
+          </div>
+
+          <div>
+            <Label htmlFor="email-body">Email szövege</Label>
+            <Textarea
+              id="email-body"
+              value={emailBody || 'Helló!\n\nKérjük, töltsd ki rövid kérdőívünket az alábbi linken:\n\n[Link]\n\nÜdvözlettel,\nHR osztály'}
+              onChange={(e) => onEmailBodyChange?.(e.target.value)}
+              placeholder="Email szövege"
+              rows={10}
+              className="mt-2 font-mono text-sm"
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Az email szövege, amelyet a munkavállalók megkapnak. A [Link] helyére automatikusan bekerül a személyre szóló link.
             </p>
           </div>
         </CardContent>

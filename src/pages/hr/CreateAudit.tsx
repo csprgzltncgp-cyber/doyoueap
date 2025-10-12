@@ -10,7 +10,6 @@ import { AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import { Step1AccessMode } from '@/components/audit/Step1AccessMode';
-import { Step2Communication } from '@/components/audit/Step2Communication';
 import { Step3Lottery } from '@/components/audit/Step3Lottery';
 import { Step3Distribution } from '@/components/audit/Step3Distribution';
 import { Step3Branding } from '@/components/audit/Step3Branding';
@@ -33,7 +32,6 @@ const CreateAudit = () => {
   // EAP Pulse data state
   const [programName, setProgramName] = useState('');
   const [accessMode, setAccessMode] = useState('public_link');
-  const [communicationText, setCommunicationText] = useState('');
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [customColors, setCustomColors] = useState({
     primary: '#3b82f6',
@@ -53,6 +51,7 @@ const CreateAudit = () => {
   const [accessToken, setAccessToken] = useState('');
   const [emailSubject, setEmailSubject] = useState('Segítsd jobbá tenni a {{program_név}} programot!');
   const [emailFrom, setEmailFrom] = useState('noreply@doyoueap.com');
+  const [emailBody, setEmailBody] = useState('');
   const [eapProgramUrl, setEapProgramUrl] = useState('');
   
   // Lottery state
@@ -61,7 +60,7 @@ const CreateAudit = () => {
   const [lotteryConsent, setLotteryConsent] = useState(false);
 
   // Adjust total steps based on package - skip branding step for starter
-  const totalSteps = packageType === 'starter' ? 8 : 9;
+  const totalSteps = packageType === 'starter' ? 7 : 8;
 
   // Check audit limit based on package
   useEffect(() => {
@@ -108,8 +107,8 @@ const CreateAudit = () => {
   }, [user?.id, packageType]);
 
   const handleNext = async () => {
-    // Generate token after step 4 (access mode step, before distribution)
-    if (currentStep === 4 && !accessToken) {
+    // Generate token after step 3 (access mode step, before distribution)
+    if (currentStep === 3 && !accessToken) {
       try {
         const { data: tokenData, error: tokenError } = await supabase.rpc(
           'generate_access_token'
@@ -207,7 +206,7 @@ const CreateAudit = () => {
         questionnaire_id: questionnaires[0].id,
         access_token: accessToken,
         access_mode: accessMode,
-        communication_text: communicationText,
+        communication_text: emailBody,
         logo_url: logoUrl,
         custom_colors: customColors,
         start_date: startDate,
@@ -239,7 +238,7 @@ const CreateAudit = () => {
   const auditData = {
     programName,
     accessMode,
-    communicationText,
+    emailBody,
     logoFile,
     customColors,
     startDate,
@@ -343,33 +342,23 @@ const CreateAudit = () => {
         )}
 
         {currentStep === 4 && (
-          <Step2Communication
-            communicationText={communicationText}
-            onCommunicationTextChange={setCommunicationText}
-            accessMode={accessMode}
-            programName={programName}
-            hasGift={!!giftId}
-            onNext={handleNext}
-            onBack={handleBack}
-          />
-        )}
-
-        {currentStep === 5 && (
           <Step3Distribution
             accessMode={accessMode}
             accessToken={accessToken}
-            communicationText={communicationText}
+            communicationText={emailBody}
             emailSubject={emailSubject}
             emailFrom={emailFrom}
+            emailBody={emailBody}
             onEmailSubjectChange={setEmailSubject}
             onEmailFromChange={setEmailFrom}
+            onEmailBodyChange={setEmailBody}
             onEmailListUpload={setEmailListFile}
             onNext={handleNext}
             onBack={handleBack}
           />
         )}
 
-        {currentStep === 6 && packageType !== 'starter' && (
+        {currentStep === 5 && packageType !== 'starter' && (
           <Step3Branding
             logoFile={logoFile}
             customColors={customColors}
@@ -380,7 +369,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {((packageType === 'starter' && currentStep === 6) || (packageType !== 'starter' && currentStep === 7)) && (
+        {((packageType === 'starter' && currentStep === 5) || (packageType !== 'starter' && currentStep === 6)) && (
           <Step4Timing
             startDate={startDate}
             expiresAt={expiresAt}
@@ -396,7 +385,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {((packageType === 'starter' && currentStep === 7) || (packageType !== 'starter' && currentStep === 8)) && (
+        {((packageType === 'starter' && currentStep === 6) || (packageType !== 'starter' && currentStep === 7)) && (
           <Step5Languages
             selectedLanguages={selectedLanguages}
             onLanguagesChange={setSelectedLanguages}
@@ -405,7 +394,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {((packageType === 'starter' && currentStep === 8) || (packageType !== 'starter' && currentStep === 9)) && (
+        {((packageType === 'starter' && currentStep === 7) || (packageType !== 'starter' && currentStep === 8)) && (
           <Step7Summary
             auditData={auditData}
             onSubmit={handleSubmit}

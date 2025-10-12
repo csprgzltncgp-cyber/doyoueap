@@ -71,6 +71,16 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
                     Lépésről lépésre
                   </button>
                   <button
+                    onClick={() => handleNavClick('eap-pulse', 'communication-support')}
+                    className={`px-4 py-2 rounded-md text-left text-sm ${
+                      subSection === 'communication-support' 
+                        ? 'bg-muted font-medium' 
+                        : 'hover:bg-muted/50'
+                    }`}
+                  >
+                    Kommunikációs támogatás
+                  </button>
+                  <button
                     onClick={() => handleNavClick('eap-pulse', 'audit-questionnaire')}
                     className={`px-4 py-2 rounded-md text-left text-sm ${
                       subSection === 'audit-questionnaire' 

@@ -317,6 +317,17 @@ const Index = () => {
                       </button>
                       <button
                         onClick={() => {
+                          setSearchParams({ section: 'eap-pulse', sub: 'communication-support' });
+                          setOpenSubmenu(null);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'communication-support' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Kommunikációs támogatás
+                      </button>
+                      <button
+                        onClick={() => {
                           setSearchParams({ section: 'eap-pulse', sub: 'audit-questionnaire' });
                           setOpenSubmenu(null);
                         }}

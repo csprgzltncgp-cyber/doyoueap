@@ -9,7 +9,7 @@ interface Step7Props {
   auditData: {
     programName: string;
     accessMode: string;
-    communicationText: string;
+    emailBody: string;
     logoFile: File | null;
     customColors: any;
     startDate: string;
