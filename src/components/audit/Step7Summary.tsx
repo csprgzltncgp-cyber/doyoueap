@@ -96,65 +96,65 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-2">Indítás összegzés</h2>
-        <p className="text-muted-foreground">
+    <div className="space-y-8 max-w-4xl mx-auto">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-bold">Indítás összegzés</h2>
+        <p className="text-muted-foreground text-lg">
           Ellenőrizze a felmérés beállításait indítás előtt
         </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <FileText className="h-5 w-5" />
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <FileText className="h-6 w-6" />
             Alapadatok
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent className="space-y-4 pt-6">
           <div>
             <p className="text-sm text-muted-foreground">Program elnevezése</p>
-            <p className="font-medium">{auditData.programName || 'EAP'}</p>
+            <p className="font-medium text-base">{auditData.programName || 'EAP'}</p>
           </div>
           <div>
             <p className="text-sm text-muted-foreground">Weboldal címe</p>
-            <p className="font-medium">{auditData.eapProgramUrl || 'https://doyoueap.hu'}</p>
+            <p className="font-medium text-base">{auditData.eapProgramUrl || 'https://doyoueap.hu'}</p>
           </div>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="flex items-center gap-2 text-xl">
             {getAccessModeIcon(auditData.accessMode)}
             Hozzáférési mód
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <Badge>{getAccessModeLabel(auditData.accessMode)}</Badge>
+        <CardContent className="pt-6">
+          <Badge className="text-base px-4 py-2">{getAccessModeLabel(auditData.accessMode)}</Badge>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Calendar className="h-5 w-5" />
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <Calendar className="h-6 w-6" />
             Időzítés
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent className="space-y-4 pt-6">
           <div>
             <p className="text-sm text-muted-foreground">Kezdő dátum</p>
-            <p className="font-medium">{formatDate(auditData.startDate)}</p>
+            <p className="font-medium text-base">{formatDate(auditData.startDate)}</p>
           </div>
           <div>
             <p className="text-sm text-muted-foreground">Záró dátum</p>
-            <p className="font-medium">{formatDate(auditData.expiresAt)}</p>
+            <p className="font-medium text-base">{formatDate(auditData.expiresAt)}</p>
           </div>
           {auditData.enableRecurrence && (
             <div>
               <p className="text-sm text-muted-foreground">Ismétlődés</p>
-              <Badge variant="secondary">
+              <Badge variant="secondary" className="text-base px-4 py-2">
                 {auditData.recurrenceFrequency === 'monthly' && 'Havonta'}
                 {auditData.recurrenceFrequency === 'quarterly' && 'Negyedévente'}
                 {auditData.recurrenceFrequency === 'biannually' && 'Félévente'}
@@ -166,25 +166,25 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
       </Card>
 
       {auditData.giftId && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Gift className="h-5 w-5" />
+        <Card className="border-2">
+          <CardHeader className="bg-muted/30">
+            <CardTitle className="flex items-center gap-2 text-xl">
+              <Gift className="h-6 w-6" />
               Ajándéksorsolás
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-4 pt-6">
             <div>
               <p className="text-sm text-muted-foreground">Ajándék</p>
-              <p className="font-medium">{giftName}</p>
+              <p className="font-medium text-base">{giftName}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Érték</p>
-              <p className="text-xl font-bold text-primary">{formatEUR(giftValue)}</p>
+              <p className="text-2xl font-bold text-primary">{formatEUR(giftValue)}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Sorsolás módja</p>
-              <Badge variant="secondary">
+              <Badge variant="secondary" className="text-base px-4 py-2">
                 {auditData.drawMode === 'auto' ? 'Automatikus záráskor' : 'Manuális indítás'}
               </Badge>
             </div>
@@ -192,17 +192,17 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
         </Card>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Languages className="h-5 w-5" />
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <Languages className="h-6 w-6" />
             Elérhető nyelvek
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <div className="flex flex-wrap gap-2">
             {auditData.selectedLanguages.map((lang) => (
-              <Badge key={lang} variant="outline">
+              <Badge key={lang} variant="outline" className="text-base px-4 py-2">
                 {lang}
               </Badge>
             ))}
@@ -211,45 +211,41 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
       </Card>
 
       {auditData.logoFile && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Logó</CardTitle>
+        <Card className="border-2">
+          <CardHeader className="bg-muted/30">
+            <CardTitle className="text-xl">Logó</CardTitle>
           </CardHeader>
-          <CardContent>
-            <p className="text-sm">
-              <CheckCircle2 className="inline h-4 w-4 mr-1 text-green-600" />
+          <CardContent className="pt-6">
+            <p className="text-base">
+              <CheckCircle2 className="inline h-5 w-5 mr-2 text-green-600" />
               {auditData.logoFile.name}
             </p>
           </CardContent>
         </Card>
       )}
 
-      <Card className="bg-blue-50 dark:bg-blue-950">
-        <CardHeader>
-          <CardTitle className="text-blue-900 dark:text-blue-100">
+      <Card className="border-2 bg-primary/5 border-primary/20">
+        <CardHeader className="bg-primary/10">
+          <CardTitle className="text-xl text-primary">
             Biztonsági emlékeztető
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <p className="text-sm text-blue-800 dark:text-blue-200">
+        <CardContent className="pt-6">
+          <p className="text-base leading-relaxed">
             A felmérés teljesen anonim, az eredmények összesítve jelennek meg a HR felületén.
             A munkavállalók személyes adatai védettek.
           </p>
         </CardContent>
       </Card>
 
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onBack}>
+      <div className="flex justify-between pt-4">
+        <Button variant="outline" onClick={onBack} size="lg">
           Vissza
         </Button>
         <Button 
           onClick={onSubmit} 
           disabled={loading}
-          style={{
-            backgroundColor: '#000000',
-            color: 'white'
-          }}
-          className="hover:opacity-90"
+          size="lg"
         >
           {loading ? 'Felmérés indítása...' : 'Felmérés indítása'}
         </Button>

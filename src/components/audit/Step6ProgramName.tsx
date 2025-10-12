@@ -89,8 +89,8 @@ export const Step6ProgramName = ({
         </Button>
         <Button 
           onClick={onNext}
+          disabled={!programName}
           size="lg"
-          className="bg-primary hover:bg-primary/90"
         >
           Következő lépés
         </Button>

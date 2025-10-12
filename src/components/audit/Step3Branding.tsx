@@ -38,22 +38,22 @@ export const Step3Branding = ({
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-2">User felület testreszabása</h2>
-        <p className="text-muted-foreground">
+    <div className="space-y-8 max-w-4xl mx-auto">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-bold">User felület testreszabása</h2>
+        <p className="text-muted-foreground text-lg">
           Személyre szabhatja a kérdőív megjelenését a cég brandjéhez igazítva
         </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Logó feltöltése</CardTitle>
-          <CardDescription>
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="text-xl">Logó feltöltése</CardTitle>
+          <CardDescription className="text-base">
             Opcionális: Feltölthet saját logót (max 2MB, PNG/JPG/SVG)
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <div className="space-y-4">
             <Input
               id="logo-upload"
@@ -65,9 +65,11 @@ export const Step3Branding = ({
             <Button
               type="button"
               variant="outline"
+              size="lg"
               onClick={() => document.getElementById('logo-upload')?.click()}
+              className="w-full h-14"
             >
-              <Upload className="mr-2 h-4 w-4" />
+              <Upload className="mr-2 h-5 w-5" />
               {logoFile ? logoFile.name : 'Logo feltöltése'}
             </Button>
             <p className="text-sm text-muted-foreground">
@@ -77,46 +79,43 @@ export const Step3Branding = ({
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Szín testreszabása</CardTitle>
-          <CardDescription>
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="text-xl">Szín testreszabása</CardTitle>
+          <CardDescription className="text-base">
             Válassza ki a kérdőív fő színét (gombok és státuszcsík)
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4 pt-6">
           <div className="space-y-2">
-            <Label htmlFor="primary-color">Elsődleges szín</Label>
+            <Label htmlFor="primary-color" className="text-base font-medium">Elsődleges szín</Label>
             <div className="flex gap-2">
               <Input
                 id="primary-color"
                 type="color"
                 value={customColors.primary || '#3b82f6'}
                 onChange={(e) => handleColorChange('primary', e.target.value)}
-                className="w-16 h-10"
+                className="w-16 h-12"
               />
               <Input
                 type="text"
                 value={customColors.primary || '#3b82f6'}
                 onChange={(e) => handleColorChange('primary', e.target.value)}
                 placeholder="#3b82f6"
+                className="h-12 text-base"
               />
             </div>
           </div>
         </CardContent>
       </Card>
 
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onBack}>
+      <div className="flex justify-between pt-4">
+        <Button variant="outline" onClick={onBack} size="lg">
           Vissza
         </Button>
         <Button 
           onClick={onNext}
-          style={{
-            backgroundColor: '#000000',
-            color: 'white'
-          }}
-          className="hover:opacity-90"
+          size="lg"
         >
           Következő lépés
         </Button>

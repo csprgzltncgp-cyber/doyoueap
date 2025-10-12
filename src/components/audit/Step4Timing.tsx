@@ -148,7 +148,6 @@ export const Step4Timing = ({
           onClick={onNext} 
           disabled={!expiresAt}
           size="lg"
-          className="bg-primary hover:bg-primary/90"
         >
           Következő lépés
         </Button>

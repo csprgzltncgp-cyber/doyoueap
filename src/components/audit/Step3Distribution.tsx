@@ -308,14 +308,13 @@ HR osztály`}
       {accessMode === 'public_link' && renderPublicLinkMode()}
       {accessMode === 'qr_code' && renderQRCodeMode()}
 
-      <div className="flex justify-between pt-6 max-w-3xl mx-auto">
+      <div className="flex justify-between pt-6 max-w-4xl mx-auto">
         <Button variant="outline" onClick={onBack} size="lg">
           Vissza
         </Button>
         <Button 
           onClick={onNext}
           size="lg"
-          className="bg-primary hover:bg-primary/90"
         >
           Következő lépés
         </Button>

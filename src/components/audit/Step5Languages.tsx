@@ -113,7 +113,6 @@ export const Step5Languages = ({
           onClick={onNext} 
           disabled={selectedLanguages.length === 0}
           size="lg"
-          className="bg-primary hover:bg-primary/90"
         >
           Következő lépés
         </Button>

@@ -290,7 +290,7 @@ const CreateAudit = () => {
 
   return (
     <div className="space-y-8 pb-8">
-      <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-6 border border-primary/20">
+      <div className="max-w-4xl mx-auto bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-6 border border-primary/20">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-3xl font-bold">Új EAP Pulse Felmérés</h2>
@@ -300,29 +300,13 @@ const CreateAudit = () => {
           </div>
           <img src={eapPulseLogo} alt="EAP Pulse" className="h-10" />
         </div>
-        <div className="relative">
-          <Progress 
-            value={(currentStep / totalSteps) * 100} 
-            className="h-3 bg-background/50"
-          />
-          <div className="absolute -top-1 left-0 w-full flex justify-between px-1">
-            {Array.from({ length: totalSteps }).map((_, i) => (
-              <div
-                key={i}
-                className={`w-5 h-5 rounded-full border-2 transition-all ${
-                  i < currentStep
-                    ? 'bg-primary border-primary'
-                    : i === currentStep - 1
-                    ? 'bg-primary border-primary scale-110'
-                    : 'bg-background border-muted-foreground/30'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
+        <Progress 
+          value={(currentStep / totalSteps) * 100} 
+          className="h-3 bg-background/50"
+        />
       </div>
 
-      <div className="space-y-6">
+      <div className="max-w-4xl mx-auto space-y-6">
         {currentStep === 1 && (
           <Step6ProgramName
             programName={programName}

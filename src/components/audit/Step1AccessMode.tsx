@@ -90,7 +90,6 @@ export const Step1AccessMode = ({ accessMode, onAccessModeChange, onNext, onBack
           onClick={onNext} 
           disabled={!accessMode}
           size="lg"
-          className="bg-primary hover:bg-primary/90"
         >
           Következő lépés
         </Button>
