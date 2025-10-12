@@ -164,7 +164,7 @@ const StepByStep = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Gift className="h-5 w-5 text-primary" />
-              5. Az ajándéksorsolás
+              5. A nyereményjáték
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
