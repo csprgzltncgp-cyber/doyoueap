@@ -100,7 +100,7 @@ export const Step3Distribution = ({
 
       <Card>
         <CardHeader>
-          <CardTitle>Email feladó és tárgy</CardTitle>
+          <CardTitle>Email feladó, tárgy és szöveg</CardTitle>
           <CardDescription>
             Ezek az adatok fognak megjelenni az emailben
           </CardDescription>
@@ -140,10 +140,25 @@ export const Step3Distribution = ({
             <Label htmlFor="email-body">Email szövege</Label>
             <Textarea
               id="email-body"
-              value={emailBody || 'Helló!\n\nKérjük, töltsd ki rövid kérdőívünket az alábbi linken:\n\n[Link]\n\nÜdvözlettel,\nHR osztály'}
+              value={emailBody || `Tárgy: Segítsd jobbá tenni a EAP programot!
+
+Helló!
+
+Az EAP program azért jött létre, hogy támogatást nyújtson a mindennapokban – legyen szó stresszről, jogi vagy pénzügyi kérdésekről, vagy éppen pszichológiai segítségről. Szeretnénk, ha a program minél inkább a Te igényeidhez igazodna, ezért nagy segítség lenne számunkra a visszajelzésed.
+
+Kérjük, töltsd ki rövid kérdőívünket, amelyet az alábbi linken érsz el:
+
+[Link]
+
+A kitöltés csak néhány percet vesz igénybe. A válaszadás teljesen anonim, és az eredményeket kizárólag összesítve, statisztikai célokra használjuk.
+
+Előre is köszönjük, hogy segítesz jobbá tenni a EAP programot!
+
+Üdvözlettel,
+HR osztály`}
               onChange={(e) => onEmailBodyChange?.(e.target.value)}
               placeholder="Email szövege"
-              rows={10}
+              rows={15}
               className="mt-2 font-mono text-sm"
             />
             <p className="text-xs text-muted-foreground mt-1">
@@ -248,21 +263,6 @@ export const Step3Distribution = ({
           </Button>
         </CardContent>
       </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Kommunikációs szöveg</CardTitle>
-          <CardDescription>
-            Töltsd le a 2. lépésben megadott szöveget
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button onClick={handleDownloadText} variant="outline" className="w-full">
-            <Download className="mr-2 h-4 w-4" />
-            Szöveg letöltése
-          </Button>
-        </CardContent>
-      </Card>
     </div>
   );
 
@@ -295,21 +295,6 @@ export const Step3Distribution = ({
           <Button onClick={handleDownloadQR} variant="outline" className="w-full">
             <Download className="mr-2 h-4 w-4" />
             QR kód letöltése (PNG)
-          </Button>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Plakát szöveg</CardTitle>
-          <CardDescription>
-            Töltsd le a 2. lépésben megadott szöveget
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button onClick={handleDownloadText} variant="outline" className="w-full">
-            <Download className="mr-2 h-4 w-4" />
-            Szöveg letöltése
           </Button>
         </CardContent>
       </Card>
