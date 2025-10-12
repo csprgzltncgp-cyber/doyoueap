@@ -31,7 +31,7 @@ const options = [
 
 export const Step1AccessMode = ({ accessMode, onAccessModeChange, onNext, onBack }: Step1Props) => {
   return (
-    <div className="space-y-8 max-w-3xl mx-auto">
+    <div className="space-y-8 max-w-4xl mx-auto">
       <div className="text-center space-y-2">
         <h2 className="text-3xl font-bold">Hozzáférés módja</h2>
         <p className="text-muted-foreground text-lg">
