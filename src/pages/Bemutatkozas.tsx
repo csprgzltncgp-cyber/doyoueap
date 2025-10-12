@@ -373,7 +373,7 @@ const Bemutatkozas = () => {
               <div>
                 <h3 className="text-lg font-semibold mb-2">Mennyi idő a bevezetés?</h3>
                 <p className="text-muted-foreground">
-                  Általában 15–30 perc a kezdeti beállítás, utána a kiküldések és riportok automatizálhatók.
+                  Általában 15 perc a kezdeti beállítás, utána a kiküldések és riportok automatizálhatók.
                 </p>
               </div>
               
@@ -387,7 +387,7 @@ const Bemutatkozas = () => {
               <div>
                 <h3 className="text-lg font-semibold mb-2">Testre szabható a kérdőív?</h3>
                 <p className="text-muted-foreground">
-                  Nem lehet testre szabni a kérdőívet, viszont csomagtól függően lehetséges egyéni kérdéssorral felmérést indítani.
+                  A kérdőív tartalma alapértelmezetten nem módosítható, azonban a választott csomagtól függően lehetőség van egyéni kérdéssor létrehozására és azzal új felmérés indítására. Ez biztosítja, hogy a vállalat saját igényeihez illeszkedő témákat is bevonhasson a vizsgálatba.
                 </p>
               </div>
               
