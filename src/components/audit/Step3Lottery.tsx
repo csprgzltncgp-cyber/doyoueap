@@ -121,9 +121,9 @@ export const Step3Lottery = ({
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
       <div className="text-center space-y-2">
-        <h2 className="text-3xl font-bold">Ajándéksorsolás beállítása</h2>
+        <h2 className="text-3xl font-bold">Nyereményjáték beállítása</h2>
         <p className="text-muted-foreground text-lg">
-          Növeld a részvételi kedvet ajándéksorsolással
+          Növeld a részvételi kedvet nyereményjátékkal
         </p>
       </div>
 
@@ -131,13 +131,13 @@ export const Step3Lottery = ({
         <CardHeader className="bg-muted/30">
           <CardTitle className="flex items-center gap-2 text-xl">
             <Gift className="h-6 w-6" />
-            Ajándéksorsolás beállítása
+            Nyereményjáték beállítása
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6 pt-6">
           {/* Lottery enable/disable */}
           <div className="space-y-4">
-            <Label className="text-base font-medium">Ajándéksorsolás *</Label>
+            <Label className="text-base font-medium">Nyereményjáték *</Label>
             <div className="grid gap-3">
               <button
                 type="button"
@@ -155,7 +155,7 @@ export const Step3Lottery = ({
                   flex items-center justify-between
                 `}
               >
-                <span className="text-base font-medium">Nincs ajándéksorsolás</span>
+                <span className="text-base font-medium">Nincs nyereményjáték</span>
                 {hasLottery === 'no' && (
                   <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
                     <Check className="w-4 h-4 text-primary-foreground" />
@@ -175,7 +175,7 @@ export const Step3Lottery = ({
                   flex items-center justify-between
                 `}
               >
-                <span className="text-base font-medium">Van ajándéksorsolás</span>
+                <span className="text-base font-medium">Van nyereményjáték</span>
                 {hasLottery === 'yes' && (
                   <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
                     <Check className="w-4 h-4 text-primary-foreground" />
@@ -304,7 +304,7 @@ export const Step3Lottery = ({
                         });
                       }}
                     >
-                      ajándéksorsolás adatkezelését
+                      nyereményjáték adatkezelését
                     </a>
                     {' '}*
                   </Label>
