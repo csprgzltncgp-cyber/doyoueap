@@ -61,24 +61,14 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
               <AccordionContent className="pb-0 pt-2 pl-4">
                 <div className="flex flex-col gap-1">
                   <button
-                    onClick={() => handleNavClick('eap-pulse', 'create-audit')}
+                    onClick={() => handleNavClick('eap-pulse', 'step-by-step')}
                     className={`px-4 py-2 rounded-md text-left text-sm ${
-                      subSection === 'create-audit' 
+                      subSection === 'step-by-step' 
                         ? 'bg-muted font-medium' 
                         : 'hover:bg-muted/50'
                     }`}
                   >
-                    Új Felmérés
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('eap-pulse', 'running-audits')}
-                    className={`px-4 py-2 rounded-md text-left text-sm ${
-                      subSection === 'running-audits' 
-                        ? 'bg-muted font-medium' 
-                        : 'hover:bg-muted/50'
-                    }`}
-                  >
-                    Futó Felmérések
+                    Lépésről lépésre
                   </button>
                   <button
                     onClick={() => handleNavClick('eap-pulse', 'audit-questionnaire')}
@@ -89,6 +79,16 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
                     }`}
                   >
                     EAP Pulse demo
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('eap-pulse', 'create-audit')}
+                    className={`px-4 py-2 rounded-md text-left text-sm ${
+                      subSection === 'create-audit' 
+                        ? 'bg-muted font-medium' 
+                        : 'hover:bg-muted/50'
+                    }`}
+                  >
+                    Új Felmérés
                   </button>
                   <button
                     onClick={() => handleNavClick('eap-pulse', 'raffles')}

@@ -4,6 +4,7 @@ import RunningAudits from './RunningAudits';
 import AuditQuestionnaire from './AuditQuestionnaire';
 import Focus from './Focus';
 import Gifts from './Gifts';
+import StepByStep from './StepByStep';
 
 const EAPAudit = () => {
   const [searchParams] = useSearchParams();
@@ -11,6 +12,8 @@ const EAPAudit = () => {
 
   const renderContent = () => {
     switch (subSection) {
+      case 'step-by-step':
+        return <StepByStep />;
       case 'focus':
         return <Focus />;
       case 'running-audits':

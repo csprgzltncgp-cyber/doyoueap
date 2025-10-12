@@ -139,6 +139,7 @@ const Index = () => {
         return <Focus />;
       case 'eap-pulse':
         switch (subSection) {
+          case 'step-by-step':
           case 'create-audit':
           case 'running-audits':
           case 'audit-questionnaire':
@@ -305,25 +306,14 @@ const Index = () => {
                     <div className="absolute top-full left-0 mt-2 bg-white rounded-md shadow-lg py-2 min-w-[200px] z-50">
                       <button
                         onClick={() => {
-                          setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });
+                          setSearchParams({ section: 'eap-pulse', sub: 'step-by-step' });
                           setOpenSubmenu(null);
                         }}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
-                          subSection === 'create-audit' ? 'bg-gray-100 font-medium' : ''
+                          subSection === 'step-by-step' ? 'bg-gray-100 font-medium' : ''
                         }`}
                       >
-                        Új Felmérés
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSearchParams({ section: 'eap-pulse', sub: 'running-audits' });
-                          setOpenSubmenu(null);
-                        }}
-                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
-                          subSection === 'running-audits' ? 'bg-gray-100 font-medium' : ''
-                        }`}
-                      >
-                        Futó Felmérések
+                        Lépésről lépésre
                       </button>
                       <button
                         onClick={() => {
@@ -335,6 +325,17 @@ const Index = () => {
                         }`}
                       >
                         EAP Pulse demo
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSearchParams({ section: 'eap-pulse', sub: 'create-audit' });
+                          setOpenSubmenu(null);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'create-audit' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Új Felmérés
                       </button>
                       <button
                         onClick={() => {
