@@ -387,7 +387,7 @@ const Bemutatkozas = () => {
               <div>
                 <h3 className="text-lg font-semibold mb-2">Testre szabható a kérdőív?</h3>
                 <p className="text-muted-foreground">
-                  Igen. Előre összeállított blokkokból dolgozunk, de saját kérdéseket is hozzáadhatsz.
+                  Nem lehet testre szabni a kérdőívet, viszont csomagtól függően lehetséges egyéni kérdéssorral felmérést indítani.
                 </p>
               </div>
               
