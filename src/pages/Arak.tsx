@@ -261,7 +261,7 @@ const Arak = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <h3 className="font-semibold mb-2">Milyen fizetési módokat fogadnak el?</h3>
+                <h3 className="font-semibold mb-2">Milyen fizetési módok közül lehet választani?</h3>
                 <p className="text-muted-foreground">
                   Céges bankkártyás fizetést fogadunk el. Választhat havi vagy éves számlázási ciklust igényei szerint.
                 </p>
