@@ -310,7 +310,7 @@ const Index = () => {
                           setOpenSubmenu(null);
                         }}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
-                          subSection === 'step-by-step' ? 'bg-gray-100 font-medium' : ''
+                          subSection === 'step-by-step' ? 'font-medium' : ''
                         }`}
                       >
                         Lépésről lépésre
