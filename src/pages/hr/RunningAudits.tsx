@@ -689,7 +689,28 @@ const RunningAudits = () => {
                   includeMargin={true}
                 />
               </div>
-              <div className="flex justify-center">
+              <div className="flex justify-center gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    const svgElement = document.querySelector(`#qr-code-${metrics.audit.id} svg`) as SVGSVGElement;
+                    if (!svgElement) return;
+
+                    const svgData = new XMLSerializer().serializeToString(svgElement);
+                    const blob = new Blob([svgData], { type: 'image/svg+xml' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `qr-kod-${formatAuditName(metrics.audit).replace(/\s+/g, '-')}.svg`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    toast.success('SVG QR kód letöltve!');
+                  }}
+                  className="gap-2"
+                >
+                  <FileDown className="h-4 w-4" />
+                  SVG letöltése
+                </Button>
                 <Button
                   variant="outline"
                   onClick={() => {
@@ -702,18 +723,19 @@ const RunningAudits = () => {
                     const img = new Image();
                     
                     img.onload = () => {
-                      canvas.width = img.width;
-                      canvas.height = img.height;
-                      ctx?.drawImage(img, 0, 0);
+                      // Generate high-res PNG (2000x2000)
+                      canvas.width = 2000;
+                      canvas.height = 2000;
+                      ctx?.drawImage(img, 0, 0, 2000, 2000);
                       canvas.toBlob((blob) => {
                         if (blob) {
                           const url = URL.createObjectURL(blob);
                           const a = document.createElement('a');
                           a.href = url;
-                          a.download = `qr-kod-${formatAuditName(metrics.audit).replace(/\s+/g, '-')}.png`;
+                          a.download = `qr-kod-${formatAuditName(metrics.audit).replace(/\s+/g, '-')}-2000px.png`;
                           a.click();
                           URL.revokeObjectURL(url);
-                          toast.success('QR kód letöltve!');
+                          toast.success('Nagy felbontású PNG QR kód letöltve!');
                         }
                       });
                     };
@@ -723,7 +745,7 @@ const RunningAudits = () => {
                   className="gap-2"
                 >
                   <FileDown className="h-4 w-4" />
-                  QR kód letöltése
+                  PNG letöltése (2000px)
                 </Button>
               </div>
             </TabsContent>
