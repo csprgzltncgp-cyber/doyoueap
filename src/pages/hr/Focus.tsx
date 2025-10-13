@@ -4,7 +4,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, Download, FileImage, Clock, Play, Flag, Trash2, CheckCircle2, Gift, Users, ExternalLink, RefreshCw } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Calendar, Download, FileImage, Clock, Play, Flag, Trash2, CheckCircle2, Gift, Users, ExternalLink, RefreshCw, TrendingUp, Award, Sparkles } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
 import { format, differenceInDays } from 'date-fns';
@@ -242,8 +243,12 @@ const Focus = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[400px]">
-        <div className="text-muted-foreground">Betöltés...</div>
+      <div className="space-y-6 pt-20 md:pt-0">
+        <Skeleton className="h-32 w-full" />
+        <div className="grid gap-4">
+          <Skeleton className="h-64 w-full" />
+          <Skeleton className="h-64 w-full" />
+        </div>
       </div>
     );
   }
@@ -253,105 +258,158 @@ const Focus = () => {
   const expiredAudits = audits.filter(audit => audit.isExpired);
 
   return (
-    <div className="space-y-6 pt-20 md:pt-0">
-      {/* Üdvözlő szekció */}
-      <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
-        <CardHeader>
-          <CardTitle className="text-2xl">
-            {getGreeting()}, {userName || 'Felhasználó'}!
-          </CardTitle>
-          <CardDescription className="text-base">
-            Üdv újra itt! Itt találja a futó felmérések áttekintését és a letöltési előzményeit.
-          </CardDescription>
-        </CardHeader>
-      </Card>
+    <div className="space-y-8 pt-20 md:pt-0">
+      {/* Hero üdvözlő szekció */}
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-primary via-primary/90 to-primary/70 p-8 shadow-lg">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDIwIDAgTCAwIDAgMCAyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLW9wYWNpdHk9IjAuMSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-30"></div>
+        <div className="relative z-10 flex items-start justify-between">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-6 w-6 text-white animate-pulse" />
+              <h1 className="text-3xl font-bold text-white">
+                {getGreeting()}, {userName || 'Felhasználó'}!
+              </h1>
+            </div>
+            <p className="text-white/90 text-lg max-w-2xl">
+              Üdv újra itt! Itt találja a futó felmérések áttekintését és a letöltési előzményeit.
+            </p>
+          </div>
+          <div className="hidden md:flex gap-3">
+            <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4 text-center min-w-[100px]">
+              <TrendingUp className="h-5 w-5 text-white mx-auto mb-1" />
+              <div className="text-2xl font-bold text-white">{activeAudits.length}</div>
+              <div className="text-xs text-white/80">Aktív</div>
+            </div>
+            <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4 text-center min-w-[100px]">
+              <Award className="h-5 w-5 text-white mx-auto mb-1" />
+              <div className="text-2xl font-bold text-white">{expiredAudits.length}</div>
+              <div className="text-xs text-white/80">Lezárt</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Futó felmérések */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-2">
-          <Play className="h-5 w-5 text-primary" />
-          <h2 className="text-xl font-semibold">Futó felmérések</h2>
+      <div className="space-y-5">
+        <div className="flex items-center gap-3">
+          <div className="bg-primary/10 p-2 rounded-lg">
+            <Play className="h-5 w-5 text-primary" />
+          </div>
+          <h2 className="text-2xl font-bold">Futó felmérések</h2>
         </div>
 
         {activeAudits.length === 0 ? (
-          <Card>
-            <CardContent className="py-8 text-center text-muted-foreground">
-              Jelenleg nincs futó felmérés
+          <Card className="border-dashed border-2">
+            <CardContent className="py-12 text-center">
+              <Play className="h-12 w-12 text-muted-foreground/40 mx-auto mb-3" />
+              <p className="text-muted-foreground">Jelenleg nincs futó felmérés</p>
             </CardContent>
           </Card>
         ) : (
-          <div className="grid gap-4">
-            {activeAudits.map((audit) => (
-              <Card key={audit.id}>
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="space-y-1">
-                      <CardTitle className="text-lg">
+          <div className="grid gap-5">
+            {activeAudits.map((audit, index) => (
+              <Card 
+                key={audit.id} 
+                className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-l-4 border-l-primary overflow-hidden animate-fade-in"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/5 to-transparent rounded-bl-full -z-10"></div>
+                <CardHeader className="pb-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="space-y-2 flex-1">
+                      <CardTitle className="text-xl group-hover:text-primary transition-colors">
                         {formatAuditName(audit)}
                       </CardTitle>
-                      <CardDescription>
-                        <Users className="h-3 w-3 inline mr-1" />
-                        {audit.responseCount} válasz
-                        {(() => {
-                          if (audit.target_responses) {
-                            return ` / ${audit.target_responses} (célszám)`;
-                          } else if (audit.email_count) {
-                            return ` / ${audit.email_count} (email cím)`;
-                          } else if ((window as any).__employeeCount) {
-                            return ` / ${(window as any).__employeeCount} (munkavállalói létszám)`;
-                          }
-                          return ' érkezett';
-                        })()}
-                      </CardDescription>
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <div className="bg-primary/10 p-1.5 rounded">
+                          <Users className="h-4 w-4 text-primary" />
+                        </div>
+                        <span className="font-semibold text-foreground">{audit.responseCount}</span>
+                        <span className="text-sm">
+                          válasz
+                          {(() => {
+                            if (audit.target_responses) {
+                              return ` / ${audit.target_responses} (célszám)`;
+                            } else if (audit.email_count) {
+                              return ` / ${audit.email_count} (email cím)`;
+                            } else if ((window as any).__employeeCount) {
+                              return ` / ${(window as any).__employeeCount} (munkavállalói létszám)`;
+                            }
+                            return ' érkezett';
+                          })()}
+                        </span>
+                      </div>
                     </div>
                     {audit.daysRemaining !== null && audit.daysRemaining >= 0 && (
-                      <Badge variant={audit.daysRemaining < 7 ? 'destructive' : 'default'}>
-                        <Clock className="h-3 w-3 mr-1" />
-                        {audit.daysRemaining} nap hátra
+                      <Badge 
+                        variant={audit.daysRemaining < 7 ? 'destructive' : 'default'}
+                        className="gap-1.5 px-3 py-1.5"
+                      >
+                        <Clock className="h-3.5 w-3.5" />
+                        <span className="font-semibold">{audit.daysRemaining}</span>
+                        nap hátra
                       </Badge>
                     )}
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Calendar className="h-4 w-4" />
-                    <span>Kezdés: {format(new Date(audit.start_date), 'yyyy. MM. dd.', { locale: hu })}</span>
-                  </div>
-                  {audit.expires_at && (
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Flag className="h-4 w-4" />
-                      <span>Vége: {format(new Date(audit.expires_at), 'yyyy. MM. dd.', { locale: hu })}</span>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="flex items-center gap-3 text-sm bg-muted/50 p-3 rounded-lg">
+                      <Calendar className="h-4 w-4 text-primary flex-shrink-0" />
+                      <div>
+                        <p className="text-xs text-muted-foreground">Kezdés</p>
+                        <p className="font-medium">{format(new Date(audit.start_date), 'yyyy. MM. dd.', { locale: hu })}</p>
+                      </div>
                     </div>
-                  )}
-                  {audit.recurrence_config?.enabled && (
-                    <Badge variant="outline" className="gap-1 bg-blue-50 text-blue-700 border-blue-300">
-                      <RefreshCw className="h-3 w-3" />
-                      Ismétlődő
-                    </Badge>
-                  )}
-                  {audit.giftInfo && (
-                    <Badge 
-                      variant="outline" 
-                      className="gap-1 bg-yellow-50 text-yellow-700 border-yellow-300"
-                    >
-                      <Gift className="h-3 w-3" />
-                      {audit.giftInfo.name} ({audit.giftInfo.value_eur} EUR)
-                    </Badge>
-                  )}
+                    {audit.expires_at && (
+                      <div className="flex items-center gap-3 text-sm bg-muted/50 p-3 rounded-lg">
+                        <Flag className="h-4 w-4 text-primary flex-shrink-0" />
+                        <div>
+                          <p className="text-xs text-muted-foreground">Lejárat</p>
+                          <p className="font-medium">{format(new Date(audit.expires_at), 'yyyy. MM. dd.', { locale: hu })}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-2">
+                    {audit.recurrence_config?.enabled && (
+                      <Badge variant="outline" className="gap-1.5 bg-blue-50 text-blue-700 border-blue-200">
+                        <RefreshCw className="h-3.5 w-3.5" />
+                        Ismétlődő
+                      </Badge>
+                    )}
+                    {audit.giftInfo && (
+                      <Badge 
+                        variant="outline" 
+                        className="gap-1.5 bg-amber-50 text-amber-700 border-amber-200"
+                      >
+                        <Gift className="h-3.5 w-3.5" />
+                        {audit.giftInfo.name} ({audit.giftInfo.value_eur} EUR)
+                      </Badge>
+                    )}
+                  </div>
+
                   {audit.drawInfo && (
-                    <div className="mt-3 p-3 bg-muted/50 rounded-md space-y-2">
-                      <div className="flex items-center gap-2 text-sm font-medium">
-                        <CheckCircle2 className="h-4 w-4 text-green-600" />
+                    <div className="mt-4 p-4 bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-lg space-y-3">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-green-700">
+                        <CheckCircle2 className="h-5 w-5" />
                         <span>Sorsolás megtörtént</span>
                       </div>
-                      <div className="text-xs text-muted-foreground space-y-1">
-                        <p>Résztvevők: {audit.drawInfo.candidates_count} fő</p>
-                        <p>Időpont: {format(new Date(audit.drawInfo.created_at), 'yyyy. MM. dd. HH:mm', { locale: hu })}</p>
+                      <div className="grid grid-cols-2 gap-3 text-sm">
+                        <div className="flex items-center gap-2">
+                          <Users className="h-4 w-4 text-green-600" />
+                          <span className="text-muted-foreground">{audit.drawInfo.candidates_count} résztvevő</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Calendar className="h-4 w-4 text-green-600" />
+                          <span className="text-muted-foreground">{format(new Date(audit.drawInfo.created_at), 'MM. dd. HH:mm', { locale: hu })}</span>
+                        </div>
                       </div>
                       {audit.drawInfo.report_url && (
-                        <Button variant="outline" size="sm" className="w-full mt-2" asChild>
+                        <Button variant="outline" size="sm" className="w-full bg-white hover:bg-green-50" asChild>
                           <a href={audit.drawInfo.report_url} target="_blank" rel="noopener noreferrer">
-                            <Download className="h-3 w-3 mr-2" />
+                            <Download className="h-4 w-4 mr-2" />
                             Sorsolás eredményének letöltése
                           </a>
                         </Button>
@@ -367,82 +425,111 @@ const Focus = () => {
 
       {/* Lejárt felmérések */}
       {expiredAudits.length > 0 && (
-        <div className="space-y-4">
-          <div className="flex items-center gap-2">
-            <Flag className="h-5 w-5 text-muted-foreground" />
-            <h2 className="text-xl font-semibold">Lejárt felmérések</h2>
+        <div className="space-y-5">
+          <div className="flex items-center gap-3">
+            <div className="bg-muted p-2 rounded-lg">
+              <Flag className="h-5 w-5 text-muted-foreground" />
+            </div>
+            <h2 className="text-2xl font-bold text-muted-foreground">Lejárt felmérések</h2>
           </div>
 
-          <div className="grid gap-4">
-            {expiredAudits.map((audit) => (
-              <Card key={audit.id} className="opacity-75">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="space-y-1">
-                      <CardTitle className="text-lg">
+          <div className="grid gap-5">
+            {expiredAudits.map((audit, index) => (
+              <Card 
+                key={audit.id} 
+                className="opacity-80 hover:opacity-100 transition-all duration-300 border-l-4 border-l-muted-foreground/30 animate-fade-in"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <CardHeader className="pb-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="space-y-2 flex-1">
+                      <CardTitle className="text-xl">
                         {formatAuditName(audit)}
                       </CardTitle>
-                      <CardDescription>
-                        <Users className="h-3 w-3 inline mr-1" />
-                        {audit.responseCount} válasz
-                        {(() => {
-                          if (audit.target_responses) {
-                            return ` / ${audit.target_responses} (célszám)`;
-                          } else if (audit.email_count) {
-                            return ` / ${audit.email_count} (email cím)`;
-                          } else if ((window as any).__employeeCount) {
-                            return ` / ${(window as any).__employeeCount} (munkavállalói létszám)`;
-                          }
-                          return ' érkezett';
-                        })()}
-                      </CardDescription>
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <div className="bg-muted p-1.5 rounded">
+                          <Users className="h-4 w-4" />
+                        </div>
+                        <span className="font-semibold text-foreground">{audit.responseCount}</span>
+                        <span className="text-sm">
+                          válasz
+                          {(() => {
+                            if (audit.target_responses) {
+                              return ` / ${audit.target_responses} (célszám)`;
+                            } else if (audit.email_count) {
+                              return ` / ${audit.email_count} (email cím)`;
+                            } else if ((window as any).__employeeCount) {
+                              return ` / ${(window as any).__employeeCount} (munkavállalói létszám)`;
+                            }
+                            return ' érkezett';
+                          })()}
+                        </span>
+                      </div>
                     </div>
-                    <Badge variant="secondary">
-                      <CheckCircle2 className="h-3 w-3 mr-1" />
+                    <Badge variant="secondary" className="gap-1.5 px-3 py-1.5">
+                      <CheckCircle2 className="h-3.5 w-3.5" />
                       Lezárva
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Calendar className="h-4 w-4" />
-                    <span>Kezdés: {format(new Date(audit.start_date), 'yyyy. MM. dd.', { locale: hu })}</span>
-                  </div>
-                  {audit.expires_at && (
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Flag className="h-4 w-4" />
-                      <span>Lezárva: {format(new Date(audit.expires_at), 'yyyy. MM. dd.', { locale: hu })}</span>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="flex items-center gap-3 text-sm bg-muted/50 p-3 rounded-lg">
+                      <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                      <div>
+                        <p className="text-xs text-muted-foreground">Kezdés</p>
+                        <p className="font-medium">{format(new Date(audit.start_date), 'yyyy. MM. dd.', { locale: hu })}</p>
+                      </div>
                     </div>
-                  )}
-                  {audit.recurrence_config?.enabled && (
-                    <Badge variant="outline" className="gap-1 bg-blue-50 text-blue-700 border-blue-300">
-                      <RefreshCw className="h-3 w-3" />
-                      Ismétlődő
-                    </Badge>
-                  )}
-                  {audit.giftInfo && (
-                    <Badge 
-                      variant="outline" 
-                      className="gap-1 bg-yellow-50 text-yellow-700 border-yellow-300"
-                    >
-                      <Gift className="h-3 w-3" />
-                      {audit.giftInfo.name} ({audit.giftInfo.value_eur} EUR)
-                    </Badge>
-                  )}
+                    {audit.expires_at && (
+                      <div className="flex items-center gap-3 text-sm bg-muted/50 p-3 rounded-lg">
+                        <Flag className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                        <div>
+                          <p className="text-xs text-muted-foreground">Lezárva</p>
+                          <p className="font-medium">{format(new Date(audit.expires_at), 'yyyy. MM. dd.', { locale: hu })}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-2">
+                    {audit.recurrence_config?.enabled && (
+                      <Badge variant="outline" className="gap-1.5 bg-blue-50 text-blue-700 border-blue-200">
+                        <RefreshCw className="h-3.5 w-3.5" />
+                        Ismétlődő
+                      </Badge>
+                    )}
+                    {audit.giftInfo && (
+                      <Badge 
+                        variant="outline" 
+                        className="gap-1.5 bg-amber-50 text-amber-700 border-amber-200"
+                      >
+                        <Gift className="h-3.5 w-3.5" />
+                        {audit.giftInfo.name} ({audit.giftInfo.value_eur} EUR)
+                      </Badge>
+                    )}
+                  </div>
+
                   {audit.drawInfo && (
-                    <div className="mt-3 p-3 bg-muted/50 rounded-md space-y-2">
-                      <div className="flex items-center gap-2 text-sm font-medium">
-                        <CheckCircle2 className="h-4 w-4 text-green-600" />
+                    <div className="mt-4 p-4 bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-lg space-y-3">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-green-700">
+                        <CheckCircle2 className="h-5 w-5" />
                         <span>Sorsolás megtörtént</span>
                       </div>
-                      <div className="text-xs text-muted-foreground space-y-1">
-                        <p>Résztvevők: {audit.drawInfo.candidates_count} fő</p>
-                        <p>Időpont: {format(new Date(audit.drawInfo.created_at), 'yyyy. MM. dd. HH:mm', { locale: hu })}</p>
+                      <div className="grid grid-cols-2 gap-3 text-sm">
+                        <div className="flex items-center gap-2">
+                          <Users className="h-4 w-4 text-green-600" />
+                          <span className="text-muted-foreground">{audit.drawInfo.candidates_count} résztvevő</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Calendar className="h-4 w-4 text-green-600" />
+                          <span className="text-muted-foreground">{format(new Date(audit.drawInfo.created_at), 'MM. dd. HH:mm', { locale: hu })}</span>
+                        </div>
                       </div>
                       {audit.drawInfo.report_url && (
-                        <Button variant="outline" size="sm" className="w-full mt-2" asChild>
+                        <Button variant="outline" size="sm" className="w-full bg-white hover:bg-green-50" asChild>
                           <a href={audit.drawInfo.report_url} target="_blank" rel="noopener noreferrer">
-                            <Download className="h-3 w-3 mr-2" />
+                            <Download className="h-4 w-4 mr-2" />
                             Sorsolás eredményének letöltése
                           </a>
                         </Button>
@@ -457,68 +544,84 @@ const Focus = () => {
       )}
 
       {/* Export letöltések történet */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-2">
-          <Download className="h-5 w-5 text-primary" />
-          <h2 className="text-xl font-semibold">Export előzmények</h2>
+      <div className="space-y-5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="bg-primary/10 p-2 rounded-lg">
+              <Download className="h-5 w-5 text-primary" />
+            </div>
+            <h2 className="text-2xl font-bold">Export előzmények</h2>
+          </div>
+          {Object.keys(groupedDownloads).length > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={deleteAllExportHistory}
+              className="gap-2 hover:bg-destructive/10 hover:text-destructive hover:border-destructive"
+            >
+              <Trash2 className="h-4 w-4" />
+              Összes törlése
+            </Button>
+          )}
         </div>
 
         {Object.keys(groupedDownloads).length === 0 ? (
-          <Card>
-            <CardContent className="py-8 text-center text-muted-foreground">
-              Még nem exportáltál riportot
+          <Card className="border-dashed border-2">
+            <CardContent className="py-12 text-center">
+              <Download className="h-12 w-12 text-muted-foreground/40 mx-auto mb-3" />
+              <p className="text-muted-foreground">Még nem exportáltál riportot</p>
             </CardContent>
           </Card>
         ) : (
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-lg">Letöltési előzmények</CardTitle>
-                  <CardDescription>
-                    {exportDownloads.length} export fájl összesen
-                  </CardDescription>
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={deleteAllExportHistory}
-                  className="gap-2"
-                >
-                  <Trash2 className="h-4 w-4" />
-                  Előzmények törlése
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {Object.entries(groupedDownloads).map(([auditId, data]) => (
-                  <div key={auditId} className="border-b last:border-0 pb-4 last:pb-0">
-                    <h3 className="font-semibold mb-3">{data.auditName}</h3>
-                    <div className="space-y-2">
-                      {data.downloads.map((download, idx) => (
-                        <div
-                          key={idx}
-                          className="flex items-center justify-between p-2 rounded-lg bg-muted/50"
-                        >
-                          <div className="flex items-center gap-2">
-                            <FileImage className="h-4 w-4 text-muted-foreground" />
-                            <div className="flex flex-col">
-                              <span className="text-sm font-medium">{download.fileName}</span>
-                              <span className="text-xs text-muted-foreground">{download.fileType}</span>
-                            </div>
-                          </div>
-                          <span className="text-xs text-muted-foreground">
-                            {format(new Date(download.timestamp), 'yyyy. MM. dd. HH:mm', { locale: hu })}
-                          </span>
-                        </div>
-                      ))}
+          <div className="space-y-4">
+            {Object.entries(groupedDownloads).map(([auditId, data], groupIndex) => (
+              <Card 
+                key={auditId} 
+                className="overflow-hidden hover:shadow-lg transition-shadow duration-300 animate-fade-in"
+                style={{ animationDelay: `${groupIndex * 100}ms` }}
+              >
+                <CardHeader className="bg-muted/30 border-b">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-primary/10 p-2 rounded-lg">
+                        <FileImage className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-lg">{data.auditName}</CardTitle>
+                        <CardDescription className="text-sm">
+                          {data.downloads.length} exportált fájl
+                        </CardDescription>
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <div className="space-y-2">
+                    {data.downloads.map((download, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-muted/50 to-muted/30 hover:from-muted/70 hover:to-muted/50 transition-all duration-200 group"
+                      >
+                        <div className="flex items-center gap-3 flex-1">
+                          <div className="bg-background p-2 rounded-lg group-hover:bg-primary/10 transition-colors">
+                            <FileImage className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                          </div>
+                          <div className="flex flex-col flex-1">
+                            <span className="text-sm font-medium group-hover:text-primary transition-colors">{download.fileName}</span>
+                            <span className="text-xs text-muted-foreground uppercase tracking-wider">{download.fileType}</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <Clock className="h-3 w-3" />
+                          {format(new Date(download.timestamp), 'MM. dd. HH:mm', { locale: hu })}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         )}
       </div>
     </div>
