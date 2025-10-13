@@ -432,7 +432,7 @@ const Gifts = () => {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <CardTitle className="text-lg">{gift.name}</CardTitle>
-                      <div className="text-2xl font-bold text-primary mt-2">
+                      <div className="text-2xl font-bold text-foreground mt-2">
                         {formatEUR(gift.value_eur)}
                       </div>
                     </div>
