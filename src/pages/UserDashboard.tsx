@@ -543,32 +543,8 @@ const UserDashboard = () => {
       </div>
       
       {hasLottery && audit.gift && (
-        <div className="space-y-6 md:space-y-0 md:grid md:grid-cols-2 md:gap-6">
-          <Card className="overflow-hidden order-2 md:order-1">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Fődíj</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {audit.gift.image_url && (
-                <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted">
-                  <img 
-                    src={audit.gift.image_url} 
-                    alt={audit.gift.name}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              )}
-              <div className="space-y-2">
-                <h3 className="font-semibold text-lg">{audit.gift.name}</h3>
-                <p className="text-2xl font-bold text-foreground">{formatEUR(audit.gift.value_eur)}</p>
-                {audit.gift.description && (
-                  <p className="text-sm text-muted-foreground">{audit.gift.description}</p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Alert className="border-border bg-muted/30 order-1 md:order-2">
+        <div className="grid md:grid-cols-2 gap-6">
+          <Alert className="border-border bg-muted/30">
             <AlertDescription className="space-y-3">
               <p className="font-semibold text-lg">Nyereményjáték!</p>
               <p>
@@ -605,6 +581,30 @@ const UserDashboard = () => {
               </div>
             </AlertDescription>
           </Alert>
+
+          <Card className="overflow-hidden">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg">Fődíj</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {audit.gift.image_url && (
+                <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted">
+                  <img 
+                    src={audit.gift.image_url} 
+                    alt={audit.gift.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              )}
+              <div className="space-y-2">
+                <h3 className="font-semibold text-lg">{audit.gift.name}</h3>
+                <p className="text-2xl font-bold text-foreground">{formatEUR(audit.gift.value_eur)}</p>
+                {audit.gift.description && (
+                  <p className="text-sm text-muted-foreground">{audit.gift.description}</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       )}
       
