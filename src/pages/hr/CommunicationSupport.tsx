@@ -191,7 +191,7 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
         <CardHeader>
           <CardTitle>Testreszabás</CardTitle>
           <CardDescription>
-            Állítsd be a program nevét és az ajándéksorsolás meglétét
+            Állítsd be a program nevét és a nyereményjáték meglétét
           </CardDescription>
         </CardHeader>
         <CardContent>
