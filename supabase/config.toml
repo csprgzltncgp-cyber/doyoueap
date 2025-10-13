@@ -20,3 +20,12 @@ verify_jwt = false
 
 [functions.run-draw]
 verify_jwt = true
+
+[functions.generate-api-key]
+verify_jwt = true
+
+[functions.api-get-audits]
+verify_jwt = false
+
+[functions.api-submit-response]
+verify_jwt = false
