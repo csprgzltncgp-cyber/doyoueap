@@ -369,7 +369,7 @@ export const Step3Lottery = ({
         <Button type="button" variant="outline" onClick={onBack} size="lg">
           Vissza
         </Button>
-        <Button type="button" onClick={handleNext} size="lg">
+        <Button type="button" onClick={handleNext} size="lg" variant="dark">
           Következő lépés
         </Button>
       </div>
