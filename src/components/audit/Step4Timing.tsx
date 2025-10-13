@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Calendar, RefreshCw } from "lucide-react";
 
 interface Step4Props {
   startDate: string;
@@ -67,7 +68,10 @@ export const Step4Timing = ({
 
       <Card className="border-2">
         <CardHeader className="bg-muted/30">
-          <CardTitle className="text-xl">Időtartam</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <Calendar className="h-6 w-6" />
+            Időtartam
+          </CardTitle>
           <CardDescription className="text-base">
             Határozd meg a felmérés kezdő és záró dátumát
           </CardDescription>
@@ -99,7 +103,10 @@ export const Step4Timing = ({
 
       <Card className="border-2">
         <CardHeader className="bg-muted/30">
-          <CardTitle className="text-xl">Ismétlés (opcionális)</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <RefreshCw className="h-6 w-6" />
+            Ismétlés (opcionális)
+          </CardTitle>
           <CardDescription className="text-base">
             A felmérés automatikusan megismétlődhet megadott időközönként
           </CardDescription>

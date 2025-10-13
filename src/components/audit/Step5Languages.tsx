@@ -2,6 +2,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Languages } from "lucide-react";
 
 interface Step5Props {
   selectedLanguages: string[];
@@ -65,7 +66,10 @@ export const Step5Languages = ({
 
       <Card className="border-2">
         <CardHeader className="bg-muted/30">
-          <CardTitle className="text-xl">Elérhető nyelvek</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <Languages className="h-6 w-6" />
+            Elérhető nyelvek
+          </CardTitle>
           <CardDescription className="text-base">
             A kiválasztott nyelvek jelennek meg a munkavállalók számára a kérdőív kitöltése előtt
           </CardDescription>

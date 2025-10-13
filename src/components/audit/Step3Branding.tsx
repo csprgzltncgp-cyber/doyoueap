@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Upload, X } from "lucide-react";
+import { Upload, X, Palette, Image } from "lucide-react";
 import { toast } from "sonner";
 
 interface Step3Props {
@@ -68,7 +68,10 @@ export const Step3Branding = ({
 
       <Card className="border-2">
         <CardHeader className="bg-muted/30">
-          <CardTitle className="text-xl">Logó feltöltése</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <Image className="h-6 w-6" />
+            Logó feltöltése
+          </CardTitle>
           <CardDescription className="text-base">
             Opcionális: Feltölthet saját logót (max 2MB, PNG/JPG/SVG)
           </CardDescription>
@@ -121,7 +124,10 @@ export const Step3Branding = ({
 
       <Card className="border-2">
         <CardHeader className="bg-muted/30">
-          <CardTitle className="text-xl">Szín testreszabása</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <Palette className="h-6 w-6" />
+            Szín testreszabása
+          </CardTitle>
           <CardDescription className="text-base">
             Válassza ki a kérdőív fő színét (gombok és státuszcsík)
           </CardDescription>

@@ -100,7 +100,10 @@ export const Step3Distribution = ({
 
       <Card className="border-2">
         <CardHeader className="bg-muted/30">
-          <CardTitle className="text-xl">Email feladó, tárgy és szöveg</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <Mail className="h-6 w-6" />
+            Email feladó, tárgy és szöveg
+          </CardTitle>
           <CardDescription className="text-base">
             Ezek az adatok fognak megjelenni az emailben
           </CardDescription>
@@ -178,7 +181,10 @@ HR osztály`}
 
       <Card className="border-2">
         <CardHeader className="bg-muted/30">
-          <CardTitle className="text-xl">Mintafájl letöltése</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <Download className="h-6 w-6" />
+            Mintafájl letöltése
+          </CardTitle>
           <CardDescription className="text-base">
             Töltsd le a mintafájlt, majd töltsd ki a munkavállalók adataival
           </CardDescription>
@@ -204,7 +210,10 @@ HR osztály`}
 
       <Card className="border-2">
         <CardHeader className="bg-muted/30">
-          <CardTitle className="text-xl">Email lista feltöltése</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <Mail className="h-6 w-6" />
+            Email lista feltöltése
+          </CardTitle>
           <CardDescription className="text-base">
             Válaszd ki a kitöltött táblázatot
           </CardDescription>
@@ -249,7 +258,10 @@ HR osztály`}
 
       <Card className="border-2">
         <CardHeader className="bg-muted/30">
-          <CardTitle className="text-xl">Felmérés link</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <LinkIcon className="h-6 w-6" />
+            Felmérés link
+          </CardTitle>
           <CardDescription className="text-base">
             Oszd meg ezt a linket a munkavállalókkal
           </CardDescription>
@@ -278,7 +290,10 @@ HR osztály`}
 
       <Card className="border-2">
         <CardHeader className="bg-muted/30">
-          <CardTitle className="text-xl">QR kód</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <QrCodeIcon className="h-6 w-6" />
+            QR kód
+          </CardTitle>
           <CardDescription className="text-base">
             A munkavállalók beolvashatják mobiltelefonjukkal
           </CardDescription>

@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { FileText, Globe } from "lucide-react";
 
 interface Step6Props {
   programName: string;
@@ -31,7 +32,10 @@ export const Step6ProgramName = ({
 
       <Card className="border-2">
         <CardHeader className="bg-muted/30">
-          <CardTitle className="text-xl">Program elnevezése</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <FileText className="h-6 w-6" />
+            Program elnevezése
+          </CardTitle>
           <CardDescription className="text-base space-y-3 mt-4 text-foreground">
             <p className="leading-relaxed">
               Add meg az EAP program cégeden belüli elnevezését (maximum 60 karakter).
