@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
 import { Calendar, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2, Trophy, FileDown, RefreshCw } from 'lucide-react';
@@ -37,6 +38,7 @@ const RunningAudits = () => {
   const [audits, setAudits] = useState<AuditMetrics[]>([]);
   const [loading, setLoading] = useState(true);
   const [drawResult, setDrawResult] = useState<{ token: string; count: number } | null>(null);
+  const [activeTab, setActiveTab] = useState<'active' | 'expired'>('active');
 
   useEffect(() => {
     fetchRunningAudits();
@@ -301,6 +303,9 @@ const RunningAudits = () => {
     }
   };
 
+  const activeAudits = audits.filter(m => m.daysRemaining > 0);
+  const expiredAudits = audits.filter(m => m.daysRemaining === 0);
+
   if (loading) {
     return (
       <div className="p-8 flex items-center justify-center h-96">
@@ -309,18 +314,254 @@ const RunningAudits = () => {
     );
   }
 
-  if (audits.length === 0) {
-    return (
-      <div className="space-y-6">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold mb-2">Futó Felmérések</h2>
-          <p className="text-muted-foreground text-sm">
-            Jelenleg nincsenek futó felmérések.
-          </p>
+  const renderAuditCard = (metrics: AuditMetrics) => (
+    <Card key={metrics.audit.id}>
+      <CardHeader>
+        <div className="flex items-start justify-between">
+          <div>
+            <CardTitle className="text-xl mb-2">
+              {formatAuditName(metrics.audit)}
+            </CardTitle>
+            <div className="flex items-center gap-2 mt-2">
+              <Badge variant="outline" className="gap-1">
+                {getAccessModeIcon(metrics.audit.access_mode)}
+                {getAccessModeLabel(metrics.audit.access_mode)}
+              </Badge>
+              <Badge variant="secondary" className="gap-1">
+                <Clock className="h-3 w-3" />
+                {metrics.daysRemaining} nap van hátra
+              </Badge>
+              {metrics.audit.recurrence_config?.enabled && (
+                <Badge variant="outline" className="gap-1 bg-blue-50 text-blue-700 border-blue-300">
+                  <RefreshCw className="h-3 w-3" />
+                  Ismétlődő
+                </Badge>
+              )}
+              {metrics.audit.gift_id && (
+                <Badge 
+                  variant="outline" 
+                  className={`gap-1 ${
+                    metrics.audit.draw_status === 'completed' 
+                      ? 'bg-green-50 text-green-700 border-green-300' 
+                      : 'bg-yellow-50 text-yellow-700 border-yellow-300'
+                  }`}
+                >
+                  <Trophy className="h-3 w-3" />
+                  {metrics.audit.draw_status === 'completed' 
+                    ? 'Sorsolt' 
+                    : metrics.audit.draw_mode === 'auto' 
+                      ? 'Automatikus sorsolással' 
+                      : 'Manuális sorsolással'
+                  }
+                </Badge>
+              )}
+            </div>
+          </div>
+          <div className="flex gap-2">
+            {metrics.audit.gift_id && metrics.audit.draw_status === 'completed' && (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="gap-2"
+                onClick={() => downloadDrawReport(metrics.audit.id)}
+              >
+                <FileDown className="h-4 w-4" />
+                Jegyzőkönyv
+              </Button>
+            )}
+            {metrics.audit.gift_id && 
+             metrics.audit.draw_mode === 'manual' && 
+             metrics.audit.draw_status === 'none' && 
+             metrics.responsesCount > 0 && 
+             (metrics.audit.status === 'closed' || (metrics.audit.expires_at && new Date(metrics.audit.expires_at) < new Date())) && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="default" size="sm" className="gap-2">
+                    <Trophy className="h-4 w-4" />
+                    Sorsolás
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Sorsolás indítása</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      {metrics.responsesCount} kitöltő közül fogsz nyertest sorsolni. 
+                      A sorsolás eredménye visszavonhatatlan és auditálható. 
+                      Biztosan elindítod a sorsolást?
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Mégse</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => handleRunDraw(metrics.audit.id)}>
+                      Sorsolás indítása
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" size="sm" className="gap-2">
+                  <Trash2 className="h-4 w-4" />
+                  Törlés
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Biztosan törölni szeretnéd?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Ez a felmérés inaktívvá válik és nem jelenik meg a futó felmérések között. 
+                    A már kitöltött válaszok megmaradnak az adatbázisban.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Mégse</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => handleDelete(metrics.audit.id)}>
+                    Törlés
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </div>
-      </div>
-    );
-  }
+      </CardHeader>
+
+      <CardContent className="space-y-4">
+        {/* Response metrics */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-medium">Kitöltöttség</span>
+            <span className="text-sm text-muted-foreground">
+              {metrics.responsesCount} kitöltés
+            </span>
+          </div>
+          <Progress value={Math.min((metrics.responsesCount / (metrics.totalEmployees || 100)) * 100, 100)} className="h-2" />
+        </div>
+
+        {/* Access mode specific information */}
+        <Tabs defaultValue="info" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="info">Infó</TabsTrigger>
+            <TabsTrigger value="link">Link</TabsTrigger>
+            {metrics.audit.access_mode === 'qr_code' && (
+              <TabsTrigger value="qr">QR kód</TabsTrigger>
+            )}
+            {metrics.audit.access_mode !== 'qr_code' && (
+              <TabsTrigger value="stats">Statisztika</TabsTrigger>
+            )}
+          </TabsList>
+          
+          <TabsContent value="info" className="space-y-3 pt-4">
+            <div className="flex items-center gap-2 text-sm">
+              <Calendar className="h-4 w-4 text-muted-foreground" />
+              <span className="font-medium">Lejárat:</span>
+              <span className="text-muted-foreground">
+                {metrics.audit.expires_at 
+                  ? new Date(metrics.audit.expires_at).toLocaleDateString('hu-HU', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })
+                  : 'Nincs beállítva'
+                }
+              </span>
+            </div>
+            
+            {metrics.audit.recurrence_config?.enabled && (
+              <div className="flex items-center gap-2 text-sm">
+                <RefreshCw className="h-4 w-4 text-muted-foreground" />
+                <span className="font-medium">Következő futás:</span>
+                <span className="text-muted-foreground">
+                  {(() => {
+                    const freq = metrics.audit.recurrence_config?.frequency;
+                    return freq === 'monthly' ? 'Havonta' :
+                           freq === 'quarterly' ? 'Negyedévente' :
+                           freq === 'biannually' ? 'Félévente' :
+                           freq === 'annually' ? 'Évente' : 'Nincs beállítva';
+                  })()}
+                </span>
+              </div>
+            )}
+            
+            <div className="flex items-center gap-2 text-sm">
+              <Clock className="h-4 w-4 text-muted-foreground" />
+              <span className="font-medium">Hátralévő idő:</span>
+              <span className="text-muted-foreground">
+                {metrics.daysRemaining} nap
+              </span>
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="link" className="space-y-3 pt-4">
+            <div className="flex items-center gap-2">
+              <Input 
+                value={getSurveyUrl(metrics.audit.access_token)} 
+                readOnly 
+                className="flex-1"
+              />
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={() => copyToClipboard(getSurveyUrl(metrics.audit.access_token))}
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={() => window.open(getSurveyUrl(metrics.audit.access_token), '_blank')}
+              >
+                <ExternalLink className="h-4 w-4" />
+              </Button>
+            </div>
+          </TabsContent>
+
+          {metrics.audit.access_mode === 'qr_code' && (
+            <TabsContent value="qr" className="pt-4">
+              <div className="flex justify-center p-4 bg-white rounded-lg">
+                <QRCodeSVG
+                  value={getSurveyUrl(metrics.audit.access_token)}
+                  size={200}
+                  level="H"
+                  includeMargin={true}
+                />
+              </div>
+            </TabsContent>
+          )}
+
+          {metrics.audit.access_mode !== 'qr_code' && (
+            <TabsContent value="stats" className="space-y-3 pt-4">
+              {metrics.audit.access_mode === 'tokenes' && (
+                <>
+                  <div className="flex items-center gap-2 text-sm">
+                    <Mail className="h-4 w-4 text-muted-foreground" />
+                    <span className="font-medium">Elküldött emailek:</span>
+                    <span className="text-muted-foreground">
+                      {metrics.emailsSent || 0}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <MousePointerClick className="h-4 w-4 text-muted-foreground" />
+                    <span className="font-medium">Megnyitott emailek:</span>
+                    <span className="text-muted-foreground">
+                      {metrics.emailsOpened || 0}
+                    </span>
+                  </div>
+                </>
+              )}
+              <div className="flex items-center gap-2 text-sm">
+                <CheckCircle className="h-4 w-4 text-muted-foreground" />
+                <span className="font-medium">Kitöltések:</span>
+                <span className="text-muted-foreground">
+                  {metrics.responsesCount}
+                </span>
+              </div>
+            </TabsContent>
+          )}
+        </Tabs>
+      </CardContent>
+    </Card>
+  );
 
   return (
     <div className="space-y-6">
@@ -356,306 +597,50 @@ const RunningAudits = () => {
       </AlertDialog>
 
       <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-2">Futó Felmérések</h2>
+        <h2 className="text-2xl font-bold mb-2">Futó/Lezárt Felmérések</h2>
         <p className="text-muted-foreground text-sm">
-          Áttekintés az aktív felmérésekről és azok előrehaladásáról
+          Áttekintés az aktív és lezárt felmérésekről
         </p>
       </div>
 
-      <div className="grid gap-6">
-        {audits.map((metrics) => (
-          <Card key={metrics.audit.id}>
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <div>
-                  <CardTitle className="text-xl mb-2">
-                    {formatAuditName(metrics.audit)}
-                  </CardTitle>
-                  <div className="flex items-center gap-2 mt-2">
-                    <Badge variant="outline" className="gap-1">
-                      {getAccessModeIcon(metrics.audit.access_mode)}
-                      {getAccessModeLabel(metrics.audit.access_mode)}
-                    </Badge>
-                    <Badge variant="secondary" className="gap-1">
-                      <Clock className="h-3 w-3" />
-                      {metrics.daysRemaining} nap van hátra
-                    </Badge>
-                    {metrics.audit.recurrence_config?.enabled && (
-                      <Badge variant="outline" className="gap-1 bg-blue-50 text-blue-700 border-blue-300">
-                        <RefreshCw className="h-3 w-3" />
-                        Ismétlődő
-                      </Badge>
-                    )}
-                    {metrics.audit.gift_id && (
-                      <Badge 
-                        variant="outline" 
-                        className={`gap-1 ${
-                          metrics.audit.draw_status === 'completed' 
-                            ? 'bg-green-50 text-green-700 border-green-300' 
-                            : 'bg-yellow-50 text-yellow-700 border-yellow-300'
-                        }`}
-                      >
-                        <Trophy className="h-3 w-3" />
-                        {metrics.audit.draw_status === 'completed' 
-                          ? 'Sorsolt' 
-                          : metrics.audit.draw_mode === 'auto' 
-                            ? 'Automatikus sorsolással' 
-                            : 'Manuális sorsolással'
-                        }
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  {metrics.audit.gift_id && metrics.audit.draw_status === 'completed' && (
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="gap-2"
-                      onClick={() => downloadDrawReport(metrics.audit.id)}
-                    >
-                      <FileDown className="h-4 w-4" />
-                      Jegyzőkönyv
-                    </Button>
-                  )}
-                  {metrics.audit.gift_id && 
-                   metrics.audit.draw_mode === 'manual' && 
-                   metrics.audit.draw_status === 'none' && 
-                   metrics.responsesCount > 0 && 
-                   (metrics.audit.status === 'closed' || (metrics.audit.expires_at && new Date(metrics.audit.expires_at) < new Date())) && (
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="default" size="sm" className="gap-2">
-                          <Trophy className="h-4 w-4" />
-                          Sorsolás
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Sorsolás indítása</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            {metrics.responsesCount} kitöltő közül fogsz nyertest sorsolni. 
-                            A sorsolás eredménye visszavonhatatlan és auditálható. 
-                            Biztosan elindítod a sorsolást?
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Mégse</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => handleRunDraw(metrics.audit.id)}>
-                            Sorsolás indítása
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  )}
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button variant="outline" size="sm" className="gap-2">
-                        <Trash2 className="h-4 w-4" />
-                        Törlés
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Biztosan törölni szeretnéd?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Ez a felmérés inaktívvá válik és nem jelenik meg a futó felmérések között. 
-                          A már kitöltött válaszok megmaradnak az adatbázisban.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Mégse</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => handleDelete(metrics.audit.id)}>
-                          Törlés
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <Tabs defaultValue="overview" className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="overview">Áttekintés</TabsTrigger>
-                  <TabsTrigger value="access">Hozzáférés</TabsTrigger>
-                  <TabsTrigger value="details">Részletek</TabsTrigger>
-                </TabsList>
+      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'active' | 'expired')} className="space-y-6">
+        <TabsList className="grid w-full max-w-md grid-cols-2">
+          <TabsTrigger value="active">
+            Futó felmérések ({activeAudits.length})
+          </TabsTrigger>
+          <TabsTrigger value="expired">
+            Lezárt felmérések ({expiredAudits.length})
+          </TabsTrigger>
+        </TabsList>
 
-                <TabsContent value="overview" className="space-y-4 mt-4">
-                  {/* Email metrics - only for tokenes mode */}
-                  {metrics.audit.access_mode === 'tokenes' && (
-                    <div className="grid grid-cols-2 gap-4">
-                      <Card className="bg-muted/50">
-                        <CardHeader className="pb-3">
-                          <CardDescription className="flex items-center gap-2">
-                            <Mail className="h-4 w-4" />
-                            Kézbesített emailek
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="text-2xl font-bold">
-                            {metrics.emailsSent || 0}
-                            {metrics.totalEmployees && (
-                              <span className="text-sm font-normal text-muted-foreground">
-                                {' '}/ {metrics.totalEmployees}
-                              </span>
-                            )}
-                          </div>
-                          {metrics.totalEmployees && (
-                            <Progress 
-                              value={(metrics.emailsSent || 0) / metrics.totalEmployees * 100} 
-                              className="mt-2 h-3"
-                            />
-                          )}
-                        </CardContent>
-                      </Card>
+        <TabsContent value="active" className="space-y-6">
+          {activeAudits.length === 0 ? (
+            <Card>
+              <CardContent className="py-8 text-center text-muted-foreground">
+                Jelenleg nincs futó felmérés
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid gap-6">
+              {activeAudits.map(renderAuditCard)}
+            </div>
+          )}
+        </TabsContent>
 
-                      <Card className="bg-muted/50">
-                        <CardHeader className="pb-3">
-                          <CardDescription className="flex items-center gap-2">
-                            <MousePointerClick className="h-4 w-4" />
-                            Link megnyitások
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="text-2xl font-bold">
-                            {metrics.emailsOpened || 0}
-                            {metrics.emailsSent && (
-                              <span className="text-sm font-normal text-muted-foreground">
-                                {' '}/ {metrics.emailsSent}
-                              </span>
-                            )}
-                          </div>
-                          {metrics.emailsSent && metrics.emailsSent > 0 && (
-                            <Progress 
-                              value={(metrics.emailsOpened || 0) / metrics.emailsSent * 100} 
-                              className="mt-2 h-3"
-                            />
-                          )}
-                        </CardContent>
-                      </Card>
-                    </div>
-                  )}
-
-                  {/* Response count - for all modes */}
-                  <Card className="bg-primary/5 border-primary/20">
-                    <CardHeader className="pb-3">
-                      <CardDescription className="flex items-center gap-2">
-                        <CheckCircle className="h-4 w-4" />
-                        Kitöltött kérdőívek
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-3xl font-bold text-primary">
-                        {metrics.responsesCount}
-                      </div>
-                      {metrics.audit.access_mode === 'tokenes' && metrics.totalEmployees && (
-                        <>
-                          <Progress 
-                            value={metrics.responsesCount / metrics.totalEmployees * 100} 
-                            className="mt-3 h-3"
-                          />
-                          <p className="text-sm text-muted-foreground mt-2">
-                            {((metrics.responsesCount / metrics.totalEmployees) * 100).toFixed(1)}% kitöltöttség
-                          </p>
-                        </>
-                      )}
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-
-                <TabsContent value="access" className="space-y-4 mt-4">
-                  {metrics.audit.access_token && (
-                    <>
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-2 text-sm font-medium">
-                          <Link className="h-4 w-4" />
-                          Felmérés link
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <code className="flex-1 px-3 py-2 bg-muted rounded text-sm overflow-x-auto">
-                            {getSurveyUrl(metrics.audit.access_token)}
-                          </code>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => copyToClipboard(getSurveyUrl(metrics.audit.access_token))}
-                          >
-                            <Copy className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => window.open(getSurveyUrl(metrics.audit.access_token), '_blank')}
-                          >
-                            <ExternalLink className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
-                      
-                      {metrics.audit.access_mode === 'qr_code' && (
-                        <div className="flex flex-col items-center gap-4 pt-4 border-t">
-                          <div className="text-sm font-medium">QR Kód</div>
-                          <div className="p-4 bg-white rounded-lg shadow-sm">
-                            <QRCodeSVG 
-                              value={getSurveyUrl(metrics.audit.access_token)} 
-                              size={200}
-                              level="H"
-                              includeMargin={true}
-                            />
-                          </div>
-                          <p className="text-xs text-muted-foreground text-center max-w-xs">
-                            Szkenneld be ezt a QR kódot mobileszközzel a felmérés megnyitásához
-                          </p>
-                        </div>
-                      )}
-                    </>
-                  )}
-                </TabsContent>
-
-                <TabsContent value="details" className="space-y-4 mt-4">
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2 text-sm">
-                      <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">Kezdés:</span>
-                      <span className="text-muted-foreground">
-                        {new Date(metrics.audit.start_date).toLocaleDateString('hu-HU', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
-                      </span>
-                    </div>
-                    
-                    {metrics.audit.expires_at && (
-                      <div className="flex items-center gap-2 text-sm">
-                        <Calendar className="h-4 w-4 text-muted-foreground" />
-                        <span className="font-medium">Lejárat:</span>
-                        <span className="text-muted-foreground">
-                          {new Date(metrics.audit.expires_at).toLocaleDateString('hu-HU', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          })}
-                        </span>
-                      </div>
-                    )}
-                    
-                    <div className="flex items-center gap-2 text-sm">
-                      <Clock className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">Hátralévő idő:</span>
-                      <span className="text-muted-foreground">
-                        {metrics.daysRemaining} nap
-                      </span>
-                    </div>
-                  </div>
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+        <TabsContent value="expired" className="space-y-6">
+          {expiredAudits.length === 0 ? (
+            <Card>
+              <CardContent className="py-8 text-center text-muted-foreground">
+                Jelenleg nincs lezárt felmérés
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid gap-6">
+              {expiredAudits.map(renderAuditCard)}
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

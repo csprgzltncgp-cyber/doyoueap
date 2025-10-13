@@ -357,7 +357,7 @@ const Index = () => {
                           subSection === 'running-audits' ? 'bg-gray-100 font-medium' : ''
                         }`}
                       >
-                        Futó felmérések
+                        Futó/Lezárt felmérések
                       </button>
                       <button
                         onClick={() => {
