@@ -330,6 +330,7 @@ HR osztály`}
         <Button 
           onClick={onNext}
           size="lg"
+          variant="dark"
         >
           Következő lépés
         </Button>

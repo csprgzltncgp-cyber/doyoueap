@@ -436,7 +436,7 @@ export const AuditPreview = ({ auditData, onNext, onBack }: AuditPreviewProps) =
         <Button onClick={onBack} variant="outline" size="lg">
           Vissza
         </Button>
-        <Button onClick={onNext} size="lg">
+        <Button onClick={onNext} size="lg" variant="dark">
           Következő lépés
         </Button>
       </div>

@@ -154,6 +154,7 @@ export const Step4Timing = ({
           onClick={onNext} 
           disabled={!expiresAt}
           size="lg"
+          variant="dark"
         >
           Következő lépés
         </Button>

@@ -95,6 +95,7 @@ export const Step6ProgramName = ({
           onClick={onNext}
           disabled={!programName}
           size="lg"
+          variant="dark"
         >
           Következő lépés
         </Button>

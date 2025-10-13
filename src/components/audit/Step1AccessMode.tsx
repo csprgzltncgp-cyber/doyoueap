@@ -135,6 +135,7 @@ export const Step1AccessMode = ({ accessMode, targetResponses, onAccessModeChang
           onClick={onNext} 
           disabled={!accessMode}
           size="lg"
+          variant="dark"
         >
           Következő lépés
         </Button>

@@ -289,6 +289,7 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
           onClick={onSubmit} 
           disabled={loading}
           size="lg"
+          variant="dark"
         >
           {loading ? 'Felmérés indítása...' : 'Felmérés indítása'}
         </Button>

@@ -162,6 +162,7 @@ export const Step3Branding = ({
         <Button 
           onClick={onNext}
           size="lg"
+          variant="dark"
         >
           Következő lépés
         </Button>
