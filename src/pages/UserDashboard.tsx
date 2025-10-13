@@ -38,6 +38,8 @@ interface Audit {
   gift?: {
     name: string;
     value_eur: number;
+    description: string | null;
+    image_url: string | null;
   };
   draw_mode: 'auto' | 'manual' | null;
   closes_at: string | null;
@@ -123,7 +125,7 @@ const UserDashboard = () => {
       if (auditWithGift?.gift_id) {
         const { data: giftData, error: giftDetailsError } = await supabase
           .from('gifts')
-          .select('name, value_eur')
+          .select('name, value_eur, description, image_url')
           .eq('id', auditWithGift.gift_id)
           .single();
 
@@ -541,43 +543,69 @@ const UserDashboard = () => {
       </div>
       
       {hasLottery && audit.gift && (
-        <Alert className="border-primary/20 bg-primary/5">
-          <AlertDescription className="space-y-3">
-            <p className="font-semibold text-lg">Nyereményjáték!</p>
-            <p>
-              A felmérés kitöltésével automatikusan részt veszel egy <strong>{audit.gift.name}</strong> értékű 
-              ajándék sorsolásán (értéke: <strong>{formatEUR(audit.gift.value_eur)}</strong>).
-            </p>
-            <div className="space-y-2 text-sm">
+        <div className="grid md:grid-cols-2 gap-6">
+          <Alert className="border-primary/20 bg-primary/5">
+            <AlertDescription className="space-y-3">
+              <p className="font-semibold text-lg">Nyereményjáték!</p>
               <p>
-                <strong>Fontos információk:</strong>
+                A felmérés kitöltésével automatikusan részt veszel egy <strong>{audit.gift.name}</strong> értékű 
+                ajándék sorsolásán (értéke: <strong>{formatEUR(audit.gift.value_eur)}</strong>).
               </p>
-              <ul className="list-disc list-inside space-y-1 text-left">
-                <li>A felmérés végén kapsz egy egyedi <strong>sorsolási kódot</strong></li>
-                <li>Ezt a kódot <strong>mindenképpen mentsd el vagy írd fel</strong> – ezzel tudsz nyerni!</li>
-                <li>
-                  A felmérés végén megadhatsz egy e-mail-címet, ha szeretnéd, hogy e-mailben értesítsünk a nyeremény esetén.
-                </li>
-                <li>
-                  A sorsolás lezárultával azonban a HR-osztály a nyertes sorszámot közzéteszi, így e-mail megadása nélkül is értesülni fogsz róla, ha Te nyertél.
-                  {audit.draw_mode === 'auto' ? (
-                    audit.closes_at ? (
-                      <> A sorsolás automatikusan megtörténik: <strong>{new Date(audit.closes_at).toLocaleDateString('hu-HU')}</strong></>
+              <div className="space-y-2 text-sm">
+                <p>
+                  <strong>Fontos információk:</strong>
+                </p>
+                <ul className="list-disc list-inside space-y-1 text-left">
+                  <li>A felmérés végén kapsz egy egyedi <strong>sorsolási kódot</strong></li>
+                  <li>Ezt a kódot <strong>mindenképpen mentsd el vagy írd fel</strong> – ezzel tudsz nyerni!</li>
+                  <li>
+                    A felmérés végén megadhatsz egy e-mail-címet, ha szeretnéd, hogy e-mailben értesítsünk a nyeremény esetén.
+                  </li>
+                  <li>
+                    A sorsolás lezárultával azonban a HR-osztály a nyertes sorszámot közzéteszi, így e-mail megadása nélkül is értesülni fogsz róla, ha Te nyertél.
+                    {audit.draw_mode === 'auto' ? (
+                      audit.closes_at ? (
+                        <> A sorsolás automatikusan megtörténik: <strong>{new Date(audit.closes_at).toLocaleDateString('hu-HU')}</strong></>
+                      ) : (
+                        <> A sorsolás automatikusan megtörténik.</>
+                      )
                     ) : (
-                      <> A sorsolás automatikusan megtörténik.</>
-                    )
-                  ) : (
-                    audit.closes_at ? (
-                      <> A sorsolás a felmérés lezárása után történik: <strong>{new Date(audit.closes_at).toLocaleDateString('hu-HU')}</strong></>
-                    ) : (
-                      <> A sorsolás a felmérés lezárása után történik.</>
-                    )
-                  )}
-                </li>
-              </ul>
-            </div>
-          </AlertDescription>
-        </Alert>
+                      audit.closes_at ? (
+                        <> A sorsolás a felmérés lezárása után történik: <strong>{new Date(audit.closes_at).toLocaleDateString('hu-HU')}</strong></>
+                      ) : (
+                        <> A sorsolás a felmérés lezárása után történik.</>
+                      )
+                    )}
+                  </li>
+                </ul>
+              </div>
+            </AlertDescription>
+          </Alert>
+
+          <Card className="overflow-hidden">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg">Nyeremény</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {audit.gift.image_url && (
+                <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted">
+                  <img 
+                    src={audit.gift.image_url} 
+                    alt={audit.gift.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              )}
+              <div className="space-y-2">
+                <h3 className="font-semibold text-lg">{audit.gift.name}</h3>
+                <p className="text-2xl font-bold text-primary">{formatEUR(audit.gift.value_eur)}</p>
+                {audit.gift.description && (
+                  <p className="text-sm text-muted-foreground">{audit.gift.description}</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       )}
       
       <div className="flex justify-center">
