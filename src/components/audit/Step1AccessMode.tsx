@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link, Mail, QrCode, Check, Target } from "lucide-react";
+import { Link, Mail, QrCode, Check, Target, AlertTriangle } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface Step1Props {
@@ -111,11 +111,18 @@ export const Step1AccessMode = ({ accessMode, targetResponses, onAccessModeChang
               onChange={(e) => onTargetResponsesChange(e.target.value ? parseInt(e.target.value) : null)}
               className="h-12 text-base"
             />
-            <p className="text-sm text-muted-foreground">
-              {accessMode === 'tokenes' 
-                ? 'Tokenes módnál automatikusan az elküldött emailek száma alapján számolunk, de itt felülírhatod.' 
-                : 'Ha nem adsz meg célszámot, csak a kitöltések számát fogjuk mutatni.'}
-            </p>
+            {accessMode === 'tokenes' ? (
+              <div className="flex items-start gap-2 text-sm text-destructive font-medium">
+                <AlertTriangle className="h-4 w-4 flex-shrink-0 mt-0.5" />
+                <p>
+                  Ha megadsz célszámot, az felülírja az automatikus email-számolást!
+                </p>
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                Ha nem adsz meg célszámot, csak a kitöltések számát fogjuk mutatni.
+              </p>
+            )}
           </div>
         </CardContent>
       </Card>
