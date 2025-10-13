@@ -1,8 +1,9 @@
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Upload } from "lucide-react";
+import { Upload, X } from "lucide-react";
 import { toast } from "sonner";
 
 interface Step3Props {
@@ -22,6 +23,20 @@ export const Step3Branding = ({
   onNext,
   onBack,
 }: Step3Props) => {
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (logoFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(logoFile);
+    } else {
+      setLogoPreview(null);
+    }
+  }, [logoFile]);
+
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -31,6 +46,11 @@ export const Step3Branding = ({
       }
       onLogoChange(file);
     }
+  };
+
+  const handleRemoveLogo = () => {
+    onLogoChange(null);
+    setLogoPreview(null);
   };
 
   const handleColorChange = (key: string, value: string) => {
@@ -55,6 +75,26 @@ export const Step3Branding = ({
         </CardHeader>
         <CardContent className="pt-6">
           <div className="space-y-4">
+            {logoPreview && (
+              <div className="relative inline-block">
+                <div className="border-2 border-dashed border-muted rounded-lg p-4 bg-muted/20">
+                  <img 
+                    src={logoPreview} 
+                    alt="Logo előnézet" 
+                    className="h-24 w-auto object-contain"
+                  />
+                </div>
+                <Button
+                  type="button"
+                  variant="destructive"
+                  size="icon"
+                  className="absolute -top-2 -right-2 h-8 w-8 rounded-full"
+                  onClick={handleRemoveLogo}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
             <Input
               id="logo-upload"
               type="file"
@@ -70,7 +110,7 @@ export const Step3Branding = ({
               className="w-full h-14"
             >
               <Upload className="mr-2 h-5 w-5" />
-              {logoFile ? logoFile.name : 'Logo feltöltése'}
+              {logoFile ? 'Logo cseréje' : 'Logo feltöltése'}
             </Button>
             <p className="text-sm text-muted-foreground">
               Ha nem tölt fel logót, az alapértelmezett doyoueap logó jelenik meg
