@@ -275,7 +275,7 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
         </CardHeader>
         <CardContent className="pt-6">
           <p className="text-base leading-relaxed">
-            A felmérés teljesen anonim, az eredmények összesítve jelennek meg a HR felületén.
+            A felmérés teljesen anonim, az eredmények összesítve jelennek meg a Riportok menüben.
             A munkavállalók személyes adatai védettek.
           </p>
         </CardContent>
