@@ -59,7 +59,7 @@ const Focus = () => {
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .select('full_name')
+        .select('full_name, employee_count')
         .eq('id', user.id)
         .maybeSingle();
 
@@ -71,6 +71,19 @@ const Focus = () => {
       if (data?.full_name) {
         setUserName(data.full_name);
       }
+      
+      // Store employee count for later use
+      if (data?.employee_count) {
+        const match = data.employee_count.match(/(\d+)-(\d+)/);
+        if (match) {
+          (window as any).__employeeCount = parseInt(match[2]); // Use upper bound
+        } else {
+          const singleNumber = parseInt(data.employee_count);
+          if (!isNaN(singleNumber)) {
+            (window as any).__employeeCount = singleNumber;
+          }
+        }
+      }
     } catch (error) {
       console.error('Error fetching user profile:', error);
     }
@@ -81,7 +94,7 @@ const Focus = () => {
       setLoading(true);
       const { data: auditsData, error: auditsError } = await supabase
         .from('audits')
-        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, gift_id')
+        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, gift_id, target_responses, email_count')
         .eq('is_active', true)
         .order('start_date', { ascending: false });
 
@@ -278,7 +291,14 @@ const Focus = () => {
                       </CardTitle>
                       <CardDescription>
                         <Users className="h-3 w-3 inline mr-1" />
-                        {audit.responseCount} válasz érkezett
+                        {audit.responseCount} válasz
+                        {(() => {
+                          const target = audit.target_responses || 
+                                        audit.email_count ||
+                                        (window as any).__employeeCount;
+                          
+                          return target ? ` / ${target}` : ' érkezett';
+                        })()}
                       </CardDescription>
                     </div>
                     {audit.daysRemaining !== null && audit.daysRemaining >= 0 && (
@@ -361,7 +381,14 @@ const Focus = () => {
                       </CardTitle>
                       <CardDescription>
                         <Users className="h-3 w-3 inline mr-1" />
-                        {audit.responseCount} válasz érkezett
+                        {audit.responseCount} válasz
+                        {(() => {
+                          const target = audit.target_responses || 
+                                        audit.email_count ||
+                                        (window as any).__employeeCount;
+                          
+                          return target ? ` / ${target}` : ' érkezett';
+                        })()}
                       </CardDescription>
                     </div>
                     <Badge variant="secondary">
