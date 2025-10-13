@@ -46,6 +46,14 @@ const RunningAudits = () => {
 
   const fetchRunningAudits = async () => {
     try {
+      // Fetch user's profile to get employee count
+      const { data: { user } } = await supabase.auth.getUser();
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('employee_count')
+        .eq('id', user?.id)
+        .single();
+
       // Fetch active audits
       const { data: auditsData, error: auditsError } = await supabase
         .from('audits')
@@ -59,6 +67,20 @@ const RunningAudits = () => {
         setAudits([]);
         setLoading(false);
         return;
+      }
+
+      // Parse employee count from profile (format: "10-50" -> use upper bound)
+      let employeeCount: number | null = null;
+      if (profile?.employee_count) {
+        const match = profile.employee_count.match(/(\d+)-(\d+)/);
+        if (match) {
+          employeeCount = parseInt(match[2]); // Use upper bound
+        } else {
+          const singleNumber = parseInt(profile.employee_count);
+          if (!isNaN(singleNumber)) {
+            employeeCount = singleNumber;
+          }
+        }
       }
 
       // Fetch responses for each audit
@@ -84,20 +106,16 @@ const RunningAudits = () => {
           ? Math.max(0, Math.ceil((expiresAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)))
           : 0;
 
-        // For now, we'll use placeholder values for email metrics
-        // These would come from a separate tracking system in production
         const metrics: AuditMetrics = {
           audit,
           responsesCount: responses?.length || 0,
           daysRemaining,
-          completionPercentage: 0, // Will be calculated based on target
+          completionPercentage: 0,
         };
 
-        // Add email-specific metrics for tokenes mode
-        if (audit.access_mode === 'tokenes') {
-          metrics.emailsSent = 0; // TODO: Implement email tracking
-          metrics.emailsOpened = 0; // TODO: Implement email tracking
-          metrics.totalEmployees = 0; // TODO: Get from company profile
+        // Set totalEmployees based on priority
+        if (employeeCount) {
+          metrics.totalEmployees = employeeCount;
         }
 
         return metrics;
@@ -434,9 +452,13 @@ const RunningAudits = () => {
             <span className="text-sm text-muted-foreground">
               {metrics.responsesCount} kitöltés
               {(() => {
-                // Calculate target based on priority: target_responses > email_count (for tokenes) > no percentage
+                // Priority: 1. target_responses (overrides everything)
+                //          2. email_count (for tokenes mode)
+                //          3. totalEmployees (from profile)
+                //          4. no target (just show count)
                 const target = metrics.audit.target_responses || 
-                              (metrics.audit.access_mode === 'tokenes' ? metrics.audit.email_count : null);
+                              metrics.audit.email_count ||
+                              metrics.totalEmployees;
                 
                 return target ? ` / ${target}` : '';
               })()}
@@ -444,8 +466,10 @@ const RunningAudits = () => {
           </div>
           {(() => {
             // Show progress bar only if we have a target
+            // Priority: target_responses > email_count > totalEmployees
             const target = metrics.audit.target_responses || 
-                          (metrics.audit.access_mode === 'tokenes' ? metrics.audit.email_count : null);
+                          metrics.audit.email_count ||
+                          metrics.totalEmployees;
             
             if (target) {
               const percentage = Math.min((metrics.responsesCount / target) * 100, 100);
