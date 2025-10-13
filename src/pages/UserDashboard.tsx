@@ -107,26 +107,16 @@ const UserDashboard = () => {
 
       if (questionnaireError) throw questionnaireError;
 
-      // Check if lottery is enabled and fetch gift details
-      const { data: auditWithGift, error: giftError } = await supabase
-        .from('audits')
-        .select('gift_id, draw_mode, closes_at')
-        .eq('id', audit.id)
-        .single();
-
-      if (giftError) {
-        console.error('Error fetching audit gift info:', giftError);
-      }
-
-      setHasLottery(!!auditWithGift?.gift_id);
+      // Set lottery state from the audit data we already have (now includes gift_id from get_audit_for_survey)
+      setHasLottery(!!audit.gift_id);
 
       // Fetch gift details if gift_id exists
       let giftDetails = null;
-      if (auditWithGift?.gift_id) {
+      if (audit.gift_id) {
         const { data: giftData, error: giftDetailsError } = await supabase
           .from('gifts')
           .select('name, value_eur, description, image_url')
-          .eq('id', auditWithGift.gift_id)
+          .eq('id', audit.gift_id)
           .single();
 
         if (!giftDetailsError && giftData) {
@@ -134,13 +124,13 @@ const UserDashboard = () => {
         }
       }
 
-      // Combine the data
+      // Combine the data (gift_id, draw_mode, closes_at already included in audit)
       const combinedData = {
         ...audit,
         questionnaire: questionnaireData,
         gift: giftDetails,
-        draw_mode: auditWithGift?.draw_mode || null,
-        closes_at: auditWithGift?.closes_at || null
+        draw_mode: audit.draw_mode || null,
+        closes_at: audit.closes_at || null
       };
 
       setAudit(combinedData as any);
