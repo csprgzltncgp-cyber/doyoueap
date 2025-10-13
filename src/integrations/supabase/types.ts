@@ -137,6 +137,7 @@ export type Database = {
           draw_mode: Database["public"]["Enums"]["draw_mode"] | null
           draw_status: Database["public"]["Enums"]["draw_status"]
           eap_program_url: string | null
+          email_count: number | null
           email_template: Json | null
           expires_at: string | null
           gift_id: string | null
@@ -149,6 +150,7 @@ export type Database = {
           recurrence_config: Json | null
           start_date: string | null
           status: Database["public"]["Enums"]["audit_status"]
+          target_responses: number | null
           updated_at: string
         }
         Insert: {
@@ -163,6 +165,7 @@ export type Database = {
           draw_mode?: Database["public"]["Enums"]["draw_mode"] | null
           draw_status?: Database["public"]["Enums"]["draw_status"]
           eap_program_url?: string | null
+          email_count?: number | null
           email_template?: Json | null
           expires_at?: string | null
           gift_id?: string | null
@@ -175,6 +178,7 @@ export type Database = {
           recurrence_config?: Json | null
           start_date?: string | null
           status?: Database["public"]["Enums"]["audit_status"]
+          target_responses?: number | null
           updated_at?: string
         }
         Update: {
@@ -189,6 +193,7 @@ export type Database = {
           draw_mode?: Database["public"]["Enums"]["draw_mode"] | null
           draw_status?: Database["public"]["Enums"]["draw_status"]
           eap_program_url?: string | null
+          email_count?: number | null
           email_template?: Json | null
           expires_at?: string | null
           gift_id?: string | null
@@ -201,6 +206,7 @@ export type Database = {
           recurrence_config?: Json | null
           start_date?: string | null
           status?: Database["public"]["Enums"]["audit_status"]
+          target_responses?: number | null
           updated_at?: string
         }
         Relationships: [

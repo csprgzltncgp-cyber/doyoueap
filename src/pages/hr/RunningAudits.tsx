@@ -49,7 +49,7 @@ const RunningAudits = () => {
       // Fetch active audits
       const { data: auditsData, error: auditsError } = await supabase
         .from('audits')
-        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, access_token, gift_id, draw_mode, draw_status, status')
+        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, access_token, gift_id, draw_mode, draw_status, status, target_responses, email_count')
         .eq('is_active', true)
         .order('start_date', { ascending: false });
 
@@ -433,9 +433,26 @@ const RunningAudits = () => {
             <span className="text-sm font-medium">Kitöltöttség</span>
             <span className="text-sm text-muted-foreground">
               {metrics.responsesCount} kitöltés
+              {(() => {
+                // Calculate target based on priority: target_responses > email_count (for tokenes) > no percentage
+                const target = metrics.audit.target_responses || 
+                              (metrics.audit.access_mode === 'tokenes' ? metrics.audit.email_count : null);
+                
+                return target ? ` / ${target}` : '';
+              })()}
             </span>
           </div>
-          <Progress value={Math.min((metrics.responsesCount / (metrics.totalEmployees || 100)) * 100, 100)} className="h-2" />
+          {(() => {
+            // Show progress bar only if we have a target
+            const target = metrics.audit.target_responses || 
+                          (metrics.audit.access_mode === 'tokenes' ? metrics.audit.email_count : null);
+            
+            if (target) {
+              const percentage = Math.min((metrics.responsesCount / target) * 100, 100);
+              return <Progress value={percentage} className="h-2" />;
+            }
+            return null;
+          })()}
         </div>
 
         {/* Access mode specific information */}

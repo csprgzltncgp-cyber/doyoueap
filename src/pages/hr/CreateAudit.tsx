@@ -33,6 +33,7 @@ const CreateAudit = () => {
   // EAP Pulse data state
   const [programName, setProgramName] = useState('');
   const [accessMode, setAccessMode] = useState('public_link');
+  const [targetResponses, setTargetResponses] = useState<number | null>(null);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [customColors, setCustomColors] = useState({
     primary: '#3b82f6',
@@ -223,6 +224,7 @@ const CreateAudit = () => {
         gift_id: giftId || null,
         draw_mode: giftId ? drawMode : null,
         draw_status: giftId ? 'none' : 'none',
+        target_responses: targetResponses,
       });
 
       if (error) throw error;
@@ -334,7 +336,9 @@ const CreateAudit = () => {
         {currentStep === 3 && (
           <Step1AccessMode
             accessMode={accessMode}
+            targetResponses={targetResponses}
             onAccessModeChange={setAccessMode}
+            onTargetResponsesChange={setTargetResponses}
             onNext={handleNext}
             onBack={handleBack}
           />

@@ -79,7 +79,9 @@ export interface StandardAudit {
   draw_mode?: 'auto' | 'manual' | null;
   draw_status?: 'none' | 'pending' | 'completed';
   status?: 'draft' | 'running' | 'closed';
+  target_responses?: number | null;
+  email_count?: number | null;
 }
 
 // Standard query string for fetching felmérések
-export const AUDIT_SELECT_FIELDS = 'id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, gift_id, draw_mode, draw_status';
+export const AUDIT_SELECT_FIELDS = 'id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, gift_id, draw_mode, draw_status, target_responses, email_count';

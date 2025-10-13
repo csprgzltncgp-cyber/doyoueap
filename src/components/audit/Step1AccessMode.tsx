@@ -1,9 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { Link, Mail, QrCode, Check } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Link, Mail, QrCode, Check, Target } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface Step1Props {
   accessMode: string;
+  targetResponses: number | null;
   onAccessModeChange: (mode: string) => void;
+  onTargetResponsesChange: (target: number | null) => void;
   onNext: () => void;
   onBack: () => void;
 }
@@ -29,7 +34,7 @@ const options = [
   }
 ];
 
-export const Step1AccessMode = ({ accessMode, onAccessModeChange, onNext, onBack }: Step1Props) => {
+export const Step1AccessMode = ({ accessMode, targetResponses, onAccessModeChange, onTargetResponsesChange, onNext, onBack }: Step1Props) => {
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
       <div className="text-center space-y-2">
@@ -81,6 +86,39 @@ export const Step1AccessMode = ({ accessMode, onAccessModeChange, onNext, onBack
           );
         })}
       </div>
+
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <Target className="h-6 w-6" />
+            Célszám megadása (opcionális)
+          </CardTitle>
+          <CardDescription className="text-base">
+            Ha szeretnéd követni a kitöltöttséget százalékosan, add meg a várt válaszok számát
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <div className="space-y-2">
+            <Label htmlFor="target-responses" className="text-base font-medium">
+              Várt válaszok száma
+            </Label>
+            <Input
+              id="target-responses"
+              type="number"
+              min="1"
+              placeholder="pl. 150"
+              value={targetResponses || ''}
+              onChange={(e) => onTargetResponsesChange(e.target.value ? parseInt(e.target.value) : null)}
+              className="h-12 text-base"
+            />
+            <p className="text-sm text-muted-foreground">
+              {accessMode === 'tokenes' 
+                ? 'Tokenes módnál automatikusan az elküldött emailek száma alapján számolunk, de itt felülírhatod.' 
+                : 'Ha nem adsz meg célszámot, csak a kitöltések számát fogjuk mutatni.'}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
 
       <div className="flex justify-between pt-4">
         <Button variant="outline" onClick={onBack} size="lg">
