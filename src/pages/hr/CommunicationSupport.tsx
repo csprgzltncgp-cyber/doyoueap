@@ -194,24 +194,28 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
             Állítsd be a program nevét és az ajándéksorsolás meglétét
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <Label htmlFor="program-name">Program neve</Label>
-            <Input
-              id="program-name"
-              value={programName}
-              onChange={(e) => setProgramName(e.target.value)}
-              placeholder="EAP"
-              className="mt-2"
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <Label htmlFor="has-gift">Van nyereményjáték</Label>
-            <Switch
-              id="has-gift"
-              checked={hasGift}
-              onCheckedChange={setHasGift}
-            />
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <Label htmlFor="program-name">Program neve</Label>
+              <Input
+                id="program-name"
+                value={programName}
+                onChange={(e) => setProgramName(e.target.value)}
+                placeholder="EAP"
+                className="mt-2"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="has-gift">Van nyereményjáték</Label>
+              <div className="flex items-center h-10">
+                <Switch
+                  id="has-gift"
+                  checked={hasGift}
+                  onCheckedChange={setHasGift}
+                />
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
