@@ -317,7 +317,17 @@ export const AuditPreview = ({ auditData, onNext, onBack }: AuditPreviewProps) =
             <ChevronLeft className="h-4 w-4 mr-2" />
             Vissza
           </Button>
-          <div className="flex-1" />
+          <Button 
+            disabled
+            className="flex-1 opacity-50 cursor-not-allowed"
+            style={{
+              backgroundColor: primaryColor,
+              borderColor: primaryColor,
+            }}
+          >
+            Tovább
+            <ChevronRight className="h-4 w-4 ml-2" />
+          </Button>
         </div>
       </div>
     );
