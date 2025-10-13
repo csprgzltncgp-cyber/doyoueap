@@ -25,7 +25,7 @@ const AdminDashboard = () => {
         <Tabs defaultValue="companies" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4 max-w-2xl">
             <TabsTrigger value="companies">Cégek</TabsTrigger>
-            <TabsTrigger value="gifts">Ajándékok</TabsTrigger>
+            <TabsTrigger value="gifts">Nyereményjáték</TabsTrigger>
             <TabsTrigger value="magazine">Magazin</TabsTrigger>
             <TabsTrigger value="newsletter">Hírlevél</TabsTrigger>
           </TabsList>
