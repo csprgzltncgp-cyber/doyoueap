@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
 import { QuestionRenderer } from '@/components/survey/QuestionRenderer';
-import { Badge } from '@/components/ui/badge';
 import { Eye, ChevronRight, ChevronLeft } from 'lucide-react';
 import logo from '@/assets/eap-pulse-logo-blue.png';
 import { supabase } from '@/integrations/supabase/client';
@@ -390,30 +389,30 @@ export const AuditPreview = ({ auditData, onNext, onBack }: AuditPreviewProps) =
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-start justify-between">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Eye className="h-5 w-5 text-primary" />
-              <CardTitle className="text-2xl">Felmérés előnézete</CardTitle>
+    <div className="space-y-8 max-w-4xl mx-auto">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-bold">Felmérés előnézete</h2>
+        <p className="text-muted-foreground text-lg">
+          Nézd meg, hogyan fogják látni a munkavállalók a felmérésedet
+        </p>
+      </div>
+
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <Eye className="h-6 w-6" />
+            Előnézet
+          </CardTitle>
+          <CardDescription className="text-base">
+            Lépkedj végig a felmérés nyitó oldalain, ahogy majd a kitöltők látják
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pt-6">
+          {!questionnaire ? (
+            <div className="min-h-[600px] flex items-center justify-center">
+              <p className="text-muted-foreground">Betöltés...</p>
             </div>
-            <p className="text-sm text-muted-foreground">
-              Nézd meg, hogyan fogják látni a munkavállalók a felmérésedet
-            </p>
-          </div>
-          <Badge variant="outline" className="bg-primary/10">
-            Előnézet mód
-          </Badge>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {!questionnaire ? (
-          <div className="min-h-[600px] flex items-center justify-center">
-            <p className="text-muted-foreground">Betöltés...</p>
-          </div>
-        ) : (
-          <>
+          ) : (
             <div className="min-h-[600px] bg-background/50 rounded-lg border-2 border-dashed border-muted p-8">
               <div className="max-w-3xl mx-auto space-y-6">
                 <div className="flex justify-center">
@@ -429,20 +428,18 @@ export const AuditPreview = ({ auditData, onNext, onBack }: AuditPreviewProps) =
                 {currentStep === 'branch_selector' && renderBranchSelector()}
               </div>
             </div>
+          )}
+        </CardContent>
+      </Card>
 
-            <div className="flex justify-between mt-6 pt-6 border-t">
-              <Button onClick={onBack} variant="outline">
-                <ChevronLeft className="h-4 w-4 mr-2" />
-                Vissza a beállításokhoz
-              </Button>
-              <Button onClick={onNext}>
-                Tovább az összefoglalóhoz
-                <ChevronRight className="h-4 w-4 ml-2" />
-              </Button>
-            </div>
-          </>
-        )}
-      </CardContent>
-    </Card>
+      <div className="flex justify-between pt-4">
+        <Button onClick={onBack} variant="outline" size="lg">
+          Vissza
+        </Button>
+        <Button onClick={onNext} size="lg">
+          Következő lépés
+        </Button>
+      </div>
+    </div>
   );
 };
