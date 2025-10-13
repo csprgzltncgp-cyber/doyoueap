@@ -112,15 +112,15 @@ export const Step4Timing = ({
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 pt-6">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="enable-recurrence" className="text-base font-medium">
-              Ismétlődő felmérés beállítása
-            </Label>
+          <div className="flex items-center gap-3">
             <Switch
               id="enable-recurrence"
               checked={enableRecurrence}
               onCheckedChange={onEnableRecurrenceChange}
             />
+            <Label htmlFor="enable-recurrence" className="cursor-pointer text-base font-medium">
+              Ismétlődő felmérés beállítása
+            </Label>
           </div>
 
           {enableRecurrence && (
