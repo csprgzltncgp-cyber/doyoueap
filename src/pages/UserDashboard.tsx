@@ -548,8 +548,8 @@ const UserDashboard = () => {
             <AlertDescription className="space-y-3">
               <p className="font-semibold text-lg">Nyereményjáték!</p>
               <p>
-                A felmérés kitöltésével automatikusan részt veszel egy <strong>{audit.gift.name}</strong> értékű 
-                ajándék sorsolásán (értéke: <strong>{formatEUR(audit.gift.value_eur)}</strong>).
+                A felmérés kitöltésével automatikusan részt veszel egy {audit.gift.name} értékű 
+                ajándék sorsolásán (értéke: {formatEUR(audit.gift.value_eur)}).
               </p>
               <div className="space-y-2 text-sm">
                 <p>
@@ -598,7 +598,7 @@ const UserDashboard = () => {
               )}
               <div className="space-y-2">
                 <h3 className="font-semibold text-lg">{audit.gift.name}</h3>
-                <p className="text-2xl font-bold text-primary">{formatEUR(audit.gift.value_eur)}</p>
+                <p className="text-2xl font-bold text-foreground">{formatEUR(audit.gift.value_eur)}</p>
                 {audit.gift.description && (
                   <p className="text-sm text-muted-foreground">{audit.gift.description}</p>
                 )}
