@@ -1077,11 +1077,7 @@ const Export = () => {
               <Button 
                 onClick={handleExportPPT} 
                 disabled={exporting || !selectedAuditId}
-                className="w-full"
-                style={{
-                  backgroundColor: '#000000',
-                  color: 'white'
-                }}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
               >
                 <Download className="mr-2 h-4 w-4" />
                 PowerPoint Letöltése
