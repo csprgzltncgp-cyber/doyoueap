@@ -207,7 +207,7 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="has-gift">Van nyereményjáték</Label>
+              <Label htmlFor="has-gift">Szövegjavaslatok nyereményjátékkal</Label>
               <div className="flex items-center h-10">
                 <Switch
                   id="has-gift"
