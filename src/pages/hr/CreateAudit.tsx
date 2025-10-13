@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import * as XLSX from 'xlsx';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { usePackage } from '@/hooks/usePackage';
@@ -201,6 +202,22 @@ const CreateAudit = () => {
         throw new Error('A cég neve nincs kitöltve a profilban. Kérjük, adja meg, majd próbálja újra.');
       }
 
+      // Count emails from the uploaded file if it's tokenes mode
+      let emailCount = null;
+      if (accessMode === 'tokenes' && emailListFile) {
+        try {
+          const data = await emailListFile.arrayBuffer();
+          const workbook = XLSX.read(data);
+          const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet);
+          
+          // Count valid email entries
+          emailCount = jsonData.filter((row: any) => row.email).length;
+        } catch (error) {
+          console.error('Error counting emails:', error);
+        }
+      }
+
       // Create EAP Pulse assessment
       const { error } = await supabase.from('audits').insert({
         hr_user_id: user?.id,
@@ -225,6 +242,7 @@ const CreateAudit = () => {
         draw_mode: giftId ? drawMode : null,
         draw_status: giftId ? 'none' : 'none',
         target_responses: targetResponses,
+        email_count: emailCount,
       });
 
       if (error) throw error;
