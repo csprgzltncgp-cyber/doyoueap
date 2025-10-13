@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Link as LinkIcon, Upload, QrCode, Calendar, Languages, FileText, Gift, Palette } from "lucide-react";
+import { Link as LinkIcon, Upload, QrCode, Calendar, Languages, FileText, Gift, Palette, Check } from "lucide-react";
 import { supabase } from '@/integrations/supabase/client';
 
 interface Step7Props {
@@ -144,7 +144,16 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
-          <Badge className="text-base px-4 py-2">{getAccessModeLabel(auditData.accessMode)}</Badge>
+          <button
+            type="button"
+            disabled
+            className="relative w-full p-4 rounded-lg border-2 transition-all text-left border-primary bg-primary/5 shadow-md flex items-center justify-between"
+          >
+            <span className="text-base font-medium">{getAccessModeLabel(auditData.accessMode)}</span>
+            <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+              <Check className="w-4 h-4 text-primary-foreground" />
+            </div>
+          </button>
         </CardContent>
       </Card>
 
@@ -183,7 +192,7 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
           <CardHeader className="bg-muted/30">
             <CardTitle className="flex items-center gap-2 text-xl">
               <Gift className="h-6 w-6" />
-              Ajándéksorsolás
+              Nyereményjáték
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 pt-6">
@@ -197,9 +206,18 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Sorsolás módja</p>
-              <Badge variant="secondary" className="text-base px-4 py-2">
-                {auditData.drawMode === 'auto' ? 'Automatikus záráskor' : 'Manuális indítás'}
-              </Badge>
+              <button
+                type="button"
+                disabled
+                className="relative w-full p-4 rounded-lg border-2 transition-all text-left border-primary bg-primary/5 shadow-md flex items-center justify-between"
+              >
+                <span className="text-base">
+                  {auditData.drawMode === 'auto' ? 'Automatikus záráskor' : 'Manuális indítás'}
+                </span>
+                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                  <Check className="w-4 h-4 text-primary-foreground" />
+                </div>
+              </button>
             </div>
           </CardContent>
         </Card>
