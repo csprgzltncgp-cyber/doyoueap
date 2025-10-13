@@ -338,8 +338,8 @@ const Focus = () => {
                     </div>
                     {audit.daysRemaining !== null && audit.daysRemaining >= 0 && (
                       <Badge 
-                        variant={audit.daysRemaining < 7 ? 'destructive' : 'default'}
-                        className="gap-1.5 px-3 py-1.5"
+                        variant={audit.daysRemaining < 7 ? 'destructive' : 'outline'}
+                        className={`gap-1.5 px-3 py-1.5 ${audit.daysRemaining >= 7 ? 'bg-foreground text-background border-foreground' : ''}`}
                       >
                         <Clock className="h-3.5 w-3.5" />
                         <span className="font-semibold">{audit.daysRemaining}</span>
