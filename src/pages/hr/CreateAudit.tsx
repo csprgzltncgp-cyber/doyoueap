@@ -17,6 +17,7 @@ import { Step4Timing } from '@/components/audit/Step4Timing';
 import { Step5Languages } from '@/components/audit/Step5Languages';
 import { Step6ProgramName } from '@/components/audit/Step6ProgramName';
 import { Step7Summary } from '@/components/audit/Step7Summary';
+import { AuditPreview } from '@/components/audit/AuditPreview';
 import eapPulseLogo from '@/assets/eap-pulse-logo.png';
 
 const CreateAudit = () => {
@@ -58,9 +59,9 @@ const CreateAudit = () => {
   const [giftId, setGiftId] = useState('');
   const [drawMode, setDrawMode] = useState<'auto' | 'manual'>('auto');
   const [lotteryConsent, setLotteryConsent] = useState(false);
-
-  // Adjust total steps based on package - skip branding step for starter
-  const totalSteps = packageType === 'starter' ? 7 : 8;
+  
+  // Adjust total steps based on package - added preview step
+  const totalSteps = packageType === 'starter' ? 8 : 9;
 
   // Check audit limit based on package
   useEffect(() => {
@@ -251,8 +252,6 @@ const CreateAudit = () => {
     giftId,
     drawMode,
   };
-
-  
   if (checkingLimit) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
@@ -395,6 +394,14 @@ const CreateAudit = () => {
         )}
 
         {((packageType === 'starter' && currentStep === 7) || (packageType !== 'starter' && currentStep === 8)) && (
+          <AuditPreview
+            auditData={auditData}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        )}
+
+        {((packageType === 'starter' && currentStep === 8) || (packageType !== 'starter' && currentStep === 9)) && (
           <Step7Summary
             auditData={auditData}
             onSubmit={handleSubmit}
