@@ -12,7 +12,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { toast } from 'sonner';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
-import { Calendar as CalendarIcon, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2, Trophy, FileDown, RefreshCw, Edit } from 'lucide-react';
+import { Calendar as CalendarIcon, CalendarDays, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2, Trophy, FileDown, RefreshCw, Edit } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import jsPDF from 'jspdf';
 import { format, addDays } from 'date-fns';
@@ -602,7 +602,7 @@ const RunningAudits = () => {
           
           <TabsContent value="info" className="space-y-3 pt-4">
             <div className="flex items-center gap-2 text-sm">
-              <Calendar className="h-4 w-4 text-muted-foreground" />
+              <CalendarDays className="h-4 w-4 text-muted-foreground" />
               <span className="font-medium">Lejárat:</span>
               <span className="text-muted-foreground">
                 {metrics.audit.expires_at 
