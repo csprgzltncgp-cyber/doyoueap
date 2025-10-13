@@ -53,16 +53,16 @@ export const ScaleQuestion = ({ question, value, onChange }: ScaleQuestionProps)
                 className={`
                   relative w-full p-4 rounded-lg border transition-all text-left
                   ${value === option.value
-                    ? 'border-primary bg-primary/5 shadow-md' 
-                    : 'border-border hover:border-primary/50 hover:bg-muted/50'
+                    ? 'border-foreground bg-muted shadow-md' 
+                    : 'border-border hover:border-muted-foreground hover:bg-muted/50'
                   }
                   min-h-[60px] flex items-center justify-between
                 `}
               >
                 <span className="text-base pr-2">{option.label}</span>
                 {value === option.value && (
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
-                    <Check className="w-4 h-4 text-primary-foreground" />
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-foreground flex items-center justify-center">
+                    <Check className="w-4 h-4 text-background" />
                   </div>
                 )}
               </button>
@@ -87,8 +87,8 @@ export const ScaleQuestion = ({ question, value, onChange }: ScaleQuestionProps)
                     flex-1 aspect-square rounded-lg border transition-all
                     flex items-center justify-center font-semibold text-lg
                     ${value === val
-                      ? 'border-primary bg-primary/5 shadow-md' 
-                      : 'border-border hover:border-primary/50 hover:bg-muted/50 hover:scale-105'
+                      ? 'border-foreground bg-muted shadow-md' 
+                      : 'border-border hover:border-muted-foreground hover:bg-muted/50 hover:scale-105'
                     }
                     min-h-[56px] max-w-[80px]
                   `}
