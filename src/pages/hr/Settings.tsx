@@ -538,7 +538,7 @@ function Settings() {
               onChange={(e) => setProfileData({...profileData, contact_phone: e.target.value})}
             />
           </div>
-          <Button onClick={handleSaveProfile} disabled={savingProfile}>
+          <Button onClick={handleSaveProfile} disabled={savingProfile} variant="dark">
             {savingProfile && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Mentés
           </Button>
@@ -611,7 +611,7 @@ function Settings() {
               />
             </div>
           </div>
-          <Button onClick={handleSaveCompanyData} disabled={savingCompany}>
+          <Button onClick={handleSaveCompanyData} disabled={savingCompany} variant="dark">
             {savingCompany && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Mentés
           </Button>
@@ -644,7 +644,7 @@ function Settings() {
               </div>
             </div>
             <Button 
-              variant={useStripeLink ? "default" : "outline"}
+              variant={useStripeLink ? "dark" : "outline"}
               onClick={() => setUseStripeLink(!useStripeLink)}
               size="sm"
             >
@@ -677,6 +677,7 @@ function Settings() {
                           variant="outline" 
                           size="sm"
                           onClick={() => handleSetDefaultPayment(method.id)}
+                          className="border-foreground text-foreground hover:bg-foreground hover:text-background"
                         >
                           Alapértelmezés
                         </Button>
@@ -692,7 +693,7 @@ function Settings() {
                   </div>
                 ))}
               </div>
-              <Button onClick={handleAddPaymentMethod} variant="outline" className="w-full">
+              <Button onClick={handleAddPaymentMethod} variant="dark" className="w-full">
                 <Plus className="h-4 w-4 mr-2" />
                 Új bankkártya hozzáadása
               </Button>
@@ -753,7 +754,7 @@ function Settings() {
               />
             </div>
           </div>
-          <Button onClick={handleSaveBillingData} disabled={savingBilling}>
+          <Button onClick={handleSaveBillingData} disabled={savingBilling} variant="dark">
             {savingBilling && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Mentés
           </Button>
@@ -769,7 +770,7 @@ function Settings() {
         <CardContent className="space-y-6">
           {/* Current package - saved state */}
           <div className={`p-4 border-2 rounded-lg ${
-            showPackageConfirm ? "border-amber-500 bg-amber-50 dark:bg-amber-950/20" : "border-primary bg-primary/5"
+            showPackageConfirm ? "border-amber-500 bg-amber-50 dark:bg-amber-950/20" : "border-foreground bg-foreground/5"
           }`}>
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-lg font-semibold">
@@ -838,7 +839,7 @@ function Settings() {
               value={selectedCycleTemp || "yearly"}
               onValueChange={handleCycleChange}
             >
-              <SelectTrigger className={showPackageConfirm && selectedCycleTemp !== profileData.billing_cycle ? "border-amber-500" : ""}>
+              <SelectTrigger className={showPackageConfirm && selectedCycleTemp !== profileData.billing_cycle ? "border-amber-500" : "border-foreground"}>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -856,10 +857,10 @@ function Settings() {
               <div 
                 className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                   selectedPackageTemp === "starter" 
-                    ? "border-primary bg-primary/10 ring-2 ring-primary" 
+                    ? "border-foreground bg-foreground/10 ring-2 ring-foreground" 
                     : profileData.selected_package === "starter"
                     ? "border-green-500 bg-green-50 dark:bg-green-950/20"
-                    : "hover:border-primary/50"
+                    : "hover:border-foreground/50"
                 }`}
                 onClick={() => handlePackageClick("starter")}
               >
@@ -891,10 +892,10 @@ function Settings() {
               <div 
                 className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                   selectedPackageTemp === "professional" 
-                    ? "border-primary bg-primary/10 ring-2 ring-primary" 
+                    ? "border-foreground bg-foreground/10 ring-2 ring-foreground" 
                     : profileData.selected_package === "professional"
                     ? "border-green-500 bg-green-50 dark:bg-green-950/20"
-                    : "hover:border-primary/50"
+                    : "hover:border-foreground/50"
                 }`}
                 onClick={() => handlePackageClick("professional")}
               >
@@ -927,10 +928,10 @@ function Settings() {
               <div 
                 className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                   selectedPackageTemp === "enterprise" 
-                    ? "border-primary bg-primary/10 ring-2 ring-primary" 
+                    ? "border-foreground bg-foreground/10 ring-2 ring-foreground" 
                     : profileData.selected_package === "enterprise"
                     ? "border-green-500 bg-green-50 dark:bg-green-950/20"
-                    : "hover:border-primary/50"
+                    : "hover:border-foreground/50"
                 }`}
                 onClick={() => handlePackageClick("enterprise")}
               >
@@ -961,12 +962,12 @@ function Settings() {
 
               {/* Partner Program */}
               <div 
-                className={`p-4 border-2 rounded-lg cursor-pointer transition-all bg-gradient-to-br from-primary/5 to-primary/10 ${
+                className={`p-4 border-2 rounded-lg cursor-pointer transition-all bg-gradient-to-br from-foreground/5 to-foreground/10 ${
                   selectedPackageTemp === "partner" 
-                    ? "border-primary ring-2 ring-primary" 
+                    ? "border-foreground ring-2 ring-foreground" 
                     : profileData.selected_package === "partner"
                     ? "border-green-500"
-                    : "border-primary/20 hover:border-primary/50"
+                    : "border-foreground/20 hover:border-foreground/50"
                 }`}
                 onClick={() => handlePackageClick("partner")}
               >
@@ -998,7 +999,7 @@ function Settings() {
               <Button onClick={handleCancelPackageChange} variant="outline" size="lg" className="flex-1">
                 Mégse
               </Button>
-              <Button onClick={handleSavePackage} disabled={savingPackage} size="lg" className="flex-1">
+              <Button onClick={handleSavePackage} disabled={savingPackage} size="lg" className="flex-1" variant="dark">
                 {savingPackage && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Módosítás megerősítése
               </Button>
@@ -1051,6 +1052,7 @@ function Settings() {
                     variant="outline" 
                     size="sm"
                     onClick={() => handleDownloadInvoice(invoice.id)}
+                    className="border-foreground text-foreground hover:bg-foreground hover:text-background"
                   >
                     <Download className="h-4 w-4 mr-2" />
                     Letöltés
@@ -1101,7 +1103,7 @@ function Settings() {
               placeholder="Írd be újra az új jelszót"
             />
           </div>
-          <Button onClick={handleChangePassword}>
+          <Button onClick={handleChangePassword} variant="dark">
             Jelszó módosítása
           </Button>
         </CardContent>
@@ -1138,7 +1140,7 @@ function Settings() {
               value={newNotificationEmail}
               onChange={(e) => setNewNotificationEmail(e.target.value)}
             />
-            <Button onClick={handleAddNotificationEmail}>
+            <Button onClick={handleAddNotificationEmail} variant="dark">
               <Plus className="h-4 w-4" />
             </Button>
           </div>
@@ -1172,7 +1174,7 @@ function Settings() {
               </SelectContent>
             </Select>
           </div>
-          <Button onClick={handleSaveDataRetention} disabled={false}>
+          <Button onClick={handleSaveDataRetention} disabled={false} variant="dark">
             Mentés
           </Button>
         </CardContent>
@@ -1204,7 +1206,7 @@ function Settings() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={handleCancelPackageChange}>Mégse</AlertDialogCancel>
-            <AlertDialogAction onClick={handleSavePackage}>
+            <AlertDialogAction onClick={handleSavePackage} className="bg-foreground text-background hover:bg-foreground/90">
               {savingPackage ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
               Módosítás megerősítése
             </AlertDialogAction>
