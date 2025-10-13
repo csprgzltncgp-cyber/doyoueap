@@ -1041,10 +1041,17 @@ export type Database = {
         Args: { _access_token: string }
         Returns: {
           available_languages: string[]
+          closes_at: string
           communication_text: string
           custom_colors: Json
+          draw_mode: string
           eap_program_url: string
           expires_at: string
+          gift_description: string
+          gift_id: string
+          gift_image_url: string
+          gift_name: string
+          gift_value_eur: number
           id: string
           is_active: boolean
           logo_url: string
