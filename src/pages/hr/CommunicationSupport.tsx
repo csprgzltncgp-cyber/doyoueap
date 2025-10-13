@@ -286,7 +286,7 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
         <TabsContent value="qr" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Plakát szöveg - QR kód</CardTitle>
+              <CardTitle>Plakát szöveg</CardTitle>
               <CardDescription>
                 Ez a szöveg plakáton vagy szórólapon használható QR kóddal együtt
               </CardDescription>
