@@ -320,16 +320,17 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="space-y-2">
                   <img src={poster1} alt="Plakát sablon 1" className="w-full rounded-lg border" />
                   <Button 
                     onClick={() => handleDownloadPoster(poster1, 'plakat-sablon-1.png')}
                     variant="outline"
                     className="w-full"
+                    size="sm"
                   >
                     <Download className="mr-2 h-4 w-4" />
-                    1. sablon letöltése
+                    Letöltés
                   </Button>
                 </div>
                 <div className="space-y-2">
@@ -338,9 +339,10 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
                     onClick={() => handleDownloadPoster(poster2, 'plakat-sablon-2.png')}
                     variant="outline"
                     className="w-full"
+                    size="sm"
                   >
                     <Download className="mr-2 h-4 w-4" />
-                    2. sablon letöltése
+                    Letöltés
                   </Button>
                 </div>
                 <div className="space-y-2">
@@ -349,9 +351,10 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
                     onClick={() => handleDownloadPoster(poster3, 'plakat-sablon-3.png')}
                     variant="outline"
                     className="w-full"
+                    size="sm"
                   >
                     <Download className="mr-2 h-4 w-4" />
-                    3. sablon letöltése
+                    Letöltés
                   </Button>
                 </div>
                 <div className="space-y-2">
@@ -360,9 +363,10 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
                     onClick={() => handleDownloadPoster(poster4, 'plakat-sablon-4.png')}
                     variant="outline"
                     className="w-full"
+                    size="sm"
                   >
                     <Download className="mr-2 h-4 w-4" />
-                    4. sablon letöltése
+                    Letöltés
                   </Button>
                 </div>
               </div>
