@@ -680,14 +680,51 @@ const RunningAudits = () => {
           </TabsContent>
 
           {metrics.audit.access_mode === 'qr_code' && (
-            <TabsContent value="qr" className="pt-4">
-              <div className="flex justify-center p-4 bg-white rounded-lg">
+            <TabsContent value="qr" className="pt-4 space-y-4">
+              <div className="flex justify-center p-4 bg-white rounded-lg" id={`qr-code-${metrics.audit.id}`}>
                 <QRCodeSVG
                   value={getSurveyUrl(metrics.audit.access_token)}
                   size={200}
                   level="H"
                   includeMargin={true}
                 />
+              </div>
+              <div className="flex justify-center">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    const svgElement = document.querySelector(`#qr-code-${metrics.audit.id} svg`) as SVGSVGElement;
+                    if (!svgElement) return;
+
+                    const svgData = new XMLSerializer().serializeToString(svgElement);
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const img = new Image();
+                    
+                    img.onload = () => {
+                      canvas.width = img.width;
+                      canvas.height = img.height;
+                      ctx?.drawImage(img, 0, 0);
+                      canvas.toBlob((blob) => {
+                        if (blob) {
+                          const url = URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = `qr-kod-${formatAuditName(metrics.audit).replace(/\s+/g, '-')}.png`;
+                          a.click();
+                          URL.revokeObjectURL(url);
+                          toast.success('QR kód letöltve!');
+                        }
+                      });
+                    };
+                    
+                    img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+                  }}
+                  className="gap-2"
+                >
+                  <FileDown className="h-4 w-4" />
+                  QR kód letöltése
+                </Button>
               </div>
             </TabsContent>
           )}
