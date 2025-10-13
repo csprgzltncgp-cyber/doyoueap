@@ -584,7 +584,7 @@ const UserDashboard = () => {
 
           <Card className="overflow-hidden">
             <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Nyeremény</CardTitle>
+              <CardTitle className="text-lg">Fődíj</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {audit.gift.image_url && (
