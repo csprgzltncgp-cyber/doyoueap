@@ -85,18 +85,24 @@ const UserDashboard = () => {
 
   const fetchAudit = async () => {
     try {
+      console.log('[SURVEY DEBUG] Starting fetchAudit, token:', token);
+      
       // Use the secure function to get audit data
       const { data: auditData, error: auditError } = await supabase
         .rpc('get_audit_for_survey', { _access_token: token });
 
+      console.log('[SURVEY DEBUG] RPC result:', { auditData, auditError });
+
       if (auditError) throw auditError;
 
       if (!auditData || auditData.length === 0) {
+        console.log('[SURVEY DEBUG] No audit data returned');
         setError('Érvénytelen felmérés link');
         return;
       }
 
       const audit = auditData[0];
+      console.log('[SURVEY DEBUG] Audit from RPC:', audit);
 
       // Fetch the questionnaire separately
       const { data: questionnaireData, error: questionnaireError } = await supabase
@@ -114,24 +120,33 @@ const UserDashboard = () => {
         .eq('id', audit.id)
         .single();
 
+      console.log('[SURVEY DEBUG] Audit with gift data:', { auditWithGift, giftError });
+
       if (giftError) {
         console.error('Error fetching audit gift info:', giftError);
       }
 
-      setHasLottery(!!auditWithGift?.gift_id);
+      const hasLotteryValue = !!auditWithGift?.gift_id;
+      console.log('[SURVEY DEBUG] hasLottery value:', hasLotteryValue, 'gift_id:', auditWithGift?.gift_id);
+      setHasLottery(hasLotteryValue);
 
       // Fetch gift details if gift_id exists
       let giftDetails = null;
       if (auditWithGift?.gift_id) {
+        console.log('[SURVEY DEBUG] Fetching gift details for gift_id:', auditWithGift.gift_id);
         const { data: giftData, error: giftDetailsError } = await supabase
           .from('gifts')
           .select('name, value_eur, description, image_url')
           .eq('id', auditWithGift.gift_id)
           .single();
 
+        console.log('[SURVEY DEBUG] Gift data result:', { giftData, giftDetailsError });
+
         if (!giftDetailsError && giftData) {
           giftDetails = giftData;
         }
+      } else {
+        console.log('[SURVEY DEBUG] No gift_id, skipping gift fetch');
       }
 
       // Combine the data
@@ -143,9 +158,12 @@ const UserDashboard = () => {
         closes_at: auditWithGift?.closes_at || null
       };
 
+      console.log('[SURVEY DEBUG] Final combined data:', combinedData);
+      console.log('[SURVEY DEBUG] Final audit.gift:', combinedData.gift);
+
       setAudit(combinedData as any);
     } catch (err) {
-      console.error('Error fetching audit:', err);
+      console.error('[SURVEY DEBUG] Error in fetchAudit:', err);
       setError('Hiba történt a felmérés betöltésekor');
     } finally {
       setLoading(false);
@@ -532,7 +550,11 @@ const UserDashboard = () => {
     return formatted.replace('EUR', '€').trim();
   };
 
-  const renderWelcome = () => (
+  const renderWelcome = () => {
+    console.log('[SURVEY DEBUG - renderWelcome] hasLottery:', hasLottery, 'audit.gift:', audit.gift);
+    console.log('[SURVEY DEBUG - renderWelcome] Condition result:', hasLottery && audit.gift);
+    
+    return (
     <div className="space-y-6">
       <div className="space-y-4 text-center">
         <h2 className="text-2xl font-bold">Üdvözlünk!</h2>
@@ -625,6 +647,7 @@ const UserDashboard = () => {
       </div>
     </div>
   );
+  };
 
   const renderEapInfo = () => {
     // Ensure URL has protocol
