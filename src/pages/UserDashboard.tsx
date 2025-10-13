@@ -113,31 +113,19 @@ const UserDashboard = () => {
 
       if (questionnaireError) throw questionnaireError;
 
-      // Check if lottery is enabled and fetch gift details
-      const { data: auditWithGift, error: giftError } = await supabase
-        .from('audits')
-        .select('gift_id, draw_mode, closes_at')
-        .eq('id', audit.id)
-        .single();
-
-      console.log('[SURVEY DEBUG] Audit with gift data:', { auditWithGift, giftError });
-
-      if (giftError) {
-        console.error('Error fetching audit gift info:', giftError);
-      }
-
-      const hasLotteryValue = !!auditWithGift?.gift_id;
-      console.log('[SURVEY DEBUG] hasLottery value:', hasLotteryValue, 'gift_id:', auditWithGift?.gift_id);
+      // The RPC already returns gift_id, draw_mode, closes_at
+      const hasLotteryValue = !!audit.gift_id;
+      console.log('[SURVEY DEBUG] hasLottery value:', hasLotteryValue, 'gift_id:', audit.gift_id);
       setHasLottery(hasLotteryValue);
 
       // Fetch gift details if gift_id exists
       let giftDetails = null;
-      if (auditWithGift?.gift_id) {
-        console.log('[SURVEY DEBUG] Fetching gift details for gift_id:', auditWithGift.gift_id);
+      if (audit.gift_id) {
+        console.log('[SURVEY DEBUG] Fetching gift details for gift_id:', audit.gift_id);
         const { data: giftData, error: giftDetailsError } = await supabase
           .from('gifts')
           .select('name, value_eur, description, image_url')
-          .eq('id', auditWithGift.gift_id)
+          .eq('id', audit.gift_id)
           .single();
 
         console.log('[SURVEY DEBUG] Gift data result:', { giftData, giftDetailsError });
@@ -153,9 +141,7 @@ const UserDashboard = () => {
       const combinedData = {
         ...audit,
         questionnaire: questionnaireData,
-        gift: giftDetails,
-        draw_mode: auditWithGift?.draw_mode || null,
-        closes_at: auditWithGift?.closes_at || null
+        gift: giftDetails
       };
 
       console.log('[SURVEY DEBUG] Final combined data:', combinedData);
