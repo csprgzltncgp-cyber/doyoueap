@@ -29,12 +29,25 @@ interface Step7Props {
 export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Props) => {
   const [giftName, setGiftName] = useState<string>('');
   const [giftValue, setGiftValue] = useState<number>(0);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
 
   useEffect(() => {
     if (auditData.giftId) {
       fetchGift(auditData.giftId);
     }
   }, [auditData.giftId]);
+
+  useEffect(() => {
+    if (auditData.logoFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(auditData.logoFile);
+    } else {
+      setLogoPreview(null);
+    }
+  }, [auditData.logoFile]);
 
   const fetchGift = async (giftId: string) => {
     const { data } = await supabase
@@ -210,16 +223,19 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
         </CardContent>
       </Card>
 
-      {auditData.logoFile && (
+      {auditData.logoFile && logoPreview && (
         <Card className="border-2">
           <CardHeader className="bg-muted/30">
             <CardTitle className="text-xl">Logó</CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
-            <p className="text-base">
-              <CheckCircle2 className="inline h-5 w-5 mr-2 text-green-600" />
-              {auditData.logoFile.name}
-            </p>
+            <div className="border-2 border-dashed border-muted rounded-lg p-4 bg-muted/20 inline-block">
+              <img 
+                src={logoPreview} 
+                alt="Logo előnézet" 
+                className="h-24 w-auto object-contain"
+              />
+            </div>
           </CardContent>
         </Card>
       )}
