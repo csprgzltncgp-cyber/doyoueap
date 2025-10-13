@@ -307,10 +307,13 @@ const Focus = () => {
                     </div>
                   )}
                   {audit.giftInfo && (
-                    <div className="flex items-center gap-2 text-sm">
-                      <Gift className="h-4 w-4 text-primary" />
-                      <span className="font-medium">{audit.giftInfo.name} ({audit.giftInfo.value_eur} EUR)</span>
-                    </div>
+                    <Badge 
+                      variant="outline" 
+                      className="gap-1 bg-yellow-50 text-yellow-700 border-yellow-300"
+                    >
+                      <Gift className="h-3 w-3" />
+                      {audit.giftInfo.name} ({audit.giftInfo.value_eur} EUR)
+                    </Badge>
                   )}
                   {audit.drawInfo && (
                     <div className="mt-3 p-3 bg-muted/50 rounded-md space-y-2">
@@ -385,10 +388,13 @@ const Focus = () => {
                     </div>
                   )}
                   {audit.giftInfo && (
-                    <div className="flex items-center gap-2 text-sm">
-                      <Gift className="h-4 w-4 text-primary" />
-                      <span className="font-medium">{audit.giftInfo.name} ({audit.giftInfo.value_eur} EUR)</span>
-                    </div>
+                    <Badge 
+                      variant="outline" 
+                      className="gap-1 bg-yellow-50 text-yellow-700 border-yellow-300"
+                    >
+                      <Gift className="h-3 w-3" />
+                      {audit.giftInfo.name} ({audit.giftInfo.value_eur} EUR)
+                    </Badge>
                   )}
                   {audit.drawInfo && (
                     <div className="mt-3 p-3 bg-muted/50 rounded-md space-y-2">
