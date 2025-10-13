@@ -6,11 +6,18 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { toast } from 'sonner';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
-import { Calendar, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2, Trophy, FileDown, RefreshCw } from 'lucide-react';
+import { Calendar as CalendarIcon, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2, Trophy, FileDown, RefreshCw, Edit } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import jsPDF from 'jspdf';
+import { format, addDays } from 'date-fns';
+import { hu } from 'date-fns/locale';
+import { cn } from '@/lib/utils';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -39,6 +46,15 @@ const RunningAudits = () => {
   const [loading, setLoading] = useState(true);
   const [drawResult, setDrawResult] = useState<{ token: string; count: number } | null>(null);
   const [activeTab, setActiveTab] = useState<'active' | 'expired'>('active');
+  
+  // Edit dialogs state
+  const [editingExpiryAuditId, setEditingExpiryAuditId] = useState<string | null>(null);
+  const [editingRecurrenceAuditId, setEditingRecurrenceAuditId] = useState<string | null>(null);
+  const [newExpiryDate, setNewExpiryDate] = useState<Date | undefined>();
+  const [recurrenceSettings, setRecurrenceSettings] = useState({
+    enabled: false,
+    frequency: 'monthly' as 'monthly' | 'quarterly' | 'biannually' | 'annually',
+  });
 
   useEffect(() => {
     fetchRunningAudits();
@@ -176,6 +192,69 @@ const RunningAudits = () => {
     } catch (error) {
       console.error('Error deleting audit:', error);
       toast.error('Hiba történt a felmérés törlésekor');
+    }
+  };
+
+  const handleUpdateExpiry = async (auditId: string) => {
+    if (!newExpiryDate) return;
+
+    try {
+      const { error } = await supabase
+        .from('audits')
+        .update({ expires_at: newExpiryDate.toISOString() })
+        .eq('id', auditId);
+
+      if (error) throw error;
+
+      toast.success('Lejárat sikeresen módosítva');
+      setEditingExpiryAuditId(null);
+      setNewExpiryDate(undefined);
+      fetchRunningAudits();
+    } catch (error) {
+      console.error('Error updating expiry:', error);
+      toast.error('Hiba történt a lejárat módosításakor');
+    }
+  };
+
+  const handleUpdateRecurrence = async (auditId: string) => {
+    try {
+      const { error } = await supabase
+        .from('audits')
+        .update({ 
+          recurrence_config: {
+            enabled: recurrenceSettings.enabled,
+            frequency: recurrenceSettings.frequency,
+          }
+        })
+        .eq('id', auditId);
+
+      if (error) throw error;
+
+      toast.success('Ismétlődés sikeresen módosítva');
+      setEditingRecurrenceAuditId(null);
+      fetchRunningAudits();
+    } catch (error) {
+      console.error('Error updating recurrence:', error);
+      toast.error('Hiba történt az ismétlődés módosításakor');
+    }
+  };
+
+  const handleToggleDrawMode = async (auditId: string, currentMode: 'auto' | 'manual' | null) => {
+    const newMode = currentMode === 'auto' ? 'manual' : 'auto';
+    
+    try {
+      const { error } = await supabase
+        .from('audits')
+        .update({ draw_mode: newMode })
+        .eq('id', auditId);
+
+      if (error) throw error;
+
+      toast.success(`Sorsolási mód váltva: ${newMode === 'auto' ? 'Automatikus' : 'Manuális'}`);
+      fetchRunningAudits();
+    } catch (error) {
+      console.error('Error toggling draw mode:', error);
+      toast.error('Hiba történt a sorsolási mód váltásakor');
     }
   };
 
@@ -345,32 +424,56 @@ const RunningAudits = () => {
                 {getAccessModeIcon(metrics.audit.access_mode)}
                 {getAccessModeLabel(metrics.audit.access_mode)}
               </Badge>
-              <Badge variant="secondary" className="gap-1">
+              <Badge 
+                variant="secondary" 
+                className="gap-1 cursor-pointer hover:bg-secondary/80 transition-colors"
+                onClick={() => {
+                  setEditingExpiryAuditId(metrics.audit.id);
+                  setNewExpiryDate(metrics.audit.expires_at ? new Date(metrics.audit.expires_at) : addDays(new Date(), 30));
+                }}
+              >
                 <Clock className="h-3 w-3" />
                 {metrics.daysRemaining} nap van hátra
+                <Edit className="h-3 w-3 ml-1" />
               </Badge>
               {metrics.audit.recurrence_config?.enabled && (
-                <Badge variant="outline" className="gap-1 bg-blue-50 text-blue-700 border-blue-300">
-                  <RefreshCw className="h-3 w-3" />
-                  Ismétlődő
-                </Badge>
-              )}
-              {metrics.audit.gift_id && (
                 <Badge 
                   variant="outline" 
-                  className={`gap-1 ${
-                    metrics.audit.draw_status === 'completed' 
-                      ? 'bg-green-50 text-green-700 border-green-300' 
-                      : 'bg-yellow-50 text-yellow-700 border-yellow-300'
-                  }`}
+                  className="gap-1 bg-blue-50 text-blue-700 border-blue-300 cursor-pointer hover:bg-blue-100 transition-colors"
+                  onClick={() => {
+                    setEditingRecurrenceAuditId(metrics.audit.id);
+                    setRecurrenceSettings({
+                      enabled: metrics.audit.recurrence_config?.enabled || false,
+                      frequency: metrics.audit.recurrence_config?.frequency || 'monthly',
+                    });
+                  }}
+                >
+                  <RefreshCw className="h-3 w-3" />
+                  Ismétlődő
+                  <Edit className="h-3 w-3 ml-1" />
+                </Badge>
+              )}
+              {metrics.audit.gift_id && metrics.audit.draw_status !== 'completed' && (
+                <Badge 
+                  variant="outline" 
+                  className="gap-1 bg-yellow-50 text-yellow-700 border-yellow-300 cursor-pointer hover:bg-yellow-100 transition-colors"
+                  onClick={() => handleToggleDrawMode(metrics.audit.id, metrics.audit.draw_mode)}
                 >
                   <Trophy className="h-3 w-3" />
-                  {metrics.audit.draw_status === 'completed' 
-                    ? 'Sorsolt' 
-                    : metrics.audit.draw_mode === 'auto' 
-                      ? 'Automatikus sorsolással' 
-                      : 'Manuális sorsolással'
+                  {metrics.audit.draw_mode === 'auto' 
+                    ? 'Automatikus sorsolással' 
+                    : 'Manuális sorsolással'
                   }
+                  <Edit className="h-3 w-3 ml-1" />
+                </Badge>
+              )}
+              {metrics.audit.gift_id && metrics.audit.draw_status === 'completed' && (
+                <Badge 
+                  variant="outline" 
+                  className="gap-1 bg-green-50 text-green-700 border-green-300"
+                >
+                  <Trophy className="h-3 w-3" />
+                  Sorsolt
                 </Badge>
               )}
             </div>
@@ -685,6 +788,102 @@ const RunningAudits = () => {
           )}
         </TabsContent>
       </Tabs>
+
+      {/* Expiry Date Edit Dialog */}
+      <AlertDialog open={editingExpiryAuditId !== null} onOpenChange={(open) => !open && setEditingExpiryAuditId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Lejárat módosítása</AlertDialogTitle>
+            <AlertDialogDescription>
+              Válassz új lejárati dátumot a felméréshez
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="py-4">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full justify-start text-left font-normal",
+                    !newExpiryDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {newExpiryDate ? format(newExpiryDate, 'yyyy. MM. dd.', { locale: hu }) : "Válassz dátumot"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={newExpiryDate}
+                  onSelect={setNewExpiryDate}
+                  disabled={(date) => date < new Date()}
+                  initialFocus
+                  className={cn("p-3 pointer-events-auto")}
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Mégse</AlertDialogCancel>
+            <AlertDialogAction onClick={() => editingExpiryAuditId && handleUpdateExpiry(editingExpiryAuditId)}>
+              Mentés
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Recurrence Edit Dialog */}
+      <AlertDialog open={editingRecurrenceAuditId !== null} onOpenChange={(open) => !open && setEditingRecurrenceAuditId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Ismétlődés beállítása</AlertDialogTitle>
+            <AlertDialogDescription>
+              Állítsd be az ismétlődési gyakoriságot
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="recurrence-enabled">Ismétlődő felmérés</Label>
+              <Switch
+                id="recurrence-enabled"
+                checked={recurrenceSettings.enabled}
+                onCheckedChange={(checked) => 
+                  setRecurrenceSettings({ ...recurrenceSettings, enabled: checked })
+                }
+              />
+            </div>
+            {recurrenceSettings.enabled && (
+              <div className="space-y-2">
+                <Label>Gyakoriság</Label>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { value: 'monthly', label: 'Havonta' },
+                    { value: 'quarterly', label: 'Negyedévente' },
+                    { value: 'biannually', label: 'Félévente' },
+                    { value: 'annually', label: 'Évente' },
+                  ].map((freq) => (
+                    <Button
+                      key={freq.value}
+                      type="button"
+                      variant={recurrenceSettings.frequency === freq.value ? 'default' : 'outline'}
+                      onClick={() => setRecurrenceSettings({ ...recurrenceSettings, frequency: freq.value as any })}
+                    >
+                      {freq.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Mégse</AlertDialogCancel>
+            <AlertDialogAction onClick={() => editingRecurrenceAuditId && handleUpdateRecurrence(editingRecurrenceAuditId)}>
+              Mentés
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
