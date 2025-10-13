@@ -404,7 +404,7 @@ export const AuditPreview = ({ auditData, onNext, onBack }: AuditPreviewProps) =
             Előnézet
           </CardTitle>
           <CardDescription className="text-base">
-            Lépkedj végig a felmérés nyitó oldalain, ahogy majd a kitöltők látják
+            Lépkedj végig a felmérés első oldalain, ahogy majd a kitöltők látják
           </CardDescription>
         </CardHeader>
         <CardContent className="pt-6">
