@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Link as LinkIcon, Upload, QrCode, Calendar, Languages, FileText, Gift } from "lucide-react";
+import { CheckCircle2, Link as LinkIcon, Upload, QrCode, Calendar, Languages, FileText, Gift, Palette } from "lucide-react";
 import { supabase } from '@/integrations/supabase/client';
 
 interface Step7Props {
@@ -223,6 +223,26 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
           </CardContent>
         </Card>
       )}
+
+      <Card className="border-2">
+        <CardHeader className="bg-muted/30">
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <Palette className="h-6 w-6" />
+            Elsődleges szín
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <div className="flex items-center gap-4">
+            <div 
+              className="w-16 h-16 rounded-lg border-2 border-border shadow-sm"
+              style={{ backgroundColor: auditData.customColors?.primary || '#3b82f6' }}
+            />
+            <p className="font-mono text-base font-medium">
+              {auditData.customColors?.primary || '#3b82f6'}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
 
       <Card className="border-2 bg-primary/5 border-primary/20">
         <CardHeader className="bg-primary/10">
