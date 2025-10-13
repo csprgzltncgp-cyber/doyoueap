@@ -544,7 +544,7 @@ const UserDashboard = () => {
       
       {hasLottery && audit.gift && (
         <div className="grid md:grid-cols-2 gap-6">
-          <Alert className="border-primary/20 bg-primary/5">
+          <Alert className="border-border bg-muted/30">
             <AlertDescription className="space-y-3">
               <p className="font-semibold text-lg">Nyereményjáték!</p>
               <p>
@@ -665,7 +665,7 @@ const UserDashboard = () => {
               href={eapUrl} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-primary hover:underline"
+              className="text-foreground hover:underline font-medium"
             >
               {audit?.eap_program_url || 'doyoueap.hu'}
             </a>
@@ -784,9 +784,9 @@ const UserDashboard = () => {
           alakíthassunk ki.
         </p>
         {hasLottery && drawToken && (
-          <div className="mt-6 p-6 bg-primary/10 rounded-lg border-2 border-primary">
+          <div className="mt-6 p-6 bg-muted/30 rounded-lg border-2 border-border">
             <h3 className="text-xl font-bold mb-3">Sorsolási kódod:</h3>
-            <div className="text-3xl font-mono font-bold text-primary mb-3">
+            <div className="text-3xl font-mono font-bold text-foreground mb-3">
               {drawToken}
             </div>
             <p className="text-sm text-muted-foreground mb-4">
