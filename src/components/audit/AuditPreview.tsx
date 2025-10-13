@@ -317,6 +317,7 @@ export const AuditPreview = ({ auditData, onNext, onBack }: AuditPreviewProps) =
             <ChevronLeft className="h-4 w-4 mr-2" />
             Vissza
           </Button>
+          <div className="flex-1" />
         </div>
       </div>
     );
