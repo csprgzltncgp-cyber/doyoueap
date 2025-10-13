@@ -543,7 +543,31 @@ const UserDashboard = () => {
       </div>
       
       {hasLottery && audit.gift && (
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="space-y-6">
+          <Card className="overflow-hidden border-2 border-primary shadow-lg">
+            <CardHeader className="pb-3 bg-primary/5">
+              <CardTitle className="text-lg">Fődíj</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 pt-4">
+              {audit.gift.image_url && (
+                <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted">
+                  <img 
+                    src={audit.gift.image_url} 
+                    alt={audit.gift.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              )}
+              <div className="space-y-2">
+                <h3 className="font-semibold text-lg">{audit.gift.name}</h3>
+                <p className="text-2xl font-bold text-primary">{formatEUR(audit.gift.value_eur)}</p>
+                {audit.gift.description && (
+                  <p className="text-sm text-muted-foreground">{audit.gift.description}</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
           <Alert className="border-primary/20 bg-primary/5">
             <AlertDescription className="space-y-3">
               <p className="font-semibold text-lg">Nyereményjáték!</p>
@@ -581,30 +605,6 @@ const UserDashboard = () => {
               </div>
             </AlertDescription>
           </Alert>
-
-          <Card className="overflow-hidden">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Fődíj</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {audit.gift.image_url && (
-                <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted">
-                  <img 
-                    src={audit.gift.image_url} 
-                    alt={audit.gift.name}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              )}
-              <div className="space-y-2">
-                <h3 className="font-semibold text-lg">{audit.gift.name}</h3>
-                <p className="text-2xl font-bold text-primary">{formatEUR(audit.gift.value_eur)}</p>
-                {audit.gift.description && (
-                  <p className="text-sm text-muted-foreground">{audit.gift.description}</p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
         </div>
       )}
       
