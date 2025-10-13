@@ -308,28 +308,13 @@ export const AuditPreview = ({ auditData, onNext, onBack }: AuditPreviewProps) =
           value={undefined}
           onChange={() => {}}
         />
-        <div className="flex gap-4">
+        <div className="flex justify-start">
           <Button 
             onClick={() => setCurrentStep('demographics')} 
             variant="outline"
-            className="flex-1"
           >
             <ChevronLeft className="h-4 w-4 mr-2" />
             Vissza
-          </Button>
-          <Button 
-            onClick={() => {
-              setCurrentStep('branch_questions');
-              setCurrentBlockIndex(0);
-            }} 
-            className="flex-1"
-            style={{
-              backgroundColor: primaryColor,
-              borderColor: primaryColor,
-            }}
-          >
-            Tovább
-            <ChevronRight className="h-4 w-4 ml-2" />
           </Button>
         </div>
       </div>
@@ -427,28 +412,9 @@ export const AuditPreview = ({ auditData, onNext, onBack }: AuditPreviewProps) =
                   />
                 </div>
                 
-                {currentStep === 'branch_questions' && questionnaire.questions.branches?.[selectedBranch] && (() => {
-                  const progress = getTotalProgress();
-                  return (
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-center text-sm text-muted-foreground">
-                        <span>Lépés {progress.current} / {progress.total}</span>
-                      </div>
-                      <Progress 
-                        value={progress.percent} 
-                        className="mt-4"
-                        style={{
-                          '--progress-background': primaryColor
-                        } as React.CSSProperties}
-                      />
-                    </div>
-                  );
-                })()}
-                
                 {currentStep === 'welcome' && renderWelcome()}
                 {currentStep === 'demographics' && renderDemographics()}
                 {currentStep === 'branch_selector' && renderBranchSelector()}
-                {currentStep === 'branch_questions' && renderBranchQuestions()}
               </div>
             </div>
 
