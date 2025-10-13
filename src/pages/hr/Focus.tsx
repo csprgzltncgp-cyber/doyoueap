@@ -301,10 +301,10 @@ const Focus = () => {
                     </div>
                   )}
                   {audit.recurrence_config?.enabled && (
-                    <div className="flex items-center gap-2 text-sm">
-                      <RefreshCw className="h-4 w-4 text-blue-600" />
-                      <span className="font-medium text-blue-700">Ismétlődő felmérés</span>
-                    </div>
+                    <Badge variant="outline" className="gap-1 bg-blue-50 text-blue-700 border-blue-300">
+                      <RefreshCw className="h-3 w-3" />
+                      Ismétlődő
+                    </Badge>
                   )}
                   {audit.giftInfo && (
                     <Badge 
@@ -382,10 +382,10 @@ const Focus = () => {
                     </div>
                   )}
                   {audit.recurrence_config?.enabled && (
-                    <div className="flex items-center gap-2 text-sm">
-                      <RefreshCw className="h-4 w-4 text-blue-600" />
-                      <span className="font-medium text-blue-700">Ismétlődő felmérés volt</span>
-                    </div>
+                    <Badge variant="outline" className="gap-1 bg-blue-50 text-blue-700 border-blue-300">
+                      <RefreshCw className="h-3 w-3" />
+                      Ismétlődő
+                    </Badge>
                   )}
                   {audit.giftInfo && (
                     <Badge 
