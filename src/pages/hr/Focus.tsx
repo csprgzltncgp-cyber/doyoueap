@@ -427,10 +427,10 @@ const Focus = () => {
       {expiredAudits.length > 0 && (
         <div className="space-y-5">
           <div className="flex items-center gap-3">
-            <div className="bg-muted p-2 rounded-lg">
-              <Flag className="h-5 w-5 text-muted-foreground" />
+            <div className="bg-primary/10 p-2 rounded-lg">
+              <Flag className="h-5 w-5 text-primary" />
             </div>
-            <h2 className="text-2xl font-bold text-muted-foreground">Lejárt felmérések</h2>
+            <h2 className="text-2xl font-bold">Lejárt felmérések</h2>
           </div>
 
           <div className="grid gap-5">
@@ -475,7 +475,7 @@ const Focus = () => {
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div className="flex items-center gap-3 text-sm bg-muted/50 p-3 rounded-lg">
-                      <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                      <Calendar className="h-4 w-4 text-primary flex-shrink-0" />
                       <div>
                         <p className="text-xs text-muted-foreground">Kezdés</p>
                         <p className="font-medium">{format(new Date(audit.start_date), 'yyyy. MM. dd.', { locale: hu })}</p>
@@ -483,7 +483,7 @@ const Focus = () => {
                     </div>
                     {audit.expires_at && (
                       <div className="flex items-center gap-3 text-sm bg-muted/50 p-3 rounded-lg">
-                        <Flag className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                        <Flag className="h-4 w-4 text-primary flex-shrink-0" />
                         <div>
                           <p className="text-xs text-muted-foreground">Lezárva</p>
                           <p className="font-medium">{format(new Date(audit.expires_at), 'yyyy. MM. dd.', { locale: hu })}</p>
