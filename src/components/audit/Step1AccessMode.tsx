@@ -115,7 +115,7 @@ export const Step1AccessMode = ({ accessMode, targetResponses, onAccessModeChang
               <div className="flex items-start gap-2 text-sm text-destructive font-medium">
                 <AlertTriangle className="h-4 w-4 flex-shrink-0 mt-0.5" />
                 <p>
-                  Ha megadsz célszámot, az felülírja az automatikus email-számolást!
+                  Ha megadsz célszámot, az felülírja a feltöltött Excel táblázatban lévő email címek darabszámát, ami alapból a célszámként szolgálna!
                 </p>
               </div>
             ) : (
