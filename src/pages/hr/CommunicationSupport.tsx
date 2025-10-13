@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Download, Mail, LinkIcon, QrCode as QrCodeIcon } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
+import { Slider } from '@/components/ui/slider';
 
 const CommunicationSupport = () => {
   const [programName, setProgramName] = useState('EAP');
@@ -204,17 +205,20 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
               className="mt-2"
             />
           </div>
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="has-gift">Van nyereményjáték</Label>
+              <span className="text-sm font-medium">{hasGift ? 'Igen' : 'Nem'}</span>
+            </div>
+            <Slider
               id="has-gift"
-              checked={hasGift}
-              onChange={(e) => setHasGift(e.target.checked)}
-              className="h-4 w-4"
+              min={0}
+              max={1}
+              step={1}
+              value={[hasGift ? 1 : 0]}
+              onValueChange={(value) => setHasGift(value[0] === 1)}
+              className="w-full"
             />
-            <Label htmlFor="has-gift" className="cursor-pointer">
-              Van ajándéksorsolás
-            </Label>
           </div>
         </CardContent>
       </Card>
