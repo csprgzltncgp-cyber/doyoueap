@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Link as LinkIcon, Upload, QrCode, Calendar, Languages, FileText, Gift, Palette, Check } from "lucide-react";
+import { Link as LinkIcon, Upload, QrCode, Calendar, Languages, FileText, Gift, Palette, Mail, MousePointerClick, CheckCircle, Trophy } from "lucide-react";
 import { supabase } from '@/integrations/supabase/client';
 
 interface Step7Props {
@@ -98,11 +98,11 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
   const getAccessModeIcon = (mode: string) => {
     switch (mode) {
       case 'tokenes':
-        return <Upload className="h-4 w-4" />;
+        return <Mail className="h-3 w-3" />;
       case 'public_link':
-        return <LinkIcon className="h-4 w-4" />;
+        return <MousePointerClick className="h-3 w-3" />;
       case 'qr_code':
-        return <QrCode className="h-4 w-4" />;
+        return <CheckCircle className="h-3 w-3" />;
       default:
         return null;
     }
@@ -144,16 +144,10 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
-          <button
-            type="button"
-            disabled
-            className="relative w-full p-4 rounded-lg border-2 transition-all text-left border-primary bg-primary/5 shadow-md flex items-center justify-between"
-          >
-            <span className="text-base font-medium">{getAccessModeLabel(auditData.accessMode)}</span>
-            <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
-              <Check className="w-4 h-4 text-primary-foreground" />
-            </div>
-          </button>
+          <Badge variant="outline" className="gap-1 text-base px-4 py-2">
+            {getAccessModeIcon(auditData.accessMode)}
+            {getAccessModeLabel(auditData.accessMode)}
+          </Badge>
         </CardContent>
       </Card>
 
@@ -206,18 +200,13 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Sorsolás módja</p>
-              <button
-                type="button"
-                disabled
-                className="relative w-full p-4 rounded-lg border-2 transition-all text-left border-primary bg-primary/5 shadow-md flex items-center justify-between"
+              <Badge 
+                variant="outline" 
+                className="gap-1 text-base px-4 py-2 bg-yellow-50 text-yellow-700 border-yellow-300"
               >
-                <span className="text-base">
-                  {auditData.drawMode === 'auto' ? 'Automatikus záráskor' : 'Manuális indítás'}
-                </span>
-                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
-                  <Check className="w-4 h-4 text-primary-foreground" />
-                </div>
-              </button>
+                <Trophy className="h-3 w-3" />
+                {auditData.drawMode === 'auto' ? 'Automatikus sorsolással' : 'Manuális sorsolással'}
+              </Badge>
             </div>
           </CardContent>
         </Card>
