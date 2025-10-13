@@ -46,6 +46,7 @@ const RunningAudits = () => {
   const [loading, setLoading] = useState(true);
   const [drawResult, setDrawResult] = useState<{ token: string; count: number } | null>(null);
   const [activeTab, setActiveTab] = useState<'active' | 'expired'>('active');
+  const [subscriptionPackage, setSubscriptionPackage] = useState<string | null>(null);
   
   // Edit dialogs state
   const [editingExpiryAuditId, setEditingExpiryAuditId] = useState<string | null>(null);
@@ -54,7 +55,7 @@ const RunningAudits = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [recurrenceSettings, setRecurrenceSettings] = useState({
     enabled: false,
-    frequency: 'monthly' as 'monthly' | 'quarterly' | 'biannually' | 'annually',
+    frequency: 'quarterly' as 'quarterly' | 'biannually' | 'annually',
   });
 
   useEffect(() => {
@@ -63,13 +64,26 @@ const RunningAudits = () => {
 
   const fetchRunningAudits = async () => {
     try {
-      // Fetch user's profile to get employee count
+      // Fetch user's profile to get employee count and company name
       const { data: { user } } = await supabase.auth.getUser();
       const { data: profile } = await supabase
         .from('profiles')
-        .select('employee_count')
+        .select('employee_count, company_name')
         .eq('id', user?.id)
         .single();
+
+      // Fetch company subscription package
+      if (profile?.company_name) {
+        const { data: companyData } = await supabase
+          .from('companies')
+          .select('subscription_package')
+          .eq('company_name', profile.company_name)
+          .maybeSingle();
+        
+        if (companyData) {
+          setSubscriptionPackage(companyData.subscription_package);
+        }
+      }
 
       // Fetch active audits
       const { data: auditsData, error: auditsError } = await supabase
@@ -862,21 +876,35 @@ const RunningAudits = () => {
               <div className="space-y-2">
                 <Label>Gyakoriság</Label>
                 <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { value: 'monthly', label: 'Havonta' },
-                    { value: 'quarterly', label: 'Negyedévente' },
-                    { value: 'biannually', label: 'Félévente' },
-                    { value: 'annually', label: 'Évente' },
-                  ].map((freq) => (
-                    <Button
-                      key={freq.value}
-                      type="button"
-                      variant={recurrenceSettings.frequency === freq.value ? 'default' : 'outline'}
-                      onClick={() => setRecurrenceSettings({ ...recurrenceSettings, frequency: freq.value as any })}
-                    >
-                      {freq.label}
-                    </Button>
-                  ))}
+                  {(() => {
+                    // Define available frequencies based on subscription package
+                    let availableFrequencies: Array<{ value: string; label: string }> = [];
+                    
+                    if (subscriptionPackage === 'premium' || subscriptionPackage === 'enterprise') {
+                      availableFrequencies = [
+                        { value: 'quarterly', label: 'Negyedévente' },
+                        { value: 'biannually', label: 'Félévente' },
+                        { value: 'annually', label: 'Évente' },
+                      ];
+                    } else {
+                      // Basic or no package: only biannually and annually
+                      availableFrequencies = [
+                        { value: 'biannually', label: 'Félévente' },
+                        { value: 'annually', label: 'Évente' },
+                      ];
+                    }
+                    
+                    return availableFrequencies.map((freq) => (
+                      <Button
+                        key={freq.value}
+                        type="button"
+                        variant={recurrenceSettings.frequency === freq.value ? 'default' : 'outline'}
+                        onClick={() => setRecurrenceSettings({ ...recurrenceSettings, frequency: freq.value as any })}
+                      >
+                        {freq.label}
+                      </Button>
+                    ));
+                  })()}
                 </div>
               </div>
             )}
