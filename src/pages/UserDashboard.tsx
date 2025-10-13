@@ -109,6 +109,13 @@ const UserDashboard = () => {
 
       // The RPC already returns gift_id and gift details
       const hasLotteryValue = !!audit.gift_id;
+      console.log('[SURVEY DEBUG] hasLottery value:', hasLotteryValue, 'gift_id:', audit.gift_id);
+      console.log('[SURVEY DEBUG] Gift from RPC:', {
+        name: audit.gift_name,
+        value_eur: audit.gift_value_eur,
+        description: audit.gift_description,
+        image_url: audit.gift_image_url
+      });
       setHasLottery(hasLotteryValue);
 
       // Build gift object from RPC data
@@ -120,6 +127,9 @@ const UserDashboard = () => {
           description: audit.gift_description,
           image_url: audit.gift_image_url
         };
+        console.log('[SURVEY DEBUG] Gift details constructed:', giftDetails);
+      } else {
+        console.log('[SURVEY DEBUG] No gift_id or gift_name, skipping gift construction');
       }
 
       // Combine the data

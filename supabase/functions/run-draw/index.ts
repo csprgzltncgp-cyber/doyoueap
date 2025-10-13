@@ -1,6 +1,5 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
-import { Resend } from 'npm:resend@4.0.0';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -164,25 +163,31 @@ serve(async (req) => {
     // 9. Send email notification if winner opted in
     if (notificationEmail) {
       try {
-        const resend = new Resend(Deno.env.get('RESEND_API_KEY'));
-        
-        const { error: emailError } = await resend.emails.send({
-          from: 'DoYouEAP <noreply@doyoueap.com>',
-          to: [notificationEmail],
-          subject: 'Gratulálunk! Nyertél az EAP felmérés sorsolásán!',
-          html: `
-            <h1>Gratulálunk!</h1>
-            <p>Örömmel értesítünk, hogy nyertél az <strong>${audit.program_name}</strong> program felmérésének sorsolásán!</p>
-            <p><strong>A nyertes kódod:</strong> <code style="background: #f3f4f6; padding: 4px 8px; border-radius: 4px;">${winner.draw_token}</code></p>
-            <p>Ajándékod: <strong>${audit.gifts?.name}</strong> (${audit.gifts?.value_eur} EUR értékben)</p>
-            <p>Kérjük, vedd fel a kapcsolatot a HR osztállyal a fenti kód megadásával az ajándék átvételéhez!</p>
-            <br>
-            <p>Üdvözlettel,<br>DoYouEAP csapata</p>
-          `,
+        const response = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
+          },
+          body: JSON.stringify({
+            from: 'DoYouEAP <noreply@doyoueap.com>',
+            to: [notificationEmail],
+            subject: 'Gratulálunk! Nyertél az EAP felmérés sorsolásán!',
+            html: `
+              <h1>Gratulálunk!</h1>
+              <p>Örömmel értesítünk, hogy nyertél az <strong>${audit.program_name}</strong> program felmérésének sorsolásán!</p>
+              <p><strong>A nyertes kódod:</strong> <code style="background: #f3f4f6; padding: 4px 8px; border-radius: 4px;">${winner.draw_token}</code></p>
+              <p>Ajándékod: <strong>${audit.gifts?.name}</strong> (${audit.gifts?.value_eur} EUR értékben)</p>
+              <p>Kérjük, vedd fel a kapcsolatot a HR osztállyal a fenti kód megadásával az ajándék átvételéhez!</p>
+              <br>
+              <p>Üdvözlettel,<br>DoYouEAP csapata</p>
+            `,
+          }),
         });
 
-        if (emailError) {
-          console.error('[run-draw] Email sending failed:', emailError);
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('[run-draw] Email sending failed:', errorData);
           await supabaseClient
             .from('draws')
             .update({ 
