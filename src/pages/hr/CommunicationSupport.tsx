@@ -6,8 +6,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Download, Mail, LinkIcon, QrCode as QrCodeIcon } from 'lucide-react';
-import { QRCodeSVG } from 'qrcode.react';
 import { Switch } from '@/components/ui/switch';
+import poster1 from '@/assets/poster-1.png';
+import poster2 from '@/assets/poster-2.png';
+import poster3 from '@/assets/poster-3.png';
+import poster4 from '@/assets/poster-4.png';
 
 const CommunicationSupport = () => {
   const [programName, setProgramName] = useState('EAP');
@@ -153,29 +156,13 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
     URL.revokeObjectURL(url);
   };
 
-  const handleDownloadQR = () => {
-    const svg = document.getElementById('qr-code-svg') as unknown as SVGElement;
-    if (svg) {
-      const svgData = new XMLSerializer().serializeToString(svg);
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      const img = new Image();
-      
-      img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx?.drawImage(img, 0, 0);
-        const url = canvas.toDataURL('image/png');
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'eap-pulse-qr-kod.png';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      };
-      
-      img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
-    }
+  const handleDownloadPoster = (posterSrc: string, filename: string) => {
+    const a = document.createElement('a');
+    a.href = posterSrc;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   return (
@@ -327,29 +314,58 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
 
           <Card>
             <CardHeader>
-              <CardTitle>Minta QR kód</CardTitle>
+              <CardTitle>A2 plakát javaslatok</CardTitle>
               <CardDescription>
-                Ez csak egy példa QR kód. Az éles QR kódot a felmérés létrehozása után kapod meg.
+                Letölthető plakát sablonok a felmérés népszerűsítéséhez
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-center p-8 bg-white rounded-lg">
-                <QRCodeSVG
-                  id="qr-code-svg"
-                  value="https://doyoueap.com/survey/example"
-                  size={256}
-                  level="H"
-                  includeMargin={true}
-                />
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <img src={poster1} alt="Plakát sablon 1" className="w-full rounded-lg border" />
+                  <Button 
+                    onClick={() => handleDownloadPoster(poster1, 'plakat-sablon-1.png')}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    1. sablon letöltése
+                  </Button>
+                </div>
+                <div className="space-y-2">
+                  <img src={poster2} alt="Plakát sablon 2" className="w-full rounded-lg border" />
+                  <Button 
+                    onClick={() => handleDownloadPoster(poster2, 'plakat-sablon-2.png')}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    2. sablon letöltése
+                  </Button>
+                </div>
+                <div className="space-y-2">
+                  <img src={poster3} alt="Plakát sablon 3" className="w-full rounded-lg border" />
+                  <Button 
+                    onClick={() => handleDownloadPoster(poster3, 'plakat-sablon-3.png')}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    3. sablon letöltése
+                  </Button>
+                </div>
+                <div className="space-y-2">
+                  <img src={poster4} alt="Plakát sablon 4" className="w-full rounded-lg border" />
+                  <Button 
+                    onClick={() => handleDownloadPoster(poster4, 'plakat-sablon-4.png')}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    4. sablon letöltése
+                  </Button>
+                </div>
               </div>
-              <Button 
-                onClick={handleDownloadQR}
-                variant="outline"
-                className="w-full"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Minta QR kód letöltése (PNG)
-              </Button>
             </CardContent>
           </Card>
         </TabsContent>
