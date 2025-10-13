@@ -120,7 +120,7 @@ export const Step1AccessMode = ({ accessMode, targetResponses, onAccessModeChang
               </div>
             ) : (
               <p className="text-sm text-muted-foreground">
-                Ha nem adsz meg célszámot, csak a kitöltések számát fogjuk mutatni.
+                Ha nem adsz meg célszámot, a regisztráció során megadott munkavállalói létszámból fogjuk számolni, vagy ha az sincs megadva, csak a kitöltések számát fogjuk mutatni.
               </p>
             )}
           </div>
