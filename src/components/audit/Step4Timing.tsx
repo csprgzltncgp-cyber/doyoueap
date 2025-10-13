@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar, RefreshCw } from "lucide-react";
 
@@ -112,16 +112,15 @@ export const Step4Timing = ({
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 pt-6">
-          <div className="flex items-center space-x-3">
-            <Checkbox
-              id="enable-recurrence"
-              checked={enableRecurrence}
-              onCheckedChange={(checked) => onEnableRecurrenceChange(checked as boolean)}
-              className="w-5 h-5"
-            />
-            <Label htmlFor="enable-recurrence" className="cursor-pointer text-base font-medium">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="enable-recurrence" className="text-base font-medium">
               Ismétlődő felmérés beállítása
             </Label>
+            <Switch
+              id="enable-recurrence"
+              checked={enableRecurrence}
+              onCheckedChange={onEnableRecurrenceChange}
+            />
           </div>
 
           {enableRecurrence && (
