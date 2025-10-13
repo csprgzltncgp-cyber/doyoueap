@@ -51,6 +51,7 @@ const RunningAudits = () => {
   const [editingExpiryAuditId, setEditingExpiryAuditId] = useState<string | null>(null);
   const [editingRecurrenceAuditId, setEditingRecurrenceAuditId] = useState<string | null>(null);
   const [newExpiryDate, setNewExpiryDate] = useState<Date | undefined>();
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [recurrenceSettings, setRecurrenceSettings] = useState({
     enabled: false,
     frequency: 'monthly' as 'monthly' | 'quarterly' | 'biannually' | 'annually',
@@ -209,6 +210,7 @@ const RunningAudits = () => {
       toast.success('Lejárat sikeresen módosítva');
       setEditingExpiryAuditId(null);
       setNewExpiryDate(undefined);
+      setIsCalendarOpen(false);
       fetchRunningAudits();
     } catch (error) {
       console.error('Error updating expiry:', error);
@@ -799,7 +801,7 @@ const RunningAudits = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="py-4">
-            <Popover>
+            <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
@@ -812,11 +814,14 @@ const RunningAudits = () => {
                   {newExpiryDate ? format(newExpiryDate, 'yyyy. MM. dd.', { locale: hu }) : "Válassz dátumot"}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
+              <PopoverContent className="w-auto p-0 bg-background z-50" align="start">
                 <Calendar
                   mode="single"
                   selected={newExpiryDate}
-                  onSelect={setNewExpiryDate}
+                  onSelect={(date) => {
+                    setNewExpiryDate(date);
+                    setIsCalendarOpen(false);
+                  }}
                   disabled={(date) => date < new Date()}
                   initialFocus
                   className={cn("p-3 pointer-events-auto")}
