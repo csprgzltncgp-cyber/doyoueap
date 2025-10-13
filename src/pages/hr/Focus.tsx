@@ -264,26 +264,23 @@ const Focus = () => {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDIwIDAgTCAwIDAgMCAyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLW9wYWNpdHk9IjAuMSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-30"></div>
         <div className="relative z-10 flex items-start justify-between">
           <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-6 w-6 text-white animate-pulse" />
-              <h1 className="text-3xl font-bold text-white">
-                {getGreeting()}, {userName || 'Felhasználó'}!
-              </h1>
-            </div>
+            <h1 className="text-3xl font-bold text-white">
+              {getGreeting()}, {userName || 'Felhasználó'}!
+            </h1>
             <p className="text-white/90 text-lg max-w-2xl">
               Üdv újra itt! Itt találja a futó felmérések áttekintését és a letöltési előzményeit.
             </p>
           </div>
           <div className="hidden md:flex gap-3">
-            <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4 text-center min-w-[100px]">
+            <div className="bg-primary-foreground/20 backdrop-blur-sm rounded-lg p-4 text-center min-w-[100px] border border-primary-foreground/30">
               <TrendingUp className="h-5 w-5 text-white mx-auto mb-1" />
               <div className="text-2xl font-bold text-white">{activeAudits.length}</div>
-              <div className="text-xs text-white/80">Aktív</div>
+              <div className="text-xs text-white/90 font-medium">Aktív</div>
             </div>
-            <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4 text-center min-w-[100px]">
+            <div className="bg-primary-foreground/20 backdrop-blur-sm rounded-lg p-4 text-center min-w-[100px] border border-primary-foreground/30">
               <Award className="h-5 w-5 text-white mx-auto mb-1" />
               <div className="text-2xl font-bold text-white">{expiredAudits.length}</div>
-              <div className="text-xs text-white/80">Lezárt</div>
+              <div className="text-xs text-white/90 font-medium">Lezárt</div>
             </div>
           </div>
         </div>
