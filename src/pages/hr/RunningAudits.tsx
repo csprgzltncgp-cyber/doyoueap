@@ -456,11 +456,14 @@ const RunningAudits = () => {
                 //          2. email_count (for tokenes mode)
                 //          3. totalEmployees (from profile)
                 //          4. no target (just show count)
-                const target = metrics.audit.target_responses || 
-                              metrics.audit.email_count ||
-                              metrics.totalEmployees;
-                
-                return target ? ` / ${target}` : '';
+                if (metrics.audit.target_responses) {
+                  return ` / ${metrics.audit.target_responses} (célszám)`;
+                } else if (metrics.audit.email_count) {
+                  return ` / ${metrics.audit.email_count} (email cím)`;
+                } else if (metrics.totalEmployees) {
+                  return ` / ${metrics.totalEmployees} (munkavállalói létszám)`;
+                }
+                return '';
               })()}
             </span>
           </div>

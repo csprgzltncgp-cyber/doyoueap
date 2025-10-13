@@ -293,11 +293,14 @@ const Focus = () => {
                         <Users className="h-3 w-3 inline mr-1" />
                         {audit.responseCount} válasz
                         {(() => {
-                          const target = audit.target_responses || 
-                                        audit.email_count ||
-                                        (window as any).__employeeCount;
-                          
-                          return target ? ` / ${target}` : ' érkezett';
+                          if (audit.target_responses) {
+                            return ` / ${audit.target_responses} (célszám)`;
+                          } else if (audit.email_count) {
+                            return ` / ${audit.email_count} (email cím)`;
+                          } else if ((window as any).__employeeCount) {
+                            return ` / ${(window as any).__employeeCount} (munkavállalói létszám)`;
+                          }
+                          return ' érkezett';
                         })()}
                       </CardDescription>
                     </div>
@@ -383,11 +386,14 @@ const Focus = () => {
                         <Users className="h-3 w-3 inline mr-1" />
                         {audit.responseCount} válasz
                         {(() => {
-                          const target = audit.target_responses || 
-                                        audit.email_count ||
-                                        (window as any).__employeeCount;
-                          
-                          return target ? ` / ${target}` : ' érkezett';
+                          if (audit.target_responses) {
+                            return ` / ${audit.target_responses} (célszám)`;
+                          } else if (audit.email_count) {
+                            return ` / ${audit.email_count} (email cím)`;
+                          } else if ((window as any).__employeeCount) {
+                            return ` / ${(window as any).__employeeCount} (munkavállalói létszám)`;
+                          }
+                          return ' érkezett';
                         })()}
                       </CardDescription>
                     </div>
