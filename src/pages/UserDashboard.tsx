@@ -107,16 +107,26 @@ const UserDashboard = () => {
 
       if (questionnaireError) throw questionnaireError;
 
-      // Set lottery state from the audit data we already have (now includes gift_id from get_audit_for_survey)
-      setHasLottery(!!audit.gift_id);
+      // Check if lottery is enabled and fetch gift details
+      const { data: auditWithGift, error: giftError } = await supabase
+        .from('audits')
+        .select('gift_id, draw_mode, closes_at')
+        .eq('id', audit.id)
+        .single();
+
+      if (giftError) {
+        console.error('Error fetching audit gift info:', giftError);
+      }
+
+      setHasLottery(!!auditWithGift?.gift_id);
 
       // Fetch gift details if gift_id exists
       let giftDetails = null;
-      if (audit.gift_id) {
+      if (auditWithGift?.gift_id) {
         const { data: giftData, error: giftDetailsError } = await supabase
           .from('gifts')
           .select('name, value_eur, description, image_url')
-          .eq('id', audit.gift_id)
+          .eq('id', auditWithGift.gift_id)
           .single();
 
         if (!giftDetailsError && giftData) {
@@ -124,13 +134,13 @@ const UserDashboard = () => {
         }
       }
 
-      // Combine the data (gift_id, draw_mode, closes_at already included in audit)
+      // Combine the data
       const combinedData = {
         ...audit,
         questionnaire: questionnaireData,
         gift: giftDetails,
-        draw_mode: audit.draw_mode || null,
-        closes_at: audit.closes_at || null
+        draw_mode: auditWithGift?.draw_mode || null,
+        closes_at: auditWithGift?.closes_at || null
       };
 
       setAudit(combinedData as any);
@@ -533,31 +543,7 @@ const UserDashboard = () => {
       </div>
       
       {hasLottery && audit.gift && (
-        <div className="space-y-6">
-          <Card className="overflow-hidden border-2 border-primary shadow-lg">
-            <CardHeader className="pb-3 bg-primary/5">
-              <CardTitle className="text-lg">Fődíj</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 pt-4">
-              {audit.gift.image_url && (
-                <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted">
-                  <img 
-                    src={audit.gift.image_url} 
-                    alt={audit.gift.name}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              )}
-              <div className="space-y-2">
-                <h3 className="font-semibold text-lg">{audit.gift.name}</h3>
-                <p className="text-2xl font-bold text-primary">{formatEUR(audit.gift.value_eur)}</p>
-                {audit.gift.description && (
-                  <p className="text-sm text-muted-foreground">{audit.gift.description}</p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
+        <div className="grid md:grid-cols-2 gap-6">
           <Alert className="border-primary/20 bg-primary/5">
             <AlertDescription className="space-y-3">
               <p className="font-semibold text-lg">Nyereményjáték!</p>
@@ -595,6 +581,30 @@ const UserDashboard = () => {
               </div>
             </AlertDescription>
           </Alert>
+
+          <Card className="overflow-hidden">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg">Fődíj</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {audit.gift.image_url && (
+                <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted">
+                  <img 
+                    src={audit.gift.image_url} 
+                    alt={audit.gift.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              )}
+              <div className="space-y-2">
+                <h3 className="font-semibold text-lg">{audit.gift.name}</h3>
+                <p className="text-2xl font-bold text-primary">{formatEUR(audit.gift.value_eur)}</p>
+                {audit.gift.description && (
+                  <p className="text-sm text-muted-foreground">{audit.gift.description}</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       )}
       
