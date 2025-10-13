@@ -339,8 +339,20 @@ export const AuditPreview = ({ auditData, onNext, onBack }: AuditPreviewProps) =
   const renderBranchQuestions = () => {
     if (!questionnaire || !selectedBranch) return null;
     
-    const branch = questionnaire.questions.branches[selectedBranch];
+    const branch = questionnaire.questions.branches?.[selectedBranch];
+    if (!branch || !branch.blocks || branch.blocks.length === 0) {
+      return (
+        <div className="text-center py-8 text-muted-foreground">
+          Betöltés...
+        </div>
+      );
+    }
+    
     const currentBlock = branch.blocks[currentBlockIndex];
+    if (!currentBlock || !currentBlock.questions) {
+      return null;
+    }
+    
     const isLastBlock = currentBlockIndex === branch.blocks.length - 1;
     
     return (
@@ -399,51 +411,59 @@ export const AuditPreview = ({ auditData, onNext, onBack }: AuditPreviewProps) =
         </div>
       </CardHeader>
       <CardContent>
-        <div className="min-h-[600px] bg-background/50 rounded-lg border-2 border-dashed border-muted p-8">
-          <div className="max-w-3xl mx-auto space-y-6">
-            <div className="flex justify-center">
-              <img 
-                src={logoPreview || logo} 
-                alt="Logo" 
-                className="h-12 object-contain"
-              />
-            </div>
-            
-            {currentStep === 'branch_questions' && (() => {
-              const progress = getTotalProgress();
-              return (
-                <div className="space-y-2">
-                  <div className="flex items-center justify-center text-sm text-muted-foreground">
-                    <span>Lépés {progress.current} / {progress.total}</span>
-                  </div>
-                  <Progress 
-                    value={progress.percent} 
-                    className="mt-4"
-                    style={{
-                      '--progress-background': primaryColor
-                    } as React.CSSProperties}
+        {!questionnaire ? (
+          <div className="min-h-[600px] flex items-center justify-center">
+            <p className="text-muted-foreground">Betöltés...</p>
+          </div>
+        ) : (
+          <>
+            <div className="min-h-[600px] bg-background/50 rounded-lg border-2 border-dashed border-muted p-8">
+              <div className="max-w-3xl mx-auto space-y-6">
+                <div className="flex justify-center">
+                  <img 
+                    src={logoPreview || logo} 
+                    alt="Logo" 
+                    className="h-12 object-contain"
                   />
                 </div>
-              );
-            })()}
-            
-            {currentStep === 'welcome' && renderWelcome()}
-            {currentStep === 'demographics' && renderDemographics()}
-            {currentStep === 'branch_selector' && renderBranchSelector()}
-            {currentStep === 'branch_questions' && renderBranchQuestions()}
-          </div>
-        </div>
+                
+                {currentStep === 'branch_questions' && questionnaire.questions.branches?.[selectedBranch] && (() => {
+                  const progress = getTotalProgress();
+                  return (
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-center text-sm text-muted-foreground">
+                        <span>Lépés {progress.current} / {progress.total}</span>
+                      </div>
+                      <Progress 
+                        value={progress.percent} 
+                        className="mt-4"
+                        style={{
+                          '--progress-background': primaryColor
+                        } as React.CSSProperties}
+                      />
+                    </div>
+                  );
+                })()}
+                
+                {currentStep === 'welcome' && renderWelcome()}
+                {currentStep === 'demographics' && renderDemographics()}
+                {currentStep === 'branch_selector' && renderBranchSelector()}
+                {currentStep === 'branch_questions' && renderBranchQuestions()}
+              </div>
+            </div>
 
-        <div className="flex justify-between mt-6 pt-6 border-t">
-          <Button onClick={onBack} variant="outline">
-            <ChevronLeft className="h-4 w-4 mr-2" />
-            Vissza a beállításokhoz
-          </Button>
-          <Button onClick={onNext}>
-            Tovább az összefoglalóhoz
-            <ChevronRight className="h-4 w-4 ml-2" />
-          </Button>
-        </div>
+            <div className="flex justify-between mt-6 pt-6 border-t">
+              <Button onClick={onBack} variant="outline">
+                <ChevronLeft className="h-4 w-4 mr-2" />
+                Vissza a beállításokhoz
+              </Button>
+              <Button onClick={onNext}>
+                Tovább az összefoglalóhoz
+                <ChevronRight className="h-4 w-4 ml-2" />
+              </Button>
+            </div>
+          </>
+        )}
       </CardContent>
     </Card>
   );
