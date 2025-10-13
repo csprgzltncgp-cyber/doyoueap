@@ -308,10 +308,11 @@ export const AuditPreview = ({ auditData, onNext, onBack }: AuditPreviewProps) =
           value={undefined}
           onChange={() => {}}
         />
-        <div className="flex justify-start">
+        <div className="flex gap-4">
           <Button 
             onClick={() => setCurrentStep('demographics')} 
             variant="outline"
+            className="flex-1"
           >
             <ChevronLeft className="h-4 w-4 mr-2" />
             Vissza
