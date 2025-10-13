@@ -319,54 +319,47 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
                 Letölthető plakát sablonok a felmérés népszerűsítéséhez
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="group relative">
-                  <div className="aspect-[1/1.4] overflow-hidden rounded-xl border-2 border-border bg-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02]">
-                    <img src={poster1} alt="Plakát sablon 1" className="w-full h-full object-contain" />
-                  </div>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <img src={poster1} alt="Plakát sablon 1" className="w-full rounded-lg border" />
                   <Button 
                     onClick={() => handleDownloadPoster(poster1, 'plakat-sablon-1.png')}
-                    className="w-full mt-4"
+                    variant="outline"
+                    className="w-full"
                   >
                     <Download className="mr-2 h-4 w-4" />
                     1. sablon letöltése
                   </Button>
                 </div>
-                
-                <div className="group relative">
-                  <div className="aspect-[1/1.4] overflow-hidden rounded-xl border-2 border-border bg-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02]">
-                    <img src={poster2} alt="Plakát sablon 2" className="w-full h-full object-contain" />
-                  </div>
+                <div className="space-y-2">
+                  <img src={poster2} alt="Plakát sablon 2" className="w-full rounded-lg border" />
                   <Button 
                     onClick={() => handleDownloadPoster(poster2, 'plakat-sablon-2.png')}
-                    className="w-full mt-4"
+                    variant="outline"
+                    className="w-full"
                   >
                     <Download className="mr-2 h-4 w-4" />
                     2. sablon letöltése
                   </Button>
                 </div>
-                
-                <div className="group relative">
-                  <div className="aspect-[1/1.4] overflow-hidden rounded-xl border-2 border-border bg-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02]">
-                    <img src={poster3} alt="Plakát sablon 3" className="w-full h-full object-contain" />
-                  </div>
+                <div className="space-y-2">
+                  <img src={poster3} alt="Plakát sablon 3" className="w-full rounded-lg border" />
                   <Button 
                     onClick={() => handleDownloadPoster(poster3, 'plakat-sablon-3.png')}
-                    className="w-full mt-4"
+                    variant="outline"
+                    className="w-full"
                   >
                     <Download className="mr-2 h-4 w-4" />
                     3. sablon letöltése
                   </Button>
                 </div>
-                
-                <div className="group relative">
-                  <div className="aspect-[1/1.4] overflow-hidden rounded-xl border-2 border-border bg-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02]">
-                    <img src={poster4} alt="Plakát sablon 4" className="w-full h-full object-contain" />
-                  </div>
+                <div className="space-y-2">
+                  <img src={poster4} alt="Plakát sablon 4" className="w-full rounded-lg border" />
                   <Button 
                     onClick={() => handleDownloadPoster(poster4, 'plakat-sablon-4.png')}
-                    className="w-full mt-4"
+                    variant="outline"
+                    className="w-full"
                   >
                     <Download className="mr-2 h-4 w-4" />
                     4. sablon letöltése
