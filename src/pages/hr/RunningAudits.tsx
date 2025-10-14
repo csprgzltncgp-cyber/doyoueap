@@ -547,7 +547,8 @@ const RunningAudits = () => {
               {metrics.audit.gift_id && metrics.giftName && (
                 <Badge 
                   variant="outline" 
-                  className="gap-1 bg-purple-50 text-purple-700 border-purple-300 cursor-pointer hover:bg-purple-100 transition-colors"
+                  className="gap-1 text-purple-700 border-purple-300 cursor-pointer hover:opacity-80 transition-all"
+                  style={{ backgroundColor: '#ff66ff20' }}
                   onClick={() => {
                     setEditingGiftAuditId(metrics.audit.id);
                     setSelectedGiftId(metrics.audit.gift_id || null);
