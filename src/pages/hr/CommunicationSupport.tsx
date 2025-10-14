@@ -232,7 +232,7 @@ const CommunicationSupport = () => {
 
               {emailTemplate && (
                 <>
-                  <div className="bg-background rounded-lg border-2 shadow-lg overflow-hidden">
+                  <div className="bg-background rounded-lg border-2 shadow-lg overflow-hidden max-w-5xl mx-auto">
                     {/* Email Header */}
                     <div className="bg-blue-600 px-6 py-3 flex items-center justify-between border-b">
                       <span className="font-medium text-white">Új üzenet</span>
