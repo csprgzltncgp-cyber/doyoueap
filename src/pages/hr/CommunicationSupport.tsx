@@ -142,13 +142,27 @@ const CommunicationSupport = () => {
     }
   };
 
-  const handleDownloadZip = (zipUrl: string | null) => {
+  const handleDownloadZip = async (zipUrl: string | null) => {
     if (!zipUrl) {
       toast.error('Nincs elérhető forrás fájl');
       return;
     }
-    window.open(zipUrl, '_blank');
-    toast.success('ZIP archívum letöltése megkezdődött!');
+    try {
+      const response = await fetch(zipUrl);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'plakatok.zip';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      toast.success('ZIP archívum letöltve!');
+    } catch (error) {
+      toast.error('Hiba történt a letöltés során');
+      console.error(error);
+    }
   };
 
   const emailTemplate = getTemplate('email', emailHasGift);
