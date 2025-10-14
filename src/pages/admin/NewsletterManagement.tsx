@@ -112,19 +112,19 @@ const NewsletterManagement = () => {
     footer_text: "Ez egy automatikus üzenet. Kérjük, ne válaszoljon erre az emailre.",
     footer_company: "DoYouEAP",
     footer_address: "",
-    primary_color: "#0ea5e9",
+    primary_color: "#1a1a1a",
     background_color: "#f8fafc",
     greeting_text: "Kedves Feliratkozónk!",
     footer_link_color: "#ffffff",
-    extra_content_border_color: "#0ea5e9",
-    extra_content_bg_color: "#0ea5e915",
+    extra_content_border_color: "#1a1a1a",
+    extra_content_bg_color: "#1a1a1a15",
     footer_links: [] as FooterLink[],
-    header_color: "#0ea5e9",
+    header_color: "#1a1a1a",
     footer_color: "#1a1a1a",
     header_gradient_1: "",
     header_gradient_2: "",
     greeting_text_color: "#ffffff",
-    greeting_bg_color: "#0ea5e9",
+    greeting_bg_color: "#1a1a1a",
     content_text_color: "#4a5568",
     content_text_size: "16px",
     extra_content_text_color: "#4a5568",
@@ -132,18 +132,18 @@ const NewsletterManagement = () => {
     footer_gradient: "",
     sender_email: "noreply@doyoueap.com",
     sender_name: "DoYouEAP",
-    header_color_1: "#0ea5e9",
-    header_color_2: "#0ea5e9",
+    header_color_1: "#1a1a1a",
+    header_color_2: "#1a1a1a",
     content_button_text: "Olvass tovább",
     content_button_text_color: "#ffffff",
-    content_button_color: "#0ea5e9",
-    content_button_shadow_color: "#0ea5e933",
+    content_button_color: "#1a1a1a",
+    content_button_shadow_color: "#1a1a1a33",
     content_button_url: "",
     show_content_button: false,
     extra_button_text: "További információ",
     extra_button_text_color: "#ffffff",
-    extra_button_color: "#0ea5e9",
-    extra_button_shadow_color: "#0ea5e933",
+    extra_button_color: "#1a1a1a",
+    extra_button_shadow_color: "#1a1a1a33",
     extra_button_url: "",
     show_extra_button: false,
     footer_copyright_text: "© 2025 Az EAP-világ vezető szakfolyóirata. Minden jog fenntartva.",
@@ -658,16 +658,16 @@ const NewsletterManagement = () => {
         footer_text: "Ez egy automatikus üzenet. Kérjük, ne válaszoljon erre az emailre.",
         footer_company: "DoYouEAP",
         footer_address: "",
-        primary_color: "#0ea5e9",
+        primary_color: "#1a1a1a",
         background_color: "#f8fafc",
         greeting_text: "Kedves Feliratkozónk!",
         footer_links: [],
-        header_color: "#0ea5e9",
+        header_color: "#1a1a1a",
         footer_color: "#1a1a1a",
         header_gradient_1: "",
         header_gradient_2: "",
         greeting_text_color: "#ffffff",
-        greeting_bg_color: "#0ea5e9",
+        greeting_bg_color: "#1a1a1a",
         content_text_color: "#4a5568",
         content_text_size: "16px",
         extra_content_text_color: "#4a5568",
@@ -675,21 +675,21 @@ const NewsletterManagement = () => {
         footer_gradient: "",
         sender_email: "noreply@doyoueap.com",
         sender_name: "DoYouEAP",
-        header_color_1: "#0ea5e9",
-        header_color_2: "#0ea5e9",
+        header_color_1: "#1a1a1a",
+        header_color_2: "#1a1a1a",
         footer_link_color: "#ffffff",
-        extra_content_border_color: "#0ea5e9",
-        extra_content_bg_color: "#0ea5e915",
+        extra_content_border_color: "#1a1a1a",
+        extra_content_bg_color: "#1a1a1a15",
         content_button_text: "Olvass tovább",
         content_button_text_color: "#ffffff",
-        content_button_color: "#0ea5e9",
-        content_button_shadow_color: "#0ea5e933",
+        content_button_color: "#1a1a1a",
+        content_button_shadow_color: "#1a1a1a33",
         content_button_url: "",
         show_content_button: false,
         extra_button_text: "További információ",
         extra_button_text_color: "#ffffff",
-        extra_button_color: "#0ea5e9",
-        extra_button_shadow_color: "#0ea5e933",
+        extra_button_color: "#1a1a1a",
+        extra_button_shadow_color: "#1a1a1a33",
         extra_button_url: "",
         show_extra_button: false,
         footer_copyright_text: "© 2025 Az EAP-világ vezető szakfolyóirata. Minden jog fenntartva.",
@@ -736,7 +736,7 @@ const NewsletterManagement = () => {
       header_gradient_1: (template as any).header_gradient_1 || "",
       header_gradient_2: (template as any).header_gradient_2 || "",
       greeting_text_color: (template as any).greeting_text_color || "#ffffff",
-      greeting_bg_color: (template as any).greeting_bg_color || "#0ea5e9",
+      greeting_bg_color: (template as any).greeting_bg_color || "#1a1a1a",
       content_text_color: (template as any).content_text_color || "#4a5568",
       content_text_size: (template as any).content_text_size || "16px",
       extra_content_text_color: (template as any).extra_content_text_color || "#4a5568",
@@ -744,21 +744,21 @@ const NewsletterManagement = () => {
       footer_gradient: template.footer_gradient || "",
       sender_email: template.sender_email || "noreply@doyoueap.com",
       sender_name: template.sender_name || "DoYouEAP",
-      header_color_1: template.header_color_1 || template.header_color || "#0ea5e9",
-      header_color_2: template.header_color_2 || template.header_color || "#0ea5e9",
+      header_color_1: template.header_color_1 || template.header_color || "#1a1a1a",
+      header_color_2: template.header_color_2 || template.header_color || "#1a1a1a",
       footer_link_color: template.footer_link_color || "#ffffff",
-      extra_content_border_color: template.extra_content_border_color || "#0ea5e9",
-      extra_content_bg_color: template.extra_content_bg_color || "#0ea5e915",
+      extra_content_border_color: template.extra_content_border_color || "#1a1a1a",
+      extra_content_bg_color: template.extra_content_bg_color || "#1a1a1a15",
       content_button_text: template.content_button_text || "Olvass tovább",
       content_button_text_color: template.content_button_text_color || "#ffffff",
-      content_button_color: template.content_button_color || "#0ea5e9",
-      content_button_shadow_color: template.content_button_shadow_color || "#0ea5e933",
+      content_button_color: template.content_button_color || "#1a1a1a",
+      content_button_shadow_color: template.content_button_shadow_color || "#1a1a1a33",
       content_button_url: template.content_button_url || "",
       show_content_button: template.show_content_button || false,
       extra_button_text: template.extra_button_text || "További információ",
       extra_button_text_color: template.extra_button_text_color || "#ffffff",
-      extra_button_color: template.extra_button_color || "#0ea5e9",
-      extra_button_shadow_color: template.extra_button_shadow_color || "#0ea5e933",
+      extra_button_color: template.extra_button_color || "#1a1a1a",
+      extra_button_shadow_color: template.extra_button_shadow_color || "#1a1a1a33",
       extra_button_url: template.extra_button_url || "",
       show_extra_button: template.show_extra_button || false,
       footer_copyright_text: template.footer_copyright_text || "© 2025 Az EAP-világ vezető szakfolyóirata. Minden jog fenntartva.",
@@ -808,16 +808,16 @@ const NewsletterManagement = () => {
               footer_text: "Ez egy automatikus üzenet. Kérjük, ne válaszoljon erre az emailre.",
               footer_company: "DoYouEAP",
               footer_address: "",
-              primary_color: "#0ea5e9",
+              primary_color: "#1a1a1a",
               background_color: "#f8fafc",
               greeting_text: "Kedves Feliratkozónk!",
               footer_links: [],
-              header_color: "#0ea5e9",
+              header_color: "#1a1a1a",
               footer_color: "#1a1a1a",
               header_gradient_1: "",
               header_gradient_2: "",
               greeting_text_color: "#ffffff",
-              greeting_bg_color: "#0ea5e9",
+              greeting_bg_color: "#1a1a1a",
               content_text_color: "#4a5568",
               content_text_size: "16px",
               extra_content_text_color: "#4a5568",
@@ -825,21 +825,21 @@ const NewsletterManagement = () => {
               footer_gradient: "",
               sender_email: "noreply@doyoueap.com",
               sender_name: "DoYouEAP",
-              header_color_1: "#0ea5e9",
-              header_color_2: "#0ea5e9",
+              header_color_1: "#1a1a1a",
+              header_color_2: "#1a1a1a",
               footer_link_color: "#ffffff",
-              extra_content_border_color: "#0ea5e9",
-              extra_content_bg_color: "#0ea5e915",
+              extra_content_border_color: "#1a1a1a",
+              extra_content_bg_color: "#1a1a1a15",
               content_button_text: "Olvass tovább",
               content_button_text_color: "#ffffff",
-              content_button_color: "#0ea5e9",
-              content_button_shadow_color: "#0ea5e933",
+              content_button_color: "#1a1a1a",
+              content_button_shadow_color: "#1a1a1a33",
               content_button_url: "",
               show_content_button: false,
               extra_button_text: "További információ",
               extra_button_text_color: "#ffffff",
-              extra_button_color: "#0ea5e9",
-              extra_button_shadow_color: "#0ea5e933",
+              extra_button_color: "#1a1a1a",
+              extra_button_shadow_color: "#1a1a1a33",
               extra_button_url: "",
               show_extra_button: false,
               footer_copyright_text: "© 2025 Az EAP világ vezető szakfolyóirata. Minden jog fenntartva.",
@@ -1074,7 +1074,7 @@ const NewsletterManagement = () => {
                       <Input
                         value={templateForm.header_color_1}
                         onChange={(e) => setTemplateForm({ ...templateForm, header_color_1: e.target.value })}
-                        placeholder="#0ea5e9"
+                        placeholder="#1a1a1a"
                       />
                     </div>
                   </div>
@@ -1090,7 +1090,7 @@ const NewsletterManagement = () => {
                       <Input
                         value={templateForm.header_color_2}
                         onChange={(e) => setTemplateForm({ ...templateForm, header_color_2: e.target.value })}
-                        placeholder="#0ea5e9"
+                        placeholder="#1a1a1a"
                       />
                     </div>
                   </div>
@@ -1142,7 +1142,7 @@ const NewsletterManagement = () => {
                       <Input
                         value={templateForm.greeting_bg_color}
                         onChange={(e) => setTemplateForm({ ...templateForm, greeting_bg_color: e.target.value })}
-                        placeholder="#0ea5e9"
+                        placeholder="#1a1a1a"
                       />
                     </div>
                   </div>
@@ -1202,7 +1202,7 @@ const NewsletterManagement = () => {
                         <Input
                           value={templateForm.extra_content_border_color}
                           onChange={(e) => setTemplateForm({ ...templateForm, extra_content_border_color: e.target.value })}
-                          placeholder="#0ea5e9"
+                          placeholder="#1a1a1a"
                         />
                       </div>
                     </div>
@@ -1218,7 +1218,7 @@ const NewsletterManagement = () => {
                         <Input
                           value={templateForm.extra_content_bg_color}
                           onChange={(e) => setTemplateForm({ ...templateForm, extra_content_bg_color: e.target.value })}
-                          placeholder="#0ea5e915"
+                          placeholder="#1a1a1a15"
                         />
                       </div>
                     </div>
@@ -1406,7 +1406,7 @@ const NewsletterManagement = () => {
                         onChange={(e) =>
                           setTemplateForm({ ...templateForm, content_button_color: e.target.value })
                         }
-                        placeholder="#0ea5e9"
+                        placeholder="#1a1a1a"
                       />
                     </div>
                   </div>
@@ -1428,7 +1428,7 @@ const NewsletterManagement = () => {
                         onChange={(e) =>
                           setTemplateForm({ ...templateForm, content_button_shadow_color: e.target.value })
                         }
-                        placeholder="#0ea5e933"
+                        placeholder="#1a1a1a33"
                       />
                     </div>
                   </div>
@@ -1512,7 +1512,7 @@ const NewsletterManagement = () => {
                         onChange={(e) =>
                           setTemplateForm({ ...templateForm, extra_button_color: e.target.value })
                         }
-                        placeholder="#0ea5e9"
+                        placeholder="#1a1a1a"
                       />
                     </div>
                   </div>
@@ -1534,7 +1534,7 @@ const NewsletterManagement = () => {
                         onChange={(e) =>
                           setTemplateForm({ ...templateForm, extra_button_shadow_color: e.target.value })
                         }
-                        placeholder="#0ea5e933"
+                        placeholder="#1a1a1a33"
                       />
                     </div>
                   </div>
