@@ -182,7 +182,7 @@ const Arak = () => {
                 <div className="space-y-2 mb-4">
                   {pkg.features.map((feature, featureIndex) => (
                     <div key={featureIndex} className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="h-5 w-5 text-foreground mt-0.5 flex-shrink-0" />
                       <p className="font-medium text-sm">{feature}</p>
                     </div>
                   ))}
@@ -217,28 +217,28 @@ const Arak = () => {
                   Bővítsd szolgáltatásportfóliód olyan riportadatokkal, amelyek egyedivé teszik ajánlatodat.
                 </p>
                 <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                  <CheckCircle className="h-5 w-5 text-foreground mt-0.5" />
                   <div>
                     <p className="font-medium">REST API integráció</p>
                     <p className="text-sm text-muted-foreground">Zökkenőmentes adatkapcsolat rendszereiddel</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                  <CheckCircle className="h-5 w-5 text-foreground mt-0.5" />
                   <div>
                     <p className="font-medium">White-label megoldás</p>
                     <p className="text-sm text-muted-foreground">Saját arculatoddal, a te nevedben</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                  <CheckCircle className="h-5 w-5 text-foreground mt-0.5" />
                   <div>
                     <p className="font-medium">Partner központ</p>
                     <p className="text-sm text-muted-foreground">Összes ügyfeled átlátható menedzselése</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                  <CheckCircle className="h-5 w-5 text-foreground mt-0.5" />
                   <p className="font-medium">Dedikált technikai támogatás</p>
                 </div>
               </div>
