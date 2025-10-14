@@ -963,23 +963,23 @@ const Index = () => {
               <CardContent className="flex-1 flex flex-col justify-between">
                 <div className="space-y-2 mb-4">
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5 flex-shrink-0" />
                     <p className="font-medium text-sm">3 felmérés / év</p>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5 flex-shrink-0" />
                     <p className="font-medium text-sm">Ajándéksorsolás minden felmérés végén</p>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5 flex-shrink-0" />
                     <p className="font-medium text-sm">Teljes riportkészlet (minden statisztika + 4Score)</p>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5 flex-shrink-0" />
                     <p className="font-medium text-sm">Testreszabható kérdőív-design</p>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5 flex-shrink-0" />
                     <p className="font-medium text-sm">Trendösszevetések a felmérések között</p>
                   </div>
                 </div>
@@ -1020,23 +1020,23 @@ const Index = () => {
               <CardContent className="flex-1 flex flex-col justify-between">
                 <div className="space-y-2 mb-4">
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5 flex-shrink-0" />
                     <p className="font-medium text-sm">4 felmérés / év</p>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5 flex-shrink-0" />
                     <p className="font-medium text-sm">Ajándéksorsolás minden felmérés végén</p>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5 flex-shrink-0" />
                     <p className="font-medium text-sm">Teljes riportkészlet + trend- és összehasonlító elemzés</p>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5 flex-shrink-0" />
                     <p className="font-medium text-sm">White-label lehetőség</p>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5 flex-shrink-0" />
                     <p className="font-medium text-sm">API integráció</p>
                   </div>
                 </div>
@@ -1069,28 +1069,28 @@ const Index = () => {
                     Bővítsd szolgáltatásportfóliód olyan riportadatokkal, amelyek egyedivé teszik ajánlatodat.
                   </p>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5" />
                     <div>
                       <p className="font-medium">REST API integráció</p>
                       <p className="text-sm text-muted-foreground">Zökkenőmentes adatkapcsolat rendszereiddel</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5" />
                     <div>
                       <p className="font-medium">White-label megoldás</p>
                       <p className="text-sm text-muted-foreground">Saját arculatoddal, a te nevedben</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5" />
                     <div>
                       <p className="font-medium">Partner központ</p>
                       <p className="text-sm text-muted-foreground">Összes ügyfeled átlátható menedzselése</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5" />
                     <p className="font-medium">Dedikált technikai támogatás</p>
                   </div>
                 </div>
