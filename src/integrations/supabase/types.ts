@@ -309,6 +309,39 @@ export type Database = {
           },
         ]
       }
+      communication_templates: {
+        Row: {
+          content: string
+          created_at: string
+          created_by: string | null
+          has_gift: boolean
+          id: string
+          subject: string | null
+          template_type: string
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          created_by?: string | null
+          has_gift?: boolean
+          id?: string
+          subject?: string | null
+          template_type: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          has_gift?: boolean
+          id?: string
+          subject?: string | null
+          template_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       companies: {
         Row: {
           company_name: string

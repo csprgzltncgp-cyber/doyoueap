@@ -6,6 +6,7 @@ import CompanyManagement from './admin/CompanyManagement';
 import MagazineManagement from './admin/MagazineManagement';
 import NewsletterManagement from './admin/NewsletterManagement';
 import GiftManagement from './admin/GiftManagement';
+import CommunicationTemplates from './admin/CommunicationTemplates';
 
 const AdminDashboard = () => {
   const { user, signOut } = useAuth();
@@ -23,11 +24,12 @@ const AdminDashboard = () => {
 
       <div className="max-w-7xl mx-auto px-8 py-6">
         <Tabs defaultValue="companies" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 max-w-2xl">
+          <TabsList className="grid w-full grid-cols-5 max-w-3xl">
             <TabsTrigger value="companies">Cégek</TabsTrigger>
             <TabsTrigger value="gifts">Nyereményjáték</TabsTrigger>
             <TabsTrigger value="magazine">Magazin</TabsTrigger>
             <TabsTrigger value="newsletter">Hírlevél</TabsTrigger>
+            <TabsTrigger value="communication">Kommunikáció</TabsTrigger>
           </TabsList>
 
           <TabsContent value="companies" className="space-y-4">
@@ -44,6 +46,10 @@ const AdminDashboard = () => {
 
           <TabsContent value="newsletter" className="space-y-4">
             <NewsletterManagement />
+          </TabsContent>
+
+          <TabsContent value="communication" className="space-y-4">
+            <CommunicationTemplates />
           </TabsContent>
         </Tabs>
       </div>
