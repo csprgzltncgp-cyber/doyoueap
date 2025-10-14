@@ -249,7 +249,7 @@ const CommunicationSupport = () => {
               </div>
 
               {/* Download Buttons */}
-              <div className="space-y-4">
+              <div className="flex flex-col gap-4">
                 <Button 
                   onClick={() => handleDownloadText(qrCodeText, 'qr_kod_szoveg.txt')}
                   variant="outline"
