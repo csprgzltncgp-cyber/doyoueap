@@ -308,7 +308,7 @@ const CommunicationSupport = () => {
                               key={idx}
                               src={imageUrl} 
                               alt={`Plakát ${idx + 1}`}
-                              className="w-full aspect-[3/4] object-contain rounded-lg border bg-muted"
+                              className="w-full rounded-lg border"
                             />
                           ))}
                         </div>
