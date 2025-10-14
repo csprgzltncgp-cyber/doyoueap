@@ -246,93 +246,22 @@ const CommunicationSupport = () => {
                 <Label htmlFor="qr-gift">Sorsolásos verzió (főnyeremény említése)</Label>
               </div>
 
-              {/* Poster Mockup */}
-              <div 
-                className="relative rounded-lg overflow-hidden"
-                style={{
-                  backgroundImage: `url(${posterWall})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  minHeight: '400px'
-                }}
-              >
-                <div className="absolute inset-0 bg-black/30" />
-                <div className="relative p-8 flex items-center justify-center h-full">
-                  <div className="grid grid-cols-2 gap-4 max-w-2xl">
-                    {qrCodeHasGift ? (
-                      <>
-                        <div className="bg-white rounded-lg shadow-2xl p-4">
-                          <img src={poster3} alt="Samsung Buds plakát" className="w-full h-auto rounded" />
-                        </div>
-                        <div className="bg-white rounded-lg shadow-2xl p-4">
-                          <img src={poster4} alt="Lidl hűtő plakát" className="w-full h-auto rounded" />
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="bg-white rounded-lg shadow-2xl p-4">
-                          <img src={poster1} alt="Alap plakát 1" className="w-full h-auto rounded" />
-                        </div>
-                        <div className="bg-white rounded-lg shadow-2xl p-4">
-                          <img src={poster2} alt="Alap plakát 2" className="w-full h-auto rounded" />
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
-
               {/* Download Buttons */}
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {qrCodeHasGift ? (
-                    <>
-                      <Button
-                        onClick={() => handleDownloadPoster(poster3, 'samsung_buds_plakat.png')}
-                        variant="outline"
-                        size="sm"
-                      >
-                        <Download className="mr-2 h-4 w-4" />
-                        Plakát 1
-                      </Button>
-                      <Button
-                        onClick={() => handleDownloadPoster(poster4, 'lidl_huto_plakat.png')}
-                        variant="outline"
-                        size="sm"
-                      >
-                        <Download className="mr-2 h-4 w-4" />
-                        Plakát 2
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        onClick={() => handleDownloadPoster(poster1, 'plakat_1.png')}
-                        variant="outline"
-                        size="sm"
-                      >
-                        <Download className="mr-2 h-4 w-4" />
-                        Plakát 1
-                      </Button>
-                      <Button
-                        onClick={() => handleDownloadPoster(poster2, 'plakat_2.png')}
-                        variant="outline"
-                        size="sm"
-                      >
-                        <Download className="mr-2 h-4 w-4" />
-                        Plakát 2
-                      </Button>
-                    </>
-                  )}
-                </div>
+              <div className="grid grid-cols-2 gap-3">
+                <Button 
+                  onClick={() => handleDownloadText(qrCodeText, 'qr_kod_szoveg.txt')}
+                  variant="outline"
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  Plakát szöveg letöltése
+                </Button>
 
                 <Button 
                   onClick={handleDownloadZip}
                   variant="outline"
-                  className="w-full"
                 >
                   <Download className="mr-2 h-4 w-4" />
-                  Összes plakát letöltése (ZIP)
+                  Plakát grafika letöltése
                 </Button>
               </div>
             </CardContent>
