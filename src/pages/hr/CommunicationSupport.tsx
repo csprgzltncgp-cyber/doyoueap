@@ -14,6 +14,7 @@ import poster3 from '@/assets/poster-3.png';
 import poster4 from '@/assets/poster-4.png';
 import posterWall from '@/assets/poster-wall-mockup.jpg';
 import slackLogo from '@/assets/slack-logo.avif';
+import slackLogoColor from '@/assets/slack-logo-color.png';
 
 interface Template {
   id: string;
@@ -378,7 +379,7 @@ const CommunicationSupport = () => {
 
                         {/* Slack Logo at Bottom */}
                         <div className="pt-4 pb-2 border-t border-white/10 flex justify-center">
-                          <img src={slackLogo} alt="Slack" className="h-8 w-auto opacity-40" />
+                          <img src={slackLogoColor} alt="Slack" className="h-10 w-auto" />
                         </div>
                       </div>
 
