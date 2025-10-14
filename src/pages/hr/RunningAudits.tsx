@@ -544,20 +544,18 @@ const RunningAudits = () => {
                   Sorsolt
                 </Badge>
               )}
-              {metrics.giftName && (
-                <Badge 
-                  variant="outline" 
-                  className="gap-1 bg-purple-50 text-purple-700 border-purple-300 cursor-pointer hover:bg-purple-100 transition-colors"
-                  onClick={() => {
-                    setEditingGiftAuditId(metrics.audit.id);
-                    setSelectedGiftId(metrics.audit.gift_id || null);
-                  }}
-                >
-                  <Trophy className="h-3 w-3" />
-                  Fődíj: {metrics.giftName}
-                  <Edit className="h-3 w-3 ml-1" />
-                </Badge>
-              )}
+              <Badge 
+                variant="outline" 
+                className="gap-1 bg-purple-50 text-purple-700 border-purple-300 cursor-pointer hover:bg-purple-100 transition-colors"
+                onClick={() => {
+                  setEditingGiftAuditId(metrics.audit.id);
+                  setSelectedGiftId(metrics.audit.gift_id || null);
+                }}
+              >
+                <Trophy className="h-3 w-3" />
+                {metrics.giftName ? `Fődíj: ${metrics.giftName}` : 'Fődíj beállítása'}
+                <Edit className="h-3 w-3 ml-1" />
+              </Badge>
             </div>
           </div>
           <div className="flex gap-2">
@@ -1037,6 +1035,49 @@ const RunningAudits = () => {
           <AlertDialogFooter>
             <AlertDialogCancel>Mégse</AlertDialogCancel>
             <AlertDialogAction onClick={() => editingRecurrenceAuditId && handleUpdateRecurrence(editingRecurrenceAuditId)}>
+              Mentés
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Gift Edit Dialog */}
+      <AlertDialog open={editingGiftAuditId !== null} onOpenChange={(open) => !open && setEditingGiftAuditId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Fődíj módosítása</AlertDialogTitle>
+            <AlertDialogDescription>
+              Válaszd ki az új fődíjat ehhez a felméréshez
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="py-4 space-y-2">
+            <Label>Elérhető ajándékok</Label>
+            <div className="grid grid-cols-1 gap-2 max-h-60 overflow-y-auto">
+              <Button
+                variant={selectedGiftId === null ? 'default' : 'outline'}
+                onClick={() => setSelectedGiftId(null)}
+                className="w-full justify-start"
+              >
+                Nincs fődíj
+              </Button>
+              {availableGifts.map((gift) => (
+                <Button
+                  key={gift.id}
+                  variant={selectedGiftId === gift.id ? 'default' : 'outline'}
+                  onClick={() => setSelectedGiftId(gift.id)}
+                  className="w-full justify-start"
+                >
+                  <Trophy className="h-4 w-4 mr-2" />
+                  {gift.name}
+                </Button>
+              ))}
+            </div>
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Mégse</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={() => editingGiftAuditId && handleUpdateGift(editingGiftAuditId)}
+            >
               Mentés
             </AlertDialogAction>
           </AlertDialogFooter>
