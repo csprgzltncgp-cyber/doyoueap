@@ -349,7 +349,7 @@ const CommunicationSupport = () => {
       </Tabs>
 
       <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
-        <DialogContent className="max-w-4xl">
+        <DialogContent className="max-w-2xl">
           {selectedImage && (
             <img 
               src={selectedImage} 
