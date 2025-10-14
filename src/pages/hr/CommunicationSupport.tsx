@@ -179,6 +179,7 @@ const CommunicationSupport = () => {
                   <Button 
                     onClick={() => handleDownloadText(emailText, 'email_sablon.txt')}
                     variant="outline"
+                    size="sm"
                   >
                     <Download className="mr-2 h-4 w-4" />
                     Szöveg letöltése
@@ -217,6 +218,7 @@ const CommunicationSupport = () => {
                   <Button 
                     onClick={() => handleDownloadText(publicLinkText, 'nyilvanos_link_szoveg.txt')}
                     variant="outline"
+                    size="sm"
                   >
                     <Download className="mr-2 h-4 w-4" />
                     Szöveg letöltése
@@ -251,6 +253,7 @@ const CommunicationSupport = () => {
                 <Button 
                   onClick={() => handleDownloadText(qrCodeText, 'qr_kod_szoveg.txt')}
                   variant="outline"
+                  size="sm"
                 >
                   <Download className="mr-2 h-4 w-4" />
                   Plakát szöveg letöltése
@@ -259,6 +262,7 @@ const CommunicationSupport = () => {
                 <Button 
                   onClick={handleDownloadZip}
                   variant="outline"
+                  size="sm"
                 >
                   <Download className="mr-2 h-4 w-4" />
                   Plakát grafika letöltése
