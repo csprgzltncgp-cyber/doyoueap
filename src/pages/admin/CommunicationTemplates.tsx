@@ -175,9 +175,6 @@ const CommunicationTemplates = () => {
                       rows={10}
                       className="font-mono text-sm"
                     />
-                    <p className="text-xs text-muted-foreground mt-2">
-                      Használd: {'{link}'} a linkhez
-                    </p>
                   </div>
                 </>
               ) : (
