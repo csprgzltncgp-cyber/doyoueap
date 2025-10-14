@@ -274,12 +274,12 @@ const Focus = () => {
             <div className="bg-gradient-to-br from-primary via-primary/90 to-primary/70 backdrop-blur-sm rounded-lg p-4 text-center min-w-[100px] shadow-md">
               <TrendingUp className="h-5 w-5 text-white mx-auto mb-1" />
               <div className="text-2xl font-bold text-white">{activeAudits.length}</div>
-              <div className="text-xs text-white/90 font-medium">Aktív</div>
+              <div className="text-xs text-white font-medium">Aktív</div>
             </div>
             <div className="bg-gradient-to-br from-primary via-primary/90 to-primary/70 backdrop-blur-sm rounded-lg p-4 text-center min-w-[100px] shadow-md">
               <Award className="h-5 w-5 text-white mx-auto mb-1" />
               <div className="text-2xl font-bold text-white">{expiredAudits.length}</div>
-              <div className="text-xs text-white/90 font-medium">Lezárt</div>
+              <div className="text-xs text-white font-medium">Lezárt</div>
             </div>
           </div>
         </div>
