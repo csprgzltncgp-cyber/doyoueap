@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Download, Mail, Link as LinkIcon, QrCode } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
@@ -32,6 +33,7 @@ const CommunicationSupport = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [posters, setPosters] = useState<Poster[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   // Email
   const [emailHasGift, setEmailHasGift] = useState(false);
@@ -308,7 +310,8 @@ const CommunicationSupport = () => {
                               key={idx}
                               src={imageUrl} 
                               alt={`Plakát ${idx + 1}`}
-                              className="w-full max-w-[390px] rounded-lg border shadow-lg"
+                              className="w-full max-w-[390px] rounded-lg border shadow-lg cursor-pointer hover:opacity-80 transition-opacity"
+                              onClick={() => setSelectedImage(imageUrl)}
                             />
                           ))}
                         </div>
@@ -344,6 +347,18 @@ const CommunicationSupport = () => {
           </Card>
         </TabsContent>
       </Tabs>
+
+      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
+        <DialogContent className="max-w-4xl">
+          {selectedImage && (
+            <img 
+              src={selectedImage} 
+              alt="Plakát nagyítva" 
+              className="w-full h-auto"
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
