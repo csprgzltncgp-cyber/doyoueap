@@ -244,7 +244,7 @@ const CommunicationSupport = () => {
               </div>
 
               {emailTemplate && (
-                <>
+                <div className="py-8">
                   <div className="bg-background rounded-lg border-2 shadow-lg overflow-hidden max-w-5xl mx-auto">
                     {/* Email Header */}
                     <div className="bg-blue-600 px-6 py-3 flex items-center justify-between border-b">
@@ -291,7 +291,7 @@ const CommunicationSupport = () => {
                       </div>
                     </div>
                   </div>
-                </>
+                </div>
               )}
             </CardContent>
           </Card>
@@ -330,7 +330,7 @@ const CommunicationSupport = () => {
               </div>
 
               {publicLinkTemplate && (
-                <>
+                <div className="py-8">
                   {/* Slack-like Message Preview */}
                   <div className="bg-background rounded-lg border shadow-lg overflow-hidden max-w-5xl mx-auto">
                     {/* Slack Header */}
@@ -472,7 +472,7 @@ const CommunicationSupport = () => {
                       </div>
                     </div>
                   </div>
-                </>
+                </div>
               )}
             </CardContent>
           </Card>
