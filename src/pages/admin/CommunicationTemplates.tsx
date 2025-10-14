@@ -108,7 +108,7 @@ const CommunicationTemplates = () => {
       <div>
         <h2 className="text-2xl font-bold mb-2">Kommunikációs sablonok</h2>
         <p className="text-muted-foreground">
-          Szerkeszd a kommunikációs sablonokat, amiket a HR használni fog. Használd a {'{programName}'} és {'{link}'} helyőrzőket.
+          Szerkeszd a kommunikációs sablonokat, amiket a HR használni fog. Használd a {'{link}'} helyőrzőt.
         </p>
       </div>
 
@@ -176,7 +176,7 @@ const CommunicationTemplates = () => {
                       className="font-mono text-sm"
                     />
                     <p className="text-xs text-muted-foreground mt-2">
-                      Használd: {'{programName}'} a program nevéhez, {'{link}'} a linkhez
+                      Használd: {'{link}'} a linkhez
                     </p>
                   </div>
                 </>

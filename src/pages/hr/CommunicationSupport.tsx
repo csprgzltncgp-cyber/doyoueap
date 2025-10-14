@@ -27,15 +27,12 @@ const CommunicationSupport = () => {
   const [loading, setLoading] = useState(true);
 
   // Email
-  const [emailProgramName, setEmailProgramName] = useState('DoYouEAP');
   const [emailHasGift, setEmailHasGift] = useState(false);
 
   // Public Link
-  const [publicLinkProgramName, setPublicLinkProgramName] = useState('DoYouEAP');
   const [publicLinkHasGift, setPublicLinkHasGift] = useState(false);
 
   // QR Code
-  const [qrCodeProgramName, setQrCodeProgramName] = useState('DoYouEAP');
   const [qrCodeHasGift, setQrCodeHasGift] = useState(false);
 
   useEffect(() => {
@@ -62,13 +59,12 @@ const CommunicationSupport = () => {
     return templates.find(t => t.template_type === type && t.has_gift === hasGift);
   };
 
-  const generateText = (type: 'email' | 'public_link' | 'qr_code', programName: string, hasGift: boolean) => {
+  const generateText = (type: 'email' | 'public_link' | 'qr_code', hasGift: boolean) => {
     const template = getTemplate(type, hasGift);
     if (!template) return '';
 
     const exampleLink = 'https://survey.doyoueap.hu/abc123';
     return template.content
-      .replace(/{programName}/g, programName)
       .replace(/{link}/g, exampleLink);
   };
 
@@ -112,9 +108,9 @@ const CommunicationSupport = () => {
   const publicLinkTemplate = getTemplate('public_link', publicLinkHasGift);
   const qrCodeTemplate = getTemplate('qr_code', qrCodeHasGift);
 
-  const emailText = generateText('email', emailProgramName, emailHasGift);
-  const publicLinkText = generateText('public_link', publicLinkProgramName, publicLinkHasGift);
-  const qrCodeText = generateText('qr_code', qrCodeProgramName, qrCodeHasGift);
+  const emailText = generateText('email', emailHasGift);
+  const publicLinkText = generateText('public_link', publicLinkHasGift);
+  const qrCodeText = generateText('qr_code', qrCodeHasGift);
 
   if (loading) {
     return (
@@ -159,30 +155,16 @@ const CommunicationSupport = () => {
             </div>
           </CardHeader>
           <CardContent className="space-y-6 pt-6">
-            <div className="grid md:grid-cols-2 gap-4 p-4 bg-muted/30 rounded-lg">
-              <div className="space-y-2">
-                <Label htmlFor="email-program-name">Program neve</Label>
-                <Input
-                  id="email-program-name"
-                  value={emailProgramName}
-                  onChange={(e) => setEmailProgramName(e.target.value)}
-                  placeholder="Pl. DoYouEAP"
-                  className="bg-background"
-                />
-              </div>
-              <div className="space-y-2 flex items-end">
-                <div className="flex items-center gap-3 h-10">
-                  <Switch
-                    id="email-gift"
-                    checked={emailHasGift}
-                    onCheckedChange={setEmailHasGift}
-                  />
-                  <Label htmlFor="email-gift" className="flex items-center gap-2 cursor-pointer">
-                    <Gift className="h-4 w-4 text-purple-500" />
-                    Nyereményjátékkal
-                  </Label>
-                </div>
-              </div>
+            <div className="p-4 bg-muted/30 rounded-lg flex items-center gap-3">
+              <Switch
+                id="email-gift"
+                checked={emailHasGift}
+                onCheckedChange={setEmailHasGift}
+              />
+              <Label htmlFor="email-gift" className="flex items-center gap-2 cursor-pointer">
+                <Gift className="h-4 w-4 text-purple-500" />
+                Nyereményjátékkal
+              </Label>
             </div>
 
             {emailTemplate && (
@@ -192,7 +174,7 @@ const CommunicationSupport = () => {
                     <span className="font-semibold">Tárgy:</span>
                     <span className="text-sm text-muted-foreground">Email előnézet</span>
                   </div>
-                  <p className="font-medium text-lg">{emailTemplate.subject?.replace(/{programName}/g, emailProgramName)}</p>
+                  <p className="font-medium text-lg">{emailTemplate.subject}</p>
                   <div className="border-t pt-4">
                     <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed">{emailText}</pre>
                   </div>
@@ -225,30 +207,16 @@ const CommunicationSupport = () => {
             </div>
           </CardHeader>
           <CardContent className="space-y-6 pt-6">
-            <div className="grid md:grid-cols-2 gap-4 p-4 bg-muted/30 rounded-lg">
-              <div className="space-y-2">
-                <Label htmlFor="public-link-program-name">Program neve</Label>
-                <Input
-                  id="public-link-program-name"
-                  value={publicLinkProgramName}
-                  onChange={(e) => setPublicLinkProgramName(e.target.value)}
-                  placeholder="Pl. DoYouEAP"
-                  className="bg-background"
-                />
-              </div>
-              <div className="space-y-2 flex items-end">
-                <div className="flex items-center gap-3 h-10">
-                  <Switch
-                    id="public-link-gift"
-                    checked={publicLinkHasGift}
-                    onCheckedChange={setPublicLinkHasGift}
-                  />
-                  <Label htmlFor="public-link-gift" className="flex items-center gap-2 cursor-pointer">
-                    <Gift className="h-4 w-4 text-purple-500" />
-                    Nyereményjátékkal
-                  </Label>
-                </div>
-              </div>
+            <div className="p-4 bg-muted/30 rounded-lg flex items-center gap-3">
+              <Switch
+                id="public-link-gift"
+                checked={publicLinkHasGift}
+                onCheckedChange={setPublicLinkHasGift}
+              />
+              <Label htmlFor="public-link-gift" className="flex items-center gap-2 cursor-pointer">
+                <Gift className="h-4 w-4 text-purple-500" />
+                Nyereményjátékkal
+              </Label>
             </div>
 
             {publicLinkTemplate && (
@@ -284,30 +252,16 @@ const CommunicationSupport = () => {
             </div>
           </CardHeader>
           <CardContent className="space-y-6 pt-6">
-            <div className="grid md:grid-cols-2 gap-4 p-4 bg-muted/30 rounded-lg">
-              <div className="space-y-2">
-                <Label htmlFor="qr-code-program-name">Program neve</Label>
-                <Input
-                  id="qr-code-program-name"
-                  value={qrCodeProgramName}
-                  onChange={(e) => setQrCodeProgramName(e.target.value)}
-                  placeholder="Pl. DoYouEAP"
-                  className="bg-background"
-                />
-              </div>
-              <div className="space-y-2 flex items-end">
-                <div className="flex items-center gap-3 h-10">
-                  <Switch
-                    id="qr-code-gift"
-                    checked={qrCodeHasGift}
-                    onCheckedChange={setQrCodeHasGift}
-                  />
-                  <Label htmlFor="qr-code-gift" className="flex items-center gap-2 cursor-pointer">
-                    <Gift className="h-4 w-4 text-purple-500" />
-                    Nyereményjátékkal
-                  </Label>
-                </div>
-              </div>
+            <div className="p-4 bg-muted/30 rounded-lg flex items-center gap-3">
+              <Switch
+                id="qr-code-gift"
+                checked={qrCodeHasGift}
+                onCheckedChange={setQrCodeHasGift}
+              />
+              <Label htmlFor="qr-code-gift" className="flex items-center gap-2 cursor-pointer">
+                <Gift className="h-4 w-4 text-purple-500" />
+                Nyereményjátékkal
+              </Label>
             </div>
 
             {qrCodeTemplate && (
