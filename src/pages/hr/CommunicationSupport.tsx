@@ -317,10 +317,11 @@ const CommunicationSupport = () => {
                   ))}
 
                 {/* Download Buttons */}
-                <div className="flex gap-3 justify-start">
+                <div className="flex gap-3 justify-start max-w-md">
                   <Button 
                     onClick={() => handleDownloadText(qrCodeText, 'qr_kod_szoveg.txt')}
                     variant="outline"
+                    size="sm"
                   >
                     <Download className="mr-2 h-4 w-4" />
                     Plakát szöveg letöltése
@@ -332,6 +333,7 @@ const CommunicationSupport = () => {
                       handleDownloadZip(poster?.source_file_url || null);
                     }}
                     variant="outline"
+                    size="sm"
                   >
                     <Download className="mr-2 h-4 w-4" />
                     Plakát grafikák letöltése (ZIP)
