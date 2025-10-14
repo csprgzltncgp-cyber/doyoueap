@@ -177,6 +177,17 @@ const CommunicationTemplates = () => {
     setUploadingZip({ hasGift, file });
 
     try {
+      // Check if poster record exists for this gift type
+      const existingPoster = posters.find(p => p.has_gift === hasGift);
+
+      // Delete old ZIP file from storage if exists
+      if (existingPoster?.source_file_url) {
+        const oldFilePath = existingPoster.source_file_url.split('/audit-assets/')[1];
+        if (oldFilePath) {
+          await supabase.storage.from('audit-assets').remove([oldFilePath]);
+        }
+      }
+
       const fileName = `source-${hasGift ? 'gift' : 'no-gift'}-${Date.now()}.zip`;
       const filePath = `posters/sources/${fileName}`;
 
@@ -189,9 +200,6 @@ const CommunicationTemplates = () => {
       const { data: { publicUrl } } = supabase.storage
         .from('audit-assets')
         .getPublicUrl(filePath);
-
-      // Check if poster record exists for this gift type
-      const existingPoster = posters.find(p => p.has_gift === hasGift);
 
       if (existingPoster) {
         const { error } = await supabase
