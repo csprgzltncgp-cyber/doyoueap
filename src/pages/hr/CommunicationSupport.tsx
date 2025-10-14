@@ -244,7 +244,8 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
               </div>
               <Button 
                 onClick={() => handleDownloadText(getTokenesEmailText(), 'email-sablon-tokenes.txt')}
-                className="w-full"
+                variant="outline"
+                size="sm"
               >
                 <Download className="mr-2 h-4 w-4" />
                 Szöveg letöltése
@@ -274,7 +275,8 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
               </div>
               <Button 
                 onClick={() => handleDownloadText(getPublicLinkText(), 'kommunikacio-nyilvanos-link.txt')}
-                className="w-full"
+                variant="outline"
+                size="sm"
               >
                 <Download className="mr-2 h-4 w-4" />
                 Szöveg letöltése
@@ -304,7 +306,8 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
               </div>
               <Button 
                 onClick={() => handleDownloadText(getQRCodeText(), 'plakat-szoveg-qr.txt')}
-                className="w-full"
+                variant="outline"
+                size="sm"
               >
                 <Download className="mr-2 h-4 w-4" />
                 Szöveg letöltése
