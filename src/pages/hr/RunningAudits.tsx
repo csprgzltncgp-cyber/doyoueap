@@ -544,18 +544,20 @@ const RunningAudits = () => {
                   Sorsolt
                 </Badge>
               )}
-              <Badge 
-                variant="outline" 
-                className="gap-1 bg-purple-50 text-purple-700 border-purple-300 cursor-pointer hover:bg-purple-100 transition-colors"
-                onClick={() => {
-                  setEditingGiftAuditId(metrics.audit.id);
-                  setSelectedGiftId(metrics.audit.gift_id || null);
-                }}
-              >
-                <Trophy className="h-3 w-3" />
-                {metrics.giftName ? `Fődíj: ${metrics.giftName}` : 'Fődíj beállítása'}
-                <Edit className="h-3 w-3 ml-1" />
-              </Badge>
+              {metrics.audit.gift_id && metrics.giftName && (
+                <Badge 
+                  variant="outline" 
+                  className="gap-1 bg-purple-50 text-purple-700 border-purple-300 cursor-pointer hover:bg-purple-100 transition-colors"
+                  onClick={() => {
+                    setEditingGiftAuditId(metrics.audit.id);
+                    setSelectedGiftId(metrics.audit.gift_id || null);
+                  }}
+                >
+                  <Trophy className="h-3 w-3" />
+                  Fődíj: {metrics.giftName}
+                  <Edit className="h-3 w-3 ml-1" />
+                </Badge>
+              )}
             </div>
           </div>
           <div className="flex gap-2">
