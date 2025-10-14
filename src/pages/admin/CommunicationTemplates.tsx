@@ -378,29 +378,43 @@ const CommunicationTemplates = () => {
                     .filter(p => p.has_gift === template.has_gift)
                     .map(poster => (
                       <div key={poster.id} className="space-y-3">
-                        {poster.poster_images.length > 0 && (
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                            {poster.poster_images.map((imageUrl, idx) => (
-                              <div key={idx} className="relative group">
-                                <img 
-                                  src={imageUrl} 
-                                  alt={`Plakát ${idx + 1}`}
-                                  className="w-full h-32 object-cover rounded-lg border"
-                                />
-                                <Button
-                                  size="icon"
-                                  variant="destructive"
-                                  className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6"
-                                  onClick={() => handleDeletePosterImage(poster.id, imageUrl)}
-                                >
-                                  <X className="h-3 w-3" />
-                                </Button>
-                              </div>
-                            ))}
-                          </div>
+                        {poster.poster_images.length > 0 ? (
+                          <>
+                            <Label className="text-sm font-medium">Feltöltött plakátok:</Label>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                              {poster.poster_images.map((imageUrl, idx) => (
+                                <div key={idx} className="relative group">
+                                  <img 
+                                    src={imageUrl} 
+                                    alt={`Plakát ${idx + 1}`}
+                                    className="w-full h-32 object-cover rounded-lg border"
+                                  />
+                                  <Button
+                                    size="icon"
+                                    variant="destructive"
+                                    className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6"
+                                    onClick={() => handleDeletePosterImage(poster.id, imageUrl)}
+                                  >
+                                    <X className="h-3 w-3" />
+                                  </Button>
+                                </div>
+                              ))}
+                            </div>
+                          </>
+                        ) : (
+                          <p className="text-sm text-muted-foreground italic">
+                            Még nincsenek feltöltött plakátok
+                          </p>
                         )}
                       </div>
                     ))}
+
+                  {/* Show message if no poster record exists */}
+                  {posters.filter(p => p.has_gift === template.has_gift).length === 0 && (
+                    <p className="text-sm text-muted-foreground italic">
+                      Még nincsenek feltöltött plakátok
+                    </p>
+                  )}
 
                   {/* Upload buttons */}
                   <div className="flex gap-3">
