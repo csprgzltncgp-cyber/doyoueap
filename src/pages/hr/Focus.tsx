@@ -543,7 +543,9 @@ const Focus = () => {
       <div className="space-y-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Download className="h-6 w-6 text-primary" />
+            <div className="bg-primary/10 p-2 rounded-lg">
+              <Download className="h-5 w-5 text-primary" />
+            </div>
             <h2 className="text-2xl font-bold">Export előzmények</h2>
           </div>
           {Object.keys(groupedDownloads).length > 0 && (
