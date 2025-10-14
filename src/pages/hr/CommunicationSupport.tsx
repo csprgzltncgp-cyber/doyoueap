@@ -306,21 +306,17 @@ const CommunicationSupport = () => {
                     Plakát szöveg letöltése
                   </Button>
 
-                  {posters
-                    .filter(p => p.has_gift === qrCodeHasGift)
-                    .map(poster => (
-                      poster.source_file_url && (
-                        <Button 
-                          key={poster.id}
-                          onClick={() => handleDownloadZip(poster.source_file_url)}
-                          variant="outline"
-                          className="w-full"
-                        >
-                          <Download className="mr-2 h-4 w-4" />
-                          Plakát grafikák letöltése (ZIP)
-                        </Button>
-                      )
-                    ))}
+                  <Button 
+                    onClick={() => {
+                      const poster = posters.find(p => p.has_gift === qrCodeHasGift);
+                      handleDownloadZip(poster?.source_file_url || null);
+                    }}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    Plakát grafikák letöltése (ZIP)
+                  </Button>
                 </div>
 
                 {/* Display poster images - view only */}
