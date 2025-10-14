@@ -296,60 +296,52 @@ const CommunicationSupport = () => {
 
               {/* Download Buttons */}
               <div className="space-y-4">
-                <Button 
-                  onClick={() => handleDownloadText(qrCodeText, 'qr_kod_szoveg.txt')}
-                  variant="outline"
-                  size="sm"
-                  className="w-full"
-                >
-                  <Download className="mr-2 h-4 w-4" />
-                  Plakát szöveg letöltése
-                </Button>
+                <div className="grid grid-cols-2 gap-3">
+                  <Button 
+                    onClick={() => handleDownloadText(qrCodeText, 'qr_kod_szoveg.txt')}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    Plakát szöveg letöltése
+                  </Button>
 
-                {/* Display poster images */}
-                {posters
-                  .filter(p => p.has_gift === qrCodeHasGift)
-                  .map(poster => (
-                    <div key={poster.id} className="space-y-3">
-                      {poster.poster_images.length > 0 && (
-                        <>
-                          <Label className="text-sm font-semibold">Elérhető plakátok:</Label>
-                          <div className="grid grid-cols-2 gap-3">
-                            {poster.poster_images.map((imageUrl, idx) => (
-                              <div key={idx} className="space-y-2">
-                                <img 
-                                  src={imageUrl} 
-                                  alt={`Plakát ${idx + 1}`}
-                                  className="w-full h-32 object-cover rounded-lg border cursor-pointer hover:opacity-80 transition-opacity"
-                                  onClick={() => handleDownloadPosterImage(imageUrl, idx)}
-                                />
-                                <Button
-                                  onClick={() => handleDownloadPosterImage(imageUrl, idx)}
-                                  variant="outline"
-                                  size="sm"
-                                  className="w-full"
-                                >
-                                  <Download className="mr-2 h-3 w-3" />
-                                  Letöltés
-                                </Button>
-                              </div>
-                            ))}
-                          </div>
-                        </>
-                      )}
-
-                      {poster.source_file_url && (
+                  {posters
+                    .filter(p => p.has_gift === qrCodeHasGift)
+                    .map(poster => (
+                      poster.source_file_url && (
                         <Button 
+                          key={poster.id}
                           onClick={() => handleDownloadZip(poster.source_file_url)}
                           variant="outline"
-                          size="sm"
                           className="w-full"
                         >
                           <Download className="mr-2 h-4 w-4" />
-                          Plakát grafika forrás letöltése (ZIP)
+                          Plakát grafikák letöltése (ZIP)
                         </Button>
-                      )}
-                    </div>
+                      )
+                    ))}
+                </div>
+
+                {/* Display poster images - view only */}
+                {posters
+                  .filter(p => p.has_gift === qrCodeHasGift)
+                  .map(poster => (
+                    poster.poster_images.length > 0 && (
+                      <div key={poster.id} className="space-y-3">
+                        <Label className="text-sm font-semibold">Elérhető plakátok:</Label>
+                        <div className="grid grid-cols-2 gap-3">
+                          {poster.poster_images.map((imageUrl, idx) => (
+                            <img 
+                              key={idx}
+                              src={imageUrl} 
+                              alt={`Plakát ${idx + 1}`}
+                              className="w-full h-32 object-cover rounded-lg border"
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    )
                   ))}
               </div>
             </CardContent>
