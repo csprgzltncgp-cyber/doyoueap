@@ -272,7 +272,7 @@ const CommunicationSupport = () => {
                       </div>
                       <div className="flex gap-2">
                         <Button size="sm" variant="outline" className="h-8">Mentés</Button>
-                        <Button size="sm" className="h-8 bg-primary">Küldés</Button>
+                        <Button size="sm" className="h-8 bg-blue-600 text-white hover:bg-blue-700">Küldés</Button>
                       </div>
                     </div>
                   </div>
