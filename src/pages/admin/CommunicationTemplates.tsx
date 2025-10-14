@@ -402,8 +402,8 @@ const CommunicationTemplates = () => {
                       </div>
                     ))}
 
-                  {/* Upload new posters */}
-                  <div className="flex gap-2">
+                  {/* Upload buttons */}
+                  <div className="flex gap-3">
                     <Button
                       variant="outline"
                       size="sm"
@@ -423,16 +423,7 @@ const CommunicationTemplates = () => {
                       <Upload className="h-4 w-4 mr-1" />
                       {uploadingPosters?.hasGift === template.has_gift ? 'Feltöltés...' : 'Új plakátok feltöltése'}
                     </Button>
-                  </div>
 
-                  {/* Source file upload */}
-                  <div className="space-y-2">
-                    <Label className="text-sm font-semibold">Forrás fájl (ZIP)</Label>
-                    {posters.find(p => p.has_gift === template.has_gift)?.source_file_url && (
-                      <p className="text-sm text-muted-foreground">
-                        Feltöltve ✓
-                      </p>
-                    )}
                     <Button
                       variant="outline"
                       size="sm"
@@ -453,6 +444,12 @@ const CommunicationTemplates = () => {
                       {uploadingZip?.hasGift === template.has_gift ? 'Feltöltés...' : 'Forrás ZIP feltöltése'}
                     </Button>
                   </div>
+
+                  {posters.find(p => p.has_gift === template.has_gift)?.source_file_url && (
+                    <p className="text-sm text-muted-foreground">
+                      Forrás fájl feltöltve ✓
+                    </p>
+                  )}
                 </div>
               )}
             </CardContent>
