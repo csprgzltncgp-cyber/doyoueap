@@ -256,7 +256,7 @@ const CommunicationSupport = () => {
 
                     {/* Email Body */}
                     <div className="px-6 pb-6">
-                      <div className="bg-muted/20 rounded-md p-6 min-h-[200px] border">
+                      <div className="rounded-md p-6 min-h-[200px] border">
                         <div className="text-sm whitespace-pre-wrap leading-relaxed">{emailText}</div>
                       </div>
                     </div>
