@@ -319,7 +319,7 @@ const CommunicationSupport = () => {
                     <div className="bg-[#350d36] px-4 py-2.5 flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <img src={slackLogo} alt="Slack" className="h-5 w-auto brightness-0 invert" />
-                        <span className="text-white font-semibold text-sm">Cég neve</span>
+                        <span className="text-white font-semibold text-sm">Cég neve - Slack</span>
                       </div>
                       <div className="flex gap-1.5">
                         <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
@@ -330,49 +330,56 @@ const CommunicationSupport = () => {
 
                     <div className="flex">
                       {/* Slack Sidebar */}
-                      <div className="bg-[#3f0e40] w-56 flex-shrink-0 p-3 space-y-1">
-                        {/* Channels Header */}
-                        <div className="text-white/70 text-xs font-semibold px-3 py-1.5 flex items-center justify-between">
-                          <span>Csatornák</span>
-                          <span className="text-lg leading-none">▼</span>
-                        </div>
-
-                        {/* Channel List */}
-                        <div className="space-y-0.5">
-                          <div className="text-white/70 px-3 py-1 rounded text-sm hover:bg-white/10 cursor-pointer flex items-center gap-2">
-                            <span className="text-white/50">#</span>
-                            <span>vezetőség</span>
-                          </div>
-                          <div className="bg-[#1164a3] text-white px-3 py-1 rounded text-sm cursor-pointer flex items-center gap-2 font-medium">
-                            <span className="text-white/90">#</span>
-                            <span>általános</span>
-                          </div>
-                          <div className="text-white/70 px-3 py-1 rounded text-sm hover:bg-white/10 cursor-pointer flex items-center gap-2">
-                            <span className="text-white/50">#</span>
-                            <span>hr-csapat</span>
-                          </div>
-                          <div className="text-white/70 px-3 py-1 rounded text-sm hover:bg-white/10 cursor-pointer flex items-center gap-2">
-                            <span className="text-white/50">#</span>
-                            <span>közlemények</span>
-                          </div>
-                        </div>
-
-                        {/* Direct Messages */}
-                        <div className="pt-3">
+                      <div className="bg-[#3f0e40] w-56 flex-shrink-0 p-3 space-y-1 flex flex-col">
+                        <div className="flex-1">
+                          {/* Channels Header */}
                           <div className="text-white/70 text-xs font-semibold px-3 py-1.5 flex items-center justify-between">
-                            <span>Közvetlen üzenetek</span>
+                            <span>Csatornák</span>
                             <span className="text-lg leading-none">▼</span>
                           </div>
+
+                          {/* Channel List */}
                           <div className="space-y-0.5">
                             <div className="text-white/70 px-3 py-1 rounded text-sm hover:bg-white/10 cursor-pointer flex items-center gap-2">
-                              <div className="w-2 h-2 rounded-full bg-green-500" />
-                              <span>Anna Kiss</span>
+                              <span className="text-white/50">#</span>
+                              <span>vezetőség</span>
+                            </div>
+                            <div className="bg-[#1164a3] text-white px-3 py-1 rounded text-sm cursor-pointer flex items-center gap-2 font-medium">
+                              <span className="text-white/90">#</span>
+                              <span>általános</span>
                             </div>
                             <div className="text-white/70 px-3 py-1 rounded text-sm hover:bg-white/10 cursor-pointer flex items-center gap-2">
-                              <div className="w-2 h-2 rounded-full bg-gray-400" />
-                              <span>Kovács Péter</span>
+                              <span className="text-white/50">#</span>
+                              <span>hr-csapat</span>
+                            </div>
+                            <div className="text-white/70 px-3 py-1 rounded text-sm hover:bg-white/10 cursor-pointer flex items-center gap-2">
+                              <span className="text-white/50">#</span>
+                              <span>közlemények</span>
                             </div>
                           </div>
+
+                          {/* Direct Messages */}
+                          <div className="pt-3">
+                            <div className="text-white/70 text-xs font-semibold px-3 py-1.5 flex items-center justify-between">
+                              <span>Közvetlen üzenetek</span>
+                              <span className="text-lg leading-none">▼</span>
+                            </div>
+                            <div className="space-y-0.5">
+                              <div className="text-white/70 px-3 py-1 rounded text-sm hover:bg-white/10 cursor-pointer flex items-center gap-2">
+                                <div className="w-2 h-2 rounded-full bg-green-500" />
+                                <span>Anna Kiss</span>
+                              </div>
+                              <div className="text-white/70 px-3 py-1 rounded text-sm hover:bg-white/10 cursor-pointer flex items-center gap-2">
+                                <div className="w-2 h-2 rounded-full bg-gray-400" />
+                                <span>Kovács Péter</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Slack Logo at Bottom */}
+                        <div className="pt-4 pb-2 border-t border-white/10 flex justify-center">
+                          <img src={slackLogo} alt="Slack" className="h-8 w-auto opacity-40" />
                         </div>
                       </div>
 
