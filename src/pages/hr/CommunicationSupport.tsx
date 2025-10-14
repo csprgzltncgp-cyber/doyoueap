@@ -232,12 +232,12 @@ const CommunicationSupport = () => {
                 <>
                   <div className="bg-background rounded-lg border-2 shadow-lg overflow-hidden">
                     {/* Email Header */}
-                    <div className="bg-primary px-6 py-3 flex items-center justify-between border-b">
-                      <span className="font-medium text-primary-foreground">Új üzenet</span>
+                    <div className="bg-blue-600 px-6 py-3 flex items-center justify-between border-b">
+                      <span className="font-medium text-white">Új üzenet</span>
                       <div className="flex gap-2">
-                        <div className="w-3 h-3 rounded-full bg-primary-foreground/30" />
-                        <div className="w-3 h-3 rounded-full bg-primary-foreground/30" />
-                        <div className="w-3 h-3 rounded-full bg-primary-foreground/30" />
+                        <div className="w-3 h-3 rounded-full bg-white/30" />
+                        <div className="w-3 h-3 rounded-full bg-white/30" />
+                        <div className="w-3 h-3 rounded-full bg-white/30" />
                       </div>
                     </div>
 
