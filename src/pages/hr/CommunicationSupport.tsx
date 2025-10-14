@@ -245,7 +245,7 @@ const CommunicationSupport = () => {
                     <div className="bg-background p-6 space-y-3">
                       <div className="flex items-center gap-3 pb-2 border-b">
                         <span className="text-sm text-muted-foreground w-20">Címzett:</span>
-                        <span className="text-sm text-muted-foreground italic">munkatársak@cég.hu</span>
+                        <span className="text-sm text-muted-foreground italic">munkatárs@cég.hu</span>
                       </div>
                       
                       <div className="flex items-center gap-3 pb-2 border-b">
