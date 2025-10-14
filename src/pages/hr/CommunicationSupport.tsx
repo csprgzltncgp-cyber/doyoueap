@@ -262,6 +262,7 @@ const CommunicationSupport = () => {
                 onClick={handleDownloadZip}
                 variant="outline"
                 size="sm"
+                className="mt-4"
               >
                 <Download className="mr-2 h-4 w-4" />
                 Plakát grafika letöltése
