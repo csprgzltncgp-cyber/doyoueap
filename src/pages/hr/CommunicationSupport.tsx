@@ -275,21 +275,6 @@ const CommunicationSupport = () => {
                         <div className="text-sm whitespace-pre-wrap leading-relaxed">{emailText}</div>
                       </div>
                     </div>
-
-                    {/* Email Footer Toolbar */}
-                    <div className="bg-muted/50 px-6 py-3 flex items-center justify-between border-t">
-                      <div className="flex gap-2">
-                        <Type className="h-4 w-4 text-muted-foreground" />
-                        <Paperclip className="h-4 w-4 text-muted-foreground" />
-                        <Smile className="h-4 w-4 text-muted-foreground" />
-                        <ImageIcon className="h-4 w-4 text-muted-foreground" />
-                        <AlignLeft className="h-4 w-4 text-muted-foreground" />
-                      </div>
-                      <div className="flex gap-2">
-                        <Button size="sm" variant="outline" className="h-8">Mentés</Button>
-                        <Button size="sm" className="h-8 bg-blue-600 text-white hover:bg-blue-700">Küldés</Button>
-                      </div>
-                    </div>
                   </div>
                 </div>
               )}
