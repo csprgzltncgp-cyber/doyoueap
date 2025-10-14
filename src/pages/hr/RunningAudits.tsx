@@ -524,7 +524,8 @@ const RunningAudits = () => {
               {metrics.audit.gift_id && metrics.audit.draw_status !== 'completed' && (
                 <Badge 
                   variant="outline" 
-                  className="gap-1 bg-yellow-50 text-yellow-700 border-yellow-300 cursor-pointer hover:bg-yellow-100 transition-colors"
+                  className="gap-1 text-purple-700 border-purple-300 cursor-pointer hover:opacity-80 transition-all"
+                  style={{ backgroundColor: '#ff66ff20' }}
                   onClick={() => handleToggleDrawMode(metrics.audit.id, metrics.audit.draw_mode)}
                 >
                   <Trophy className="h-3 w-3" />
@@ -547,8 +548,7 @@ const RunningAudits = () => {
               {metrics.audit.gift_id && metrics.giftName && (
                 <Badge 
                   variant="outline" 
-                  className="gap-1 text-purple-700 border-purple-300 cursor-pointer hover:opacity-80 transition-all"
-                  style={{ backgroundColor: '#ff66ff20' }}
+                  className="gap-1 bg-yellow-50 text-yellow-700 border-yellow-300 cursor-pointer hover:bg-yellow-100 transition-colors"
                   onClick={() => {
                     setEditingGiftAuditId(metrics.audit.id);
                     setSelectedGiftId(metrics.audit.gift_id || null);
