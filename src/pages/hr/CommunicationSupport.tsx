@@ -314,12 +314,12 @@ const CommunicationSupport = () => {
               {publicLinkTemplate && (
                 <>
                   {/* Slack-like Message Preview */}
-                  <div className="bg-background rounded-lg border shadow-lg overflow-hidden max-w-3xl">
+                  <div className="bg-background rounded-lg border shadow-lg overflow-hidden max-w-5xl">
                     {/* Slack Header */}
                     <div className="bg-[#350d36] px-4 py-2.5 flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <img src={slackLogo} alt="Slack" className="h-5 w-auto brightness-0 invert" />
-                        <span className="text-white font-semibold text-sm">#általános</span>
+                        <span className="text-white font-semibold text-sm">Cég neve</span>
                       </div>
                       <div className="flex gap-1.5">
                         <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
@@ -328,59 +328,119 @@ const CommunicationSupport = () => {
                       </div>
                     </div>
 
-                    {/* Message Content */}
-                    <div className="bg-white p-5">
-                      <div className="flex gap-3">
-                        {/* Avatar */}
-                        <div className="w-9 h-9 rounded bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
-                          HR
+                    <div className="flex">
+                      {/* Slack Sidebar */}
+                      <div className="bg-[#3f0e40] w-56 flex-shrink-0 p-3 space-y-1">
+                        {/* Channels Header */}
+                        <div className="text-white/70 text-xs font-semibold px-3 py-1.5 flex items-center justify-between">
+                          <span>Csatornák</span>
+                          <span className="text-lg leading-none">▼</span>
                         </div>
-                        
-                        {/* Message */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-baseline gap-2 mb-1">
-                            <span className="font-bold text-[#1d1c1d] text-sm">HR csapat</span>
-                            <span className="text-xs text-[#616061]">9:30</span>
-                          </div>
-                          
-                          {/* Message Text with Link Preview */}
-                          <div className="space-y-3">
-                            <div className="text-[#1d1c1d] text-sm leading-relaxed whitespace-pre-wrap">
-                              {publicLinkText}
-                            </div>
 
-                            {/* Link Preview Card */}
-                            <div className="border border-[#e0e0e0] rounded-lg overflow-hidden hover:border-[#1264a3] transition-colors cursor-pointer max-w-md">
-                              <div className="h-1 bg-gradient-to-r from-blue-500 to-purple-600" />
-                              <div className="p-3 space-y-1.5">
-                                <div className="flex items-center gap-2">
-                                  <div className="w-4 h-4 rounded bg-gradient-to-br from-blue-500 to-purple-600" />
-                                  <span className="text-xs text-[#616061]">survey.doyoueap.hu</span>
+                        {/* Channel List */}
+                        <div className="space-y-0.5">
+                          <div className="text-white/70 px-3 py-1 rounded text-sm hover:bg-white/10 cursor-pointer flex items-center gap-2">
+                            <span className="text-white/50">#</span>
+                            <span>vezetőség</span>
+                          </div>
+                          <div className="bg-[#1164a3] text-white px-3 py-1 rounded text-sm cursor-pointer flex items-center gap-2 font-medium">
+                            <span className="text-white/90">#</span>
+                            <span>általános</span>
+                          </div>
+                          <div className="text-white/70 px-3 py-1 rounded text-sm hover:bg-white/10 cursor-pointer flex items-center gap-2">
+                            <span className="text-white/50">#</span>
+                            <span>hr-csapat</span>
+                          </div>
+                          <div className="text-white/70 px-3 py-1 rounded text-sm hover:bg-white/10 cursor-pointer flex items-center gap-2">
+                            <span className="text-white/50">#</span>
+                            <span>közlemények</span>
+                          </div>
+                        </div>
+
+                        {/* Direct Messages */}
+                        <div className="pt-3">
+                          <div className="text-white/70 text-xs font-semibold px-3 py-1.5 flex items-center justify-between">
+                            <span>Közvetlen üzenetek</span>
+                            <span className="text-lg leading-none">▼</span>
+                          </div>
+                          <div className="space-y-0.5">
+                            <div className="text-white/70 px-3 py-1 rounded text-sm hover:bg-white/10 cursor-pointer flex items-center gap-2">
+                              <div className="w-2 h-2 rounded-full bg-green-500" />
+                              <span>Anna Kiss</span>
+                            </div>
+                            <div className="text-white/70 px-3 py-1 rounded text-sm hover:bg-white/10 cursor-pointer flex items-center gap-2">
+                              <div className="w-2 h-2 rounded-full bg-gray-400" />
+                              <span>Kovács Péter</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Main Content Area */}
+                      <div className="flex-1 flex flex-col min-w-0">
+                        {/* Channel Header */}
+                        <div className="bg-white border-b border-[#e0e0e0] px-5 py-3 flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-[#1d1c1d]"># általános</span>
+                            <span className="text-xs text-[#616061]">45 tag</span>
+                          </div>
+                        </div>
+
+                        {/* Message Content */}
+                        <div className="bg-white p-5 flex-1">
+                          <div className="flex gap-3">
+                            {/* Avatar */}
+                            <div className="w-9 h-9 rounded bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                              HR
+                            </div>
+                            
+                            {/* Message */}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-baseline gap-2 mb-1">
+                                <span className="font-bold text-[#1d1c1d] text-sm">HR csapat</span>
+                                <span className="text-xs text-[#616061]">9:30</span>
+                              </div>
+                              
+                              {/* Message Text with Link Preview */}
+                              <div className="space-y-3">
+                                <div className="text-[#1d1c1d] text-sm leading-relaxed whitespace-pre-wrap">
+                                  {publicLinkText}
                                 </div>
-                                <div className="font-semibold text-sm text-[#1d1c1d]">
-                                  EAP Pulse Felmérés
-                                </div>
-                                <div className="text-xs text-[#616061]">
-                                  Töltsd ki a felmérést és segíts nekünk fejleszteni a munkahelyi jóllétet
+
+                                {/* Link Preview Card */}
+                                <div className="border border-[#e0e0e0] rounded-lg overflow-hidden hover:border-[#1264a3] transition-colors cursor-pointer max-w-md">
+                                  <div className="h-1 bg-gradient-to-r from-blue-500 to-purple-600" />
+                                  <div className="p-3 space-y-1.5">
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-4 h-4 rounded bg-gradient-to-br from-blue-500 to-purple-600" />
+                                      <span className="text-xs text-[#616061]">survey.doyoueap.hu</span>
+                                    </div>
+                                    <div className="font-semibold text-sm text-[#1d1c1d]">
+                                      EAP Pulse Felmérés
+                                    </div>
+                                    <div className="text-xs text-[#616061]">
+                                      Töltsd ki a felmérést és segíts nekünk fejleszteni a munkahelyi jóllétet
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
 
-                    {/* Message Actions */}
-                    <div className="bg-white border-t border-[#e0e0e0] px-5 py-2 flex items-center gap-4 text-xs text-[#616061]">
-                      <button className="hover:bg-[#f8f8f8] px-2 py-1 rounded transition-colors">
-                        💬 Válasz szálban
-                      </button>
-                      <button className="hover:bg-[#f8f8f8] px-2 py-1 rounded transition-colors">
-                        😊 Reakció hozzáadása
-                      </button>
-                      <button className="hover:bg-[#f8f8f8] px-2 py-1 rounded transition-colors">
-                        ⋯ Több
-                      </button>
+                        {/* Message Actions */}
+                        <div className="bg-white border-t border-[#e0e0e0] px-5 py-2 flex items-center gap-4 text-xs text-[#616061]">
+                          <button className="hover:bg-[#f8f8f8] px-2 py-1 rounded transition-colors">
+                            💬 Válasz szálban
+                          </button>
+                          <button className="hover:bg-[#f8f8f8] px-2 py-1 rounded transition-colors">
+                            😊 Reakció hozzáadása
+                          </button>
+                          <button className="hover:bg-[#f8f8f8] px-2 py-1 rounded transition-colors">
+                            ⋯ Több
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
