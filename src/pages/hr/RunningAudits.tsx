@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
 import { Calendar as CalendarIcon, CalendarDays, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2, Trophy, FileDown, RefreshCw, Edit } from 'lucide-react';
@@ -39,6 +40,7 @@ interface AuditMetrics {
   daysRemaining: number;
   completionPercentage: number;
   totalEmployees?: number;
+  giftName?: string;
 }
 
 const RunningAudits = () => {
@@ -51,16 +53,35 @@ const RunningAudits = () => {
   // Edit dialogs state
   const [editingExpiryAuditId, setEditingExpiryAuditId] = useState<string | null>(null);
   const [editingRecurrenceAuditId, setEditingRecurrenceAuditId] = useState<string | null>(null);
+  const [editingGiftAuditId, setEditingGiftAuditId] = useState<string | null>(null);
   const [newExpiryDate, setNewExpiryDate] = useState<Date | undefined>();
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [recurrenceSettings, setRecurrenceSettings] = useState({
     enabled: false,
     frequency: 'quarterly' as 'quarterly' | 'biannually' | 'annually',
   });
+  const [selectedGiftId, setSelectedGiftId] = useState<string | null>(null);
+  const [availableGifts, setAvailableGifts] = useState<Array<{ id: string; name: string }>>([]);
 
   useEffect(() => {
     fetchRunningAudits();
+    fetchGifts();
   }, []);
+
+  const fetchGifts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('gifts')
+        .select('id, name')
+        .eq('is_active', true)
+        .order('name');
+
+      if (error) throw error;
+      setAvailableGifts(data || []);
+    } catch (error) {
+      console.error('Error fetching gifts:', error);
+    }
+  };
 
   const fetchRunningAudits = async () => {
     try {
@@ -130,6 +151,17 @@ const RunningAudits = () => {
           return null;
         }
 
+        // Fetch gift name if gift_id exists
+        let giftName: string | undefined;
+        if (audit.gift_id) {
+          const { data: giftData } = await supabase
+            .from('gifts')
+            .select('name')
+            .eq('id', audit.gift_id)
+            .single();
+          giftName = giftData?.name;
+        }
+
         // Calculate days remaining
         const now = new Date();
         const expiresAt = audit.expires_at ? new Date(audit.expires_at) : null;
@@ -142,6 +174,7 @@ const RunningAudits = () => {
           responsesCount: responses?.length || 0,
           daysRemaining,
           completionPercentage: 0,
+          giftName,
         };
 
         // Set totalEmployees based on priority
@@ -252,6 +285,25 @@ const RunningAudits = () => {
     } catch (error) {
       console.error('Error updating recurrence:', error);
       toast.error('Hiba történt az ismétlődés módosításakor');
+    }
+  };
+
+  const handleUpdateGift = async (auditId: string) => {
+    try {
+      const { error } = await supabase
+        .from('audits')
+        .update({ gift_id: selectedGiftId })
+        .eq('id', auditId);
+
+      if (error) throw error;
+
+      toast.success('Fődíj sikeresen módosítva');
+      setEditingGiftAuditId(null);
+      setSelectedGiftId(null);
+      fetchRunningAudits();
+    } catch (error) {
+      console.error('Error updating gift:', error);
+      toast.error('Hiba történt a fődíj módosításakor');
     }
   };
 
@@ -490,6 +542,20 @@ const RunningAudits = () => {
                 >
                   <Trophy className="h-3 w-3" />
                   Sorsolt
+                </Badge>
+              )}
+              {metrics.giftName && (
+                <Badge 
+                  variant="outline" 
+                  className="gap-1 bg-purple-50 text-purple-700 border-purple-300 cursor-pointer hover:bg-purple-100 transition-colors"
+                  onClick={() => {
+                    setEditingGiftAuditId(metrics.audit.id);
+                    setSelectedGiftId(metrics.audit.gift_id || null);
+                  }}
+                >
+                  <Trophy className="h-3 w-3" />
+                  Fődíj: {metrics.giftName}
+                  <Edit className="h-3 w-3 ml-1" />
                 </Badge>
               )}
             </div>
