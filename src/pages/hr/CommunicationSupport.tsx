@@ -7,10 +7,10 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Download, Mail, LinkIcon, QrCode as QrCodeIcon } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
-import poster1 from '@/assets/poster-1.png';
-import poster2 from '@/assets/poster-2.png';
-import poster3 from '@/assets/poster-3.png';
-import poster4 from '@/assets/poster-4.png';
+import poster1 from '@/assets/poster-a4-1.png';
+import poster2 from '@/assets/poster-a4-2.png';
+import poster3 from '@/assets/poster-a4-3.png';
+import poster4 from '@/assets/poster-a4-4.png';
 
 const CommunicationSupport = () => {
   const [programName, setProgramName] = useState('EAP');
@@ -160,6 +160,15 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
     const a = document.createElement('a');
     a.href = posterSrc;
     a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  const handleDownloadZip = () => {
+    const a = document.createElement('a');
+    a.href = '/posters_A4.zip';
+    a.download = 'posters_A4.zip';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -317,62 +326,26 @@ Köszönjük, hogy segítesz fejleszteni a ${program} programot!`;
 
           <Card>
             <CardHeader>
-              <CardTitle>A2 plakát javaslatok</CardTitle>
+              <CardTitle>Plakát javaslatok</CardTitle>
               <CardDescription>
                 Letölthető plakát sablonok a felmérés népszerűsítéséhez
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="space-y-2">
-                  <img src={poster1} alt="Plakát sablon 1" className="w-full rounded-lg border" />
-                  <Button 
-                    onClick={() => handleDownloadPoster(poster1, 'plakat-sablon-1.png')}
-                    variant="outline"
-                    className="w-full"
-                    size="sm"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Letöltés
-                  </Button>
-                </div>
-                <div className="space-y-2">
-                  <img src={poster2} alt="Plakát sablon 2" className="w-full rounded-lg border" />
-                  <Button 
-                    onClick={() => handleDownloadPoster(poster2, 'plakat-sablon-2.png')}
-                    variant="outline"
-                    className="w-full"
-                    size="sm"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Letöltés
-                  </Button>
-                </div>
-                <div className="space-y-2">
-                  <img src={poster3} alt="Plakát sablon 3" className="w-full rounded-lg border" />
-                  <Button 
-                    onClick={() => handleDownloadPoster(poster3, 'plakat-sablon-3.png')}
-                    variant="outline"
-                    className="w-full"
-                    size="sm"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Letöltés
-                  </Button>
-                </div>
-                <div className="space-y-2">
-                  <img src={poster4} alt="Plakát sablon 4" className="w-full rounded-lg border" />
-                  <Button 
-                    onClick={() => handleDownloadPoster(poster4, 'plakat-sablon-4.png')}
-                    variant="outline"
-                    className="w-full"
-                    size="sm"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Letöltés
-                  </Button>
-                </div>
+                <img src={poster1} alt="Plakát sablon 1" className="w-full rounded-lg border" />
+                <img src={poster2} alt="Plakát sablon 2" className="w-full rounded-lg border" />
+                <img src={poster3} alt="Plakát sablon 3" className="w-full rounded-lg border" />
+                <img src={poster4} alt="Plakát sablon 4" className="w-full rounded-lg border" />
               </div>
+              <Button 
+                onClick={handleDownloadZip}
+                variant="outline"
+                size="sm"
+              >
+                <Download className="mr-2 h-4 w-4" />
+                Összes plakát letöltése (ZIP)
+              </Button>
             </CardContent>
           </Card>
         </TabsContent>
