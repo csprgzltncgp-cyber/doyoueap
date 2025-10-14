@@ -214,11 +214,24 @@ const CommunicationSupport = () => {
         {/* Email Template Tab */}
         <TabsContent value="email">
           <Card>
-            <CardHeader>
-              <CardTitle>Email sablon</CardTitle>
-              <CardDescription>
-                Használd ezt a sablont, ha emailben szeretnéd megosztani a felmérést a munkatársaiddal.
-              </CardDescription>
+            <CardHeader className="flex flex-row items-start justify-between space-y-0">
+              <div className="space-y-1.5">
+                <CardTitle>Email sablon</CardTitle>
+                <CardDescription>
+                  Használd ezt a sablont, ha emailben szeretnéd megosztani a felmérést a munkatársaiddal.
+                </CardDescription>
+              </div>
+              {emailTemplate && (
+                <Button
+                  onClick={() => handleDownloadText(emailText, 'email_sablon.txt')}
+                  variant="outline"
+                  size="sm"
+                  className="flex-shrink-0"
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  Szöveg letöltése
+                </Button>
+              )}
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-2">
@@ -278,15 +291,6 @@ const CommunicationSupport = () => {
                       </div>
                     </div>
                   </div>
-
-                  <Button
-                    onClick={() => handleDownloadText(emailText, 'email_sablon.txt')}
-                    variant="outline"
-                    size="sm"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Szöveg letöltése
-                  </Button>
                 </>
               )}
             </CardContent>
@@ -296,11 +300,24 @@ const CommunicationSupport = () => {
         {/* Public Link Template Tab */}
         <TabsContent value="link">
           <Card>
-            <CardHeader>
-              <CardTitle>Publikus link sablon</CardTitle>
-              <CardDescription>
-                Használd ezt a sablont Slack-ben, Teamsen vagy más üzenetküldő platformon a felmérés megosztására.
-              </CardDescription>
+            <CardHeader className="flex flex-row items-start justify-between space-y-0">
+              <div className="space-y-1.5">
+                <CardTitle>Publikus link sablon</CardTitle>
+                <CardDescription>
+                  Használd ezt a sablont Slack-ben, Teamsen vagy más üzenetküldő platformon a felmérés megosztására.
+                </CardDescription>
+              </div>
+              {publicLinkTemplate && (
+                <Button 
+                  onClick={() => handleDownloadText(publicLinkText, 'slack_uzenet_szoveg.txt')}
+                  variant="outline"
+                  size="sm"
+                  className="flex-shrink-0"
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  Üzenet letöltése
+                </Button>
+              )}
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-2">
@@ -455,15 +472,6 @@ const CommunicationSupport = () => {
                       </div>
                     </div>
                   </div>
-
-                  <Button 
-                    onClick={() => handleDownloadText(publicLinkText, 'slack_uzenet_szoveg.txt')}
-                    variant="outline"
-                    size="sm"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Üzenet szövegének letöltése
-                  </Button>
                 </>
               )}
             </CardContent>
@@ -473,11 +481,34 @@ const CommunicationSupport = () => {
         {/* QR Code Posters Tab */}
         <TabsContent value="qr">
           <Card>
-            <CardHeader>
-              <CardTitle>QR kód plakátok</CardTitle>
-              <CardDescription>
-                Töltsd le és nyomtasd ki ezeket a plakátokat, hogy elhelyezd őket irodában, konyhában vagy bármilyen közösségi térben.
-              </CardDescription>
+            <CardHeader className="flex flex-row items-start justify-between space-y-0">
+              <div className="space-y-1.5">
+                <CardTitle>QR kód plakátok</CardTitle>
+                <CardDescription>
+                  Töltsd le és nyomtasd ki ezeket a plakátokat, hogy elhelyezd őket irodában, konyhában vagy bármilyen közösségi térben.
+                </CardDescription>
+              </div>
+              <div className="flex gap-2 flex-shrink-0">
+                <Button 
+                  onClick={() => handleDownloadText(qrCodeText, 'qr_kod_szoveg.txt')}
+                  variant="outline"
+                  size="sm"
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  Szöveg
+                </Button>
+                <Button 
+                  onClick={() => {
+                    const poster = posters.find(p => p.has_gift === qrCodeHasGift);
+                    handleDownloadZip(poster?.source_file_url || null);
+                  }}
+                  variant="outline"
+                  size="sm"
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  ZIP
+                </Button>
+              </div>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex items-center gap-2">
@@ -512,29 +543,6 @@ const CommunicationSupport = () => {
                     )
                   ))}
 
-                {/* Download Buttons */}
-                <div className="flex gap-3 justify-start max-w-md">
-                  <Button 
-                    onClick={() => handleDownloadText(qrCodeText, 'qr_kod_szoveg.txt')}
-                    variant="outline"
-                    size="sm"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Plakát szöveg letöltése
-                  </Button>
-
-                  <Button 
-                    onClick={() => {
-                      const poster = posters.find(p => p.has_gift === qrCodeHasGift);
-                      handleDownloadZip(poster?.source_file_url || null);
-                    }}
-                    variant="outline"
-                    size="sm"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Plakát grafikák letöltése (ZIP)
-                  </Button>
-                </div>
               </div>
             </CardContent>
           </Card>
