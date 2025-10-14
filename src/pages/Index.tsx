@@ -859,9 +859,7 @@ const Index = () => {
             {auditBenefits.map((benefit, index) => (
               <Card key={index} className="text-center">
                 <CardHeader>
-                  <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                    <benefit.icon className="h-6 w-6 text-primary" />
-                  </div>
+                  <benefit.icon className="h-12 w-12 mx-auto mb-2" style={{ color: '#3366ff' }} />
                   <CardTitle className="text-lg">{benefit.title}</CardTitle>
                   <CardDescription>{benefit.description}</CardDescription>
                 </CardHeader>
