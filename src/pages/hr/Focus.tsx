@@ -306,7 +306,7 @@ const Focus = () => {
             {activeAudits.map((audit, index) => (
               <Card 
                 key={audit.id} 
-                className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-l-4 border-l-primary overflow-hidden animate-fade-in"
+                className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden animate-fade-in"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/5 to-transparent rounded-bl-full -z-10"></div>
@@ -433,7 +433,7 @@ const Focus = () => {
             {expiredAudits.map((audit, index) => (
               <Card 
                 key={audit.id} 
-                className="opacity-80 hover:opacity-100 transition-all duration-300 border-l-4 border-l-muted-foreground/30 animate-fade-in"
+                className="opacity-80 hover:opacity-100 transition-all duration-300 animate-fade-in"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <CardHeader className="pb-4">
