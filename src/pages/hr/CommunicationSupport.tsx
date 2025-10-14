@@ -315,7 +315,7 @@ const CommunicationSupport = () => {
               {publicLinkTemplate && (
                 <>
                   {/* Slack-like Message Preview */}
-                  <div className="bg-background rounded-lg border shadow-lg overflow-hidden max-w-5xl">
+                  <div className="bg-background rounded-lg border shadow-lg overflow-hidden max-w-5xl mx-auto">
                     {/* Slack Header */}
                     <div className="bg-[#350d36] px-4 py-2.5 flex items-center justify-between">
                       <div className="flex items-center gap-3">
