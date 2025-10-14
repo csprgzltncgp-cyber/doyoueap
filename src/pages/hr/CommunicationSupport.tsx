@@ -294,31 +294,7 @@ const CommunicationSupport = () => {
                 <Label htmlFor="qr-gift">Sorsolásos verzió (főnyeremény említése)</Label>
               </div>
 
-              {/* Download Buttons */}
               <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-3">
-                  <Button 
-                    onClick={() => handleDownloadText(qrCodeText, 'qr_kod_szoveg.txt')}
-                    variant="outline"
-                    className="w-full"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Plakát szöveg letöltése
-                  </Button>
-
-                  <Button 
-                    onClick={() => {
-                      const poster = posters.find(p => p.has_gift === qrCodeHasGift);
-                      handleDownloadZip(poster?.source_file_url || null);
-                    }}
-                    variant="outline"
-                    className="w-full"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Plakát grafikák letöltése (ZIP)
-                  </Button>
-                </div>
-
                 {/* Display poster images - view only */}
                 {posters
                   .filter(p => p.has_gift === qrCodeHasGift)
@@ -339,6 +315,30 @@ const CommunicationSupport = () => {
                       </div>
                     )
                   ))}
+
+                {/* Download Buttons */}
+                <div className="flex gap-3 justify-start">
+                  <Button 
+                    onClick={() => handleDownloadText(qrCodeText, 'qr_kod_szoveg.txt')}
+                    variant="outline"
+                    className="w-1/2"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    Plakát szöveg letöltése
+                  </Button>
+
+                  <Button 
+                    onClick={() => {
+                      const poster = posters.find(p => p.has_gift === qrCodeHasGift);
+                      handleDownloadZip(poster?.source_file_url || null);
+                    }}
+                    variant="outline"
+                    className="w-1/2"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    Plakát grafikák letöltése (ZIP)
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
