@@ -411,7 +411,12 @@ const CommunicationSupport = () => {
                               {/* Message Text with Link Preview */}
                               <div className="space-y-3">
                                 <div className="text-[#1d1c1d] text-sm leading-relaxed whitespace-pre-wrap">
-                                  {publicLinkText}
+                                  {publicLinkText.split(/(https?:\/\/[^\s]+)/g).map((part, idx) => {
+                                    if (part.match(/^https?:\/\//)) {
+                                      return <span key={idx} className="text-[#1264a3] underline cursor-pointer hover:text-[#0b4c8c]">{part}</span>;
+                                    }
+                                    return part;
+                                  })}
                                 </div>
 
                                 {/* Link Preview Card */}
