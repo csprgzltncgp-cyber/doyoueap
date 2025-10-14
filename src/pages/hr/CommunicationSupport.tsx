@@ -249,25 +249,23 @@ const CommunicationSupport = () => {
               </div>
 
               {/* Download Buttons */}
-              <div className="flex flex-col gap-4">
-                <Button 
-                  onClick={() => handleDownloadText(qrCodeText, 'qr_kod_szoveg.txt')}
-                  variant="outline"
-                  size="sm"
-                >
-                  <Download className="mr-2 h-4 w-4" />
-                  Plakát szöveg letöltése
-                </Button>
+              <Button 
+                onClick={() => handleDownloadText(qrCodeText, 'qr_kod_szoveg.txt')}
+                variant="outline"
+                size="sm"
+              >
+                <Download className="mr-2 h-4 w-4" />
+                Plakát szöveg letöltése
+              </Button>
 
-                <Button 
-                  onClick={handleDownloadZip}
-                  variant="outline"
-                  size="sm"
-                >
-                  <Download className="mr-2 h-4 w-4" />
-                  Plakát grafika letöltése
-                </Button>
-              </div>
+              <Button 
+                onClick={handleDownloadZip}
+                variant="outline"
+                size="sm"
+              >
+                <Download className="mr-2 h-4 w-4" />
+                Plakát grafika letöltése
+              </Button>
             </CardContent>
           </Card>
         </TabsContent>
