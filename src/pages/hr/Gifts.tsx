@@ -65,6 +65,7 @@ const Gifts = () => {
       const { data, error } = await supabase
         .from('gifts')
         .select('*')
+        .eq('is_active', true)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
