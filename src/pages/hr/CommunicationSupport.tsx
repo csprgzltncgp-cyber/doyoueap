@@ -148,12 +148,15 @@ const CommunicationSupport = () => {
       return;
     }
     try {
+      // Extract original filename from URL
+      const originalFileName = zipUrl.split('/').pop()?.split('?')[0] || 'plakatok.zip';
+      
       const response = await fetch(zipUrl);
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'plakatok.zip';
+      link.download = originalFileName;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
