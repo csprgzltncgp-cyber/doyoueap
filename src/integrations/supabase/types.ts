@@ -309,6 +309,36 @@ export type Database = {
           },
         ]
       }
+      communication_posters: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          has_gift: boolean
+          id: string
+          poster_images: string[]
+          source_file_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          has_gift?: boolean
+          id?: string
+          poster_images?: string[]
+          source_file_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          has_gift?: boolean
+          id?: string
+          poster_images?: string[]
+          source_file_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       communication_templates: {
         Row: {
           content: string

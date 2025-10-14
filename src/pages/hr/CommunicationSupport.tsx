@@ -21,8 +21,16 @@ interface Template {
   content: string;
 }
 
+interface Poster {
+  id: string;
+  has_gift: boolean;
+  poster_images: string[];
+  source_file_url: string | null;
+}
+
 const CommunicationSupport = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
+  const [posters, setPosters] = useState<Poster[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Email
@@ -36,6 +44,7 @@ const CommunicationSupport = () => {
 
   useEffect(() => {
     fetchTemplates();
+    fetchPosters();
   }, []);
 
   const fetchTemplates = async () => {
@@ -51,6 +60,20 @@ const CommunicationSupport = () => {
       console.error(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchPosters = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('communication_posters')
+        .select('*');
+
+      if (error) throw error;
+      setPosters(data || []);
+    } catch (error: any) {
+      toast.error('Hiba történt a plakátok betöltésekor');
+      console.error(error);
     }
   };
 
@@ -98,8 +121,31 @@ const CommunicationSupport = () => {
     }
   };
 
-  const handleDownloadZip = () => {
-    window.open('/posters_A4.zip', '_blank');
+  const handleDownloadPosterImage = async (imageUrl: string, index: number) => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `plakat-${index + 1}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      toast.success('Plakát letöltve!');
+    } catch (error) {
+      toast.error('Hiba történt a letöltés során');
+      console.error(error);
+    }
+  };
+
+  const handleDownloadZip = (zipUrl: string | null) => {
+    if (!zipUrl) {
+      toast.error('Nincs elérhető forrás fájl');
+      return;
+    }
+    window.open(zipUrl, '_blank');
     toast.success('ZIP archívum letöltése megkezdődött!');
   };
 
@@ -249,24 +295,62 @@ const CommunicationSupport = () => {
               </div>
 
               {/* Download Buttons */}
-              <div className="flex gap-3">
+              <div className="space-y-4">
                 <Button 
                   onClick={() => handleDownloadText(qrCodeText, 'qr_kod_szoveg.txt')}
                   variant="outline"
                   size="sm"
+                  className="w-full"
                 >
                   <Download className="mr-2 h-4 w-4" />
                   Plakát szöveg letöltése
                 </Button>
 
-                <Button 
-                  onClick={handleDownloadZip}
-                  variant="outline"
-                  size="sm"
-                >
-                  <Download className="mr-2 h-4 w-4" />
-                  Plakát grafika letöltése
-                </Button>
+                {/* Display poster images */}
+                {posters
+                  .filter(p => p.has_gift === qrCodeHasGift)
+                  .map(poster => (
+                    <div key={poster.id} className="space-y-3">
+                      {poster.poster_images.length > 0 && (
+                        <>
+                          <Label className="text-sm font-semibold">Elérhető plakátok:</Label>
+                          <div className="grid grid-cols-2 gap-3">
+                            {poster.poster_images.map((imageUrl, idx) => (
+                              <div key={idx} className="space-y-2">
+                                <img 
+                                  src={imageUrl} 
+                                  alt={`Plakát ${idx + 1}`}
+                                  className="w-full h-32 object-cover rounded-lg border cursor-pointer hover:opacity-80 transition-opacity"
+                                  onClick={() => handleDownloadPosterImage(imageUrl, idx)}
+                                />
+                                <Button
+                                  onClick={() => handleDownloadPosterImage(imageUrl, idx)}
+                                  variant="outline"
+                                  size="sm"
+                                  className="w-full"
+                                >
+                                  <Download className="mr-2 h-3 w-3" />
+                                  Letöltés
+                                </Button>
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      )}
+
+                      {poster.source_file_url && (
+                        <Button 
+                          onClick={() => handleDownloadZip(poster.source_file_url)}
+                          variant="outline"
+                          size="sm"
+                          className="w-full"
+                        >
+                          <Download className="mr-2 h-4 w-4" />
+                          Plakát grafika forrás letöltése (ZIP)
+                        </Button>
+                      )}
+                    </div>
+                  ))}
               </div>
             </CardContent>
           </Card>
