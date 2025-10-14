@@ -318,8 +318,7 @@ const CommunicationSupport = () => {
                     {/* Slack Header */}
                     <div className="bg-[#350d36] px-4 py-2.5 flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <img src={slackLogo} alt="Slack" className="h-5 w-auto brightness-0 invert" />
-                        <span className="text-white font-semibold text-sm">Cég neve - Slack</span>
+                        <span className="text-white font-bold text-lg">Slack</span>
                       </div>
                       <div className="flex gap-1.5">
                         <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
