@@ -788,8 +788,8 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
               <div className="flex items-start gap-6">
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Eye className="h-6 w-6 text-primary" />
+                <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                  <Eye className="h-6 w-6 text-foreground" />
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold mb-3">Ismertség</h3>
@@ -802,8 +802,8 @@ const Index = () => {
             </div>
             <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
               <div className="flex items-start gap-6">
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Shield className="h-6 w-6 text-primary" />
+                <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                  <Shield className="h-6 w-6 text-foreground" />
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold mb-3">Bizalom</h3>
@@ -816,8 +816,8 @@ const Index = () => {
             </div>
             <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
               <div className="flex items-start gap-6">
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Activity className="h-6 w-6 text-primary" />
+                <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                  <Activity className="h-6 w-6 text-foreground" />
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold mb-3">Használat</h3>
@@ -830,8 +830,8 @@ const Index = () => {
             </div>
             <div className="group relative p-8 bg-card border rounded-lg hover:shadow-lg transition-all">
               <div className="flex items-start gap-6">
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Target className="h-6 w-6 text-primary" />
+                <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                  <Target className="h-6 w-6 text-foreground" />
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold mb-3">Hatás</h3>
@@ -905,19 +905,19 @@ const Index = () => {
               <CardContent className="flex-1 flex flex-col justify-between">
                 <div className="space-y-2 mb-4">
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5 flex-shrink-0" />
                     <p className="font-medium text-sm">2 felmérés / év (félévente)</p>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5 flex-shrink-0" />
                     <p className="font-medium text-sm">Ajándéksorsolás minden felmérés végén</p>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5 flex-shrink-0" />
                     <p className="font-medium text-sm">4Score riport (Tudatosság · Használat · Bizalom & Hajlandóság · Hatás)</p>
                   </div>
                   <div className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-foreground mt-0.5 flex-shrink-0" />
                     <p className="font-medium text-sm">Alap dashboard + letölthető riportok</p>
                   </div>
                 </div>
@@ -1109,7 +1109,7 @@ const Index = () => {
 
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary text-primary-foreground">
+      <section className="py-20 text-white" style={{ backgroundColor: '#333333' }}>
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-4">
             Indítsa el most az első EAP Pulse felmérést
