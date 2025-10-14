@@ -13,6 +13,7 @@ import poster2 from '@/assets/poster-2.png';
 import poster3 from '@/assets/poster-3.png';
 import poster4 from '@/assets/poster-4.png';
 import posterWall from '@/assets/poster-wall-mockup.jpg';
+import slackLogo from '@/assets/slack-logo.avif';
 
 interface Template {
   id: string;
@@ -297,7 +298,7 @@ const CommunicationSupport = () => {
             <CardHeader>
               <CardTitle>Publikus link sablon</CardTitle>
               <CardDescription>
-                Használd ezt a sablont, ha publikus linken keresztül szeretnéd megosztani a felmérést.
+                Használd ezt a sablont Slack-ben, Teamsen vagy más üzenetküldő platformon a felmérés megosztására.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -312,17 +313,84 @@ const CommunicationSupport = () => {
 
               {publicLinkTemplate && (
                 <>
-                  <div className="bg-muted/30 rounded-lg p-6 border">
-                    <div className="text-sm whitespace-pre-wrap">{publicLinkText}</div>
+                  {/* Slack-like Message Preview */}
+                  <div className="bg-background rounded-lg border shadow-lg overflow-hidden max-w-3xl">
+                    {/* Slack Header */}
+                    <div className="bg-[#350d36] px-4 py-2.5 flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <img src={slackLogo} alt="Slack" className="h-5 w-auto brightness-0 invert" />
+                        <span className="text-white font-semibold text-sm">#általános</span>
+                      </div>
+                      <div className="flex gap-1.5">
+                        <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
+                      </div>
+                    </div>
+
+                    {/* Message Content */}
+                    <div className="bg-white p-5">
+                      <div className="flex gap-3">
+                        {/* Avatar */}
+                        <div className="w-9 h-9 rounded bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                          HR
+                        </div>
+                        
+                        {/* Message */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-baseline gap-2 mb-1">
+                            <span className="font-bold text-[#1d1c1d] text-sm">HR csapat</span>
+                            <span className="text-xs text-[#616061]">9:30</span>
+                          </div>
+                          
+                          {/* Message Text with Link Preview */}
+                          <div className="space-y-3">
+                            <div className="text-[#1d1c1d] text-sm leading-relaxed whitespace-pre-wrap">
+                              {publicLinkText}
+                            </div>
+
+                            {/* Link Preview Card */}
+                            <div className="border border-[#e0e0e0] rounded-lg overflow-hidden hover:border-[#1264a3] transition-colors cursor-pointer max-w-md">
+                              <div className="h-1 bg-gradient-to-r from-blue-500 to-purple-600" />
+                              <div className="p-3 space-y-1.5">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-4 h-4 rounded bg-gradient-to-br from-blue-500 to-purple-600" />
+                                  <span className="text-xs text-[#616061]">survey.doyoueap.hu</span>
+                                </div>
+                                <div className="font-semibold text-sm text-[#1d1c1d]">
+                                  EAP Pulse Felmérés
+                                </div>
+                                <div className="text-xs text-[#616061]">
+                                  Töltsd ki a felmérést és segíts nekünk fejleszteni a munkahelyi jóllétet
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Message Actions */}
+                    <div className="bg-white border-t border-[#e0e0e0] px-5 py-2 flex items-center gap-4 text-xs text-[#616061]">
+                      <button className="hover:bg-[#f8f8f8] px-2 py-1 rounded transition-colors">
+                        💬 Válasz szálban
+                      </button>
+                      <button className="hover:bg-[#f8f8f8] px-2 py-1 rounded transition-colors">
+                        😊 Reakció hozzáadása
+                      </button>
+                      <button className="hover:bg-[#f8f8f8] px-2 py-1 rounded transition-colors">
+                        ⋯ Több
+                      </button>
+                    </div>
                   </div>
 
                   <Button 
-                    onClick={() => handleDownloadText(publicLinkText, 'nyilvanos_link_szoveg.txt')}
+                    onClick={() => handleDownloadText(publicLinkText, 'slack_uzenet_szoveg.txt')}
                     variant="outline"
                     size="sm"
                   >
                     <Download className="mr-2 h-4 w-4" />
-                    Szöveg letöltése
+                    Üzenet szövegének letöltése
                   </Button>
                 </>
               )}
