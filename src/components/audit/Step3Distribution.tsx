@@ -317,6 +317,21 @@ HR osztály`}
     </div>
   );
 
+  // Validation for tokenes mode
+  const isTokenesModeValid = () => {
+    if (accessMode !== 'tokenes') return true;
+    
+    return !!(
+      emailFrom && 
+      emailFrom.trim() && 
+      emailSubject && 
+      emailSubject.trim() && 
+      emailBody && 
+      emailBody.trim() && 
+      emailFile
+    );
+  };
+
   return (
     <div className="space-y-6">
       {accessMode === 'tokenes' && renderTokenesMode()}
@@ -329,6 +344,7 @@ HR osztály`}
         </Button>
         <Button 
           onClick={onNext}
+          disabled={!isTokenesModeValid()}
           size="lg"
           variant="dark"
         >
