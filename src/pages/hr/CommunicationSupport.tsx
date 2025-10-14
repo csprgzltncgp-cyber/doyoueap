@@ -321,7 +321,6 @@ const CommunicationSupport = () => {
                   <Button 
                     onClick={() => handleDownloadText(qrCodeText, 'qr_kod_szoveg.txt')}
                     variant="outline"
-                    className="w-1/2"
                   >
                     <Download className="mr-2 h-4 w-4" />
                     Plakát szöveg letöltése
@@ -333,7 +332,6 @@ const CommunicationSupport = () => {
                       handleDownloadZip(poster?.source_file_url || null);
                     }}
                     variant="outline"
-                    className="w-1/2"
                   >
                     <Download className="mr-2 h-4 w-4" />
                     Plakát grafikák letöltése (ZIP)
