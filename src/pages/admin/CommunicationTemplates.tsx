@@ -381,13 +381,13 @@ const CommunicationTemplates = () => {
                         {poster.poster_images.length > 0 ? (
                           <>
                             <Label className="text-sm font-medium">Feltöltött plakátok:</Label>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                               {poster.poster_images.map((imageUrl, idx) => (
                                 <div key={idx} className="relative group">
                                   <img 
                                     src={imageUrl} 
                                     alt={`Plakát ${idx + 1}`}
-                                    className="w-full h-32 object-cover rounded-lg border"
+                                    className="w-full aspect-[3/4] object-contain rounded-lg border bg-muted"
                                   />
                                   <Button
                                     size="icon"

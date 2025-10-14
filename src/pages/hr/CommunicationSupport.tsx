@@ -302,13 +302,13 @@ const CommunicationSupport = () => {
                     poster.poster_images.length > 0 && (
                       <div key={poster.id} className="space-y-3">
                         <Label className="text-sm font-semibold">Elérhető plakátok:</Label>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                           {poster.poster_images.map((imageUrl, idx) => (
                             <img 
                               key={idx}
                               src={imageUrl} 
                               alt={`Plakát ${idx + 1}`}
-                              className="w-full h-32 object-cover rounded-lg border"
+                              className="w-full aspect-[3/4] object-contain rounded-lg border bg-muted"
                             />
                           ))}
                         </div>
