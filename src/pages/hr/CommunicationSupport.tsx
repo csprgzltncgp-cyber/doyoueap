@@ -357,7 +357,7 @@ const CommunicationSupport = () => {
                     poster.poster_images.length > 0 && (
                       <div key={poster.id} className="space-y-3">
                         <Label className="text-sm font-semibold">Elérhető plakátok:</Label>
-                        <div className="flex justify-center gap-6 flex-wrap">
+                        <div className="flex justify-center gap-6 flex-wrap py-8">
                           {poster.poster_images.map((imageUrl, idx) => (
                             <img 
                               key={idx}
