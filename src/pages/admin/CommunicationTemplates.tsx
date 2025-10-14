@@ -258,6 +258,29 @@ const CommunicationTemplates = () => {
     }
   };
 
+  const handleDeleteZip = async (posterId: string, zipUrl: string) => {
+    try {
+      const { error } = await supabase
+        .from('communication_posters')
+        .update({ source_file_url: null })
+        .eq('id', posterId);
+
+      if (error) throw error;
+
+      // Delete from storage
+      const filePath = zipUrl.split('/audit-assets/')[1];
+      if (filePath) {
+        await supabase.storage.from('audit-assets').remove([filePath]);
+      }
+
+      toast.success('Forrás fájl törölve!');
+      fetchPosters();
+    } catch (error: any) {
+      toast.error('Hiba történt a törlés során');
+      console.error(error);
+    }
+  };
+
   const getTypeIcon = (type: string) => {
     switch (type) {
       case 'email': return <Mail className="h-5 w-5" />;
@@ -467,11 +490,28 @@ const CommunicationTemplates = () => {
                     </Button>
                   </div>
 
-                  {posters.find(p => p.has_gift === template.has_gift)?.source_file_url && (
-                    <p className="text-sm text-muted-foreground">
-                      Forrás fájl feltöltve ✓
-                    </p>
-                  )}
+                  {(() => {
+                    const poster = posters.find(p => p.has_gift === template.has_gift);
+                    const zipUrl = poster?.source_file_url;
+                    const zipFileName = zipUrl ? zipUrl.split('/').pop()?.split('?')[0] : null;
+                    
+                    return zipUrl ? (
+                      <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-medium">Forrás ZIP:</span>
+                          <span className="text-sm text-muted-foreground">{zipFileName}</span>
+                        </div>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => handleDeleteZip(poster.id, zipUrl)}
+                        >
+                          <X className="h-4 w-4 mr-1" />
+                          Törlés
+                        </Button>
+                      </div>
+                    ) : null;
+                  })()}
                 </div>
               )}
             </CardContent>
