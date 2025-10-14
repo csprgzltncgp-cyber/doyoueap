@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { Download, Mail, Link as LinkIcon, QrCode } from 'lucide-react';
+import { Download, Mail, Link as LinkIcon, QrCode, Type, Paperclip, Smile, Image as ImageIcon, AlignLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import poster1 from '@/assets/poster-1.png';
@@ -230,18 +230,54 @@ const CommunicationSupport = () => {
 
               {emailTemplate && (
                 <>
-                  <div className="bg-muted/30 rounded-lg p-6 border space-y-4">
-                    <div>
-                      <div className="text-sm font-medium mb-1">Tárgy:</div>
-                      <div className="text-sm text-muted-foreground">{emailTemplate.subject}</div>
+                  <div className="bg-background rounded-lg border-2 shadow-lg overflow-hidden">
+                    {/* Email Header */}
+                    <div className="bg-muted px-6 py-3 flex items-center justify-between border-b">
+                      <span className="font-medium text-foreground">Új üzenet</span>
+                      <div className="flex gap-2">
+                        <div className="w-3 h-3 rounded-full bg-muted-foreground/30" />
+                        <div className="w-3 h-3 rounded-full bg-muted-foreground/30" />
+                        <div className="w-3 h-3 rounded-full bg-muted-foreground/30" />
+                      </div>
                     </div>
-                    
-                    <div className="border-t pt-4">
-                      <div className="text-sm whitespace-pre-wrap">{emailText}</div>
+
+                    {/* Email Fields */}
+                    <div className="bg-background p-6 space-y-3">
+                      <div className="flex items-center gap-3 pb-2 border-b">
+                        <span className="text-sm text-muted-foreground w-20">Címzett:</span>
+                        <span className="text-sm text-muted-foreground italic">munkatársak@cég.hu</span>
+                      </div>
+                      
+                      <div className="flex items-center gap-3 pb-2 border-b">
+                        <span className="text-sm text-muted-foreground w-20">Tárgy:</span>
+                        <span className="text-sm font-medium">{emailTemplate.subject}</span>
+                      </div>
+                    </div>
+
+                    {/* Email Body */}
+                    <div className="px-6 pb-6">
+                      <div className="bg-muted/20 rounded-md p-6 min-h-[200px] border">
+                        <div className="text-sm whitespace-pre-wrap leading-relaxed">{emailText}</div>
+                      </div>
+                    </div>
+
+                    {/* Email Footer Toolbar */}
+                    <div className="bg-muted/50 px-6 py-3 flex items-center justify-between border-t">
+                      <div className="flex gap-2">
+                        <Type className="h-4 w-4 text-muted-foreground" />
+                        <Paperclip className="h-4 w-4 text-muted-foreground" />
+                        <Smile className="h-4 w-4 text-muted-foreground" />
+                        <ImageIcon className="h-4 w-4 text-muted-foreground" />
+                        <AlignLeft className="h-4 w-4 text-muted-foreground" />
+                      </div>
+                      <div className="flex gap-2">
+                        <Button size="sm" variant="outline" className="h-8">Mentés</Button>
+                        <Button size="sm" className="h-8 bg-primary">Küldés</Button>
+                      </div>
                     </div>
                   </div>
 
-                  <Button 
+                  <Button
                     onClick={() => handleDownloadText(emailText, 'email_sablon.txt')}
                     variant="outline"
                     size="sm"
