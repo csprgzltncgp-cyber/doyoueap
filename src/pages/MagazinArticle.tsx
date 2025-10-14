@@ -314,7 +314,7 @@ const MagazinArticle = () => {
         )}
 
         {/* Article Excerpt */}
-        <div className="text-xl text-muted-foreground mb-8 leading-relaxed border-l-4 border-foreground pl-6 italic">
+        <div className="text-xl text-muted-foreground mb-8 leading-relaxed border-l-4 border-primary pl-6 italic">
           {article.excerpt}
         </div>
 

@@ -203,7 +203,7 @@ const Magazin = () => {
             </div>
             <button 
               onClick={() => window.open('/superadmin', '_blank')}
-              className="text-xs text-black text-center hover:text-foreground transition-colors cursor-pointer"
+              className="text-xs text-black text-center hover:text-primary transition-colors cursor-pointer"
             >
               <span className="font-semibold">2025. OKTÓBER</span>
               <span className="mx-2">•</span>
@@ -216,7 +216,7 @@ const Magazin = () => {
             {/* Left: Date and Issue */}
             <button 
               onClick={() => window.open('/superadmin', '_blank')}
-              className="flex flex-col items-start text-sm text-black hover:text-foreground transition-colors cursor-pointer"
+              className="flex flex-col items-start text-sm text-black hover:text-primary transition-colors cursor-pointer"
             >
               <span className="font-semibold">2025. OKTÓBER</span>
               <span className="text-xs">1. Szám</span>
@@ -235,7 +235,7 @@ const Magazin = () => {
             <div className="flex items-end text-right">
               <button 
                 onClick={() => navigate('/unsubscribe-success')}
-                className="text-sm font-medium text-black uppercase tracking-wide hover:text-foreground transition-colors cursor-pointer text-right"
+                className="text-sm font-medium text-black uppercase tracking-wide hover:text-primary transition-colors cursor-pointer text-right"
               >
                 Az EAP-világ<br />szakfolyóirata
               </button>
@@ -250,11 +250,11 @@ const Magazin = () => {
       </section>
 
       {/* Featured Carousel */}
-      <section className="py-12 px-4 bg-gradient-to-br from-muted/10 via-background to-muted/20">
+      <section className="py-12 px-4 bg-gradient-to-br from-primary/5 via-background to-primary/10">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold">Kiemelt Cikkek</h2>
-            <TrendingUp className="h-6 w-6 text-foreground" />
+            <TrendingUp className="h-6 w-6 text-primary" />
           </div>
           {loadingArticles ? (
             <div className="text-center py-12">Betöltés...</div>
@@ -278,8 +278,8 @@ const Magazin = () => {
                             className="w-full h-full object-cover"
                           />
                         ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-muted/20 to-muted/5 flex items-center justify-center">
-                            <span className="text-4xl font-bold text-muted-foreground/30">?</span>
+                          <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                            <span className="text-4xl font-bold text-primary/30">?</span>
                           </div>
                         )}
                         <Badge className="absolute top-4 left-4 z-10">{article.category}</Badge>
@@ -288,7 +288,7 @@ const Magazin = () => {
                       {/* Content */}
                       <div className="space-y-4">
                         <h3 
-                          className="text-4xl font-bold hover:text-foreground transition-colors cursor-pointer leading-tight"
+                          className="text-4xl font-bold hover:text-primary transition-colors cursor-pointer leading-tight"
                           onClick={() => navigate(`/magazin/${article.slug}`)}
                         >
                           {article.title}
@@ -338,7 +338,7 @@ const Magazin = () => {
                     variant={activeCategory === cat.id ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => setActiveCategory(cat.id)}
-                    className={`whitespace-nowrap flex-shrink-0 ${activeCategory !== cat.id ? 'bg-muted/10 hover:bg-muted/15 border-muted/10' : ''}`}
+                    className={`whitespace-nowrap flex-shrink-0 ${activeCategory !== cat.id ? 'bg-primary/10 hover:bg-primary/15 border-primary/10' : ''}`}
                   >
                     {cat.label}
                   </Button>
@@ -367,15 +367,15 @@ const Magazin = () => {
                             className="w-full h-full object-cover"
                           />
                         ) : (
-                          <div className="h-full bg-gradient-to-br from-muted/20 to-muted/5 flex items-center justify-center">
-                            <div className="text-4xl font-bold text-muted-foreground/30">?</div>
+                          <div className="h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                            <div className="text-4xl font-bold text-primary/30">?</div>
                           </div>
                         )}
                       </Card>
                       <Card className="hover:shadow-lg transition-shadow">
                         <CardHeader>
                           <Badge className="w-fit mb-2">{article.category}</Badge>
-                          <CardTitle className="text-xl group-hover:text-foreground transition-colors">
+                          <CardTitle className="text-xl group-hover:text-primary transition-colors">
                             {article.title}
                           </CardTitle>
                           <CardDescription className="mt-2">{article.excerpt}</CardDescription>
@@ -439,7 +439,7 @@ const Magazin = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <TrendingUp className="h-5 w-5 text-foreground" />
+                    <TrendingUp className="h-5 w-5 text-primary" />
                     Népszerű Cikkek
                   </CardTitle>
                 </CardHeader>
@@ -451,11 +451,11 @@ const Magazin = () => {
                         onClick={() => navigate(`/magazin/${item.slug}`)}
                         className="flex items-start gap-3 p-3 rounded hover:bg-muted transition-colors cursor-pointer group"
                       >
-                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted/10 flex items-center justify-center text-sm font-bold text-foreground">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
                           {index + 1}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium group-hover:text-foreground transition-colors line-clamp-2">
+                          <p className="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2">
                             {item.title}
                           </p>
                           <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
@@ -483,10 +483,10 @@ const Magazin = () => {
                           setActiveCategory(cat);
                           window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
-                        className="w-full text-left px-3 py-2 rounded-sm bg-muted/10 hover:bg-muted/15 transition-colors text-sm flex items-center justify-between group"
+                        className="w-full text-left px-3 py-2 rounded-sm bg-primary/10 hover:bg-primary/15 transition-colors text-sm flex items-center justify-between group"
                       >
                         <span>{cat}</span>
-                        <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-1 transition-all" />
+                        <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                       </button>
                     ))}
                   </div>
