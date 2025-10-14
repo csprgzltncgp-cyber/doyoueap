@@ -200,7 +200,7 @@ const API = () => {
                   />
                 </div>
               </div>
-              <Button onClick={createApiKey} disabled={creating}>
+              <Button variant="cta" onClick={createApiKey} disabled={creating}>
                 {creating ? 'Létrehozás...' : 'API Kulcs Generálása'}
               </Button>
             </CardContent>
