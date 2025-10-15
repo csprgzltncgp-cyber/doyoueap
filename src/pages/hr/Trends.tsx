@@ -342,7 +342,7 @@ const Trends = () => {
                         type="monotone" 
                         dataKey="impact" 
                         name="Elégedettség (1-5)" 
-                        stroke="#3572ef" 
+                        stroke="#99ffff" 
                         strokeWidth={2}
                         strokeDasharray="5 5"
                       />
