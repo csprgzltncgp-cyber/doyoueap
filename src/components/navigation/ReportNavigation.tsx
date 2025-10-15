@@ -16,7 +16,6 @@ const REPORT_TABS = [
   { value: "demographics", label: "Demográfia" },
   { value: "trends", label: "Trendek" },
   { value: "compare", label: "Összehasonlítás" },
-  { value: "methodology", label: "Módszertan" },
 ];
 
 export const ReportNavigation = ({ currentTab }: ReportNavigationProps) => {
