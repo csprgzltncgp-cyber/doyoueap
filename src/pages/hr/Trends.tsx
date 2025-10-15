@@ -206,6 +206,19 @@ const Trends = () => {
     return diff > 0 ? `+${diff.toFixed(1)}` : diff.toFixed(1);
   };
 
+  const getTrendDescription = (current: number, previous: number, metricName: string) => {
+    if (!previous) return `Nincs előző adat az összehasonlításhoz`;
+    const diff = current - previous;
+    
+    if (diff > 0.5) {
+      return `${metricName} növekvő tendenciát mutat`;
+    } else if (diff < -0.5) {
+      return `${metricName} csökkenő tendenciát mutat`;
+    } else {
+      return `${metricName} stagnál, nincs jelentős változás`;
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -338,10 +351,10 @@ const Trends = () => {
                           </div>
                         </div>
                         <p className="text-xs text-muted-foreground">
-                          Mennyire ismerik a dolgozók az EAP programot (1-5 skála)
+                          {getTrendDescription(lastTrend.awareness, secondLastTrend.awareness, "Az ismertség")}
                         </p>
                         <div className="text-xs text-muted-foreground">
-                          Aktuális érték: {lastTrend.awareness}
+                          Aktuális érték: {lastTrend.awareness} (1-5 skála)
                         </div>
                       </div>
 
@@ -356,10 +369,10 @@ const Trends = () => {
                           </div>
                         </div>
                         <p className="text-xs text-muted-foreground">
-                          Mennyire bíznak a program anonimitásában (1-5 skála)
+                          {getTrendDescription(lastTrend.trust, secondLastTrend.trust, "A bizalom")}
                         </p>
                         <div className="text-xs text-muted-foreground">
-                          Aktuális érték: {lastTrend.trust}
+                          Aktuális érték: {lastTrend.trust} (1-5 skála)
                         </div>
                       </div>
 
@@ -374,7 +387,7 @@ const Trends = () => {
                           </div>
                         </div>
                         <p className="text-xs text-muted-foreground">
-                          Hány százalék használta már a programot
+                          {getTrendDescription(lastTrend.usage, secondLastTrend.usage, "A használat")}
                         </p>
                         <div className="text-xs text-muted-foreground">
                           Aktuális arány: {lastTrend.usage}%
@@ -392,10 +405,10 @@ const Trends = () => {
                           </div>
                         </div>
                         <p className="text-xs text-muted-foreground">
-                          Mennyire elégedettek a szolgáltatással (1-5 skála)
+                          {getTrendDescription(lastTrend.impact, secondLastTrend.impact, "Az elégedettség")}
                         </p>
                         <div className="text-xs text-muted-foreground">
-                          Aktuális érték: {lastTrend.impact}
+                          Aktuális érték: {lastTrend.impact} (1-5 skála)
                         </div>
                       </div>
                     </div>
