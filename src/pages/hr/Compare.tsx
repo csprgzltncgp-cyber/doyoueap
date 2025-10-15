@@ -328,7 +328,7 @@ const Compare = () => {
                             </div>
                           </div>
                           <div className="text-sm">
-                            <span className={diff > 0 ? 'text-green-600' : diff < 0 ? 'text-red-600' : 'text-muted-foreground'}>
+                            <span style={{ color: '#3572ef' }}>
                               {diff > 0 ? '+' : ''}{diff.toFixed(1)}{isUsage ? '%' : ''} különbség
                             </span>
                           </div>
