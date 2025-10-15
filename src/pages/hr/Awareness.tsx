@@ -239,7 +239,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
       {/* Figyelmeztetés, ha 50%-nál több nem ismerte a programot */}
       {parseFloat(redirectRate) > 50 && (
         <Alert className="border-[#ff0033] bg-transparent">
-          <AlertTriangle className="h-4 w-4 text-[#ff0033]" />
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
           <AlertTitle className="text-[#ff0033]">Magas tájékozatlanság észlelve</AlertTitle>
           <AlertDescription className="text-[#ff0033]">
             A válaszadók {redirectRate}%-a ({redirectResponses.length} fő) nem tudott az EAP programról. 

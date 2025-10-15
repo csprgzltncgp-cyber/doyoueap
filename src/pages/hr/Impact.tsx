@@ -275,7 +275,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
       {/* Figyelmeztetés, ha rossz az NPS vagy az átlagos hatás */}
       {(npsData.npsScore < 0 || avgImpact < 2.5) && (
         <Alert className="border-[#ff0033] bg-transparent">
-          <AlertTriangle className="h-4 w-4 text-[#ff0033]" />
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
           <AlertTitle className="text-[#ff0033]">Alacsony hatékonyság észlelve</AlertTitle>
           <AlertDescription className="text-[#ff0033]">
             {npsData.npsScore < 0 && avgImpact < 2.5 ? (

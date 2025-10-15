@@ -308,7 +308,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
       {/* Figyelmeztetés, ha alacsony a bizalmi index */}
       {overallTrustIndex < 3 && (
         <Alert className="border-[#ff0033] bg-transparent">
-          <AlertTriangle className="h-4 w-4 text-[#ff0033]" />
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
           <AlertTitle className="text-[#ff0033]">Alacsony bizalmi szint észlelve</AlertTitle>
           <AlertDescription className="text-[#ff0033]">
             Az átfogó bizalmi index {overallTrustIndex.toFixed(1)} pont, ami 3.0 alatt van. 
