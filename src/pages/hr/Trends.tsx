@@ -302,6 +302,14 @@ const Trends = () => {
           ) : (
             <>
               {/* Category Distribution Trend */}
+              {(() => {
+                const validCatTrends = categoryTrend.filter(t => 
+                  t.notKnew > 0 || t.notUsed > 0 || t.used > 0
+                );
+                
+                if (validCatTrends.length === 0) return null;
+                
+                return (
               <Card>
                 <CardHeader>
                   <CardTitle>Kategória megoszlás időbeli alakulása</CardTitle>
@@ -309,7 +317,7 @@ const Trends = () => {
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={categoryTrend}>
+                    <BarChart data={validCatTrends}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="date" />
                       <YAxis />
@@ -322,8 +330,18 @@ const Trends = () => {
                   </ResponsiveContainer>
                 </CardContent>
               </Card>
+                );
+              })()}
 
               {/* Main Metrics Trends */}
+              {(() => {
+                const validTrends = trendData.filter(t => 
+                  t.awareness > 0 || t.trust > 0 || t.usage > 0 || t.impact > 0
+                );
+                
+                if (validTrends.length === 0) return null;
+                
+                return (
               <Card>
                 <CardHeader>
                   <CardTitle>Fő mutatók alakulása</CardTitle>
@@ -331,7 +349,7 @@ const Trends = () => {
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={400}>
-                    <LineChart data={trendData}>
+                    <LineChart data={validTrends}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="date" />
                       <YAxis />
@@ -370,6 +388,8 @@ const Trends = () => {
                   </ResponsiveContainer>
                 </CardContent>
               </Card>
+                );
+              })()}
 
               {/* Trend Summary Cards */}
               {trendData.length > 1 && (() => {
