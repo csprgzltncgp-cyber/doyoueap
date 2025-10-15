@@ -222,7 +222,7 @@ const Trends = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="first-audit" className={showAllAudits ? "text-muted-foreground" : ""}>
-                    Első felmérés
+                    Ezt a felmérést szeretném
                   </Label>
                   <Select
                     value={firstAuditId}
@@ -244,7 +244,7 @@ const Trends = () => {
 
                 <div className="space-y-2">
                   <Label htmlFor="second-audit" className={showAllAudits ? "text-muted-foreground" : ""}>
-                    Második felmérés
+                    Ezzel a felméréssel összehasonlítani
                   </Label>
                   <Select
                     value={secondAuditId}
