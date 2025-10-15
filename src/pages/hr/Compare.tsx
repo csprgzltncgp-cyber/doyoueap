@@ -412,8 +412,8 @@ const Compare = () => {
                         <YAxis />
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey="first" name={firstAudit ? formatAuditName(firstAudit) : 'Első'} fill="#3572ef" radius={[8, 8, 0, 0]} />
-                        <Bar dataKey="second" name={secondAudit ? formatAuditName(secondAudit) : 'Második'} fill="#3abef9" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="first" name="Első felmérés" fill="#3572ef" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="second" name="Második felmérés" fill="#3abef9" radius={[8, 8, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </CardContent>
@@ -429,13 +429,13 @@ const Compare = () => {
                 <CardContent>
                   <ResponsiveContainer width="100%" height={250}>
                     <BarChart data={comparisonData.filter(d => d.metric === 'Használat (%)')} barSize={60}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="metric" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Bar dataKey="first" name={firstAudit ? formatAuditName(firstAudit) : 'Első'} fill="#3572ef" radius={[8, 8, 0, 0]} />
-                      <Bar dataKey="second" name={secondAudit ? formatAuditName(secondAudit) : 'Második'} fill="#3abef9" radius={[8, 8, 0, 0]} />
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="metric" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="first" name="Első felmérés" fill="#3572ef" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="second" name="Második felmérés" fill="#3abef9" radius={[8, 8, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -450,13 +450,13 @@ const Compare = () => {
                 <CardContent>
                   <ResponsiveContainer width="100%" height={350}>
                     <BarChart data={comparisonData.filter(d => d.metric !== 'Használat (%)')} barSize={60}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="metric" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Bar dataKey="first" name={firstAudit ? formatAuditName(firstAudit) : 'Első'} fill="#3572ef" radius={[8, 8, 0, 0]} />
-                      <Bar dataKey="second" name={secondAudit ? formatAuditName(secondAudit) : 'Második'} fill="#3abef9" radius={[8, 8, 0, 0]} />
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="metric" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="first" name="Első felmérés" fill="#3572ef" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="second" name="Második felmérés" fill="#3abef9" radius={[8, 8, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -472,13 +472,13 @@ const Compare = () => {
                   <CardContent>
                     <ResponsiveContainer width="100%" height={250}>
                       <BarChart data={npsData} barSize={60}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="metric" />
-                        <YAxis domain={[0, 10]} />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="first" name={firstAudit ? formatAuditName(firstAudit) : 'Első'} fill="#3572ef" radius={[8, 8, 0, 0]} />
-                        <Bar dataKey="second" name={secondAudit ? formatAuditName(secondAudit) : 'Második'} fill="#3abef9" radius={[8, 8, 0, 0]} />
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="metric" />
+                          <YAxis domain={[0, 10]} />
+                          <Tooltip />
+                          <Legend />
+                          <Bar dataKey="first" name="Első felmérés" fill="#3572ef" radius={[8, 8, 0, 0]} />
+                          <Bar dataKey="second" name="Második felmérés" fill="#3abef9" radius={[8, 8, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </CardContent>
@@ -501,8 +501,8 @@ const Compare = () => {
                           <YAxis />
                           <Tooltip />
                           <Legend />
-                          <Bar dataKey="first" name={firstAudit ? formatAuditName(firstAudit) : 'Első'} fill="#3572ef" radius={[8, 8, 0, 0]} />
-                          <Bar dataKey="second" name={secondAudit ? formatAuditName(secondAudit) : 'Második'} fill="#3abef9" radius={[8, 8, 0, 0]} />
+                          <Bar dataKey="first" name="Első felmérés" fill="#3572ef" radius={[8, 8, 0, 0]} />
+                          <Bar dataKey="second" name="Második felmérés" fill="#3abef9" radius={[8, 8, 0, 0]} />
                         </BarChart>
                       </ResponsiveContainer>
                     </CardContent>
@@ -521,8 +521,8 @@ const Compare = () => {
                           <YAxis />
                           <Tooltip />
                           <Legend />
-                          <Bar dataKey="first" name={firstAudit ? formatAuditName(firstAudit) : 'Első'} fill="#3572ef" radius={[8, 8, 0, 0]} />
-                          <Bar dataKey="second" name={secondAudit ? formatAuditName(secondAudit) : 'Második'} fill="#3abef9" radius={[8, 8, 0, 0]} />
+                          <Bar dataKey="first" name="Első felmérés" fill="#3572ef" radius={[8, 8, 0, 0]} />
+                          <Bar dataKey="second" name="Második felmérés" fill="#3abef9" radius={[8, 8, 0, 0]} />
                         </BarChart>
                       </ResponsiveContainer>
                     </CardContent>
