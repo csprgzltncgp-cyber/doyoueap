@@ -308,6 +308,102 @@ const Trends = () => {
             </Card>
           ) : (
             <>
+              {/* Trend Summary Cards - MOVED TO TOP */}
+              {(() => {
+                const validTrends = trendData.filter(t => 
+                  t.awareness > 0 || t.trust > 0 || t.usage > 0 || t.impact > 0
+                );
+                
+                if (validTrends.length < 2) return null;
+                
+                const lastTrend = validTrends[validTrends.length - 1];
+                const secondLastTrend = validTrends[validTrends.length - 2];
+                
+                return (
+                <Card className="mb-6">
+                  <CardHeader>
+                    <CardTitle>Fő mutatók trendje</CardTitle>
+                    <CardDescription>Az előző felméréshez képesti változások</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <span className="font-medium">Ismertség</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          {getTrendIcon(lastTrend.awareness, secondLastTrend.awareness)}
+                          <div className="text-4xl font-bold">
+                            {getTrendText(lastTrend.awareness, secondLastTrend.awareness)}
+                          </div>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          Mennyire ismerik a dolgozók az EAP programot (1-5 skála)
+                        </p>
+                        <div className="text-xs text-muted-foreground">
+                          Aktuális érték: {lastTrend.awareness}
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <span className="font-medium">Bizalom</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          {getTrendIcon(lastTrend.trust, secondLastTrend.trust)}
+                          <div className="text-4xl font-bold">
+                            {getTrendText(lastTrend.trust, secondLastTrend.trust)}
+                          </div>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          Mennyire bíznak a program anonimitásában (1-5 skála)
+                        </p>
+                        <div className="text-xs text-muted-foreground">
+                          Aktuális érték: {lastTrend.trust}
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <span className="font-medium">Használat</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          {getTrendIcon(lastTrend.usage, secondLastTrend.usage, 'usage')}
+                          <div className="text-4xl font-bold">
+                            {getTrendText(lastTrend.usage, secondLastTrend.usage)}%
+                          </div>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          Hány százalék használta már a programot
+                        </p>
+                        <div className="text-xs text-muted-foreground">
+                          Aktuális arány: {lastTrend.usage}%
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <span className="font-medium">Elégedettség</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          {getTrendIcon(lastTrend.impact, secondLastTrend.impact)}
+                          <div className="text-4xl font-bold">
+                            {getTrendText(lastTrend.impact, secondLastTrend.impact)}
+                          </div>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          Mennyire elégedettek a szolgáltatással (1-5 skála)
+                        </p>
+                        <div className="text-xs text-muted-foreground">
+                          Aktuális érték: {lastTrend.impact}
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                );
+              })()}
+
               {/* Category Distribution Trend */}
               {(() => {
                 const validCatTrends = categoryTrend.filter(t => 
@@ -395,99 +491,6 @@ const Trends = () => {
                   </ResponsiveContainer>
                 </CardContent>
               </Card>
-                );
-              })()}
-
-              {/* Trend Summary Cards */}
-              {trendData.length > 1 && (() => {
-                // Filter out entries with no valid data (all zeros)
-                const validTrends = trendData.filter(t => 
-                  t.awareness > 0 || t.trust > 0 || t.usage > 0 || t.impact > 0
-                );
-                
-                if (validTrends.length < 2) return null;
-                
-                const lastTrend = validTrends[validTrends.length - 1];
-                const secondLastTrend = validTrends[validTrends.length - 2];
-                
-                return (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-sm font-medium">Ismertség</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center justify-between">
-                        <div className="text-2xl font-bold">
-                          {lastTrend.awareness}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          {getTrendIcon(lastTrend.awareness, secondLastTrend.awareness)}
-                          <span className="text-sm text-muted-foreground">
-                            {getTrendText(lastTrend.awareness, secondLastTrend.awareness)}
-                          </span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-sm font-medium">Bizalom</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center justify-between">
-                        <div className="text-2xl font-bold">
-                          {lastTrend.trust}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          {getTrendIcon(lastTrend.trust, secondLastTrend.trust)}
-                          <span className="text-sm text-muted-foreground">
-                            {getTrendText(lastTrend.trust, secondLastTrend.trust)}
-                          </span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-sm font-medium">Használat</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center justify-between">
-                        <div className="text-2xl font-bold">
-                          {lastTrend.usage}%
-                        </div>
-                        <div className="flex items-center gap-1">
-                          {getTrendIcon(lastTrend.usage, secondLastTrend.usage, 'usage')}
-                          <span className="text-sm text-muted-foreground">
-                            {getTrendText(lastTrend.usage, secondLastTrend.usage)}
-                          </span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-sm font-medium">Elégedettség</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center justify-between">
-                        <div className="text-2xl font-bold">
-                          {lastTrend.impact}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          {getTrendIcon(lastTrend.impact, secondLastTrend.impact)}
-                          <span className="text-sm text-muted-foreground">
-                            {getTrendText(lastTrend.impact, secondLastTrend.impact)}
-                          </span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
                 );
               })()}
             </>
