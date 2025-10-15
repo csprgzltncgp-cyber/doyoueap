@@ -460,8 +460,8 @@ const Trends = () => {
                 return (
               <Card>
                 <CardHeader>
-                  <CardTitle>Fő mutatók alakulása</CardTitle>
-                  <CardDescription>Ismertség, bizalom, használat és elégedettség változása</CardDescription>
+                  <CardTitle>Ismertség, bizalom és elégedettség alakulása</CardTitle>
+                  <CardDescription>1-5 skálán mért mutatók változása</CardDescription>
                 </CardHeader>
                 <CardContent>
                   {(() => {
@@ -475,61 +475,89 @@ const Trends = () => {
                         <ul className="text-sm text-muted-foreground space-y-1">
                           <li>• {getTrendDescription(lastTrend.awareness, secondLastTrend.awareness, "Az ismertség")}</li>
                           <li>• {getTrendDescription(lastTrend.trust, secondLastTrend.trust, "A bizalom")}</li>
-                          <li>• {getTrendDescription(lastTrend.usage, secondLastTrend.usage, "A használat")}</li>
                           <li>• {getTrendDescription(lastTrend.impact, secondLastTrend.impact, "Az elégedettség")}</li>
                         </ul>
                       </div>
                     );
                   })()}
-                  <ResponsiveContainer width="100%" height={400}>
+                  <ResponsiveContainer width="100%" height={350}>
                     <LineChart data={validTrends}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="date" />
-                      <YAxis 
-                        yAxisId="left"
-                        label={{ value: 'Érték (1-5 skála)', angle: -90, position: 'insideLeft' }}
-                        domain={[0, 5]}
-                      />
-                      <YAxis 
-                        yAxisId="right"
-                        orientation="right"
-                        label={{ value: 'Használati arány (%)', angle: 90, position: 'insideRight' }}
-                        domain={[0, 100]}
-                      />
+                      <YAxis domain={[0, 5]} />
                       <Tooltip />
                       <Legend />
                       <Line 
-                        yAxisId="left"
                         type="monotone" 
                         dataKey="awareness" 
-                        name="Ismertség (1-5)" 
+                        name="Ismertség" 
                         stroke="#3572ef" 
                         strokeWidth={2}
                       />
                       <Line 
-                        yAxisId="left"
                         type="monotone" 
                         dataKey="trust" 
-                        name="Bizalom (1-5)" 
+                        name="Bizalom" 
                         stroke="#3abef9" 
                         strokeWidth={2}
                       />
                       <Line 
-                        yAxisId="right"
-                        type="monotone" 
-                        dataKey="usage" 
-                        name="Használati arány (%)" 
-                        stroke="#050c9c" 
-                        strokeWidth={2}
-                      />
-                      <Line 
-                        yAxisId="left"
                         type="monotone" 
                         dataKey="impact" 
-                        name="Elégedettség (1-5)" 
+                        name="Elégedettség" 
                         stroke="#99ffff" 
                         strokeWidth={2}
                         strokeDasharray="5 5"
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+                );
+              })()}
+
+              {/* Usage Trend */}
+              {(() => {
+                const validTrends = trendData.filter(t => 
+                  t.awareness > 0 || t.trust > 0 || t.usage > 0 || t.impact > 0
+                );
+                
+                if (validTrends.length === 0) return null;
+                
+                return (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Használati arány alakulása</CardTitle>
+                  <CardDescription>Hány százalék használta már az EAP programot</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {(() => {
+                    if (validTrends.length < 2) return null;
+                    const lastTrend = validTrends[validTrends.length - 1];
+                    const secondLastTrend = validTrends[validTrends.length - 2];
+                    
+                    return (
+                      <div className="mb-6 p-4 bg-muted/50 rounded-lg">
+                        <p className="text-sm font-medium">Trend összefoglaló:</p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          • {getTrendDescription(lastTrend.usage, secondLastTrend.usage, "A használat")}
+                        </p>
+                      </div>
+                    );
+                  })()}
+                  <ResponsiveContainer width="100%" height={300}>
+                    <LineChart data={validTrends}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis domain={[0, 100]} label={{ value: 'Használati arány (%)', angle: -90, position: 'insideLeft' }} />
+                      <Tooltip />
+                      <Legend />
+                      <Line 
+                        type="monotone" 
+                        dataKey="usage" 
+                        name="Használati arány" 
+                        stroke="#050c9c" 
+                        strokeWidth={2}
                       />
                     </LineChart>
                   </ResponsiveContainer>
