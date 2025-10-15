@@ -208,15 +208,15 @@ const Trends = () => {
               <CardDescription>Válaszd ki, mely felmérések adatait szeretnéd összehasonlítani</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="show-all" className="text-sm font-medium">
-                  Összes felmérés kiválasztása
-                </Label>
+              <div className="flex items-center gap-3">
                 <Switch
                   id="show-all"
                   checked={showAllAudits}
                   onCheckedChange={setShowAllAudits}
                 />
+                <Label htmlFor="show-all" className="text-sm font-medium cursor-pointer">
+                  Összes felmérés kiválasztása
+                </Label>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
