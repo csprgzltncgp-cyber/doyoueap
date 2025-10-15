@@ -185,9 +185,16 @@ const Trends = () => {
     }
   };
 
-  const getTrendIcon = (current: number, previous: number) => {
+  const getTrendIcon = (current: number, previous: number, metric?: string) => {
     if (!previous) return <Minus className="h-4 w-4 text-gray-400" />;
     const diff = current - previous;
+    
+    if (metric === 'usage') {
+      if (diff > 0.5) return <TrendingUp className="h-4 w-4" style={{ color: '#3572ef' }} />;
+      if (diff < -0.5) return <TrendingDown className="h-4 w-4" style={{ color: '#3abef9' }} />;
+      return <Minus className="h-4 w-4 text-gray-400" />;
+    }
+    
     if (diff > 0.5) return <TrendingUp className="h-4 w-4 text-green-600" />;
     if (diff < -0.5) return <TrendingDown className="h-4 w-4 text-red-600" />;
     return <Minus className="h-4 w-4 text-gray-400" />;
@@ -453,7 +460,7 @@ const Trends = () => {
                           {lastTrend.usage}%
                         </div>
                         <div className="flex items-center gap-1">
-                          {getTrendIcon(lastTrend.usage, secondLastTrend.usage)}
+                          {getTrendIcon(lastTrend.usage, secondLastTrend.usage, 'usage')}
                           <span className="text-sm text-muted-foreground">
                             {getTrendText(lastTrend.usage, secondLastTrend.usage)}
                           </span>
