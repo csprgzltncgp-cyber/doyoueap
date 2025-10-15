@@ -505,7 +505,7 @@ const Trends = () => {
                         type="monotone" 
                         dataKey="impact" 
                         name="Elégedettség" 
-                        stroke="#99ffff" 
+                        stroke="#050c9c" 
                         strokeWidth={2}
                         strokeDasharray="5 5"
                       />
