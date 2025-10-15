@@ -238,10 +238,10 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
 
       {/* Figyelmeztetés, ha 50%-nál több nem ismerte a programot */}
       {parseFloat(redirectRate) > 50 && (
-        <Alert variant="destructive" className="border-red-600">
-          <AlertTriangle className="h-4 w-4" />
-          <AlertTitle>Magas tájékozatlanság észlelve</AlertTitle>
-          <AlertDescription>
+        <Alert className="border-[#ff0033] bg-transparent">
+          <AlertTriangle className="h-4 w-4 text-[#ff0033]" />
+          <AlertTitle className="text-[#ff0033]">Magas tájékozatlanság észlelve</AlertTitle>
+          <AlertDescription className="text-[#ff0033]">
             A válaszadók {redirectRate}%-a ({redirectResponses.length} fő) nem tudott az EAP programról. 
             Ez arra utal, hogy a belső kommunikáció jelentős fejlesztésre szorul. 
             Javasolt intézkedések: több kommunikációs csatorna használata, gyakoribb emlékeztetők, 
@@ -384,6 +384,12 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
               sublabel={`${redirectResponses.length} / ${totalCount} fő`}
               cornerRadius={30}
             />
+            {parseFloat(redirectRate) > 50 && (
+              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
+                <AlertTriangle className="w-4 h-4" />
+                <span>Magas tájékozatlanság</span>
+              </div>
+            )}
             <p className="text-xs text-muted-foreground text-center mt-4">
               A válaszolók közül ennyien NEM tudtak a programról
             </p>

@@ -9,6 +9,7 @@ import { GaugeChart } from '@/components/ui/gauge-chart';
 import html2canvas from 'html2canvas';
 import { Button } from '@/components/ui/button';
 import { Download, AlertTriangle } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 // NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface Audit {
@@ -271,6 +272,30 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
         )}
       </div>
 
+      {/* Figyelmeztetés, ha rossz az NPS vagy az átlagos hatás */}
+      {(npsData.npsScore < 0 || avgImpact < 2.5) && (
+        <Alert className="border-[#ff0033] bg-transparent">
+          <AlertTriangle className="h-4 w-4 text-[#ff0033]" />
+          <AlertTitle className="text-[#ff0033]">Alacsony hatékonyság észlelve</AlertTitle>
+          <AlertDescription className="text-[#ff0033]">
+            {npsData.npsScore < 0 && avgImpact < 2.5 ? (
+              <>Az NPS érték negatív ({npsData.npsScore}) és az átlagos hatás is alacsony ({avgImpact.toFixed(2)}). 
+              A program használói nem elégedettek és nem ajánlanák másoknak. 
+              Sürgős fejlesztés szükséges: felhasználói visszajelzések gyűjtése, szolgáltatás minőségének javítása, 
+              kommunikáció és elérhetőség optimalizálása.</>
+            ) : npsData.npsScore < 0 ? (
+              <>Az NPS érték negatív ({npsData.npsScore}), ami azt jelenti, hogy több kritikus, mint ajánló. 
+              Javasolt intézkedések: részletes felhasználói interjúk, gyenge pontok azonosítása, 
+              szolgáltatás minőségének fejlesztése.</>
+            ) : (
+              <>Az átlagos hatás érték alacsony ({avgImpact.toFixed(2)}), ami 2.5 alatt van. 
+              A program használói nem érzik kellőképpen a pozitív hatást. 
+              Javasolt: hatékonyabb szolgáltatások, gyorsabb válaszidő, jobb problémamegoldás.</>
+            )}
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* Main Metrics */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* NPS Score */}
@@ -310,6 +335,12 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
               <div className="text-center mb-6">
                 <div className={`text-5xl font-bold mb-2 ${getNPSColor(npsData.npsScore)}`}>{npsData.npsScore}</div>
                 <div className={`text-lg ${getNPSColor(npsData.npsScore)}`}>{getNPSLabel(npsData.npsScore)}</div>
+                {npsData.npsScore < 0 && (
+                  <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
+                    <AlertTriangle className="w-4 h-4" />
+                    <span>Negatív NPS - kritikus helyzet</span>
+                  </div>
+                )}
               </div>
 
               {/* Scale */}
@@ -370,6 +401,12 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
               label={avgImpact.toFixed(2)}
               sublabel="Átlag"
             />
+            {avgImpact < 2.5 && (
+              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
+                <AlertTriangle className="w-4 h-4" />
+                <span>Alacsony hatékonyság</span>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -473,8 +510,8 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
           
           {/* Improvement Suggestions */}
           {impactData.length > 0 && (
-            <div className="mt-6 p-4 bg-destructive/10 rounded-lg border border-destructive/20">
-              <h4 className="font-semibold text-sm mb-3 text-destructive flex items-center gap-2">
+            <div className="mt-6 p-4 bg-transparent rounded-lg border border-[#ff0033]">
+              <h4 className="font-semibold text-sm mb-3 text-[#ff0033] flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4" />
                 Fejlesztési javaslatok
               </h4>
@@ -486,12 +523,12 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
                   const allBelowFour = impactData.filter(item => item.average < 4);
                   
                   if (lowestMetric.average >= 4.5) {
-                    return <p className="text-muted-foreground">Kiváló eredmények minden területen! Folytassák így!</p>;
+                    return <p className="text-[#ff0033]">Kiváló eredmények minden területen! Folytassák így!</p>;
                   }
                   
                   if (allBelowFour.length >= 3) {
                     return (
-                      <p className="text-muted-foreground">
+                      <p className="text-[#ff0033]">
                         Több területen is érdemes fejleszteni. Kezdjék a <strong>{lowestMetric.metric}</strong> területtel ({lowestMetric.average.toFixed(2)}), 
                         majd folytassák a többi alacsonyabb értékű területtel.
                       </p>
@@ -499,7 +536,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
                   }
                   
                   return (
-                    <p className="text-muted-foreground">
+                    <p className="text-[#ff0033]">
                       A legnagyobb fejlesztési potenciál a <strong>{lowestMetric.metric}</strong> területen van (jelenlegi érték: {lowestMetric.average.toFixed(2)}). 
                       Érdemes külön figyelmet fordítani erre a területre.
                     </p>

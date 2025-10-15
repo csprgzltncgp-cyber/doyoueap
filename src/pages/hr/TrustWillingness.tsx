@@ -9,6 +9,7 @@ import { Download, Shield, Users, AlertTriangle, TrendingUp, Lock, Eye } from 'l
 import { GaugeChart } from '@/components/ui/gauge-chart';
 import { Progress } from '@/components/ui/progress';
 import { formatAuditName } from '@/lib/auditUtils';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 interface TrustWillingnessProps {
   selectedAuditId: string;
@@ -304,6 +305,20 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
         )}
       </div>
 
+      {/* Figyelmeztetés, ha alacsony a bizalmi index */}
+      {overallTrustIndex < 3 && (
+        <Alert className="border-[#ff0033] bg-transparent">
+          <AlertTriangle className="h-4 w-4 text-[#ff0033]" />
+          <AlertTitle className="text-[#ff0033]">Alacsony bizalmi szint észlelve</AlertTitle>
+          <AlertDescription className="text-[#ff0033]">
+            Az átfogó bizalmi index {overallTrustIndex.toFixed(1)} pont, ami 3.0 alatt van. 
+            Ez azt jelzi, hogy a munkatársak nem bíznak kellőképpen a program anonimitásában és használatában.
+            Javasolt intézkedések: fokozott transzparencia, anonimitás garantálásának megerősítése, 
+            független szolgáltató kommunikálása, sikertörténetek megosztása.
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* 1. sor: Fő bizalmi mutatók */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Általános Bizalom az Anonimitásban */}
@@ -344,9 +359,9 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
             className="absolute inset-0 transition-all duration-500"
             style={{
               background: `linear-gradient(to top, ${
-                overallTrustIndex < 3 ? 'hsl(0, 84%, 60%)' : 'hsl(var(--chart-2))'
+                overallTrustIndex < 3 ? '#ff0033' : 'hsl(var(--chart-2))'
               } 0%, ${
-                overallTrustIndex < 3 ? 'hsl(0, 84%, 60%)' : 'hsl(var(--chart-2))'
+                overallTrustIndex < 3 ? '#ff0033' : 'hsl(var(--chart-2))'
               } ${(overallTrustIndex / 5) * 100}%, transparent ${(overallTrustIndex / 5) * 100}%, transparent 100%)`,
               opacity: 0.1
             }}
@@ -371,20 +386,24 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
               <div 
                 className="text-6xl font-bold" 
                 style={{ 
-                  color: overallTrustIndex < 3 ? 'hsl(0, 84%, 60%)' : 'hsl(var(--chart-2))'
+                  color: overallTrustIndex < 3 ? '#ff0033' : 'hsl(var(--chart-2))'
                 }}
               >
                 {overallTrustIndex.toFixed(1)}
               </div>
-              <p className="text-sm text-muted-foreground mt-2 flex items-center justify-center gap-2">
+              {overallTrustIndex < 3 && (
+                <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
+                  <AlertTriangle className="w-4 h-4" />
+                  <span>Alacsony bizalmi szint</span>
+                </div>
+              )}
+              <p className="text-sm text-muted-foreground mt-2">
                 {overallTrustIndex >= 4 ? (
                   '✓ Magas bizalmi szint'
                 ) : overallTrustIndex >= 3 ? (
                   '→ Közepes bizalmi szint'
                 ) : (
-                  <>
-                    <AlertTriangle className="w-4 h-4 text-red-600" /> Alacsony bizalmi szint - fejlesztést igényel
-                  </>
+                  'Fejlesztést igényel'
                 )}
               </p>
             </div>
