@@ -228,7 +228,7 @@ const Trends = () => {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold mb-2">Időbeli Trendek</h2>
-        <p className="text-muted-foreground">Változások és trendek követése az idő során</p>
+        <p className="text-muted-foreground">Az összes futó és lezárt felmérés adatai alapján számolva</p>
       </div>
 
       {audits.length === 0 ? (
