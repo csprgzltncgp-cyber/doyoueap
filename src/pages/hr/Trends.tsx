@@ -372,7 +372,18 @@ const Trends = () => {
               </Card>
 
               {/* Trend Summary Cards */}
-              {trendData.length > 1 && (
+              {trendData.length > 1 && (() => {
+                // Filter out entries with no valid data (all zeros)
+                const validTrends = trendData.filter(t => 
+                  t.awareness > 0 || t.trust > 0 || t.usage > 0 || t.impact > 0
+                );
+                
+                if (validTrends.length < 2) return null;
+                
+                const lastTrend = validTrends[validTrends.length - 1];
+                const secondLastTrend = validTrends[validTrends.length - 2];
+                
+                return (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <Card>
                     <CardHeader className="pb-2">
@@ -381,18 +392,12 @@ const Trends = () => {
                     <CardContent>
                       <div className="flex items-center justify-between">
                         <div className="text-2xl font-bold">
-                          {trendData[trendData.length - 1].awareness}
+                          {lastTrend.awareness}
                         </div>
                         <div className="flex items-center gap-1">
-                          {getTrendIcon(
-                            trendData[trendData.length - 1].awareness,
-                            trendData[trendData.length - 2].awareness
-                          )}
+                          {getTrendIcon(lastTrend.awareness, secondLastTrend.awareness)}
                           <span className="text-sm text-muted-foreground">
-                            {getTrendText(
-                              trendData[trendData.length - 1].awareness,
-                              trendData[trendData.length - 2].awareness
-                            )}
+                            {getTrendText(lastTrend.awareness, secondLastTrend.awareness)}
                           </span>
                         </div>
                       </div>
@@ -406,18 +411,12 @@ const Trends = () => {
                     <CardContent>
                       <div className="flex items-center justify-between">
                         <div className="text-2xl font-bold">
-                          {trendData[trendData.length - 1].trust}
+                          {lastTrend.trust}
                         </div>
                         <div className="flex items-center gap-1">
-                          {getTrendIcon(
-                            trendData[trendData.length - 1].trust,
-                            trendData[trendData.length - 2].trust
-                          )}
+                          {getTrendIcon(lastTrend.trust, secondLastTrend.trust)}
                           <span className="text-sm text-muted-foreground">
-                            {getTrendText(
-                              trendData[trendData.length - 1].trust,
-                              trendData[trendData.length - 2].trust
-                            )}
+                            {getTrendText(lastTrend.trust, secondLastTrend.trust)}
                           </span>
                         </div>
                       </div>
@@ -431,18 +430,12 @@ const Trends = () => {
                     <CardContent>
                       <div className="flex items-center justify-between">
                         <div className="text-2xl font-bold">
-                          {trendData[trendData.length - 1].usage}%
+                          {lastTrend.usage}%
                         </div>
                         <div className="flex items-center gap-1">
-                          {getTrendIcon(
-                            trendData[trendData.length - 1].usage,
-                            trendData[trendData.length - 2].usage
-                          )}
+                          {getTrendIcon(lastTrend.usage, secondLastTrend.usage)}
                           <span className="text-sm text-muted-foreground">
-                            {getTrendText(
-                              trendData[trendData.length - 1].usage,
-                              trendData[trendData.length - 2].usage
-                            )}
+                            {getTrendText(lastTrend.usage, secondLastTrend.usage)}
                           </span>
                         </div>
                       </div>
@@ -456,25 +449,20 @@ const Trends = () => {
                     <CardContent>
                       <div className="flex items-center justify-between">
                         <div className="text-2xl font-bold">
-                          {trendData[trendData.length - 1].impact}
+                          {lastTrend.impact}
                         </div>
                         <div className="flex items-center gap-1">
-                          {getTrendIcon(
-                            trendData[trendData.length - 1].impact,
-                            trendData[trendData.length - 2].impact
-                          )}
+                          {getTrendIcon(lastTrend.impact, secondLastTrend.impact)}
                           <span className="text-sm text-muted-foreground">
-                            {getTrendText(
-                              trendData[trendData.length - 1].impact,
-                              trendData[trendData.length - 2].impact
-                            )}
+                            {getTrendText(lastTrend.impact, secondLastTrend.impact)}
                           </span>
                         </div>
                       </div>
                     </CardContent>
                   </Card>
                 </div>
-              )}
+                );
+              })()}
             </>
           )}
         </>
