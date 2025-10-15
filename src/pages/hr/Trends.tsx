@@ -321,29 +321,30 @@ const Trends = () => {
                         type="monotone" 
                         dataKey="awareness" 
                         name="Ismertség (1-5)" 
-                        stroke="hsl(var(--primary))" 
+                        stroke="#3572ef" 
                         strokeWidth={2}
                       />
                       <Line 
                         type="monotone" 
                         dataKey="trust" 
                         name="Bizalom (1-5)" 
-                        stroke="hsl(var(--success))" 
+                        stroke="#3abef9" 
                         strokeWidth={2}
                       />
                       <Line 
                         type="monotone" 
                         dataKey="usage" 
                         name="Használati arány (%)" 
-                        stroke="hsl(var(--warning))" 
+                        stroke="#050c9c" 
                         strokeWidth={2}
                       />
                       <Line 
                         type="monotone" 
                         dataKey="impact" 
                         name="Elégedettség (1-5)" 
-                        stroke="hsl(var(--chart-5))" 
+                        stroke="#3572ef" 
                         strokeWidth={2}
+                        strokeDasharray="5 5"
                       />
                     </LineChart>
                   </ResponsiveContainer>
