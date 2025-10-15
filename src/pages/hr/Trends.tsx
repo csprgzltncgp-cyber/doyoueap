@@ -105,7 +105,8 @@ const Trends = () => {
 
         const date = new Date(audit.start_date).toLocaleDateString('hu-HU', { 
           year: 'numeric', 
-          month: 'short' 
+          month: 'short',
+          day: 'numeric'
         });
 
         // Category counts
@@ -150,15 +151,28 @@ const Trends = () => {
 
         trends.push({
           date,
-          awareness: Number(calculateAverage(awarenessValues).toFixed(2)),
-          trust: Number(calculateAverage(trustValues).toFixed(2)),
+          awareness: awarenessValues.length > 0 ? Number(calculateAverage(awarenessValues).toFixed(2)) : 0,
+          trust: trustValues.length > 0 ? Number(calculateAverage(trustValues).toFixed(2)) : 0,
           usage: Number(usageRate.toFixed(1)),
-          impact: Number(calculateAverage(impactValues).toFixed(2)),
+          impact: impactValues.length > 0 ? Number(calculateAverage(impactValues).toFixed(2)) : 0,
         });
       }
 
-      setTrendData(trends);
-      setCategoryTrend(catTrends);
+      // Sort by date
+      const sortedTrends = trends.sort((a, b) => {
+        const dateA = new Date(a.date.split('. ').reverse().join('-'));
+        const dateB = new Date(b.date.split('. ').reverse().join('-'));
+        return dateA.getTime() - dateB.getTime();
+      });
+
+      const sortedCatTrends = catTrends.sort((a, b) => {
+        const dateA = new Date(a.date.split('. ').reverse().join('-'));
+        const dateB = new Date(b.date.split('. ').reverse().join('-'));
+        return dateA.getTime() - dateB.getTime();
+      });
+
+      setTrendData(sortedTrends);
+      setCategoryTrend(sortedCatTrends);
     } catch (error) {
       console.error('Error fetching trend data:', error);
       toast.error('Hiba történt az adatok betöltésekor');
