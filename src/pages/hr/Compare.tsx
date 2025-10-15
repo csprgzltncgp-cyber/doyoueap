@@ -24,6 +24,8 @@ const Compare = () => {
   const [secondAuditId, setSecondAuditId] = useState<string>('');
   const [comparisonData, setComparisonData] = useState<ComparisonData[]>([]);
   const [categoryData, setCategoryData] = useState<any[]>([]);
+  const [npsData, setNpsData] = useState<ComparisonData[]>([]);
+  const [demographicData, setDemographicData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -99,6 +101,12 @@ const Compare = () => {
         .map(r => r.responses?.u_impact_satisfaction)
         .filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
+      // NPS data for first audit
+      const nps1 = [
+        ...used1.map(r => r.responses?.u_motivation_recommend),
+        ...notUsed1.map(r => r.responses?.nu_motivation_recommend)
+      ].filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
+
       // Calculate metrics for second audit
       const used2 = responses2.filter(r => r.employee_metadata?.branch === 'used');
       const notUsed2 = responses2.filter(r => r.employee_metadata?.branch === 'not_used');
@@ -119,6 +127,12 @@ const Compare = () => {
       const impact2 = used2
         .map(r => r.responses?.u_impact_satisfaction)
         .filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
+
+      // NPS data for second audit
+      const nps2 = [
+        ...used2.map(r => r.responses?.u_motivation_recommend),
+        ...notUsed2.map(r => r.responses?.nu_motivation_recommend)
+      ].filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
       // Set comparison data
       setComparisonData([
@@ -144,6 +158,15 @@ const Compare = () => {
         }
       ]);
 
+      // NPS comparison
+      setNpsData([
+        {
+          metric: 'NPS (1-10)',
+          first: Number(calculateAverage(nps1).toFixed(2)),
+          second: Number(calculateAverage(nps2).toFixed(2))
+        }
+      ]);
+
       // Category distribution
       const total1 = responses1.length;
       const total2 = responses2.length;
@@ -165,6 +188,41 @@ const Compare = () => {
           second: total2 > 0 ? Number(((used2.length / total2) * 100).toFixed(1)) : 0
         }
       ]);
+
+      // Demographic comparison
+      const demographicComparison: any[] = [];
+      
+      // Age groups
+      const ageGroups = ['18-25', '26-35', '36-45', '46-55', '56+'];
+      ageGroups.forEach(ageGroup => {
+        const count1 = responses1.filter(r => r.employee_metadata?.age === ageGroup).length;
+        const count2 = responses2.filter(r => r.employee_metadata?.age === ageGroup).length;
+        demographicComparison.push({
+          category: ageGroup,
+          type: 'Életkor',
+          first: total1 > 0 ? Number(((count1 / total1) * 100).toFixed(1)) : 0,
+          second: total2 > 0 ? Number(((count2 / total2) * 100).toFixed(1)) : 0
+        });
+      });
+
+      // Gender
+      const genders = [
+        { value: 'male', label: 'Férfi' },
+        { value: 'female', label: 'Nő' },
+        { value: 'other', label: 'Egyéb' }
+      ];
+      genders.forEach(gender => {
+        const count1 = responses1.filter(r => r.employee_metadata?.gender === gender.value).length;
+        const count2 = responses2.filter(r => r.employee_metadata?.gender === gender.value).length;
+        demographicComparison.push({
+          category: gender.label,
+          type: 'Nem',
+          first: total1 > 0 ? Number(((count1 / total1) * 100).toFixed(1)) : 0,
+          second: total2 > 0 ? Number(((count2 / total2) * 100).toFixed(1)) : 0
+        });
+      });
+
+      setDemographicData(demographicComparison);
 
     } catch (error) {
       console.error('Error fetching comparison data:', error);
@@ -403,6 +461,74 @@ const Compare = () => {
                   </ResponsiveContainer>
                 </CardContent>
               </Card>
+
+              {/* NPS Comparison */}
+              {npsData.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Ajánlási hajlandóság (NPS) összehasonlítása</CardTitle>
+                    <CardDescription>Net Promoter Score (1-10 skála)</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={250}>
+                      <BarChart data={npsData} barSize={60}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="metric" />
+                        <YAxis domain={[0, 10]} />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="first" name={firstAudit ? formatAuditName(firstAudit) : 'Első'} fill="#3572ef" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="second" name={secondAudit ? formatAuditName(secondAudit) : 'Második'} fill="#3abef9" radius={[8, 8, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Demographic Comparison */}
+              {demographicData.length > 0 && (
+                <>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Demográfiai megoszlás - Életkor</CardTitle>
+                      <CardDescription>Korosztályok szerinti résztvevők aránya (%)</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <ResponsiveContainer width="100%" height={300}>
+                        <BarChart data={demographicData.filter(d => d.type === 'Életkor')} barSize={60}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="category" />
+                          <YAxis />
+                          <Tooltip />
+                          <Legend />
+                          <Bar dataKey="first" name={firstAudit ? formatAuditName(firstAudit) : 'Első'} fill="#3572ef" radius={[8, 8, 0, 0]} />
+                          <Bar dataKey="second" name={secondAudit ? formatAuditName(secondAudit) : 'Második'} fill="#3abef9" radius={[8, 8, 0, 0]} />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Demográfiai megoszlás - Nem</CardTitle>
+                      <CardDescription>Nemek szerinti résztvevők aránya (%)</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <ResponsiveContainer width="100%" height={250}>
+                        <BarChart data={demographicData.filter(d => d.type === 'Nem')} barSize={60}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="category" />
+                          <YAxis />
+                          <Tooltip />
+                          <Legend />
+                          <Bar dataKey="first" name={firstAudit ? formatAuditName(firstAudit) : 'Első'} fill="#3572ef" radius={[8, 8, 0, 0]} />
+                          <Bar dataKey="second" name={secondAudit ? formatAuditName(secondAudit) : 'Második'} fill="#3abef9" radius={[8, 8, 0, 0]} />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </CardContent>
+                  </Card>
+                </>
+              )}
             </>
           )}
         </>
