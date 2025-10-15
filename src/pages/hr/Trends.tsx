@@ -485,10 +485,21 @@ const Trends = () => {
                     <LineChart data={validTrends}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="date" />
-                      <YAxis />
+                      <YAxis 
+                        yAxisId="left"
+                        label={{ value: 'Érték (1-5 skála)', angle: -90, position: 'insideLeft' }}
+                        domain={[0, 5]}
+                      />
+                      <YAxis 
+                        yAxisId="right"
+                        orientation="right"
+                        label={{ value: 'Használati arány (%)', angle: 90, position: 'insideRight' }}
+                        domain={[0, 100]}
+                      />
                       <Tooltip />
                       <Legend />
                       <Line 
+                        yAxisId="left"
                         type="monotone" 
                         dataKey="awareness" 
                         name="Ismertség (1-5)" 
@@ -496,6 +507,7 @@ const Trends = () => {
                         strokeWidth={2}
                       />
                       <Line 
+                        yAxisId="left"
                         type="monotone" 
                         dataKey="trust" 
                         name="Bizalom (1-5)" 
@@ -503,6 +515,7 @@ const Trends = () => {
                         strokeWidth={2}
                       />
                       <Line 
+                        yAxisId="right"
                         type="monotone" 
                         dataKey="usage" 
                         name="Használati arány (%)" 
@@ -510,6 +523,7 @@ const Trends = () => {
                         strokeWidth={2}
                       />
                       <Line 
+                        yAxisId="left"
                         type="monotone" 
                         dataKey="impact" 
                         name="Elégedettség (1-5)" 
