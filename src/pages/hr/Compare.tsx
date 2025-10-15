@@ -1,60 +1,59 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { toast } from 'sonner';
-import { ArrowRight, TrendingUp, TrendingDown, Minus } from 'lucide-react';
-import { formatAuditName } from '@/lib/auditUtils';
+import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { formatAuditName, StandardAudit, AUDIT_SELECT_FIELDS } from '@/lib/auditUtils';
 
-// NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
-interface Audit {
-  id: string;
-  start_date: string;
-  program_name: string;
-  access_mode: string;
-  recurrence_config: any;
-  is_active: boolean;
-  expires_at: string | null;
-}
+type Audit = StandardAudit;
 
-interface ComparisonMetrics {
-  awareness: { old: number; new: number; delta: number };
-  trust: { old: number; new: number; delta: number };
-  usage: { old: number; new: number; delta: number };
-  impact: { old: number; new: number; delta: number };
+interface ComparisonData {
+  metric: string;
+  first: number;
+  second: number;
 }
 
 const Compare = () => {
   const [audits, setAudits] = useState<Audit[]>([]);
-  const [audit1Id, setAudit1Id] = useState<string>('');
-  const [audit2Id, setAudit2Id] = useState<string>('');
-  const [metrics, setMetrics] = useState<ComparisonMetrics | null>(null);
+  const [showAllAudits, setShowAllAudits] = useState(false);
+  const [firstAuditId, setFirstAuditId] = useState<string>('');
+  const [secondAuditId, setSecondAuditId] = useState<string>('');
+  const [comparisonData, setComparisonData] = useState<ComparisonData[]>([]);
+  const [categoryData, setCategoryData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [comparing, setComparing] = useState(false);
 
   useEffect(() => {
     fetchAudits();
   }, []);
 
+  useEffect(() => {
+    if (firstAuditId && secondAuditId && firstAuditId !== secondAuditId) {
+      fetchComparisonData();
+    }
+  }, [firstAuditId, secondAuditId]);
+
   const fetchAudits = async () => {
     try {
       const { data } = await supabase
         .from('audits')
-        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at')
+        .select(AUDIT_SELECT_FIELDS)
         .eq('is_active', true)
         .order('start_date', { ascending: true });
 
       if (data && data.length > 0) {
         setAudits(data);
         if (data.length >= 2) {
-          setAudit1Id(data[0].id);
-          setAudit2Id(data[data.length - 1].id);
+          setFirstAuditId(data[0].id);
+          setSecondAuditId(data[data.length - 1].id);
         }
       }
     } catch (error) {
       console.error('Error fetching audits:', error);
-      toast.error('Hiba történt a felmérések betöltésekor');
+      toast.error('Hiba történt az auditek betöltésekor');
     } finally {
       setLoading(false);
     }
@@ -66,18 +65,11 @@ const Compare = () => {
     return sum / values.length;
   };
 
-  const handleCompare = async () => {
-    if (!audit1Id || !audit2Id || audit1Id === audit2Id) {
-      toast.error('Válassz két különböző felmérést az összehasonlításhoz');
-      return;
-    }
-
-    setComparing(true);
+  const fetchComparisonData = async () => {
     try {
-      // Fetch data for both audits
       const [data1, data2] = await Promise.all([
-        supabase.from('audit_responses').select('responses, employee_metadata').eq('audit_id', audit1Id),
-        supabase.from('audit_responses').select('responses, employee_metadata').eq('audit_id', audit2Id)
+        supabase.from('audit_responses').select('responses, employee_metadata').eq('audit_id', firstAuditId),
+        supabase.from('audit_responses').select('responses, employee_metadata').eq('audit_id', secondAuditId)
       ]);
 
       if (data1.error) throw data1.error;
@@ -86,95 +78,122 @@ const Compare = () => {
       const responses1 = data1.data || [];
       const responses2 = data2.data || [];
 
-      // Calculate metrics for audit 1
+      // Calculate metrics for first audit
       const used1 = responses1.filter(r => r.employee_metadata?.branch === 'used');
       const notUsed1 = responses1.filter(r => r.employee_metadata?.branch === 'not_used');
+      const notKnew1 = responses1.filter(r => r.employee_metadata?.branch === 'redirect');
       
       const awareness1 = [
         ...used1.map(r => r.responses?.u_awareness_understanding),
         ...notUsed1.map(r => r.responses?.nu_awareness_understanding)
-      ].filter(v => v !== undefined && v !== null) as number[];
+      ].filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
       const trust1 = [
         ...used1.map(r => r.responses?.u_trust_anonymity),
         ...notUsed1.map(r => r.responses?.nu_trust_anonymity)
-      ].filter(v => v !== undefined && v !== null) as number[];
+      ].filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
       const usage1 = responses1.length > 0 ? (used1.length / responses1.length) * 100 : 0;
 
       const impact1 = used1
         .map(r => r.responses?.u_impact_satisfaction)
-        .filter(v => v !== undefined && v !== null) as number[];
+        .filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
-      // Calculate metrics for audit 2
+      // Calculate metrics for second audit
       const used2 = responses2.filter(r => r.employee_metadata?.branch === 'used');
       const notUsed2 = responses2.filter(r => r.employee_metadata?.branch === 'not_used');
+      const notKnew2 = responses2.filter(r => r.employee_metadata?.branch === 'redirect');
       
       const awareness2 = [
         ...used2.map(r => r.responses?.u_awareness_understanding),
         ...notUsed2.map(r => r.responses?.nu_awareness_understanding)
-      ].filter(v => v !== undefined && v !== null) as number[];
+      ].filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
       const trust2 = [
         ...used2.map(r => r.responses?.u_trust_anonymity),
         ...notUsed2.map(r => r.responses?.nu_trust_anonymity)
-      ].filter(v => v !== undefined && v !== null) as number[];
+      ].filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
       const usage2 = responses2.length > 0 ? (used2.length / responses2.length) * 100 : 0;
 
       const impact2 = used2
         .map(r => r.responses?.u_impact_satisfaction)
-        .filter(v => v !== undefined && v !== null) as number[];
+        .filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
-      // Calculate deltas
-      const awarenessAvg1 = calculateAverage(awareness1);
-      const awarenessAvg2 = calculateAverage(awareness2);
-      const trustAvg1 = calculateAverage(trust1);
-      const trustAvg2 = calculateAverage(trust2);
-      const impactAvg1 = calculateAverage(impact1);
-      const impactAvg2 = calculateAverage(impact2);
-
-      setMetrics({
-        awareness: {
-          old: Number(awarenessAvg1.toFixed(2)),
-          new: Number(awarenessAvg2.toFixed(2)),
-          delta: Number((awarenessAvg2 - awarenessAvg1).toFixed(2))
+      // Set comparison data
+      setComparisonData([
+        {
+          metric: 'Ismertség',
+          first: Number(calculateAverage(awareness1).toFixed(2)),
+          second: Number(calculateAverage(awareness2).toFixed(2))
         },
-        trust: {
-          old: Number(trustAvg1.toFixed(2)),
-          new: Number(trustAvg2.toFixed(2)),
-          delta: Number((trustAvg2 - trustAvg1).toFixed(2))
+        {
+          metric: 'Bizalom',
+          first: Number(calculateAverage(trust1).toFixed(2)),
+          second: Number(calculateAverage(trust2).toFixed(2))
         },
-        usage: {
-          old: Number(usage1.toFixed(1)),
-          new: Number(usage2.toFixed(1)),
-          delta: Number((usage2 - usage1).toFixed(1))
+        {
+          metric: 'Használat (%)',
+          first: Number(usage1.toFixed(1)),
+          second: Number(usage2.toFixed(1))
         },
-        impact: {
-          old: Number(impactAvg1.toFixed(2)),
-          new: Number(impactAvg2.toFixed(2)),
-          delta: Number((impactAvg2 - impactAvg1).toFixed(2))
+        {
+          metric: 'Elégedettség',
+          first: Number(calculateAverage(impact1).toFixed(2)),
+          second: Number(calculateAverage(impact2).toFixed(2))
         }
-      });
+      ]);
+
+      // Category distribution
+      const total1 = responses1.length;
+      const total2 = responses2.length;
+      
+      setCategoryData([
+        {
+          category: 'Nem ismerte',
+          first: total1 > 0 ? Number(((notKnew1.length / total1) * 100).toFixed(1)) : 0,
+          second: total2 > 0 ? Number(((notKnew2.length / total2) * 100).toFixed(1)) : 0
+        },
+        {
+          category: 'Ismerte, de nem használta',
+          first: total1 > 0 ? Number(((notUsed1.length / total1) * 100).toFixed(1)) : 0,
+          second: total2 > 0 ? Number(((notUsed2.length / total2) * 100).toFixed(1)) : 0
+        },
+        {
+          category: 'Használta',
+          first: total1 > 0 ? Number(((used1.length / total1) * 100).toFixed(1)) : 0,
+          second: total2 > 0 ? Number(((used2.length / total2) * 100).toFixed(1)) : 0
+        }
+      ]);
 
     } catch (error) {
-      console.error('Error comparing audits:', error);
-      toast.error('Hiba történt az összehasonlítás során');
-    } finally {
-      setComparing(false);
+      console.error('Error fetching comparison data:', error);
+      toast.error('Hiba történt az adatok betöltésekor');
     }
   };
 
-  const getDeltaIcon = (delta: number) => {
-    if (delta > 0.5) return <TrendingUp className="h-5 w-5 text-green-600" />;
-    if (delta < -0.5) return <TrendingDown className="h-5 w-5 text-red-600" />;
-    return <Minus className="h-5 w-5 text-gray-400" />;
+  const getTrendIcon = (current: number, previous: number) => {
+    const diff = current - previous;
+    if (diff > 0.5) return <TrendingUp className="h-8 w-8 text-green-600" />;
+    if (diff < -0.5) return <TrendingDown className="h-8 w-8 text-red-600" />;
+    return <Minus className="h-8 w-8" style={{ color: '#050c9c' }} />;
   };
 
-  const getDeltaColor = (delta: number) => {
-    if (delta > 0.5) return 'text-green-600';
-    if (delta < -0.5) return 'text-red-600';
-    return 'text-gray-600';
+  const getTrendText = (current: number, previous: number) => {
+    const diff = current - previous;
+    return diff > 0 ? `+${diff.toFixed(1)}` : diff.toFixed(1);
+  };
+
+  const getTrendDescription = (current: number, previous: number, metricName: string) => {
+    const diff = current - previous;
+    
+    if (diff > 0.5) {
+      return `${metricName} növekedett`;
+    } else if (diff < -0.5) {
+      return `${metricName} csökkent`;
+    } else {
+      return `${metricName} stagnált`;
+    }
   };
 
   if (loading) {
@@ -185,15 +204,177 @@ const Compare = () => {
     );
   }
 
+  const firstAudit = audits.find(a => a.id === firstAuditId);
+  const secondAudit = audits.find(a => a.id === secondAuditId);
+
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold mb-2">Összehasonlító Nézet</h2>
+        <h2 className="text-2xl font-bold mb-2">Összehasonlítás</h2>
         <p className="text-muted-foreground">Két felmérés összehasonlítása</p>
       </div>
-      <div className="text-center py-12 text-muted-foreground">
-        Még nincs kiértékelt adat
-      </div>
+
+      {audits.length === 0 ? (
+        <Card>
+          <CardContent className="pt-6">
+            <p className="text-center text-muted-foreground">Még nincs aktív felmérés</p>
+          </CardContent>
+        </Card>
+      ) : audits.length < 2 ? (
+        <Card>
+          <CardContent className="pt-6">
+            <p className="text-center text-muted-foreground">Legalább két felmérés szükséges az összehasonlításhoz</p>
+          </CardContent>
+        </Card>
+      ) : (
+        <>
+          <Card>
+            <CardHeader>
+              <CardTitle>Felmérések kiválasztása</CardTitle>
+              <CardDescription>Válaszd ki, mely felméréseket szeretnéd összehasonlítani</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="first-audit">
+                    Első felmérés
+                  </Label>
+                  <Select
+                    value={firstAuditId}
+                    onValueChange={setFirstAuditId}
+                  >
+                    <SelectTrigger id="first-audit">
+                      <SelectValue placeholder="Válassz felmérést" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {audits.map(audit => (
+                        <SelectItem key={audit.id} value={audit.id}>
+                          {formatAuditName(audit)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="second-audit">
+                    Második felmérés
+                  </Label>
+                  <Select
+                    value={secondAuditId}
+                    onValueChange={setSecondAuditId}
+                  >
+                    <SelectTrigger id="second-audit">
+                      <SelectValue placeholder="Válassz felmérést" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {audits.map(audit => (
+                        <SelectItem key={audit.id} value={audit.id}>
+                          {formatAuditName(audit)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {firstAuditId === secondAuditId ? (
+            <Card>
+              <CardContent className="pt-6">
+                <p className="text-center text-muted-foreground">Válassz két különböző felmérést</p>
+              </CardContent>
+            </Card>
+          ) : comparisonData.length === 0 ? (
+            <Card>
+              <CardContent className="pt-6">
+                <p className="text-center text-muted-foreground">A kiválasztott felmérésekhez még nincs válasz</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <>
+              {/* Comparison Summary Cards */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Fő mutatók összehasonlítása</CardTitle>
+                  <CardDescription>Az első és második felmérés közötti változások</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {comparisonData.map((item, idx) => {
+                      const isUsage = item.metric === 'Használat (%)';
+                      return (
+                        <div key={idx} className="space-y-2">
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <span className="font-medium">{item.metric.replace(' (%)', '')}</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            {getTrendIcon(item.second, item.first)}
+                            <div className="text-4xl font-bold">
+                              {getTrendText(item.second, item.first)}{isUsage ? '%' : ''}
+                            </div>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            {getTrendDescription(item.second, item.first, item.metric.replace(' (%)', ''))}
+                          </p>
+                          <div className="text-xs text-muted-foreground">
+                            {item.first} → {item.second}{isUsage ? '%' : ''}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Category Distribution Comparison */}
+              {categoryData.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Kategória megoszlás összehasonlítása</CardTitle>
+                    <CardDescription>Az EAP program ismerete és használata (%)</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <BarChart data={categoryData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="category" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="first" name={firstAudit ? formatAuditName(firstAudit) : 'Első'} fill="#3572ef" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="second" name={secondAudit ? formatAuditName(secondAudit) : 'Második'} fill="#3abef9" radius={[8, 8, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Main Metrics Comparison */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Részletes összehasonlítás</CardTitle>
+                  <CardDescription>Fő mutatók értékeinek összehasonlítása</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={350}>
+                    <BarChart data={comparisonData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="metric" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="first" name={firstAudit ? formatAuditName(firstAudit) : 'Első'} fill="#3572ef" radius={[8, 8, 0, 0]} />
+                      <Bar dataKey="second" name={secondAudit ? formatAuditName(secondAudit) : 'Második'} fill="#3abef9" radius={[8, 8, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 };
