@@ -9,6 +9,7 @@ interface GaugeChartProps {
   sublabel?: string;
   cornerRadius?: number;
   showScale?: boolean;
+  gaugeColor?: string;
 }
 
 export const GaugeChart = ({ 
@@ -19,7 +20,8 @@ export const GaugeChart = ({
   label,
   sublabel,
   cornerRadius = 30,
-  showScale = true
+  showScale = true,
+  gaugeColor
 }: GaugeChartProps) => {
   const percentage = ((value - minValue) / (maxValue - minValue)) * 100;
   
@@ -42,7 +44,7 @@ export const GaugeChart = ({
             background={{ fill: 'hsl(var(--muted))' }}
             dataKey="value"
             cornerRadius={cornerRadius}
-            fill="#3366ff"
+            fill={gaugeColor || '#3366ff'}
             isAnimationActive={false}
           />
           <text 

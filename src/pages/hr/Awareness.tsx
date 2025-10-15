@@ -383,6 +383,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
               label={`${redirectRate}%`}
               sublabel={`${redirectResponses.length} / ${totalCount} fő`}
               cornerRadius={30}
+              gaugeColor={parseFloat(redirectRate) > 50 ? '#ff0033' : undefined}
             />
             {parseFloat(redirectRate) > 50 && (
               <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
