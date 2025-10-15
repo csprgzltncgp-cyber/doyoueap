@@ -272,26 +272,28 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
         )}
       </div>
 
-      {/* Figyelmeztetés, ha rossz az NPS vagy az átlagos hatás */}
-      {(npsData.npsScore < 0 || avgImpact < 2.5) && (
+      {/* Figyelmeztetés az NPS-hez */}
+      {npsData.npsScore < 0 && (
+        <Alert className="border-[#ff0033] bg-transparent">
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+          <AlertTitle className="text-[#ff0033]">Negatív NPS észlelve</AlertTitle>
+          <AlertDescription className="text-[#ff0033]">
+            Az NPS érték negatív ({npsData.npsScore}), ami azt jelenti, hogy több kritikus, mint ajánló. 
+            Javasolt intézkedések: részletes felhasználói interjúk, gyenge pontok azonosítása, 
+            szolgáltatás minőségének fejlesztése.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Figyelmeztetés az átlagos hatáshoz */}
+      {avgImpact < 2.5 && (
         <Alert className="border-[#ff0033] bg-transparent">
           <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
           <AlertTitle className="text-[#ff0033]">Alacsony hatékonyság észlelve</AlertTitle>
           <AlertDescription className="text-[#ff0033]">
-            {npsData.npsScore < 0 && avgImpact < 2.5 ? (
-              <>Az NPS érték negatív ({npsData.npsScore}) és az átlagos hatás is alacsony ({avgImpact.toFixed(2)}). 
-              A program használói nem elégedettek és nem ajánlanák másoknak. 
-              Sürgős fejlesztés szükséges: felhasználói visszajelzések gyűjtése, szolgáltatás minőségének javítása, 
-              kommunikáció és elérhetőség optimalizálása.</>
-            ) : npsData.npsScore < 0 ? (
-              <>Az NPS érték negatív ({npsData.npsScore}), ami azt jelenti, hogy több kritikus, mint ajánló. 
-              Javasolt intézkedések: részletes felhasználói interjúk, gyenge pontok azonosítása, 
-              szolgáltatás minőségének fejlesztése.</>
-            ) : (
-              <>Az átlagos hatás érték alacsony ({avgImpact.toFixed(2)}), ami 2.5 alatt van. 
-              A program használói nem érzik kellőképpen a pozitív hatást. 
-              Javasolt: hatékonyabb szolgáltatások, gyorsabb válaszidő, jobb problémamegoldás.</>
-            )}
+            Az átlagos hatás érték alacsony ({avgImpact.toFixed(2)}), ami 2.5 alatt van. 
+            A program használói nem érzik kellőképpen a pozitív hatást. 
+            Javasolt: hatékonyabb szolgáltatások, gyorsabb válaszidő, jobb problémamegoldás.
           </AlertDescription>
         </Alert>
       )}
