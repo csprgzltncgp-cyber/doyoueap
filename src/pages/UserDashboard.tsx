@@ -203,14 +203,7 @@ const UserDashboard = () => {
     const branch = audit.questionnaire.questions.branches[selectedBranch];
     const currentBlock = branch.blocks[currentBlockIndex];
     
-    // Filter out illogical questions from 'used' branch for validation
-    const questionsToValidate = selectedBranch === 'used' 
-      ? currentBlock.questions.filter((q: any) => 
-          q.id !== 'u_trust_likelihood' && q.id !== 'u_trust_barriers'
-        )
-      : currentBlock.questions;
-    
-    if (!validateCurrentQuestions(questionsToValidate)) {
+    if (!validateCurrentQuestions(currentBlock.questions)) {
       toast.error('Kérjük válaszolj minden kötelező kérdésre!');
       return;
     }
@@ -433,17 +426,10 @@ const UserDashboard = () => {
     const currentBlock = branch.blocks[currentBlockIndex];
     const isLastBlock = currentBlockIndex === branch.blocks.length - 1;
     
-    // Filter out illogical questions from 'used' branch
-    const questionsToDisplay = selectedBranch === 'used' 
-      ? currentBlock.questions.filter((q: any) => 
-          q.id !== 'u_trust_likelihood' && q.id !== 'u_trust_barriers'
-        )
-      : currentBlock.questions;
-    
     return (
       <div className="space-y-6">
         
-        {questionsToDisplay.map((q: any) => (
+        {currentBlock.questions.map((q: any) => (
           <QuestionRenderer
             key={q.id}
             question={q}
