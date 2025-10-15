@@ -753,7 +753,7 @@ const UserDashboard = () => {
             borderColor: primaryColor,
           }}
         >
-          {submitting ? 'Küldés...' : email ? 'Rendben, küldd el!' : 'Kihagyom'}
+          {submitting ? 'Küldés...' : 'Tovább'}
         </Button>
       </div>
     </div>
