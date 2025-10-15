@@ -80,8 +80,20 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
 
   // Csak használók
   const usedResponses = responses.filter(r => r.employee_metadata?.branch === 'used');
+  const notUsedResponses = responses.filter(r => r.employee_metadata?.branch === 'not_used');
   const totalCount = responses.length;
   const usageRate = totalCount > 0 ? ((usedResponses.length / totalCount) * 100).toFixed(1) : '0.0';
+
+  // Nem használók - jövőbeni használati szándék
+  const wouldUseYes = notUsedResponses.filter(r => r.responses?.nu_usage_would_use === 'yes' || r.responses?.nu_usage_would_use === 'Igen').length;
+  const wouldUseNo = notUsedResponses.filter(r => r.responses?.nu_usage_would_use === 'no' || r.responses?.nu_usage_would_use === 'Nem').length;
+  const wouldUseTotal = wouldUseYes + wouldUseNo;
+  const wouldUseRate = wouldUseTotal > 0 ? ((wouldUseYes / wouldUseTotal) * 100).toFixed(1) : '0.0';
+
+  const planToUseYes = notUsedResponses.filter(r => r.responses?.nu_usage_plan_to_use === 'yes' || r.responses?.nu_usage_plan_to_use === 'Igen').length;
+  const planToUseNo = notUsedResponses.filter(r => r.responses?.nu_usage_plan_to_use === 'no' || r.responses?.nu_usage_plan_to_use === 'Nem').length;
+  const planToUseTotal = planToUseYes + planToUseNo;
+  const planToUseRate = planToUseTotal > 0 ? ((planToUseYes / planToUseTotal) * 100).toFixed(1) : '0.0';
 
   // Használat gyakorisága
   const frequencyData: { [key: string]: number } = {};
@@ -757,6 +769,81 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
         </CardContent>
       </Card>
 
+      {/* Nem használók - Jövőbeni használati szándék */}
+      {notUsedResponses.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Használná a jövőben */}
+          <Card id="would-use-future-card">
+            <CardHeader className="relative">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute right-2 top-2 h-8 w-8"
+                onClick={() => exportCardToPNG('would-use-future-card', 'jovo-hasznalat')}
+              >
+                <Download className="h-4 w-4" />
+              </Button>
+              <CardTitle className="text-lg">Jövőbeni Használati Szándék</CardTitle>
+              <CardDescription>Használnád a programot, ha szükséged lenne rá?</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <GaugeChart 
+                value={parseFloat(wouldUseRate)} 
+                maxValue={100}
+                size={240}
+                label={`${wouldUseRate}%`}
+                sublabel={`${wouldUseYes} / ${wouldUseTotal} fő mondta, hogy igen`}
+                cornerRadius={30}
+              />
+              <div className="bg-muted/30 p-3 rounded-md mt-4">
+                <p className="text-xs text-muted-foreground">
+                  {parseFloat(wouldUseRate) >= 70 
+                    ? '✓ Magas a jövőbeni használati hajlandóság' 
+                    : parseFloat(wouldUseRate) >= 40
+                    ? '→ Közepes a nyitottság a program jövőbeni használatára'
+                    : 'ℹ Alacsony a jövőbeni használati szándék - érdemes a bizalomépítésre és kommunikációra fókuszálni'}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Tervezi közeljövőben */}
+          <Card id="plan-to-use-card">
+            <CardHeader className="relative">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute right-2 top-2 h-8 w-8"
+                onClick={() => exportCardToPNG('plan-to-use-card', 'kozeljovo-tervezes')}
+              >
+                <Download className="h-4 w-4" />
+              </Button>
+              <CardTitle className="text-lg">Közeljövőbeni Tervek</CardTitle>
+              <CardDescription>Tervezed igénybe venni a közeljövőben?</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <GaugeChart 
+                value={parseFloat(planToUseRate)} 
+                maxValue={100}
+                size={240}
+                label={`${planToUseRate}%`}
+                sublabel={`${planToUseYes} / ${planToUseTotal} fő tervezi`}
+                cornerRadius={30}
+              />
+              <div className="bg-muted/30 p-3 rounded-md mt-4">
+                <p className="text-xs text-muted-foreground">
+                  {parseFloat(planToUseRate) >= 30 
+                    ? '✓ Sokan konkrétan tervezik a program igénybevételét' 
+                    : parseFloat(planToUseRate) >= 10
+                    ? '→ Néhányan aktívan fontolgatják a használatot'
+                    : 'ℹ Kevesen tervezik konkrétan - érdemes a program előnyeit jobban kommunikálni'}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {/* Statisztikai összefoglaló */}
       <Card>
         <CardHeader>
@@ -773,8 +860,8 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
               <p className="text-2xl font-bold">{usedResponses.length} ({usageRate}%)</p>
             </div>
             <div className="p-4 bg-muted/50 rounded-lg">
-              <p className="text-sm text-muted-foreground">Témakörök száma</p>
-              <p className="text-2xl font-bold">{topicChartData.length}</p>
+              <p className="text-sm text-muted-foreground">Nem használók száma</p>
+              <p className="text-2xl font-bold">{notUsedResponses.length}</p>
             </div>
             <div className="p-4 bg-muted/50 rounded-lg">
               <p className="text-sm text-muted-foreground">Családi használat</p>
