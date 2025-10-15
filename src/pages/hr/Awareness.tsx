@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from "react-router-dom";
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,6 +11,7 @@ import { GaugeChart } from '@/components/ui/gauge-chart';
 import { Progress } from '@/components/ui/progress';
 import { formatAuditName } from '@/lib/auditUtils';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { ReportNavigation } from '@/components/navigation/ReportNavigation';
 
 interface AwarenessProps {
   selectedAuditId: string;
@@ -26,7 +28,10 @@ interface AwarenessProps {
 }
 
 const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) => {
+  const [searchParams] = useSearchParams();
+  const activeTab = searchParams.get("sub") || "awareness";
   const [responses, setResponses] = useState<any[]>([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -209,7 +214,10 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
       <div className="space-y-4 mb-6">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
           <div className="flex-1">
-            <h2 className="text-2xl font-bold mb-2">Ismertség Részletes Elemzése</h2>
+            <div className="flex items-center gap-4 mb-2">
+              <h2 className="text-2xl font-bold">Ismertség Részletes Elemzése</h2>
+              <ReportNavigation currentTab={activeTab} />
+            </div>
             <p className="text-muted-foreground text-sm">
               Az EAP program ismeretének, megértésének és kommunikációjának átfogó kiértékelése
             </p>

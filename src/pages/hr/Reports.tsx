@@ -11,6 +11,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, RadarChart, Radar, P
 import { formatAuditName } from "@/lib/auditUtils";
 import { GaugeChart } from "@/components/ui/gauge-chart";
 import { exportAllChartsToPPT } from "@/lib/pptExportUtils";
+import { ReportNavigation } from "@/components/navigation/ReportNavigation";
 import Awareness from "./Awareness";
 import TrustWillingness from "./TrustWillingness";
 import Usage from "./Usage";
@@ -324,7 +325,10 @@ const Reports = () => {
           <div className="space-y-4 mb-6">
             <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
               <div className="flex-1">
-                <h2 className="text-2xl font-bold mb-2">Összefoglaló Riport</h2>
+                <div className="flex items-center gap-4 mb-2">
+                  <h2 className="text-2xl font-bold">Összefoglaló Riport</h2>
+                  <ReportNavigation currentTab={activeTab} />
+                </div>
                 <p className="text-muted-foreground">
                   A program átfogó mutatói: igénybevétel, elégedettség és részvétel
                 </p>
