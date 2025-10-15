@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { toast } from 'sonner';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
@@ -27,6 +28,9 @@ interface CategoryTrend {
 
 const Trends = () => {
   const [audits, setAudits] = useState<Audit[]>([]);
+  const [showAllAudits, setShowAllAudits] = useState(true);
+  const [firstAuditId, setFirstAuditId] = useState<string>('');
+  const [secondAuditId, setSecondAuditId] = useState<string>('');
   const [selectedAuditIds, setSelectedAuditIds] = useState<string[]>([]);
   const [trendData, setTrendData] = useState<TrendData[]>([]);
   const [categoryTrend, setCategoryTrend] = useState<CategoryTrend[]>([]);
@@ -35,6 +39,15 @@ const Trends = () => {
   useEffect(() => {
     fetchAudits();
   }, []);
+
+  useEffect(() => {
+    if (showAllAudits) {
+      setSelectedAuditIds(audits.map(a => a.id));
+    } else {
+      const ids = [firstAuditId, secondAuditId].filter(Boolean);
+      setSelectedAuditIds(ids);
+    }
+  }, [showAllAudits, firstAuditId, secondAuditId, audits]);
 
   useEffect(() => {
     if (selectedAuditIds.length > 0) {
@@ -52,8 +65,11 @@ const Trends = () => {
 
       if (data && data.length > 0) {
         setAudits(data);
-        // Select all audits by default
         setSelectedAuditIds(data.map(a => a.id));
+        if (data.length >= 2) {
+          setFirstAuditId(data[0].id);
+          setSecondAuditId(data[1].id);
+        }
       }
     } catch (error) {
       console.error('Error fetching audits:', error);
@@ -63,13 +79,6 @@ const Trends = () => {
     }
   };
 
-  const toggleAudit = (auditId: string) => {
-    setSelectedAuditIds(prev => 
-      prev.includes(auditId) 
-        ? prev.filter(id => id !== auditId)
-        : [...prev, auditId]
-    );
-  };
 
   const calculateAverage = (values: number[]): number => {
     if (values.length === 0) return 0;
@@ -198,23 +207,62 @@ const Trends = () => {
               <CardTitle>Felmérések kiválasztása</CardTitle>
               <CardDescription>Válaszd ki, mely felmérések adatait szeretnéd összehasonlítani</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {audits.map(audit => (
-                  <div key={audit.id} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={audit.id}
-                      checked={selectedAuditIds.includes(audit.id)}
-                      onCheckedChange={() => toggleAudit(audit.id)}
-                    />
-                    <Label 
-                      htmlFor={audit.id}
-                      className="text-sm font-normal cursor-pointer"
-                    >
-                      {formatAuditName(audit)}
-                    </Label>
-                  </div>
-                ))}
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="show-all" className="text-sm font-medium">
+                  Összes felmérés kiválasztása
+                </Label>
+                <Switch
+                  id="show-all"
+                  checked={showAllAudits}
+                  onCheckedChange={setShowAllAudits}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="first-audit" className={showAllAudits ? "text-muted-foreground" : ""}>
+                    Első felmérés
+                  </Label>
+                  <Select
+                    value={firstAuditId}
+                    onValueChange={setFirstAuditId}
+                    disabled={showAllAudits}
+                  >
+                    <SelectTrigger id="first-audit" className={showAllAudits ? "opacity-50" : ""}>
+                      <SelectValue placeholder="Válassz felmérést" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {audits.map(audit => (
+                        <SelectItem key={audit.id} value={audit.id}>
+                          {formatAuditName(audit)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="second-audit" className={showAllAudits ? "text-muted-foreground" : ""}>
+                    Második felmérés
+                  </Label>
+                  <Select
+                    value={secondAuditId}
+                    onValueChange={setSecondAuditId}
+                    disabled={showAllAudits}
+                  >
+                    <SelectTrigger id="second-audit" className={showAllAudits ? "opacity-50" : ""}>
+                      <SelectValue placeholder="Válassz felmérést" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {audits.map(audit => (
+                        <SelectItem key={audit.id} value={audit.id}>
+                          {formatAuditName(audit)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </CardContent>
           </Card>
