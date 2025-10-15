@@ -5,10 +5,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { Download, Eye, Info, TrendingUp, Users } from 'lucide-react';
+import { Download, Eye, Info, TrendingUp, Users, AlertTriangle } from 'lucide-react';
 import { GaugeChart } from '@/components/ui/gauge-chart';
 import { Progress } from '@/components/ui/progress';
 import { formatAuditName } from '@/lib/auditUtils';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 interface AwarenessProps {
   selectedAuditId: string;
@@ -234,6 +235,20 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
           </div>
         )}
       </div>
+
+      {/* Figyelmeztetés, ha 50%-nál több nem ismerte a programot */}
+      {parseFloat(redirectRate) > 50 && (
+        <Alert variant="destructive" className="border-red-600">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertTitle>Magas tájékozatlanság észlelve</AlertTitle>
+          <AlertDescription>
+            A válaszadók {redirectRate}%-a ({redirectResponses.length} fő) nem tudott az EAP programról. 
+            Ez arra utal, hogy a belső kommunikáció jelentős fejlesztésre szorul. 
+            Javasolt intézkedések: több kommunikációs csatorna használata, gyakoribb emlékeztetők, 
+            vezetői támogatás erősítése.
+          </AlertDescription>
+        </Alert>
+      )}
 
       {/* 1. sor: Fő ismertségi mutatók */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
