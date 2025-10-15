@@ -247,9 +247,9 @@ const Trends = () => {
                       <YAxis />
                       <Tooltip />
                       <Legend />
-                      <Bar dataKey="notKnew" name="Nem ismerte" fill="hsl(var(--destructive))" />
-                      <Bar dataKey="notUsed" name="Ismerte, de nem használta" fill="hsl(var(--warning))" />
-                      <Bar dataKey="used" name="Használta" fill="hsl(var(--success))" />
+                      <Bar dataKey="notKnew" name="Nem ismerte" fill="#050c9c" />
+                      <Bar dataKey="notUsed" name="Ismerte, de nem használta" fill="#3572ef" />
+                      <Bar dataKey="used" name="Használta" fill="#3abef9" />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
