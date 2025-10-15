@@ -88,8 +88,8 @@ const Trends = () => {
 
   const fetchTrendData = async (auditIds: string[]) => {
     try {
-      const trends: TrendData[] = [];
-      const catTrends: CategoryTrend[] = [];
+      const trendsWithDate: Array<TrendData & { sortDate: Date }> = [];
+      const catTrendsWithDate: Array<CategoryTrend & { sortDate: Date }> = [];
 
       for (const auditId of auditIds) {
         const audit = audits.find(a => a.id === auditId);
@@ -103,7 +103,8 @@ const Trends = () => {
         if (error) throw error;
         if (!data || data.length === 0) continue;
 
-        const date = new Date(audit.start_date).toLocaleDateString('hu-HU', { 
+        const sortDate = new Date(audit.start_date);
+        const displayDate = sortDate.toLocaleDateString('hu-HU', { 
           year: 'numeric', 
           month: 'short',
           day: 'numeric'
@@ -119,8 +120,9 @@ const Trends = () => {
         });
 
         const total = data.length;
-        catTrends.push({
-          date,
+        catTrendsWithDate.push({
+          date: displayDate,
+          sortDate,
           notKnew: total > 0 ? Number(((notKnew / total) * 100).toFixed(1)) : 0,
           notUsed: total > 0 ? Number(((notUsed / total) * 100).toFixed(1)) : 0,
           used: total > 0 ? Number(((used / total) * 100).toFixed(1)) : 0,
@@ -133,13 +135,13 @@ const Trends = () => {
         const awarenessValues = [
           ...usedResponses.map(r => r.responses?.u_awareness_understanding),
           ...notUsedResponses.map(r => r.responses?.nu_awareness_understanding)
-        ].filter(v => v !== undefined && v !== null) as number[];
+        ].filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
         // Trust (anonymity)
         const trustValues = [
           ...usedResponses.map(r => r.responses?.u_trust_anonymity),
           ...notUsedResponses.map(r => r.responses?.nu_trust_anonymity)
-        ].filter(v => v !== undefined && v !== null) as number[];
+        ].filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
         // Usage rate
         const usageRate = total > 0 ? (used / total) * 100 : 0;
@@ -147,10 +149,11 @@ const Trends = () => {
         // Impact (satisfaction)
         const impactValues = usedResponses
           .map(r => r.responses?.u_impact_satisfaction)
-          .filter(v => v !== undefined && v !== null) as number[];
+          .filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
-        trends.push({
-          date,
+        trendsWithDate.push({
+          date: displayDate,
+          sortDate,
           awareness: awarenessValues.length > 0 ? Number(calculateAverage(awarenessValues).toFixed(2)) : 0,
           trust: trustValues.length > 0 ? Number(calculateAverage(trustValues).toFixed(2)) : 0,
           usage: Number(usageRate.toFixed(1)),
@@ -158,18 +161,14 @@ const Trends = () => {
         });
       }
 
-      // Sort by date
-      const sortedTrends = trends.sort((a, b) => {
-        const dateA = new Date(a.date.split('. ').reverse().join('-'));
-        const dateB = new Date(b.date.split('. ').reverse().join('-'));
-        return dateA.getTime() - dateB.getTime();
-      });
+      // Sort by actual date
+      const sortedTrends = trendsWithDate
+        .sort((a, b) => a.sortDate.getTime() - b.sortDate.getTime())
+        .map(({ sortDate, ...rest }) => rest);
 
-      const sortedCatTrends = catTrends.sort((a, b) => {
-        const dateA = new Date(a.date.split('. ').reverse().join('-'));
-        const dateB = new Date(b.date.split('. ').reverse().join('-'));
-        return dateA.getTime() - dateB.getTime();
-      });
+      const sortedCatTrends = catTrendsWithDate
+        .sort((a, b) => a.sortDate.getTime() - b.sortDate.getTime())
+        .map(({ sortDate, ...rest }) => rest);
 
       setTrendData(sortedTrends);
       setCategoryTrend(sortedCatTrends);
