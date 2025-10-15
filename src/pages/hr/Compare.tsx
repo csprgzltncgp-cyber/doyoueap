@@ -101,11 +101,10 @@ const Compare = () => {
         .map(r => r.responses?.u_impact_satisfaction)
         .filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
-      // NPS data for first audit
-      const nps1 = [
-        ...used1.map(r => r.responses?.u_motivation_recommend),
-        ...notUsed1.map(r => r.responses?.nu_motivation_recommend)
-      ].filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
+      // NPS data for first audit (only from users who used the service)
+      const nps1 = used1
+        .map(r => r.responses?.u_impact_nps)
+        .filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
       // Calculate metrics for second audit
       const used2 = responses2.filter(r => r.employee_metadata?.branch === 'used');
@@ -128,11 +127,10 @@ const Compare = () => {
         .map(r => r.responses?.u_impact_satisfaction)
         .filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
-      // NPS data for second audit
-      const nps2 = [
-        ...used2.map(r => r.responses?.u_motivation_recommend),
-        ...notUsed2.map(r => r.responses?.nu_motivation_recommend)
-      ].filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
+      // NPS data for second audit (only from users who used the service)
+      const nps2 = used2
+        .map(r => r.responses?.u_impact_nps)
+        .filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
       // Set comparison data
       setComparisonData([
