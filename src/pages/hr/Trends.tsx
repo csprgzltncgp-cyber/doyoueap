@@ -172,6 +172,13 @@ const Trends = () => {
 
       setTrendData(sortedTrends);
       setCategoryTrend(sortedCatTrends);
+      
+      console.log('Trend data loaded:', {
+        count: sortedTrends.length,
+        data: sortedTrends,
+        lastItem: sortedTrends[sortedTrends.length - 1],
+        secondLastItem: sortedTrends[sortedTrends.length - 2]
+      });
     } catch (error) {
       console.error('Error fetching trend data:', error);
       toast.error('Hiba történt az adatok betöltésekor');
