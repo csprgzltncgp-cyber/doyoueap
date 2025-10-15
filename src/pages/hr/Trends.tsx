@@ -556,7 +556,7 @@ const Trends = () => {
                         type="monotone" 
                         dataKey="usage" 
                         name="Használati arány" 
-                        stroke="#050c9c" 
+                        stroke="#3572ef" 
                         strokeWidth={2}
                       />
                     </LineChart>
