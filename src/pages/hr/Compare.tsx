@@ -174,7 +174,7 @@ const Compare = () => {
 
   const getTrendIcon = (current: number, previous: number) => {
     const diff = current - previous;
-    if (diff > 0.5) return <TrendingUp className="h-8 w-8 text-green-600" />;
+    if (diff > 0.5) return <TrendingUp className="h-8 w-8" style={{ color: '#050c9c' }} />;
     if (diff < -0.5) return <TrendingDown className="h-8 w-8 text-red-600" />;
     return <Minus className="h-8 w-8" style={{ color: '#050c9c' }} />;
   };
