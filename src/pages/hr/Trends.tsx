@@ -439,9 +439,9 @@ const Trends = () => {
                       <YAxis />
                       <Tooltip />
                       <Legend />
-                      <Bar dataKey="notKnew" name="Nem ismerte" fill="#050c9c" />
-                      <Bar dataKey="notUsed" name="Ismerte, de nem használta" fill="#3572ef" />
-                      <Bar dataKey="used" name="Használta" fill="#3abef9" />
+                      <Bar dataKey="notKnew" name="Nem ismerte" fill="#050c9c" radius={[8, 8, 0, 0]} />
+                      <Bar dataKey="notUsed" name="Ismerte, de nem használta" fill="#3572ef" radius={[8, 8, 0, 0]} />
+                      <Bar dataKey="used" name="Használta" fill="#3abef9" radius={[8, 8, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
