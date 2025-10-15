@@ -464,6 +464,23 @@ const Trends = () => {
                   <CardDescription>Ismertség, bizalom, használat és elégedettség változása</CardDescription>
                 </CardHeader>
                 <CardContent>
+                  {(() => {
+                    if (validTrends.length < 2) return null;
+                    const lastTrend = validTrends[validTrends.length - 1];
+                    const secondLastTrend = validTrends[validTrends.length - 2];
+                    
+                    return (
+                      <div className="mb-6 p-4 bg-muted/50 rounded-lg space-y-2">
+                        <p className="text-sm font-medium">Trend összefoglaló:</p>
+                        <ul className="text-sm text-muted-foreground space-y-1">
+                          <li>• {getTrendDescription(lastTrend.awareness, secondLastTrend.awareness, "Az ismertség")}</li>
+                          <li>• {getTrendDescription(lastTrend.trust, secondLastTrend.trust, "A bizalom")}</li>
+                          <li>• {getTrendDescription(lastTrend.usage, secondLastTrend.usage, "A használat")}</li>
+                          <li>• {getTrendDescription(lastTrend.impact, secondLastTrend.impact, "Az elégedettség")}</li>
+                        </ul>
+                      </div>
+                    );
+                  })()}
                   <ResponsiveContainer width="100%" height={400}>
                     <LineChart data={validTrends}>
                       <CartesianGrid strokeDasharray="3 3" />
