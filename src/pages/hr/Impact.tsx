@@ -500,8 +500,8 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
               <Radar
                 name="Impact"
                 dataKey="average"
-                stroke={avgImpact < 2.5 ? '#ff0033' : '#3366ff'}
-                fill={avgImpact < 2.5 ? '#ff0033' : '#3366ff'}
+                stroke={(npsData.npsScore < 0 || avgImpact < 2.5) ? '#ff0033' : '#3366ff'}
+                fill={(npsData.npsScore < 0 || avgImpact < 2.5) ? '#ff0033' : '#3366ff'}
                 fillOpacity={0.6}
               />
               <Tooltip />
