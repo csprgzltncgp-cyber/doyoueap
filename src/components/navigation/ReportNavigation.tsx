@@ -14,7 +14,6 @@ const REPORT_TABS = [
   { value: "impact", label: "Hatás" },
   { value: "motivation", label: "Motiváció" },
   { value: "demographics", label: "Demográfia" },
-  { value: "categories", label: "Kategóriák" },
   { value: "trends", label: "Trendek" },
   { value: "compare", label: "Összehasonlítás" },
   { value: "methodology", label: "Módszertan" },
