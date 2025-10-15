@@ -192,11 +192,11 @@ const Compare = () => {
       // Demographic comparison
       const demographicComparison: any[] = [];
       
-      // Age groups
-      const ageGroups = ['18-25', '26-35', '36-45', '46-55', '56+'];
+      // Age groups - using actual format from responses
+      const ageGroups = ['18-24', '25-36', '37-44', '45-58', '58+'];
       ageGroups.forEach(ageGroup => {
-        const count1 = responses1.filter(r => r.employee_metadata?.age === ageGroup).length;
-        const count2 = responses2.filter(r => r.employee_metadata?.age === ageGroup).length;
+        const count1 = responses1.filter(r => r.responses?.age === ageGroup).length;
+        const count2 = responses2.filter(r => r.responses?.age === ageGroup).length;
         demographicComparison.push({
           category: ageGroup,
           type: 'Életkor',
@@ -205,15 +205,15 @@ const Compare = () => {
         });
       });
 
-      // Gender
+      // Gender - using actual format from responses
       const genders = [
-        { value: 'male', label: 'Férfi' },
-        { value: 'female', label: 'Nő' },
-        { value: 'other', label: 'Egyéb' }
+        { value: 'Férfi', label: 'Férfi' },
+        { value: 'Nő', label: 'Nő' },
+        { value: 'Egyéb', label: 'Egyéb' }
       ];
       genders.forEach(gender => {
-        const count1 = responses1.filter(r => r.employee_metadata?.gender === gender.value).length;
-        const count2 = responses2.filter(r => r.employee_metadata?.gender === gender.value).length;
+        const count1 = responses1.filter(r => r.responses?.gender === gender.value).length;
+        const count2 = responses2.filter(r => r.responses?.gender === gender.value).length;
         demographicComparison.push({
           category: gender.label,
           type: 'Nem',
