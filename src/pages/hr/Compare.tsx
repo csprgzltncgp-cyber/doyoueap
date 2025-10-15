@@ -348,7 +348,7 @@ const Compare = () => {
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
-                      <BarChart data={categoryData}>
+                      <BarChart data={categoryData} barSize={60}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="category" />
                         <YAxis />
@@ -370,7 +370,7 @@ const Compare = () => {
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={250}>
-                    <BarChart data={comparisonData.filter(d => d.metric === 'Használat (%)')}>
+                    <BarChart data={comparisonData.filter(d => d.metric === 'Használat (%)')} barSize={60}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="metric" />
                       <YAxis />
@@ -391,7 +391,7 @@ const Compare = () => {
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={350}>
-                    <BarChart data={comparisonData.filter(d => d.metric !== 'Használat (%)')}>
+                    <BarChart data={comparisonData.filter(d => d.metric !== 'Használat (%)')} barSize={60}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="metric" />
                       <YAxis />
