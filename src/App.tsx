@@ -20,6 +20,7 @@ import NotFound from "./pages/NotFound";
 import UnsubscribeSuccess from "./pages/UnsubscribeSuccess";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MetricsTest from "./pages/hr/MetricsTest";
+import ComparisonTest from "./pages/hr/ComparisonTest";
 
 const queryClient = new QueryClient();
 
@@ -62,6 +63,14 @@ const App = () => (
             element={
               <ProtectedRoute allowedRoles={['hr']}>
                 <MetricsTest />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/hr/comparison-test" 
+            element={
+              <ProtectedRoute allowedRoles={['hr']}>
+                <ComparisonTest />
               </ProtectedRoute>
             } 
           />
