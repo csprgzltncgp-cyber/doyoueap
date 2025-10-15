@@ -706,7 +706,7 @@ const Reports = () => {
       case "demographics":
         return <Demographics selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
       case "trends":
-        return <Trends selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
+        return <Trends />;
       case "compare":
         return <Compare />;
       case "methodology":
