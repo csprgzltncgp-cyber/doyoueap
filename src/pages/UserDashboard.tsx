@@ -426,10 +426,17 @@ const UserDashboard = () => {
     const currentBlock = branch.blocks[currentBlockIndex];
     const isLastBlock = currentBlockIndex === branch.blocks.length - 1;
     
+    // Filter out illogical questions from 'used' branch
+    const questionsToDisplay = selectedBranch === 'used' 
+      ? currentBlock.questions.filter((q: any) => 
+          q.id !== 'u_trust_likelihood' && q.id !== 'u_trust_barriers'
+        )
+      : currentBlock.questions;
+    
     return (
       <div className="space-y-6">
         
-        {currentBlock.questions.map((q: any) => (
+        {questionsToDisplay.map((q: any) => (
           <QuestionRenderer
             key={q.id}
             question={q}
