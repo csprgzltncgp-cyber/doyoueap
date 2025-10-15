@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface ReportNavigationProps {
   currentTab: string;
@@ -22,13 +22,16 @@ const REPORT_TABS = [
 
 export const ReportNavigation = ({ currentTab }: ReportNavigationProps) => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   
   const currentIndex = REPORT_TABS.findIndex(tab => tab.value === currentTab);
   const previousTab = currentIndex > 0 ? REPORT_TABS[currentIndex - 1] : null;
   const nextTab = currentIndex < REPORT_TABS.length - 1 ? REPORT_TABS[currentIndex + 1] : null;
 
   const handleNavigate = (tabValue: string) => {
-    navigate(`/hr/reports?section=reports&sub=${tabValue}`);
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('sub', tabValue);
+    navigate(`?${newParams.toString()}`);
   };
 
   return (
