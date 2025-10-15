@@ -459,7 +459,7 @@ const Demographics = ({ selectedAuditId, audits, onAuditChange }: DemographicsPr
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={awarenessComparison}>
+                <BarChart data={awarenessComparison} barSize={60}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="category" />
                   <YAxis domain={[0, 5]} />

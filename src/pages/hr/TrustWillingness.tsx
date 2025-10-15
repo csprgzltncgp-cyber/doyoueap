@@ -607,7 +607,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
           <CardContent>
             <div className="h-[350px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={barriersChartData} layout="vertical">
+                <BarChart data={barriersChartData} layout="vertical" barSize={60}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis type="number" />
                   <YAxis dataKey="name" type="category" width={150} />
