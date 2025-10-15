@@ -349,38 +349,6 @@ const Trends = () => {
                 );
               })()}
 
-              {/* Category Distribution Trend */}
-              {(() => {
-                const validCatTrends = categoryTrend.filter(t => 
-                  t.notKnew > 0 || t.notUsed > 0 || t.used > 0
-                );
-                
-                if (validCatTrends.length === 0) return null;
-                
-                return (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Kategória megoszlás időbeli alakulása</CardTitle>
-                  <CardDescription>Az EAP program ismerete és használata (%)</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={validCatTrends}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="date" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Bar dataKey="notKnew" name="Nem ismerte" fill="#050c9c" radius={[8, 8, 0, 0]} />
-                      <Bar dataKey="notUsed" name="Ismerte, de nem használta" fill="#3572ef" radius={[8, 8, 0, 0]} />
-                      <Bar dataKey="used" name="Használta" fill="#3abef9" radius={[8, 8, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </CardContent>
-              </Card>
-                );
-              })()}
-
               {/* Main Metrics Trends */}
               {(() => {
                 const validTrends = trendData.filter(t => 
