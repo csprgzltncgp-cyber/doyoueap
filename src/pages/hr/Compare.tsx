@@ -99,6 +99,11 @@ const Compare = () => {
         .map(r => r.responses?.u_impact_satisfaction)
         .filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
+      const nps1 = [
+        ...used1.map(r => r.responses?.u_motivation_recommend),
+        ...notUsed1.map(r => r.responses?.nu_motivation_recommend)
+      ].filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
+
       // Calculate metrics for second audit
       const used2 = responses2.filter(r => r.employee_metadata?.branch === 'used');
       const notUsed2 = responses2.filter(r => r.employee_metadata?.branch === 'not_used');
@@ -119,6 +124,11 @@ const Compare = () => {
       const impact2 = used2
         .map(r => r.responses?.u_impact_satisfaction)
         .filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
+
+      const nps2 = [
+        ...used2.map(r => r.responses?.u_motivation_recommend),
+        ...notUsed2.map(r => r.responses?.nu_motivation_recommend)
+      ].filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
       // Set comparison data
       setComparisonData([
@@ -141,6 +151,11 @@ const Compare = () => {
           metric: 'Elégedettség',
           first: Number(calculateAverage(impact1).toFixed(2)),
           second: Number(calculateAverage(impact2).toFixed(2))
+        },
+        {
+          metric: 'Ajánlási hajlandóság',
+          first: Number(calculateAverage(nps1).toFixed(2)),
+          second: Number(calculateAverage(nps2).toFixed(2))
         }
       ]);
 
@@ -362,15 +377,36 @@ const Compare = () => {
                 </Card>
               )}
 
+              {/* Usage Comparison */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Használati arány összehasonlítása</CardTitle>
+                  <CardDescription>Hány százalék használta már az EAP programot</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <BarChart data={comparisonData.filter(d => d.metric === 'Használat (%)')}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="metric" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="first" name={firstAudit ? formatAuditName(firstAudit) : 'Első'} fill="#3572ef" radius={[8, 8, 0, 0]} />
+                      <Bar dataKey="second" name={secondAudit ? formatAuditName(secondAudit) : 'Második'} fill="#3abef9" radius={[8, 8, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+
               {/* Main Metrics Comparison */}
               <Card>
                 <CardHeader>
                   <CardTitle>Részletes összehasonlítás</CardTitle>
-                  <CardDescription>Fő mutatók értékeinek összehasonlítása</CardDescription>
+                  <CardDescription>Fő mutatók értékeinek összehasonlítása (1-5 skála)</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={350}>
-                    <BarChart data={comparisonData}>
+                    <BarChart data={comparisonData.filter(d => d.metric !== 'Használat (%)')}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="metric" />
                       <YAxis />
