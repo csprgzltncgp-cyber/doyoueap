@@ -10,6 +10,7 @@ import html2canvas from 'html2canvas';
 import { Button } from '@/components/ui/button';
 import { Download, AlertTriangle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { ReportNavigation } from '@/components/navigation/ReportNavigation';
 
 // NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface Audit {
@@ -245,7 +246,10 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
       <div className="space-y-4 mb-6">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
           <div className="flex-1">
-            <h2 className="text-2xl font-bold mb-2">Hatás Riport</h2>
+            <div className="flex items-center gap-4 mb-2">
+              <h2 className="text-2xl font-bold">Hatás Riport</h2>
+              <ReportNavigation currentTab="impact" />
+            </div>
             <p className="text-muted-foreground">
               A program használóinak elégedettsége, hatékonysága és ajánlási hajlandósága
             </p>

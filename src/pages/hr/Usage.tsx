@@ -9,6 +9,7 @@ import { Download, Activity, Clock, Users, MessageSquare, Phone } from 'lucide-r
 import { GaugeChart } from '@/components/ui/gauge-chart';
 import { Progress } from '@/components/ui/progress';
 import { formatAuditName } from '@/lib/auditUtils';
+import { ReportNavigation } from '@/components/navigation/ReportNavigation';
 
 interface UsageProps {
   selectedAuditId: string;
@@ -191,7 +192,10 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
       <div className="space-y-4 mb-6">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
           <div className="flex-1">
-            <h2 className="text-2xl font-bold mb-2">Használat Részletes Elemzése</h2>
+            <div className="flex items-center gap-4 mb-2">
+              <h2 className="text-2xl font-bold">Használat Részletes Elemzése</h2>
+              <ReportNavigation currentTab="usage" />
+            </div>
             <p className="text-muted-foreground text-sm">
               Az EAP program használati szokásainak, csatornáinak és témáinak átfogó kiértékelése
             </p>

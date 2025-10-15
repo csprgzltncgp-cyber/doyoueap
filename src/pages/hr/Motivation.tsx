@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { formatAuditName } from '@/lib/auditUtils';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
+import { ReportNavigation } from '@/components/navigation/ReportNavigation';
 
 interface MotivationProps {
   selectedAuditId: string;
@@ -193,7 +194,10 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange }: MotivationProps)
       <div className="space-y-4 mb-6">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
           <div className="flex-1">
-            <h2 className="text-2xl font-bold mb-2">Motiváció Riport</h2>
+            <div className="flex items-center gap-4 mb-2">
+              <h2 className="text-2xl font-bold">Motiváció Riport</h2>
+              <ReportNavigation currentTab="motivation" />
+            </div>
             <p className="text-muted-foreground">
               Mi motiválná a nem használókat a program igénybevételére ({notUsedCount} nem használó válaszadó)
             </p>

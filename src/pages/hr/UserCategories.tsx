@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { toast } from 'sonner';
 import { formatAuditName, StandardAudit, AUDIT_SELECT_FIELDS } from '@/lib/auditUtils';
+import { ReportNavigation } from '@/components/navigation/ReportNavigation';
 
 type Audit = StandardAudit;
 
@@ -122,7 +123,10 @@ const UserCategories = () => {
 
   return (
     <div className="space-y-6 pt-20 md:pt-0">
-      <h2 className="text-2xl font-bold mb-4">Felhasználói Kategóriák</h2>
+      <div className="flex items-center gap-4 mb-4">
+        <h2 className="text-2xl font-bold">Felhasználói Kategóriák</h2>
+        <ReportNavigation currentTab="categories" />
+      </div>
       <div className="text-center py-12 text-muted-foreground">
         Még nincs kiértékelt adat
       </div>

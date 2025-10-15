@@ -9,6 +9,7 @@ import { GaugeChart } from '@/components/ui/gauge-chart';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
+import { ReportNavigation } from '@/components/navigation/ReportNavigation';
 
 // NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface Audit {
@@ -266,7 +267,10 @@ const Demographics = ({ selectedAuditId, audits, onAuditChange }: DemographicsPr
       <div className="space-y-4 mb-6">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
           <div className="flex-1">
-            <h2 className="text-2xl font-bold mb-2">Demográfiai Elemzés</h2>
+            <div className="flex items-center gap-4 mb-2">
+              <h2 className="text-2xl font-bold">Demográfiai Elemzés</h2>
+              <ReportNavigation currentTab="demographics" />
+            </div>
             <p className="text-muted-foreground">
               Válaszadók megoszlása kor, nem és felhasználói kategóriák szerint
             </p>

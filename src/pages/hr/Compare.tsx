@@ -8,6 +8,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { toast } from 'sonner';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { formatAuditName, StandardAudit, AUDIT_SELECT_FIELDS } from '@/lib/auditUtils';
+import { ReportNavigation } from '@/components/navigation/ReportNavigation';
 
 type Audit = StandardAudit;
 
@@ -266,7 +267,10 @@ const Compare = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold mb-2">Összehasonlítás</h2>
+        <div className="flex items-center gap-4 mb-2">
+          <h2 className="text-2xl font-bold">Összehasonlítás</h2>
+          <ReportNavigation currentTab="compare" />
+        </div>
         <p className="text-muted-foreground">Két felmérés összehasonlítása</p>
       </div>
 
