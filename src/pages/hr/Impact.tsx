@@ -502,14 +502,14 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
               <Radar
                 name="Impact"
                 dataKey="average"
-                stroke={(npsData.npsScore < 0 || avgImpact < 2.5) ? '#ff0033' : '#3366ff'}
-                fill={(npsData.npsScore < 0 || avgImpact < 2.5) ? '#ff0033' : '#3366ff'}
+                stroke={avgImpact < 2.5 ? '#ff0033' : '#3366ff'}
+                fill={avgImpact < 2.5 ? '#ff0033' : '#3366ff'}
                 fillOpacity={0.6}
               />
               <Tooltip />
             </RadarChart>
           </ResponsiveContainer>
-          {(npsData.npsScore < 0 || avgImpact < 2.5) && (
+          {avgImpact < 2.5 && (
             <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
               <AlertTriangle className="w-4 h-4" />
               <span>Alacsony hatékonyság</span>
