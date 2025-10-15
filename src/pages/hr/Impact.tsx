@@ -507,6 +507,12 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
               <Tooltip />
             </RadarChart>
           </ResponsiveContainer>
+          {(npsData.npsScore < 0 || avgImpact < 2.5) && (
+            <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
+              <AlertTriangle className="w-4 h-4" />
+              <span>Alacsony hatékonyság</span>
+            </div>
+          )}
         </CardContent>
       </Card>
 
