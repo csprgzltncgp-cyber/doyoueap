@@ -305,7 +305,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
         )}
       </div>
 
-      {/* Figyelmeztetés, ha alacsony a bizalmi index */}
+      {/* Figyelmeztetés az alacsony bizalmi indexhez */}
       {overallTrustIndex < 3 && (
         <Alert className="border-[#ff0033] bg-transparent">
           <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
@@ -315,6 +315,48 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
             Ez azt jelzi, hogy a munkatársak nem bíznak kellőképpen a program anonimitásában és használatában.
             Javasolt intézkedések: fokozott transzparencia, anonimitás garantálásának megerősítése, 
             független szolgáltató kommunikálása, sikertörténetek megosztása.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Figyelmeztetés az alacsony anonimitási bizalomhoz */}
+      {parseFloat(overallAnonymityScore) < 2.5 && (
+        <Alert className="border-[#ff0033] bg-transparent">
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+          <AlertTitle className="text-[#ff0033]">Alacsony anonimitási bizalom észlelve</AlertTitle>
+          <AlertDescription className="text-[#ff0033]">
+            Az anonimitási bizalom {overallAnonymityScore}, ami 2.5 alatt van.
+            A munkavállalók nem bíznak abban, hogy adataik biztonságban vannak.
+            Javasolt: független adatvédelmi tanúsítványok bemutatása, adatkezelési szabályzat átlátható
+            kommunikálása, külső szolgáltató szerepének hangsúlyozása.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Figyelmeztetés a magas munkaadói félelemhez */}
+      {parseFloat(overallEmployerFearScore) > 3.5 && (
+        <Alert className="border-[#ff0033] bg-transparent">
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+          <AlertTitle className="text-[#ff0033]">Magas munkaadói félelem észlelve</AlertTitle>
+          <AlertDescription className="text-[#ff0033]">
+            A munkaadói félelemszint {overallEmployerFearScore}, ami 3.5 felett van.
+            A munkavállalók tartanak attól, hogy a munkaadó megtudja, ha igénybe veszik a programot.
+            Javasolt: vezetői támogatás nyilvános kifejezése, sikeres esetpéldák névtelenül,
+            hangsúlyozni, hogy a HR nem kap egyéni adatokat, csak összesített statisztikákat.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Figyelmeztetés az alacsony használati hajlandósághoz */}
+      {parseFloat(likelihoodScore) < 3.0 && (
+        <Alert className="border-[#ff0033] bg-transparent">
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+          <AlertTitle className="text-[#ff0033]">Alacsony használati hajlandóság észlelve</AlertTitle>
+          <AlertDescription className="text-[#ff0033]">
+            A jövőbeli használati hajlandóság {likelihoodScore}, ami 3.0 alatt van.
+            A korábbi használók nem valószínű, hogy újra igénybe vennék a programot.
+            Javasolt: felhasználói visszajelzések gyűjtése, szolgáltatás minőségének javítása,
+            új szolgáltatások bevezetése, gyorsabb válaszidő biztosítása.
           </AlertDescription>
         </Alert>
       )}
@@ -346,7 +388,14 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
               label={overallAnonymityScore}
               sublabel={`${trustResponses.length} válaszadó`}
               cornerRadius={30}
+              gaugeColor={parseFloat(overallAnonymityScore) < 2.5 ? '#ff0033' : undefined}
             />
+            {parseFloat(overallAnonymityScore) < 2.5 && (
+              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
+                <AlertTriangle className="w-4 h-4" />
+                <span>Alacsony anonimitási bizalom</span>
+              </div>
+            )}
             <p className="text-xs text-muted-foreground text-center mt-4">
               Mennyire bíznak az anonimitás védelmében
             </p>
@@ -415,7 +464,11 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
           <div 
             className="absolute inset-0 transition-all duration-500"
             style={{
-              background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${(parseFloat(overallEmployerFearScore) / 5) * 100}%, transparent ${(parseFloat(overallEmployerFearScore) / 5) * 100}%, transparent 100%)`,
+              background: `linear-gradient(to top, ${
+                parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } 0%, ${
+                parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } ${(parseFloat(overallEmployerFearScore) / 5) * 100}%, transparent ${(parseFloat(overallEmployerFearScore) / 5) * 100}%, transparent 100%)`,
               opacity: 0.1
             }}
           />
@@ -436,15 +489,26 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
           </CardHeader>
           <CardContent className="space-y-4 relative z-10">
             <div className="text-center">
-              <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
+              <div 
+                className="text-6xl font-bold" 
+                style={{ 
+                  color: parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                }}
+              >
                 {overallEmployerFearScore}
               </div>
+              {parseFloat(overallEmployerFearScore) > 3.5 && (
+                <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
+                  <AlertTriangle className="w-4 h-4" />
+                  <span>Magas munkaadói félelem</span>
+                </div>
+              )}
               <p className="text-sm text-muted-foreground mt-2">
                 {parseFloat(overallEmployerFearScore) <= 2 
                   ? '✓ Alacsony félelemszint' 
                   : parseFloat(overallEmployerFearScore) <= 3.5
                   ? '→ Közepes félelemszint'
-                  : '⚠ Magas félelemszint'}
+                  : 'Magas félelemszint - fejlesztést igényel'}
               </p>
             </div>
           </CardContent>
@@ -475,7 +539,14 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
               label={likelihoodScore}
               sublabel={`${usedResponses.length} használó`}
               cornerRadius={30}
+              gaugeColor={parseFloat(likelihoodScore) < 3.0 ? '#ff0033' : undefined}
             />
+            {parseFloat(likelihoodScore) < 3.0 && (
+              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
+                <AlertTriangle className="w-4 h-4" />
+                <span>Alacsony használati hajlandóság</span>
+              </div>
+            )}
             <p className="text-xs text-muted-foreground text-center mt-4">
               Mennyire valószínű, hogy újra igénybe veszik
             </p>

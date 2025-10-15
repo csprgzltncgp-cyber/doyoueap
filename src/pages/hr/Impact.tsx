@@ -298,6 +298,40 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
         </Alert>
       )}
 
+      {/* Egyedi területi figyelmeztetések */}
+      {impactData.map((item) => {
+        if (item.average >= 2.5) return null;
+        
+        let warningText = '';
+        switch(item.metric) {
+          case 'Elégedettség':
+            warningText = `Az általános elégedettség alacsony (${item.average.toFixed(2)}). A használók nem elégedettek a programmal. Javasolt: felhasználói fókuszcsoportok szervezése, visszajelzések részletes elemzése, szolgáltatás testreszabása.`;
+            break;
+          case 'Problémamegoldás':
+            warningText = `A problémamegoldási hatékonyság alacsony (${item.average.toFixed(2)}). A program nem segít elég hatékonyan a problémák kezelésében. Javasolt: tanácsadók képzése, több gyakorlati megoldás, gyorsabb válaszidő.`;
+            break;
+          case 'Wellbeing javulás':
+            warningText = `A wellbeing javulás alacsony (${item.average.toFixed(2)}). A használók nem érzik, hogy javult volna a jóllétük. Javasolt: hosszabb távú támogatás, holisztikus megközelítés, mindfulness és stresszkezelési technikák.`;
+            break;
+          case 'Teljesítmény javulás':
+            warningText = `A teljesítmény javulás alacsony (${item.average.toFixed(2)}). A munkavállalók nem érzik, hogy javult volna a teljesítményük. Javasolt: munkahelyi coaching, produktivitási tanácsadás, időmenedzsment támogatás.`;
+            break;
+          case 'Szolgáltatás konzisztencia':
+            warningText = `A szolgáltatás konzisztenciája alacsony (${item.average.toFixed(2)}). A minőség ingadozik. Javasolt: tanácsadók standardizált képzése, minőségbiztosítás, rendszeres felügyelet.`;
+            break;
+        }
+        
+        return (
+          <Alert key={item.metric} className="border-[#ff0033] bg-transparent">
+            <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+            <AlertTitle className="text-[#ff0033]">Alacsony {item.metric}</AlertTitle>
+            <AlertDescription className="text-[#ff0033]">
+              {warningText}
+            </AlertDescription>
+          </Alert>
+        );
+      })}
+
       {/* Main Metrics */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* NPS Score */}
@@ -451,6 +485,8 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
                   break;
               }
               
+              const isLow = item.average < 2.5;
+              
               return (
                 <div key={item.metric} className="flex flex-col items-center p-4 bg-muted/30 rounded-lg">
                   <GaugeChart
@@ -460,7 +496,14 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
                     size={180}
                     label={item.average.toFixed(2)}
                     sublabel={item.metric}
+                    gaugeColor={isLow ? '#ff0033' : undefined}
                   />
+                  {isLow && (
+                    <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-xs">
+                      <AlertTriangle className="w-3 h-3" />
+                      <span>Alacsony érték</span>
+                    </div>
+                  )}
                   <p className="text-xs text-muted-foreground text-center mt-3">
                     {description}
                   </p>

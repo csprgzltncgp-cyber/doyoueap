@@ -236,7 +236,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
         )}
       </div>
 
-      {/* Figyelmeztetés, ha 50%-nál több nem ismerte a programot */}
+      {/* Figyelmeztetés a tájékozatlansághoz */}
       {parseFloat(redirectRate) > 50 && (
         <Alert className="border-[#ff0033] bg-transparent">
           <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
@@ -246,6 +246,34 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
             Ez arra utal, hogy a belső kommunikáció jelentős fejlesztésre szorul. 
             Javasolt intézkedések: több kommunikációs csatorna használata, gyakoribb emlékeztetők, 
             vezetői támogatás erősítése.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Figyelmeztetés az alacsony megértéshez */}
+      {parseFloat(overallUnderstandingScore) < 2.5 && (
+        <Alert className="border-[#ff0033] bg-transparent">
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+          <AlertTitle className="text-[#ff0033]">Alacsony megértési szint észlelve</AlertTitle>
+          <AlertDescription className="text-[#ff0033]">
+            Az általános megértési szint {overallUnderstandingScore}, ami 2.5 alatt van.
+            A munkavállalók nem értik kellőképpen, hogy mire való az EAP program.
+            Javasolt: egyszerűbb, érthetőbb kommunikáció, példák bemutatása, infografikák használata,
+            személyes tájékoztatók szervezése.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Figyelmeztetés az alacsony tudásszinthez */}
+      {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) < 2.5 && (
+        <Alert className="border-[#ff0033] bg-transparent">
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+          <AlertTitle className="text-[#ff0033]">Alacsony tudásszint észlelve</AlertTitle>
+          <AlertDescription className="text-[#ff0033]">
+            A használók tudásszintje {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length).toFixed(1)}, ami 2.5 alatt van.
+            A használók nem tudják pontosan, hogyan működik a program, hogyan érhetik el, és mit nyújt.
+            Javasolt: részletes útmutatók készítése, FAQ oldal létrehozása, oktatóvideók,
+            onboarding folyamat bevezetése új munkavállalóknak.
           </AlertDescription>
         </Alert>
       )}
@@ -289,7 +317,11 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
           <div 
             className="absolute inset-0 transition-all duration-500"
             style={{
-              background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${(parseFloat(overallUnderstandingScore) / 5) * 100}%, transparent ${(parseFloat(overallUnderstandingScore) / 5) * 100}%, transparent 100%)`,
+              background: `linear-gradient(to top, ${
+                parseFloat(overallUnderstandingScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } 0%, ${
+                parseFloat(overallUnderstandingScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } ${(parseFloat(overallUnderstandingScore) / 5) * 100}%, transparent ${(parseFloat(overallUnderstandingScore) / 5) * 100}%, transparent 100%)`,
               opacity: 0.1
             }}
           />
@@ -310,9 +342,20 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
           </CardHeader>
           <CardContent className="space-y-4 relative z-10">
             <div className="text-center">
-              <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
+              <div 
+                className="text-6xl font-bold" 
+                style={{ 
+                  color: parseFloat(overallUnderstandingScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                }}
+              >
                 {overallUnderstandingScore}
               </div>
+              {parseFloat(overallUnderstandingScore) < 2.5 && (
+                <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
+                  <AlertTriangle className="w-4 h-4" />
+                  <span>Alacsony megértési szint</span>
+                </div>
+              )}
               <p className="text-sm text-muted-foreground mt-2">
                 Mennyire értik a munkavállalók az EAP szolgáltatást
               </p>
@@ -325,7 +368,11 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
           <div 
             className="absolute inset-0 transition-all duration-500"
             style={{
-              background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${((awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) / 5) * 100}%, transparent ${((awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) / 5) * 100}%, transparent 100%)`,
+              background: `linear-gradient(to top, ${
+                (awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } 0%, ${
+                (awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } ${((awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) / 5) * 100}%, transparent ${((awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) / 5) * 100}%, transparent 100%)`,
               opacity: 0.1
             }}
           />
@@ -346,9 +393,20 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
           </CardHeader>
           <CardContent className="space-y-4 relative z-10">
             <div className="text-center">
-              <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
+              <div 
+                className="text-6xl font-bold" 
+                style={{ 
+                  color: (awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                }}
+              >
                 {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length).toFixed(1)}
               </div>
+              {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) < 2.5 && (
+                <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
+                  <AlertTriangle className="w-4 h-4" />
+                  <span>Alacsony tudásszint</span>
+                </div>
+              )}
               <p className="text-sm text-muted-foreground mt-2">
                 {awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length >= 3.5 
                   ? '✓ A használók jól ismerik a szolgáltatást' 
