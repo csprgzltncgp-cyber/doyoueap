@@ -182,11 +182,234 @@ const Trends = () => {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold mb-2">Időbeli Trendek</h2>
-        <p className="text-muted-foreground">Változások és trendek követése</p>
+        <p className="text-muted-foreground">Változások és trendek követése az idő során</p>
       </div>
-      <div className="text-center py-12 text-muted-foreground">
-        Még nincs kiértékelt adat
-      </div>
+
+      {audits.length === 0 ? (
+        <Card>
+          <CardContent className="pt-6">
+            <p className="text-center text-muted-foreground">Még nincs aktív felmérés</p>
+          </CardContent>
+        </Card>
+      ) : (
+        <>
+          <Card>
+            <CardHeader>
+              <CardTitle>Felmérések kiválasztása</CardTitle>
+              <CardDescription>Válaszd ki, mely felmérések adatait szeretnéd összehasonlítani</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {audits.map(audit => (
+                  <div key={audit.id} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={audit.id}
+                      checked={selectedAuditIds.includes(audit.id)}
+                      onCheckedChange={() => toggleAudit(audit.id)}
+                    />
+                    <Label 
+                      htmlFor={audit.id}
+                      className="text-sm font-normal cursor-pointer"
+                    >
+                      {formatAuditName(audit)}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {selectedAuditIds.length === 0 ? (
+            <Card>
+              <CardContent className="pt-6">
+                <p className="text-center text-muted-foreground">Válassz ki legalább egy felmérést</p>
+              </CardContent>
+            </Card>
+          ) : trendData.length === 0 ? (
+            <Card>
+              <CardContent className="pt-6">
+                <p className="text-center text-muted-foreground">A kiválasztott felmérésekhez még nincs válasz</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <>
+              {/* Category Distribution Trend */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Kategória megoszlás időbeli alakulása</CardTitle>
+                  <CardDescription>Az EAP program ismerete és használata (%)</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={categoryTrend}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="notKnew" name="Nem ismerte" fill="hsl(var(--destructive))" />
+                      <Bar dataKey="notUsed" name="Ismerte, de nem használta" fill="hsl(var(--warning))" />
+                      <Bar dataKey="used" name="Használta" fill="hsl(var(--success))" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+
+              {/* Main Metrics Trends */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Fő mutatók alakulása</CardTitle>
+                  <CardDescription>Ismertség, bizalom, használat és elégedettség változása</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={400}>
+                    <LineChart data={trendData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Line 
+                        type="monotone" 
+                        dataKey="awareness" 
+                        name="Ismertség (1-5)" 
+                        stroke="hsl(var(--primary))" 
+                        strokeWidth={2}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="trust" 
+                        name="Bizalom (1-5)" 
+                        stroke="hsl(var(--success))" 
+                        strokeWidth={2}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="usage" 
+                        name="Használati arány (%)" 
+                        stroke="hsl(var(--warning))" 
+                        strokeWidth={2}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="impact" 
+                        name="Elégedettség (1-5)" 
+                        stroke="hsl(var(--chart-5))" 
+                        strokeWidth={2}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+
+              {/* Trend Summary Cards */}
+              {trendData.length > 1 && (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm font-medium">Ismertség</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center justify-between">
+                        <div className="text-2xl font-bold">
+                          {trendData[trendData.length - 1].awareness}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          {getTrendIcon(
+                            trendData[trendData.length - 1].awareness,
+                            trendData[trendData.length - 2].awareness
+                          )}
+                          <span className="text-sm text-muted-foreground">
+                            {getTrendText(
+                              trendData[trendData.length - 1].awareness,
+                              trendData[trendData.length - 2].awareness
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm font-medium">Bizalom</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center justify-between">
+                        <div className="text-2xl font-bold">
+                          {trendData[trendData.length - 1].trust}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          {getTrendIcon(
+                            trendData[trendData.length - 1].trust,
+                            trendData[trendData.length - 2].trust
+                          )}
+                          <span className="text-sm text-muted-foreground">
+                            {getTrendText(
+                              trendData[trendData.length - 1].trust,
+                              trendData[trendData.length - 2].trust
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm font-medium">Használat</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center justify-between">
+                        <div className="text-2xl font-bold">
+                          {trendData[trendData.length - 1].usage}%
+                        </div>
+                        <div className="flex items-center gap-1">
+                          {getTrendIcon(
+                            trendData[trendData.length - 1].usage,
+                            trendData[trendData.length - 2].usage
+                          )}
+                          <span className="text-sm text-muted-foreground">
+                            {getTrendText(
+                              trendData[trendData.length - 1].usage,
+                              trendData[trendData.length - 2].usage
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm font-medium">Elégedettség</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center justify-between">
+                        <div className="text-2xl font-bold">
+                          {trendData[trendData.length - 1].impact}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          {getTrendIcon(
+                            trendData[trendData.length - 1].impact,
+                            trendData[trendData.length - 2].impact
+                          )}
+                          <span className="text-sm text-muted-foreground">
+                            {getTrendText(
+                              trendData[trendData.length - 1].impact,
+                              trendData[trendData.length - 2].impact
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 };
