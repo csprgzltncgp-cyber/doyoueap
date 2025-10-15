@@ -99,11 +99,6 @@ const Compare = () => {
         .map(r => r.responses?.u_impact_satisfaction)
         .filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
-      const nps1 = [
-        ...used1.map(r => r.responses?.u_motivation_recommend),
-        ...notUsed1.map(r => r.responses?.nu_motivation_recommend)
-      ].filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
-
       // Calculate metrics for second audit
       const used2 = responses2.filter(r => r.employee_metadata?.branch === 'used');
       const notUsed2 = responses2.filter(r => r.employee_metadata?.branch === 'not_used');
@@ -124,11 +119,6 @@ const Compare = () => {
       const impact2 = used2
         .map(r => r.responses?.u_impact_satisfaction)
         .filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
-
-      const nps2 = [
-        ...used2.map(r => r.responses?.u_motivation_recommend),
-        ...notUsed2.map(r => r.responses?.nu_motivation_recommend)
-      ].filter(v => v !== undefined && v !== null && typeof v === 'number') as number[];
 
       // Set comparison data
       setComparisonData([
@@ -151,11 +141,6 @@ const Compare = () => {
           metric: 'Elégedettség',
           first: Number(calculateAverage(impact1).toFixed(2)),
           second: Number(calculateAverage(impact2).toFixed(2))
-        },
-        {
-          metric: 'Ajánlási hajlandóság',
-          first: Number(calculateAverage(nps1).toFixed(2)),
-          second: Number(calculateAverage(nps2).toFixed(2))
         }
       ]);
 
