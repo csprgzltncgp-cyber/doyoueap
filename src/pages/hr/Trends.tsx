@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { toast } from 'sonner';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
@@ -242,71 +239,6 @@ const Trends = () => {
         </Card>
       ) : (
         <>
-          <Card>
-            <CardHeader>
-              <CardTitle>Felmérések kiválasztása</CardTitle>
-              <CardDescription>Válaszd ki, mely felmérések adatait szeretnéd összehasonlítani</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex items-center gap-3">
-                <Switch
-                  id="show-all"
-                  checked={showAllAudits}
-                  onCheckedChange={setShowAllAudits}
-                />
-                <Label htmlFor="show-all" className="text-sm font-medium cursor-pointer">
-                  Összes felmérés kiválasztása
-                </Label>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="first-audit" className={showAllAudits ? "text-muted-foreground" : ""}>
-                    Ezt a felmérést szeretném
-                  </Label>
-                  <Select
-                    value={firstAuditId}
-                    onValueChange={setFirstAuditId}
-                    disabled={showAllAudits}
-                  >
-                    <SelectTrigger id="first-audit" className={showAllAudits ? "opacity-50" : ""}>
-                      <SelectValue placeholder="Válassz felmérést" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {audits.map(audit => (
-                        <SelectItem key={audit.id} value={audit.id}>
-                          {formatAuditName(audit)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="second-audit" className={showAllAudits ? "text-muted-foreground" : ""}>
-                    Ezzel a felméréssel összehasonlítani
-                  </Label>
-                  <Select
-                    value={secondAuditId}
-                    onValueChange={setSecondAuditId}
-                    disabled={showAllAudits}
-                  >
-                    <SelectTrigger id="second-audit" className={showAllAudits ? "opacity-50" : ""}>
-                      <SelectValue placeholder="Válassz felmérést" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {audits.map(audit => (
-                        <SelectItem key={audit.id} value={audit.id}>
-                          {formatAuditName(audit)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
           {selectedAuditIds.length === 0 ? (
             <Card>
               <CardContent className="pt-6">
