@@ -298,28 +298,39 @@ const Compare = () => {
               <Card>
                 <CardHeader>
                   <CardTitle>Fő mutatók összehasonlítása</CardTitle>
-                  <CardDescription>Az első és második felmérés közötti változások</CardDescription>
+                  <CardDescription>Az első és második felmérés eredményeinek közvetlen összehasonlítása</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {comparisonData.map((item, idx) => {
                       const isUsage = item.metric === 'Használat (%)';
+                      const diff = item.second - item.first;
                       return (
-                        <div key={idx} className="space-y-2">
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span className="font-medium">{item.metric.replace(' (%)', '')}</span>
+                        <div key={idx} className="space-y-3">
+                          <div className="text-sm font-medium text-muted-foreground">
+                            {item.metric.replace(' (%)', '')}
                           </div>
-                          <div className="flex items-center gap-3">
-                            {getTrendIcon(item.second, item.first)}
-                            <div className="text-4xl font-bold">
-                              {getTrendText(item.second, item.first)}{isUsage ? '%' : ''}
+                          <div className="flex items-baseline gap-4">
+                            <div>
+                              <div className="text-xs text-muted-foreground mb-1">Első felmérés</div>
+                              <div className="text-2xl font-bold">
+                                {item.first}{isUsage ? '%' : ''}
+                              </div>
+                            </div>
+                            <div className="flex items-center">
+                              {getTrendIcon(item.second, item.first)}
+                            </div>
+                            <div>
+                              <div className="text-xs text-muted-foreground mb-1">Második felmérés</div>
+                              <div className="text-2xl font-bold">
+                                {item.second}{isUsage ? '%' : ''}
+                              </div>
                             </div>
                           </div>
-                          <p className="text-xs text-muted-foreground">
-                            {getTrendDescription(item.second, item.first, item.metric.replace(' (%)', ''))}
-                          </p>
-                          <div className="text-xs text-muted-foreground">
-                            {item.first} → {item.second}{isUsage ? '%' : ''}
+                          <div className="text-sm">
+                            <span className={diff > 0 ? 'text-green-600' : diff < 0 ? 'text-red-600' : 'text-muted-foreground'}>
+                              {diff > 0 ? '+' : ''}{diff.toFixed(1)}{isUsage ? '%' : ''} különbség
+                            </span>
                           </div>
                         </div>
                       );
