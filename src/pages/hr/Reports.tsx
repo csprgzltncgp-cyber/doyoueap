@@ -589,7 +589,7 @@ const Reports = () => {
                   />
                 </div>
                 <p className="text-xs text-muted-foreground text-center px-2">
-                  Átlagos hatékonyság (elégedettség, problémamegoldás, jóllét, teljesítmény, konzisztencia)
+                  Mennyire segített a program összeségében.
                 </p>
               </CardContent>
             </Card>
