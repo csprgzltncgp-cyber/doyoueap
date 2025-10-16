@@ -477,6 +477,29 @@ const Reports = () => {
                 <img src={fourScoreLogo} alt="4Score" className="h-6 mb-2" />
                 
                 <div className="flex flex-col md:flex-row gap-4 md:ml-auto">
+                  {/* Company selector for partner users */}
+                  {packageType === 'partner' && companies.length > 0 && (
+                    <div className="flex-1 md:max-w-[300px]">
+                      <label className="text-xs text-muted-foreground mb-1.5 flex items-center gap-1">
+                        <Building2 className="h-3 w-3" />
+                        Ügyfélcég szűrése
+                      </label>
+                      <Select value={selectedCompanyId} onValueChange={setSelectedCompanyId}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Válassz ügyfélcéget" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">Összes ügyfélcég</SelectItem>
+                          {companies.map((company) => (
+                            <SelectItem key={company.id} value={company.id}>
+                              {company.company_name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+
                   {/* Audit selector */}
                   <div className="flex-1 md:max-w-[300px]">
                     <label className="text-xs text-muted-foreground mb-1.5 block">
@@ -500,29 +523,6 @@ const Reports = () => {
                       </SelectContent>
                     </Select>
                   </div>
-
-                  {/* Company selector for partner users */}
-                  {packageType === 'partner' && companies.length > 0 && (
-                    <div className="flex-1 md:max-w-[300px]">
-                      <label className="text-xs text-muted-foreground mb-1.5 flex items-center gap-1">
-                        <Building2 className="h-3 w-3" />
-                        Ügyfélcég szűrése
-                      </label>
-                      <Select value={selectedCompanyId} onValueChange={setSelectedCompanyId}>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Válassz ügyfélcéget" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">Összes ügyfélcég</SelectItem>
-                          {companies.map((company) => (
-                            <SelectItem key={company.id} value={company.id}>
-                              {company.company_name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  )}
                 </div>
               </div>
             )}
