@@ -364,202 +364,7 @@ const Reports = () => {
               </div>
             )}
           </div>
-          {/* Top Row: Utilization and Satisfaction Gauges */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card id="utilization-card">
-              <CardHeader className="relative">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-2 top-2 h-8 w-8"
-                  onClick={() => exportCardToPNG('utilization-card', 'igenybeveltel')}
-                >
-                  <Download className="h-4 w-4" />
-                </Button>
-                <CardTitle className="text-lg">Igénybevétel (Utilization)</CardTitle>
-                <CardDescription>Hány munkavállaló használja a programot</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  <strong>Számítási módszer:</strong> Mivel a tényleges használói számot csak a szolgáltató ismeri, 
-                  mi a felmérésből kapott arányokat vetítjük ki. A válaszolók {usageRateFromRespondents.toFixed(1)}%-a 
-                  használta a programot, ezt az arányt alkalmazzuk a teljes {employeeCount} fős létszámra.
-                </p>
-                <GaugeChart 
-                  value={utilization} 
-                  maxValue={100}
-                  size={280}
-                  label={`${utilization.toFixed(1)}%`}
-                  sublabel={`~${estimatedUsers} / ${employeeCount} fő (becsült)`}
-                  cornerRadius={30}
-                />
-              </CardContent>
-            </Card>
-
-            <Card id="satisfaction-card">
-              <CardHeader className="relative">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-2 top-2 h-8 w-8"
-                  onClick={() => exportCardToPNG('satisfaction-card', 'elegedettsegi-index')}
-                >
-                  <Download className="h-4 w-4" />
-                </Button>
-                <CardTitle className="text-lg">Elégedettségi Index</CardTitle>
-                <CardDescription>Általános elégedettség a használók körében</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  Ez a mutató azt méri, hogy az EAP programot használók mennyire elégedettek a szolgáltatással. 
-                  Az érték az általános elégedettséget tükrözi 1-5 skálán, százalékos formában megjelenítve.
-                </p>
-                <GaugeChart 
-                  value={satisfactionIndex} 
-                  maxValue={100}
-                  size={280}
-                  label={`${satisfactionIndex.toFixed(0)}%`}
-                  sublabel={`${satisfactionScore}/5`}
-                  cornerRadius={30}
-                />
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Second Row: Participation and Satisfaction Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Participation Chart */}
-            <Card id="participation-card">
-              <CardHeader className="relative">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-2 top-2 h-8 w-8"
-                  onClick={() => exportCardToPNG('participation-card', 'reszveteli-arany')}
-                >
-                  <Download className="h-4 w-4" />
-                </Button>
-                <CardTitle className="text-lg">Részvételi arány</CardTitle>
-                <CardDescription>{participationRate.toFixed(1)}%</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">
-                  A részvételi arány azt mutatja, hogy a munkavállalók hány százaléka töltötte ki a felmérést. 
-                  Jelenleg {totalResponses} fő válaszolt {employeeCount} alkalmazottból.
-                </p>
-                <p className="text-sm text-muted-foreground mb-4">
-                  <strong>A kitöltők három kategóriába sorolhatók:</strong><br/>
-                  <strong>Használók:</strong> Azok, akik ismerik ÉS használták az EAP programot<br/>
-                  <strong>Nem használók:</strong> Azok, akik tudnak a programról, de még nem használták<br/>
-                  <strong>Nem tudtak róla:</strong> Azok, akik nem hallottak a programról
-                </p>
-                <div className="h-[250px] flex items-center justify-center">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={pieData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={60}
-                        outerRadius={100}
-                        paddingAngle={2}
-                        dataKey="value"
-                      >
-                        {pieData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-                <div className="flex flex-wrap gap-4 justify-center mt-4">
-                  {pieData.map((entry, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <div 
-                        className="w-3 h-3 rounded-full" 
-                        style={{ backgroundColor: entry.color }}
-                      />
-                      <span className="text-sm text-foreground">
-                        {entry.name}: {entry.value} ({((entry.value / totalResponses) * 100).toFixed(0)}%)
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Satisfaction Metrics */}
-            <Card id="satisfaction-metrics-card">
-              <CardHeader className="relative">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-2 top-2 h-8 w-8"
-                  onClick={() => exportCardToPNG('satisfaction-metrics-card', 'elegedettsegi-mutatok')}
-                >
-                  <Download className="h-4 w-4" />
-                </Button>
-                <CardTitle className="text-lg">Elégedettségi mutatók</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Általános elégedettség</span>
-                    <span className="font-semibold">{satisfactionScore}/5</span>
-                  </div>
-                  <Progress value={parseFloat(satisfactionScore) * 20} style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties} className="h-3" />
-                </div>
-                
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">NPS átlag</span>
-                    <span className="font-semibold">{npsScore}/10</span>
-                  </div>
-                  <Progress value={parseFloat(npsScore) * 10} style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties} className="h-3" />
-                  <p className="text-xs text-muted-foreground">Ajánlási hajlandóság: mennyire ajánlaná másoknak a programot</p>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Problémamegoldás</span>
-                    <span className="font-semibold">{problemSolvingScore}/5</span>
-                  </div>
-                  <Progress value={parseFloat(problemSolvingScore) * 20} style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties} className="h-3" />
-                  <p className="text-xs text-muted-foreground">Mennyire segített a program a probléma megoldásában</p>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Teljesítmény hatás</span>
-                    <span className="font-semibold">{performanceScore}/5</span>
-                  </div>
-                  <Progress value={parseFloat(performanceScore) * 20} style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties} className="h-3" />
-                  <p className="text-xs text-muted-foreground">A program hatása a munkahelyi teljesítményre</p>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Wellbeing hatás</span>
-                    <span className="font-semibold">{wellbeingScore}/5</span>
-                  </div>
-                  <Progress value={parseFloat(wellbeingScore) * 20} style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties} className="h-3" />
-                  <p className="text-xs text-muted-foreground">A program hatása az általános jóllétre és mentális egészségre</p>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Konzisztencia</span>
-                    <span className="font-semibold">{consistencyScore}/5</span>
-                  </div>
-                  <Progress value={parseFloat(consistencyScore) * 20} style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties} className="h-3" />
-                  <p className="text-xs text-muted-foreground">Mennyire volt konzisztens a szolgáltatás minősége minden alkalommal</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Third Row: Awareness, Trust, Usage, and Impact */}
+          {/* First Row: Awareness, Trust, Usage, and Impact (4Score Cards) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Card 1: Awareness */}
             <Card className="relative overflow-hidden" id="awareness-card">
@@ -685,6 +490,178 @@ const Reports = () => {
                 <div className="text-center">
                   <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>{wellbeingScore}</div>
                   <p className="text-sm text-muted-foreground mt-2">Jóllét javulása a program használata után</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Second Row: Utilization and Satisfaction Gauges */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card id="utilization-card">
+              <CardHeader className="relative">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-2 h-8 w-8"
+                  onClick={() => exportCardToPNG('utilization-card', 'igenybeveltel')}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
+                <CardTitle className="text-lg">Igénybevétel (Utilization)</CardTitle>
+                <CardDescription>Hány munkavállaló használja a programot</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-muted-foreground">
+                  <strong>Számítási módszer:</strong> Mivel a tényleges használói számot csak a szolgáltató ismeri, 
+                  mi a felmérésből kapott arányokat vetítjük ki. A válaszolók {usageRateFromRespondents.toFixed(1)}%-a 
+                  használta a programot, ezt az arányt alkalmazzuk a teljes {employeeCount} fős létszámra.
+                </p>
+                <GaugeChart 
+                  value={utilization} 
+                  maxValue={100}
+                  size={280}
+                  label={`${utilization.toFixed(1)}%`}
+                  sublabel={`~${estimatedUsers} / ${employeeCount} fő (becsült)`}
+                  cornerRadius={30}
+                />
+              </CardContent>
+            </Card>
+
+            <Card id="satisfaction-card">
+              <CardHeader className="relative">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-2 h-8 w-8"
+                  onClick={() => exportCardToPNG('satisfaction-card', 'elegedettsegi-index')}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
+                <CardTitle className="text-lg">Elégedettségi Index</CardTitle>
+                <CardDescription>Általános elégedettség a használók körében</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-muted-foreground">
+                  Ez a mutató azt méri, hogy az EAP programot használók mennyire elégedettek a szolgáltatással. 
+                  Az érték az általános elégedettséget tükrözi 1-5 skálán, százalékos formában megjelenítve.
+                </p>
+                <GaugeChart 
+                  value={satisfactionIndex} 
+                  maxValue={100}
+                  size={280}
+                  label={`${satisfactionIndex.toFixed(0)}%`}
+                  sublabel={`${satisfactionScore}/5`}
+                  cornerRadius={30}
+                />
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Third Row: Participation and Satisfaction Metrics */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Participation Chart */}
+            <Card id="participation-card">
+              <CardHeader className="relative">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-2 h-8 w-8"
+                  onClick={() => exportCardToPNG('participation-card', 'reszveteli-arany')}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
+                <CardTitle className="text-lg">Részvételi arány</CardTitle>
+                <CardDescription>{participationRate.toFixed(1)}%</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  A részvételi arány azt mutatja, hogy a munkavállalók hány százaléka töltötte ki a felmérést. 
+                  Jelenleg {totalResponses} fő válaszolt {employeeCount} alkalmazottból.
+                </p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  <strong>A kitöltők három kategóriába sorolhatók:</strong><br/>
+                  <strong>Használók:</strong> Azok, akik ismerik ÉS használták az EAP programot<br/>
+                  <strong>Nem használók:</strong> Azok, akik tudnak a programról, de még nem használták<br/>
+                  <strong>Nem tudtak róla:</strong> Azok, akik nem hallottak a programról
+                </p>
+                <div className="h-[250px] flex items-center justify-center">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={pieData}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {pieData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Satisfaction Metrics */}
+            <Card id="satisfaction-metrics-card">
+              <CardHeader className="relative">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-2 h-8 w-8"
+                  onClick={() => exportCardToPNG('satisfaction-metrics-card', 'elegedettsegi-metrikak')}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
+                <CardTitle className="text-lg">Elégedettségi mutatók</CardTitle>
+                <CardDescription>1-5 skálán értékelve, a programot használók körében</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">NPS pontszám</span>
+                    <span className="font-semibold">{npsScore}/10</span>
+                  </div>
+                  <Progress value={parseFloat(npsScore) * 10} style={{ '--progress-background': 'hsl(var(--chart-1))' } as React.CSSProperties} className="h-3" />
+                  <p className="text-xs text-muted-foreground">Mennyire valószínű, hogy ajánlaná a szolgáltatást</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Problémamegoldás</span>
+                    <span className="font-semibold">{problemSolvingScore}/5</span>
+                  </div>
+                  <Progress value={parseFloat(problemSolvingScore) * 20} style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties} className="h-3" />
+                  <p className="text-xs text-muted-foreground">Mennyire hatékony volt a program a problémák kezelésében</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Teljesítmény</span>
+                    <span className="font-semibold">{performanceScore}/5</span>
+                  </div>
+                  <Progress value={parseFloat(performanceScore) * 20} style={{ '--progress-background': 'hsl(var(--chart-3))' } as React.CSSProperties} className="h-3" />
+                  <p className="text-xs text-muted-foreground">Teljesítmény javulása a program használata után</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Jóllét</span>
+                    <span className="font-semibold">{wellbeingScore}/5</span>
+                  </div>
+                  <Progress value={parseFloat(wellbeingScore) * 20} style={{ '--progress-background': 'hsl(var(--chart-4))' } as React.CSSProperties} className="h-3" />
+                  <p className="text-xs text-muted-foreground">Jóllét javulása a program használata után</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Konzisztencia</span>
+                    <span className="font-semibold">{consistencyScore}/5</span>
+                  </div>
+                  <Progress value={parseFloat(consistencyScore) * 20} style={{ '--progress-background': 'hsl(var(--chart-2))' } as React.CSSProperties} className="h-3" />
+                  <p className="text-xs text-muted-foreground">Mennyire volt konzisztens a szolgáltatás minősége minden alkalommal</p>
                 </div>
               </CardContent>
             </Card>
