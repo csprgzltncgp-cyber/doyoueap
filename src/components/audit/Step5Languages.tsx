@@ -77,11 +77,9 @@ export const Step5Languages = ({
         <CardContent className="pt-6">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {AVAILABLE_LANGUAGES.map((lang) => (
-              <button
+              <div
                 key={lang.code}
-                type="button"
                 onClick={() => toggleLanguage(lang.code)}
-                disabled={selectedLanguages.length === 1 && selectedLanguages.includes(lang.code)}
                 className={`
                   relative p-3 rounded-lg border-2 transition-all text-left
                   ${selectedLanguages.includes(lang.code)
@@ -100,7 +98,7 @@ export const Step5Languages = ({
                 <span className="text-sm font-medium">
                   {lang.name} <span className="text-muted-foreground">({lang.code})</span>
                 </span>
-              </button>
+              </div>
             ))}
           </div>
           <p className="text-sm text-muted-foreground mt-6">
