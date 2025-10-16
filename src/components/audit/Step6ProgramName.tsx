@@ -2,14 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, Globe, Building2 } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { FileText, Globe } from "lucide-react";
 
 interface Step6Props {
   programName: string;
@@ -18,10 +11,6 @@ interface Step6Props {
   onEapProgramUrlChange: (url: string) => void;
   onNext: () => void;
   onBack: () => void;
-  isPartner?: boolean;
-  companies?: Array<{ id: string; company_name: string }>;
-  selectedCompanyId?: string;
-  onCompanySelect?: (companyId: string) => void;
 }
 
 export const Step6ProgramName = ({
@@ -31,10 +20,6 @@ export const Step6ProgramName = ({
   onEapProgramUrlChange,
   onNext,
   onBack,
-  isPartner = false,
-  companies = [],
-  selectedCompanyId = '',
-  onCompanySelect = () => {},
 }: Step6Props) => {
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
@@ -44,48 +29,6 @@ export const Step6ProgramName = ({
           Add meg az EAP program alapvető információit
         </p>
       </div>
-
-      {isPartner && (
-        <Card className="border-2">
-          <CardHeader className="bg-muted/30">
-            <CardTitle className="flex items-center gap-2 text-xl">
-              <Building2 className="h-6 w-6" />
-              Ügyfélcég kiválasztása
-            </CardTitle>
-            <CardDescription className="text-base mt-4 text-foreground">
-              Válaszd ki, hogy melyik regisztrált ügyfélcégednek szeretnél felmérést indítani.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <div className="space-y-2">
-              <Label htmlFor="company-select" className="text-base font-medium">Ügyfélcég</Label>
-              <Select value={selectedCompanyId} onValueChange={onCompanySelect}>
-                <SelectTrigger id="company-select" className="h-12 text-base">
-                  <SelectValue placeholder="Válassz egy ügyfélcéget" />
-                </SelectTrigger>
-                <SelectContent>
-                  {companies.length === 0 ? (
-                    <div className="p-2 text-sm text-muted-foreground">
-                      Még nincs regisztrált ügyfélcég
-                    </div>
-                  ) : (
-                    companies.map((company) => (
-                      <SelectItem key={company.id} value={company.id}>
-                        {company.company_name}
-                      </SelectItem>
-                    ))
-                  )}
-                </SelectContent>
-              </Select>
-              {companies.length === 0 && (
-                <p className="text-sm text-muted-foreground">
-                  Menj a Partner Központba új ügyfélcég regisztrálásához.
-                </p>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      )}
 
       <Card className="border-2">
         <CardHeader className="bg-muted/30">
@@ -145,17 +88,14 @@ export const Step6ProgramName = ({
       </Card>
 
       <div className="flex justify-between pt-4">
-        {!isPartner && (
-          <Button variant="outline" onClick={onBack} size="lg">
-            Vissza
-          </Button>
-        )}
+        <Button variant="outline" onClick={onBack} size="lg">
+          Vissza
+        </Button>
         <Button 
           onClick={onNext}
-          disabled={!programName || (isPartner && (!selectedCompanyId || companies.length === 0))}
+          disabled={!programName}
           size="lg"
           variant="dark"
-          className={isPartner ? "ml-auto" : ""}
         >
           Következő lépés
         </Button>

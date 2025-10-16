@@ -27,9 +27,17 @@ const CreateAudit = () => {
   const { packageType, loading: packageLoading } = usePackage();
   const navigate = useNavigate();
   
-  const [currentStep, setCurrentStep] = useState(1);
+  // Initialize currentStep based on packageType - null means not initialized yet
+  const [currentStep, setCurrentStep] = useState<number | null>(null);
   const [companies, setCompanies] = useState<Array<{ id: string; company_name: string }>>([]);
   const [selectedCompanyId, setSelectedCompanyId] = useState('');
+
+  // Set initial step based on package type once loaded
+  useEffect(() => {
+    if (!packageLoading && currentStep === null) {
+      setCurrentStep(packageType === 'partner' ? 0 : 1);
+    }
+  }, [packageType, packageLoading, currentStep]);
   const [loading, setLoading] = useState(false);
   const [auditsThisYear, setAuditsThisYear] = useState(0);
   const [isLimitReached, setIsLimitReached] = useState(false);
@@ -66,8 +74,8 @@ const CreateAudit = () => {
   const [drawMode, setDrawMode] = useState<'auto' | 'manual'>('auto');
   const [lotteryConsent, setLotteryConsent] = useState(false);
   
-  // Adjust total steps based on package
-  const totalSteps = packageType === 'starter' ? 7 : 8;
+  // Adjust total steps based on package - added preview step and company selection for partner
+  const totalSteps = packageType === 'starter' ? 8 : packageType === 'partner' ? 9 : 9;
 
   // Fetch companies for partner users
   useEffect(() => {
@@ -140,14 +148,14 @@ const CreateAudit = () => {
   }, [user?.id, packageType]);
 
   const handleNext = async () => {
-    // Validate company selection for partner users on step 1
-    if (packageType === 'partner' && currentStep === 1 && !selectedCompanyId) {
+    // Validate company selection for partner users on step 0
+    if (packageType === 'partner' && currentStep === 0 && !selectedCompanyId) {
       toast.error('Kérlek válassz egy ügyfélcéget');
       return;
     }
 
-    // Generate token after step 2 (access mode step, before distribution)
-    if (currentStep === 2 && !accessToken) {
+    // Generate token after step 3 (access mode step, before distribution)
+    if (currentStep === 3 && !accessToken) {
       try {
         const { data: tokenData, error: tokenError } = await supabase.rpc(
           'generate_access_token'
@@ -167,7 +175,8 @@ const CreateAudit = () => {
   };
 
   const handleBack = () => {
-    if (currentStep > 1) {
+    const minStep = packageType === 'partner' ? 0 : 1;
+    if (currentStep > minStep) {
       setCurrentStep(currentStep - 1);
     }
   };
@@ -321,7 +330,7 @@ const CreateAudit = () => {
     giftId,
     drawMode,
   };
-  if (checkingLimit || packageLoading) {
+  if (checkingLimit || packageLoading || currentStep === null) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
         <p className="text-muted-foreground">Betöltés...</p>
@@ -376,6 +385,15 @@ const CreateAudit = () => {
       </div>
 
       <div className="max-w-4xl mx-auto space-y-6">
+        {packageType === 'partner' && currentStep === 0 && (
+          <Step0CompanySelection
+            companies={companies}
+            selectedCompanyId={selectedCompanyId}
+            onCompanySelect={setSelectedCompanyId}
+            onNext={handleNext}
+          />
+        )}
+
         {currentStep === 1 && (
           <Step6ProgramName
             programName={programName}
@@ -384,10 +402,6 @@ const CreateAudit = () => {
             onEapProgramUrlChange={setEapProgramUrl}
             onNext={handleNext}
             onBack={handleBack}
-            isPartner={packageType === 'partner'}
-            companies={companies}
-            selectedCompanyId={selectedCompanyId}
-            onCompanySelect={setSelectedCompanyId}
           />
         )}
 
@@ -404,7 +418,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {currentStep === 2 && (
+        {currentStep === 3 && (
           <Step1AccessMode
             accessMode={accessMode}
             targetResponses={targetResponses}
@@ -415,7 +429,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {currentStep === 3 && (
+        {currentStep === 4 && (
           <Step3Distribution
             accessMode={accessMode}
             accessToken={accessToken}
@@ -432,7 +446,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {currentStep === 4 && packageType !== 'starter' && (
+        {currentStep === 5 && packageType !== 'starter' && (
           <Step3Branding
             logoFile={logoFile}
             customColors={customColors}
@@ -443,7 +457,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {((packageType === 'starter' && currentStep === 4) || (packageType !== 'starter' && currentStep === 5)) && (
+        {((packageType === 'starter' && currentStep === 5) || (packageType !== 'starter' && currentStep === 6)) && (
           <Step4Timing
             startDate={startDate}
             expiresAt={expiresAt}
@@ -459,7 +473,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {((packageType === 'starter' && currentStep === 5) || (packageType !== 'starter' && currentStep === 6)) && (
+        {((packageType === 'starter' && currentStep === 6) || (packageType !== 'starter' && currentStep === 7)) && (
           <Step5Languages
             selectedLanguages={selectedLanguages}
             onLanguagesChange={setSelectedLanguages}
@@ -468,7 +482,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {((packageType === 'starter' && currentStep === 6) || (packageType !== 'starter' && currentStep === 7)) && (
+        {((packageType === 'starter' && currentStep === 7) || (packageType === 'partner' && currentStep === 8) || (packageType !== 'starter' && packageType !== 'partner' && currentStep === 8)) && (
           <AuditPreview
             auditData={auditData}
             onNext={handleNext}
@@ -476,7 +490,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {((packageType === 'starter' && currentStep === 7) || (packageType !== 'starter' && currentStep === 8)) && (
+        {((packageType === 'starter' && currentStep === 8) || (packageType === 'partner' && currentStep === 9) || (packageType !== 'starter' && packageType !== 'partner' && currentStep === 9)) && (
           <Step7Summary
             auditData={auditData}
             onSubmit={handleSubmit}
