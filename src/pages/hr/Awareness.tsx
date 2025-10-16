@@ -225,22 +225,25 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
           </div>
         </div>
         {audits.length > 0 && (
-          <div className="w-full md:max-w-[300px] md:ml-auto">
-            <label className="text-xs text-muted-foreground mb-1.5 block">
-              Felmérés kiválasztása
-            </label>
-            <Select value={selectedAuditId} onValueChange={onAuditChange}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Válassz felmérést" />
-              </SelectTrigger>
-              <SelectContent>
-                {audits.map((audit) => (
-                  <SelectItem key={audit.id} value={audit.id}>
-                    {formatAuditName(audit)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="flex flex-col md:flex-row md:items-center gap-4">
+            <img src={fourScoreLogo} alt="4Score" className="h-6" />
+            <div className="flex-1 md:max-w-[300px] md:ml-auto">
+              <label className="text-xs text-muted-foreground mb-1.5 block">
+                Felmérés kiválasztása
+              </label>
+              <Select value={selectedAuditId} onValueChange={onAuditChange}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Válassz felmérést" />
+                </SelectTrigger>
+                <SelectContent>
+                  {audits.map((audit) => (
+                    <SelectItem key={audit.id} value={audit.id}>
+                      {formatAuditName(audit)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         )}
       </div>
@@ -300,7 +303,6 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
             >
               <Download className="h-4 w-4" />
             </Button>
-            <img src={fourScoreLogo} alt="4Score" className="h-4 mb-2 self-start" />
             <CardTitle className="text-lg flex items-center gap-2">
               <Eye className="w-5 h-5" />
               Ismertség Index
@@ -482,7 +484,6 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
             >
               <Download className="h-4 w-4" />
             </Button>
-            <img src={fourScoreLogo} alt="4Score" className="h-4 mb-2 self-start" />
             <CardTitle className="text-lg flex items-center gap-2">
               <Users className="w-5 h-5" />
               Nem Ismerték
