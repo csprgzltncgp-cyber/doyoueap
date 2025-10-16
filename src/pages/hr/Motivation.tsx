@@ -68,13 +68,28 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange }: MotivationProps)
 
       setNotUsedCount(data.length);
 
+      // Kizárandó válaszok (ezek akadályok, nem motivátorok)
+      const excludedResponses = [
+        'Nincs rá időm',
+        'Úgy érzem, ez nem nekem való',
+        'Nem bízom benne teljesen',
+        'Túl bonyolultnak tűnik',
+        'Inkább más módon kérnék segítséget',
+        'Úgy érzem, nem nekem szól ez a szolgáltatás',
+        'Túl bonyolultnak tűnik az elérése vagy használata',
+        'Valami más okból'
+      ];
+
       // Count motivators (multiple choice)
       const motivatorCounts: Record<string, number> = {};
       data.forEach(r => {
         const values = r.responses?.nu_motivation_what;
         if (Array.isArray(values)) {
           values.forEach((val: string) => {
-            motivatorCounts[val] = (motivatorCounts[val] || 0) + 1;
+            // Csak a valódi motivátorokat számoljuk
+            if (!excludedResponses.includes(val)) {
+              motivatorCounts[val] = (motivatorCounts[val] || 0) + 1;
+            }
           });
         }
       });
