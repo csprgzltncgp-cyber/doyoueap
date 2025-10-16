@@ -1,6 +1,5 @@
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -14,14 +13,12 @@ interface Step0CompanySelectionProps {
   companies: Array<{ id: string; company_name: string }>;
   selectedCompanyId: string;
   onCompanySelect: (companyId: string) => void;
-  onNext: () => void;
 }
 
 export const Step0CompanySelection = ({
   companies,
   selectedCompanyId,
   onCompanySelect,
-  onNext,
 }: Step0CompanySelectionProps) => {
   return (
     <Card>
@@ -63,12 +60,6 @@ export const Step0CompanySelection = ({
               </p>
             )}
           </div>
-        </div>
-
-        <div className="flex justify-end pt-4">
-          <Button onClick={onNext} disabled={!selectedCompanyId || companies.length === 0}>
-            Következő
-          </Button>
         </div>
       </CardContent>
     </Card>

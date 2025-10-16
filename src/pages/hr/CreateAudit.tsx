@@ -381,7 +381,6 @@ const CreateAudit = () => {
             companies={companies}
             selectedCompanyId={selectedCompanyId}
             onCompanySelect={setSelectedCompanyId}
-            onNext={handleNext}
           />
         )}
 
@@ -490,20 +489,22 @@ const CreateAudit = () => {
           />
         )}
 
-        <div className="flex justify-between pt-6">
-          <Button
-            variant="outline"
-            onClick={handleBack}
-            disabled={loading || currentStep === (packageType === 'partner' ? 0 : 1)}
-          >
-            Vissza
-          </Button>
-          {currentStep < totalSteps && (
-            <Button onClick={handleNext} disabled={loading}>
-              Következő
+        {currentStep !== 0 && (
+          <div className="flex justify-between pt-6">
+            <Button
+              variant="outline"
+              onClick={handleBack}
+              disabled={loading || currentStep === (packageType === 'partner' ? 0 : 1)}
+            >
+              Vissza
             </Button>
-          )}
-        </div>
+            {currentStep < totalSteps && (
+              <Button onClick={handleNext} disabled={loading || (packageType === 'partner' && currentStep === 0 && !selectedCompanyId)}>
+                Következő
+              </Button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
