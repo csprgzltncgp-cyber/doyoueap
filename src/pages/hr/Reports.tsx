@@ -259,13 +259,32 @@ const Reports = () => {
   const trustIndex = trustProfileData.reduce((sum, item) => sum + (isNaN(item.score) ? 0 : item.score), 0) / trustProfileData.length;
   const trustScore = trustIndex.toFixed(1);
 
-  // Usage Score - Future Usage Intent (from non-users)
+  // Usage Score - Combined future usage intent (from both users and non-users)
   const notUsedResponses = responses.filter(r => r.employee_metadata?.branch === 'not_used');
   const wouldUseYes = notUsedResponses.filter(r => r.responses?.nu_usage_would_use === 'yes' || r.responses?.nu_usage_would_use === 'Igen').length;
   const wouldUseNo = notUsedResponses.filter(r => r.responses?.nu_usage_would_use === 'no' || r.responses?.nu_usage_would_use === 'Nem').length;
   const wouldUseTotal = wouldUseYes + wouldUseNo;
-  const futureUsageIntent = wouldUseTotal > 0 ? ((wouldUseYes / wouldUseTotal) * 100) : 0;
-  const usageScore = futureUsageIntent.toFixed(1);
+  const futureUsageIntentNonUsers = wouldUseTotal > 0 ? ((wouldUseYes / wouldUseTotal) * 100) : 0;
+  
+  // Users' likelihood to use again (1-5 scale, convert to percentage)
+  const usedLikelihoodValues = usedTrustResponses
+    .map(r => r.responses?.u_trust_likelihood)
+    .filter(v => typeof v === 'number' && !isNaN(v));
+  const futureUsageIntentUsers = usedLikelihoodValues.length > 0 
+    ? ((parseFloat(calculateAverage(usedLikelihoodValues)) / 5) * 100)
+    : 0;
+  
+  // Combined usage score (average of both groups if both exist)
+  let usageScore: string;
+  if (futureUsageIntentNonUsers > 0 && futureUsageIntentUsers > 0) {
+    usageScore = ((futureUsageIntentNonUsers + futureUsageIntentUsers) / 2).toFixed(1);
+  } else if (futureUsageIntentNonUsers > 0) {
+    usageScore = futureUsageIntentNonUsers.toFixed(1);
+  } else if (futureUsageIntentUsers > 0) {
+    usageScore = futureUsageIntentUsers.toFixed(1);
+  } else {
+    usageScore = '0.0';
+  }
 
   // Impact Score - Average of all impact metrics
   const usedImpactResponses = responses.filter(r => r.employee_metadata?.branch === 'used');
@@ -516,22 +535,22 @@ const Reports = () => {
                   <Users className="w-5 h-5" />
                   Használat Index
                 </CardTitle>
-                <CardDescription>Nem használók körében</CardDescription>
+                <CardDescription>Jövőbeli használati szándék</CardDescription>
               </CardHeader>
               <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
                 <div className="flex items-center justify-center flex-1 w-full">
-                  <GaugeChart
-                    value={futureUsageIntent} 
+                  <GaugeChart 
+                    value={parseFloat(usageScore)} 
                     maxValue={100}
                     size={200}
                     label={`${usageScore}%`}
-                    sublabel={`${wouldUseYes} / ${wouldUseTotal} fő`}
+                    sublabel={`${usedLikelihoodValues.length + wouldUseTotal} válasz`}
                     cornerRadius={30}
                     gaugeColor="hsl(var(--chart-2))"
                   />
                 </div>
                 <p className="text-xs text-muted-foreground text-center px-2">
-                  A nem használók hány százaléka tervezi igénybe venni
+                  Kombinált mutató: használók ismételt használati valószínűsége és nem használók jövőbeli szándéka
                 </p>
               </CardContent>
             </Card>
