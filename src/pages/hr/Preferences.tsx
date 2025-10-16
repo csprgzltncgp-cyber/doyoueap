@@ -236,7 +236,7 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
                   <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="value" fill="hsl(var(--chart-2))" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="value" fill="#3366ff" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -270,7 +270,7 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
                   <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="value" fill="hsl(var(--chart-3))" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="value" fill="#3366ff" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -307,7 +307,7 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
                   <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="value" fill="hsl(var(--chart-4))" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="value" fill="#3366ff" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -341,7 +341,7 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
                   <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="value" fill="hsl(var(--chart-5))" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="value" fill="#3366ff" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -377,7 +377,7 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
                   <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="value" fill="hsl(var(--chart-1))" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="value" fill="#3366ff" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
