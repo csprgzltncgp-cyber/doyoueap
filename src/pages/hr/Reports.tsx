@@ -455,7 +455,7 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>A program ismeretének aránya</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10 flex flex-col">
+              <CardContent className="space-y-4 relative z-10 flex flex-col items-center justify-center">
                 <div className="flex items-center justify-center" style={{ minHeight: '200px' }}>
                   <GaugeChart 
                     value={awarenessRate} 
@@ -497,7 +497,7 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10 flex flex-col">
+              <CardContent className="space-y-4 relative z-10 flex flex-col items-center justify-center">
                 <div className="flex items-center justify-center" style={{ minHeight: '200px' }}>
                   <GaugeChart 
                     value={(parseFloat(trustScore) / 5) * 100} 
@@ -539,7 +539,7 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>Nem használók körében</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10 flex flex-col">
+              <CardContent className="space-y-4 relative z-10 flex flex-col items-center justify-center">
                 <div className="flex items-center justify-center" style={{ minHeight: '200px' }}>
                   <GaugeChart 
                     value={futureUsageIntent} 
@@ -581,7 +581,7 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10 flex flex-col">
+              <CardContent className="space-y-4 relative z-10 flex flex-col items-center justify-center">
                 <div className="flex items-center justify-center" style={{ minHeight: '200px' }}>
                   <GaugeChart 
                     value={(avgImpact / 5) * 100} 
