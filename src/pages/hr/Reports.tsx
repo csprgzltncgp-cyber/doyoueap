@@ -507,18 +507,32 @@ const Reports = () => {
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
               <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-                <div className="flex items-center justify-center flex-1 w-full">
-                  <GaugeChart
-                    value={(parseFloat(trustScore) / 5) * 100} 
-                    maxValue={100}
-                    size={200}
-                    label={trustScore}
-                    sublabel={`${trustScore} / 5`}
-                    cornerRadius={30}
-                    gaugeColor="hsl(var(--chart-2))"
-                  />
+                <div className="text-center w-full px-4">
+                  <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
+                    {trustScore}
+                  </div>
+                  
+                  {/* Számegyenes vizualizáció */}
+                  <div className="mt-6 px-8">
+                    <div className="relative h-2 bg-gray-400 rounded-full">
+                      <div 
+                        className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
+                        style={{ 
+                          left: `calc(${((parseFloat(trustScore) - 1) / 4) * 100}% - 8px)`,
+                          backgroundColor: 'hsl(var(--chart-2))'
+                        }}
+                      />
+                    </div>
+                    <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                      <span>1</span>
+                      <span>2</span>
+                      <span>3</span>
+                      <span>4</span>
+                      <span>5</span>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-xs text-muted-foreground text-center px-2">
+                <p className="text-xs text-muted-foreground text-center px-2 mt-6">
                   Átfogó bizalmi mutató (anonimitás, félelmek, jövőbeli használat)
                 </p>
               </CardContent>
@@ -581,18 +595,32 @@ const Reports = () => {
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
               <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-                <div className="flex items-center justify-center flex-1 w-full">
-                  <GaugeChart
-                    value={(avgImpact / 5) * 100} 
-                    maxValue={100}
-                    size={200}
-                    label={impactScore}
-                    sublabel={`${impactScore} / 5`}
-                    cornerRadius={30}
-                    gaugeColor="hsl(var(--chart-2))"
-                  />
+                <div className="text-center w-full px-4">
+                  <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
+                    {impactScore}
+                  </div>
+                  
+                  {/* Számegyenes vizualizáció */}
+                  <div className="mt-6 px-8">
+                    <div className="relative h-2 bg-gray-400 rounded-full">
+                      <div 
+                        className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
+                        style={{ 
+                          left: `calc(${((parseFloat(impactScore) - 1) / 4) * 100}% - 8px)`,
+                          backgroundColor: 'hsl(var(--chart-2))'
+                        }}
+                      />
+                    </div>
+                    <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                      <span>1</span>
+                      <span>2</span>
+                      <span>3</span>
+                      <span>4</span>
+                      <span>5</span>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-xs text-muted-foreground text-center px-2">
+                <p className="text-xs text-muted-foreground text-center px-2 mt-6">
                   Ennyire hasznos segítség a program összeségében.
                 </p>
               </CardContent>
