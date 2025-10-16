@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ReportNavigation } from "@/components/navigation/ReportNavigation";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { formatAuditName } from "@/lib/auditUtils";
 import Motivation from "./Motivation";
 import Preferences from "./Preferences";
@@ -37,12 +37,26 @@ const CombinedPreferences = ({ selectedAuditId, audits, onAuditChange }: Combine
         </div>
       </div>
 
-      {/* Tab selector és Felmérés kiválasztó egy sorban */}
-      <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
-        <Tabs defaultValue="non-users" className="flex-1">
-          <TabsList className="grid w-full max-w-2xl grid-cols-2 h-9">
-            <TabsTrigger value="non-users" className="text-xs">Azok, akik eddig nem vették igénybe a programot</TabsTrigger>
-            <TabsTrigger value="users" className="text-xs">A program aktív felhasználói</TabsTrigger>
+      {/* Felmérés kiválasztása */}
+      <div className="flex flex-col gap-4">
+        <Select value={selectedAuditId} onValueChange={onAuditChange}>
+          <SelectTrigger className="w-full md:w-80">
+            <SelectValue placeholder="Válasszon felmérést" />
+          </SelectTrigger>
+          <SelectContent>
+            {audits.map((audit) => (
+              <SelectItem key={audit.id} value={audit.id}>
+                {formatAuditName(audit)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {/* Tabok a dropdown alatt */}
+        <Tabs defaultValue="non-users" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="non-users">Azok, akik eddig nem vették igénybe a programot</TabsTrigger>
+            <TabsTrigger value="users">A program aktív felhasználói</TabsTrigger>
           </TabsList>
           
           <TabsContent value="non-users" className="mt-6">
@@ -61,26 +75,6 @@ const CombinedPreferences = ({ selectedAuditId, audits, onAuditChange }: Combine
             />
           </TabsContent>
         </Tabs>
-
-        {audits.length > 0 && (
-          <div className="w-full md:w-auto md:min-w-[280px]">
-            <label className="text-xs text-muted-foreground mb-1.5 block">
-              Felmérés kiválasztása
-            </label>
-            <Select value={selectedAuditId} onValueChange={onAuditChange}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Válassz felmérést" />
-              </SelectTrigger>
-              <SelectContent>
-                {audits.map((audit) => (
-                  <SelectItem key={audit.id} value={audit.id}>
-                    {formatAuditName(audit)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        )}
       </div>
     </div>
   );
