@@ -13,6 +13,8 @@ interface AuditForDisplay {
   };
   is_active: boolean;
   expires_at: string | null;
+  company_name?: string;
+  partner_company_id?: string | null;
 }
 
 export const formatAuditName = (audit: AuditForDisplay): string => {
@@ -55,7 +57,14 @@ export const formatAuditName = (audit: AuditForDisplay): string => {
   }
 
   // Összerakjuk a nevet
-  const parts = [startDate, programName, accessMode];
+  const parts = [startDate];
+  
+  // Ha van partner_company_id, akkor hozzáadjuk a cég nevét is
+  if (audit.partner_company_id && audit.company_name) {
+    parts.push(audit.company_name);
+  }
+  
+  parts.push(programName, accessMode);
   if (recurrence) {
     parts.push(recurrence);
   }

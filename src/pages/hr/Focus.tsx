@@ -98,7 +98,7 @@ const Focus = () => {
       
       let query = supabase
         .from('audits')
-        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, gift_id, target_responses, email_count, partner_company_id')
+        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, gift_id, target_responses, email_count, partner_company_id, company_name')
         .eq('is_active', true);
 
       // Filter by package type
