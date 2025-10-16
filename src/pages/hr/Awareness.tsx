@@ -488,16 +488,18 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
             </CardTitle>
             <CardDescription>Tájékozatlan munkavállalók</CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-            <GaugeChart 
-              value={parseFloat(redirectRate)} 
-              maxValue={100}
-              size={220}
-              label={`${redirectRate}%`}
-              sublabel={`${redirectResponses.length} / ${totalCount} fő`}
-              cornerRadius={30}
-              gaugeColor={parseFloat(redirectRate) > 50 ? '#ff0033' : undefined}
-            />
+          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
+            <div className="flex items-center justify-center flex-1 w-full">
+              <GaugeChart 
+                value={parseFloat(redirectRate)} 
+                maxValue={100}
+                size={220}
+                label={`${redirectRate}%`}
+                sublabel={`${redirectResponses.length} / ${totalCount} fő`}
+                cornerRadius={30}
+                gaugeColor={parseFloat(redirectRate) > 50 ? '#ff0033' : undefined}
+              />
+            </div>
             {parseFloat(redirectRate) > 50 && (
               <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
                 <AlertTriangle className="w-4 h-4" />
