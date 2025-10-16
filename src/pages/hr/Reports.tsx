@@ -444,7 +444,7 @@ const Reports = () => {
                 </Button>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Eye className="w-5 h-5" />
-                  Általános Ismertség
+                  Ismertség Index
                 </CardTitle>
                 <CardDescription>A program ismeretének aránya</CardDescription>
               </CardHeader>
@@ -514,7 +514,7 @@ const Reports = () => {
                 </Button>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Users className="w-5 h-5" />
-                  Jövőbeni Használati Szándék
+                  Használat Index
                 </CardTitle>
                 <CardDescription>Nem használók körében</CardDescription>
               </CardHeader>
@@ -549,7 +549,7 @@ const Reports = () => {
                 </Button>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <TrendingUp className="w-5 h-5" />
-                  Átlagos Hatás
+                  Hatás Index
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
