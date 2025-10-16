@@ -529,12 +529,6 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="mb-4 p-3 bg-muted/50 rounded-lg text-sm">
-            <p className="text-muted-foreground">
-              <strong>Mit mutat a diagram?</strong> A radar diagram az 5 hatás terület egyidejű áttekintését teszi lehetővé. 
-              Minél nagyobb a kitöltött terület, annál jobb az összhatás. Az egyenletes ötszög kiegyensúlyozott hatást jelez.
-            </p>
-          </div>
           <ResponsiveContainer width="100%" height={400}>
             <RadarChart data={impactData}>
               <PolarGrid />
@@ -550,6 +544,12 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
               <Tooltip />
             </RadarChart>
           </ResponsiveContainer>
+          <div className="mt-4 p-3 bg-muted/50 rounded-lg text-sm">
+            <p className="text-muted-foreground">
+              <strong>Mit mutat a diagram?</strong> A radar diagram az 5 hatás terület egyidejű áttekintését teszi lehetővé. 
+              Minél nagyobb a kitöltött terület, annál jobb az összhatás. Az egyenletes ötszög kiegyensúlyozott hatást jelez.
+            </p>
+          </div>
           {avgImpact < 2.5 && (
             <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
               <AlertTriangle className="w-4 h-4" />
