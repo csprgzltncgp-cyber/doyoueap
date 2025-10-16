@@ -380,12 +380,10 @@ const CreateAudit = () => {
           </div>
           <img src={eapPulseLogo} alt="EAP Pulse" className="h-10" />
         </div>
-        {currentStep > 0 && (
-          <Progress 
-            value={(currentStep / (totalSteps - (packageType === 'partner' ? 1 : 0))) * 100} 
-            className="h-3 bg-background/50"
-          />
-        )}
+        <Progress 
+          value={(currentStep / (totalSteps - (packageType === 'partner' ? 1 : 0))) * 100} 
+          className="h-3 bg-background/50"
+        />
       </div>
 
       <div className="max-w-4xl mx-auto space-y-6">
