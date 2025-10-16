@@ -391,7 +391,7 @@ export type Database = {
           employee_count: string | null
           enable_gifts: boolean
           id: string
-          industry: string | null
+          industry_id: string | null
           notes: string | null
           partner_user_id: string | null
           subscription_end_date: string | null
@@ -408,7 +408,7 @@ export type Database = {
           employee_count?: string | null
           enable_gifts?: boolean
           id?: string
-          industry?: string | null
+          industry_id?: string | null
           notes?: string | null
           partner_user_id?: string | null
           subscription_end_date?: string | null
@@ -425,7 +425,7 @@ export type Database = {
           employee_count?: string | null
           enable_gifts?: boolean
           id?: string
-          industry?: string | null
+          industry_id?: string | null
           notes?: string | null
           partner_user_id?: string | null
           subscription_end_date?: string | null
@@ -434,7 +434,15 @@ export type Database = {
           subscription_status?: string | null
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "companies_industry_id_fkey"
+            columns: ["industry_id"]
+            isOneToOne: false
+            referencedRelation: "industries"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       draws: {
         Row: {
@@ -590,6 +598,30 @@ export type Database = {
           name?: string
           updated_at?: string
           value_eur?: number
+        }
+        Relationships: []
+      }
+      industries: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          updated_at?: string
         }
         Relationships: []
       }

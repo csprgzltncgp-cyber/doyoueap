@@ -4,6 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Building2, Plus, Pencil, Trash2, Search } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -15,7 +22,8 @@ interface Company {
   company_name: string;
   contact_email: string;
   contact_phone: string | null;
-  industry: string | null;
+  industry_id: string | null;
+  industry?: { name: string };
   employee_count: string | null;
   notes: string | null;
   created_at: string;
@@ -25,6 +33,7 @@ const PartnerCenter = () => {
   const { toast } = useToast();
   const { user } = useAuth();
   const [companies, setCompanies] = useState<Company[]>([]);
+  const [industries, setIndustries] = useState<Array<{ id: string; name: string }>>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingCompany, setEditingCompany] = useState<Company | null>(null);
@@ -33,7 +42,7 @@ const PartnerCenter = () => {
     company_name: '',
     contact_email: '',
     contact_phone: '',
-    industry: '',
+    industry_id: '',
     employee_count: '',
     notes: ''
   });
@@ -41,8 +50,29 @@ const PartnerCenter = () => {
   useEffect(() => {
     if (user?.id) {
       fetchCompanies();
+      fetchIndustries();
     }
   }, [user?.id]);
+
+  const fetchIndustries = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('industries')
+        .select('id, name')
+        .eq('is_active', true)
+        .order('name');
+
+      if (error) throw error;
+      setIndustries(data || []);
+    } catch (error: any) {
+      console.error('Error fetching industries:', error);
+      toast({
+        title: 'Hiba',
+        description: 'Nem sikerült betölteni az iparágakat',
+        variant: 'destructive'
+      });
+    }
+  };
 
   const fetchCompanies = async () => {
     if (!user?.id) return;
@@ -51,7 +81,10 @@ const PartnerCenter = () => {
       setLoading(true);
       const { data, error } = await supabase
         .from('companies')
-        .select('*')
+        .select(`
+          *,
+          industry:industries(name)
+        `)
         .eq('partner_user_id', user.id)
         .order('created_at', { ascending: false });
 
@@ -80,7 +113,7 @@ const PartnerCenter = () => {
             company_name: formData.company_name,
             contact_email: formData.contact_email,
             contact_phone: formData.contact_phone || null,
-            industry: formData.industry || null,
+            industry_id: formData.industry_id || null,
             employee_count: formData.employee_count || null,
             notes: formData.notes || null
           })
@@ -99,7 +132,7 @@ const PartnerCenter = () => {
             company_name: formData.company_name,
             contact_email: formData.contact_email,
             contact_phone: formData.contact_phone || null,
-            industry: formData.industry || null,
+            industry_id: formData.industry_id || null,
             employee_count: formData.employee_count || null,
             notes: formData.notes || null,
             partner_user_id: user?.id
@@ -158,7 +191,7 @@ const PartnerCenter = () => {
       company_name: '',
       contact_email: '',
       contact_phone: '',
-      industry: '',
+      industry_id: '',
       employee_count: '',
       notes: ''
     });
@@ -171,7 +204,7 @@ const PartnerCenter = () => {
       company_name: company.company_name,
       contact_email: company.contact_email,
       contact_phone: company.contact_phone || '',
-      industry: company.industry || '',
+      industry_id: company.industry_id || '',
       employee_count: company.employee_count || '',
       notes: company.notes || ''
     });
@@ -246,12 +279,24 @@ const PartnerCenter = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="industry">Iparág</Label>
-                  <Input
-                    id="industry"
-                    value={formData.industry}
-                    onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
-                  />
+                  <Label htmlFor="industry_id">Iparág</Label>
+                  <Select
+                    value={formData.industry_id}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, industry_id: value })
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Válassz iparágat" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {industries.map((industry) => (
+                        <SelectItem key={industry.id} value={industry.id}>
+                          {industry.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-2">
@@ -340,10 +385,10 @@ const PartnerCenter = () => {
                   {filteredCompanies.map((company) => (
                     <TableRow key={company.id}>
                       <TableCell className="font-medium">{company.company_name}</TableCell>
-                      <TableCell>{company.contact_email}</TableCell>
-                      <TableCell>{company.contact_phone || '-'}</TableCell>
-                      <TableCell>{company.industry || '-'}</TableCell>
-                      <TableCell>{company.employee_count || '-'}</TableCell>
+                    <TableCell>{company.contact_email}</TableCell>
+                    <TableCell>{company.contact_phone || '-'}</TableCell>
+                    <TableCell>{company.industry?.name || '-'}</TableCell>
+                    <TableCell>{company.employee_count || '-'}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
                           <Button
