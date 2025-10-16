@@ -224,11 +224,42 @@ const Reports = () => {
     r.employee_metadata?.branch === 'used' || r.employee_metadata?.branch === 'not_used'
   );
   
-  const trustScore = calculateAverage(
-    trustResponses
-      .map(r => r.responses?.u_trust_anonymity || r.responses?.nu_trust_anonymity)
+  // Calculate Trust Index (matching TrustWillingness page calculation)
+  const usedTrustResponses = responses.filter(r => r.employee_metadata?.branch === 'used');
+  
+  const usedAnonymityScore = parseFloat(calculateAverage(
+    usedTrustResponses
+      .map(r => r.responses?.u_trust_anonymity)
       .filter(v => typeof v === 'number' && !isNaN(v))
-  );
+  ));
+  
+  const usedEmployerFearScore = parseFloat(calculateAverage(
+    usedTrustResponses
+      .map(r => r.responses?.u_trust_employer)
+      .filter(v => typeof v === 'number' && !isNaN(v))
+  ));
+  
+  const usedColleaguesFearScore = parseFloat(calculateAverage(
+    usedTrustResponses
+      .map(r => r.responses?.u_trust_colleagues)
+      .filter(v => typeof v === 'number' && !isNaN(v))
+  ));
+  
+  const likelihoodScore = parseFloat(calculateAverage(
+    usedTrustResponses
+      .map(r => r.responses?.u_trust_likelihood)
+      .filter(v => typeof v === 'number' && !isNaN(v))
+  ));
+  
+  const trustProfileData = [
+    { score: usedAnonymityScore },
+    { score: 5 - usedEmployerFearScore }, // Inverted scale
+    { score: 5 - usedColleaguesFearScore }, // Inverted scale
+    { score: likelihoodScore }
+  ];
+  
+  const trustIndex = trustProfileData.reduce((sum, item) => sum + (isNaN(item.score) ? 0 : item.score), 0) / trustProfileData.length;
+  const trustScore = trustIndex.toFixed(1);
 
   const usageScore = employeeCount > 0 ? ((usedBranch / employeeCount) * 100).toFixed(1) : '0.0';
 
@@ -418,14 +449,14 @@ const Reports = () => {
                 </Button>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Shield className="w-5 h-5" />
-                  Bizalom
+                  Bizalmi Index
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 relative z-10">
                 <div className="text-center">
                   <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>{trustScore}</div>
-                  <p className="text-sm text-muted-foreground mt-2">Mennyire bíznak az anonimitás védelmében</p>
+                  <p className="text-sm text-muted-foreground mt-2">Átfogó bizalmi mutató: anonimitás, félelmek és jövőbeli használati hajlandóság együttesen</p>
                 </div>
               </CardContent>
             </Card>
