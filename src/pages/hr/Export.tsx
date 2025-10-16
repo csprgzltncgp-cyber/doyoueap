@@ -1173,19 +1173,21 @@ const Export = () => {
           </CardHeader>
           <CardContent className="flex-1">
             <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="w-full grid grid-cols-5 lg:grid-cols-7 mb-4">
-                <TabsTrigger value="overview">Összefoglaló</TabsTrigger>
-                <TabsTrigger value="awareness">Ismertség</TabsTrigger>
-                <TabsTrigger value="trust">Bizalom</TabsTrigger>
-                <TabsTrigger value="usage">Használat</TabsTrigger>
-                <TabsTrigger value="impact">Hatás</TabsTrigger>
-                {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
-                  <>
-                    <TabsTrigger value="motivation">Preferenciák</TabsTrigger>
-                    <TabsTrigger value="demographics">Demográfia</TabsTrigger>
-                  </>
-                )}
-              </TabsList>
+              <div className="overflow-x-auto mb-4">
+                <TabsList className="inline-flex w-auto min-w-full">
+                  <TabsTrigger value="overview" className="flex-shrink-0">Összefoglaló</TabsTrigger>
+                  <TabsTrigger value="awareness" className="flex-shrink-0">Ismertség</TabsTrigger>
+                  <TabsTrigger value="trust" className="flex-shrink-0">Bizalom</TabsTrigger>
+                  <TabsTrigger value="usage" className="flex-shrink-0">Használat</TabsTrigger>
+                  <TabsTrigger value="impact" className="flex-shrink-0">Hatás</TabsTrigger>
+                  {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
+                    <>
+                      <TabsTrigger value="motivation" className="flex-shrink-0">Preferenciák</TabsTrigger>
+                      <TabsTrigger value="demographics" className="flex-shrink-0">Demográfia</TabsTrigger>
+                    </>
+                  )}
+                </TabsList>
+              </div>
 
               <TabsContent value="overview" className="space-y-2">
                 <p className="text-sm text-muted-foreground mb-4">Gyors áttekintés - főbb mutatók</p>
