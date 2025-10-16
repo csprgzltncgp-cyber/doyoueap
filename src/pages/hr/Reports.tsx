@@ -364,7 +364,7 @@ const Reports = () => {
   const pieData = [
     { name: 'Használók', value: usedBranch, color: 'hsl(var(--chart-2))' },
     { name: 'Nem használók', value: notUsedBranch, color: 'hsl(var(--chart-3))' },
-    { name: 'Nem tudtak róla', value: redirectBranch, color: 'hsl(var(--chart-4))' },
+    { name: 'Nem tudtak róla', value: redirectBranch, color: '#000099' },
   ].filter(item => item.value > 0);
 
   const exportCardToPNG = async (cardId: string, fileName: string) => {
