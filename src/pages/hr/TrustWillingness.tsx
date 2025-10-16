@@ -170,7 +170,13 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
   // Mapping régi válaszokról az új válaszokra
   const barriersMapping: { [key: string]: string } = {
     'Időhiány': 'Nehezen tudtam időpontot egyeztetni',
+    'Nincs rá időm': 'Nehezen tudtam időpontot egyeztetni',
     'Bizalomhiány': 'Nem volt szimpatikus a szakember / nem volt jó a kapcsolat',
+    'Úgy érzem, ez nem nekem való': 'Nem volt szimpatikus a szakember / nem volt jó a kapcsolat',
+    'Inkább más módon kérnék segítséget': 'Nem volt szimpatikus a szakember / nem volt jó a kapcsolat',
+    'Bonyolult': 'Nem kaptam elég információt arról, hogyan működik',
+    'Túl bonyolultnak tűnik': 'Nem kaptam elég információt arról, hogyan működik',
+    'Valami más okból': 'Túl sokáig tartott a folyamat',
   };
 
   const difficultiesData: { [key: string]: number } = {};
