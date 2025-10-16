@@ -321,8 +321,8 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
                 gaugeColor="hsl(var(--chart-2))"
               />
             </div>
-            <p className="text-xs text-muted-foreground text-center px-2">
-              A válaszolók közül ennyien tudtak a programról
+            <p className="text-xs text-muted-foreground text-center px-2 mt-4">
+              Az Ismertség Index azt mutatja, hogy a felmérésben résztvevők hány százaléka tudott az EAP programról.
             </p>
           </CardContent>
         </Card>
@@ -388,12 +388,12 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
 
               {parseFloat(overallUnderstandingScore) < 2.5 && (
                 <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
-                  <AlertTriangle className="w-4 h-4" />
+                  <AlertTriangle className="w-4 w-4" />
                   <span>Alacsony megértési szint</span>
                 </div>
               )}
-              <p className="text-sm text-muted-foreground mt-2">
-                Mennyire értik a munkavállalók az EAP szolgáltatást
+              <p className="text-sm text-muted-foreground mt-4">
+                Az Általános Megértés azt mutatja, hogy a munkavállalók mennyire értik, mire való az EAP program. Az érték 1-5 skálán mozog, ahol az 5 a legmagasabb megértési szintet jelenti.
               </p>
             </div>
           </CardContent>

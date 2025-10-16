@@ -434,8 +434,8 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
                 gaugeColor="hsl(var(--chart-2))"
               />
             </div>
-            <p className="text-xs text-muted-foreground text-center px-2">
-              Átfogó bizalmi mutató (anonimitás, félelmek, jövőbeli használat)
+            <p className="text-xs text-muted-foreground text-center px-2 mt-4">
+              A Bizalmi Index azt mutatja, hogy mennyire bíznak a munkavállalók az EAP program anonimitásában, függetlenségében és biztonságában. Az érték 1-5 skálán mozog.
             </p>
           </CardContent>
         </Card>

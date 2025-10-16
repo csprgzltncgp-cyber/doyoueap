@@ -236,7 +236,9 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange }: MotivationProps)
             <Download className="h-4 w-4" />
           </Button>
           <CardTitle>Mi kellene a használathoz?</CardTitle>
-          <CardDescription>Top motivátorok, amelyek ösztönöznék a nem használókat a program igénybevételére</CardDescription>
+          <CardDescription>
+            Azok a tényezők, amelyek motiválnák a nem használókat az EAP program igénybevételére. Több választ is megjelölhettek.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {motivatorsData.length === 0 ? (
@@ -275,7 +277,9 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange }: MotivationProps)
             <Download className="h-4 w-4" />
           </Button>
           <CardTitle>Preferált szakértő típus</CardTitle>
-          <CardDescription>Milyen típusú szakértőt preferálnának a nem használók</CardDescription>
+          <CardDescription>
+            Milyen szakember segítségét vennék igénybe legszívesebben a nem használók, ha úgy döntenének, hogy részt vesznek a programban.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {expertData.length === 0 ? (
@@ -314,7 +318,9 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange }: MotivationProps)
             <Download className="h-4 w-4" />
           </Button>
           <CardTitle>Preferált kommunikációs csatorna</CardTitle>
-          <CardDescription>Milyen elérhetőségi módot preferálnának (telefon, online chat, stb.)</CardDescription>
+          <CardDescription>
+            Milyen módon szeretnék igénybe venni a szolgáltatást a nem használók: telefonos konzultáció, online chat, személyes találkozó, stb.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {channelData.length === 0 ? (
