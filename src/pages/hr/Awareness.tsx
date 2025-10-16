@@ -366,7 +366,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
               
               {/* Számegyenes vizualizáció */}
               <div className="mt-4 px-8">
-                <div className="relative h-2 bg-muted rounded-full">
+                <div className="relative h-2 bg-gray-400 rounded-full">
                   <div 
                     className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
                     style={{ 
@@ -438,7 +438,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
               
               {/* Számegyenes vizualizáció */}
               <div className="mt-4 px-8">
-                <div className="relative h-2 bg-muted rounded-full">
+                <div className="relative h-2 bg-gray-400 rounded-full">
                   <div 
                     className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
                     style={{ 
