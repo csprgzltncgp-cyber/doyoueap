@@ -13,6 +13,7 @@ const REPORT_TABS = [
   { value: "usage", label: "Használat" },
   { value: "impact", label: "Hatás" },
   { value: "motivation", label: "Motiváció" },
+  { value: "preferences", label: "Preferenciák" },
   { value: "demographics", label: "Demográfia" },
   { value: "trends", label: "Trendek" },
   { value: "compare", label: "Összehasonlítás" },
