@@ -422,7 +422,18 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Bizalmi Index (from Reports overview page) */}
         <Card className="relative overflow-hidden border-2 border-[#3366ff]" id="trust-index-card">
-          <CardHeader className="relative z-10" style={{ minHeight: '120px' }}>
+          <div 
+            className="absolute inset-0 transition-all duration-500"
+            style={{
+              background: `linear-gradient(to top, ${
+                overallTrustIndex < 3 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } 0%, ${
+                overallTrustIndex < 3 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } ${(overallTrustIndex / 5) * 100}%, transparent ${(overallTrustIndex / 5) * 100}%, transparent 100%)`,
+              opacity: 0.1
+            }}
+          />
+          <CardHeader className="relative z-10">
             <Button
               variant="ghost"
               size="icon"
@@ -437,27 +448,64 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
             </CardTitle>
             <CardDescription>1-5 skála</CardDescription>
           </CardHeader>
-          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-            <div className="flex items-center justify-center flex-1 w-full">
-              <GaugeChart
-                value={(overallTrustIndex / 5) * 100} 
-                maxValue={100}
-                size={200}
-                label={overallTrustIndex.toFixed(1)}
-                sublabel="/ 5"
-                cornerRadius={30}
-                gaugeColor="hsl(var(--chart-2))"
-              />
+          <CardContent className="space-y-4 relative z-10">
+            <div className="text-center">
+              <div 
+                className="text-6xl font-bold" 
+                style={{ 
+                  color: overallTrustIndex < 3 ? '#ff0033' : 'hsl(var(--chart-2))'
+                }}
+              >
+                {overallTrustIndex.toFixed(1)}
+              </div>
+              
+              {/* Számegyenes vizualizáció */}
+              <div className="mt-4 px-8">
+                <div className="relative h-2 bg-gray-400 rounded-full">
+                  <div 
+                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
+                    style={{ 
+                      left: `calc(${((overallTrustIndex - 1) / 4) * 100}% - 8px)`,
+                      backgroundColor: overallTrustIndex < 3 ? '#ff0033' : 'hsl(var(--chart-2))'
+                    }}
+                  />
+                </div>
+                <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                  <span>1</span>
+                  <span>2</span>
+                  <span>3</span>
+                  <span>4</span>
+                  <span>5</span>
+                </div>
+              </div>
+
+              {overallTrustIndex < 3 && (
+                <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
+                  <AlertTriangle className="w-4 h-4" />
+                  <span>Alacsony bizalmi szint</span>
+                </div>
+              )}
+              <p className="text-sm text-muted-foreground mt-4">
+                A Bizalmi Index azt mutatja, hogy mennyire bíznak a munkavállalók az EAP program anonimitásában, függetlenségében és biztonságában. Az érték 1-5 skálán mozog.
+              </p>
             </div>
-            <p className="text-xs text-muted-foreground text-center px-2 mt-4">
-              A Bizalmi Index azt mutatja, hogy mennyire bíznak a munkavállalók az EAP program anonimitásában, függetlenségében és biztonságában. Az érték 1-5 skálán mozog.
-            </p>
           </CardContent>
         </Card>
 
         {/* Jövőbeli Használat */}
-        <Card id="likelihood-card">
-          <CardHeader className="relative">
+        <Card className="relative overflow-hidden" id="likelihood-card">
+          <div 
+            className="absolute inset-0 transition-all duration-500"
+            style={{
+              background: `linear-gradient(to top, ${
+                parseFloat(likelihoodScore) < 3.0 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } 0%, ${
+                parseFloat(likelihoodScore) < 3.0 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } ${(parseFloat(likelihoodScore) / 5) * 100}%, transparent ${(parseFloat(likelihoodScore) / 5) * 100}%, transparent 100%)`,
+              opacity: 0.1
+            }}
+          />
+          <CardHeader className="relative z-10">
             <Button
               variant="ghost"
               size="icon"
@@ -470,35 +518,66 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
               <TrendingUp className="w-5 h-5" />
               Jövőbeli Használat
             </CardTitle>
-            <CardDescription>Használók hajlandósága (1-5 skála)</CardDescription>
+            <CardDescription>1-5 skála</CardDescription>
           </CardHeader>
-          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-            <div className="flex items-center justify-center flex-1 w-full">
-              <GaugeChart 
-                value={(parseFloat(likelihoodScore) / 5) * 100} 
-                maxValue={100}
-                size={220}
-                label={likelihoodScore}
-                sublabel={`${usedResponses.length} használó`}
-                cornerRadius={30}
-                gaugeColor={parseFloat(likelihoodScore) < 3.0 ? '#ff0033' : undefined}
-              />
-            </div>
-            {parseFloat(likelihoodScore) < 3.0 && (
-              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
-                <AlertTriangle className="w-4 h-4" />
-                <span>Alacsony használati hajlandóság</span>
+          <CardContent className="space-y-4 relative z-10">
+            <div className="text-center">
+              <div 
+                className="text-6xl font-bold" 
+                style={{ 
+                  color: parseFloat(likelihoodScore) < 3.0 ? '#ff0033' : 'hsl(var(--chart-2))'
+                }}
+              >
+                {likelihoodScore}
               </div>
-            )}
-            <p className="text-xs text-muted-foreground text-center mt-4">
-              Mennyire valószínű, hogy újra igénybe veszik
-            </p>
+              
+              {/* Számegyenes vizualizáció */}
+              <div className="mt-4 px-8">
+                <div className="relative h-2 bg-gray-400 rounded-full">
+                  <div 
+                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
+                    style={{ 
+                      left: `calc(${((parseFloat(likelihoodScore) - 1) / 4) * 100}% - 8px)`,
+                      backgroundColor: parseFloat(likelihoodScore) < 3.0 ? '#ff0033' : 'hsl(var(--chart-2))'
+                    }}
+                  />
+                </div>
+                <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                  <span>1</span>
+                  <span>2</span>
+                  <span>3</span>
+                  <span>4</span>
+                  <span>5</span>
+                </div>
+              </div>
+
+              {parseFloat(likelihoodScore) < 3.0 && (
+                <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
+                  <AlertTriangle className="w-4 h-4" />
+                  <span>Alacsony hajlandóság</span>
+                </div>
+              )}
+              <p className="text-sm text-muted-foreground mt-4">
+                A Jövőbeli Használat azt mutatja, hogy milyen valószínűséggel venne újra igénybe az EAP szolgáltatást. Az érték 1-5 skálán mozog.
+              </p>
+            </div>
           </CardContent>
         </Card>
 
         {/* Anonimitás Bizalom */}
-        <Card id="overall-anonymity-card">
-          <CardHeader className="relative">
+        <Card className="relative overflow-hidden" id="overall-anonymity-card">
+          <div 
+            className="absolute inset-0 transition-all duration-500"
+            style={{
+              background: `linear-gradient(to top, ${
+                parseFloat(overallAnonymityScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } 0%, ${
+                parseFloat(overallAnonymityScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } ${(parseFloat(overallAnonymityScore) / 5) * 100}%, transparent ${(parseFloat(overallAnonymityScore) / 5) * 100}%, transparent 100%)`,
+              opacity: 0.1
+            }}
+          />
+          <CardHeader className="relative z-10">
             <Button
               variant="ghost"
               size="icon"
@@ -511,35 +590,66 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
               <Lock className="w-5 h-5" />
               Anonimitás Bizalom
             </CardTitle>
-            <CardDescription>Általános szint (1-5 skála)</CardDescription>
+            <CardDescription>1-5 skála</CardDescription>
           </CardHeader>
-          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-            <div className="flex items-center justify-center flex-1 w-full">
-              <GaugeChart 
-                value={(parseFloat(overallAnonymityScore) / 5) * 100} 
-                maxValue={100}
-                size={220}
-                label={overallAnonymityScore}
-                sublabel={`${trustResponses.length} válaszadó`}
-                cornerRadius={30}
-                gaugeColor={parseFloat(overallAnonymityScore) < 2.5 ? '#ff0033' : undefined}
-              />
-            </div>
-            {parseFloat(overallAnonymityScore) < 2.5 && (
-              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
-                <AlertTriangle className="w-4 w-4" />
-                <span>Alacsony anonimitási bizalom</span>
+          <CardContent className="space-y-4 relative z-10">
+            <div className="text-center">
+              <div 
+                className="text-6xl font-bold" 
+                style={{ 
+                  color: parseFloat(overallAnonymityScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                }}
+              >
+                {overallAnonymityScore}
               </div>
-            )}
-            <p className="text-xs text-muted-foreground text-center mt-4">
-              Mennyire bíznak az anonimitás védelmében
-            </p>
+              
+              {/* Számegyenes vizualizáció */}
+              <div className="mt-4 px-8">
+                <div className="relative h-2 bg-gray-400 rounded-full">
+                  <div 
+                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
+                    style={{ 
+                      left: `calc(${((parseFloat(overallAnonymityScore) - 1) / 4) * 100}% - 8px)`,
+                      backgroundColor: parseFloat(overallAnonymityScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                    }}
+                  />
+                </div>
+                <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                  <span>1</span>
+                  <span>2</span>
+                  <span>3</span>
+                  <span>4</span>
+                  <span>5</span>
+                </div>
+              </div>
+
+              {parseFloat(overallAnonymityScore) < 2.5 && (
+                <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
+                  <AlertTriangle className="w-4 h-4" />
+                  <span>Alacsony bizalom</span>
+                </div>
+              )}
+              <p className="text-sm text-muted-foreground mt-4">
+                Az Anonimitás Bizalom azt mutatja, hogy mennyire bíznak a munkavállalók abban, hogy az EAP használat során adataik védve vannak. Az érték 1-5 skálán mozog.
+              </p>
+            </div>
           </CardContent>
         </Card>
 
-        {/* Munkaadói Félelem - converted to gauge chart */}
+        {/* Munkaadói Félelem */}
         <Card className="relative overflow-hidden" id="employer-fear-card">
-          <CardHeader className="relative z-10" style={{ minHeight: '120px' }}>
+          <div 
+            className="absolute inset-0 transition-all duration-500"
+            style={{
+              background: `linear-gradient(to top, ${
+                parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } 0%, ${
+                parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } ${(parseFloat(overallEmployerFearScore) / 5) * 100}%, transparent ${(parseFloat(overallEmployerFearScore) / 5) * 100}%, transparent 100%)`,
+              opacity: 0.1
+            }}
+          />
+          <CardHeader className="relative z-10">
             <Button
               variant="ghost"
               size="icon"
@@ -549,32 +659,52 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
               <Download className="h-4 w-4" />
             </Button>
             <CardTitle className="text-lg flex items-center gap-2">
-              <AlertTriangle className="w-5 h-5" />
+              <Eye className="w-5 h-5" />
               Munkaadói Félelem
             </CardTitle>
-            <CardDescription>1-5 skála (magasabb = nagyobb félelem)</CardDescription>
+            <CardDescription>1-5 skála (fordított)</CardDescription>
           </CardHeader>
-          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-            <div className="flex items-center justify-center flex-1 w-full">
-              <GaugeChart 
-                value={(parseFloat(overallEmployerFearScore) / 5) * 100} 
-                maxValue={100}
-                size={220}
-                label={overallEmployerFearScore}
-                sublabel="/ 5"
-                cornerRadius={30}
-                gaugeColor={parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : undefined}
-              />
-            </div>
-            {parseFloat(overallEmployerFearScore) > 3.5 && (
-              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
-                <AlertTriangle className="w-4 h-4" />
-                <span>Magas munkaadói félelem</span>
+          <CardContent className="space-y-4 relative z-10">
+            <div className="text-center">
+              <div 
+                className="text-6xl font-bold" 
+                style={{ 
+                  color: parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                }}
+              >
+                {overallEmployerFearScore}
               </div>
-            )}
-            <p className="text-xs text-muted-foreground text-center mt-4">
-              Mennyire félnek a munkaadó megítélésétől
-            </p>
+              
+              {/* Számegyenes vizualizáció */}
+              <div className="mt-4 px-8">
+                <div className="relative h-2 bg-gray-400 rounded-full">
+                  <div 
+                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
+                    style={{ 
+                      left: `calc(${((parseFloat(overallEmployerFearScore) - 1) / 4) * 100}% - 8px)`,
+                      backgroundColor: parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                    }}
+                  />
+                </div>
+                <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                  <span>1</span>
+                  <span>2</span>
+                  <span>3</span>
+                  <span>4</span>
+                  <span>5</span>
+                </div>
+              </div>
+
+              {parseFloat(overallEmployerFearScore) > 3.5 && (
+                <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
+                  <AlertTriangle className="w-4 h-4" />
+                  <span>Magas félelem</span>
+                </div>
+              )}
+              <p className="text-sm text-muted-foreground mt-4">
+                A Munkaadói Félelem azt mutatja, hogy mennyire félnek a munkavállalók attól, hogy a munkaadó megtudja az EAP használatát. Az érték 1-5 skálán mozog, ahol a magasabb érték nagyobb félelmet jelent.
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>
