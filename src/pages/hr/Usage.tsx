@@ -97,8 +97,8 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
   const notUsedTrustResponses = responses.filter(r => r.employee_metadata?.branch === 'not_used');
 
   // Non-users' intention to use in the future (yes/no question, convert to percentage)
-  const wouldUseYes = notUsedTrustResponses.filter(r => r.responses?.nu_trust_would_use === 'yes' || r.responses?.nu_trust_would_use === 'Igen').length;
-  const wouldUseTotal = notUsedTrustResponses.filter(r => r.responses?.nu_trust_would_use === 'yes' || r.responses?.nu_trust_would_use === 'no' || r.responses?.nu_trust_would_use === 'Igen' || r.responses?.nu_trust_would_use === 'Nem').length;
+  const wouldUseYes = notUsedTrustResponses.filter(r => r.responses?.nu_usage_would_use === 'yes' || r.responses?.nu_usage_would_use === 'Igen').length;
+  const wouldUseTotal = notUsedTrustResponses.filter(r => r.responses?.nu_usage_would_use === 'yes' || r.responses?.nu_usage_would_use === 'no' || r.responses?.nu_usage_would_use === 'Igen' || r.responses?.nu_usage_would_use === 'Nem').length;
   const futureUsageIntentNonUsers = wouldUseTotal > 0 
     ? ((wouldUseYes / wouldUseTotal) * 100)
     : 0;
