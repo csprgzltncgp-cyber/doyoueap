@@ -392,10 +392,10 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
                   <span>Alacsony megértési szint</span>
                 </div>
               )}
-              <p className="text-sm text-muted-foreground mt-4">
-                Az Általános Megértés azt mutatja, hogy a munkavállalók mennyire értik, mire való az EAP program. Az érték 1-5 skálán mozog, ahol az 5 a legmagasabb megértési szintet jelenti.
-              </p>
             </div>
+            <p className="text-sm text-muted-foreground text-center px-2">
+              Az Általános Megértés azt mutatja, hogy a munkavállalók mennyire értik, mire való az EAP program. Az érték 1-5 skálán mozog, ahol az 5 a legmagasabb megértési szintet jelenti.
+            </p>
           </CardContent>
         </Card>
 
@@ -464,12 +464,10 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
                   <span>Alacsony tudásszint</span>
                 </div>
               )}
-              <p className="text-sm text-muted-foreground mt-2">
-                {awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length >= 3.5 
-                  ? '✓ A használók jól ismerik a szolgáltatást' 
-                  : '→ Van még fejlesztési lehetőség a kommunikációban'}
-              </p>
             </div>
+            <p className="text-sm text-muted-foreground text-center px-2">
+              Az Általános Tudásszint azt mutatja, hogy a használók mennyire ismerik az EAP programot: megértés, használati mód, elérhetőség. Az érték 1-5 skálán mozog.
+            </p>
           </CardContent>
         </Card>
 
