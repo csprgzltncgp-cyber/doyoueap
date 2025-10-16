@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { usePackage } from "@/hooks/usePackage";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Download, Eye, Shield, Activity, Target, Users, TrendingUp, Presentation, RefreshCw } from "lucide-react";
+import { Download, Eye, Shield, Activity, Target, Users, TrendingUp, Presentation, RefreshCw, Building2 } from "lucide-react";
 import fourScoreLogo from "@/assets/4score_logo.svg";
 import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, BarChart, Bar, XAxis, YAxis, RadialBarChart, RadialBar, Legend } from "recharts";
@@ -32,12 +33,17 @@ interface Audit {
   recurrence_config: any;
   is_active: boolean;
   expires_at: string | null;
+  company_name?: string;
+  partner_company_id?: string | null;
 }
 
 const Reports = () => {
   const [searchParams] = useSearchParams();
+  const { packageType } = usePackage();
   const [audits, setAudits] = useState<Audit[]>([]);
   const [selectedAuditId, setSelectedAuditId] = useState<string>('');
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string>('all');
+  const [companies, setCompanies] = useState<Array<{ id: string; company_name: string }>>([]);
   const [loading, setLoading] = useState(true);
   const [responses, setResponses] = useState<any[]>([]);
   const [loadingResponses, setLoadingResponses] = useState(false);
@@ -48,9 +54,30 @@ const Reports = () => {
   const inIframe = searchParams.get("inIframe") === "true";
 
   useEffect(() => {
+    if (packageType === 'partner') {
+      fetchCompanies();
+    }
     fetchAudits();
     fetchEmployeeCount();
-  }, []);
+  }, [packageType]);
+
+  const fetchCompanies = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('companies')
+        .select('id, company_name')
+        .eq('partner_user_id', user.id)
+        .order('company_name');
+
+      if (error) throw error;
+      setCompanies(data || []);
+    } catch (error) {
+      console.error('Error fetching companies:', error);
+    }
+  };
 
   useEffect(() => {
     if (selectedAuditId) {
@@ -151,15 +178,24 @@ const Reports = () => {
 
   const fetchAudits = async () => {
     try {
-      const { data } = await supabase
+      let query = supabase
         .from('audits')
-        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at')
-        .eq('is_active', true)
-        .order('start_date', { ascending: false });
+        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, company_name, partner_company_id')
+        .eq('is_active', true);
+
+      // Filter by company for partners
+      if (packageType === 'partner' && selectedCompanyId && selectedCompanyId !== 'all') {
+        query = query.eq('partner_company_id', selectedCompanyId);
+      }
+
+      const { data } = await query.order('start_date', { ascending: false });
 
       if (data && data.length > 0) {
         setAudits(data);
         setSelectedAuditId(data[0].id);
+      } else {
+        setAudits([]);
+        setSelectedAuditId('');
       }
     } catch (error) {
       console.error('Error fetching assessments:', error);
@@ -168,6 +204,13 @@ const Reports = () => {
       setLoading(false);
     }
   };
+
+  // Refetch audits when selected company changes
+  useEffect(() => {
+    if (packageType === 'partner') {
+      fetchAudits();
+    }
+  }, [selectedCompanyId, packageType]);
 
   const fetchResponses = async () => {
     setLoadingResponses(true);
@@ -432,6 +475,31 @@ const Reports = () => {
             {audits.length > 0 && (
               <div className="flex flex-col md:flex-row md:items-center gap-4">
                 <img src={fourScoreLogo} alt="4Score" className="h-6" />
+                
+                {/* Company selector for partner users */}
+                {packageType === 'partner' && companies.length > 0 && (
+                  <div className="flex-1 md:max-w-[300px]">
+                    <label className="text-xs text-muted-foreground mb-1.5 flex items-center gap-1">
+                      <Building2 className="h-3 w-3" />
+                      Ügyfélcég szűrése
+                    </label>
+                    <Select value={selectedCompanyId} onValueChange={setSelectedCompanyId}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Válassz ügyfélcéget" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Összes ügyfélcég</SelectItem>
+                        {companies.map((company) => (
+                          <SelectItem key={company.id} value={company.id}>
+                            {company.company_name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+
+                {/* Audit selector */}
                 <div className="flex-1 md:max-w-[300px] md:ml-auto">
                   <label className="text-xs text-muted-foreground mb-1.5 block">
                     Felmérés kiválasztása
@@ -444,6 +512,11 @@ const Reports = () => {
                       {audits.map((audit) => (
                         <SelectItem key={audit.id} value={audit.id}>
                           {formatAuditName(audit)}
+                          {audit.partner_company_id && audit.company_name && (
+                            <span className="text-xs text-muted-foreground ml-2">
+                              ({audit.company_name})
+                            </span>
+                          )}
                         </SelectItem>
                       ))}
                     </SelectContent>

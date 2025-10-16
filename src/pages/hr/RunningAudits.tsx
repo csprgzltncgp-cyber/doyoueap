@@ -106,10 +106,27 @@ const RunningAudits = () => {
         }
       }
 
-      // Fetch active audits
+      // Fetch active audits with company info for partners
       const { data: auditsData, error: auditsError } = await supabase
         .from('audits')
-        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, access_token, gift_id, draw_mode, draw_status, status, target_responses, email_count')
+        .select(`
+          id, 
+          start_date, 
+          program_name, 
+          access_mode, 
+          recurrence_config, 
+          is_active, 
+          expires_at, 
+          access_token, 
+          gift_id, 
+          draw_mode, 
+          draw_status, 
+          status, 
+          target_responses, 
+          email_count,
+          company_name,
+          partner_company_id
+        `)
         .eq('is_active', true)
         .order('start_date', { ascending: false });
 
@@ -487,6 +504,11 @@ const RunningAudits = () => {
             <CardTitle className="text-xl mb-2">
               {formatAuditName(metrics.audit)}
             </CardTitle>
+            {metrics.audit.partner_company_id && (
+              <p className="text-sm text-muted-foreground mb-2">
+                Ügyfélcég: {metrics.audit.company_name}
+              </p>
+            )}
             <div className="flex items-center gap-2 mt-2">
               <Badge variant="outline" className="gap-1">
                 {getAccessModeIcon(metrics.audit.access_mode)}

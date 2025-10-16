@@ -81,6 +81,8 @@ export interface StandardAudit {
   status?: 'draft' | 'running' | 'closed';
   target_responses?: number | null;
   email_count?: number | null;
+  company_name?: string;
+  partner_company_id?: string | null;
 }
 
 // Standard query string for fetching felmérések
