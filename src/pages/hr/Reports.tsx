@@ -214,11 +214,9 @@ const Reports = () => {
     r.employee_metadata?.branch === 'used' || r.employee_metadata?.branch === 'not_used'
   );
   
-  const awarenessScore = calculateAverage(
-    awarenessResponses
-      .map(r => r.responses?.u_awareness_understanding || r.responses?.nu_awareness_understanding)
-      .filter(v => typeof v === 'number' && !isNaN(v))
-  );
+  // Awareness Score - General Awareness Rate (percentage who know about the program)
+  const awarenessRate = totalResponses > 0 ? ((awarenessResponses.length / totalResponses) * 100) : 0;
+  const awarenessScore = awarenessRate.toFixed(1);
 
   const trustResponses = responses.filter(r => 
     r.employee_metadata?.branch === 'used' || r.employee_metadata?.branch === 'not_used'
@@ -438,7 +436,7 @@ const Reports = () => {
               <div 
                 className="absolute inset-0 transition-all duration-500"
                 style={{
-                  background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${(parseFloat(awarenessScore) / 5) * 100}%, transparent ${(parseFloat(awarenessScore) / 5) * 100}%, transparent 100%)`,
+                  background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${awarenessRate}%, transparent ${awarenessRate}%, transparent 100%)`,
                   opacity: 0.1
                 }}
               />
@@ -453,14 +451,14 @@ const Reports = () => {
                 </Button>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Eye className="w-5 h-5" />
-                  Ismertség
+                  Általános Ismertség
                 </CardTitle>
-                <CardDescription>1-5 skála</CardDescription>
+                <CardDescription>A program ismeretének aránya</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 relative z-10">
                 <div className="text-center">
-                  <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>{awarenessScore}</div>
-                  <p className="text-sm text-muted-foreground mt-2">Mennyire értik a munkavállalók a szolgáltatást</p>
+                  <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>{awarenessScore}%</div>
+                  <p className="text-sm text-muted-foreground mt-2">A válaszolók közül ennyien tudtak a programról (használók + nem használók)</p>
                 </div>
               </CardContent>
             </Card>
