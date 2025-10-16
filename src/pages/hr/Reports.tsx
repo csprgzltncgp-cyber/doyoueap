@@ -487,7 +487,7 @@ const Reports = () => {
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Válassz ügyfélcéget" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent align="start">
                           <SelectItem value="all">Összes ügyfélcég</SelectItem>
                           {companies.map((company) => (
                             <SelectItem key={company.id} value={company.id}>
@@ -505,23 +505,23 @@ const Reports = () => {
                       <label className="text-xs text-muted-foreground mb-1.5 block">
                         Felmérés kiválasztása
                       </label>
-                      <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Válassz felmérést" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {audits.map((audit) => (
-                            <SelectItem key={audit.id} value={audit.id}>
-                              {formatAuditName(audit)}
-                              {audit.partner_company_id && audit.company_name && (
-                                <span className="text-xs text-muted-foreground ml-2">
-                                  ({audit.company_name})
-                                </span>
-                              )}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                    <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Válassz felmérést" />
+                      </SelectTrigger>
+                      <SelectContent align="start">
+                        {audits.map((audit) => (
+                          <SelectItem key={audit.id} value={audit.id}>
+                            {formatAuditName(audit)}
+                            {audit.partner_company_id && audit.company_name && (
+                              <span className="text-xs text-muted-foreground ml-2">
+                                ({audit.company_name})
+                              </span>
+                            )}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     </div>
                   )}
                 </div>

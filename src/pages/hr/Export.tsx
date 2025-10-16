@@ -1082,7 +1082,7 @@ const Export = () => {
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Válassz ügyfélcéget" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent align="start">
                       <SelectItem value="all">Összes ügyfélcég</SelectItem>
                       {companies.map((company) => (
                         <SelectItem key={company.id} value={company.id}>
@@ -1104,7 +1104,7 @@ const Export = () => {
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Felmérés kiválasztása" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent align="start">
                       {audits.map((audit) => (
                         <SelectItem key={audit.id} value={audit.id}>
                           {formatAuditName(audit)}
