@@ -480,74 +480,74 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
         </Card>
       </div>
 
-      {/* Impact Metrics Gauge Charts */}
-      <Card id="impact-metrics-card">
-        <CardHeader className="relative">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-2 top-2 h-8 w-8"
-            onClick={() => exportCardToPNG('impact-metrics-card', 'hatás-területek')}
-          >
-            <Download className="h-4 w-4" />
-          </Button>
-          <div>
-            <CardTitle>Hatás Területek</CardTitle>
-            <CardDescription>Értékelések területenként (1-5 skála)</CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {impactData.map((item) => {
-              let description = '';
-              switch(item.metric) {
-                case 'Elégedettség':
-                  description = 'Általános elégedettség a programmal';
-                  break;
-                case 'Problémamegoldás':
-                  description = 'Mennyire segített a program a problémák kezelésében';
-                  break;
-                case 'Wellbeing javulás':
-                  description = 'Jóllét és mentális egészség javulása';
-                  break;
-                case 'Teljesítmény javulás':
-                  description = 'Munkahelyi teljesítmény pozitív változása';
-                  break;
-                case 'Szolgáltatás konzisztencia':
-                  description = 'A szolgáltatás minőségének következetessége';
-                  break;
-              }
-              
-              const isLow = item.average < 2.5;
-              
-              return (
-                <div key={item.metric} className="flex flex-col p-4 bg-muted/30 rounded-lg relative overflow-hidden">
-                  <div 
-                    className="absolute inset-0 transition-all duration-500"
-                    style={{
-                      background: `linear-gradient(to top, ${
-                        isLow ? '#ff0033' : 'hsl(var(--chart-2))'
-                      } 0%, ${
-                        isLow ? '#ff0033' : 'hsl(var(--chart-2))'
-                      } ${(item.average / 5) * 100}%, transparent ${(item.average / 5) * 100}%, transparent 100%)`,
-                      opacity: 0.1
-                    }}
-                  />
-                  <div className="relative z-10 flex flex-col items-center">
-                    <div className="text-center mb-2">
-                      <div 
-                        className="text-5xl font-bold" 
-                        style={{ 
-                          color: isLow ? '#ff0033' : 'hsl(var(--chart-2))'
-                        }}
-                      >
-                        {item.average.toFixed(1)}
-                      </div>
-                      <div className="text-sm font-medium mt-1">{item.metric}</div>
+
+      {/* Impact Metrics - Individual Cards */}
+      <div className="space-y-4">
+        <div>
+          <h3 className="text-xl font-semibold mb-4">Hatás Területek</h3>
+          <p className="text-sm text-muted-foreground mb-4">Értékelések területenként (1-5 skála)</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {impactData.map((item) => {
+            let description = '';
+            switch(item.metric) {
+              case 'Elégedettség':
+                description = 'Általános elégedettség a programmal';
+                break;
+              case 'Problémamegoldás':
+                description = 'Mennyire segített a program a problémák kezelésében';
+                break;
+              case 'Wellbeing javulás':
+                description = 'Jóllét és mentális egészség javulása';
+                break;
+              case 'Teljesítmény javulás':
+                description = 'Munkahelyi teljesítmény pozitív változása';
+                break;
+              case 'Szolgáltatás konzisztencia':
+                description = 'A szolgáltatás minőségének következetessége';
+                break;
+            }
+            
+            const isLow = item.average < 2.5;
+            
+            return (
+              <Card key={item.metric} id={`impact-${item.metric.toLowerCase().replace(/\s+/g, '-')}-card`} className="relative overflow-hidden">
+                <div 
+                  className="absolute inset-0 transition-all duration-500"
+                  style={{
+                    background: `linear-gradient(to top, ${
+                      isLow ? '#ff0033' : 'hsl(var(--chart-2))'
+                    } 0%, ${
+                      isLow ? '#ff0033' : 'hsl(var(--chart-2))'
+                    } ${(item.average / 5) * 100}%, transparent ${(item.average / 5) * 100}%, transparent 100%)`,
+                    opacity: 0.1
+                  }}
+                />
+                <CardHeader className="relative z-10">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-2 top-2 h-8 w-8"
+                    onClick={() => exportCardToPNG(`impact-${item.metric.toLowerCase().replace(/\s+/g, '-')}-card`, `hatás-${item.metric.toLowerCase()}`)}
+                  >
+                    <Download className="h-4 w-4" />
+                  </Button>
+                  <CardTitle className="text-lg">{item.metric}</CardTitle>
+                  <CardDescription>1-5 skála</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4 relative z-10">
+                  <div className="text-center">
+                    <div 
+                      className="text-6xl font-bold" 
+                      style={{ 
+                        color: isLow ? '#ff0033' : 'hsl(var(--chart-2))'
+                      }}
+                    >
+                      {item.average.toFixed(1)}
                     </div>
                     
                     {/* Számegyenes vizualizáció */}
-                    <div className="w-full px-4 my-4">
+                    <div className="mt-4 px-8">
                       <div className="relative h-2 bg-gray-400 rounded-full">
                         <div 
                           className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
@@ -567,21 +567,21 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
                     </div>
 
                     {isLow && (
-                      <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-xs">
-                        <AlertTriangle className="w-3 h-3" />
+                      <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
+                        <AlertTriangle className="w-4 h-4" />
                         <span>Alacsony érték</span>
                       </div>
                     )}
-                    <p className="text-xs text-muted-foreground text-center mt-3">
-                      {description}
-                    </p>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        </CardContent>
-      </Card>
+                  <p className="text-sm text-muted-foreground text-center px-2">
+                    {description}
+                  </p>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
 
       {/* Radar Chart */}
       <Card id="impact-radar-card">
