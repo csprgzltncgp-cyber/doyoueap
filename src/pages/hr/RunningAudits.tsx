@@ -13,6 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
+import { usePackage } from '@/hooks/usePackage';
 import { Calendar as CalendarIcon, CalendarDays, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2, Trophy, FileDown, RefreshCw, Edit } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import jsPDF from 'jspdf';
@@ -44,6 +45,7 @@ interface AuditMetrics {
 }
 
 const RunningAudits = () => {
+  const { packageType } = usePackage();
   const [audits, setAudits] = useState<AuditMetrics[]>([]);
   const [loading, setLoading] = useState(true);
   const [drawResult, setDrawResult] = useState<{ token: string; count: number } | null>(null);
@@ -504,7 +506,7 @@ const RunningAudits = () => {
             <CardTitle className="text-xl mb-2">
               {formatAuditName(metrics.audit)}
             </CardTitle>
-            {metrics.audit.partner_company_id && (
+            {packageType === 'partner' && metrics.audit.partner_company_id && (
               <p className="text-sm text-muted-foreground mb-2">
                 Ügyfélcég: {metrics.audit.company_name}
               </p>
