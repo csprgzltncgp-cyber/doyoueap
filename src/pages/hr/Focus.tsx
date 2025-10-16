@@ -75,8 +75,8 @@ const Focus = () => {
         setUserName(data.full_name);
       }
       
-      // Store employee count for later use
-      if (data?.employee_count) {
+      // Store employee count for later use (only for non-partners)
+      if (packageType !== 'partner' && data?.employee_count) {
         const match = data.employee_count.match(/(\d+)-(\d+)/);
         if (match) {
           (window as any).__employeeCount = parseInt(match[2]); // Use upper bound
