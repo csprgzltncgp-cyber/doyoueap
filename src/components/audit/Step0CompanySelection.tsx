@@ -67,8 +67,8 @@ export const Step0CompanySelection = ({
         </CardContent>
       </Card>
 
-      <div className="flex justify-between pt-4">
-        <Button 
+      <div className="flex justify-end pt-4">
+        <Button
           onClick={onNext} 
           disabled={!selectedCompanyId || companies.length === 0}
           size="lg"
