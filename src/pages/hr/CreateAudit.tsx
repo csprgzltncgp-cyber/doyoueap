@@ -75,7 +75,7 @@ const CreateAudit = () => {
   const [lotteryConsent, setLotteryConsent] = useState(false);
   
   // Adjust total steps based on package - added preview step and company selection for partner
-  const totalSteps = packageType === 'starter' ? 8 : packageType === 'partner' ? 9 : 9;
+  const totalSteps = packageType === 'starter' ? 8 : packageType === 'partner' ? 10 : 9;
 
   // Fetch companies for partner users
   useEffect(() => {
@@ -373,13 +373,13 @@ const CreateAudit = () => {
           <div>
             <h2 className="text-3xl font-bold">Új EAP Pulse Felmérés</h2>
             <p className="text-muted-foreground mt-2 text-base">
-              Lépés {currentStep} / {totalSteps - (packageType === 'partner' ? 1 : 0)}
+              Lépés {packageType === 'partner' ? currentStep + 1 : currentStep} / {totalSteps}
             </p>
           </div>
           <img src={eapPulseLogo} alt="EAP Pulse" className="h-10" />
         </div>
         <Progress 
-          value={(currentStep / (totalSteps - (packageType === 'partner' ? 1 : 0))) * 100} 
+          value={((packageType === 'partner' ? currentStep + 1 : currentStep) / totalSteps) * 100} 
           className="h-3 bg-background/50"
         />
       </div>
