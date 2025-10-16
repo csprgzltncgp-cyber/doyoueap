@@ -54,7 +54,7 @@ const Focus = () => {
   useEffect(() => {
     fetchAudits();
     loadExportDownloads();
-  }, [packageType, user?.id]);
+  }, []);
 
   const fetchUserProfile = async () => {
     if (!user?.id) return;
@@ -75,8 +75,8 @@ const Focus = () => {
         setUserName(data.full_name);
       }
       
-      // Store employee count for later use (only for non-partners)
-      if (packageType !== 'partner' && data?.employee_count) {
+      // Store employee count for later use
+      if (data?.employee_count) {
         const match = data.employee_count.match(/(\d+)-(\d+)/);
         if (match) {
           (window as any).__employeeCount = parseInt(match[2]); // Use upper bound
@@ -101,9 +101,8 @@ const Focus = () => {
         .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, gift_id, target_responses, email_count, partner_company_id')
         .eq('is_active', true);
 
-      // Filter by package type
+      // Filter by partner companies if partner package
       if (packageType === 'partner' && user?.id) {
-        // Partner users: only show audits with partner_company_id
         const { data: companiesData } = await supabase
           .from('companies')
           .select('id')
@@ -119,9 +118,6 @@ const Focus = () => {
           setLoading(false);
           return;
         }
-      } else {
-        // Non-partner users: only show audits without partner_company_id
-        query = query.is('partner_company_id', null);
       }
 
       const { data: auditsData, error: auditsError } = await query.order('start_date', { ascending: false });

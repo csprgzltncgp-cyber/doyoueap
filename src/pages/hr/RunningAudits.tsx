@@ -68,7 +68,7 @@ const RunningAudits = () => {
   useEffect(() => {
     fetchRunningAudits();
     fetchGifts();
-  }, [packageType]);
+  }, []);
 
   const fetchGifts = async () => {
     try {
@@ -131,12 +131,11 @@ const RunningAudits = () => {
         `)
         .eq('is_active', true);
 
-      // Filter by package type
+      // Filter by partner companies if partner package
       if (packageType === 'partner') {
-        // Partner users: only show audits with partner_company_id
         const { data: companiesData } = await supabase
           .from('companies')
-          .select('id, employee_count')
+          .select('id')
           .eq('partner_user_id', user?.id);
         
         const companyIds = companiesData?.map(c => c.id) || [];
@@ -149,9 +148,6 @@ const RunningAudits = () => {
           setLoading(false);
           return;
         }
-      } else {
-        // Non-partner users: only show audits without partner_company_id
-        query = query.is('partner_company_id', null);
       }
 
       const { data: auditsData, error: auditsError } = await query.order('start_date', { ascending: false });
@@ -164,24 +160,16 @@ const RunningAudits = () => {
         return;
       }
 
-      // Parse employee count
+      // Parse employee count from profile (format: "10-50" -> use upper bound)
       let employeeCount: number | null = null;
-      
-      if (packageType === 'partner') {
-        // For partners, get employee count from companies table based on audit's partner_company_id
-        // This will be done per audit below
-        employeeCount = null;
-      } else {
-        // For non-partners, use profile employee count (format: "10-50" -> use upper bound)
-        if (profile?.employee_count) {
-          const match = profile.employee_count.match(/(\d+)-(\d+)/);
-          if (match) {
-            employeeCount = parseInt(match[2]); // Use upper bound
-          } else {
-            const singleNumber = parseInt(profile.employee_count);
-            if (!isNaN(singleNumber)) {
-              employeeCount = singleNumber;
-            }
+      if (profile?.employee_count) {
+        const match = profile.employee_count.match(/(\d+)-(\d+)/);
+        if (match) {
+          employeeCount = parseInt(match[2]); // Use upper bound
+        } else {
+          const singleNumber = parseInt(profile.employee_count);
+          if (!isNaN(singleNumber)) {
+            employeeCount = singleNumber;
           }
         }
       }
@@ -228,28 +216,8 @@ const RunningAudits = () => {
           giftName,
         };
 
-        // Set totalEmployees based on package type
-        if (packageType === 'partner' && audit.partner_company_id) {
-          // For partners, get employee count from the company associated with this audit
-          const { data: companyData } = await supabase
-            .from('companies')
-            .select('employee_count')
-            .eq('id', audit.partner_company_id)
-            .maybeSingle();
-          
-          if (companyData?.employee_count) {
-            const match = companyData.employee_count.match(/(\d+)-(\d+)/);
-            if (match) {
-              metrics.totalEmployees = parseInt(match[2]); // Use upper bound
-            } else {
-              const singleNumber = parseInt(companyData.employee_count);
-              if (!isNaN(singleNumber)) {
-                metrics.totalEmployees = singleNumber;
-              }
-            }
-          }
-        } else if (employeeCount) {
-          // For non-partners, use the employee count from profile
+        // Set totalEmployees based on priority
+        if (employeeCount) {
           metrics.totalEmployees = employeeCount;
         }
 
