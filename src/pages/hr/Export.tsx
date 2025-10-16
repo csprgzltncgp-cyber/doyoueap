@@ -1182,7 +1182,7 @@ const Export = () => {
                   <TabsTrigger value="impact" className="flex-shrink-0">Hatás</TabsTrigger>
                   {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
                     <>
-                      <TabsTrigger value="motivation" className="flex-shrink-0">Motiváció</TabsTrigger>
+                      <TabsTrigger value="motivation" className="flex-shrink-0">Preferenciák</TabsTrigger>
                       <TabsTrigger value="demographics" className="flex-shrink-0">Demográfia</TabsTrigger>
                       <TabsTrigger value="trends" className="flex-shrink-0">Trendek</TabsTrigger>
                       <TabsTrigger value="compare" className="flex-shrink-0">Összehasonlítás</TabsTrigger>
@@ -1284,7 +1284,7 @@ const Export = () => {
 
               {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
                 <TabsContent value="motivation" className="space-y-2">
-                  <p className="text-sm text-muted-foreground mb-4">Motivációs tényezők</p>
+                  <p className="text-sm text-muted-foreground mb-4">Preferenciák - használók és nem használók</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {exportableCharts.filter(c => c.tab === 'motivation').map(chart => (
                       <Button 
