@@ -342,7 +342,55 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
 
       {/* Main Metrics */}
       <div className="grid gap-6 md:grid-cols-2">
-        {/* NPS Score */}
+        {/* Average Impact - MOVED TO FIRST POSITION */}
+        <Card id="impact-avg-card">
+          <CardHeader className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('impact-avg-card', 'hatás-átlag')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <div>
+              <CardTitle className="text-lg">Átlagos Hatás Érték</CardTitle>
+              <CardDescription>Az 5 terület átlagos értékelése (1-5 skála)</CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="mb-4 p-3 bg-muted/50 rounded-lg text-sm space-y-2">
+              <p className="text-muted-foreground">
+                <strong>Értékelt területek:</strong> Elégedettség, Problémamegoldás, Wellbeing, Teljesítmény, Konzisztencia
+              </p>
+              <p className="text-muted-foreground">
+                Az 5 terület összesített átlaga 1-5 skálán.
+              </p>
+              <ul className="text-muted-foreground space-y-1 pl-4">
+                <li>• <strong>4.5 felett:</strong> Kiváló hatás</li>
+                <li>• <strong>3.5-4.5:</strong> Jó hatás</li>
+                <li>• <strong>2.5-3.5:</strong> Közepes hatás</li>
+                <li>• <strong>2.5 alatt:</strong> Fejlesztendő</li>
+              </ul>
+            </div>
+            <GaugeChart
+              value={avgImpact}
+              maxValue={5}
+              minValue={1}
+              size={200}
+              label={avgImpact.toFixed(1)}
+              sublabel="Átlag"
+            />
+            {avgImpact < 2.5 && (
+              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
+                <AlertTriangle className="w-4 h-4" />
+                <span>Alacsony hatékonyság</span>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* NPS Score - MOVED TO SECOND POSITION */}
         <Card id="impact-nps-card">
           <CardHeader className="relative">
             <Button
@@ -403,54 +451,6 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
                 <div className="absolute -bottom-6 right-0 text-xs text-muted-foreground">+100</div>
               </div>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Average Impact */}
-        <Card id="impact-avg-card">
-          <CardHeader className="relative">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-2 top-2 h-8 w-8"
-              onClick={() => exportCardToPNG('impact-avg-card', 'hatás-átlag')}
-            >
-              <Download className="h-4 w-4" />
-            </Button>
-            <div>
-              <CardTitle className="text-lg">Átlagos Hatás Érték</CardTitle>
-              <CardDescription>Az 5 terület átlagos értékelése (1-5 skála)</CardDescription>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="mb-4 p-3 bg-muted/50 rounded-lg text-sm space-y-2">
-              <p className="text-muted-foreground">
-                <strong>Értékelt területek:</strong> Elégedettség, Problémamegoldás, Wellbeing, Teljesítmény, Konzisztencia
-              </p>
-              <p className="text-muted-foreground">
-                Az 5 terület összesített átlaga 1-5 skálán.
-              </p>
-              <ul className="text-muted-foreground space-y-1 pl-4">
-                <li>• <strong>4.5 felett:</strong> Kiváló hatás</li>
-                <li>• <strong>3.5-4.5:</strong> Jó hatás</li>
-                <li>• <strong>2.5-3.5:</strong> Közepes hatás</li>
-                <li>• <strong>2.5 alatt:</strong> Fejlesztendő</li>
-              </ul>
-            </div>
-            <GaugeChart
-              value={avgImpact}
-              maxValue={5}
-              minValue={1}
-              size={200}
-              label={avgImpact.toFixed(1)}
-              sublabel="Átlag"
-            />
-            {avgImpact < 2.5 && (
-              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
-                <AlertTriangle className="w-4 h-4" />
-                <span>Alacsony hatékonyság</span>
-              </div>
-            )}
           </CardContent>
         </Card>
       </div>
