@@ -416,7 +416,6 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
             >
               <Download className="h-4 w-4" />
             </Button>
-            <img src={fourScoreLogo} alt="4Score" className="h-4 mb-2 self-start" />
             <CardTitle className="text-lg flex items-center gap-2">
               <Shield className="w-5 h-5" />
               Bizalmi Index
