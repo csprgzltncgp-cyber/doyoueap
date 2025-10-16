@@ -398,7 +398,10 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
               <Download className="h-4 w-4" />
             </Button>
             <div>
-              <CardTitle className="text-lg">Net Promoter Score (NPS)</CardTitle>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <TrendingUp className="w-5 h-5" />
+                Net Promoter Score (NPS)
+              </CardTitle>
               <CardDescription>Hányan ajánlanák a programot másoknak?</CardDescription>
             </div>
           </CardHeader>
