@@ -12,6 +12,7 @@ import { Progress } from '@/components/ui/progress';
 import { formatAuditName } from '@/lib/auditUtils';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { ReportNavigation } from '@/components/navigation/ReportNavigation';
+import fourScoreLogo from "@/assets/4score_logo.svg";
 
 interface AwarenessProps {
   selectedAuditId: string;
@@ -288,34 +289,38 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
 
       {/* 1. sor: Fő ismertségi mutatók */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {/* Összesített ismertség */}
-        <Card id="overall-awareness-card">
-          <CardHeader className="relative">
+        {/* Ismertség Index (4Score) */}
+        <Card className="relative overflow-hidden border-2 border-[#3366ff]" id="overall-awareness-card">
+          <CardHeader className="relative z-10" style={{ minHeight: '120px' }}>
             <Button
               variant="ghost"
               size="icon"
               className="absolute right-2 top-2 h-8 w-8"
-              onClick={() => exportCardToPNG('overall-awareness-card', 'osszes-ismertseg')}
+              onClick={() => exportCardToPNG('overall-awareness-card', 'ismertseg-index')}
             >
               <Download className="h-4 w-4" />
             </Button>
+            <img src={fourScoreLogo} alt="4Score" className="h-4 mb-2 self-start" />
             <CardTitle className="text-lg flex items-center gap-2">
               <Eye className="w-5 h-5" />
-              Általános Ismertség
+              Ismertség Index
             </CardTitle>
             <CardDescription>A program ismeretének aránya</CardDescription>
           </CardHeader>
-          <CardContent>
-            <GaugeChart 
-              value={parseFloat(awarenessRate)} 
-              maxValue={100}
-              size={220}
-              label={`${awarenessRate}%`}
-              sublabel={`${awarenessResponses.length} / ${totalCount} fő`}
-              cornerRadius={30}
-            />
-            <p className="text-xs text-muted-foreground text-center mt-4">
-              A válaszolók közül ennyien tudtak a programról (használók + nem használók)
+          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
+            <div className="flex items-center justify-center flex-1 w-full">
+              <GaugeChart 
+                value={parseFloat(awarenessRate)} 
+                maxValue={100}
+                size={200}
+                label={`${awarenessRate}%`}
+                sublabel={`${awarenessResponses.length} / ${totalCount} fő`}
+                cornerRadius={30}
+                gaugeColor="hsl(var(--chart-2))"
+              />
+            </div>
+            <p className="text-xs text-muted-foreground text-center px-2">
+              A válaszolók közül ennyien tudtak a programról
             </p>
           </CardContent>
         </Card>
