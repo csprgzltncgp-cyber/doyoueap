@@ -109,7 +109,7 @@ const RunningAudits = () => {
       }
 
       // Fetch active audits with company info for partners
-      const { data: auditsData, error: auditsError } = await supabase
+      let query = supabase
         .from('audits')
         .select(`
           id, 
@@ -129,8 +129,27 @@ const RunningAudits = () => {
           company_name,
           partner_company_id
         `)
-        .eq('is_active', true)
-        .order('start_date', { ascending: false });
+        .eq('is_active', true);
+
+      // Filter by partner companies if partner package
+      if (packageType === 'partner') {
+        const { data: companiesData } = await supabase
+          .from('companies')
+          .select('id')
+          .eq('partner_user_id', user?.id);
+        
+        const companyIds = companiesData?.map(c => c.id) || [];
+        if (companyIds.length > 0) {
+          query = query.in('partner_company_id', companyIds);
+        } else {
+          // No companies, no audits
+          setAudits([]);
+          setLoading(false);
+          return;
+        }
+      }
+
+      const { data: auditsData, error: auditsError } = await query.order('start_date', { ascending: false });
 
       if (auditsError) throw auditsError;
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { usePackage } from '@/hooks/usePackage';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -38,6 +39,7 @@ interface AuditWithStats extends StandardAudit {
 
 const Focus = () => {
   const { user } = useAuth();
+  const { packageType } = usePackage();
   const [audits, setAudits] = useState<AuditWithStats[]>([]);
   const [exportDownloads, setExportDownloads] = useState<ExportDownload[]>([]);
   const [loading, setLoading] = useState(true);
@@ -93,11 +95,31 @@ const Focus = () => {
   const fetchAudits = async () => {
     try {
       setLoading(true);
-      const { data: auditsData, error: auditsError } = await supabase
+      
+      let query = supabase
         .from('audits')
-        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, gift_id, target_responses, email_count')
-        .eq('is_active', true)
-        .order('start_date', { ascending: false });
+        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, gift_id, target_responses, email_count, partner_company_id')
+        .eq('is_active', true);
+
+      // Filter by partner companies if partner package
+      if (packageType === 'partner' && user?.id) {
+        const { data: companiesData } = await supabase
+          .from('companies')
+          .select('id')
+          .eq('partner_user_id', user.id);
+        
+        const companyIds = companiesData?.map(c => c.id) || [];
+        if (companyIds.length > 0) {
+          query = query.in('partner_company_id', companyIds);
+        } else {
+          // No companies, no audits
+          setAudits([]);
+          setLoading(false);
+          return;
+        }
+      }
+
+      const { data: auditsData, error: auditsError } = await query.order('start_date', { ascending: false });
 
       if (auditsError) throw auditsError;
 
