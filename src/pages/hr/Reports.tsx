@@ -736,14 +736,60 @@ const Reports = () => {
                   Ez a mutató azt méri, hogy az EAP programot használók mennyire elégedettek a szolgáltatással. 
                   Az érték az általános elégedettséget tükrözi 1-5 skálán, százalékos formában megjelenítve.
                 </p>
-                <GaugeChart 
-                  value={satisfactionIndex} 
-                  maxValue={100}
-                  size={280}
-                  label={`${satisfactionIndex.toFixed(0)}%`}
-                  sublabel={`${satisfactionScore}/5`}
-                  cornerRadius={30}
-                />
+                <div className="flex flex-col items-center justify-center gap-4">
+                  <div className="relative flex items-center justify-center" style={{ width: '200px', height: '200px' }}>
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#3572ef"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="w-full h-full absolute"
+                      style={{ maxWidth: '160px', maxHeight: '160px' }}
+                    >
+                      <defs>
+                        <clipPath id="thumbs-fill-clip">
+                          <path d="M7 10v12"/>
+                          <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/>
+                        </clipPath>
+                      </defs>
+                      <path d="M7 10v12"/>
+                      <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/>
+                    </svg>
+                    
+                    {/* Fill overlay */}
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="w-full h-full absolute"
+                      style={{ maxWidth: '160px', maxHeight: '160px' }}
+                    >
+                      <defs>
+                        <linearGradient id="thumbs-gradient" x1="0%" y1="100%" x2="0%" y2="0%">
+                          <stop offset="0%" stopColor="hsl(var(--chart-2))" stopOpacity="0.15"/>
+                          <stop offset={`${satisfactionIndex}%`} stopColor="hsl(var(--chart-2))" stopOpacity="0.15"/>
+                          <stop offset={`${satisfactionIndex}%`} stopColor="transparent" stopOpacity="0"/>
+                          <stop offset="100%" stopColor="transparent" stopOpacity="0"/>
+                        </linearGradient>
+                        <clipPath id="thumbs-clip-path">
+                          <path d="M7 10v12"/>
+                          <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/>
+                        </clipPath>
+                      </defs>
+                      <path d="M7 10v12" fill="url(#thumbs-gradient)" clipPath="url(#thumbs-clip-path)"/>
+                      <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z" fill="url(#thumbs-gradient)" clipPath="url(#thumbs-clip-path)"/>
+                    </svg>
+                  </div>
+                  
+                  <div className="text-center">
+                    <div className="text-4xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
+                      {satisfactionIndex.toFixed(0)}%
+                    </div>
+                    <div className="text-sm text-muted-foreground mt-1">
+                      {satisfactionScore}/5
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
