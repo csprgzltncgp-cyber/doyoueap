@@ -437,21 +437,41 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
             </CardTitle>
             <CardDescription>1-5 skála</CardDescription>
           </CardHeader>
-          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-            <div className="flex items-center justify-center flex-1 w-full">
-              <GaugeChart
-                value={(overallTrustIndex / 5) * 100} 
-                maxValue={100}
-                size={200}
-                label={overallTrustIndex.toFixed(1)}
-                sublabel="/ 5"
-                cornerRadius={30}
-                gaugeColor="hsl(var(--chart-2))"
-              />
-            </div>
-            <p className="text-xs text-muted-foreground text-center px-2 mt-4">
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">
               A Bizalmi Index azt mutatja, hogy mennyire bíznak a munkavállalók az EAP program anonimitásában, függetlenségében és biztonságában. Az érték 1-5 skálán mozog.
             </p>
+            <div className="flex flex-col items-center justify-center gap-4">
+              <div className="relative flex items-center justify-center" style={{ width: '100%', maxWidth: '300px' }}>
+                <div className="w-full h-3 bg-muted rounded-full overflow-hidden relative">
+                  <div 
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{ 
+                      width: `${(overallTrustIndex / 5) * 100}%`,
+                      background: 'linear-gradient(90deg, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) 100%)'
+                    }}
+                  />
+                  <div className="absolute inset-0 flex items-center">
+                    {[0, 1, 2, 3, 4].map((i) => (
+                      <div 
+                        key={i} 
+                        className="h-full border-r border-background" 
+                        style={{ width: '20%' }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="text-4xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
+                  {overallTrustIndex.toFixed(1)}
+                </div>
+                <div className="text-sm text-muted-foreground mt-1">
+                  / 5
+                </div>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
@@ -472,27 +492,49 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
             </CardTitle>
             <CardDescription>Használók hajlandósága (1-5 skála)</CardDescription>
           </CardHeader>
-          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-            <div className="flex items-center justify-center flex-1 w-full">
-              <GaugeChart 
-                value={(parseFloat(likelihoodScore) / 5) * 100} 
-                maxValue={100}
-                size={220}
-                label={likelihoodScore}
-                sublabel={`${usedResponses.length} használó`}
-                cornerRadius={30}
-                gaugeColor={parseFloat(likelihoodScore) < 3.0 ? '#ff0033' : undefined}
-              />
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Mennyire valószínű, hogy újra igénybe veszik
+            </p>
+            <div className="flex flex-col items-center justify-center gap-4">
+              <div className="relative flex items-center justify-center" style={{ width: '100%', maxWidth: '300px' }}>
+                <div className="w-full h-3 bg-muted rounded-full overflow-hidden relative">
+                  <div 
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{ 
+                      width: `${(parseFloat(likelihoodScore) / 5) * 100}%`,
+                      background: parseFloat(likelihoodScore) < 3.0 
+                        ? 'linear-gradient(90deg, #ff0033 0%, #ff0033 100%)'
+                        : 'linear-gradient(90deg, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) 100%)'
+                    }}
+                  />
+                  <div className="absolute inset-0 flex items-center">
+                    {[0, 1, 2, 3, 4].map((i) => (
+                      <div 
+                        key={i} 
+                        className="h-full border-r border-background" 
+                        style={{ width: '20%' }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="text-4xl font-bold" style={{ color: parseFloat(likelihoodScore) < 3.0 ? '#ff0033' : 'hsl(var(--chart-2))' }}>
+                  {likelihoodScore}
+                </div>
+                <div className="text-sm text-muted-foreground mt-1">
+                  {usedResponses.length} használó
+                </div>
+              </div>
             </div>
             {parseFloat(likelihoodScore) < 3.0 && (
-              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
+              <div className="flex items-center gap-2 text-[#ff0033] text-sm justify-center">
                 <AlertTriangle className="w-4 h-4" />
                 <span>Alacsony használati hajlandóság</span>
               </div>
             )}
-            <p className="text-xs text-muted-foreground text-center mt-4">
-              Mennyire valószínű, hogy újra igénybe veszik
-            </p>
           </CardContent>
         </Card>
 
@@ -513,27 +555,49 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
             </CardTitle>
             <CardDescription>Általános szint (1-5 skála)</CardDescription>
           </CardHeader>
-          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-            <div className="flex items-center justify-center flex-1 w-full">
-              <GaugeChart 
-                value={(parseFloat(overallAnonymityScore) / 5) * 100} 
-                maxValue={100}
-                size={220}
-                label={overallAnonymityScore}
-                sublabel={`${trustResponses.length} válaszadó`}
-                cornerRadius={30}
-                gaugeColor={parseFloat(overallAnonymityScore) < 2.5 ? '#ff0033' : undefined}
-              />
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Mennyire bíznak az anonimitás védelmében
+            </p>
+            <div className="flex flex-col items-center justify-center gap-4">
+              <div className="relative flex items-center justify-center" style={{ width: '100%', maxWidth: '300px' }}>
+                <div className="w-full h-3 bg-muted rounded-full overflow-hidden relative">
+                  <div 
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{ 
+                      width: `${(parseFloat(overallAnonymityScore) / 5) * 100}%`,
+                      background: parseFloat(overallAnonymityScore) < 2.5
+                        ? 'linear-gradient(90deg, #ff0033 0%, #ff0033 100%)'
+                        : 'linear-gradient(90deg, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) 100%)'
+                    }}
+                  />
+                  <div className="absolute inset-0 flex items-center">
+                    {[0, 1, 2, 3, 4].map((i) => (
+                      <div 
+                        key={i} 
+                        className="h-full border-r border-background" 
+                        style={{ width: '20%' }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="text-4xl font-bold" style={{ color: parseFloat(overallAnonymityScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))' }}>
+                  {overallAnonymityScore}
+                </div>
+                <div className="text-sm text-muted-foreground mt-1">
+                  {trustResponses.length} válaszadó
+                </div>
+              </div>
             </div>
             {parseFloat(overallAnonymityScore) < 2.5 && (
-              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
-                <AlertTriangle className="w-4 w-4" />
+              <div className="flex items-center gap-2 text-[#ff0033] text-sm justify-center">
+                <AlertTriangle className="w-4 h-4" />
                 <span>Alacsony anonimitási bizalom</span>
               </div>
             )}
-            <p className="text-xs text-muted-foreground text-center mt-4">
-              Mennyire bíznak az anonimitás védelmében
-            </p>
           </CardContent>
         </Card>
 
@@ -554,27 +618,49 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
             </CardTitle>
             <CardDescription>1-5 skála (magasabb = nagyobb félelem)</CardDescription>
           </CardHeader>
-          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-            <div className="flex items-center justify-center flex-1 w-full">
-              <GaugeChart 
-                value={(parseFloat(overallEmployerFearScore) / 5) * 100} 
-                maxValue={100}
-                size={220}
-                label={overallEmployerFearScore}
-                sublabel="/ 5"
-                cornerRadius={30}
-                gaugeColor={parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : undefined}
-              />
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Mennyire félnek a munkaadó megítélésétől
+            </p>
+            <div className="flex flex-col items-center justify-center gap-4">
+              <div className="relative flex items-center justify-center" style={{ width: '100%', maxWidth: '300px' }}>
+                <div className="w-full h-3 bg-muted rounded-full overflow-hidden relative">
+                  <div 
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{ 
+                      width: `${(parseFloat(overallEmployerFearScore) / 5) * 100}%`,
+                      background: parseFloat(overallEmployerFearScore) > 3.5
+                        ? 'linear-gradient(90deg, #ff0033 0%, #ff0033 100%)'
+                        : 'linear-gradient(90deg, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) 100%)'
+                    }}
+                  />
+                  <div className="absolute inset-0 flex items-center">
+                    {[0, 1, 2, 3, 4].map((i) => (
+                      <div 
+                        key={i} 
+                        className="h-full border-r border-background" 
+                        style={{ width: '20%' }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="text-4xl font-bold" style={{ color: parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : 'hsl(var(--chart-2))' }}>
+                  {overallEmployerFearScore}
+                </div>
+                <div className="text-sm text-muted-foreground mt-1">
+                  / 5
+                </div>
+              </div>
             </div>
             {parseFloat(overallEmployerFearScore) > 3.5 && (
-              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
+              <div className="flex items-center gap-2 text-[#ff0033] text-sm justify-center">
                 <AlertTriangle className="w-4 h-4" />
                 <span>Magas munkaadói félelem</span>
               </div>
             )}
-            <p className="text-xs text-muted-foreground text-center mt-4">
-              Mennyire félnek a munkaadó megítélésétől
-            </p>
           </CardContent>
         </Card>
       </div>
