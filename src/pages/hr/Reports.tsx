@@ -440,7 +440,7 @@ const Reports = () => {
                   opacity: 0.1
                 }}
               />
-              <CardHeader className="relative z-10">
+              <CardHeader className="relative z-10" style={{ minHeight: '120px' }}>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -455,9 +455,9 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>A program ismeretének aránya</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10 flex flex-col items-center justify-center">
-                <div className="flex items-center justify-center" style={{ minHeight: '200px' }}>
-                  <GaugeChart 
+              <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
+                <div className="flex items-center justify-center flex-1 w-full">
+                  <GaugeChart
                     value={awarenessRate} 
                     maxValue={100}
                     size={200}
@@ -467,7 +467,7 @@ const Reports = () => {
                     gaugeColor="hsl(var(--chart-2))"
                   />
                 </div>
-                <p className="text-xs text-muted-foreground text-center" style={{ minHeight: '40px' }}>
+                <p className="text-xs text-muted-foreground text-center px-2">
                   A válaszolók közül ennyien tudtak a programról
                 </p>
               </CardContent>
@@ -482,7 +482,7 @@ const Reports = () => {
                   opacity: 0.1
                 }}
               />
-              <CardHeader className="relative z-10">
+              <CardHeader className="relative z-10" style={{ minHeight: '120px' }}>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -497,9 +497,9 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10 flex flex-col items-center justify-center">
-                <div className="flex items-center justify-center" style={{ minHeight: '200px' }}>
-                  <GaugeChart 
+              <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
+                <div className="flex items-center justify-center flex-1 w-full">
+                  <GaugeChart
                     value={(parseFloat(trustScore) / 5) * 100} 
                     maxValue={100}
                     size={200}
@@ -509,7 +509,7 @@ const Reports = () => {
                     gaugeColor="hsl(var(--chart-2))"
                   />
                 </div>
-                <p className="text-xs text-muted-foreground text-center" style={{ minHeight: '40px' }}>
+                <p className="text-xs text-muted-foreground text-center px-2">
                   Átfogó bizalmi mutató (anonimitás, félelmek, jövőbeli használat)
                 </p>
               </CardContent>
@@ -524,7 +524,7 @@ const Reports = () => {
                   opacity: 0.1
                 }}
               />
-              <CardHeader className="relative z-10">
+              <CardHeader className="relative z-10" style={{ minHeight: '120px' }}>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -539,9 +539,9 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>Nem használók körében</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10 flex flex-col items-center justify-center">
-                <div className="flex items-center justify-center" style={{ minHeight: '200px' }}>
-                  <GaugeChart 
+              <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
+                <div className="flex items-center justify-center flex-1 w-full">
+                  <GaugeChart
                     value={futureUsageIntent} 
                     maxValue={100}
                     size={200}
@@ -551,7 +551,7 @@ const Reports = () => {
                     gaugeColor="hsl(var(--chart-2))"
                   />
                 </div>
-                <p className="text-xs text-muted-foreground text-center" style={{ minHeight: '40px' }}>
+                <p className="text-xs text-muted-foreground text-center px-2">
                   A nem használók hány százaléka tervezi igénybe venni
                 </p>
               </CardContent>
@@ -566,7 +566,7 @@ const Reports = () => {
                   opacity: 0.1
                 }}
               />
-              <CardHeader className="relative z-10">
+              <CardHeader className="relative z-10" style={{ minHeight: '120px' }}>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -581,9 +581,9 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10 flex flex-col items-center justify-center">
-                <div className="flex items-center justify-center" style={{ minHeight: '200px' }}>
-                  <GaugeChart 
+              <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
+                <div className="flex items-center justify-center flex-1 w-full">
+                  <GaugeChart
                     value={(avgImpact / 5) * 100} 
                     maxValue={100}
                     size={200}
@@ -593,7 +593,7 @@ const Reports = () => {
                     gaugeColor="hsl(var(--chart-2))"
                   />
                 </div>
-                <p className="text-xs text-muted-foreground text-center" style={{ minHeight: '40px' }}>
+                <p className="text-xs text-muted-foreground text-center px-2">
                   Átlagos hatékonyság (elégedettség, problémamegoldás, jóllét, teljesítmény, konzisztencia)
                 </p>
               </CardContent>
