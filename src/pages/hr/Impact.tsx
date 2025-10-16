@@ -345,8 +345,19 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
       {/* Main Metrics */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* Average Impact - MOVED TO FIRST POSITION */}
-        <Card id="impact-avg-card" className="border-2 border-[#3366ff]">
-          <CardHeader className="relative">
+        <Card id="impact-avg-card" className="border-2 border-[#3366ff] relative overflow-hidden">
+          <div 
+            className="absolute inset-0 transition-all duration-500"
+            style={{
+              background: `linear-gradient(to top, ${
+                avgImpact < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } 0%, ${
+                avgImpact < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+              } ${(avgImpact / 5) * 100}%, transparent ${(avgImpact / 5) * 100}%, transparent 100%)`,
+              opacity: 0.1
+            }}
+          />
+          <CardHeader className="relative z-10">
             <Button
               variant="ghost"
               size="icon"
@@ -363,26 +374,47 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
               <CardDescription>1-5 skála</CardDescription>
             </div>
           </CardHeader>
-          <CardContent>
-            <GaugeChart
-              value={avgImpact}
-              maxValue={5}
-              minValue={1}
-              size={200}
-              label={avgImpact.toFixed(1)}
-              sublabel="Mennyire segített a program összeségében."
-            />
-            <div className="bg-muted/30 p-3 rounded-md mt-4">
-              <p className="text-xs text-muted-foreground">
-                {avgImpact >= 4.5
-                  ? '✓ Kiváló hatás - A program nagyon hatékonyan segít.'
-                  : avgImpact >= 3.5
-                  ? '✓ Jó hatás - A program megfelelően működik.'
-                  : avgImpact >= 2.5
-                  ? '→ Közepes hatás - Van fejlesztési lehetőség.'
-                  : 'ℹ Alacsony hatékonyság - Javasolt: hatékonyabb szolgáltatások, gyorsabb válaszidő, jobb problémamegoldás.'}
-              </p>
+          <CardContent className="space-y-4 relative z-10">
+            <div className="text-center">
+              <div 
+                className="text-6xl font-bold" 
+                style={{ 
+                  color: avgImpact < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                }}
+              >
+                {avgImpact.toFixed(1)}
+              </div>
+              
+              {/* Számegyenes vizualizáció */}
+              <div className="mt-4 px-8">
+                <div className="relative h-2 bg-gray-400 rounded-full">
+                  <div 
+                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
+                    style={{ 
+                      left: `calc(${((avgImpact - 1) / 4) * 100}% - 8px)`,
+                      backgroundColor: avgImpact < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                    }}
+                  />
+                </div>
+                <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                  <span>1</span>
+                  <span>2</span>
+                  <span>3</span>
+                  <span>4</span>
+                  <span>5</span>
+                </div>
+              </div>
+
+              {avgImpact < 2.5 && (
+                <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
+                  <AlertTriangle className="w-4 h-4" />
+                  <span>Alacsony hatékonyság</span>
+                </div>
+              )}
             </div>
+            <p className="text-sm text-muted-foreground text-center px-2">
+              A Hatás Index azt mutatja, hogy mennyire segített a program összeségében az öt fő területen (elégedettség, problémamegoldás, wellbeing, teljesítmény, konzisztencia).
+            </p>
           </CardContent>
         </Card>
 
@@ -489,25 +521,61 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
               const isLow = item.average < 2.5;
               
               return (
-                <div key={item.metric} className="flex flex-col items-center p-4 bg-muted/30 rounded-lg">
-                  <GaugeChart
-                    value={item.average}
-                    maxValue={5}
-                    minValue={1}
-                    size={180}
-                    label={item.average.toFixed(2)}
-                    sublabel={item.metric}
-                    gaugeColor={isLow ? '#ff0033' : undefined}
+                <div key={item.metric} className="flex flex-col p-4 bg-muted/30 rounded-lg relative overflow-hidden">
+                  <div 
+                    className="absolute inset-0 transition-all duration-500"
+                    style={{
+                      background: `linear-gradient(to top, ${
+                        isLow ? '#ff0033' : 'hsl(var(--chart-2))'
+                      } 0%, ${
+                        isLow ? '#ff0033' : 'hsl(var(--chart-2))'
+                      } ${(item.average / 5) * 100}%, transparent ${(item.average / 5) * 100}%, transparent 100%)`,
+                      opacity: 0.1
+                    }}
                   />
-                  {isLow && (
-                    <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-xs">
-                      <AlertTriangle className="w-3 h-3" />
-                      <span>Alacsony érték</span>
+                  <div className="relative z-10 flex flex-col items-center">
+                    <div className="text-center mb-2">
+                      <div 
+                        className="text-5xl font-bold" 
+                        style={{ 
+                          color: isLow ? '#ff0033' : 'hsl(var(--chart-2))'
+                        }}
+                      >
+                        {item.average.toFixed(1)}
+                      </div>
+                      <div className="text-sm font-medium mt-1">{item.metric}</div>
                     </div>
-                  )}
-                  <p className="text-xs text-muted-foreground text-center mt-3">
-                    {description}
-                  </p>
+                    
+                    {/* Számegyenes vizualizáció */}
+                    <div className="w-full px-4 my-4">
+                      <div className="relative h-2 bg-gray-400 rounded-full">
+                        <div 
+                          className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
+                          style={{ 
+                            left: `calc(${((item.average - 1) / 4) * 100}% - 8px)`,
+                            backgroundColor: isLow ? '#ff0033' : 'hsl(var(--chart-2))'
+                          }}
+                        />
+                      </div>
+                      <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                        <span>1</span>
+                        <span>2</span>
+                        <span>3</span>
+                        <span>4</span>
+                        <span>5</span>
+                      </div>
+                    </div>
+
+                    {isLow && (
+                      <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-xs">
+                        <AlertTriangle className="w-3 h-3" />
+                        <span>Alacsony érték</span>
+                      </div>
+                    )}
+                    <p className="text-xs text-muted-foreground text-center mt-3">
+                      {description}
+                    </p>
+                  </div>
                 </div>
               );
             })}
