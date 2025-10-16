@@ -372,11 +372,9 @@ const CreateAudit = () => {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-3xl font-bold">Új EAP Pulse Felmérés</h2>
-            {currentStep > 0 && (
-              <p className="text-muted-foreground mt-2 text-base">
-                Lépés {currentStep} / {totalSteps - (packageType === 'partner' ? 1 : 0)}
-              </p>
-            )}
+            <p className="text-muted-foreground mt-2 text-base">
+              Lépés {currentStep} / {totalSteps - (packageType === 'partner' ? 1 : 0)}
+            </p>
           </div>
           <img src={eapPulseLogo} alt="EAP Pulse" className="h-10" />
         </div>
