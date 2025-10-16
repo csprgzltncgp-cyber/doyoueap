@@ -239,29 +239,29 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
               Az EAP program használati szokásainak, csatornáinak és témáinak átfogó kiértékelése
             </p>
           </div>
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-            <img src={fourScoreLogo} alt="4Score Logo" className="h-8 w-auto" />
-            {audits.length > 0 && (
-              <div className="w-full md:w-[300px]">
-                <label className="text-xs text-muted-foreground mb-1.5 block">
-                  Felmérés kiválasztása
-                </label>
-                <Select value={selectedAuditId} onValueChange={onAuditChange}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Válassz felmérést" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {audits.map((audit) => (
-                      <SelectItem key={audit.id} value={audit.id}>
-                        {formatAuditName(audit)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-          </div>
         </div>
+        {audits.length > 0 && (
+          <div className="flex flex-col md:flex-row md:items-center gap-4">
+            <img src={fourScoreLogo} alt="4Score" className="h-6" />
+            <div className="flex-1 md:max-w-[300px] md:ml-auto">
+              <label className="text-xs text-muted-foreground mb-1.5 block">
+                Felmérés kiválasztása
+              </label>
+              <Select value={selectedAuditId} onValueChange={onAuditChange}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Válassz felmérést" />
+                </SelectTrigger>
+                <SelectContent>
+                  {audits.map((audit) => (
+                    <SelectItem key={audit.id} value={audit.id}>
+                      {formatAuditName(audit)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* 1. sor: Használat Index és Közeljövőbeni Tervek */}
