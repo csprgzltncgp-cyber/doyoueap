@@ -68,26 +68,33 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange }: MotivationProps)
 
       setNotUsedCount(data.length);
 
-      // Kizárandó válaszok (ezek akadályok, nem motivátorok)
-      const excludedResponses = [
-        'Nincs rá időm',
-        'Úgy érzem, ez nem nekem való',
-        'Nem bízom benne teljesen',
-        'Túl bonyolultnak tűnik',
-        'Inkább más módon kérnék segítséget',
-        'Úgy érzem, nem nekem szól ez a szolgáltatás',
-        'Túl bonyolultnak tűnik az elérése vagy használata',
-        'Valami más okból'
-      ];
-
-      // Count motivators (multiple choice)
+      // Count motivators (multiple choice) - új mező + régi válaszok is
       const motivatorCounts: Record<string, number> = {};
       data.forEach(r => {
-        const values = r.responses?.nu_motivation_what;
-        if (Array.isArray(values)) {
-          values.forEach((val: string) => {
-            // Csak a valódi motivátorokat számoljuk
-            if (!excludedResponses.includes(val)) {
+        // Új mező (nu_motivation_positive)
+        const newValues = r.responses?.nu_motivation_positive;
+        if (Array.isArray(newValues)) {
+          newValues.forEach((val: string) => {
+            if (val) {
+              motivatorCounts[val] = (motivatorCounts[val] || 0) + 1;
+            }
+          });
+        }
+        
+        // Régi mező (nu_motivation_what) - csak biztonság kedvéért, ha maradt pozitív érték
+        const oldValues = r.responses?.nu_motivation_what;
+        const positiveMotivators = [
+          'Egyszerűbb elérhetőség',
+          'Pozitív kollégai tapasztalatok',
+          'Biztos anonimitás garanciája',
+          'Több információ a szolgáltatásról',
+          'Vezetői támogatás és ösztönzés',
+          'Kipróbálási lehetőség mentorral'
+        ];
+        
+        if (Array.isArray(oldValues)) {
+          oldValues.forEach((val: string) => {
+            if (val && positiveMotivators.includes(val)) {
               motivatorCounts[val] = (motivatorCounts[val] || 0) + 1;
             }
           });
