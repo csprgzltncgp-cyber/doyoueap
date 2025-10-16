@@ -473,7 +473,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
 
         {/* Nem tudtak róla */}
         <Card id="unawareness-card">
-          <CardHeader className="relative">
+          <CardHeader className="relative" style={{ minHeight: '120px' }}>
             <Button
               variant="ghost"
               size="icon"
@@ -482,6 +482,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
             >
               <Download className="h-4 w-4" />
             </Button>
+            <img src={fourScoreLogo} alt="4Score" className="h-4 mb-2 self-start" />
             <CardTitle className="text-lg flex items-center gap-2">
               <Users className="w-5 h-5" />
               Nem Ismerték
