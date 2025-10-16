@@ -24,58 +24,59 @@ export const Step0CompanySelection = ({
   onNext,
 }: Step0CompanySelectionProps) => {
   return (
-    <div className="space-y-4">
-      <div>
-        <h3 className="text-2xl font-bold mb-2">Ügyfélcég kiválasztása</h3>
-        <p className="text-muted-foreground">
-          Válaszd ki, hogy melyik regisztrált ügyfélcégednek szeretnél felmérést indítani.
+    <div className="space-y-8 max-w-4xl mx-auto">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-bold">Ügyfélcég kiválasztása</h2>
+        <p className="text-muted-foreground text-lg">
+          Válaszd ki, hogy melyik regisztrált ügyfélcégednek szeretnél felmérést indítani
         </p>
       </div>
-      
-      <Card>
+
+      <Card className="border-2">
         <CardContent className="pt-6 space-y-6">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 mb-4">
-              <Building2 className="w-5 h-5 text-primary" />
-              <h3 className="text-lg font-semibold">Válaszd ki az ügyfélcéget</h3>
+
+          <div className="space-y-4">
+            <div>
+              <Label className="text-base font-medium">Ügyfélcég</Label>
+              <Select value={selectedCompanyId} onValueChange={onCompanySelect}>
+                <SelectTrigger className="w-full h-12 text-base mt-2">
+                  <SelectValue placeholder="Válassz egy ügyfélcéget" />
+                </SelectTrigger>
+                <SelectContent>
+                  {companies.length === 0 ? (
+                    <div className="p-2 text-sm text-muted-foreground">
+                      Még nincs regisztrált ügyfélcég
+                    </div>
+                  ) : (
+                    companies.map((company) => (
+                      <SelectItem key={company.id} value={company.id}>
+                        {company.company_name}
+                      </SelectItem>
+                    ))
+                  )}
+                </SelectContent>
+              </Select>
+              {companies.length === 0 && (
+                <p className="text-sm text-muted-foreground mt-2">
+                  Menj a Partner Központba új ügyfélcég regisztrálásához.
+                </p>
+              )}
             </div>
           </div>
 
-        <div className="space-y-4">
-          <div>
-            <Select value={selectedCompanyId} onValueChange={onCompanySelect}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Válassz egy ügyfélcéget" />
-              </SelectTrigger>
-              <SelectContent>
-                {companies.length === 0 ? (
-                  <div className="p-2 text-sm text-muted-foreground">
-                    Még nincs regisztrált ügyfélcég
-                  </div>
-                ) : (
-                  companies.map((company) => (
-                    <SelectItem key={company.id} value={company.id}>
-                      {company.company_name}
-                    </SelectItem>
-                  ))
-                )}
-              </SelectContent>
-            </Select>
-            {companies.length === 0 && (
-              <p className="text-sm text-muted-foreground mt-2">
-                Menj a Partner Központba új ügyfélcég regisztrálásához.
-              </p>
-            )}
-          </div>
-        </div>
+        </CardContent>
+      </Card>
 
-        <div className="flex justify-end pt-4">
-          <Button onClick={onNext} disabled={!selectedCompanyId || companies.length === 0}>
-            Következő
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+      <div className="flex justify-between pt-4">
+        <Button 
+          onClick={onNext} 
+          disabled={!selectedCompanyId || companies.length === 0}
+          size="lg"
+          variant="dark"
+        >
+          Következő lépés
+        </Button>
+      </div>
     </div>
   );
 };
