@@ -524,6 +524,17 @@ const Reports = () => {
             )}
           </div>
           
+          {/* Show message if no audits for selected company */}
+          {packageType === 'partner' && selectedCompanyId && selectedCompanyId !== 'all' && audits.length === 0 && (
+            <Card className="border-dashed border-2">
+              <CardContent className="py-12 text-center">
+                <Building2 className="h-12 w-12 text-muted-foreground/40 mx-auto mb-3" />
+                <p className="text-muted-foreground font-medium mb-2">Nincs elérhető felmérés ehhez a céghez</p>
+                <p className="text-sm text-muted-foreground">Hozz létre egy új felmérést az adatok megjelenítéséhez.</p>
+              </CardContent>
+            </Card>
+          )}
+
           {/* Only show cards if audit is selected AND (not partner OR partner has selected a specific company) */}
           {selectedAuditId && (packageType !== 'partner' || (packageType === 'partner' && selectedCompanyId && selectedCompanyId !== 'all')) ? (
             <>
