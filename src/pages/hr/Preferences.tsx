@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Download, Settings, User, MessageCircle, Clock, Video } from 'lucide-react';
 import { formatAuditName } from '@/lib/auditUtils';
 import { ReportNavigation } from '@/components/navigation/ReportNavigation';
-import fourScoreLogo from '@/assets/4score_logo.svg';
 
 interface PreferencesProps {
   selectedAuditId: string;
@@ -177,7 +176,6 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
         </div>
         {audits.length > 0 && (
           <div className="flex flex-col md:flex-row md:items-center gap-4">
-            <img src={fourScoreLogo} alt="4Score" className="h-6" />
             <div className="flex-1 md:max-w-[300px] md:ml-auto">
               <label className="text-xs text-muted-foreground mb-1.5 block">
                 Felmérés kiválasztása
@@ -221,7 +219,7 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
           <CardContent>
             {expertChartData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={expertChartData}>
+                <BarChart data={expertChartData} barSize={60}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                   <YAxis />
@@ -255,7 +253,7 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
           <CardContent>
             {channelChartData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={channelChartData}>
+                <BarChart data={channelChartData} barSize={60}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                   <YAxis />
@@ -292,7 +290,7 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
           <CardContent>
             {availabilityChartData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={availabilityChartData}>
+                <BarChart data={availabilityChartData} barSize={60}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                   <YAxis />
@@ -326,7 +324,7 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
           <CardContent>
             {contentTypeChartData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={contentTypeChartData}>
+                <BarChart data={contentTypeChartData} barSize={60}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                   <YAxis />
@@ -362,7 +360,7 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
           <CardContent>
             {commFrequencyChartData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={commFrequencyChartData}>
+                <BarChart data={commFrequencyChartData} barSize={60}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                   <YAxis />
