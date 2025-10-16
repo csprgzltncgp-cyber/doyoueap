@@ -1033,14 +1033,6 @@ const Reports = () => {
 
   return (
     <div className="space-y-6 pt-20 md:pt-0">
-      {audits.length === 0 && (
-        <Card>
-          <CardContent className="py-8 text-center text-muted-foreground">
-            <p className="text-sm">Nincs elérhető felmérés. Hozz létre egyet az adatok megjelenítéséhez.</p>
-          </CardContent>
-        </Card>
-      )}
-
       {renderContent()}
     </div>
   );
