@@ -512,7 +512,8 @@ const Reports = () => {
                     value={(parseFloat(trustScore) / 5) * 100} 
                     maxValue={100}
                     size={200}
-                    label={`${trustScore}/5`}
+                    label={trustScore}
+                    sublabel={`${trustScore} / 5`}
                     cornerRadius={30}
                     gaugeColor="hsl(var(--chart-2))"
                   />
@@ -585,7 +586,8 @@ const Reports = () => {
                     value={(avgImpact / 5) * 100} 
                     maxValue={100}
                     size={200}
-                    label={`${impactScore}/5`}
+                    label={impactScore}
+                    sublabel={`${impactScore} / 5`}
                     cornerRadius={30}
                     gaugeColor="hsl(var(--chart-2))"
                   />
