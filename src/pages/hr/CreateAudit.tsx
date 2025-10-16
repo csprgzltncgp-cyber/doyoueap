@@ -26,9 +26,16 @@ const CreateAudit = () => {
   const { user } = useAuth();
   const { packageType } = usePackage();
   const navigate = useNavigate();
-  const [currentStep, setCurrentStep] = useState(packageType === 'partner' ? 0 : 1);
+  const [currentStep, setCurrentStep] = useState(1);
   const [companies, setCompanies] = useState<Array<{ id: string; company_name: string }>>([]);
   const [selectedCompanyId, setSelectedCompanyId] = useState('');
+
+  // Set initial step based on package type
+  useEffect(() => {
+    if (packageType === 'partner') {
+      setCurrentStep(0);
+    }
+  }, [packageType]);
   const [loading, setLoading] = useState(false);
   const [auditsThisYear, setAuditsThisYear] = useState(0);
   const [isLimitReached, setIsLimitReached] = useState(false);
@@ -381,6 +388,7 @@ const CreateAudit = () => {
             companies={companies}
             selectedCompanyId={selectedCompanyId}
             onCompanySelect={setSelectedCompanyId}
+            onNext={handleNext}
           />
         )}
 
@@ -489,22 +497,6 @@ const CreateAudit = () => {
           />
         )}
 
-        {currentStep !== 0 && (
-          <div className="flex justify-between pt-6">
-            <Button
-              variant="outline"
-              onClick={handleBack}
-              disabled={loading || currentStep === (packageType === 'partner' ? 0 : 1)}
-            >
-              Vissza
-            </Button>
-            {currentStep < totalSteps && (
-              <Button onClick={handleNext} disabled={loading || (packageType === 'partner' && currentStep === 0 && !selectedCompanyId)}>
-                Következő
-              </Button>
-            )}
-          </div>
-        )}
       </div>
     </div>
   );
