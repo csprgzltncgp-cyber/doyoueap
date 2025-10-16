@@ -401,64 +401,14 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
 
       {/* 1. sor: Fő bizalmi mutatók */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {/* Általános Bizalom az Anonimitásban */}
-        <Card id="overall-anonymity-card">
-          <CardHeader className="relative">
+        {/* Bizalmi Index (from Reports overview page) */}
+        <Card className="relative overflow-hidden border-2 border-[#3366ff]" id="trust-index-card">
+          <CardHeader className="relative z-10" style={{ minHeight: '120px' }}>
             <Button
               variant="ghost"
               size="icon"
               className="absolute right-2 top-2 h-8 w-8"
-              onClick={() => exportCardToPNG('overall-anonymity-card', 'altalanos-anonimitas-bizalom')}
-            >
-              <Download className="h-4 w-4" />
-            </Button>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Lock className="w-5 h-5" />
-              Anonimitás Bizalom
-            </CardTitle>
-            <CardDescription>Általános szint (1-5 skála)</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <GaugeChart 
-              value={(parseFloat(overallAnonymityScore) / 5) * 100} 
-              maxValue={100}
-              size={220}
-              label={overallAnonymityScore}
-              sublabel={`${trustResponses.length} válaszadó`}
-              cornerRadius={30}
-              gaugeColor={parseFloat(overallAnonymityScore) < 2.5 ? '#ff0033' : undefined}
-            />
-            {parseFloat(overallAnonymityScore) < 2.5 && (
-              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
-                <AlertTriangle className="w-4 h-4" />
-                <span>Alacsony anonimitási bizalom</span>
-              </div>
-            )}
-            <p className="text-xs text-muted-foreground text-center mt-4">
-              Mennyire bíznak az anonimitás védelmében
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* Átfogó Bizalmi Index */}
-        <Card className="relative overflow-hidden" id="trust-index-card">
-          <div 
-            className="absolute inset-0 transition-all duration-500"
-            style={{
-              background: `linear-gradient(to top, ${
-                overallTrustIndex < 3 ? '#ff0033' : 'hsl(var(--chart-2))'
-              } 0%, ${
-                overallTrustIndex < 3 ? '#ff0033' : 'hsl(var(--chart-2))'
-              } ${(overallTrustIndex / 5) * 100}%, transparent ${(overallTrustIndex / 5) * 100}%, transparent 100%)`,
-              opacity: 0.1
-            }}
-          />
-          <CardHeader className="relative z-10">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-2 top-2 h-8 w-8"
-              onClick={() => exportCardToPNG('trust-index-card', 'atfogo-bizalmi-index')}
+              onClick={() => exportCardToPNG('trust-index-card', 'bizalom-index')}
             >
               <Download className="h-4 w-4" />
             </Button>
@@ -466,93 +416,27 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
               <Shield className="w-5 h-5" />
               Bizalmi Index
             </CardTitle>
-            <CardDescription>Használók átlaga (1-5 skála)</CardDescription>
+            <CardDescription>1-5 skála</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 relative z-10">
-            <div className="text-center">
-              <div 
-                className="text-6xl font-bold" 
-                style={{ 
-                  color: overallTrustIndex < 3 ? '#ff0033' : 'hsl(var(--chart-2))'
-                }}
-              >
-                {overallTrustIndex.toFixed(1)}
-              </div>
-              {overallTrustIndex < 3 && (
-                <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
-                  <AlertTriangle className="w-4 h-4" />
-                  <span>Alacsony bizalmi szint</span>
-                </div>
-              )}
-              <p className="text-sm text-muted-foreground mt-2">
-                {overallTrustIndex >= 4 ? (
-                  '✓ Magas bizalmi szint'
-                ) : overallTrustIndex >= 3 ? (
-                  '→ Közepes bizalmi szint'
-                ) : (
-                  'Fejlesztést igényel'
-                )}
-              </p>
+          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
+            <div className="flex items-center justify-center flex-1 w-full">
+              <GaugeChart
+                value={(overallTrustIndex / 5) * 100} 
+                maxValue={100}
+                size={200}
+                label={overallTrustIndex.toFixed(1)}
+                sublabel="/ 5"
+                cornerRadius={30}
+                gaugeColor="hsl(var(--chart-2))"
+              />
             </div>
+            <p className="text-xs text-muted-foreground text-center px-2">
+              Átfogó bizalmi mutató (anonimitás, félelmek, jövőbeli használat)
+            </p>
           </CardContent>
         </Card>
 
-        {/* Munkaadói Félelem */}
-        <Card className="relative overflow-hidden" id="employer-fear-card">
-          <div 
-            className="absolute inset-0 transition-all duration-500"
-            style={{
-              background: `linear-gradient(to top, ${
-                parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : 'hsl(var(--chart-2))'
-              } 0%, ${
-                parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : 'hsl(var(--chart-2))'
-              } ${(parseFloat(overallEmployerFearScore) / 5) * 100}%, transparent ${(parseFloat(overallEmployerFearScore) / 5) * 100}%, transparent 100%)`,
-              opacity: 0.1
-            }}
-          />
-          <CardHeader className="relative z-10">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-2 top-2 h-8 w-8"
-              onClick={() => exportCardToPNG('employer-fear-card', 'munkaadoi-felelem')}
-            >
-              <Download className="h-4 w-4" />
-            </Button>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <AlertTriangle className="w-5 h-5" />
-              Munkaadói Félelem
-            </CardTitle>
-            <CardDescription>1-5 skála (magasabb = nagyobb félelem)</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4 relative z-10">
-            <div className="text-center">
-              <div 
-                className="text-6xl font-bold" 
-                style={{ 
-                  color: parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : 'hsl(var(--chart-2))'
-                }}
-              >
-                {overallEmployerFearScore}
-              </div>
-              {parseFloat(overallEmployerFearScore) > 3.5 && (
-                <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
-                  <AlertTriangle className="w-4 h-4" />
-                  <span>Magas munkaadói félelem</span>
-                </div>
-              )}
-              <p className="text-sm text-muted-foreground mt-2">
-                {parseFloat(overallEmployerFearScore) <= 2 
-                  ? '✓ Alacsony félelemszint' 
-                  : parseFloat(overallEmployerFearScore) <= 3.5
-                  ? '→ Közepes félelemszint'
-                  : 'Magas félelemszint - fejlesztést igényel'}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Használati Hajlandóság */}
+        {/* Jövőbeli Használat */}
         <Card id="likelihood-card">
           <CardHeader className="relative">
             <Button
@@ -569,16 +453,18 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
             </CardTitle>
             <CardDescription>Használók hajlandósága (1-5 skála)</CardDescription>
           </CardHeader>
-          <CardContent>
-            <GaugeChart 
-              value={(parseFloat(likelihoodScore) / 5) * 100} 
-              maxValue={100}
-              size={220}
-              label={likelihoodScore}
-              sublabel={`${usedResponses.length} használó`}
-              cornerRadius={30}
-              gaugeColor={parseFloat(likelihoodScore) < 3.0 ? '#ff0033' : undefined}
-            />
+          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
+            <div className="flex items-center justify-center flex-1 w-full">
+              <GaugeChart 
+                value={(parseFloat(likelihoodScore) / 5) * 100} 
+                maxValue={100}
+                size={220}
+                label={likelihoodScore}
+                sublabel={`${usedResponses.length} használó`}
+                cornerRadius={30}
+                gaugeColor={parseFloat(likelihoodScore) < 3.0 ? '#ff0033' : undefined}
+              />
+            </div>
             {parseFloat(likelihoodScore) < 3.0 && (
               <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
                 <AlertTriangle className="w-4 h-4" />
@@ -587,6 +473,88 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
             )}
             <p className="text-xs text-muted-foreground text-center mt-4">
               Mennyire valószínű, hogy újra igénybe veszik
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Anonimitás Bizalom */}
+        <Card id="overall-anonymity-card">
+          <CardHeader className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('overall-anonymity-card', 'altalanos-anonimitas-bizalom')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Lock className="w-5 h-5" />
+              Anonimitás Bizalom
+            </CardTitle>
+            <CardDescription>Általános szint (1-5 skála)</CardDescription>
+          </CardHeader>
+          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
+            <div className="flex items-center justify-center flex-1 w-full">
+              <GaugeChart 
+                value={(parseFloat(overallAnonymityScore) / 5) * 100} 
+                maxValue={100}
+                size={220}
+                label={overallAnonymityScore}
+                sublabel={`${trustResponses.length} válaszadó`}
+                cornerRadius={30}
+                gaugeColor={parseFloat(overallAnonymityScore) < 2.5 ? '#ff0033' : undefined}
+              />
+            </div>
+            {parseFloat(overallAnonymityScore) < 2.5 && (
+              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
+                <AlertTriangle className="w-4 w-4" />
+                <span>Alacsony anonimitási bizalom</span>
+              </div>
+            )}
+            <p className="text-xs text-muted-foreground text-center mt-4">
+              Mennyire bíznak az anonimitás védelmében
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Munkaadói Félelem - converted to gauge chart */}
+        <Card className="relative overflow-hidden" id="employer-fear-card">
+          <CardHeader className="relative z-10" style={{ minHeight: '120px' }}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('employer-fear-card', 'munkaadoi-felelem')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5" />
+              Munkaadói Félelem
+            </CardTitle>
+            <CardDescription>1-5 skála (magasabb = nagyobb félelem)</CardDescription>
+          </CardHeader>
+          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
+            <div className="flex items-center justify-center flex-1 w-full">
+              <GaugeChart 
+                value={(parseFloat(overallEmployerFearScore) / 5) * 100} 
+                maxValue={100}
+                size={220}
+                label={overallEmployerFearScore}
+                sublabel="/ 5"
+                cornerRadius={30}
+                gaugeColor={parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : undefined}
+              />
+            </div>
+            {parseFloat(overallEmployerFearScore) > 3.5 && (
+              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
+                <AlertTriangle className="w-4 h-4" />
+                <span>Magas munkaadói félelem</span>
+              </div>
+            )}
+            <p className="text-xs text-muted-foreground text-center mt-4">
+              Mennyire félnek a munkaadó megítélésétől
             </p>
           </CardContent>
         </Card>
