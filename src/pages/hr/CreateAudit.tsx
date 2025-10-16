@@ -26,16 +26,18 @@ const CreateAudit = () => {
   const { user } = useAuth();
   const { packageType, loading: packageLoading } = usePackage();
   const navigate = useNavigate();
-  const [currentStep, setCurrentStep] = useState(1);
+  
+  // Initialize currentStep based on packageType - null means not initialized yet
+  const [currentStep, setCurrentStep] = useState<number | null>(null);
   const [companies, setCompanies] = useState<Array<{ id: string; company_name: string }>>([]);
   const [selectedCompanyId, setSelectedCompanyId] = useState('');
 
-  // Set initial step based on package type
+  // Set initial step based on package type once loaded
   useEffect(() => {
-    if (!packageLoading && packageType === 'partner') {
-      setCurrentStep(0);
+    if (!packageLoading && currentStep === null) {
+      setCurrentStep(packageType === 'partner' ? 0 : 1);
     }
-  }, [packageType, packageLoading]);
+  }, [packageType, packageLoading, currentStep]);
   const [loading, setLoading] = useState(false);
   const [auditsThisYear, setAuditsThisYear] = useState(0);
   const [isLimitReached, setIsLimitReached] = useState(false);
@@ -328,7 +330,7 @@ const CreateAudit = () => {
     giftId,
     drawMode,
   };
-  if (checkingLimit || packageLoading) {
+  if (checkingLimit || packageLoading || currentStep === null) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
         <p className="text-muted-foreground">Betöltés...</p>
