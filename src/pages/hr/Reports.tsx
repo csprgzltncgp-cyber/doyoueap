@@ -455,17 +455,19 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>A program ismeretének aránya</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10">
-                <GaugeChart 
-                  value={awarenessRate} 
-                  maxValue={100}
-                  size={200}
-                  label={`${awarenessScore}%`}
-                  sublabel={`${awarenessResponses.length} / ${totalResponses} fő`}
-                  cornerRadius={30}
-                  gaugeColor="hsl(var(--chart-2))"
-                />
-                <p className="text-xs text-muted-foreground text-center">
+              <CardContent className="space-y-4 relative z-10 flex flex-col">
+                <div className="flex items-center justify-center" style={{ minHeight: '200px' }}>
+                  <GaugeChart 
+                    value={awarenessRate} 
+                    maxValue={100}
+                    size={200}
+                    label={`${awarenessScore}%`}
+                    sublabel={`${awarenessResponses.length} / ${totalResponses} fő`}
+                    cornerRadius={30}
+                    gaugeColor="hsl(var(--chart-2))"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground text-center" style={{ minHeight: '40px' }}>
                   A válaszolók közül ennyien tudtak a programról
                 </p>
               </CardContent>
@@ -495,17 +497,19 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10">
-                <GaugeChart 
-                  value={(parseFloat(trustScore) / 5) * 100} 
-                  maxValue={100}
-                  size={200}
-                  label={trustScore}
-                  sublabel="/ 5"
-                  cornerRadius={30}
-                  gaugeColor="hsl(var(--chart-2))"
-                />
-                <p className="text-xs text-muted-foreground text-center">
+              <CardContent className="space-y-4 relative z-10 flex flex-col">
+                <div className="flex items-center justify-center" style={{ minHeight: '200px' }}>
+                  <GaugeChart 
+                    value={(parseFloat(trustScore) / 5) * 100} 
+                    maxValue={100}
+                    size={200}
+                    label={trustScore}
+                    sublabel="/ 5"
+                    cornerRadius={30}
+                    gaugeColor="hsl(var(--chart-2))"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground text-center" style={{ minHeight: '40px' }}>
                   Átfogó bizalmi mutató (anonimitás, félelmek, jövőbeli használat)
                 </p>
               </CardContent>
@@ -535,17 +539,19 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>Nem használók körében</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10">
-                <GaugeChart 
-                  value={futureUsageIntent} 
-                  maxValue={100}
-                  size={200}
-                  label={`${usageScore}%`}
-                  sublabel={`${wouldUseYes} / ${wouldUseTotal} fő`}
-                  cornerRadius={30}
-                  gaugeColor="hsl(var(--chart-2))"
-                />
-                <p className="text-xs text-muted-foreground text-center">
+              <CardContent className="space-y-4 relative z-10 flex flex-col">
+                <div className="flex items-center justify-center" style={{ minHeight: '200px' }}>
+                  <GaugeChart 
+                    value={futureUsageIntent} 
+                    maxValue={100}
+                    size={200}
+                    label={`${usageScore}%`}
+                    sublabel={`${wouldUseYes} / ${wouldUseTotal} fő`}
+                    cornerRadius={30}
+                    gaugeColor="hsl(var(--chart-2))"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground text-center" style={{ minHeight: '40px' }}>
                   A nem használók hány százaléka tervezi igénybe venni
                 </p>
               </CardContent>
@@ -575,17 +581,19 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10">
-                <GaugeChart 
-                  value={(avgImpact / 5) * 100} 
-                  maxValue={100}
-                  size={200}
-                  label={impactScore}
-                  sublabel="/ 5"
-                  cornerRadius={30}
-                  gaugeColor="hsl(var(--chart-2))"
-                />
-                <p className="text-xs text-muted-foreground text-center">
+              <CardContent className="space-y-4 relative z-10 flex flex-col">
+                <div className="flex items-center justify-center" style={{ minHeight: '200px' }}>
+                  <GaugeChart 
+                    value={(avgImpact / 5) * 100} 
+                    maxValue={100}
+                    size={200}
+                    label={impactScore}
+                    sublabel="/ 5"
+                    cornerRadius={30}
+                    gaugeColor="hsl(var(--chart-2))"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground text-center" style={{ minHeight: '40px' }}>
                   Átlagos hatékonyság (elégedettség, problémamegoldás, jóllét, teljesítmény, konzisztencia)
                 </p>
               </CardContent>
