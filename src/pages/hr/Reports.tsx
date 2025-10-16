@@ -554,7 +554,11 @@ const Reports = () => {
                   />
                 </div>
                 <p className="text-xs text-muted-foreground text-center px-2">
-                  ✓ Magas a jövőbeli használati hajlandóság.
+                  {parseFloat(usageScore) >= 70 
+                    ? '✓ Magas a jövőbeli használati hajlandóság.'
+                    : parseFloat(usageScore) >= 40
+                    ? '→ Közepes a nyitottság a program jövőbeni használatára.'
+                    : 'ℹ Alacsony a jövőbeni használati szándék - érdemes a bizalomépítésre és kommunikációra fókuszálni.'}
                 </p>
               </CardContent>
             </Card>
