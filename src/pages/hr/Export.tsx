@@ -145,17 +145,54 @@ const Export = () => {
         return;
       }
 
-      const { data, error } = await supabase
-        .from('export_history')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(50);
+      let exportData = [];
 
-      console.log('Export history data:', data);
-      console.log('Export history error:', error);
+      if (packageType === 'partner') {
+        // For partners, only show exports for their company audits
+        const { data: companiesData } = await supabase
+          .from('companies')
+          .select('id')
+          .eq('partner_user_id', user.id);
+        
+        const companyIds = companiesData?.map(c => c.id) || [];
+        console.log('Partner companies for export history:', companyIds);
 
-      if (error) throw error;
-      setExportHistory(data || []);
+        if (companyIds.length > 0) {
+          // Get audits for these companies
+          const { data: partnerAudits } = await supabase
+            .from('audits')
+            .select('id')
+            .in('partner_company_id', companyIds)
+            .not('partner_company_id', 'is', null);
+
+          const auditIds = partnerAudits?.map(a => a.id) || [];
+          
+          if (auditIds.length > 0) {
+            const { data, error } = await supabase
+              .from('export_history')
+              .select('*')
+              .in('audit_id', auditIds)
+              .order('created_at', { ascending: false })
+              .limit(50);
+
+            if (error) throw error;
+            exportData = data || [];
+          }
+        }
+      } else {
+        // For non-partners, show all their exports
+        const { data, error } = await supabase
+          .from('export_history')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(50);
+
+        if (error) throw error;
+        exportData = data || [];
+      }
+
+      console.log('Export history data:', exportData);
+      setExportHistory(exportData);
     } catch (error) {
       console.error('Error fetching export history:', error);
     } finally {

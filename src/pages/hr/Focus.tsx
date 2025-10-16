@@ -192,16 +192,53 @@ const Focus = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const { data, error } = await supabase
-        .from('export_history')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(50);
+      let exportData = [];
 
-      if (error) throw error;
+      if (packageType === 'partner') {
+        // For partners, only show exports for their company audits
+        const { data: companiesData } = await supabase
+          .from('companies')
+          .select('id')
+          .eq('partner_user_id', user.id);
+        
+        const companyIds = companiesData?.map(c => c.id) || [];
+
+        if (companyIds.length > 0) {
+          // Get audits for these companies
+          const { data: partnerAudits } = await supabase
+            .from('audits')
+            .select('id')
+            .in('partner_company_id', companyIds)
+            .not('partner_company_id', 'is', null);
+
+          const auditIds = partnerAudits?.map(a => a.id) || [];
+          
+          if (auditIds.length > 0) {
+            const { data, error } = await supabase
+              .from('export_history')
+              .select('*')
+              .in('audit_id', auditIds)
+              .order('created_at', { ascending: false })
+              .limit(50);
+
+            if (error) throw error;
+            exportData = data || [];
+          }
+        }
+      } else {
+        // For non-partners, show all their exports
+        const { data, error } = await supabase
+          .from('export_history')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(50);
+
+        if (error) throw error;
+        exportData = data || [];
+      }
 
       // Transform database records to ExportDownload format
-      const downloads: ExportDownload[] = (data || []).map(record => ({
+      const downloads: ExportDownload[] = exportData.map(record => ({
         auditId: record.audit_id,
         auditName: record.audit_name,
         fileName: record.file_name,
