@@ -485,10 +485,10 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
                   <span>Alacsony bizalmi szint</span>
                 </div>
               )}
-              <p className="text-sm text-muted-foreground mt-4">
-                A Bizalmi Index azt mutatja, hogy mennyire bíznak a munkavállalók az EAP program anonimitásában, függetlenségében és biztonságában. Az érték 1-5 skálán mozog.
-              </p>
             </div>
+            <p className="text-sm text-muted-foreground text-center px-2">
+              A Bizalmi Index azt mutatja, hogy mennyire bíznak a munkavállalók az EAP program anonimitásában, függetlenségében és biztonságában. Az érték 1-5 skálán mozog.
+            </p>
           </CardContent>
         </Card>
 
@@ -557,10 +557,10 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
                   <span>Alacsony hajlandóság</span>
                 </div>
               )}
-              <p className="text-sm text-muted-foreground mt-4">
-                A Jövőbeli Használat azt mutatja, hogy milyen valószínűséggel venne újra igénybe az EAP szolgáltatást. Az érték 1-5 skálán mozog.
-              </p>
             </div>
+            <p className="text-sm text-muted-foreground text-center px-2">
+              A Jövőbeli Használat azt mutatja, hogy milyen valószínűséggel venne újra igénybe az EAP szolgáltatást. Az érték 1-5 skálán mozog.
+            </p>
           </CardContent>
         </Card>
 
@@ -629,10 +629,10 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
                   <span>Alacsony bizalom</span>
                 </div>
               )}
-              <p className="text-sm text-muted-foreground mt-4">
-                Az Anonimitás Bizalom azt mutatja, hogy mennyire bíznak a munkavállalók abban, hogy az EAP használat során adataik védve vannak. Az érték 1-5 skálán mozog.
-              </p>
             </div>
+            <p className="text-sm text-muted-foreground text-center px-2">
+              Az Anonimitás Bizalom azt mutatja, hogy mennyire bíznak a munkavállalók abban, hogy az EAP használat során adataik védve vannak. Az érték 1-5 skálán mozog.
+            </p>
           </CardContent>
         </Card>
 
@@ -701,10 +701,10 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
                   <span>Magas félelem</span>
                 </div>
               )}
-              <p className="text-sm text-muted-foreground mt-4">
-                A Munkaadói Félelem azt mutatja, hogy mennyire félnek a munkavállalók attól, hogy a munkaadó megtudja az EAP használatát. Az érték 1-5 skálán mozog, ahol a magasabb érték nagyobb félelmet jelent.
-              </p>
             </div>
+            <p className="text-sm text-muted-foreground text-center px-2">
+              A Munkaadói Félelem azt mutatja, hogy mennyire félnek a munkavállalók attól, hogy a munkaadó megtudja az EAP használatát. Az érték 1-5 skálán mozog, ahol a magasabb érték nagyobb félelmet jelent.
+            </p>
           </CardContent>
         </Card>
       </div>
