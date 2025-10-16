@@ -480,8 +480,7 @@ const Reports = () => {
                   {/* Company selector for partner users */}
                   {packageType === 'partner' && companies.length > 0 && (
                     <div className="flex-1 md:max-w-[300px]">
-                      <label className="text-xs text-muted-foreground mb-1.5 flex items-center gap-1">
-                        <Building2 className="h-3 w-3" />
+                      <label className="text-xs text-muted-foreground mb-1.5 block">
                         Ügyfélcég szűrése
                       </label>
                       <Select value={selectedCompanyId} onValueChange={setSelectedCompanyId}>
