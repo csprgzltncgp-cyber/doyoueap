@@ -391,15 +391,15 @@ const Focus = () => {
                 <CardHeader className="pb-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="space-y-2 flex-1">
-                      <CardTitle className="text-xl group-hover:text-primary transition-colors">
-                        {formatAuditName(audit)}
-                      </CardTitle>
                       {audit.partner_company_id && audit.company_name && (
                         <div className="flex items-center gap-2 text-sm bg-primary/10 text-primary px-3 py-1.5 rounded-lg w-fit">
                           <Building2 className="h-4 w-4" />
                           <span className="font-semibold">{audit.company_name}</span>
                         </div>
                       )}
+                      <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                        {formatAuditName(audit)}
+                      </CardTitle>
                       <div className="flex items-center gap-2 text-muted-foreground">
                         <div className="bg-primary/10 p-1.5 rounded">
                           <Users className="h-4 w-4 text-primary" />
