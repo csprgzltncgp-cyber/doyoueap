@@ -252,7 +252,7 @@ const Demographics = ({ selectedAuditId, audits, onAuditChange }: DemographicsPr
   };
 
   
-  const COLORS = ['hsl(var(--chart-4))', 'hsl(var(--chart-3))', 'hsl(var(--chart-2))'];
+  const COLORS = ['#000099', 'hsl(var(--chart-3))', 'hsl(var(--chart-2))'];
 
   if (loading) {
     return (
