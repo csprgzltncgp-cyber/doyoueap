@@ -469,9 +469,9 @@ const Demographics = ({ selectedAuditId, audits, onAuditChange }: DemographicsPr
                   <YAxis domain={[0, 5]} />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="overall" fill="hsl(var(--chart-2))" name="Teljes minta" />
+                  <Bar dataKey="overall" fill="hsl(var(--chart-2))" name="Teljes minta" radius={[8, 8, 0, 0]} />
                   {(selectedGender !== 'all' || selectedAge !== 'all') && (
-                    <Bar dataKey="filtered" fill="hsl(var(--chart-3))" name="Szűrt csoport" />
+                    <Bar dataKey="filtered" fill="hsl(var(--chart-3))" name="Szűrt csoport" radius={[8, 8, 0, 0]} />
                   )}
                 </BarChart>
               </ResponsiveContainer>
