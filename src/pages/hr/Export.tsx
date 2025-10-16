@@ -1070,7 +1070,7 @@ const Export = () => {
                   <li>Bizalom & Hajlandóság</li>
                   <li>Használat</li>
                   <li>Hatás</li>
-                  <li>Motiváció</li>
+                  <li>Preferenciák</li>
                   <li>Demográfia</li>
                 </ul>
               </div>
