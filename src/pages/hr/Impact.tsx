@@ -343,7 +343,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
       {/* Main Metrics */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* Average Impact - MOVED TO FIRST POSITION */}
-        <Card id="impact-avg-card">
+        <Card id="impact-avg-card" className="border-2 border-[#3366ff]">
           <CardHeader className="relative">
             <Button
               variant="ghost"
