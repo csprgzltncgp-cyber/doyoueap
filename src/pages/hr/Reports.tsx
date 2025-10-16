@@ -491,6 +491,13 @@ const Reports = () => {
 
             {/* Card 2: Trust */}
             <Card className="relative overflow-hidden border-2 border-[#3366ff]" id="trust-card">
+              <div 
+                className="absolute inset-0 transition-all duration-500"
+                style={{
+                  background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${(parseFloat(trustScore) / 5) * 100}%, transparent ${(parseFloat(trustScore) / 5) * 100}%, transparent 100%)`,
+                  opacity: 0.1
+                }}
+              />
               <CardHeader className="relative z-10" style={{ minHeight: '120px' }}>
                 <Button
                   variant="ghost"
@@ -579,6 +586,13 @@ const Reports = () => {
 
             {/* Card 4: Impact */}
             <Card className="relative overflow-hidden border-2 border-[#3366ff]" id="impact-card">
+              <div 
+                className="absolute inset-0 transition-all duration-500"
+                style={{
+                  background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${(parseFloat(impactScore) / 5) * 100}%, transparent ${(parseFloat(impactScore) / 5) * 100}%, transparent 100%)`,
+                  opacity: 0.1
+                }}
+              />
               <CardHeader className="relative z-10" style={{ minHeight: '120px' }}>
                 <Button
                   variant="ghost"
