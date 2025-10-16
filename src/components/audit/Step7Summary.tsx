@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Link as LinkIcon, Upload, QrCode, Calendar, Languages, FileText, Gift, Palette, Mail, MousePointerClick, CheckCircle, Trophy } from "lucide-react";
+import { Link as LinkIcon, Upload, QrCode, Calendar, Languages, FileText, Gift, Palette, Mail, MousePointerClick, CheckCircle, Trophy, Building2 } from "lucide-react";
 import { supabase } from '@/integrations/supabase/client';
 
 interface Step7Props {
@@ -21,12 +21,13 @@ interface Step7Props {
     giftId?: string;
     drawMode?: 'auto' | 'manual';
   };
+  selectedCompanyName?: string;
   onSubmit: () => void;
   onBack: () => void;
   loading: boolean;
 }
 
-export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Props) => {
+export const Step7Summary = ({ auditData, selectedCompanyName, onSubmit, onBack, loading }: Step7Props) => {
   const [giftName, setGiftName] = useState<string>('');
   const [giftValue, setGiftValue] = useState<number>(0);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
@@ -116,6 +117,17 @@ export const Step7Summary = ({ auditData, onSubmit, onBack, loading }: Step7Prop
           Ellenőrizze a felmérés beállításait indítás előtt
         </p>
       </div>
+
+      {selectedCompanyName && (
+        <Card className="border-2 border-primary/30 bg-primary/5">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-2 text-lg font-semibold text-primary">
+              <Building2 className="h-5 w-5" />
+              <span>Ügyfélcég: {selectedCompanyName}</span>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <Card className="border-2">
         <CardHeader className="bg-muted/30">
