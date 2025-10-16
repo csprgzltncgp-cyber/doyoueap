@@ -17,9 +17,8 @@ import Awareness from "./Awareness";
 import TrustWillingness from "./TrustWillingness";
 import Usage from "./Usage";
 import Impact from "./Impact";
-import Motivation from "./Motivation";
+import CombinedPreferences from "./CombinedPreferences";
 import UserCategories from "./UserCategories";
-import Preferences from "./Preferences";
 import Demographics from "./Demographics";
 import Trends from "./Trends";
 import Compare from "./Compare";
@@ -786,9 +785,8 @@ const Reports = () => {
       case "impact":
         return <Impact selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
       case "motivation":
-        return <Motivation selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
       case "preferences":
-        return <Preferences selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
+        return <CombinedPreferences selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
       case "categories":
         return <UserCategories />;
       case "demographics":

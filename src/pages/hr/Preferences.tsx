@@ -173,41 +173,25 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
 
   return (
     <div className="space-y-6">
-      {/* Fejléc */}
-      <div className="space-y-4 mb-6">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
-          <div className="flex-1">
-            <div className="flex items-center gap-4 mb-2">
-              <h2 className="text-2xl font-bold">Preferenciák Elemzése</h2>
-              <ReportNavigation currentTab="preferences" />
-            </div>
-            <p className="text-muted-foreground text-sm">
-              A felhasználók szolgáltatás preferenciáinak és kommunikációs igényeinek részletes elemzése
-            </p>
-          </div>
+      {audits.length > 0 && (
+        <div className="w-full md:max-w-[300px] md:ml-auto mb-6">
+          <label className="text-xs text-muted-foreground mb-1.5 block">
+            Felmérés kiválasztása
+          </label>
+          <Select value={selectedAuditId} onValueChange={onAuditChange}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Válassz felmérést" />
+            </SelectTrigger>
+            <SelectContent>
+              {audits.map((audit) => (
+                <SelectItem key={audit.id} value={audit.id}>
+                  {formatAuditName(audit)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
-        {audits.length > 0 && (
-          <div className="flex flex-col md:flex-row md:items-center gap-4">
-            <div className="flex-1 md:max-w-[300px] md:ml-auto">
-              <label className="text-xs text-muted-foreground mb-1.5 block">
-                Felmérés kiválasztása
-              </label>
-              <Select value={selectedAuditId} onValueChange={onAuditChange}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Válassz felmérést" />
-                </SelectTrigger>
-                <SelectContent>
-                  {audits.map((audit) => (
-                    <SelectItem key={audit.id} value={audit.id}>
-                      {formatAuditName(audit)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        )}
-      </div>
+      )}
 
       {/* 1. sor: Szakértő és Csatorna Preferencia */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

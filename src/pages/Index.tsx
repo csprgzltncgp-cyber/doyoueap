@@ -464,17 +464,6 @@ const Index = () => {
                         <>
                           <button
                             onClick={() => {
-                              setSearchParams({ section: 'reports', sub: 'motivation' });
-                              setOpenSubmenu(null);
-                            }}
-                            className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
-                              subSection === 'motivation' ? 'bg-gray-100 font-medium' : ''
-                            }`}
-                          >
-                            Motiváció
-                          </button>
-                          <button
-                            onClick={() => {
                               setSearchParams({ section: 'reports', sub: 'preferences' });
                               setOpenSubmenu(null);
                             }}

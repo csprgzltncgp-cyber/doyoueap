@@ -175,8 +175,27 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange }: MotivationProps)
   }
 
   if (notUsedCount === 0) {
-    return (
-      <div className="space-y-6">
+  return (
+    <div className="space-y-6">
+      {audits.length > 0 && (
+        <div className="w-full md:max-w-[300px] md:ml-auto mb-6">
+          <label className="text-xs text-muted-foreground mb-1.5 block">
+            Felmérés kiválasztása
+          </label>
+          <Select value={selectedAuditId} onValueChange={onAuditChange}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Válassz felmérést" />
+            </SelectTrigger>
+            <SelectContent>
+              {audits.map((audit) => (
+                <SelectItem key={audit.id} value={audit.id}>
+                  {formatAuditName(audit)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
         <div className="flex justify-between items-start gap-4 mb-6">
           <div className="flex-1">
             <h2 className="text-2xl font-bold mb-2">Motiváció Riport</h2>
@@ -213,38 +232,25 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange }: MotivationProps)
 
   return (
     <div className="space-y-6">
-      <div className="space-y-4 mb-6">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
-          <div className="flex-1">
-            <div className="flex items-center gap-4 mb-2">
-              <h2 className="text-2xl font-bold">Motiváció Riport</h2>
-              <ReportNavigation currentTab="motivation" />
-            </div>
-            <p className="text-muted-foreground">
-              Mi motiválná a nem használókat a program igénybevételére ({notUsedCount} nem használó válaszadó)
-            </p>
-          </div>
+      {audits.length > 0 && (
+        <div className="w-full md:max-w-[300px] md:ml-auto mb-6">
+          <label className="text-xs text-muted-foreground mb-1.5 block">
+            Felmérés kiválasztása
+          </label>
+          <Select value={selectedAuditId} onValueChange={onAuditChange}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Válassz felmérést" />
+            </SelectTrigger>
+            <SelectContent>
+              {audits.map((audit) => (
+                <SelectItem key={audit.id} value={audit.id}>
+                  {formatAuditName(audit)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
-        {audits.length > 0 && (
-          <div className="w-full md:max-w-[300px] md:ml-auto">
-            <label className="text-xs text-muted-foreground mb-1.5 block">
-              Felmérés kiválasztása
-            </label>
-            <Select value={selectedAuditId} onValueChange={onAuditChange}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Válassz felmérést" />
-              </SelectTrigger>
-              <SelectContent>
-                {audits.map((audit) => (
-                  <SelectItem key={audit.id} value={audit.id}>
-                    {formatAuditName(audit)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        )}
-      </div>
+      )}
 
       {/* Top Motivators */}
       <Card id="motivators-card">
