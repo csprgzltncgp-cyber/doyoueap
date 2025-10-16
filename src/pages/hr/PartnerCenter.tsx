@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Building2, Plus, Pencil, Trash2, Search } from 'lucide-react';
+import { Building2, Plus, Pencil, Trash2, Search, FileText, Eye, XCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
@@ -27,6 +27,8 @@ interface Company {
   employee_count: string | null;
   notes: string | null;
   created_at: string;
+  running_audits?: number;
+  closed_audits?: number;
 }
 
 const PartnerCenter = () => {
@@ -89,7 +91,31 @@ const PartnerCenter = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setCompanies(data || []);
+      
+      // Fetch audit counts for each company
+      const companiesWithAudits = await Promise.all(
+        (data || []).map(async (company) => {
+          const { count: runningCount } = await supabase
+            .from('audits')
+            .select('*', { count: 'exact', head: true })
+            .eq('partner_company_id', company.id)
+            .eq('is_active', true);
+
+          const { count: closedCount } = await supabase
+            .from('audits')
+            .select('*', { count: 'exact', head: true })
+            .eq('partner_company_id', company.id)
+            .eq('is_active', false);
+
+          return {
+            ...company,
+            running_audits: runningCount || 0,
+            closed_audits: closedCount || 0
+          };
+        })
+      );
+      
+      setCompanies(companiesWithAudits);
     } catch (error) {
       console.error('Error fetching companies:', error);
       toast({
@@ -378,6 +404,8 @@ const PartnerCenter = () => {
                     <TableHead>Telefon</TableHead>
                     <TableHead>Iparág</TableHead>
                     <TableHead>Létszám</TableHead>
+                    <TableHead className="text-center">Futó felmérések</TableHead>
+                    <TableHead className="text-center">Lezárt felmérések</TableHead>
                     <TableHead className="text-right">Műveletek</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -389,8 +417,28 @@ const PartnerCenter = () => {
                     <TableCell>{company.contact_phone || '-'}</TableCell>
                     <TableCell>{company.industry?.name || '-'}</TableCell>
                     <TableCell>{company.employee_count || '-'}</TableCell>
+                      <TableCell className="text-center">
+                        <span className="inline-flex items-center gap-1 text-green-600 font-semibold">
+                          <FileText className="h-4 w-4" />
+                          {company.running_audits || 0}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <span className="inline-flex items-center gap-1 text-muted-foreground">
+                          <XCircle className="h-4 w-4" />
+                          {company.closed_audits || 0}
+                        </span>
+                      </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => window.location.href = `/?section=eap-pulse&sub=running-audits`}
+                            title="Felmérések megtekintése"
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
                           <Button
                             size="sm"
                             variant="outline"
