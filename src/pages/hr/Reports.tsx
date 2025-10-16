@@ -693,14 +693,51 @@ const Reports = () => {
                   mi a felmérésből kapott arányokat vetítjük ki. A válaszolók {usageRateFromRespondents.toFixed(1)}%-a 
                   használta a programot, ezt az arányt alkalmazzuk a teljes {employeeCount} fős létszámra.
                 </p>
-                <GaugeChart 
-                  value={utilization} 
-                  maxValue={100}
-                  size={280}
-                  label={`${utilization.toFixed(1)}%`}
-                  sublabel={`~${estimatedUsers} / ${employeeCount} fő (becsült)`}
-                  cornerRadius={30}
-                />
+                <div className="flex items-center justify-center">
+                  <div className="relative" style={{ width: '200px', height: '200px' }}>
+                    {/* Background gradient fill */}
+                    <div 
+                      className="absolute inset-0 transition-all duration-500"
+                      style={{
+                        background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${utilization}%, transparent ${utilization}%, transparent 100%)`,
+                        opacity: 0.15,
+                        clipPath: 'url(#user-icon-clip-util)',
+                        WebkitClipPath: 'url(#user-icon-clip-util)'
+                      }}
+                    />
+                    {/* User icon */}
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="w-full h-full text-muted-foreground/30"
+                    >
+                      <defs>
+                        <clipPath id="user-icon-clip-util">
+                          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                          <circle cx="12" cy="7" r="4" />
+                        </clipPath>
+                      </defs>
+                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    {/* Percentage text overlay */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <div className="text-5xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
+                        {utilization.toFixed(1)}%
+                      </div>
+                      <div className="text-xs text-muted-foreground mt-2">
+                        ~{estimatedUsers} / {employeeCount} fő
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        (becsült)
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
 
