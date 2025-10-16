@@ -183,13 +183,15 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
   const getNPSColor = (score: number) => {
     if (score >= 50) return 'text-primary';
     if (score > 0) return 'text-primary/70';
+    if (score === 0) return 'text-muted-foreground';
     return 'text-destructive';
   };
 
   const getNPSLabel = (score: number) => {
     if (score >= 50) return 'Kiváló';
     if (score >= 30) return 'Jó';
-    if (score >= 0) return 'Fejleszthető';
+    if (score > 0) return 'Fejleszthető';
+    if (score === 0) return 'Semleges';
     return 'Kritikus';
   };
 
