@@ -364,20 +364,6 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="mb-4 p-3 bg-muted/50 rounded-lg text-sm space-y-2">
-              <p className="text-muted-foreground">
-                <strong>Értékelt területek:</strong> Elégedettség, Problémamegoldás, Wellbeing, Teljesítmény, Konzisztencia
-              </p>
-              <p className="text-muted-foreground">
-                Az 5 terület összesített átlaga 1-5 skálán.
-              </p>
-              <ul className="text-muted-foreground space-y-1 pl-4">
-                <li>• <strong>4.5 felett:</strong> Kiváló hatás</li>
-                <li>• <strong>3.5-4.5:</strong> Jó hatás</li>
-                <li>• <strong>2.5-3.5:</strong> Közepes hatás</li>
-                <li>• <strong>2.5 alatt:</strong> Fejlesztendő</li>
-              </ul>
-            </div>
             <GaugeChart
               value={avgImpact}
               maxValue={5}
@@ -386,12 +372,17 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
               label={avgImpact.toFixed(1)}
               sublabel="Mennyire segített a program összeségében."
             />
-            {avgImpact < 2.5 && (
-              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
-                <AlertTriangle className="w-4 h-4" />
-                <span>Alacsony hatékonyság</span>
-              </div>
-            )}
+            <div className="bg-muted/30 p-3 rounded-md mt-4">
+              <p className="text-xs text-muted-foreground">
+                {avgImpact >= 4.5
+                  ? '✓ Kiváló hatás - A program nagyon hatékonyan segít.'
+                  : avgImpact >= 3.5
+                  ? '✓ Jó hatás - A program megfelelően működik.'
+                  : avgImpact >= 2.5
+                  ? '→ Közepes hatás - Van fejlesztési lehetőség.'
+                  : 'ℹ Alacsony hatékonyság - Javasolt: hatékonyabb szolgáltatások, gyorsabb válaszidő, jobb problémamegoldás.'}
+              </p>
+            </div>
           </CardContent>
         </Card>
 
@@ -412,32 +403,12 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="mb-4 p-3 bg-muted/50 rounded-lg text-sm space-y-2">
-              <p className="text-muted-foreground">
-                <strong>Mit mutat az érték?</strong> Az NPS -100-tól +100-ig terjedhet.
-              </p>
-              <ul className="text-muted-foreground space-y-1 pl-4">
-                <li>• <strong>+50 felett:</strong> Kiváló - Sokan ajánlanák</li>
-                <li>• <strong>0 körül:</strong> Semleges - Ajánlók és kritikusok egyensúlyban</li>
-                <li>• <strong>0 alatt:</strong> Fejlesztendő - Több a kritikus</li>
-              </ul>
-              <p className="text-muted-foreground text-xs pt-1">
-                Kérdés: "0-10 skálán mennyire ajánlaná kollégáinak a programot?"
-              </p>
-            </div>
-
             {/* NPS Score Visual */}
             <div className="my-8">
               {/* Score Display */}
               <div className="text-center mb-6">
                 <div className={`text-5xl font-bold mb-2 ${getNPSColor(npsData.npsScore)}`}>{npsData.npsScore}</div>
                 <div className={`text-lg ${getNPSColor(npsData.npsScore)}`}>{getNPSLabel(npsData.npsScore)}</div>
-                {npsData.npsScore < 0 && (
-                  <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
-                    <AlertTriangle className="w-4 h-4" />
-                    <span>Negatív NPS - kritikus helyzet</span>
-                  </div>
-                )}
               </div>
 
               {/* Scale */}
@@ -455,6 +426,20 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
                 <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-muted-foreground">0</div>
                 <div className="absolute -bottom-6 right-0 text-xs text-muted-foreground">+100</div>
               </div>
+            </div>
+            
+            <div className="bg-muted/30 p-3 rounded-md mt-4">
+              <p className="text-xs text-muted-foreground">
+                {npsData.npsScore >= 50
+                  ? '✓ Kiváló NPS - Sokan ajánlanák a programot kollégáiknak.'
+                  : npsData.npsScore >= 30
+                  ? '✓ Jó NPS - A programot általában ajánlanák.'
+                  : npsData.npsScore > 0
+                  ? '→ Fejleszthető NPS - Van tér a javításra.'
+                  : npsData.npsScore === 0
+                  ? '→ Semleges NPS - Ajánlók és kritikusok egyensúlyban vannak.'
+                  : 'ℹ Negatív NPS - Több kritikus, mint ajánló. Javasolt: részletes felhasználói interjúk, gyenge pontok azonosítása, szolgáltatás minőségének fejlesztése.'}
+              </p>
             </div>
           </CardContent>
         </Card>
