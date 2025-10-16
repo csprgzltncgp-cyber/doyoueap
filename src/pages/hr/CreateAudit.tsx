@@ -24,7 +24,7 @@ import eapPulseLogo from '@/assets/eap-pulse-logo.png';
 
 const CreateAudit = () => {
   const { user } = useAuth();
-  const { packageType } = usePackage();
+  const { packageType, loading: packageLoading } = usePackage();
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [companies, setCompanies] = useState<Array<{ id: string; company_name: string }>>([]);
@@ -32,10 +32,10 @@ const CreateAudit = () => {
 
   // Set initial step based on package type
   useEffect(() => {
-    if (packageType === 'partner') {
+    if (!packageLoading && packageType === 'partner') {
       setCurrentStep(0);
     }
-  }, [packageType]);
+  }, [packageType, packageLoading]);
   const [loading, setLoading] = useState(false);
   const [auditsThisYear, setAuditsThisYear] = useState(0);
   const [isLimitReached, setIsLimitReached] = useState(false);
@@ -328,7 +328,7 @@ const CreateAudit = () => {
     giftId,
     drawMode,
   };
-  if (checkingLimit) {
+  if (checkingLimit || packageLoading) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
         <p className="text-muted-foreground">Betöltés...</p>
