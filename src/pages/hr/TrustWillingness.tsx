@@ -169,9 +169,9 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
   // Bizalmi törés elemzése - Nehézségek a használat során (használók)
   const difficultiesData: { [key: string]: number } = {};
   usedResponses.forEach(r => {
-    const difficulty = r.responses?.u_usage_difficulties;
-    if (difficulty && difficulty !== 'Nincs' && difficulty !== 'nincs') {
-      difficultiesData[difficulty] = (difficultiesData[difficulty] || 0) + 1;
+    const barriers = r.responses?.u_trust_barriers;
+    if (barriers && barriers !== 'Nincs' && barriers !== 'nincs') {
+      difficultiesData[barriers] = (difficultiesData[barriers] || 0) + 1;
     }
   });
 
