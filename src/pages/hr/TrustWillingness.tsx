@@ -166,6 +166,23 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
     .map(([name, value]) => ({ name, value }))
     .sort((a, b) => b.value - a.value);
 
+  // Bizalmi törés elemzése - Nehézségek a használat során (használók)
+  const difficultiesData: { [key: string]: number } = {};
+  usedResponses.forEach(r => {
+    const difficulty = r.responses?.u_usage_difficulties;
+    if (difficulty && difficulty !== 'Nincs' && difficulty !== 'nincs') {
+      difficultiesData[difficulty] = (difficultiesData[difficulty] || 0) + 1;
+    }
+  });
+
+  const difficultiesChartData = Object.entries(difficultiesData)
+    .map(([name, count]) => ({ 
+      name, 
+      count,
+      percentage: usedResponses.length > 0 ? (count / usedResponses.length) * 100 : 0
+    }))
+    .sort((a, b) => b.count - a.count);
+
   // Összehasonlító adatok - Anonimitás
   const anonymityComparison = [
     {
@@ -793,7 +810,53 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
         </Card>
       </div>
 
-      {/* 5. sor: Bizalmi profil részletesen */}
+      {/* 5. sor: Bizalmi törés - Nehézségek */}
+      <Card id="trust-barriers-difficulties-card">
+        <CardHeader className="relative">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-2 top-2 h-8 w-8"
+            onClick={() => exportCardToPNG('trust-barriers-difficulties-card', 'bizalmi-tores-nehezsegek')}
+          >
+            <Download className="h-4 w-4" />
+          </Button>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <AlertTriangle className="w-5 h-5" />
+            Mi okozhat bizalmi törést a program használata során?
+          </CardTitle>
+          <CardDescription>Nehézségek a használók körében ({usedResponses.length} fő)</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {difficultiesChartData.length > 0 ? (
+            difficultiesChartData.map((item, index) => (
+              <div key={index} className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <p className="font-semibold text-sm">{item.name}</p>
+                    <p className="text-xs text-muted-foreground">{item.count} említés</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-2xl font-bold">{item.percentage.toFixed(1)}%</p>
+                  </div>
+                </div>
+                <Progress 
+                  value={item.percentage} 
+                  style={{ '--progress-background': 'hsl(var(--chart-1))' } as React.CSSProperties}
+                  className="h-3"
+                />
+              </div>
+            ))
+          ) : (
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">Nem jeleztek nehézségeket a használók</p>
+              <p className="text-xs text-muted-foreground mt-2">✓ Ez pozitív jel a bizalom szempontjából</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* 6. sor: Bizalmi profil részletesen */}
       <Card id="trust-profile-card">
         <CardHeader className="relative">
           <Button
