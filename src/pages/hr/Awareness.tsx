@@ -363,6 +363,27 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
               >
                 {overallUnderstandingScore}
               </div>
+              
+              {/* Számegyenes vizualizáció */}
+              <div className="mt-4 px-8">
+                <div className="relative h-2 bg-muted rounded-full">
+                  <div 
+                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
+                    style={{ 
+                      left: `calc(${((parseFloat(overallUnderstandingScore) - 1) / 4) * 100}% - 8px)`,
+                      backgroundColor: parseFloat(overallUnderstandingScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                    }}
+                  />
+                </div>
+                <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                  <span>1</span>
+                  <span>2</span>
+                  <span>3</span>
+                  <span>4</span>
+                  <span>5</span>
+                </div>
+              </div>
+
               {parseFloat(overallUnderstandingScore) < 2.5 && (
                 <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
                   <AlertTriangle className="w-4 h-4" />
@@ -414,6 +435,27 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
               >
                 {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length).toFixed(1)}
               </div>
+              
+              {/* Számegyenes vizualizáció */}
+              <div className="mt-4 px-8">
+                <div className="relative h-2 bg-muted rounded-full">
+                  <div 
+                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
+                    style={{ 
+                      left: `calc(${(((awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) - 1) / 4) * 100}% - 8px)`,
+                      backgroundColor: (awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                    }}
+                  />
+                </div>
+                <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                  <span>1</span>
+                  <span>2</span>
+                  <span>3</span>
+                  <span>4</span>
+                  <span>5</span>
+                </div>
+              </div>
+
               {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) < 2.5 && (
                 <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
                   <AlertTriangle className="w-4 h-4" />
