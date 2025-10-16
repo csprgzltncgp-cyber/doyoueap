@@ -5,11 +5,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { Download, Activity, Clock, Users, MessageSquare, Phone } from 'lucide-react';
+import { Download, Activity, Clock, Users, MessageSquare, Phone, Target } from 'lucide-react';
 import { GaugeChart } from '@/components/ui/gauge-chart';
 import { Progress } from '@/components/ui/progress';
 import { formatAuditName } from '@/lib/auditUtils';
 import { ReportNavigation } from '@/components/navigation/ReportNavigation';
+import fourScoreLogo from "@/assets/4score_logo.svg";
 
 interface UsageProps {
   selectedAuditId: string;
@@ -178,6 +179,33 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
     ? (usedResponses.reduce((sum, r) => sum + (Array.isArray(r.responses?.u_usage_channel) ? r.responses.u_usage_channel.length : 0), 0) / usedResponses.length).toFixed(1)
     : '0.0';
 
+  // Helper function
+  const calculateAverage = (values: number[]) => {
+    if (values.length === 0) return '0.0';
+    return ((values.reduce((a, b) => a + b, 0) / values.length)).toFixed(1);
+  };
+
+  // Usage Score calculation (matching Reports.tsx)
+  const usedLikelihoodValues = usedResponses
+    .map(r => r.responses?.u_trust_likelihood)
+    .filter(v => typeof v === 'number' && !isNaN(v));
+  const futureUsageIntentUsers = usedLikelihoodValues.length > 0 
+    ? ((parseFloat(calculateAverage(usedLikelihoodValues)) / 5) * 100)
+    : 0;
+  
+  const futureUsageIntentNonUsers = wouldUseTotal > 0 ? ((wouldUseYes / wouldUseTotal) * 100) : 0;
+  
+  let usageScore: string;
+  if (futureUsageIntentNonUsers > 0 && futureUsageIntentUsers > 0) {
+    usageScore = ((futureUsageIntentNonUsers + futureUsageIntentUsers) / 2).toFixed(1);
+  } else if (futureUsageIntentNonUsers > 0) {
+    usageScore = futureUsageIntentNonUsers.toFixed(1);
+  } else if (futureUsageIntentUsers > 0) {
+    usageScore = futureUsageIntentUsers.toFixed(1);
+  } else {
+    usageScore = '0.0';
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -202,22 +230,25 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
           </div>
         </div>
         {audits.length > 0 && (
-          <div className="w-full md:max-w-[300px] md:ml-auto">
-            <label className="text-xs text-muted-foreground mb-1.5 block">
-              Felmérés kiválasztása
-            </label>
-            <Select value={selectedAuditId} onValueChange={onAuditChange}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Válassz felmérést" />
-              </SelectTrigger>
-              <SelectContent>
-                {audits.map((audit) => (
-                  <SelectItem key={audit.id} value={audit.id}>
-                    {formatAuditName(audit)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="flex flex-col md:flex-row md:items-center gap-4">
+            <img src={fourScoreLogo} alt="4Score" className="h-6" />
+            <div className="flex-1 md:max-w-[300px] md:ml-auto">
+              <label className="text-xs text-muted-foreground mb-1.5 block">
+                Felmérés kiválasztása
+              </label>
+              <Select value={selectedAuditId} onValueChange={onAuditChange}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Válassz felmérést" />
+                </SelectTrigger>
+                <SelectContent>
+                  {audits.map((audit) => (
+                    <SelectItem key={audit.id} value={audit.id}>
+                      {formatAuditName(audit)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         )}
       </div>
@@ -773,80 +804,40 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
         </CardContent>
       </Card>
 
-      {/* Nem használók - Jövőbeni használati szándék */}
-      {notUsedResponses.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Használná a jövőben */}
-          <Card id="would-use-future-card">
-            <CardHeader className="relative">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-2 top-2 h-8 w-8"
-                onClick={() => exportCardToPNG('would-use-future-card', 'jovo-hasznalat')}
-              >
-                <Download className="h-4 w-4" />
-              </Button>
-              <CardTitle className="text-lg">Jövőbeni Használati Szándék</CardTitle>
-              <CardDescription>Használnád a programot, ha szükséged lenne rá?</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <GaugeChart 
-                value={parseFloat(wouldUseRate)} 
-                maxValue={100}
-                size={240}
-                label={`${wouldUseRate}%`}
-                sublabel={`${wouldUseYes} / ${wouldUseTotal} fő mondta, hogy igen`}
-                cornerRadius={30}
-              />
-              <div className="bg-muted/30 p-3 rounded-md mt-4">
-                <p className="text-xs text-muted-foreground">
-                  {parseFloat(wouldUseRate) >= 70 
-                    ? '✓ Magas a jövőbeni használati hajlandóság' 
-                    : parseFloat(wouldUseRate) >= 40
-                    ? '→ Közepes a nyitottság a program jövőbeni használatára'
-                    : 'ℹ Alacsony a jövőbeni használati szándék - érdemes a bizalomépítésre és kommunikációra fókuszálni'}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Tervezi közeljövőben */}
-          <Card id="plan-to-use-card">
-            <CardHeader className="relative">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-2 top-2 h-8 w-8"
-                onClick={() => exportCardToPNG('plan-to-use-card', 'kozeljovo-tervezes')}
-              >
-                <Download className="h-4 w-4" />
-              </Button>
-              <CardTitle className="text-lg">Közeljövőbeni Tervek</CardTitle>
-              <CardDescription>Tervezed igénybe venni a közeljövőben?</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <GaugeChart 
-                value={parseFloat(planToUseRate)} 
-                maxValue={100}
-                size={240}
-                label={`${planToUseRate}%`}
-                sublabel={`${planToUseYes} / ${planToUseTotal} fő tervezi`}
-                cornerRadius={30}
-              />
-              <div className="bg-muted/30 p-3 rounded-md mt-4">
-                <p className="text-xs text-muted-foreground">
-                  {parseFloat(planToUseRate) >= 30 
-                    ? '✓ Sokan konkrétan tervezik a program igénybevételét' 
-                    : parseFloat(planToUseRate) >= 10
-                    ? '→ Néhányan aktívan fontolgatják a használatot'
-                    : 'ℹ Kevesen tervezik konkrétan - érdemes a program előnyeit jobban kommunikálni'}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+      {/* Használat Index kártya */}
+      <Card className="relative overflow-hidden border-2 border-[#3366ff]" id="usage-index-card">
+        <CardHeader className="relative z-10" style={{ minHeight: '120px' }}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-2 top-2 h-8 w-8"
+            onClick={() => exportCardToPNG('usage-index-card', 'hasznalat-index')}
+          >
+            <Download className="h-4 w-4" />
+          </Button>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <Target className="w-5 h-5" />
+            Használat Index
+          </CardTitle>
+          <CardDescription>Kombinált használati hajlandóság</CardDescription>
+        </CardHeader>
+        <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
+          <div className="flex items-center justify-center flex-1 w-full">
+            <GaugeChart 
+              value={parseFloat(usageScore)} 
+              maxValue={100}
+              size={200}
+              label={`${usageScore}%`}
+              sublabel={`${usedResponses.length + wouldUseTotal} válasz`}
+              cornerRadius={30}
+              gaugeColor="hsl(var(--chart-2))"
+            />
+          </div>
+          <p className="text-xs text-muted-foreground text-center px-2">
+            Kombinált mutató: használók ismételt használati valószínűsége és nem használók jövőbeli szándéka
+          </p>
+        </CardContent>
+      </Card>
 
       {/* Statisztikai összefoglaló */}
       <Card>
