@@ -97,9 +97,13 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
   const channelData: { [key: string]: number } = {};
   usedResponses.forEach(r => {
     const channels = r.responses?.u_pref_channel;
-    if (Array.isArray(channels)) {
-      channels.forEach((channel: string) => {
-        channelData[channel] = (channelData[channel] || 0) + 1;
+    if (channels) {
+      // Handle both array and string formats
+      const channelArray = Array.isArray(channels) ? channels : [channels];
+      channelArray.forEach((channel: string) => {
+        if (channel) {
+          channelData[channel] = (channelData[channel] || 0) + 1;
+        }
       });
     }
   });
@@ -112,9 +116,13 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
   const availabilityData: { [key: string]: number } = {};
   usedResponses.forEach(r => {
     const availability = r.responses?.u_pref_availability;
-    if (Array.isArray(availability)) {
-      availability.forEach((item: string) => {
-        availabilityData[item] = (availabilityData[item] || 0) + 1;
+    if (availability) {
+      // Handle both array and string formats
+      const availabilityArray = Array.isArray(availability) ? availability : [availability];
+      availabilityArray.forEach((item: string) => {
+        if (item) {
+          availabilityData[item] = (availabilityData[item] || 0) + 1;
+        }
       });
     }
   });
@@ -127,9 +135,13 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
   const contentTypeData: { [key: string]: number } = {};
   usedResponses.forEach(r => {
     const contentTypes = r.responses?.u_pref_content_type;
-    if (Array.isArray(contentTypes)) {
-      contentTypes.forEach((type: string) => {
-        contentTypeData[type] = (contentTypeData[type] || 0) + 1;
+    if (contentTypes) {
+      // Handle both array and string formats
+      const contentTypesArray = Array.isArray(contentTypes) ? contentTypes : [contentTypes];
+      contentTypesArray.forEach((type: string) => {
+        if (type) {
+          contentTypeData[type] = (contentTypeData[type] || 0) + 1;
+        }
       });
     }
   });
