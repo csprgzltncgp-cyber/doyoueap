@@ -106,11 +106,25 @@ const Focus = () => {
         // Partner users: only show audits with partner_company_id
         const { data: companiesData } = await supabase
           .from('companies')
-          .select('id')
+          .select('id, employee_count')
           .eq('partner_user_id', user.id);
         
         const companyIds = companiesData?.map(c => c.id) || [];
         console.log('Partner companies:', companyIds);
+        
+        // Store employee count from first company for display
+        if (companiesData && companiesData.length > 0 && companiesData[0].employee_count) {
+          const match = companiesData[0].employee_count.match(/(\d+)-(\d+)/);
+          if (match) {
+            (window as any).__employeeCount = parseInt(match[2]); // Use upper bound
+          } else {
+            const singleNumber = parseInt(companiesData[0].employee_count);
+            if (!isNaN(singleNumber)) {
+              (window as any).__employeeCount = singleNumber;
+            }
+          }
+        }
+        
         if (companyIds.length > 0) {
           query = query.in('partner_company_id', companyIds).not('partner_company_id', 'is', null);
         } else {
