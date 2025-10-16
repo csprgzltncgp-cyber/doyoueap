@@ -1107,7 +1107,7 @@ const Export = () => {
                 <li>Hatás - NPS, teljesítmény, jóllét, problémamegoldás mutatók</li>
                 {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
                   <>
-                    <li>Motiváció - Motivátorok, szakértő típus, csatorna preferenciák (nem használók)</li>
+                    <li>Preferenciák - Szakértő típus, csatorna preferenciák (használók és nem használók)</li>
                     <li>Demográfia - Nem, korcsoport, kategória megoszlások</li>
                   </>
                 )}
