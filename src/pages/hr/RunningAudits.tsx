@@ -131,8 +131,9 @@ const RunningAudits = () => {
         `)
         .eq('is_active', true);
 
-      // Filter by partner companies if partner package
+      // Filter by package type
       if (packageType === 'partner') {
+        // Partner users: only show audits with partner_company_id
         const { data: companiesData } = await supabase
           .from('companies')
           .select('id, employee_count')
@@ -148,6 +149,9 @@ const RunningAudits = () => {
           setLoading(false);
           return;
         }
+      } else {
+        // Non-partner users: only show audits without partner_company_id
+        query = query.is('partner_company_id', null);
       }
 
       const { data: auditsData, error: auditsError } = await query.order('start_date', { ascending: false });
