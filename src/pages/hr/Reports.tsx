@@ -513,8 +513,8 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
-              <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-                <div className="text-center w-full px-4">
+              <CardContent className="relative z-10 flex flex-col justify-between" style={{ minHeight: '280px' }}>
+                <div className="text-center w-full px-4 flex-1 flex flex-col justify-center">
                   <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
                     {trustScore}
                   </div>
@@ -539,7 +539,7 @@ const Reports = () => {
                     </div>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground text-center px-2 mt-6">
+                <p className="text-xs text-muted-foreground text-center px-2 pb-2">
                   Átfogó bizalmi mutató (anonimitás, félelmek, jövőbeli használat)
                 </p>
               </CardContent>
@@ -608,8 +608,8 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
-              <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-                <div className="text-center w-full px-4">
+              <CardContent className="relative z-10 flex flex-col justify-between" style={{ minHeight: '280px' }}>
+                <div className="text-center w-full px-4 flex-1 flex flex-col justify-center">
                   <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
                     {impactScore}
                   </div>
@@ -634,7 +634,7 @@ const Reports = () => {
                     </div>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground text-center px-2 mt-6">
+                <p className="text-xs text-muted-foreground text-center px-2 pb-2">
                   Ennyire hasznos segítség a program összeségében.
                 </p>
               </CardContent>
