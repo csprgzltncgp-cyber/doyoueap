@@ -528,23 +528,25 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
             <CardDescription>Összesített hatás nézet</CardDescription>
           </div>
         </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={400}>
-            <RadarChart data={impactData}>
-              <PolarGrid />
-              <PolarAngleAxis dataKey="metric" />
-              <PolarRadiusAxis domain={[0, 5]} />
-              <Radar
-                name="Impact"
-                dataKey="average"
-                stroke={avgImpact < 2.5 ? '#ff0033' : '#3366ff'}
-                fill={avgImpact < 2.5 ? '#ff0033' : '#3366ff'}
-                fillOpacity={0.6}
-              />
-              <Tooltip />
-            </RadarChart>
-          </ResponsiveContainer>
-          <div className="mt-4 p-3 bg-muted/50 rounded-lg text-sm">
+        <CardContent className="flex flex-col">
+          <div className="w-full">
+            <ResponsiveContainer width="100%" height={400}>
+              <RadarChart data={impactData}>
+                <PolarGrid />
+                <PolarAngleAxis dataKey="metric" />
+                <PolarRadiusAxis domain={[0, 5]} />
+                <Radar
+                  name="Impact"
+                  dataKey="average"
+                  stroke={avgImpact < 2.5 ? '#ff0033' : '#3366ff'}
+                  fill={avgImpact < 2.5 ? '#ff0033' : '#3366ff'}
+                  fillOpacity={0.6}
+                />
+                <Tooltip />
+              </RadarChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="w-full mt-4 p-3 bg-muted/50 rounded-lg text-sm">
             <p className="text-muted-foreground">
               <strong>Mit mutat a diagram?</strong> A radar diagram az 5 hatás terület egyidejű áttekintését teszi lehetővé. 
               Minél nagyobb a kitöltött terület, annál jobb az összhatás. Az egyenletes ötszög kiegyensúlyozott hatást jelez.
