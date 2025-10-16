@@ -139,8 +139,9 @@ const RunningAudits = () => {
           .eq('partner_user_id', user?.id);
         
         const companyIds = companiesData?.map(c => c.id) || [];
+        console.log('Partner companies:', companyIds);
         if (companyIds.length > 0) {
-          query = query.in('partner_company_id', companyIds);
+          query = query.in('partner_company_id', companyIds).not('partner_company_id', 'is', null);
         } else {
           // No companies, no audits
           setAudits([]);
