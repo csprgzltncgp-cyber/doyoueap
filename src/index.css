@@ -146,3 +146,15 @@ All colors MUST be HSL.
     overflow: hidden;
   }
 }
+
+@layer components {
+  /* Globális szabály az ív chartok centrálásához a riportok oldalakon */
+  [id$="-card"] > div:has(> div > div > svg) {
+    @apply flex items-center justify-center;
+  }
+  
+  /* Alternatív megoldás - direktebb szelekció */
+  .gauge-chart-container {
+    @apply flex items-center justify-center w-full;
+  }
+}
