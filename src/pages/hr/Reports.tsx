@@ -513,11 +513,6 @@ const Reports = () => {
                           {audits.map((audit) => (
                             <SelectItem key={audit.id} value={audit.id}>
                               {formatAuditName(audit)}
-                              {audit.partner_company_id && audit.company_name && (
-                                <span className="text-xs text-muted-foreground ml-2">
-                                  ({audit.company_name})
-                                </span>
-                              )}
                             </SelectItem>
                           ))}
                         </SelectContent>
