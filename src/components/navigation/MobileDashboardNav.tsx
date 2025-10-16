@@ -204,6 +204,16 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
                         Motiváció
                       </button>
                       <button
+                        onClick={() => handleNavClick('reports', 'preferences')}
+                        className={`px-4 py-2 rounded-md text-left text-sm ${
+                          subSection === 'preferences' 
+                            ? 'bg-muted font-medium' 
+                            : 'hover:bg-muted/50'
+                        }`}
+                      >
+                        Preferenciák
+                      </button>
+                      <button
                         onClick={() => handleNavClick('reports', 'demographics')}
                         className={`px-4 py-2 rounded-md text-left text-sm ${
                           subSection === 'demographics' 

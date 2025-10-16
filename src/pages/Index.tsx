@@ -475,6 +475,17 @@ const Index = () => {
                           </button>
                           <button
                             onClick={() => {
+                              setSearchParams({ section: 'reports', sub: 'preferences' });
+                              setOpenSubmenu(null);
+                            }}
+                            className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                              subSection === 'preferences' ? 'bg-gray-100 font-medium' : ''
+                            }`}
+                          >
+                            Preferenciák
+                          </button>
+                          <button
+                            onClick={() => {
                               setSearchParams({ section: 'reports', sub: 'demographics' });
                               setOpenSubmenu(null);
                             }}
