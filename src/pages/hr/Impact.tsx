@@ -8,7 +8,7 @@ import { formatAuditName } from '@/lib/auditUtils';
 import { GaugeChart } from '@/components/ui/gauge-chart';
 import html2canvas from 'html2canvas';
 import { Button } from '@/components/ui/button';
-import { Download, AlertTriangle } from 'lucide-react';
+import { Download, AlertTriangle, TrendingUp } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { ReportNavigation } from '@/components/navigation/ReportNavigation';
 import fourScoreLogo from '@/assets/4score_logo.svg';
@@ -354,8 +354,11 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
               <Download className="h-4 w-4" />
             </Button>
             <div>
-              <CardTitle className="text-lg">Átlagos Hatás Érték</CardTitle>
-              <CardDescription>Az 5 terület átlagos értékelése (1-5 skála)</CardDescription>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <TrendingUp className="w-5 h-5" />
+                Hatás Index
+              </CardTitle>
+              <CardDescription>1-5 skála</CardDescription>
             </div>
           </CardHeader>
           <CardContent>
@@ -379,7 +382,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
               minValue={1}
               size={200}
               label={avgImpact.toFixed(1)}
-              sublabel="Átlag"
+              sublabel="Mennyire segített a program összeségében."
             />
             {avgImpact < 2.5 && (
               <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
