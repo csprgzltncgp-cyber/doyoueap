@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { toast } from 'sonner';
+import { Step0CompanySelection } from '@/components/audit/Step0CompanySelection';
 import { Step1AccessMode } from '@/components/audit/Step1AccessMode';
 import { Step3Lottery } from '@/components/audit/Step3Lottery';
 import { Step3Distribution } from '@/components/audit/Step3Distribution';
@@ -25,7 +26,9 @@ const CreateAudit = () => {
   const { user } = useAuth();
   const { packageType } = usePackage();
   const navigate = useNavigate();
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(packageType === 'partner' ? 0 : 1);
+  const [companies, setCompanies] = useState<Array<{ id: string; company_name: string }>>([]);
+  const [selectedCompanyId, setSelectedCompanyId] = useState('');
   const [loading, setLoading] = useState(false);
   const [auditsThisYear, setAuditsThisYear] = useState(0);
   const [isLimitReached, setIsLimitReached] = useState(false);
@@ -62,8 +65,33 @@ const CreateAudit = () => {
   const [drawMode, setDrawMode] = useState<'auto' | 'manual'>('auto');
   const [lotteryConsent, setLotteryConsent] = useState(false);
   
-  // Adjust total steps based on package - added preview step
-  const totalSteps = packageType === 'starter' ? 8 : 9;
+  // Adjust total steps based on package - added preview step and company selection for partner
+  const totalSteps = packageType === 'starter' ? 8 : packageType === 'partner' ? 10 : 9;
+
+  // Fetch companies for partner users
+  useEffect(() => {
+    if (packageType === 'partner' && user?.id) {
+      fetchCompanies();
+    }
+  }, [packageType, user?.id]);
+
+  const fetchCompanies = async () => {
+    if (!user?.id) return;
+    
+    try {
+      const { data, error } = await supabase
+        .from('companies')
+        .select('id, company_name')
+        .eq('partner_user_id', user.id)
+        .order('company_name');
+
+      if (error) throw error;
+      setCompanies(data || []);
+    } catch (error) {
+      console.error('Error fetching companies:', error);
+      toast.error('Hiba az ügyfélcégek betöltésekor');
+    }
+  };
 
   // Check audit limit based on package
   useEffect(() => {
@@ -111,6 +139,12 @@ const CreateAudit = () => {
   }, [user?.id, packageType]);
 
   const handleNext = async () => {
+    // Validate company selection for partner users on step 0
+    if (packageType === 'partner' && currentStep === 0 && !selectedCompanyId) {
+      toast.error('Kérlek válassz egy ügyfélcéget');
+      return;
+    }
+
     // Generate token after step 3 (access mode step, before distribution)
     if (currentStep === 3 && !accessToken) {
       try {
@@ -132,7 +166,8 @@ const CreateAudit = () => {
   };
 
   const handleBack = () => {
-    if (currentStep > 1) {
+    const minStep = packageType === 'partner' ? 0 : 1;
+    if (currentStep > minStep) {
       setCurrentStep(currentStep - 1);
     }
   };
@@ -191,15 +226,28 @@ const CreateAudit = () => {
         throw new Error('Nincs aktív kérdőív');
       }
 
-      // Get company_name for the current user
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('company_name')
-        .eq('id', user?.id)
-        .single();
+      // Get company_name - for partner users, use selected company, otherwise use profile
+      let companyName: string;
+      let partnerCompanyId: string | null = null;
 
-      if (!profileData?.company_name) {
-        throw new Error('A cég neve nincs kitöltve a profilban. Kérjük, adja meg, majd próbálja újra.');
+      if (packageType === 'partner' && selectedCompanyId) {
+        const selectedCompany = companies.find(c => c.id === selectedCompanyId);
+        if (!selectedCompany) {
+          throw new Error('Kiválasztott ügyfélcég nem található');
+        }
+        companyName = selectedCompany.company_name;
+        partnerCompanyId = selectedCompanyId;
+      } else {
+        const { data: profileData } = await supabase
+          .from('profiles')
+          .select('company_name')
+          .eq('id', user?.id)
+          .single();
+
+        if (!profileData?.company_name) {
+          throw new Error('A cég neve nincs kitöltve a profilban. Kérjük, adja meg, majd próbálja újra.');
+        }
+        companyName = profileData.company_name;
       }
 
       // Count emails from the uploaded file if it's tokenes mode
@@ -221,7 +269,8 @@ const CreateAudit = () => {
       // Create EAP Pulse assessment
       const { error } = await supabase.from('audits').insert({
         hr_user_id: user?.id,
-        company_name: profileData.company_name,
+        company_name: companyName,
+        partner_company_id: partnerCompanyId,
         program_name: programName,
         questionnaire_id: questionnaires[0].id,
         access_token: accessToken,
@@ -327,6 +376,15 @@ const CreateAudit = () => {
       </div>
 
       <div className="max-w-4xl mx-auto space-y-6">
+        {packageType === 'partner' && currentStep === 0 && (
+          <Step0CompanySelection
+            companies={companies}
+            selectedCompanyId={selectedCompanyId}
+            onCompanySelect={setSelectedCompanyId}
+            onNext={handleNext}
+          />
+        )}
+
         {currentStep === 1 && (
           <Step6ProgramName
             programName={programName}
@@ -415,7 +473,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {((packageType === 'starter' && currentStep === 7) || (packageType !== 'starter' && currentStep === 8)) && (
+        {((packageType === 'starter' && currentStep === 7) || (packageType === 'partner' && currentStep === 9) || (packageType !== 'starter' && packageType !== 'partner' && currentStep === 8)) && (
           <AuditPreview
             auditData={auditData}
             onNext={handleNext}
@@ -423,7 +481,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {((packageType === 'starter' && currentStep === 8) || (packageType !== 'starter' && currentStep === 9)) && (
+        {((packageType === 'starter' && currentStep === 8) || (packageType === 'partner' && currentStep === 10) || (packageType !== 'starter' && packageType !== 'partner' && currentStep === 9)) && (
           <Step7Summary
             auditData={auditData}
             onSubmit={handleSubmit}
@@ -431,6 +489,21 @@ const CreateAudit = () => {
             loading={loading}
           />
         )}
+
+        <div className="flex justify-between pt-6">
+          <Button
+            variant="outline"
+            onClick={handleBack}
+            disabled={loading || currentStep === (packageType === 'partner' ? 0 : 1)}
+          >
+            Vissza
+          </Button>
+          {currentStep < totalSteps && (
+            <Button onClick={handleNext} disabled={loading}>
+              Következő
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );
