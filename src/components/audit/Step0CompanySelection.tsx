@@ -24,17 +24,22 @@ export const Step0CompanySelection = ({
   onNext,
 }: Step0CompanySelectionProps) => {
   return (
-    <Card>
-      <CardContent className="pt-6 space-y-6">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 mb-4">
-            <Building2 className="w-5 h-5 text-primary" />
-            <h3 className="text-lg font-semibold">Válaszd ki az ügyfélcéget</h3>
+    <div className="space-y-4">
+      <div>
+        <h3 className="text-2xl font-bold mb-2">Ügyfélcég kiválasztása</h3>
+        <p className="text-muted-foreground">
+          Válaszd ki, hogy melyik regisztrált ügyfélcégednek szeretnél felmérést indítani.
+        </p>
+      </div>
+      
+      <Card>
+        <CardContent className="pt-6 space-y-6">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 mb-4">
+              <Building2 className="w-5 h-5 text-primary" />
+              <h3 className="text-lg font-semibold">Válaszd ki az ügyfélcéget</h3>
+            </div>
           </div>
-          <p className="text-sm text-muted-foreground">
-            Válaszd ki, hogy melyik regisztrált ügyfélcégednek szeretnél felmérést indítani.
-          </p>
-        </div>
 
         <div className="space-y-4">
           <div>
@@ -71,5 +76,6 @@ export const Step0CompanySelection = ({
         </div>
       </CardContent>
     </Card>
+    </div>
   );
 };
