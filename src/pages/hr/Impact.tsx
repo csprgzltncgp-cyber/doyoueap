@@ -141,11 +141,11 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
         .filter(v => typeof v === 'number' && !isNaN(v)) as number[];
 
       const metrics: ImpactMetric[] = [
-        { metric: 'Elégedettség', average: Number(calculateAverage(satisfaction).toFixed(2)) },
-        { metric: 'Problémamegoldás', average: Number(calculateAverage(problemSolving).toFixed(2)) },
-        { metric: 'Wellbeing javulás', average: Number(calculateAverage(wellbeing).toFixed(2)) },
-        { metric: 'Teljesítmény javulás', average: Number(calculateAverage(performance).toFixed(2)) },
-        { metric: 'Szolgáltatás konzisztencia', average: Number(calculateAverage(consistency).toFixed(2)) },
+        { metric: 'Elégedettség', average: Number(calculateAverage(satisfaction).toFixed(1)) },
+        { metric: 'Problémamegoldás', average: Number(calculateAverage(problemSolving).toFixed(1)) },
+        { metric: 'Wellbeing javulás', average: Number(calculateAverage(wellbeing).toFixed(1)) },
+        { metric: 'Teljesítmény javulás', average: Number(calculateAverage(performance).toFixed(1)) },
+        { metric: 'Szolgáltatás konzisztencia', average: Number(calculateAverage(consistency).toFixed(1)) },
       ];
 
       console.log('Impact metrics:', metrics);
@@ -239,7 +239,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
   }
 
   const avgImpact = impactData.length > 0 
-    ? Number((impactData.reduce((sum, m) => sum + m.average, 0) / impactData.length).toFixed(2))
+    ? Number((impactData.reduce((sum, m) => sum + m.average, 0) / impactData.length).toFixed(1))
     : 0;
 
   return (
@@ -299,7 +299,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
           <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
           <AlertTitle className="text-[#ff0033]">Alacsony hatékonyság észlelve</AlertTitle>
           <AlertDescription className="text-[#ff0033]">
-            Az átlagos hatás érték alacsony ({avgImpact.toFixed(2)}), ami 2.5 alatt van. 
+            Az átlagos hatás érték alacsony ({avgImpact.toFixed(1)}), ami 2.5 alatt van. 
             A program használói nem érzik kellőképpen a pozitív hatást. 
             Javasolt: hatékonyabb szolgáltatások, gyorsabb válaszidő, jobb problémamegoldás.
           </AlertDescription>
@@ -442,7 +442,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
               maxValue={5}
               minValue={1}
               size={200}
-              label={avgImpact.toFixed(2)}
+              label={avgImpact.toFixed(1)}
               sublabel="Átlag"
             />
             {avgImpact < 2.5 && (
