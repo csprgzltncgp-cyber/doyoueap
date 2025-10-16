@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Download, Eye, Shield, Activity, Target, Users, TrendingUp, Presentation, RefreshCw } from "lucide-react";
+import fourScoreLogo from "@/assets/4score_logo.svg";
 import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, BarChart, Bar, XAxis, YAxis, RadialBarChart, RadialBar, Legend } from "recharts";
 import { formatAuditName } from "@/lib/auditUtils";
@@ -461,6 +462,7 @@ const Reports = () => {
                 >
                   <Download className="h-4 w-4" />
                 </Button>
+                <img src={fourScoreLogo} alt="4Score" className="h-6 mb-2" />
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Eye className="w-5 h-5" />
                   Ismertség Index
@@ -496,6 +498,7 @@ const Reports = () => {
                 >
                   <Download className="h-4 w-4" />
                 </Button>
+                <img src={fourScoreLogo} alt="4Score" className="h-6 mb-2" />
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Shield className="w-5 h-5" />
                   Bizalmi Index
@@ -531,6 +534,7 @@ const Reports = () => {
                 >
                   <Download className="h-4 w-4" />
                 </Button>
+                <img src={fourScoreLogo} alt="4Score" className="h-6 mb-2" />
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Users className="w-5 h-5" />
                   Használat Index
@@ -566,6 +570,7 @@ const Reports = () => {
                 >
                   <Download className="h-4 w-4" />
                 </Button>
+                <img src={fourScoreLogo} alt="4Score" className="h-6 mb-2" />
                 <CardTitle className="text-lg flex items-center gap-2">
                   <TrendingUp className="w-5 h-5" />
                   Hatás Index
