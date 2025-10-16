@@ -228,6 +228,7 @@ export type Database = {
           id: string
           is_active: boolean | null
           logo_url: string | null
+          partner_company_id: string | null
           program_name: string | null
           questionnaire_id: string
           recurrence_config: Json | null
@@ -256,6 +257,7 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           logo_url?: string | null
+          partner_company_id?: string | null
           program_name?: string | null
           questionnaire_id: string
           recurrence_config?: Json | null
@@ -284,6 +286,7 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           logo_url?: string | null
+          partner_company_id?: string | null
           program_name?: string | null
           questionnaire_id?: string
           recurrence_config?: Json | null
@@ -298,6 +301,13 @@ export type Database = {
             columns: ["gift_id"]
             isOneToOne: false
             referencedRelation: "gifts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "audits_partner_company_id_fkey"
+            columns: ["partner_company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
             referencedColumns: ["id"]
           },
           {
@@ -383,6 +393,7 @@ export type Database = {
           id: string
           industry: string | null
           notes: string | null
+          partner_user_id: string | null
           subscription_end_date: string | null
           subscription_package: string | null
           subscription_start_date: string | null
@@ -399,6 +410,7 @@ export type Database = {
           id?: string
           industry?: string | null
           notes?: string | null
+          partner_user_id?: string | null
           subscription_end_date?: string | null
           subscription_package?: string | null
           subscription_start_date?: string | null
@@ -415,6 +427,7 @@ export type Database = {
           id?: string
           industry?: string | null
           notes?: string | null
+          partner_user_id?: string | null
           subscription_end_date?: string | null
           subscription_package?: string | null
           subscription_start_date?: string | null

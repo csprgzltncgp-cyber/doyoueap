@@ -181,6 +181,55 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
               </Card>
             </Label>
           </div>
+
+          {/* Partner Program */}
+          <div className="relative">
+            <RadioGroupItem value="partner" id="partner" className="peer sr-only" />
+            <Label htmlFor="partner" className="cursor-pointer">
+              <Card className="peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-2 peer-data-[state=checked]:ring-primary h-full flex flex-col bg-gradient-to-br from-[#3572ef]/5 to-[#3abef9]/5">
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <div className="text-xs font-medium text-[#3572ef] mb-1">EAP SZOLGÁLTATÓKNAK</div>
+                      <CardTitle>Partner Program</CardTitle>
+                      <CardDescription>Több ügyfélcég kezelése</CardDescription>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-2xl font-bold">Egyedi árazás</div>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="flex-1 flex flex-col justify-between">
+                  <ul className="space-y-2 mb-4">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
+                      <span>Ügyfélcégek regisztrálása és kezelése</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
+                      <span>Korlátlan felmérések minden ügyfélnek</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
+                      <span>Minden Enterprise funkció</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
+                      <span>Multi-tenant irányítópult</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
+                      <span>White-label lehetőség</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
+                      <span>Prioritás támogatás</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </Label>
+          </div>
         </div>
       </RadioGroup>
     </div>
