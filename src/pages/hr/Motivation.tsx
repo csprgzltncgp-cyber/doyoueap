@@ -257,7 +257,7 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange }: MotivationProps)
           >
             <Download className="h-4 w-4" />
           </Button>
-          <CardTitle>Mi kellene a használathoz?</CardTitle>
+          <CardTitle>Ami megkönnyítené a kipróbálást</CardTitle>
           <CardDescription>
             Azok a tényezők, amelyek motiválnák a nem használókat az EAP program igénybevételére. Több választ is megjelölhettek.
           </CardDescription>
