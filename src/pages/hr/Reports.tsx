@@ -667,11 +667,11 @@ const Reports = () => {
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke="currentColor"
+                      stroke="#3572ef"
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="w-full h-full text-muted-foreground/30 absolute"
+                      className="w-full h-full absolute"
                       style={{ maxWidth: '160px', maxHeight: '160px' }}
                     >
                       <defs>
