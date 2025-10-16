@@ -131,7 +131,7 @@ const CreateAudit = () => {
         const limits: Record<string, number> = {
           starter: 2,
           professional: 3,
-          enterprise: 4,
+          enterprise: Infinity, // No limit for Enterprise
           partner: Infinity // No limit for Partner Program
         };
 
