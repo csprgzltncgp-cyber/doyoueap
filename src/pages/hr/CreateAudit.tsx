@@ -368,25 +368,23 @@ const CreateAudit = () => {
 
   return (
     <div className="space-y-8 pb-8">
-      <div className="max-w-4xl mx-auto bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-6 border border-primary/20">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h2 className="text-3xl font-bold">Új EAP Pulse Felmérés</h2>
-            {currentStep > 0 && (
+      {currentStep > 0 && (
+        <div className="max-w-4xl mx-auto bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-6 border border-primary/20">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-3xl font-bold">Új EAP Pulse Felmérés</h2>
               <p className="text-muted-foreground mt-2 text-base">
                 Lépés {currentStep} / {totalSteps - (packageType === 'partner' ? 1 : 0)}
               </p>
-            )}
+            </div>
+            <img src={eapPulseLogo} alt="EAP Pulse" className="h-10" />
           </div>
-          <img src={eapPulseLogo} alt="EAP Pulse" className="h-10" />
-        </div>
-        {currentStep > 0 && (
           <Progress 
             value={(currentStep / (totalSteps - (packageType === 'partner' ? 1 : 0))) * 100} 
             className="h-3 bg-background/50"
           />
-        )}
-      </div>
+        </div>
+      )}
 
       <div className="max-w-4xl mx-auto space-y-6">
         {packageType === 'partner' && currentStep === 0 && (
