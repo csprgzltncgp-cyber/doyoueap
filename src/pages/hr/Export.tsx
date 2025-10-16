@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { formatAuditName } from '@/lib/auditUtils';
 import { exportableCharts } from '@/lib/exportUtils';
 import { exportAllChartsToPPT } from '@/lib/pptExportUtils';
-import { Presentation, Image as ImageIcon, Download, FileSpreadsheet, History, Trash2 } from 'lucide-react';
+import { Presentation, Image as ImageIcon, Download, FileSpreadsheet, History, Trash2, Building2 } from 'lucide-react';
 import { usePackage } from '@/hooks/usePackage';
 
 let exportIframe: HTMLIFrameElement | null = null;
@@ -1106,54 +1106,63 @@ const Export = () => {
           </div>
         </div>
         
-        {audits.length > 0 && (
-          <div className="flex flex-col md:flex-row md:items-end gap-4">
-            <div className="flex flex-col md:flex-row gap-4 md:ml-auto">
-              {/* Company selector for partner users */}
-              {packageType === 'partner' && companies.length > 0 && (
-                <div className="flex-1 md:max-w-[300px]">
-                  <label className="text-xs text-muted-foreground mb-1.5 block">
-                    Ügyfélcég szűrése
-                  </label>
-                  <Select value={selectedCompanyId} onValueChange={setSelectedCompanyId}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Válassz ügyfélcéget" />
-                    </SelectTrigger>
-                    <SelectContent align="start">
-                      <SelectItem value="all">Összes ügyfélcég</SelectItem>
-                      {companies.map((company) => (
-                        <SelectItem key={company.id} value={company.id}>
-                          {company.company_name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
+        <div className="flex flex-col md:flex-row md:items-end gap-4">
+          <div className="flex flex-col md:flex-row gap-4 md:ml-auto">
+            {/* Company selector for partner users - always visible */}
+            {packageType === 'partner' && companies.length > 0 && (
+              <div className="flex-1 md:max-w-[300px]">
+                <label className="text-xs text-muted-foreground mb-1.5 block">
+                  Ügyfélcég szűrése
+                </label>
+                <Select value={selectedCompanyId} onValueChange={setSelectedCompanyId}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Válassz ügyfélcéget" />
+                  </SelectTrigger>
+                  <SelectContent align="start">
+                    <SelectItem value="all">Összes ügyfélcég</SelectItem>
+                    {companies.map((company) => (
+                      <SelectItem key={company.id} value={company.id}>
+                        {company.company_name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
-              {/* Audit selector - only show if company is selected for partner users */}
-              {(packageType !== 'partner' || (packageType === 'partner' && selectedCompanyId && selectedCompanyId !== 'all')) && (
-                <div className="flex-1 md:max-w-[300px]">
-                  <label className="text-xs text-muted-foreground mb-1.5 block">
-                    Felmérés kiválasztása
-                  </label>
-                  <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Felmérés kiválasztása" />
-                    </SelectTrigger>
-                    <SelectContent align="start">
-                      {audits.map((audit) => (
-                        <SelectItem key={audit.id} value={audit.id}>
-                          {formatAuditName(audit)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-            </div>
+            {/* Audit selector - only show if there are audits and conditions are met */}
+            {audits.length > 0 && (packageType !== 'partner' || (packageType === 'partner' && selectedCompanyId && selectedCompanyId !== 'all')) && (
+              <div className="flex-1 md:max-w-[300px]">
+                <label className="text-xs text-muted-foreground mb-1.5 block">
+                  Felmérés kiválasztása
+                </label>
+                <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Felmérés kiválasztása" />
+                  </SelectTrigger>
+                  <SelectContent align="start">
+                    {audits.map((audit) => (
+                      <SelectItem key={audit.id} value={audit.id}>
+                        {formatAuditName(audit)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
           </div>
-        )}
+        </div>
+
+      {/* Show message if no audits for selected company */}
+      {packageType === 'partner' && selectedCompanyId && selectedCompanyId !== 'all' && audits.length === 0 && (
+        <Card className="border-dashed border-2 my-6">
+          <CardContent className="py-12 text-center">
+            <Building2 className="h-12 w-12 text-muted-foreground/40 mx-auto mb-3" />
+            <p className="text-muted-foreground font-medium mb-2">Nincs elérhető felmérés ehhez a céghez</p>
+            <p className="text-sm text-muted-foreground">Hozz létre egy új felmérést az exportáláshoz.</p>
+          </CardContent>
+        </Card>
+      )}
       </div>
 
       <div className={`grid gap-6 ${packageType === 'starter' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
