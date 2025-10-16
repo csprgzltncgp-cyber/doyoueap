@@ -22,18 +22,25 @@ interface Audit {
   recurrence_config: any;
   is_active: boolean;
   expires_at: string | null;
+  company_name?: string;
+  partner_company_id?: string | null;
 }
 
 const Export = () => {
   const { packageType } = usePackage();
   const [audits, setAudits] = useState<Audit[]>([]);
   const [selectedAuditId, setSelectedAuditId] = useState<string>('');
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string>('all');
+  const [companies, setCompanies] = useState<Array<{ id: string; company_name: string }>>([]);
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
   const [exportHistory, setExportHistory] = useState<any[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(true);
 
   useEffect(() => {
+    if (packageType === 'partner') {
+      fetchCompanies();
+    }
     fetchAudits();
     fetchExportHistory();
 
@@ -70,19 +77,53 @@ const Export = () => {
 
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, []);
+  }, [packageType]);
+
+  const fetchCompanies = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('companies')
+        .select('id, company_name')
+        .eq('partner_user_id', user.id)
+        .order('company_name');
+
+      if (error) throw error;
+      setCompanies(data || []);
+    } catch (error) {
+      console.error('Error fetching companies:', error);
+    }
+  };
+
+  // Refetch audits when selected company changes
+  useEffect(() => {
+    if (packageType === 'partner') {
+      fetchAudits();
+    }
+  }, [selectedCompanyId, packageType]);
 
   const fetchAudits = async () => {
     try {
-      const { data } = await supabase
+      let query = supabase
         .from('audits')
-        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at')
-        .eq('is_active', true)
-        .order('start_date', { ascending: false });
+        .select('id, start_date, program_name, access_mode, recurrence_config, is_active, expires_at, company_name, partner_company_id')
+        .eq('is_active', true);
+
+      // Filter by company for partners
+      if (packageType === 'partner' && selectedCompanyId && selectedCompanyId !== 'all') {
+        query = query.eq('partner_company_id', selectedCompanyId);
+      }
+
+      const { data } = await query.order('start_date', { ascending: false });
 
       if (data && data.length > 0) {
         setAudits(data);
         setSelectedAuditId(data[0].id);
+      } else {
+        setAudits([]);
+        setSelectedAuditId('');
       }
     } catch (error) {
       console.error('Error fetching audits:', error);
@@ -1027,22 +1068,49 @@ const Export = () => {
             <p className="text-muted-foreground">Felmérések exportálása különböző formátumokban</p>
           </div>
         </div>
-        <div className="w-full md:max-w-[300px] md:ml-auto">
-          <label className="text-xs text-muted-foreground mb-1.5 block">
-            Felmérés kiválasztása
-          </label>
-          <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
-            <SelectTrigger>
-              <SelectValue placeholder="Felmérés kiválasztása" />
-            </SelectTrigger>
-            <SelectContent>
-              {audits.map((audit) => (
-                <SelectItem key={audit.id} value={audit.id}>
-                  {formatAuditName(audit)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <div className="flex flex-col md:flex-row gap-4 md:ml-auto">
+          {/* Company selector for partner users */}
+          {packageType === 'partner' && companies.length > 0 && (
+            <div className="w-full md:max-w-[300px]">
+              <label className="text-xs text-muted-foreground mb-1.5 block">
+                Ügyfélcég szűrése
+              </label>
+              <Select value={selectedCompanyId} onValueChange={setSelectedCompanyId}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Válassz ügyfélcéget" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Összes ügyfélcég</SelectItem>
+                  {companies.map((company) => (
+                    <SelectItem key={company.id} value={company.id}>
+                      {company.company_name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {/* Audit selector - only show if company is selected for partner users */}
+          {(packageType !== 'partner' || (packageType === 'partner' && selectedCompanyId && selectedCompanyId !== 'all')) && (
+            <div className="w-full md:max-w-[300px]">
+              <label className="text-xs text-muted-foreground mb-1.5 block">
+                Felmérés kiválasztása
+              </label>
+              <Select value={selectedAuditId} onValueChange={setSelectedAuditId}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Felmérés kiválasztása" />
+                </SelectTrigger>
+                <SelectContent>
+                  {audits.map((audit) => (
+                    <SelectItem key={audit.id} value={audit.id}>
+                      {formatAuditName(audit)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
         </div>
       </div>
 
