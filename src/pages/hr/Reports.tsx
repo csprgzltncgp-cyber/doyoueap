@@ -456,10 +456,18 @@ const Reports = () => {
                 <CardDescription>A program ismeretének aránya</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 relative z-10">
-                <div className="text-center">
-                  <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>{awarenessScore}%</div>
-                  <p className="text-sm text-muted-foreground mt-2">A válaszolók közül ennyien tudtak a programról (használók + nem használók)</p>
-                </div>
+                <GaugeChart 
+                  value={awarenessRate} 
+                  maxValue={100}
+                  size={200}
+                  label={`${awarenessScore}%`}
+                  sublabel={`${awarenessResponses.length} / ${totalResponses} fő`}
+                  cornerRadius={30}
+                  gaugeColor="hsl(var(--chart-2))"
+                />
+                <p className="text-xs text-muted-foreground text-center">
+                  A válaszolók közül ennyien tudtak a programról
+                </p>
               </CardContent>
             </Card>
 
@@ -488,10 +496,18 @@ const Reports = () => {
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 relative z-10">
-                <div className="text-center">
-                  <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>{trustScore}</div>
-                  <p className="text-sm text-muted-foreground mt-2">Átfogó bizalmi mutató: anonimitás, félelmek és jövőbeli használati hajlandóság együttesen</p>
-                </div>
+                <GaugeChart 
+                  value={(parseFloat(trustScore) / 5) * 100} 
+                  maxValue={100}
+                  size={200}
+                  label={trustScore}
+                  sublabel="/ 5"
+                  cornerRadius={30}
+                  gaugeColor="hsl(var(--chart-2))"
+                />
+                <p className="text-xs text-muted-foreground text-center">
+                  Átfogó bizalmi mutató (anonimitás, félelmek, jövőbeli használat)
+                </p>
               </CardContent>
             </Card>
 
@@ -520,10 +536,18 @@ const Reports = () => {
                 <CardDescription>Nem használók körében</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 relative z-10">
-                <div className="text-center">
-                  <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>{usageScore}%</div>
-                  <p className="text-sm text-muted-foreground mt-2">A nem használók hány százaléka tervezi igénybe venni a programot</p>
-                </div>
+                <GaugeChart 
+                  value={futureUsageIntent} 
+                  maxValue={100}
+                  size={200}
+                  label={`${usageScore}%`}
+                  sublabel={`${wouldUseYes} / ${wouldUseTotal} fő`}
+                  cornerRadius={30}
+                  gaugeColor="hsl(var(--chart-2))"
+                />
+                <p className="text-xs text-muted-foreground text-center">
+                  A nem használók hány százaléka tervezi igénybe venni
+                </p>
               </CardContent>
             </Card>
 
@@ -552,10 +576,18 @@ const Reports = () => {
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 relative z-10">
-                <div className="text-center">
-                  <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>{impactScore}</div>
-                  <p className="text-sm text-muted-foreground mt-2">Átlagos hatékonyság az elégedettség, problémamegoldás, jóllét, teljesítmény és konzisztencia alapján</p>
-                </div>
+                <GaugeChart 
+                  value={(avgImpact / 5) * 100} 
+                  maxValue={100}
+                  size={200}
+                  label={impactScore}
+                  sublabel="/ 5"
+                  cornerRadius={30}
+                  gaugeColor="hsl(var(--chart-2))"
+                />
+                <p className="text-xs text-muted-foreground text-center">
+                  Átlagos hatékonyság (elégedettség, problémamegoldás, jóllét, teljesítmény, konzisztencia)
+                </p>
               </CardContent>
             </Card>
           </div>
