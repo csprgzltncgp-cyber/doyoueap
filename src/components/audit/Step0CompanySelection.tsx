@@ -38,7 +38,6 @@ export const Step0CompanySelection = ({
 
         <div className="space-y-4">
           <div>
-            <Label htmlFor="company">Ügyfélcég *</Label>
             <Select value={selectedCompanyId} onValueChange={onCompanySelect}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Válassz egy ügyfélcéget" />
