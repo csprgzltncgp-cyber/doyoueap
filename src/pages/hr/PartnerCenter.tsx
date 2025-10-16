@@ -369,7 +369,7 @@ const PartnerCenter = () => {
           <div className="flex justify-between items-center">
             <div>
               <CardTitle className="flex items-center gap-2">
-                <Building2 className="h-5 w-5 text-[#3572ef]" />
+                <Building2 className="h-5 w-5 text-foreground" />
                 Regisztrált ügyfélcégek
               </CardTitle>
               <CardDescription>
