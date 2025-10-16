@@ -73,7 +73,7 @@ const CreateAudit = () => {
   const [lotteryConsent, setLotteryConsent] = useState(false);
   
   // Adjust total steps based on package - added preview step and company selection for partner
-  const totalSteps = packageType === 'starter' ? 8 : packageType === 'partner' ? 10 : 9;
+  const totalSteps = packageType === 'starter' ? 8 : packageType === 'partner' ? 9 : 9;
 
   // Fetch companies for partner users
   useEffect(() => {
@@ -480,7 +480,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {((packageType === 'starter' && currentStep === 7) || (packageType === 'partner' && currentStep === 9) || (packageType !== 'starter' && packageType !== 'partner' && currentStep === 8)) && (
+        {((packageType === 'starter' && currentStep === 7) || (packageType === 'partner' && currentStep === 8) || (packageType !== 'starter' && packageType !== 'partner' && currentStep === 8)) && (
           <AuditPreview
             auditData={auditData}
             onNext={handleNext}
@@ -488,7 +488,7 @@ const CreateAudit = () => {
           />
         )}
 
-        {((packageType === 'starter' && currentStep === 8) || (packageType === 'partner' && currentStep === 10) || (packageType !== 'starter' && packageType !== 'partner' && currentStep === 9)) && (
+        {((packageType === 'starter' && currentStep === 8) || (packageType === 'partner' && currentStep === 9) || (packageType !== 'starter' && packageType !== 'partner' && currentStep === 9)) && (
           <Step7Summary
             auditData={auditData}
             onSubmit={handleSubmit}
