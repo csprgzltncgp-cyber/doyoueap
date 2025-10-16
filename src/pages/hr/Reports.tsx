@@ -563,49 +563,18 @@ const Reports = () => {
                 <CardDescription>Jövőbeli használati szándék</CardDescription>
               </CardHeader>
               <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-                <div className="flex items-center justify-center flex-1 w-full relative">
-                  <div className="relative" style={{ width: '160px', height: '160px' }}>
-                    {/* Background gradient fill */}
-                    <div 
-                      className="absolute inset-0 transition-all duration-500"
-                      style={{
-                        background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${parseFloat(usageScore)}%, transparent ${parseFloat(usageScore)}%, transparent 100%)`,
-                        opacity: 0.15,
-                        clipPath: 'url(#user-icon-clip)',
-                        WebkitClipPath: 'url(#user-icon-clip)'
-                      }}
-                    />
-                    {/* User icon */}
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="w-full h-full text-muted-foreground/30"
-                    >
-                      <defs>
-                        <clipPath id="user-icon-clip">
-                          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                          <circle cx="12" cy="7" r="4" />
-                        </clipPath>
-                      </defs>
-                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                      <circle cx="12" cy="7" r="4" />
-                    </svg>
-                    {/* Percentage text overlay */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <div className="text-4xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
-                        {usageScore}%
-                      </div>
-                      <div className="text-xs text-muted-foreground mt-1">
-                        {usedLikelihoodValues.length + wouldUseTotal} válasz
-                      </div>
-                    </div>
-                  </div>
+                <div className="flex items-center justify-center flex-1 w-full">
+                  <GaugeChart 
+                    value={parseFloat(usageScore)} 
+                    maxValue={100}
+                    size={200}
+                    label={`${usageScore}%`}
+                    sublabel={`${usedLikelihoodValues.length + wouldUseTotal} válasz`}
+                    cornerRadius={30}
+                    gaugeColor="hsl(var(--chart-2))"
+                  />
                 </div>
-                <p className="text-xs text-muted-foreground text-center px-2 mt-4">
+                <p className="text-xs text-muted-foreground text-center px-2">
                   {parseFloat(usageScore) >= 70 
                     ? '✓ Magas a jövőbeli használati hajlandóság.'
                     : parseFloat(usageScore) >= 40
