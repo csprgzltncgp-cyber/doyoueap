@@ -167,11 +167,22 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
     .sort((a, b) => b.value - a.value);
 
   // Bizalmi törés elemzése - Nehézségek a használat során (használók)
+  // Mapping régi válaszokról az új válaszokra
+  const barriersMapping: { [key: string]: string } = {
+    'Időhiány': 'Nehezen tudtam időpontot egyeztetni',
+    'Bizalomhiány': 'Nem volt szimpatikus a szakember / nem volt jó a kapcsolat',
+  };
+
   const difficultiesData: { [key: string]: number } = {};
   usedResponses.forEach(r => {
-    const barriers = r.responses?.u_trust_barriers;
-    if (barriers && barriers !== 'Nincs' && barriers !== 'nincs') {
-      difficultiesData[barriers] = (difficultiesData[barriers] || 0) + 1;
+    let barrier = r.responses?.u_trust_barriers;
+    if (barrier) {
+      // Ha régi válasz, akkor átmappeljük az új válaszra
+      barrier = barriersMapping[barrier] || barrier;
+      
+      if (barrier !== 'Nincs' && barrier !== 'nincs' && barrier !== 'Nem volt ilyen') {
+        difficultiesData[barrier] = (difficultiesData[barrier] || 0) + 1;
+      }
     }
   });
 
