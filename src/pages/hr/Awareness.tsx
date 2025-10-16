@@ -488,7 +488,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
             </CardTitle>
             <CardDescription>Tájékozatlan munkavállalók</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
             <GaugeChart 
               value={parseFloat(redirectRate)} 
               maxValue={100}
