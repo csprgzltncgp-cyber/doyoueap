@@ -54,7 +54,7 @@ const Focus = () => {
   useEffect(() => {
     fetchAudits();
     loadExportDownloads();
-  }, []);
+  }, [packageType, user?.id]);
 
   const fetchUserProfile = async () => {
     if (!user?.id) return;

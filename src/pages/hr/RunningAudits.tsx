@@ -68,7 +68,7 @@ const RunningAudits = () => {
   useEffect(() => {
     fetchRunningAudits();
     fetchGifts();
-  }, []);
+  }, [packageType]);
 
   const fetchGifts = async () => {
     try {
