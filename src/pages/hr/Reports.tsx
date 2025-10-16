@@ -261,14 +261,50 @@ const Reports = () => {
   const trustIndex = trustProfileData.reduce((sum, item) => sum + (isNaN(item.score) ? 0 : item.score), 0) / trustProfileData.length;
   const trustScore = trustIndex.toFixed(1);
 
-  const usageScore = employeeCount > 0 ? ((usedBranch / employeeCount) * 100).toFixed(1) : '0.0';
+  // Usage Score - Future Usage Intent (from non-users)
+  const notUsedResponses = responses.filter(r => r.employee_metadata?.branch === 'not_used');
+  const wouldUseYes = notUsedResponses.filter(r => r.responses?.nu_usage_would_use === 'yes' || r.responses?.nu_usage_would_use === 'Igen').length;
+  const wouldUseNo = notUsedResponses.filter(r => r.responses?.nu_usage_would_use === 'no' || r.responses?.nu_usage_would_use === 'Nem').length;
+  const wouldUseTotal = wouldUseYes + wouldUseNo;
+  const futureUsageIntent = wouldUseTotal > 0 ? ((wouldUseYes / wouldUseTotal) * 100) : 0;
+  const usageScore = futureUsageIntent.toFixed(1);
 
-  const impactScore = calculateAverage(
-    responses
-      .filter(r => r.employee_metadata?.branch === 'used')
-      .map(r => r.responses?.u_impact_satisfaction)
-      .filter(v => typeof v === 'number' && !isNaN(v))
-  );
+  // Impact Score - Average of all impact metrics
+  const usedImpactResponses = responses.filter(r => r.employee_metadata?.branch === 'used');
+  
+  const satisfactionValues = usedImpactResponses
+    .map(r => r.responses?.u_impact_satisfaction)
+    .filter(v => typeof v === 'number' && !isNaN(v));
+  
+  const problemSolvingValues = usedImpactResponses
+    .map(r => r.responses?.u_impact_problem_solving)
+    .filter(v => typeof v === 'number' && !isNaN(v));
+  
+  const wellbeingValues = usedImpactResponses
+    .map(r => r.responses?.u_impact_wellbeing)
+    .filter(v => typeof v === 'number' && !isNaN(v));
+  
+  const performanceValues = usedImpactResponses
+    .map(r => r.responses?.u_impact_performance)
+    .filter(v => typeof v === 'number' && !isNaN(v));
+  
+  const consistencyValues = usedImpactResponses
+    .map(r => r.responses?.u_impact_consistency)
+    .filter(v => typeof v === 'number' && !isNaN(v));
+  
+  const impactMetrics = [
+    satisfactionValues.length > 0 ? parseFloat(calculateAverage(satisfactionValues)) : 0,
+    problemSolvingValues.length > 0 ? parseFloat(calculateAverage(problemSolvingValues)) : 0,
+    wellbeingValues.length > 0 ? parseFloat(calculateAverage(wellbeingValues)) : 0,
+    performanceValues.length > 0 ? parseFloat(calculateAverage(performanceValues)) : 0,
+    consistencyValues.length > 0 ? parseFloat(calculateAverage(consistencyValues)) : 0,
+  ].filter(v => v > 0);
+  
+  const avgImpact = impactMetrics.length > 0 
+    ? (impactMetrics.reduce((sum, v) => sum + v, 0) / impactMetrics.length)
+    : 0;
+  
+  const impactScore = avgImpact.toFixed(1);
 
   // Additional metrics for Overview tab
   const npsScore = calculateAverage(
@@ -466,7 +502,7 @@ const Reports = () => {
               <div 
                 className="absolute inset-0 transition-all duration-500"
                 style={{
-                  background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${(parseFloat(problemSolvingScore) / 5) * 100}%, transparent ${(parseFloat(problemSolvingScore) / 5) * 100}%, transparent 100%)`,
+                  background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${futureUsageIntent}%, transparent ${futureUsageIntent}%, transparent 100%)`,
                   opacity: 0.1
                 }}
               />
@@ -481,14 +517,14 @@ const Reports = () => {
                 </Button>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Users className="w-5 h-5" />
-                  Használat
+                  Jövőbeni Használati Szándék
                 </CardTitle>
-                <CardDescription>Problémamegoldás (1-5 skála)</CardDescription>
+                <CardDescription>Nem használók körében</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 relative z-10">
                 <div className="text-center">
-                  <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>{problemSolvingScore}</div>
-                  <p className="text-sm text-muted-foreground mt-2">Mennyire segített a program a problémák kezelésében</p>
+                  <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>{usageScore}%</div>
+                  <p className="text-sm text-muted-foreground mt-2">A nem használók hány százaléka tervezi igénybe venni a programot</p>
                 </div>
               </CardContent>
             </Card>
@@ -498,7 +534,7 @@ const Reports = () => {
               <div 
                 className="absolute inset-0 transition-all duration-500"
                 style={{
-                  background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${(parseFloat(wellbeingScore) / 5) * 100}%, transparent ${(parseFloat(wellbeingScore) / 5) * 100}%, transparent 100%)`,
+                  background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${(avgImpact / 5) * 100}%, transparent ${(avgImpact / 5) * 100}%, transparent 100%)`,
                   opacity: 0.1
                 }}
               />
@@ -513,14 +549,14 @@ const Reports = () => {
                 </Button>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <TrendingUp className="w-5 h-5" />
-                  Hatás
+                  Átlagos Hatás
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 relative z-10">
                 <div className="text-center">
-                  <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>{wellbeingScore}</div>
-                  <p className="text-sm text-muted-foreground mt-2">Jóllét javulása a program használata után</p>
+                  <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>{impactScore}</div>
+                  <p className="text-sm text-muted-foreground mt-2">Átlagos hatékonyság az elégedettség, problémamegoldás, jóllét, teljesítmény és konzisztencia alapján</p>
                 </div>
               </CardContent>
             </Card>
