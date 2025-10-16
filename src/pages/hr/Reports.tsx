@@ -523,6 +523,10 @@ const Reports = () => {
               </div>
             )}
           </div>
+          
+          {/* Only show cards if audit is selected AND (not partner OR partner has selected a specific company) */}
+          {selectedAuditId && (packageType !== 'partner' || (packageType === 'partner' && selectedCompanyId && selectedCompanyId !== 'all')) ? (
+            <>
           {/* First Row: Awareness, Trust, Usage, and Impact (4Score Cards) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Card 1: Awareness */}
@@ -974,6 +978,14 @@ const Reports = () => {
               </CardContent>
             </Card>
           </div>
+            </>
+          ) : (
+            packageType === 'partner' && (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">Kérlek válassz ki egy ügyfélcéget és egy felmérést a riportok megtekintéséhez.</p>
+              </div>
+            )
+          )}
         </div>
       );
     }
