@@ -670,11 +670,11 @@ const Reports = () => {
                       style={{
                         background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${utilization}%, transparent ${utilization}%, transparent 100%)`,
                         opacity: 0.15,
-                        clipPath: 'url(#user-icon-clip-util)',
-                        WebkitClipPath: 'url(#user-icon-clip-util)'
+                        clipPath: 'url(#smile-icon-clip)',
+                        WebkitClipPath: 'url(#smile-icon-clip)'
                       }}
                     />
-                    {/* User icon */}
+                    {/* Smile icon */}
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
@@ -685,13 +685,14 @@ const Reports = () => {
                       className="w-full h-full text-muted-foreground/30"
                     >
                       <defs>
-                        <clipPath id="user-icon-clip-util">
-                          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                          <circle cx="12" cy="7" r="4" />
+                        <clipPath id="smile-icon-clip">
+                          <circle cx="12" cy="12" r="10"/>
                         </clipPath>
                       </defs>
-                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                      <circle cx="12" cy="7" r="4" />
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                      <line x1="9" x2="9.01" y1="9" y2="9"/>
+                      <line x1="15" x2="15.01" y1="9" y2="9"/>
                     </svg>
                     {/* Percentage text overlay */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
