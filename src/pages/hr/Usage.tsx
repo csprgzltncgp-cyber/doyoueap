@@ -260,7 +260,83 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
         )}
       </div>
 
-      {/* 1. sor: Fő használati mutatók */}
+      {/* 1. sor: Használat Index és Közeljövőbeni Tervek */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Használat Index */}
+        <Card id="would-use-future-card">
+          <CardHeader className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('would-use-future-card', 'hasznalat-index')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Users className="w-5 h-5" />
+              Használat Index
+            </CardTitle>
+            <CardDescription>Jövőbeli használati szándék</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <GaugeChart 
+              value={parseFloat(usageScore)} 
+              maxValue={100}
+              size={240}
+              label={`${usageScore}%`}
+              sublabel={`${usedLikelihoodValues.length + wouldUseTotal} válasz`}
+              cornerRadius={30}
+            />
+            <div className="bg-muted/30 p-3 rounded-md mt-4">
+              <p className="text-xs text-muted-foreground">
+                {parseFloat(usageScore) >= 70 
+                  ? '✓ Magas a jövőbeli használati hajlandóság.'
+                  : parseFloat(usageScore) >= 40
+                  ? '→ Közepes a nyitottság a program jövőbeni használatára.'
+                  : 'ℹ Alacsony a jövőbeni használati szándék - érdemes a bizalomépítésre és kommunikációra fókuszálni.'}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Közeljövőbeni Tervek */}
+        <Card id="plan-to-use-card">
+          <CardHeader className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8"
+              onClick={() => exportCardToPNG('plan-to-use-card', 'kozeljovo-tervezes')}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <CardTitle className="text-lg">Közeljövőbeni Tervek</CardTitle>
+            <CardDescription>Tervezed igénybe venni a közeljövőben?</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <GaugeChart 
+              value={parseFloat(planToUseRate)} 
+              maxValue={100}
+              size={240}
+              label={`${planToUseRate}%`}
+              sublabel={`${planToUseYes} / ${planToUseTotal} fő tervezi`}
+              cornerRadius={30}
+            />
+            <div className="bg-muted/30 p-3 rounded-md mt-4">
+              <p className="text-xs text-muted-foreground">
+                {parseFloat(planToUseRate) >= 30 
+                  ? '✓ Sokan konkrétan tervezik a program igénybevételét' 
+                  : parseFloat(planToUseRate) >= 10
+                  ? '→ Néhányan aktívan fontolgatják a használatot'
+                  : 'ℹ Kevesen tervezik konkrétan - érdemes a program előnyeit jobban kommunikálni'}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 2. sor: Fő használati mutatók */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Használók Aránya */}
         <Card id="usage-rate-card">
@@ -811,83 +887,6 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
         </CardContent>
       </Card>
 
-      {/* Nem használók - Jövőbeni használati szándék */}
-      {notUsedResponses.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Használat Index */}
-          <Card id="would-use-future-card">
-            <CardHeader className="relative">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-2 top-2 h-8 w-8"
-                onClick={() => exportCardToPNG('would-use-future-card', 'hasznalat-index')}
-              >
-                <Download className="h-4 w-4" />
-              </Button>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Users className="w-5 h-5" />
-                Használat Index
-              </CardTitle>
-              <CardDescription>Jövőbeli használati szándék</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <GaugeChart 
-                value={parseFloat(usageScore)} 
-                maxValue={100}
-                size={240}
-                label={`${usageScore}%`}
-                sublabel={`${usedLikelihoodValues.length + wouldUseTotal} válasz`}
-                cornerRadius={30}
-              />
-              <div className="bg-muted/30 p-3 rounded-md mt-4">
-                <p className="text-xs text-muted-foreground">
-                  {parseFloat(usageScore) >= 70 
-                    ? '✓ Magas a jövőbeli használati hajlandóság.'
-                    : parseFloat(usageScore) >= 40
-                    ? '→ Közepes a nyitottság a program jövőbeni használatára.'
-                    : 'ℹ Alacsony a jövőbeni használati szándék - érdemes a bizalomépítésre és kommunikációra fókuszálni.'}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Tervezi közeljövőben */}
-          <Card id="plan-to-use-card">
-            <CardHeader className="relative">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-2 top-2 h-8 w-8"
-                onClick={() => exportCardToPNG('plan-to-use-card', 'kozeljovo-tervezes')}
-              >
-                <Download className="h-4 w-4" />
-              </Button>
-              <CardTitle className="text-lg">Közeljövőbeni Tervek</CardTitle>
-              <CardDescription>Tervezed igénybe venni a közeljövőben?</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <GaugeChart 
-                value={parseFloat(planToUseRate)} 
-                maxValue={100}
-                size={240}
-                label={`${planToUseRate}%`}
-                sublabel={`${planToUseYes} / ${planToUseTotal} fő tervezi`}
-                cornerRadius={30}
-              />
-              <div className="bg-muted/30 p-3 rounded-md mt-4">
-                <p className="text-xs text-muted-foreground">
-                  {parseFloat(planToUseRate) >= 30 
-                    ? '✓ Sokan konkrétan tervezik a program igénybevételét' 
-                    : parseFloat(planToUseRate) >= 10
-                    ? '→ Néhányan aktívan fontolgatják a használatot'
-                    : 'ℹ Kevesen tervezik konkrétan - érdemes a program előnyeit jobban kommunikálni'}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
 
       {/* Statisztikai összefoglaló */}
       <Card>
