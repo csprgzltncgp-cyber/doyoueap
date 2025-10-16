@@ -662,19 +662,8 @@ const Reports = () => {
                   mi a felmérésből kapott arányokat vetítjük ki. A válaszolók {usageRateFromRespondents.toFixed(1)}%-a 
                   használta a programot, ezt az arányt alkalmazzuk a teljes {employeeCount} fős létszámra.
                 </p>
-                <div className="flex items-center justify-center">
-                  <div className="relative" style={{ width: '200px', height: '200px' }}>
-                    {/* Background gradient fill */}
-                    <div 
-                      className="absolute inset-0 transition-all duration-500"
-                      style={{
-                        background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${utilization}%, transparent ${utilization}%, transparent 100%)`,
-                        opacity: 0.15,
-                        clipPath: 'url(#smile-icon-clip)',
-                        WebkitClipPath: 'url(#smile-icon-clip)'
-                      }}
-                    />
-                    {/* Smile icon */}
+                <div className="flex flex-col items-center justify-center gap-4">
+                  <div className="relative flex items-center justify-center" style={{ width: '200px', height: '200px' }}>
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
@@ -682,10 +671,11 @@ const Reports = () => {
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="w-full h-full text-muted-foreground/30"
+                      className="w-full h-full text-muted-foreground/30 absolute"
+                      style={{ maxWidth: '160px', maxHeight: '160px' }}
                     >
                       <defs>
-                        <clipPath id="smile-icon-clip">
+                        <clipPath id="smile-fill-clip">
                           <circle cx="12" cy="12" r="10"/>
                         </clipPath>
                       </defs>
@@ -694,17 +684,34 @@ const Reports = () => {
                       <line x1="9" x2="9.01" y1="9" y2="9"/>
                       <line x1="15" x2="15.01" y1="9" y2="9"/>
                     </svg>
-                    {/* Percentage text overlay */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <div className="text-5xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
-                        {utilization.toFixed(1)}%
-                      </div>
-                      <div className="text-xs text-muted-foreground mt-2">
-                        ~{estimatedUsers} / {employeeCount} fő
-                      </div>
-                      <div className="text-xs text-muted-foreground">
-                        (becsült)
-                      </div>
+                    
+                    {/* Fill overlay */}
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="w-full h-full absolute"
+                      style={{ maxWidth: '160px', maxHeight: '160px' }}
+                    >
+                      <defs>
+                        <linearGradient id="smile-gradient" x1="0%" y1="100%" x2="0%" y2="0%">
+                          <stop offset="0%" stopColor="hsl(var(--chart-2))" stopOpacity="0.15"/>
+                          <stop offset={`${utilization}%`} stopColor="hsl(var(--chart-2))" stopOpacity="0.15"/>
+                          <stop offset={`${utilization}%`} stopColor="transparent" stopOpacity="0"/>
+                          <stop offset="100%" stopColor="transparent" stopOpacity="0"/>
+                        </linearGradient>
+                        <clipPath id="smile-clip-path">
+                          <circle cx="12" cy="12" r="10"/>
+                        </clipPath>
+                      </defs>
+                      <circle cx="12" cy="12" r="10" fill="url(#smile-gradient)" clipPath="url(#smile-clip-path)"/>
+                    </svg>
+                  </div>
+                  
+                  <div className="text-center">
+                    <div className="text-4xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
+                      {utilization.toFixed(1)}%
+                    </div>
+                    <div className="text-sm text-muted-foreground mt-1">
+                      ~{estimatedUsers} / {employeeCount} fő (becsült)
                     </div>
                   </div>
                 </div>
