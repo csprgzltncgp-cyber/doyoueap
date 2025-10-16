@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { toast } from 'sonner';
 import { formatAuditName, StandardAudit } from '@/lib/auditUtils';
 import { usePackage } from '@/hooks/usePackage';
-import { Calendar as CalendarIcon, CalendarDays, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2, Trophy, FileDown, RefreshCw, Edit } from 'lucide-react';
+import { Calendar as CalendarIcon, CalendarDays, Mail, MousePointerClick, CheckCircle, Clock, Copy, ExternalLink, Link, Trash2, Trophy, FileDown, RefreshCw, Edit, Building2 } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import jsPDF from 'jspdf';
 import { format, addDays } from 'date-fns';
@@ -554,15 +554,16 @@ const RunningAudits = () => {
     <Card key={metrics.audit.id}>
       <CardHeader>
         <div className="flex items-start justify-between">
-          <div>
-            <CardTitle className="text-xl mb-2">
+          <div className="space-y-2 flex-1">
+            {packageType === 'partner' && metrics.audit.partner_company_id && metrics.audit.company_name && (
+              <div className="flex items-center gap-2 text-sm bg-primary/10 text-primary px-3 py-1.5 rounded-lg w-fit">
+                <Building2 className="h-4 w-4" />
+                <span className="font-semibold">{metrics.audit.company_name}</span>
+              </div>
+            )}
+            <CardTitle className="text-xl">
               {formatAuditName(metrics.audit)}
             </CardTitle>
-            {packageType === 'partner' && metrics.audit.partner_company_id && (
-              <p className="text-sm text-muted-foreground mb-2">
-                Ügyfélcég: {metrics.audit.company_name}
-              </p>
-            )}
             <div className="flex items-center gap-2 mt-2">
               <Badge variant="outline" className="gap-1">
                 {getAccessModeIcon(metrics.audit.access_mode)}
