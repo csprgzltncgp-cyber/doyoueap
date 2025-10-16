@@ -462,7 +462,7 @@ const Reports = () => {
                 >
                   <Download className="h-4 w-4" />
                 </Button>
-                <img src={fourScoreLogo} alt="4Score" className="h-6 mb-2" />
+                <img src={fourScoreLogo} alt="4Score" className="h-4 mb-2 self-start" />
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Eye className="w-5 h-5" />
                   Ismertség Index
@@ -498,7 +498,7 @@ const Reports = () => {
                 >
                   <Download className="h-4 w-4" />
                 </Button>
-                <img src={fourScoreLogo} alt="4Score" className="h-6 mb-2" />
+                <img src={fourScoreLogo} alt="4Score" className="h-4 mb-2 self-start" />
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Shield className="w-5 h-5" />
                   Bizalmi Index
@@ -534,7 +534,7 @@ const Reports = () => {
                 >
                   <Download className="h-4 w-4" />
                 </Button>
-                <img src={fourScoreLogo} alt="4Score" className="h-6 mb-2" />
+                <img src={fourScoreLogo} alt="4Score" className="h-4 mb-2 self-start" />
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Users className="w-5 h-5" />
                   Használat Index
@@ -570,7 +570,7 @@ const Reports = () => {
                 >
                   <Download className="h-4 w-4" />
                 </Button>
-                <img src={fourScoreLogo} alt="4Score" className="h-6 mb-2" />
+                <img src={fourScoreLogo} alt="4Score" className="h-4 mb-2 self-start" />
                 <CardTitle className="text-lg flex items-center gap-2">
                   <TrendingUp className="w-5 h-5" />
                   Hatás Index
