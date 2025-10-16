@@ -78,9 +78,13 @@ export const exportableCharts = [
   { id: 'usage-intensity-card', name: 'Használat - Intenzitás profil', tab: 'usage', fileName: 'intenzitas-profil' },
   
   // Impact tab (from Impact.tsx)
-  { id: 'impact-avg-card', name: 'Hatás - Átlagos hatás', tab: 'impact', fileName: 'atlagos-hatas' },
+  { id: 'impact-avg-card', name: 'Hatás - Hatás index', tab: 'impact', fileName: 'hatas-index' },
   { id: 'impact-nps-card', name: 'Hatás - NPS', tab: 'impact', fileName: 'hatas-nps' },
-  { id: 'impact-metrics-card', name: 'Hatás - Mutatók', tab: 'impact', fileName: 'hatas-mutatok' },
+  { id: 'impact-elégedettség-card', name: 'Hatás - Elégedettség', tab: 'impact', fileName: 'hatas-elegedettseg' },
+  { id: 'impact-problémamegoldás-card', name: 'Hatás - Problémamegoldás', tab: 'impact', fileName: 'hatas-problemamegoldas' },
+  { id: 'impact-wellbeing-javulás-card', name: 'Hatás - Wellbeing javulás', tab: 'impact', fileName: 'hatas-wellbeing' },
+  { id: 'impact-teljesítmény-javulás-card', name: 'Hatás - Teljesítmény javulás', tab: 'impact', fileName: 'hatas-teljesitmeny' },
+  { id: 'impact-szolgáltatás-konzisztencia-card', name: 'Hatás - Szolgáltatás konzisztencia', tab: 'impact', fileName: 'hatas-konzisztencia' },
   { id: 'impact-radar-card', name: 'Hatás - Radar', tab: 'impact', fileName: 'hatas-radar' },
   
   // Motivation tab (non-users preferences from Motivation.tsx)
