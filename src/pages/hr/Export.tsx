@@ -300,7 +300,7 @@ const Export = () => {
         valign: 'middle'
       });
 
-      // Row 2: A program aktív felhasználói
+      // Row 2: Használók
       slide.addShape(pres.ShapeType.rect, {
         x: 1.5,
         y: 2.9,
@@ -309,7 +309,7 @@ const Export = () => {
         fill: { color: 'dcfce7' },
         line: { color: '22c55e', width: 2 }
       });
-      slide.addText('Használók: A program aktív felhasználói', {
+      slide.addText('Használók', {
         x: 1.5,
         y: 3.0,
         w: 3.5,
@@ -329,7 +329,7 @@ const Export = () => {
         valign: 'middle'
       });
 
-      // Row 3: Akik eddig nem vették igénybe a programot
+      // Row 3: Nem használók
       slide.addShape(pres.ShapeType.rect, {
         x: 1.5,
         y: 3.9,
@@ -338,7 +338,7 @@ const Export = () => {
         fill: { color: 'fef3c7' },
         line: { color: 'f59e0b', width: 2 }
       });
-      slide.addText('Nem használók: Akik eddig nem vették igénybe a programot', {
+      slide.addText('Nem használók', {
         x: 1.5,
         y: 4.0,
         w: 3.5,
@@ -823,7 +823,7 @@ const Export = () => {
       // Sheet 1: Demográfia
       const demographicsData = data.map(r => ({
         'Beküldés ideje': new Date(r.submitted_at).toLocaleString('hu-HU'),
-        'Kategória': r.employee_metadata?.branch === 'used' ? 'Használók: A program aktív felhasználói' : r.employee_metadata?.branch === 'not_used' ? 'Nem használók: Akik eddig nem vették igénybe a programot' : 'Nem tudott róla',
+        'Kategória': r.employee_metadata?.branch === 'used' ? 'Használó' : r.employee_metadata?.branch === 'not_used' ? 'Nem használó' : 'Nem tudott róla',
         'Nem': r.responses?.gender || '',
         'Életkor': r.responses?.age || '',
         'EAP Ismertség': r.responses?.eap_knowledge || '',
@@ -846,7 +846,7 @@ const Export = () => {
       if (usersAwareness.length > 0) {
         const wsUserAware = XLSX.utils.json_to_sheet(usersAwareness);
         wsUserAware['!cols'] = [{ wch: 20 }, { wch: 25 }, { wch: 25 }, { wch: 25 }, { wch: 20 }, { wch: 30 }];
-        XLSX.utils.book_append_sheet(wb, wsUserAware, 'Használók: A program aktív felhasználói');
+        XLSX.utils.book_append_sheet(wb, wsUserAware, 'Használók - Awareness');
       }
 
       // Sheet 3: Használók - Bizalom
@@ -863,7 +863,7 @@ const Export = () => {
       if (usersTrust.length > 0) {
         const wsUserTrust = XLSX.utils.json_to_sheet(usersTrust);
         wsUserTrust['!cols'] = [{ wch: 20 }, { wch: 25 }, { wch: 25 }, { wch: 25 }, { wch: 25 }, { wch: 20 }];
-        XLSX.utils.book_append_sheet(wb, wsUserTrust, 'Használók: A program aktív felhasználói - Bizalom');
+        XLSX.utils.book_append_sheet(wb, wsUserTrust, 'Használók - Bizalom');
       }
 
       // Sheet 4: Használók - Használat
@@ -880,7 +880,7 @@ const Export = () => {
       if (usersUsage.length > 0) {
         const wsUserUsage = XLSX.utils.json_to_sheet(usersUsage);
         wsUserUsage['!cols'] = [{ wch: 20 }, { wch: 20 }, { wch: 30 }, { wch: 25 }, { wch: 20 }, { wch: 25 }];
-        XLSX.utils.book_append_sheet(wb, wsUserUsage, 'Használók: A program aktív felhasználói - Használat');
+        XLSX.utils.book_append_sheet(wb, wsUserUsage, 'Használók - Használat');
       }
 
       // Sheet 5: Használók - Hatás
@@ -898,7 +898,7 @@ const Export = () => {
       if (usersImpact.length > 0) {
         const wsUserImpact = XLSX.utils.json_to_sheet(usersImpact);
         wsUserImpact['!cols'] = [{ wch: 20 }, { wch: 25 }, { wch: 25 }, { wch: 25 }, { wch: 20 }, { wch: 20 }, { wch: 12 }];
-        XLSX.utils.book_append_sheet(wb, wsUserImpact, 'Használók: A program aktív felhasználói - Hatás');
+        XLSX.utils.book_append_sheet(wb, wsUserImpact, 'Használók - Hatás');
       }
 
       // Sheet 6: Használók - Preferenciák
@@ -915,7 +915,7 @@ const Export = () => {
       if (usersPref.length > 0) {
         const wsUserPref = XLSX.utils.json_to_sheet(usersPref);
         wsUserPref['!cols'] = [{ wch: 20 }, { wch: 20 }, { wch: 20 }, { wch: 20 }, { wch: 25 }, { wch: 25 }];
-        XLSX.utils.book_append_sheet(wb, wsUserPref, 'Használók: A program aktív felhasználói - Preferenciák');
+        XLSX.utils.book_append_sheet(wb, wsUserPref, 'Használók - Preferenciák');
       }
 
       // Sheet 7: Nem használók
@@ -938,7 +938,7 @@ const Export = () => {
       if (nonUsers.length > 0) {
         const wsNonUsers = XLSX.utils.json_to_sheet(nonUsers);
         wsNonUsers['!cols'] = [{ wch: 20 }, { wch: 15 }, { wch: 20 }, { wch: 30 }, { wch: 25 }, { wch: 25 }, { wch: 25 }, { wch: 40 }, { wch: 20 }, { wch: 20 }, { wch: 25 }, { wch: 25 }];
-        XLSX.utils.book_append_sheet(wb, wsNonUsers, 'Nem használók: Akik eddig nem vették igénybe a programot');
+        XLSX.utils.book_append_sheet(wb, wsNonUsers, 'Nem használók');
       }
 
       const fileName = `eap_pulse_export_${selectedAuditId}_${Date.now()}.xlsx`;

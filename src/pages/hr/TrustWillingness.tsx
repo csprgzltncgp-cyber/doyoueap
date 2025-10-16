@@ -219,13 +219,13 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
   // Összehasonlító adatok - Anonimitás
   const anonymityComparison = [
     {
-      group: 'A program aktív felhasználói',
+      group: 'Használók',
       score: parseFloat(usedAnonymityScore),
       count: usedResponses.length,
       color: 'hsl(var(--chart-2))'
     },
     {
-      group: 'Akik eddig nem vették igénybe a programot',
+      group: 'Nem használók',
       score: parseFloat(notUsedAnonymityScore),
       count: notUsedResponses.length,
       color: 'hsl(var(--chart-3))'
@@ -235,13 +235,13 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
   // Összehasonlító adatok - Munkaadói félelem
   const employerFearComparison = [
     {
-      group: 'A program aktív felhasználói',
+      group: 'Használók',
       score: parseFloat(usedEmployerFearScore),
       count: usedResponses.length,
       color: 'hsl(var(--chart-2))'
     },
     {
-      group: 'Akik eddig nem vették igénybe a programot',
+      group: 'Nem használók',
       score: parseFloat(notUsedEmployerFearScore),
       count: notUsedResponses.length,
       color: 'hsl(var(--chart-3))'
@@ -251,13 +251,13 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
   // Összehasonlító adatok - Kollégák megítélése
   const colleaguesFearComparison = [
     {
-      group: 'A program aktív felhasználói',
+      group: 'Használók',
       score: parseFloat(usedColleaguesFearScore),
       count: usedResponses.length,
       color: 'hsl(var(--chart-2))'
     },
     {
-      group: 'Akik eddig nem vették igénybe a programot',
+      group: 'Nem használók',
       score: parseFloat(notUsedColleaguesFearScore),
       count: notUsedResponses.length,
       color: 'hsl(var(--chart-3))'
