@@ -80,15 +80,17 @@ export const exportableCharts = [
   { id: 'impact-metrics-card', name: 'Hatás - Mutatók', tab: 'impact', fileName: 'hatas-mutatok' },
   { id: 'impact-radar-card', name: 'Hatás - Radar', tab: 'impact', fileName: 'hatas-radar' },
   
-  // Motivation tab (non-users preferences)
+  // Motivation tab (nem használók preferenciái)
   { id: 'motivators-card', name: 'Motiváció - Top motivátorok', tab: 'motivation', fileName: 'motivatorok' },
   { id: 'expert-preference-card', name: 'Motiváció - Szakértő típus', tab: 'motivation', fileName: 'szakerto-tipus' },
   { id: 'channel-preference-card', name: 'Motiváció - Kommunikációs csatorna', tab: 'motivation', fileName: 'kommunikacios-csatorna' },
   
-  // Preferences tab (users preferences)
-  { id: 'preferences-motivators-card', name: 'Preferenciák - Top motivátorok', tab: 'preferences', fileName: 'preferenciák-motivatorok' },
-  { id: 'preferences-expert-card', name: 'Preferenciák - Szakértő típus', tab: 'preferences', fileName: 'preferenciák-szakerto' },
-  { id: 'preferences-channel-card', name: 'Preferenciák - Kommunikációs csatorna', tab: 'preferences', fileName: 'preferenciák-csatorna' },
+  // Preferences tab (használók preferenciái)
+  { id: 'expert-preference-card', name: 'Preferenciák - Szakértő típus', tab: 'preferences', fileName: 'preferenciák-szakerto' },
+  { id: 'channel-preference-card', name: 'Preferenciák - Kommunikációs csatorna', tab: 'preferences', fileName: 'preferenciák-csatorna' },
+  { id: 'availability-preference-card', name: 'Preferenciák - Elérhetőség', tab: 'preferences', fileName: 'preferenciák-elerhetoseg' },
+  { id: 'content-type-preference-card', name: 'Preferenciák - Tartalomtípus', tab: 'preferences', fileName: 'preferenciák-tartalomtipus' },
+  { id: 'comm-frequency-card', name: 'Preferenciák - Kommunikációs gyakoriság', tab: 'preferences', fileName: 'preferenciák-komm-gyakorisag' },
   
   // Demographics tab
   { id: 'category-distribution-card', name: 'Demográfia - Kategória megoszlás', tab: 'demographics', fileName: 'kategoria-megoszlas' },
