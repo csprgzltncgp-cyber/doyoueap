@@ -593,7 +593,7 @@ const Reports = () => {
                   />
                 </div>
                 <p className="text-xs text-muted-foreground text-center px-2">
-                  Mennyire segített a program összeségében.
+                  Ennyire hasznos segítség a program összeségében.
                 </p>
               </CardContent>
             </Card>
