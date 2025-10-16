@@ -173,26 +173,6 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
 
   return (
     <div className="space-y-6">
-      {audits.length > 0 && (
-        <div className="w-full md:max-w-[300px] md:ml-auto mb-6">
-          <label className="text-xs text-muted-foreground mb-1.5 block">
-            Felmérés kiválasztása
-          </label>
-          <Select value={selectedAuditId} onValueChange={onAuditChange}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Válassz felmérést" />
-            </SelectTrigger>
-            <SelectContent>
-              {audits.map((audit) => (
-                <SelectItem key={audit.id} value={audit.id}>
-                  {formatAuditName(audit)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      )}
-
       {/* 1. sor: Szakértő és Csatorna Preferencia */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Szakértő Preferencia */}
