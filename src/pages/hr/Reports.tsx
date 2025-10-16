@@ -988,13 +988,7 @@ const Reports = () => {
             </Card>
           </div>
             </>
-          ) : (
-            packageType === 'partner' && (
-              <div className="text-center py-12">
-                <p className="text-muted-foreground">Kérlek válassz ki egy ügyfélcéget és egy felmérést a riportok megtekintéséhez.</p>
-              </div>
-            )
-          )}
+          ) : null}
         </div>
       );
     }
