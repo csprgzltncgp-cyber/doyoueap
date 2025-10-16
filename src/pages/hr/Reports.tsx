@@ -362,8 +362,8 @@ const Reports = () => {
 
   // Pie chart data for participation breakdown
   const pieData = [
-    { name: 'Használók', value: usedBranch, color: 'hsl(var(--chart-2))' },
-    { name: 'Nem használók', value: notUsedBranch, color: 'hsl(var(--chart-3))' },
+    { name: 'A program aktív felhasználói', value: usedBranch, color: 'hsl(var(--chart-2))' },
+    { name: 'Akik eddig nem vették igénybe a programot', value: notUsedBranch, color: 'hsl(var(--chart-3))' },
     { name: 'Nem tudtak róla', value: redirectBranch, color: '#000099' },
   ].filter(item => item.value > 0);
 
@@ -817,8 +817,8 @@ const Reports = () => {
                 </p>
                 <p className="text-sm text-muted-foreground mb-4">
                   <strong>A kitöltők három kategóriába sorolhatók:</strong><br/>
-                  <strong>Használók:</strong> Azok, akik ismerik ÉS használták az EAP programot<br/>
-                  <strong>Nem használók:</strong> Azok, akik tudnak a programról, de még nem használták<br/>
+                  <strong>Használók:</strong> A program aktív felhasználói<br/>
+                  <strong>Nem használók:</strong> Akik eddig nem vették igénybe a programot<br/>
                   <strong>Nem tudtak róla:</strong> Azok, akik nem hallottak a programról
                 </p>
                 <div className="h-[250px] flex items-center justify-center">

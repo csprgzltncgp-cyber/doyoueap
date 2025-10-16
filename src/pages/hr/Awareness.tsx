@@ -165,13 +165,13 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
   // Megértés összehasonlítás (egyetlen mérhető metrika mindkét csoportban)
   const understandingComparison = [
     {
-      group: 'Használók',
+      group: 'A program aktív felhasználói',
       score: parseFloat(usedUnderstandingScore),
       count: usedResponses.length,
       color: 'hsl(var(--chart-2))'
     },
     {
-      group: 'Nem használók',
+      group: 'Akik eddig nem vették igénybe a programot',
       score: parseFloat(notUsedUnderstandingScore),
       count: notUsedResponses.length,
       color: 'hsl(var(--chart-3))'
