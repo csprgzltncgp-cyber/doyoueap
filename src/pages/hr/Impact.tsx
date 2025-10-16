@@ -482,12 +482,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
 
 
       {/* Impact Metrics - Individual Cards */}
-      <div className="space-y-4">
-        <div>
-          <h3 className="text-xl font-semibold mb-4">Hatás Területek</h3>
-          <p className="text-sm text-muted-foreground mb-4">Értékelések területenként (1-5 skála)</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {impactData.map((item) => {
             let description = '';
             switch(item.metric) {
@@ -580,7 +575,6 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
               </Card>
             );
           })}
-        </div>
       </div>
 
       {/* Radar Chart */}
