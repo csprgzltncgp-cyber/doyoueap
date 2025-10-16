@@ -222,7 +222,7 @@ const PartnerCenter = () => {
         <div>
           <h2 className="text-3xl font-bold mb-2">Partner Központ</h2>
           <p className="text-muted-foreground">
-            Ügyfélcégek kezelése és felmérések menedzselése
+            Ügyfélcégek kezelése
           </p>
         </div>
 
