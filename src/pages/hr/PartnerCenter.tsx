@@ -434,14 +434,6 @@ const PartnerCenter = () => {
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => window.location.href = `/?section=eap-pulse&sub=running-audits`}
-                            title="Felmérések megtekintése"
-                          >
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
                             onClick={() => openEditDialog(company)}
                           >
                             <Pencil className="h-4 w-4" />
