@@ -80,10 +80,15 @@ export const exportableCharts = [
   { id: 'impact-metrics-card', name: 'Hatás - Mutatók', tab: 'impact', fileName: 'hatas-mutatok' },
   { id: 'impact-radar-card', name: 'Hatás - Radar', tab: 'impact', fileName: 'hatas-radar' },
   
-  // Motivation tab
+  // Motivation tab (non-users preferences)
   { id: 'motivators-card', name: 'Motiváció - Top motivátorok', tab: 'motivation', fileName: 'motivatorok' },
   { id: 'expert-preference-card', name: 'Motiváció - Szakértő típus', tab: 'motivation', fileName: 'szakerto-tipus' },
   { id: 'channel-preference-card', name: 'Motiváció - Kommunikációs csatorna', tab: 'motivation', fileName: 'kommunikacios-csatorna' },
+  
+  // Preferences tab (users preferences)
+  { id: 'preferences-motivators-card', name: 'Preferenciák - Top motivátorok', tab: 'preferences', fileName: 'preferenciák-motivatorok' },
+  { id: 'preferences-expert-card', name: 'Preferenciák - Szakértő típus', tab: 'preferences', fileName: 'preferenciák-szakerto' },
+  { id: 'preferences-channel-card', name: 'Preferenciák - Kommunikációs csatorna', tab: 'preferences', fileName: 'preferenciák-csatorna' },
   
   // Demographics tab
   { id: 'category-distribution-card', name: 'Demográfia - Kategória megoszlás', tab: 'demographics', fileName: 'kategoria-megoszlas' },
