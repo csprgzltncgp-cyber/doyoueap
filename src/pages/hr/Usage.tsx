@@ -79,17 +79,55 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
     }
   };
 
+  // Helper function
+  const calculateAverage = (values: any[]): string => {
+    if (values.length === 0) return '0';
+    const sum = values.reduce((acc, val) => acc + val, 0);
+    return (sum / values.length).toFixed(1);
+  };
+
   // Csak használók
   const usedResponses = responses.filter(r => r.employee_metadata?.branch === 'used');
   const notUsedResponses = responses.filter(r => r.employee_metadata?.branch === 'not_used');
   const totalCount = responses.length;
   const usageRate = totalCount > 0 ? ((usedResponses.length / totalCount) * 100).toFixed(1) : '0.0';
 
-  // Nem használók - jövőbeni használati szándék
-  const wouldUseYes = notUsedResponses.filter(r => r.responses?.nu_usage_would_use === 'yes' || r.responses?.nu_usage_would_use === 'Igen').length;
-  const wouldUseNo = notUsedResponses.filter(r => r.responses?.nu_usage_would_use === 'no' || r.responses?.nu_usage_would_use === 'Nem').length;
-  const wouldUseTotal = wouldUseYes + wouldUseNo;
-  const wouldUseRate = wouldUseTotal > 0 ? ((wouldUseYes / wouldUseTotal) * 100).toFixed(1) : '0.0';
+  // Trust responses split
+  const usedTrustResponses = responses.filter(r => r.employee_metadata?.branch === 'used');
+  const notUsedTrustResponses = responses.filter(r => r.employee_metadata?.branch === 'not_used');
+
+  // Non-users' intention to use in the future (yes/no question, convert to percentage)
+  const wouldUseYes = notUsedTrustResponses.filter(r => r.responses?.nu_trust_would_use === 'yes' || r.responses?.nu_trust_would_use === 'Igen').length;
+  const wouldUseTotal = notUsedTrustResponses.filter(r => r.responses?.nu_trust_would_use === 'yes' || r.responses?.nu_trust_would_use === 'no' || r.responses?.nu_trust_would_use === 'Igen' || r.responses?.nu_trust_would_use === 'Nem').length;
+  const futureUsageIntentNonUsers = wouldUseTotal > 0 
+    ? ((wouldUseYes / wouldUseTotal) * 100)
+    : 0;
+
+  // Users' likelihood to use again (1-5 scale, convert to percentage)
+  const usedLikelihoodValues = usedTrustResponses
+    .map(r => r.responses?.u_trust_likelihood)
+    .filter(v => typeof v === 'number' && !isNaN(v));
+  const futureUsageIntentUsers = usedLikelihoodValues.length > 0 
+    ? ((parseFloat(calculateAverage(usedLikelihoodValues)) / 5) * 100)
+    : 0;
+
+  // Combined usage score (average of both groups if both exist)
+  let usageScore: string;
+  if (futureUsageIntentNonUsers > 0 && futureUsageIntentUsers > 0) {
+    usageScore = ((futureUsageIntentNonUsers + futureUsageIntentUsers) / 2).toFixed(1);
+  } else if (futureUsageIntentNonUsers > 0) {
+    usageScore = futureUsageIntentNonUsers.toFixed(1);
+  } else if (futureUsageIntentUsers > 0) {
+    usageScore = futureUsageIntentUsers.toFixed(1);
+  } else {
+    usageScore = '0.0';
+  }
+
+  // Nem használók - jövőbeni használati szándék (deprecated, kept for other cards)
+  const wouldUseYesOld = notUsedResponses.filter(r => r.responses?.nu_usage_would_use === 'yes' || r.responses?.nu_usage_would_use === 'Igen').length;
+  const wouldUseNoOld = notUsedResponses.filter(r => r.responses?.nu_usage_would_use === 'no' || r.responses?.nu_usage_would_use === 'Nem').length;
+  const wouldUseTotalOld = wouldUseYesOld + wouldUseNoOld;
+  const wouldUseRate = wouldUseTotalOld > 0 ? ((wouldUseYesOld / wouldUseTotalOld) * 100).toFixed(1) : '0.0';
 
   const planToUseYes = notUsedResponses.filter(r => r.responses?.nu_usage_plan_to_use === 'yes' || r.responses?.nu_usage_plan_to_use === 'Igen').length;
   const planToUseNo = notUsedResponses.filter(r => r.responses?.nu_usage_plan_to_use === 'no' || r.responses?.nu_usage_plan_to_use === 'Nem').length;
@@ -776,36 +814,39 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
       {/* Nem használók - Jövőbeni használati szándék */}
       {notUsedResponses.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Használná a jövőben */}
+          {/* Használat Index */}
           <Card id="would-use-future-card">
             <CardHeader className="relative">
               <Button
                 variant="ghost"
                 size="icon"
                 className="absolute right-2 top-2 h-8 w-8"
-                onClick={() => exportCardToPNG('would-use-future-card', 'jovo-hasznalat')}
+                onClick={() => exportCardToPNG('would-use-future-card', 'hasznalat-index')}
               >
                 <Download className="h-4 w-4" />
               </Button>
-              <CardTitle className="text-lg">Jövőbeni Használati Szándék</CardTitle>
-              <CardDescription>Használnád a programot, ha szükséged lenne rá?</CardDescription>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Users className="w-5 h-5" />
+                Használat Index
+              </CardTitle>
+              <CardDescription>Jövőbeli használati szándék</CardDescription>
             </CardHeader>
             <CardContent>
               <GaugeChart 
-                value={parseFloat(wouldUseRate)} 
+                value={parseFloat(usageScore)} 
                 maxValue={100}
                 size={240}
-                label={`${wouldUseRate}%`}
-                sublabel={`${wouldUseYes} / ${wouldUseTotal} fő mondta, hogy igen`}
+                label={`${usageScore}%`}
+                sublabel={`${usedLikelihoodValues.length + wouldUseTotal} válasz`}
                 cornerRadius={30}
               />
               <div className="bg-muted/30 p-3 rounded-md mt-4">
                 <p className="text-xs text-muted-foreground">
-                  {parseFloat(wouldUseRate) >= 70 
-                    ? '✓ Magas a jövőbeni használati hajlandóság' 
-                    : parseFloat(wouldUseRate) >= 40
-                    ? '→ Közepes a nyitottság a program jövőbeni használatára'
-                    : 'ℹ Alacsony a jövőbeni használati szándék - érdemes a bizalomépítésre és kommunikációra fókuszálni'}
+                  {parseFloat(usageScore) >= 70 
+                    ? '✓ Magas a jövőbeli használati hajlandóság.'
+                    : parseFloat(usageScore) >= 40
+                    ? '→ Közepes a nyitottság a program jövőbeni használatára.'
+                    : 'ℹ Alacsony a jövőbeni használati szándék - érdemes a bizalomépítésre és kommunikációra fókuszálni.'}
                 </p>
               </div>
             </CardContent>
