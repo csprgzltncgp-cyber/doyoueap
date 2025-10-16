@@ -154,12 +154,27 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
       .filter(v => v !== undefined)
   );
 
-  // Akadályok elemzése (használók)
+  // Akadályok elemzése (nem használók - mi tartja vissza őket)
   const barriersData: { [key: string]: number } = {};
-  usedResponses.forEach(r => {
-    const barrier = r.responses?.u_trust_barriers;
-    if (barrier) {
-      barriersData[barrier] = (barriersData[barrier] || 0) + 1;
+  const negativeMotivators = [
+    'Inkább más módon kérnék segítséget',
+    'Nem bízom benne teljesen',
+    'Nincs rá időm',
+    'Túl bonyolultnak tűnik',
+    'Túl bonyolultnak tűnik az elérése vagy használata',
+    'Úgy érzem, ez nem nekem való',
+    'Úgy érzem, nem nekem szól ez a szolgáltatás',
+    'Valami más okból'
+  ];
+  
+  notUsedResponses.forEach(r => {
+    const barriers = r.responses?.nu_motivation_what;
+    if (Array.isArray(barriers)) {
+      barriers.forEach(barrier => {
+        if (negativeMotivators.includes(barrier)) {
+          barriersData[barrier] = (barriersData[barrier] || 0) + 1;
+        }
+      });
     }
   });
 
@@ -612,7 +627,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
               <Download className="h-4 w-4" />
             </Button>
             <CardTitle className="text-lg">Bizalmi Akadályok</CardTitle>
-            <CardDescription>Mi tartja vissza a használókat? (használók körében)</CardDescription>
+            <CardDescription>Mi tartja vissza a munkavállalókat attól, hogy használják a programot?</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-[350px]">
