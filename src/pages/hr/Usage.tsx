@@ -6,6 +6,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Download, Activity, Clock, Users, MessageSquare, Phone } from 'lucide-react';
+import fourScoreLogo from '@/assets/4score_logo.svg';
 import { GaugeChart } from '@/components/ui/gauge-chart';
 import { Progress } from '@/components/ui/progress';
 import { formatAuditName } from '@/lib/auditUtils';
@@ -238,32 +239,35 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
               Az EAP program használati szokásainak, csatornáinak és témáinak átfogó kiértékelése
             </p>
           </div>
-        </div>
-        {audits.length > 0 && (
-          <div className="w-full md:max-w-[300px] md:ml-auto">
-            <label className="text-xs text-muted-foreground mb-1.5 block">
-              Felmérés kiválasztása
-            </label>
-            <Select value={selectedAuditId} onValueChange={onAuditChange}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Válassz felmérést" />
-              </SelectTrigger>
-              <SelectContent>
-                {audits.map((audit) => (
-                  <SelectItem key={audit.id} value={audit.id}>
-                    {formatAuditName(audit)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+            <img src={fourScoreLogo} alt="4Score Logo" className="h-8 w-auto" />
+            {audits.length > 0 && (
+              <div className="w-full md:w-[300px]">
+                <label className="text-xs text-muted-foreground mb-1.5 block">
+                  Felmérés kiválasztása
+                </label>
+                <Select value={selectedAuditId} onValueChange={onAuditChange}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Válassz felmérést" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {audits.map((audit) => (
+                      <SelectItem key={audit.id} value={audit.id}>
+                        {formatAuditName(audit)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
 
       {/* 1. sor: Használat Index és Közeljövőbeni Tervek */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Használat Index */}
-        <Card id="would-use-future-card">
+        <Card id="would-use-future-card" className="border-2 border-[#3366ff]">
           <CardHeader className="relative">
             <Button
               variant="ghost"
