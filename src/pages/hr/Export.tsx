@@ -1184,8 +1184,6 @@ const Export = () => {
                     <>
                       <TabsTrigger value="motivation" className="flex-shrink-0">Preferenciák</TabsTrigger>
                       <TabsTrigger value="demographics" className="flex-shrink-0">Demográfia</TabsTrigger>
-                      <TabsTrigger value="trends" className="flex-shrink-0">Trendek</TabsTrigger>
-                      <TabsTrigger value="compare" className="flex-shrink-0">Összehasonlítás</TabsTrigger>
                     </>
                   )}
                 </TabsList>
@@ -1324,46 +1322,6 @@ const Export = () => {
               )}
 
 
-              {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
-                <TabsContent value="trends" className="space-y-2">
-                  <p className="text-sm text-muted-foreground mb-4">Trendek időbeli elemzése</p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {exportableCharts.filter(c => c.tab === 'trends').map(chart => (
-                      <Button 
-                        key={chart.id}
-                        variant="outline" 
-                        onClick={() => handleExportPNG(chart.id, chart.fileName)}
-                        disabled={exporting || !selectedAuditId}
-                        className="justify-start truncate"
-                      >
-                        <Download className="mr-2 h-4 w-4 flex-shrink-0" />
-                        <span className="truncate">{chart.name}</span>
-                      </Button>
-                    ))}
-                  </div>
-                </TabsContent>
-              )}
-
-
-              {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
-                <TabsContent value="compare" className="space-y-2">
-                  <p className="text-sm text-muted-foreground mb-4">Összehasonlító elemzések</p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {exportableCharts.filter(c => c.tab === 'compare').map(chart => (
-                      <Button 
-                        key={chart.id}
-                        variant="outline" 
-                        onClick={() => handleExportPNG(chart.id, chart.fileName)}
-                        disabled={exporting || !selectedAuditId}
-                        className="justify-start truncate"
-                      >
-                        <Download className="mr-2 h-4 w-4 flex-shrink-0" />
-                        <span className="truncate">{chart.name}</span>
-                      </Button>
-                    ))}
-                  </div>
-                </TabsContent>
-              )}
             </Tabs>
           </CardContent>
         </Card>
