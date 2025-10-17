@@ -522,12 +522,34 @@ const Reports = () => {
             </div>
           </div>
           
+          {/* Show message if no companies for partner */}
+          {packageType === 'partner' && companies.length === 0 && (
+            <Card className="border-dashed border-2">
+              <CardContent className="py-12 text-center">
+                <Building2 className="h-12 w-12 text-muted-foreground/40 mx-auto mb-3" />
+                <p className="text-muted-foreground font-medium mb-2">Nincs még ügyfélcég</p>
+                <p className="text-sm text-muted-foreground">Regisztrálj egy ügyfélcéget a Partner Központ menüben a kezdéshez.</p>
+              </CardContent>
+            </Card>
+          )}
+
           {/* Show message if no audits for selected company */}
           {packageType === 'partner' && selectedCompanyId && selectedCompanyId !== 'all' && audits.length === 0 && (
             <Card className="border-dashed border-2">
               <CardContent className="py-12 text-center">
                 <Building2 className="h-12 w-12 text-muted-foreground/40 mx-auto mb-3" />
                 <p className="text-muted-foreground font-medium mb-2">Nincs elérhető felmérés ehhez a céghez</p>
+                <p className="text-sm text-muted-foreground">Hozz létre egy új felmérést az adatok megjelenítéséhez.</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Show message if no audits at all for non-partner or when 'all companies' is selected */}
+          {audits.length === 0 && (packageType !== 'partner' || (packageType === 'partner' && selectedCompanyId === 'all')) && (
+            <Card className="border-dashed border-2">
+              <CardContent className="py-12 text-center">
+                <Building2 className="h-12 w-12 text-muted-foreground/40 mx-auto mb-3" />
+                <p className="text-muted-foreground font-medium mb-2">Nincs még felmérés</p>
                 <p className="text-sm text-muted-foreground">Hozz létre egy új felmérést az adatok megjelenítéséhez.</p>
               </CardContent>
             </Card>
@@ -996,20 +1018,20 @@ const Reports = () => {
     // Render other tabs
     switch (activeTab) {
       case "awareness":
-        return <Awareness selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
+        return <Awareness selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} packageType={packageType} companies={companies} selectedCompanyId={selectedCompanyId} onCompanyChange={setSelectedCompanyId} />;
       case "trust":
-        return <TrustWillingness selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
+        return <TrustWillingness selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} packageType={packageType} companies={companies} selectedCompanyId={selectedCompanyId} onCompanyChange={setSelectedCompanyId} />;
       case "usage":
-        return <Usage selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
+        return <Usage selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} packageType={packageType} companies={companies} selectedCompanyId={selectedCompanyId} onCompanyChange={setSelectedCompanyId} />;
       case "impact":
-        return <Impact selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
+        return <Impact selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} packageType={packageType} companies={companies} selectedCompanyId={selectedCompanyId} onCompanyChange={setSelectedCompanyId} />;
       case "motivation":
       case "preferences":
-        return <CombinedPreferences selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
+        return <CombinedPreferences selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} packageType={packageType} companies={companies} selectedCompanyId={selectedCompanyId} onCompanyChange={setSelectedCompanyId} />;
       case "categories":
         return <UserCategories />;
       case "demographics":
-        return <Demographics selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
+        return <Demographics selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} packageType={packageType} companies={companies} selectedCompanyId={selectedCompanyId} onCompanyChange={setSelectedCompanyId} />;
       case "trends":
         return <Trends />;
       case "compare":
