@@ -11,6 +11,7 @@ import { PaymentStep } from './PaymentStep';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import logo from '@/assets/doyoueap-logo.png';
 
 export interface RegistrationData {
   // Company data
@@ -240,7 +241,7 @@ export const RegistrationWizard = () => {
       <Card className="w-full max-w-3xl">
         <CardHeader>
           <div className="flex items-center gap-2 mb-4">
-            <img src="/src/assets/doyoueap-logo.png" alt="doyoueap" className="h-8" />
+            <img src={logo} alt="doyoueap" className="h-8" />
           </div>
           <CardTitle>Céges regisztráció</CardTitle>
           <CardDescription>

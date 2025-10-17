@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, CheckCircle, Clock, RefreshCw } from 'lucide-react';
+import logo from '@/assets/doyoueap-logo.png';
 
 interface EmailValidationStepProps {
   email: string;
@@ -20,8 +21,36 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
   const { toast } = useToast();
 
   useEffect(() => {
-    // Automatically send verification email when component mounts
-    handleSendVerification();
+    // Check if email is already verified when component mounts
+    const checkInitialVerification = async () => {
+      try {
+        const { data } = await supabase
+          .from('email_verifications')
+          .select('verified')
+          .eq('email', email)
+          .eq('verified', true)
+          .maybeSingle();
+
+        if (data && data.verified) {
+          setIsVerified(true);
+          toast({
+            title: "Email már megerősítve! ✓",
+            description: "Folytathatja a regisztrációt.",
+          });
+          setTimeout(() => {
+            onEmailVerified();
+          }, 500);
+          return;
+        }
+      } catch (error) {
+        console.error('Error checking verification:', error);
+      }
+
+      // If not verified, send verification email
+      handleSendVerification();
+    };
+
+    checkInitialVerification();
     
     return () => {
       if (checkingInterval) {
@@ -108,7 +137,7 @@ export const EmailValidationStep = ({ email, password, onEmailVerified, onBack }
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
         <div className="flex items-center gap-2 mb-4">
-          <img src="/src/assets/doyoueap-logo.png" alt="doyoueap" className="h-8" />
+          <img src={logo} alt="doyoueap" className="h-8" />
         </div>
         <CardTitle className="flex items-center gap-2">
           <Mail className="h-6 w-6" />
