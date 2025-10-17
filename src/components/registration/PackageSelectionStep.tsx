@@ -2,8 +2,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { RegistrationData } from './RegistrationWizard';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Circle } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
 
 interface PackageSelectionStepProps {
   data: RegistrationData;
@@ -28,12 +29,24 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
           {/* Starter */}
           <div className="relative">
             <RadioGroupItem value="starter" id="starter" className="peer sr-only" />
-            <Label htmlFor="starter" className="cursor-pointer">
-              <Card className="peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-2 peer-data-[state=checked]:ring-primary h-full flex flex-col">
+            <Label htmlFor="starter" className="cursor-pointer block">
+              <Card className={cn(
+                "h-full flex flex-col transition-all hover:shadow-md border-2",
+                data.selectedPackage === 'starter' 
+                  ? "border-primary ring-2 ring-primary bg-primary/5" 
+                  : "border-border hover:border-primary/50"
+              )}>
                 <CardHeader>
                   <div className="flex justify-between items-start">
-                    <div>
-                      <CardTitle>Starter</CardTitle>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        {data.selectedPackage === 'starter' ? (
+                          <CheckCircle className="h-5 w-5 text-primary" />
+                        ) : (
+                          <Circle className="h-5 w-5 text-muted-foreground" />
+                        )}
+                        <CardTitle>Starter</CardTitle>
+                      </div>
                       <CardDescription>Kezdő csomagunk kisebb szervezeteknek</CardDescription>
                     </div>
                     <div className="text-right">
@@ -72,13 +85,25 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
           {/* Professional */}
           <div className="relative">
             <RadioGroupItem value="professional" id="professional" className="peer sr-only" />
-            <Label htmlFor="professional" className="cursor-pointer">
-              <Card className="peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-2 peer-data-[state=checked]:ring-primary border-primary h-full flex flex-col">
+            <Label htmlFor="professional" className="cursor-pointer block">
+              <Card className={cn(
+                "h-full flex flex-col transition-all hover:shadow-md border-2",
+                data.selectedPackage === 'professional' 
+                  ? "border-primary ring-2 ring-primary bg-primary/5" 
+                  : "border-primary/30 hover:border-primary/50"
+              )}>
                 <CardHeader>
                   <div className="flex justify-between items-start">
-                    <div>
+                    <div className="flex-1">
                       <div className="text-xs font-medium text-primary mb-1">AJÁNLOTT</div>
-                      <CardTitle>Professional</CardTitle>
+                      <div className="flex items-center gap-2 mb-2">
+                        {data.selectedPackage === 'professional' ? (
+                          <CheckCircle className="h-5 w-5 text-primary" />
+                        ) : (
+                          <Circle className="h-5 w-5 text-muted-foreground" />
+                        )}
+                        <CardTitle>Professional</CardTitle>
+                      </div>
                       <CardDescription>A legnépszerűbb választás</CardDescription>
                     </div>
                     <div className="text-right">
@@ -125,12 +150,24 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
           {/* Enterprise */}
           <div className="relative">
             <RadioGroupItem value="enterprise" id="enterprise" className="peer sr-only" />
-            <Label htmlFor="enterprise" className="cursor-pointer">
-              <Card className="peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-2 peer-data-[state=checked]:ring-primary h-full flex flex-col">
+            <Label htmlFor="enterprise" className="cursor-pointer block">
+              <Card className={cn(
+                "h-full flex flex-col transition-all hover:shadow-md border-2",
+                data.selectedPackage === 'enterprise' 
+                  ? "border-primary ring-2 ring-primary bg-primary/5" 
+                  : "border-border hover:border-primary/50"
+              )}>
                 <CardHeader>
                   <div className="flex justify-between items-start">
-                    <div>
-                      <CardTitle>Enterprise</CardTitle>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        {data.selectedPackage === 'enterprise' ? (
+                          <CheckCircle className="h-5 w-5 text-primary" />
+                        ) : (
+                          <Circle className="h-5 w-5 text-muted-foreground" />
+                        )}
+                        <CardTitle>Enterprise</CardTitle>
+                      </div>
                       <CardDescription>Nagy szervezetek számára</CardDescription>
                     </div>
                     <div className="text-right">
@@ -185,13 +222,25 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
           {/* Partner Program */}
           <div className="relative">
             <RadioGroupItem value="partner" id="partner" className="peer sr-only" />
-            <Label htmlFor="partner" className="cursor-pointer">
-              <Card className="peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-2 peer-data-[state=checked]:ring-primary h-full flex flex-col bg-gradient-to-br from-[#3572ef]/5 to-[#3abef9]/5">
+            <Label htmlFor="partner" className="cursor-pointer block">
+              <Card className={cn(
+                "h-full flex flex-col transition-all hover:shadow-md border-2 bg-gradient-to-br from-[#3572ef]/5 to-[#3abef9]/5",
+                data.selectedPackage === 'partner' 
+                  ? "border-[#3572ef] ring-2 ring-[#3572ef]" 
+                  : "border-[#3572ef]/30 hover:border-[#3572ef]/50"
+              )}>
                 <CardHeader>
                   <div className="flex justify-between items-start">
-                    <div>
+                    <div className="flex-1">
                       <div className="text-xs font-medium text-[#3572ef] mb-1">EAP SZOLGÁLTATÓKNAK</div>
-                      <CardTitle>Partner Program</CardTitle>
+                      <div className="flex items-center gap-2 mb-2">
+                        {data.selectedPackage === 'partner' ? (
+                          <CheckCircle className="h-5 w-5 text-[#3572ef]" />
+                        ) : (
+                          <Circle className="h-5 w-5 text-muted-foreground" />
+                        )}
+                        <CardTitle>Partner Program</CardTitle>
+                      </div>
                       <CardDescription>Több ügyfélcég kezelése</CardDescription>
                     </div>
                     <div className="text-right">
