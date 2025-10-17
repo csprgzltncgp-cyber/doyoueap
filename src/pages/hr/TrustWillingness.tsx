@@ -813,7 +813,13 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
                 <BarChart data={barriersChartData} layout="vertical" barSize={60}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis type="number" />
-                  <YAxis dataKey="name" type="category" width={150} />
+                  <YAxis 
+                    dataKey="name" 
+                    type="category" 
+                    width={250}
+                    tick={{ fontSize: 12 }}
+                    interval={0}
+                  />
                   <Tooltip />
                   <Bar dataKey="value" fill="hsl(var(--chart-2))" radius={[0, 8, 8, 0]} />
                 </BarChart>
