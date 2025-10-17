@@ -802,11 +802,11 @@ const Reports = () => {
                     </svg>
                   </div>
                   
-                  <div className="text-center">
+                  <div className="text-center space-y-1">
                     <div className="text-4xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
                       {utilization.toFixed(1)}%
                     </div>
-                    <div className="text-sm text-muted-foreground mt-1">
+                    <div className="text-sm text-muted-foreground">
                       ~{estimatedUsers} / {employeeCount} fő (becsült)
                     </div>
                   </div>
@@ -877,11 +877,11 @@ const Reports = () => {
                     </svg>
                   </div>
                   
-                  <div className="text-center">
+                  <div className="text-center space-y-1">
                     <div className="text-4xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
                       {satisfactionIndex.toFixed(0)}%
                     </div>
-                    <div className="text-sm text-muted-foreground mt-1">
+                    <div className="text-sm text-muted-foreground">
                       {satisfactionScore}/5
                     </div>
                   </div>
