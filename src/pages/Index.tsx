@@ -22,7 +22,6 @@ import Settings from './hr/Settings';
 import Raffles from './hr/Raffles';
 import API from './hr/API';
 import PartnerCenter from './hr/PartnerCenter';
-import { supabase } from '@/integrations/supabase/client';
 
 const Index = () => {
   const { user, role, loading, signIn, signOut } = useAuth();
@@ -61,29 +60,6 @@ const Index = () => {
       navigate('/?section=focus');
     }
   }, [user, role, loading, navigate, section, setSearchParams]);
-
-  // Check if user has any audits
-  useEffect(() => {
-    const checkAudits = async () => {
-      if (!user || role !== 'hr') return;
-      
-      try {
-        const { data, error } = await supabase
-          .from('audits')
-          .select('id')
-          .eq('is_active', true)
-          .limit(1);
-        
-        if (error) throw error;
-        setHasAudits(data && data.length > 0);
-      } catch (error) {
-        console.error('Error checking audits:', error);
-        setHasAudits(true); // Default to true on error to avoid blocking
-      }
-    };
-
-    checkAudits();
-  }, [user, role]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -175,7 +151,7 @@ const Index = () => {
             return <EAPAudit />;
         }
       case 'reports':
-        return <Reports />;
+        return <Reports onAuditsChange={setHasAudits} />;
       case 'export':
         return <Export />;
       case 'custom-survey':
