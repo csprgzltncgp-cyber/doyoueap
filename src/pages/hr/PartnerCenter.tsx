@@ -175,11 +175,19 @@ const PartnerCenter = () => {
       resetForm();
       fetchCompanies();
       setDialogOpen(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving company:', error);
+      
+      let errorMessage = 'Nem sikerült menteni az ügyfélcéget';
+      
+      // Check for duplicate company name error
+      if (error?.code === '23505' && error?.message?.includes('companies_company_name_key')) {
+        errorMessage = 'Ez a cégnév már használatban van. Kérlek válassz másik cégnevet.';
+      }
+      
       toast({
         title: 'Hiba',
-        description: 'Nem sikerült menteni az ügyfélcéget',
+        description: errorMessage,
         variant: 'destructive'
       });
     }
