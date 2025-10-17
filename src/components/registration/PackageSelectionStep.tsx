@@ -47,10 +47,11 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                         )}
                         <CardTitle>Starter</CardTitle>
                       </div>
-                      <CardDescription>Kezdő csomagunk kisebb szervezeteknek</CardDescription>
+                      <CardDescription>Alapvető betekintés az EAP-programba</CardDescription>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold">290.000 Ft/év</div>
+                      <div className="text-3xl font-bold">150 €<span className="text-lg font-normal text-muted-foreground">/hó</span></div>
+                      <div className="text-sm text-muted-foreground mt-1">1 800 € / év</div>
                     </div>
                   </div>
                 </CardHeader>
@@ -58,23 +59,19 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                   <ul className="space-y-2 mb-4">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Legfeljebb 200 munkavállaló</span>
+                      <span>2 felmérés / év (félévente)</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Éves EAP audit</span>
+                      <span>Ajándéksorsolás minden felmérés végén</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>4Score módszertan</span>
+                      <span>4Score riport (Tudatosság · Használat · Bizalom & Hajlandóság · Hatás)</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Alapvető riportok</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Email támogatás</span>
+                      <span>Alap dashboard + letölthető riportok</span>
                     </li>
                   </ul>
                 </CardContent>
@@ -104,10 +101,11 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                         )}
                         <CardTitle>Professional</CardTitle>
                       </div>
-                      <CardDescription>A legnépszerűbb választás</CardDescription>
+                      <CardDescription>Rendszeres és mélyreható elemzés</CardDescription>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold">490.000 Ft/év</div>
+                      <div className="text-3xl font-bold">325 €<span className="text-lg font-normal text-muted-foreground">/hó</span></div>
+                      <div className="text-sm text-muted-foreground mt-1">3 900 € / év</div>
                     </div>
                   </div>
                 </CardHeader>
@@ -115,31 +113,23 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                   <ul className="space-y-2 mb-4">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Legfeljebb 500 munkavállaló</span>
+                      <span>3 felmérés / év</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Féléves EAP auditok</span>
+                      <span>Ajándéksorsolás minden felmérés végén</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>4Score módszertan</span>
+                      <span>Teljes riportkészlet (minden statisztika + 4Score)</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Részletes riportok és elemzések</span>
+                      <span>Testreszabható kérdőív-design</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Trend-elemzés</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Prioritásos támogatás</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Testre szabható kérdőívek</span>
+                      <span>Trendösszevetések a felmérések között</span>
                     </li>
                   </ul>
                 </CardContent>
@@ -168,10 +158,11 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                         )}
                         <CardTitle>Enterprise</CardTitle>
                       </div>
-                      <CardDescription>Nagy szervezetek számára</CardDescription>
+                      <CardDescription>Maximális átláthatóság és integráció</CardDescription>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold">Egyedi árazás</div>
+                      <div className="text-3xl font-bold">480 €<span className="text-lg font-normal text-muted-foreground">/hó</span></div>
+                      <div className="text-sm text-muted-foreground mt-1">5 760 € / év</div>
                     </div>
                   </div>
                 </CardHeader>
@@ -179,31 +170,15 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                   <ul className="space-y-2 mb-4">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Korlátlan munkavállaló</span>
+                      <span>4 felmérés / év</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Negyedéves EAP auditok</span>
+                      <span>Ajándéksorsolás minden felmérés végén</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>4Score módszertan</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Teljes körű elemzések</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Prediktív modellek</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Dedikált ügyfélmenedzser</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>API integráció</span>
+                      <span>Teljes riportkészlet + trend- és összehasonlító elemzés</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
@@ -211,7 +186,7 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Oktatás és tanácsadás</span>
+                      <span>API integráció</span>
                     </li>
                   </ul>
                 </CardContent>
@@ -232,7 +207,7 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
-                      <div className="text-xs font-medium text-[#3572ef] mb-1">EAP SZOLGÁLTATÓKNAK</div>
+                      <div className="text-xs font-medium text-[#3572ef] mb-1">SZOLGÁLTATÓKNAK</div>
                       <div className="flex items-center gap-2 mb-2">
                         {data.selectedPackage === 'partner' ? (
                           <CheckCircle className="h-5 w-5 text-[#3572ef]" />
@@ -241,38 +216,42 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                         )}
                         <CardTitle>Partner Program</CardTitle>
                       </div>
-                      <CardDescription>Több ügyfélcég kezelése</CardDescription>
+                      <CardDescription>Emeld új szintre az ügyfélriportjaidat</CardDescription>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold">Egyedi árazás</div>
+                      <div className="text-3xl font-bold">Egyedi ajánlat</div>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col justify-between">
-                  <ul className="space-y-2 mb-4">
+                  <p className="text-sm font-medium mb-3">
+                    Bővítsd szolgáltatásportfóliód olyan riportadatokkal, amelyek egyedivé teszik ajánlatodat.
+                  </p>
+                  <ul className="space-y-3 mb-4">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
-                      <span>Ügyfélcégek regisztrálása és kezelése</span>
+                      <div>
+                        <p className="font-medium">REST API integráció</p>
+                        <p className="text-sm text-muted-foreground">Zökkenőmentes adatkapcsolat rendszereiddel</p>
+                      </div>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
-                      <span>Korlátlan felmérések minden ügyfélnek</span>
+                      <div>
+                        <p className="font-medium">White-label megoldás</p>
+                        <p className="text-sm text-muted-foreground">Saját arculatoddal, a te nevedben</p>
+                      </div>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
-                      <span>Minden Enterprise funkció</span>
+                      <div>
+                        <p className="font-medium">Partner központ</p>
+                        <p className="text-sm text-muted-foreground">Összes ügyfeled átlátható menedzselése</p>
+                      </div>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
-                      <span>Multi-tenant irányítópult</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
-                      <span>White-label lehetőség</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
-                      <span>Prioritás támogatás</span>
+                      <p className="font-medium">Dedikált technikai támogatás</p>
                     </li>
                   </ul>
                 </CardContent>
