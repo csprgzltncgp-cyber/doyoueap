@@ -179,14 +179,23 @@ function Settings() {
       return;
     }
 
-    setProfileData(data);
-    setSelectedPackageTemp(data.selected_package);
+    // Map database values to UI values
+    let mappedPackage = data.selected_package;
+    if (data.selected_package === 'pro') {
+      mappedPackage = 'professional';
+    } else if (data.selected_package === 'start') {
+      mappedPackage = 'starter';
+    }
+
+    setProfileData({ ...data, selected_package: mappedPackage });
+    setSelectedPackageTemp(mappedPackage);
     setSelectedCycleTemp(data.billing_cycle);
     
     // Fill billing address from company address if empty
     if (!data.billing_address && data.address) {
       setProfileData({
         ...data,
+        selected_package: mappedPackage,
         billing_address: data.address,
         billing_city: data.city,
         billing_postal_code: data.postal_code,
@@ -412,11 +421,19 @@ function Settings() {
   const handleSavePackage = async () => {
     if (!user || !selectedPackageTemp) return;
 
+    // Map UI values to database values
+    let dbPackageName = selectedPackageTemp;
+    if (selectedPackageTemp === 'professional') {
+      dbPackageName = 'pro';
+    } else if (selectedPackageTemp === 'starter') {
+      dbPackageName = 'start';
+    }
+
     setSavingPackage(true);
     const { error } = await supabase
       .from("profiles")
       .update({
-        selected_package: selectedPackageTemp,
+        selected_package: dbPackageName,
         billing_cycle: selectedCycleTemp,
       })
       .eq("id", user.id);
