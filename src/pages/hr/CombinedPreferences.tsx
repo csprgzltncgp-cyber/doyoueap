@@ -17,9 +17,13 @@ interface CombinedPreferencesProps {
     expires_at: string | null;
   }>;
   onAuditChange: (id: string) => void;
+  packageType?: string;
+  companies?: Array<{ id: string; company_name: string }>;
+  selectedCompanyId?: string;
+  onCompanyChange?: (id: string) => void;
 }
 
-const CombinedPreferences = ({ selectedAuditId, audits, onAuditChange }: CombinedPreferencesProps) => {
+const CombinedPreferences = ({ selectedAuditId, audits, onAuditChange, packageType, companies = [], selectedCompanyId, onCompanyChange }: CombinedPreferencesProps) => {
   return (
     <div className="space-y-6">
       {/* Fejléc */}

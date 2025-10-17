@@ -1018,20 +1018,20 @@ const Reports = () => {
     // Render other tabs
     switch (activeTab) {
       case "awareness":
-        return <Awareness selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
+        return <Awareness selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} packageType={packageType} companies={companies} selectedCompanyId={selectedCompanyId} onCompanyChange={setSelectedCompanyId} />;
       case "trust":
-        return <TrustWillingness selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
+        return <TrustWillingness selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} packageType={packageType} companies={companies} selectedCompanyId={selectedCompanyId} onCompanyChange={setSelectedCompanyId} />;
       case "usage":
-        return <Usage selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
+        return <Usage selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} packageType={packageType} companies={companies} selectedCompanyId={selectedCompanyId} onCompanyChange={setSelectedCompanyId} />;
       case "impact":
-        return <Impact selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
+        return <Impact selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} packageType={packageType} companies={companies} selectedCompanyId={selectedCompanyId} onCompanyChange={setSelectedCompanyId} />;
       case "motivation":
       case "preferences":
-        return <CombinedPreferences selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
+        return <CombinedPreferences selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} packageType={packageType} companies={companies} selectedCompanyId={selectedCompanyId} onCompanyChange={setSelectedCompanyId} />;
       case "categories":
         return <UserCategories />;
       case "demographics":
-        return <Demographics selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} />;
+        return <Demographics selectedAuditId={selectedAuditId} audits={audits} onAuditChange={setSelectedAuditId} packageType={packageType} companies={companies} selectedCompanyId={selectedCompanyId} onCompanyChange={setSelectedCompanyId} />;
       case "trends":
         return <Trends />;
       case "compare":
