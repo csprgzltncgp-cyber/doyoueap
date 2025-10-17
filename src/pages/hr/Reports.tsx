@@ -37,7 +37,7 @@ interface Audit {
   partner_company_id?: string | null;
 }
 
-const Reports = ({ onAuditsChange }: { onAuditsChange?: (hasAudits: boolean) => void } = {}) => {
+const Reports = () => {
   const [searchParams] = useSearchParams();
   const { packageType } = usePackage();
   const [audits, setAudits] = useState<Audit[]>([]);
@@ -193,11 +193,9 @@ const Reports = ({ onAuditsChange }: { onAuditsChange?: (hasAudits: boolean) => 
       if (data && data.length > 0) {
         setAudits(data);
         setSelectedAuditId(data[0].id);
-        onAuditsChange?.(true);
       } else {
         setAudits([]);
         setSelectedAuditId('');
-        onAuditsChange?.(false);
       }
     } catch (error) {
       console.error('Error fetching assessments:', error);
