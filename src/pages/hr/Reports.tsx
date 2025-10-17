@@ -44,7 +44,6 @@ const Reports = () => {
   const [selectedAuditId, setSelectedAuditId] = useState<string>('');
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>('all');
   const [companies, setCompanies] = useState<Array<{ id: string; company_name: string }>>([]);
-  const [loading, setLoading] = useState(true);
   const [responses, setResponses] = useState<any[]>([]);
   const [loadingResponses, setLoadingResponses] = useState(false);
   const [employeeCount, setEmployeeCount] = useState<number>(0);
@@ -200,8 +199,6 @@ const Reports = () => {
     } catch (error) {
       console.error('Error fetching assessments:', error);
       toast.error('Hiba történt a felmérések betöltésekor');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -437,13 +434,6 @@ const Reports = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <p>Betöltés...</p>
-      </div>
-    );
-  }
 
   // Render content based on activeTab
   const renderContent = () => {
