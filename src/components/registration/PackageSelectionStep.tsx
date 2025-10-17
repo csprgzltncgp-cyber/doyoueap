@@ -58,20 +58,20 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                 <CardContent className="flex-1 flex flex-col justify-between">
                   <ul className="space-y-2 mb-4">
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>2 felmérés / év (félévente)</span>
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">2 felmérés / év (félévente)</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Ajándéksorsolás minden felmérés végén</span>
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">Ajándéksorsolás minden felmérés végén</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>4Score riport (Tudatosság · Használat · Bizalom & Hajlandóság · Hatás)</span>
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">4Score riport (Tudatosság · Használat · Bizalom & Hajlandóság · Hatás)</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Alap dashboard + letölthető riportok</span>
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">Alap dashboard + letölthető riportok</span>
                     </li>
                   </ul>
                 </CardContent>
@@ -112,24 +112,24 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                 <CardContent className="flex-1 flex flex-col justify-between">
                   <ul className="space-y-2 mb-4">
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>3 felmérés / év</span>
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">3 felmérés / év</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Ajándéksorsolás minden felmérés végén</span>
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">Ajándéksorsolás minden felmérés végén</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Teljes riportkészlet (minden statisztika + 4Score)</span>
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">Teljes riportkészlet (minden statisztika + 4Score)</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Testreszabható kérdőív-design</span>
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">Testreszabható kérdőív-design</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Trendösszevetések a felmérések között</span>
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">Trendösszevetések a felmérések között</span>
                     </li>
                   </ul>
                 </CardContent>
@@ -169,24 +169,24 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                 <CardContent className="flex-1 flex flex-col justify-between">
                   <ul className="space-y-2 mb-4">
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>4 felmérés / év</span>
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">4 felmérés / év</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Ajándéksorsolás minden felmérés végén</span>
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">Ajándéksorsolás minden felmérés végén</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Teljes riportkészlet + trend- és összehasonlító elemzés</span>
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">Teljes riportkészlet + trend- és összehasonlító elemzés</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>White-label lehetőség</span>
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">White-label lehetőség</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                      <span>API integráció</span>
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">API integráció</span>
                     </li>
                   </ul>
                 </CardContent>
@@ -229,29 +229,29 @@ export const PackageSelectionStep = ({ data, updateData }: PackageSelectionStepP
                   </p>
                   <ul className="space-y-3 mb-4">
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
+                      <CheckCircle className="h-5 w-5 text-[#3572ef] flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="font-medium">REST API integráció</p>
-                        <p className="text-sm text-muted-foreground">Zökkenőmentes adatkapcsolat rendszereiddel</p>
+                        <p className="font-medium text-sm">REST API integráció</p>
+                        <p className="text-xs text-muted-foreground">Zökkenőmentes adatkapcsolat rendszereiddel</p>
                       </div>
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
+                      <CheckCircle className="h-5 w-5 text-[#3572ef] flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="font-medium">White-label megoldás</p>
-                        <p className="text-sm text-muted-foreground">Saját arculatoddal, a te nevedben</p>
+                        <p className="font-medium text-sm">White-label megoldás</p>
+                        <p className="text-xs text-muted-foreground">Saját arculatoddal, a te nevedben</p>
                       </div>
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
+                      <CheckCircle className="h-5 w-5 text-[#3572ef] flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="font-medium">Partner központ</p>
-                        <p className="text-sm text-muted-foreground">Összes ügyfeled átlátható menedzselése</p>
+                        <p className="font-medium text-sm">Partner központ</p>
+                        <p className="text-xs text-muted-foreground">Összes ügyfeled átlátható menedzselése</p>
                       </div>
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-[#3572ef] mt-0.5" />
-                      <p className="font-medium">Dedikált technikai támogatás</p>
+                      <CheckCircle className="h-5 w-5 text-[#3572ef] flex-shrink-0 mt-0.5" />
+                      <p className="font-medium text-sm">Dedikált technikai támogatás</p>
                     </li>
                   </ul>
                 </CardContent>
