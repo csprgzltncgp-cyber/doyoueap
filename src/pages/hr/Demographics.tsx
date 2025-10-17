@@ -262,6 +262,25 @@ const Demographics = ({ selectedAuditId, audits, onAuditChange }: DemographicsPr
     );
   }
 
+  if (audits.length === 0) {
+    return (
+      <div className="space-y-6">
+        <div className="space-y-4">
+          <div className="flex items-center gap-4">
+            <h2 className="text-2xl font-bold">Demográfiai Elemzés</h2>
+            <ReportNavigation currentTab="demographics" />
+          </div>
+          <p className="text-muted-foreground">
+            Válaszadók megoszlása kor, nem és felhasználói kategóriák szerint
+          </p>
+          <div className="text-center py-12 text-muted-foreground">
+            Még nincs felmérés ehhez a céghez. Hozz létre egy új felmérést az első riport elkészítéséhez.
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div className="space-y-4 mb-6">

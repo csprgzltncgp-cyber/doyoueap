@@ -321,6 +321,25 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange }: TrustWilli
     );
   }
 
+  if (audits.length === 0) {
+    return (
+      <div className="space-y-6">
+        <div className="space-y-4">
+          <div className="flex items-center gap-4">
+            <h2 className="text-2xl font-bold">Bizalom & Készség Részletes Elemzése</h2>
+            <ReportNavigation currentTab="trust" />
+          </div>
+          <p className="text-muted-foreground text-sm">
+            Az EAP program bizalmi szintjének, anonimitás védelmének és használati hajlandóságának átfogó kiértékelése
+          </p>
+          <div className="text-center py-12 text-muted-foreground">
+            Még nincs felmérés ehhez a céghez. Hozz létre egy új felmérést az első riport elkészítéséhez.
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const totalCount = responses.length;
 
   return (

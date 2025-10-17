@@ -229,10 +229,59 @@ const Impact = ({ selectedAuditId, audits, onAuditChange }: ImpactProps) => {
     );
   }
 
+  if (audits.length === 0) {
+    return (
+      <div className="space-y-6">
+        <div className="space-y-4">
+          <div className="flex items-center gap-4">
+            <h2 className="text-2xl font-bold">Hatás Riport</h2>
+            <ReportNavigation currentTab="impact" />
+          </div>
+          <p className="text-muted-foreground">
+            A program használóinak elégedettsége, hatékonysága és ajánlási hajlandósága
+          </p>
+          <div className="text-center py-12 text-muted-foreground">
+            Még nincs felmérés ehhez a céghez. Hozz létre egy új felmérést az első riport elkészítéséhez.
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (usedCount === 0) {
     return (
       <div className="space-y-6">
-        <h2 className="text-2xl font-bold">Hatás Riport</h2>
+        <div className="space-y-4">
+          <div className="flex items-center gap-4">
+            <h2 className="text-2xl font-bold">Hatás Riport</h2>
+            <ReportNavigation currentTab="impact" />
+          </div>
+          <p className="text-muted-foreground">
+            A program használóinak elégedettsége, hatékonysága és ajánlási hajlandósága
+          </p>
+        </div>
+        {audits.length > 0 && (
+          <div className="flex flex-col md:flex-row md:items-center gap-4">
+            <img src={fourScoreLogo} alt="4Score" className="h-6" />
+            <div className="flex-1 md:max-w-[300px] md:ml-auto">
+              <label className="text-xs text-muted-foreground mb-1.5 block">
+                Felmérés kiválasztása
+              </label>
+              <Select value={selectedAuditId} onValueChange={onAuditChange}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Válassz felmérést" />
+                </SelectTrigger>
+                <SelectContent>
+                  {audits.map((audit) => (
+                    <SelectItem key={audit.id} value={audit.id}>
+                      {formatAuditName(audit)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        )}
         <div className="text-center py-12 text-muted-foreground">
           Még nincs kiértékelt adat a programot használók körében
         </div>
