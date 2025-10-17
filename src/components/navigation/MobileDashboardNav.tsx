@@ -9,9 +9,10 @@ interface MobileDashboardNavProps {
   section: string;
   subSection: string;
   onNavigate: (section: string, sub?: string) => void;
+  hasAudits?: boolean;
 }
 
-export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDashboardNavProps) {
+export function MobileDashboardNav({ section, subSection, onNavigate, hasAudits = true }: MobileDashboardNavProps) {
   const { packageType } = usePackage();
   const [open, setOpen] = useState(false);
 
@@ -152,41 +153,53 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
                     Összefoglaló
                   </button>
                   <button
-                    onClick={() => handleNavClick('reports', 'awareness')}
+                    onClick={() => hasAudits && handleNavClick('reports', 'awareness')}
+                    disabled={!hasAudits}
                     className={`px-4 py-2 rounded-md text-left text-sm ${
-                      subSection === 'awareness' 
-                        ? 'bg-muted font-medium' 
-                        : 'hover:bg-muted/50'
+                      hasAudits 
+                        ? 'hover:bg-muted/50 cursor-pointer' 
+                        : 'opacity-40 cursor-not-allowed'
+                    } ${
+                      subSection === 'awareness' ? 'bg-muted font-medium' : ''
                     }`}
                   >
                     Ismertség
                   </button>
                   <button
-                    onClick={() => handleNavClick('reports', 'trust')}
+                    onClick={() => hasAudits && handleNavClick('reports', 'trust')}
+                    disabled={!hasAudits}
                     className={`px-4 py-2 rounded-md text-left text-sm ${
-                      subSection === 'trust' 
-                        ? 'bg-muted font-medium' 
-                        : 'hover:bg-muted/50'
+                      hasAudits 
+                        ? 'hover:bg-muted/50 cursor-pointer' 
+                        : 'opacity-40 cursor-not-allowed'
+                    } ${
+                      subSection === 'trust' ? 'bg-muted font-medium' : ''
                     }`}
                   >
                     Bizalom
                   </button>
                   <button
-                    onClick={() => handleNavClick('reports', 'usage')}
+                    onClick={() => hasAudits && handleNavClick('reports', 'usage')}
+                    disabled={!hasAudits}
                     className={`px-4 py-2 rounded-md text-left text-sm ${
-                      subSection === 'usage' 
-                        ? 'bg-muted font-medium' 
-                        : 'hover:bg-muted/50'
+                      hasAudits 
+                        ? 'hover:bg-muted/50 cursor-pointer' 
+                        : 'opacity-40 cursor-not-allowed'
+                    } ${
+                      subSection === 'usage' ? 'bg-muted font-medium' : ''
                     }`}
                   >
                     Használat
                   </button>
                   <button
-                    onClick={() => handleNavClick('reports', 'impact')}
+                    onClick={() => hasAudits && handleNavClick('reports', 'impact')}
+                    disabled={!hasAudits}
                     className={`px-4 py-2 rounded-md text-left text-sm ${
-                      subSection === 'impact' 
-                        ? 'bg-muted font-medium' 
-                        : 'hover:bg-muted/50'
+                      hasAudits 
+                        ? 'hover:bg-muted/50 cursor-pointer' 
+                        : 'opacity-40 cursor-not-allowed'
+                    } ${
+                      subSection === 'impact' ? 'bg-muted font-medium' : ''
                     }`}
                   >
                     Hatás
@@ -194,41 +207,53 @@ export function MobileDashboardNav({ section, subSection, onNavigate }: MobileDa
                   {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
                     <>
                       <button
-                        onClick={() => handleNavClick('reports', 'preferences')}
+                        onClick={() => hasAudits && handleNavClick('reports', 'preferences')}
+                        disabled={!hasAudits}
                         className={`px-4 py-2 rounded-md text-left text-sm ${
-                          subSection === 'preferences' 
-                            ? 'bg-muted font-medium' 
-                            : 'hover:bg-muted/50'
+                          hasAudits 
+                            ? 'hover:bg-muted/50 cursor-pointer' 
+                            : 'opacity-40 cursor-not-allowed'
+                        } ${
+                          subSection === 'preferences' ? 'bg-muted font-medium' : ''
                         }`}
                       >
                         Preferenciák
                       </button>
                       <button
-                        onClick={() => handleNavClick('reports', 'demographics')}
+                        onClick={() => hasAudits && handleNavClick('reports', 'demographics')}
+                        disabled={!hasAudits}
                         className={`px-4 py-2 rounded-md text-left text-sm ${
-                          subSection === 'demographics' 
-                            ? 'bg-muted font-medium' 
-                            : 'hover:bg-muted/50'
+                          hasAudits 
+                            ? 'hover:bg-muted/50 cursor-pointer' 
+                            : 'opacity-40 cursor-not-allowed'
+                        } ${
+                          subSection === 'demographics' ? 'bg-muted font-medium' : ''
                         }`}
                       >
                         Demográfia
                       </button>
                       <button
-                        onClick={() => handleNavClick('reports', 'trends')}
+                        onClick={() => hasAudits && handleNavClick('reports', 'trends')}
+                        disabled={!hasAudits}
                         className={`px-4 py-2 rounded-md text-left text-sm ${
-                          subSection === 'trends' 
-                            ? 'bg-muted font-medium' 
-                            : 'hover:bg-muted/50'
+                          hasAudits 
+                            ? 'hover:bg-muted/50 cursor-pointer' 
+                            : 'opacity-40 cursor-not-allowed'
+                        } ${
+                          subSection === 'trends' ? 'bg-muted font-medium' : ''
                         }`}
                       >
                         Trendek
                       </button>
                       <button
-                        onClick={() => handleNavClick('reports', 'compare')}
+                        onClick={() => hasAudits && handleNavClick('reports', 'compare')}
+                        disabled={!hasAudits}
                         className={`px-4 py-2 rounded-md text-left text-sm ${
-                          subSection === 'compare' 
-                            ? 'bg-muted font-medium' 
-                            : 'hover:bg-muted/50'
+                          hasAudits 
+                            ? 'hover:bg-muted/50 cursor-pointer' 
+                            : 'opacity-40 cursor-not-allowed'
+                        } ${
+                          subSection === 'compare' ? 'bg-muted font-medium' : ''
                         }`}
                       >
                         Összehasonlítás

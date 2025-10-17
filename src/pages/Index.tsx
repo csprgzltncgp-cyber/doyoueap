@@ -22,6 +22,7 @@ import Settings from './hr/Settings';
 import Raffles from './hr/Raffles';
 import API from './hr/API';
 import PartnerCenter from './hr/PartnerCenter';
+import { supabase } from '@/integrations/supabase/client';
 
 const Index = () => {
   const { user, role, loading, signIn, signOut } = useAuth();
@@ -35,6 +36,7 @@ const Index = () => {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  const [hasAudits, setHasAudits] = useState(true);
 
   const handleGetStarted = () => {
     if (user) {
@@ -59,6 +61,29 @@ const Index = () => {
       navigate('/?section=focus');
     }
   }, [user, role, loading, navigate, section, setSearchParams]);
+
+  // Check if user has any audits
+  useEffect(() => {
+    const checkAudits = async () => {
+      if (!user || role !== 'hr') return;
+      
+      try {
+        const { data, error } = await supabase
+          .from('audits')
+          .select('id')
+          .eq('is_active', true)
+          .limit(1);
+        
+        if (error) throw error;
+        setHasAudits(data && data.length > 0);
+      } catch (error) {
+        console.error('Error checking audits:', error);
+        setHasAudits(true); // Default to true on error to avoid blocking
+      }
+    };
+
+    checkAudits();
+  }, [user, role]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -259,6 +284,7 @@ const Index = () => {
                 <MobileDashboardNav 
                   section={section}
                   subSection={subSection}
+                  hasAudits={hasAudits}
                   onNavigate={(newSection, newSub) => {
                     if (newSub) {
                       setSearchParams({ section: newSection, sub: newSub });
@@ -421,7 +447,12 @@ const Index = () => {
                           setSearchParams({ section: 'reports', sub: 'awareness' });
                           setOpenSubmenu(null);
                         }}
-                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                        disabled={!hasAudits}
+                        className={`w-full text-left px-4 py-2 text-sm ${
+                          hasAudits 
+                            ? 'hover:bg-gray-100 cursor-pointer' 
+                            : 'opacity-40 cursor-not-allowed'
+                        } ${
                           subSection === 'awareness' ? 'bg-gray-100 font-medium' : ''
                         }`}
                       >
@@ -432,7 +463,12 @@ const Index = () => {
                           setSearchParams({ section: 'reports', sub: 'trust' });
                           setOpenSubmenu(null);
                         }}
-                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                        disabled={!hasAudits}
+                        className={`w-full text-left px-4 py-2 text-sm ${
+                          hasAudits 
+                            ? 'hover:bg-gray-100 cursor-pointer' 
+                            : 'opacity-40 cursor-not-allowed'
+                        } ${
                           subSection === 'trust' ? 'bg-gray-100 font-medium' : ''
                         }`}
                       >
@@ -443,7 +479,12 @@ const Index = () => {
                           setSearchParams({ section: 'reports', sub: 'usage' });
                           setOpenSubmenu(null);
                         }}
-                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                        disabled={!hasAudits}
+                        className={`w-full text-left px-4 py-2 text-sm ${
+                          hasAudits 
+                            ? 'hover:bg-gray-100 cursor-pointer' 
+                            : 'opacity-40 cursor-not-allowed'
+                        } ${
                           subSection === 'usage' ? 'bg-gray-100 font-medium' : ''
                         }`}
                       >
@@ -454,7 +495,12 @@ const Index = () => {
                           setSearchParams({ section: 'reports', sub: 'impact' });
                           setOpenSubmenu(null);
                         }}
-                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                        disabled={!hasAudits}
+                        className={`w-full text-left px-4 py-2 text-sm ${
+                          hasAudits 
+                            ? 'hover:bg-gray-100 cursor-pointer' 
+                            : 'opacity-40 cursor-not-allowed'
+                        } ${
                           subSection === 'impact' ? 'bg-gray-100 font-medium' : ''
                         }`}
                       >
@@ -467,7 +513,12 @@ const Index = () => {
                               setSearchParams({ section: 'reports', sub: 'preferences' });
                               setOpenSubmenu(null);
                             }}
-                            className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                            disabled={!hasAudits}
+                            className={`w-full text-left px-4 py-2 text-sm ${
+                              hasAudits 
+                                ? 'hover:bg-gray-100 cursor-pointer' 
+                                : 'opacity-40 cursor-not-allowed'
+                            } ${
                               subSection === 'preferences' ? 'bg-gray-100 font-medium' : ''
                             }`}
                           >
@@ -478,7 +529,12 @@ const Index = () => {
                               setSearchParams({ section: 'reports', sub: 'demographics' });
                               setOpenSubmenu(null);
                             }}
-                            className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                            disabled={!hasAudits}
+                            className={`w-full text-left px-4 py-2 text-sm ${
+                              hasAudits 
+                                ? 'hover:bg-gray-100 cursor-pointer' 
+                                : 'opacity-40 cursor-not-allowed'
+                            } ${
                               subSection === 'demographics' ? 'bg-gray-100 font-medium' : ''
                             }`}
                           >
@@ -489,7 +545,12 @@ const Index = () => {
                               setSearchParams({ section: 'reports', sub: 'trends' });
                               setOpenSubmenu(null);
                             }}
-                            className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                            disabled={!hasAudits}
+                            className={`w-full text-left px-4 py-2 text-sm ${
+                              hasAudits 
+                                ? 'hover:bg-gray-100 cursor-pointer' 
+                                : 'opacity-40 cursor-not-allowed'
+                            } ${
                               subSection === 'trends' ? 'bg-gray-100 font-medium' : ''
                             }`}
                           >
@@ -500,7 +561,12 @@ const Index = () => {
                               setSearchParams({ section: 'reports', sub: 'compare' });
                               setOpenSubmenu(null);
                             }}
-                            className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                            disabled={!hasAudits}
+                            className={`w-full text-left px-4 py-2 text-sm ${
+                              hasAudits 
+                                ? 'hover:bg-gray-100 cursor-pointer' 
+                                : 'opacity-40 cursor-not-allowed'
+                            } ${
                               subSection === 'compare' ? 'bg-gray-100 font-medium' : ''
                             }`}
                           >
