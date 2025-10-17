@@ -17,7 +17,7 @@ import Focus from './hr/Focus';
 import EAPAudit from './hr/EAPAudit';
 import Reports from './hr/Reports';
 import Export from './hr/Export';
-import CustomSurvey from './hr/CustomSurvey';
+
 import Settings from './hr/Settings';
 import Raffles from './hr/Raffles';
 import API from './hr/API';
@@ -178,12 +178,6 @@ const Index = () => {
         return <Reports />;
       case 'export':
         return <Export />;
-      case 'custom-survey':
-        // Only Professional, Enterprise and Partner can access custom surveys
-        if (packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') {
-          return <CustomSurvey />;
-        }
-        return null;
       case 'api':
         // Only Enterprise and Partner can access API
         if (packageType === 'enterprise' || packageType === 'partner') {
@@ -591,22 +585,6 @@ const Index = () => {
                   <Download className="h-4 w-4" />
                   Export
                 </button>
-                {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
-                  <button
-                    onClick={() => {
-                      setSearchParams({ section: 'custom-survey' });
-                      setOpenSubmenu(null);
-                    }}
-                    className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
-                      section === 'custom-survey' 
-                        ? 'text-white font-semibold border-white' 
-                        : 'text-white/80 border-transparent hover:text-white'
-                    }`}
-                  >
-                    <FileEdit className="h-4 w-4" />
-                    Egyedi Felmérés
-                  </button>
-                )}
                 {packageType === 'partner' && (
                   <>
                     <button

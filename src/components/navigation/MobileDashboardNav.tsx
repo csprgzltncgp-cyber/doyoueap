@@ -277,19 +277,6 @@ export function MobileDashboardNav({ section, subSection, onNavigate, hasAudits 
             <span>Export</span>
           </button>
 
-          {(packageType === 'professional' || packageType === 'enterprise' || packageType === 'partner') && (
-            <button
-              onClick={() => handleNavClick('custom-survey')}
-              className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
-                section === 'custom-survey' 
-                  ? 'bg-[#3572ef] text-white font-semibold' 
-                  : 'hover:bg-muted'
-              }`}
-            >
-              <FileEdit className="h-4 w-4" />
-              <span>Egyedi Felmérés</span>
-            </button>
-          )}
 
           {packageType === 'partner' && (
             <>
