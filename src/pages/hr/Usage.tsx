@@ -225,25 +225,6 @@ const Usage = ({ selectedAuditId, audits, onAuditChange }: UsageProps) => {
     );
   }
 
-  if (audits.length === 0) {
-    return (
-      <div className="space-y-6">
-        <div className="space-y-4">
-          <div className="flex items-center gap-4">
-            <h2 className="text-2xl font-bold">Használat Részletes Elemzése</h2>
-            <ReportNavigation currentTab="usage" />
-          </div>
-          <p className="text-muted-foreground text-sm">
-            Az EAP program használati szokásainak, csatornáinak és témáinak átfogó kiértékelése
-          </p>
-          <div className="text-center py-12 text-muted-foreground">
-            Még nincs felmérés ehhez a céghez. Hozz létre egy új felmérést az első riport elkészítéséhez.
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
       {/* Fejléc */}

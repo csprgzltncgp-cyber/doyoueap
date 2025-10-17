@@ -174,59 +174,10 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange }: MotivationProps)
     );
   }
 
-  if (audits.length === 0) {
-    return (
-      <div className="space-y-6">
-        <div className="space-y-4">
-          <div className="flex items-center gap-4">
-            <h2 className="text-2xl font-bold">Motiváció Riport</h2>
-            <ReportNavigation currentTab="motivation" />
-          </div>
-          <p className="text-muted-foreground">
-            Ami megkönnyítené a program kipróbálását a nem használók körében
-          </p>
-          <div className="text-center py-12 text-muted-foreground">
-            Még nincs felmérés ehhez a céghez. Hozz létre egy új felmérést az első riport elkészítéséhez.
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   if (notUsedCount === 0) {
     return (
-      <div className="space-y-6">
-        <div className="space-y-4">
-          <div className="flex items-center gap-4">
-            <h2 className="text-2xl font-bold">Motiváció Riport</h2>
-            <ReportNavigation currentTab="motivation" />
-          </div>
-          <p className="text-muted-foreground">
-            Ami megkönnyítené a program kipróbálását a nem használók körében
-          </p>
-        </div>
-        {audits.length > 0 && (
-          <div className="flex-1 md:max-w-[300px] md:ml-auto">
-            <label className="text-xs text-muted-foreground mb-1.5 block">
-              Felmérés kiválasztása
-            </label>
-            <Select value={selectedAuditId} onValueChange={onAuditChange}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Válassz felmérést" />
-              </SelectTrigger>
-              <SelectContent>
-                {audits.map((audit) => (
-                  <SelectItem key={audit.id} value={audit.id}>
-                    {formatAuditName(audit)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        )}
-        <div className="text-center py-12 text-muted-foreground">
-          Még nincs kiértékelt adat a nem használók körében
-        </div>
+      <div className="text-center py-12 text-muted-foreground">
+        Még nincs kiértékelt adat a nem használók körében
       </div>
     );
   }

@@ -209,25 +209,6 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) =
   const awarenessRate = totalCount > 0 ? ((awarenessResponses.length / totalCount) * 100).toFixed(1) : '0';
   const redirectRate = totalCount > 0 ? ((redirectResponses.length / totalCount) * 100).toFixed(1) : '0';
 
-  if (audits.length === 0) {
-    return (
-      <div className="space-y-6">
-        <div className="space-y-4">
-          <div className="flex items-center gap-4">
-            <h2 className="text-2xl font-bold">Ismertség Részletes Elemzése</h2>
-            <ReportNavigation currentTab="awareness" />
-          </div>
-          <p className="text-muted-foreground text-sm">
-            Az EAP program ismeretének, megértésének és kommunikációjának átfogó kiértékelése
-          </p>
-          <div className="text-center py-12 text-muted-foreground">
-            Még nincs felmérés ehhez a céghez. Hozz létre egy új felmérést az első riport elkészítéséhez.
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
       {/* Fejléc és összefoglaló kártyák */}
