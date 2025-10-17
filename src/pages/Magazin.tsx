@@ -421,7 +421,7 @@ const Magazin = () => {
                       onChange={(e) => setNewsletterEmail(e.target.value)}
                       required
                       disabled={subscribing}
-                      className="w-full px-4 py-2 rounded-sm mb-3 bg-white/20 border border-white/30 text-white placeholder:text-white/70"
+                      className="w-full px-4 py-2 rounded-sm mb-3 bg-white/20 border border-white/30 text-white placeholder:text-white/70 focus-visible:ring-[hsl(var(--magazine-red))] focus-visible:border-[hsl(var(--magazine-red))]"
                     />
                     <Button 
                       type="submit" 
