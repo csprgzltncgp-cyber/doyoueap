@@ -19,7 +19,7 @@ export const PaymentStep = ({ data, updateData }: PaymentStepProps) => {
     if (data.selectedPackage === 'starter') {
       return data.billingCycle === 'monthly' ? '149 €/hó' : '1 490 €/év';
     }
-    if (data.selectedPackage === 'pro') {
+    if (data.selectedPackage === 'professional') {
       return data.billingCycle === 'monthly' ? '399 €/hó' : '3 990 €/év';
     }
     return 'Egyedi ajánlat';
@@ -27,7 +27,8 @@ export const PaymentStep = ({ data, updateData }: PaymentStepProps) => {
 
   const getPackageName = () => {
     if (data.selectedPackage === 'starter') return 'Starter';
-    if (data.selectedPackage === 'pro') return 'Pro';
+    if (data.selectedPackage === 'professional') return 'Professional';
+    if (data.selectedPackage === 'partner') return 'Partner';
     return 'Enterprise';
   };
 

@@ -33,7 +33,7 @@ export interface RegistrationData {
   billingPostalCode: string;
   
   // Package selection
-  selectedPackage: 'starter' | 'pro' | 'enterprise' | null;
+  selectedPackage: 'starter' | 'professional' | 'enterprise' | 'partner' | null;
   billingCycle: 'monthly' | 'yearly';
   
   // Consents
@@ -57,7 +57,7 @@ const initialData: RegistrationData = {
   billingAddress: '',
   billingCity: '',
   billingPostalCode: '',
-  selectedPackage: 'pro',
+  selectedPackage: null,
   billingCycle: 'yearly',
   termsAccepted: false,
   privacyAccepted: false,
@@ -157,6 +157,14 @@ export const RegistrationWizard = () => {
       }
 
       // Step 3: Update the user's profile with all registration data
+      // Map package names to DB values
+      let dbPackageName = data.selectedPackage;
+      if (data.selectedPackage === 'professional') {
+        dbPackageName = 'pro' as any;
+      } else if (data.selectedPackage === 'starter') {
+        dbPackageName = 'start' as any;
+      }
+
       const { error: updateError } = await supabase
         .from('profiles')
         .update({
@@ -174,7 +182,7 @@ export const RegistrationWizard = () => {
           billing_address: data.billingAddress,
           billing_city: data.billingCity,
           billing_postal_code: data.billingPostalCode,
-          selected_package: data.selectedPackage,
+          selected_package: dbPackageName,
           billing_cycle: data.billingCycle,
         })
         .eq('id', signInData.user.id);
