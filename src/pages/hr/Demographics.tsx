@@ -49,13 +49,9 @@ interface DemographicsProps {
     expires_at: string | null;
   }>;
   onAuditChange: (id: string) => void;
-  packageType?: string;
-  companies?: Array<{ id: string; company_name: string }>;
-  selectedCompanyId?: string;
-  onCompanyChange?: (id: string) => void;
 }
 
-const Demographics = ({ selectedAuditId, audits, onAuditChange, packageType, companies = [], selectedCompanyId, onCompanyChange }: DemographicsProps) => {
+const Demographics = ({ selectedAuditId, audits, onAuditChange }: DemographicsProps) => {
   const [selectedGender, setSelectedGender] = useState<string>('all');
   const [selectedAge, setSelectedAge] = useState<string>('all');
   const [stats, setStats] = useState<DemographicStats>({ 
@@ -262,47 +258,6 @@ const Demographics = ({ selectedAuditId, audits, onAuditChange, packageType, com
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-lg">Betöltés...</div>
-      </div>
-    );
-  }
-
-  if (audits.length === 0) {
-    return (
-      <div className="space-y-6">
-        <div className="space-y-4">
-          <div className="flex items-center gap-4">
-            <h2 className="text-2xl font-bold">Demográfiai Elemzés</h2>
-            <ReportNavigation currentTab="demographics" />
-          </div>
-          <p className="text-muted-foreground">
-            Válaszadók megoszlása kor, nem és felhasználói kategóriák szerint
-          </p>
-          <div className="flex flex-col md:flex-row md:items-center gap-4 mb-4">
-            {packageType === 'partner' && companies.length > 0 && onCompanyChange && (
-              <div className="flex-1 md:max-w-[300px] md:ml-auto">
-                <label className="text-xs text-muted-foreground mb-1.5 block">
-                  Ügyfélcég szűrése
-                </label>
-                <Select value={selectedCompanyId} onValueChange={onCompanyChange}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Válassz ügyfélcéget" />
-                  </SelectTrigger>
-                  <SelectContent align="start">
-                    <SelectItem value="all">Összes ügyfélcég</SelectItem>
-                    {companies.map((company) => (
-                      <SelectItem key={company.id} value={company.id}>
-                        {company.company_name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-          </div>
-          <div className="text-center py-12 text-muted-foreground">
-            Még nincs felmérés ehhez a céghez. Hozz létre egy új felmérést az első riport elkészítéséhez.
-          </div>
-        </div>
       </div>
     );
   }

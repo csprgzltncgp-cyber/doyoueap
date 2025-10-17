@@ -26,13 +26,9 @@ interface AwarenessProps {
     expires_at: string | null;
   }>;
   onAuditChange: (id: string) => void;
-  packageType?: string;
-  companies?: Array<{ id: string; company_name: string }>;
-  selectedCompanyId?: string;
-  onCompanyChange?: (id: string) => void;
 }
 
-const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, companies = [], selectedCompanyId, onCompanyChange }: AwarenessProps) => {
+const Awareness = ({ selectedAuditId, audits, onAuditChange }: AwarenessProps) => {
   const [searchParams] = useSearchParams();
   const activeTab = searchParams.get("sub") || "awareness";
   const [responses, setResponses] = useState<any[]>([]);
@@ -212,48 +208,6 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
   const totalCount = responses.length;
   const awarenessRate = totalCount > 0 ? ((awarenessResponses.length / totalCount) * 100).toFixed(1) : '0';
   const redirectRate = totalCount > 0 ? ((redirectResponses.length / totalCount) * 100).toFixed(1) : '0';
-
-  if (audits.length === 0) {
-    return (
-      <div className="space-y-6">
-        <div className="space-y-4">
-          <div className="flex items-center gap-4">
-            <h2 className="text-2xl font-bold">Ismertség Részletes Elemzése</h2>
-            <ReportNavigation currentTab="awareness" />
-          </div>
-          <p className="text-muted-foreground text-sm">
-            Az EAP program ismeretének, megértésének és kommunikációjának átfogó kiértékelése
-          </p>
-          <div className="flex flex-col md:flex-row md:items-center gap-4 mb-4">
-            <img src={fourScoreLogo} alt="4Score" className="h-6" />
-            {packageType === 'partner' && companies.length > 0 && onCompanyChange && (
-              <div className="flex-1 md:max-w-[300px] md:ml-auto">
-                <label className="text-xs text-muted-foreground mb-1.5 block">
-                  Ügyfélcég szűrése
-                </label>
-                <Select value={selectedCompanyId} onValueChange={onCompanyChange}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Válassz ügyfélcéget" />
-                  </SelectTrigger>
-                  <SelectContent align="start">
-                    <SelectItem value="all">Összes ügyfélcég</SelectItem>
-                    {companies.map((company) => (
-                      <SelectItem key={company.id} value={company.id}>
-                        {company.company_name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-          </div>
-          <div className="text-center py-12 text-muted-foreground">
-            Még nincs felmérés ehhez a céghez. Hozz létre egy új felmérést az első riport elkészítéséhez.
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6">
