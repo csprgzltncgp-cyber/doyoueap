@@ -31,7 +31,7 @@ const Magazin = () => {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribing, setSubscribing] = useState(false);
 
-  const emailSchema = z.string().trim().email({ message: "Érvénytelen email cím" }).max(255);
+  
 
   useEffect(() => {
     fetchArticles();
@@ -70,20 +70,13 @@ const Magazin = () => {
 
   const handleNewsletterSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Validate email
-    const validation = emailSchema.safeParse(newsletterEmail);
-    if (!validation.success) {
-      toast.error(validation.error.errors[0].message);
-      return;
-    }
 
     setSubscribing(true);
     try {
       const { error } = await supabase
         .from('newsletter_subscribers')
         .insert([{
-          email: validation.data,
+          email: newsletterEmail,
           source: 'magazine',
           is_active: true
         }]);
