@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ReportNavigation } from "@/components/navigation/ReportNavigation";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { formatAuditName } from "@/lib/auditUtils";
+import { useIsMobile } from "@/hooks/use-mobile";
 import Motivation from "./Motivation";
 import Preferences from "./Preferences";
 
@@ -24,6 +25,16 @@ interface CombinedPreferencesProps {
 }
 
 const CombinedPreferences = ({ selectedAuditId, audits, onAuditChange, packageType, companies = [], selectedCompanyId, onCompanyChange }: CombinedPreferencesProps) => {
+  const isMobile = useIsMobile();
+  
+  const formatAuditNameForMobile = (audit: any) => {
+    const date = new Date(audit.start_date).toLocaleDateString('hu-HU', {
+      month: 'short',
+      day: 'numeric'
+    });
+    return `${date} - ${audit.program_name}`;
+  };
+
   return (
     <div className="space-y-6">
       {/* Fejléc */}
@@ -51,7 +62,7 @@ const CombinedPreferences = ({ selectedAuditId, audits, onAuditChange, packageTy
               <SelectContent>
                 {audits.map((audit) => (
                   <SelectItem key={audit.id} value={audit.id}>
-                    {formatAuditName(audit)}
+                    {isMobile ? formatAuditNameForMobile(audit) : formatAuditName(audit)}
                   </SelectItem>
                 ))}
               </SelectContent>
