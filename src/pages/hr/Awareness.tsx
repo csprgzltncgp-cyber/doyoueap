@@ -521,7 +521,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
             <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
               {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) < 2.5 ? (
                 <div className="flex items-start gap-2">
-                  <AlertTriangle className="h-4 w-4 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
+                  <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
                   <p className="text-xs" style={{ color: '#ff0033' }}>
                     Alacsony tudásszint - A használók nem ismerik kellően az EAP programot.
                   </p>
