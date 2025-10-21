@@ -601,7 +601,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
 
               {parseFloat(likelihoodScore) < 3.0 && (
                 <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
-                  <AlertTriangle className="h-5 w-5" />
+                  <AlertTriangle className="h-6 w-6" />
                   <span>Alacsony hajlandóság</span>
                 </div>
               )}
