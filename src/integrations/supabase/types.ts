@@ -83,6 +83,27 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_verification_rate_limit: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          ip_address: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          ip_address?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          ip_address?: string | null
+        }
+        Relationships: []
+      }
       api_keys: {
         Row: {
           api_key: string

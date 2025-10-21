@@ -23,13 +23,33 @@ const handler = async (req: Request): Promise<Response> => {
     
     console.log('Sending verification code to:', email);
 
-    // Generate 6-digit code
-    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-    
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
+
+    // Rate limiting: Check for recent verification attempts (max 3 per hour)
+    const oneHourAgo = new Date(Date.now() - 3600000).toISOString();
+    
+    const { count: emailRateCount } = await supabaseClient
+      .from('admin_verification_codes')
+      .select('*', { count: 'exact', head: true })
+      .eq('email', email)
+      .gte('created_at', oneHourAgo);
+
+    if (emailRateCount && emailRateCount >= 3) {
+      console.log('Rate limit exceeded for email:', email);
+      return new Response(
+        JSON.stringify({ error: 'Túl sok próbálkozás. Kérjük, próbálja újra 1 óra múlva.' }),
+        {
+          status: 429,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Generate 6-digit code
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
     // Store verification code
     const { error: dbError } = await supabaseClient
