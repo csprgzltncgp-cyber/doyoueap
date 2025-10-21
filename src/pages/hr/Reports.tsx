@@ -551,7 +551,7 @@ const Reports = () => {
           {/* First Row: Awareness, Trust, Usage, and Impact (4Score Cards) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Card 1: Awareness */}
-            <Card className="relative overflow-hidden border-2 border-[#3366ff]" id="awareness-card">
+            <Card className={`relative overflow-hidden border-2 ${awarenessRate < 50 ? 'border-[#ff0033]' : 'border-[#3366ff]'}`} id="awareness-card">
               <CardHeader className="relative z-10" style={{ minHeight: '120px' }}>
                 <Button
                   variant="ghost"
@@ -594,7 +594,7 @@ const Reports = () => {
             </Card>
 
             {/* Card 2: Trust */}
-            <Card className="relative overflow-hidden border-2 border-[#3366ff]" id="trust-card">
+            <Card className={`relative overflow-hidden border-2 ${parseFloat(trustScore) < 3 ? 'border-[#ff0033]' : 'border-[#3366ff]'}`} id="trust-card">
               <div 
                 className="absolute inset-0 transition-all duration-500"
                 style={{
@@ -697,7 +697,7 @@ const Reports = () => {
             </Card>
 
             {/* Card 4: Impact */}
-            <Card className="relative overflow-hidden border-2 border-[#3366ff]" id="impact-card">
+            <Card className={`relative overflow-hidden border-2 ${parseFloat(impactScore) < 2.5 ? 'border-[#ff0033]' : 'border-[#3366ff]'}`} id="impact-card">
               <div 
                 className="absolute inset-0 transition-all duration-500"
                 style={{
