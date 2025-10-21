@@ -598,17 +598,23 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
                   <span>5</span>
                 </div>
               </div>
-
-              {parseFloat(likelihoodScore) < 3.0 && (
-                <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
-                  <AlertTriangle className="h-6 w-6" />
-                  <span>Alacsony hajlandóság</span>
+            </div>
+            
+            {/* Magyarázó szöveg mindig lent */}
+            <div className="bg-muted/30 p-3 rounded-md">
+              {parseFloat(likelihoodScore) < 3.0 ? (
+                <div className="flex items-start gap-2">
+                  <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
+                  <p className="text-xs" style={{ color: '#ff0033' }}>
+                    Alacsony hajlandóság - A munkavállalók nem valószínű, hogy újra igénybe vennék a szolgáltatást.
+                  </p>
                 </div>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  A Jövőbeli Használat azt mutatja, hogy milyen valószínűséggel venne újra igénybe az EAP szolgáltatást. Az érték 1-5 skálán mozog.
+                </p>
               )}
             </div>
-            <p className="text-sm text-muted-foreground text-center px-2">
-              A Jövőbeli Használat azt mutatja, hogy milyen valószínűséggel venne újra igénybe az EAP szolgáltatást. Az érték 1-5 skálán mozog.
-            </p>
           </CardContent>
         </Card>
 
