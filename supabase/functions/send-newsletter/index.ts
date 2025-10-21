@@ -546,9 +546,14 @@ const handler = async (req: Request): Promise<Response> => {
       }
     );
   } catch (error: any) {
-    console.error("Error in send-newsletter function:", error);
+    console.error("[send-newsletter] Error:", error);
+    
+    // Return user-friendly error message
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: 'NEWSLETTER_SEND_FAILED',
+        message: 'Hiba történt a hírlevél küldésekor. Kérjük, próbálja újra később.' 
+      }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },

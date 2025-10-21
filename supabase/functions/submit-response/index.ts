@@ -178,9 +178,17 @@ serve(async (req) => {
     );
   } catch (error) {
     console.error('[submit-response] Error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    
+    // Return user-friendly error message without exposing internal details
+    const userMessage = error instanceof Error && error.message.includes('duplicate')
+      ? 'Már leadta ezt a felmérést'
+      : 'Hiba történt a felmérés beküldésekor. Kérjük, próbálja újra később.';
+    
     return new Response(
-      JSON.stringify({ error: errorMessage }),
+      JSON.stringify({ 
+        error: 'SUBMISSION_FAILED',
+        message: userMessage 
+      }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 400,

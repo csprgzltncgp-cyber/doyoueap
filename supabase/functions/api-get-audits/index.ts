@@ -87,14 +87,30 @@ serve(async (req) => {
       }
     );
   } catch (error) {
-    console.error('Error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    console.error('[api-get-audits] Error:', error);
+    
+    // Return user-friendly error message
+    let userMessage = 'Hiba történt a lekérdezés során';
+    let statusCode = 400;
+    
+    if (error instanceof Error) {
+      if (error.message.includes('API key')) {
+        userMessage = 'Érvénytelen API kulcs';
+        statusCode = 401;
+      } else if (error.message.includes('expired')) {
+        userMessage = 'Az API kulcs lejárt';
+        statusCode = 401;
+      }
+    }
     
     return new Response(
-      JSON.stringify({ error: errorMessage }),
+      JSON.stringify({ 
+        error: 'QUERY_FAILED',
+        message: userMessage 
+      }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 400,
+        status: statusCode,
       }
     );
   }

@@ -61,8 +61,14 @@ const handler = async (req: Request): Promise<Response> => {
       });
 
     if (dbError) {
-      console.error('Database error:', dbError);
-      throw new Error('Failed to store verification code');
+      console.error('[send-admin-verification] Database error:', dbError);
+      return new Response(
+        JSON.stringify({ error: 'Hiba történt a műveletnél. Kérjük, próbálja újra később.' }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
     }
 
     // Send verification email
@@ -88,9 +94,11 @@ const handler = async (req: Request): Promise<Response> => {
       }
     );
   } catch (error: any) {
-    console.error("Error in send-admin-verification:", error);
+    console.error("[send-admin-verification] Error:", error);
+    
+    // Return user-friendly error message
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: 'Hiba történt az email küldésekor. Kérjük, próbálja újra később.' }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
