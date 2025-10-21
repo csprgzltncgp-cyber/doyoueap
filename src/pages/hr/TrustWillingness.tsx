@@ -568,8 +568,8 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
             </CardTitle>
             <CardDescription>1-5 skála</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 relative z-10">
-            <div className="text-center">
+          <CardContent className="relative z-10 flex flex-col" style={{ minHeight: '400px' }}>
+            <div className="text-center flex-1 flex flex-col justify-center">
               <div 
                 className="text-6xl font-bold" 
                 style={{ 
