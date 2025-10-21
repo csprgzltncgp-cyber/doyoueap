@@ -366,10 +366,10 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
             <div className="bg-muted/30 p-3 rounded-md mt-4">
               <p className="text-xs text-muted-foreground">
                 {parseFloat(usageScore) >= 70 
-                  ? '✓ Magas a jövőbeli használati hajlandóság.'
+                  ? 'Magas a jövőbeli használati hajlandóság.'
                   : parseFloat(usageScore) >= 40
-                  ? '→ Közepes a nyitottság a program jövőbeni használatára.'
-                  : 'ℹ Alacsony a jövőbeni használati szándék - érdemes a bizalomépítésre és kommunikációra fókuszálni.'}
+                  ? 'Közepes a nyitottság a program jövőbeni használatára.'
+                  : 'Alacsony a jövőbeni használati szándék - érdemes a bizalomépítésre és kommunikációra fókuszálni.'}
               </p>
             </div>
           </CardContent>
@@ -401,10 +401,10 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
             <div className="bg-muted/30 p-3 rounded-md mt-4">
               <p className="text-xs text-muted-foreground">
                 {parseFloat(planToUseRate) >= 30 
-                  ? '✓ Sokan konkrétan tervezik a program igénybevételét' 
+                  ? 'Sokan konkrétan tervezik a program igénybevételét' 
                   : parseFloat(planToUseRate) >= 10
-                  ? '→ Néhányan aktívan fontolgatják a használatot'
-                  : 'ℹ Kevesen tervezik konkrétan - érdemes a program előnyeit jobban kommunikálni'}
+                  ? 'Néhányan aktívan fontolgatják a használatot'
+                  : 'Kevesen tervezik konkrétan - érdemes a program előnyeit jobban kommunikálni'}
               </p>
             </div>
           </CardContent>
@@ -952,10 +952,10 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
             <div className="bg-muted/30 p-3 rounded-md">
               <p className="text-xs text-muted-foreground">
                 {parseFloat(familyRate) >= 30 
-                  ? '✓ Magas családi bevonás - a program hatékonyan terjed a családon belül' 
+                  ? 'Magas családi bevonás - a program hatékonyan terjed a családon belül' 
                   : parseFloat(familyRate) >= 15
-                  ? '→ Közepes családi bevonás'
-                  : 'ℹ Alacsony családi bevonás - érdemes népszerűsíteni a családi használatot'}
+                  ? 'Közepes családi bevonás'
+                  : 'Alacsony családi bevonás - érdemes népszerűsíteni a családi használatot'}
               </p>
             </div>
           </div>
