@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Download, Eye, Shield, Activity, Target, Users, TrendingUp, Presentation, RefreshCw, Building2 } from "lucide-react";
+import { Download, Eye, Shield, Activity, Target, Users, TrendingUp, Presentation, RefreshCw, Building2, AlertTriangle } from "lucide-react";
 import fourScoreLogo from "@/assets/4score_logo.svg";
 import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, BarChart, Bar, XAxis, YAxis, RadialBarChart, RadialBar, Legend } from "recharts";
@@ -564,6 +564,9 @@ const Reports = () => {
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Eye className="w-5 h-5" />
                   Ismertség Index
+                  {awarenessRate < 50 && (
+                    <AlertTriangle className="w-4 h-4 ml-1" style={{ color: '#ff0033' }} />
+                  )}
                 </CardTitle>
                 <CardDescription>A program ismeretének aránya</CardDescription>
               </CardHeader>
@@ -581,6 +584,11 @@ const Reports = () => {
                 </div>
                 <p className="text-xs text-muted-foreground text-center px-2">
                   A válaszolók közül ennyien tudtak a programról
+                  {awarenessRate < 50 && (
+                    <span className="block mt-2 font-medium" style={{ color: '#ff0033' }}>
+                      ⚠ Alacsony ismertség - több kommunikáció szükséges
+                    </span>
+                  )}
                 </p>
               </CardContent>
             </Card>
@@ -590,7 +598,7 @@ const Reports = () => {
               <div 
                 className="absolute inset-0 transition-all duration-500"
                 style={{
-                  background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${(parseFloat(trustScore) / 5) * 100}%, transparent ${(parseFloat(trustScore) / 5) * 100}%, transparent 100%)`,
+                  background: `linear-gradient(to top, ${parseFloat(trustScore) < 3 ? '#ff0033' : 'hsl(var(--chart-2))'} 0%, ${parseFloat(trustScore) < 3 ? '#ff0033' : 'hsl(var(--chart-2))'} ${(parseFloat(trustScore) / 5) * 100}%, transparent ${(parseFloat(trustScore) / 5) * 100}%, transparent 100%)`,
                   opacity: 0.1
                 }}
               />
@@ -606,12 +614,15 @@ const Reports = () => {
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Shield className="w-5 h-5" />
                   Bizalmi Index
+                  {parseFloat(trustScore) < 3 && (
+                    <AlertTriangle className="w-4 h-4 ml-1" style={{ color: '#ff0033' }} />
+                  )}
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
               <CardContent className="relative z-10 flex flex-col justify-between" style={{ minHeight: '280px' }}>
                 <div className="text-center w-full px-4 flex-1 flex flex-col justify-center">
-                  <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
+                  <div className="text-6xl font-bold" style={{ color: parseFloat(trustScore) < 3 ? '#ff0033' : 'hsl(var(--chart-2))' }}>
                     {trustScore}
                   </div>
                   
@@ -622,7 +633,7 @@ const Reports = () => {
                         className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
                         style={{ 
                           left: `calc(${((parseFloat(trustScore) - 1) / 4) * 100}% - 8px)`,
-                          backgroundColor: 'hsl(var(--chart-2))'
+                          backgroundColor: parseFloat(trustScore) < 3 ? '#ff0033' : 'hsl(var(--chart-2))'
                         }}
                       />
                     </div>
@@ -637,6 +648,11 @@ const Reports = () => {
                 </div>
                 <p className="text-xs text-muted-foreground text-center px-2 pb-2">
                   Átfogó bizalmi mutató (anonimitás, félelmek, jövőbeli használat)
+                  {parseFloat(trustScore) < 3 && (
+                    <span className="block mt-2 font-medium" style={{ color: '#ff0033' }}>
+                      ⚠ Alacsony bizalom - transzparencia és bizalomépítés szükséges
+                    </span>
+                  )}
                 </p>
               </CardContent>
             </Card>
@@ -685,7 +701,7 @@ const Reports = () => {
               <div 
                 className="absolute inset-0 transition-all duration-500"
                 style={{
-                  background: `linear-gradient(to top, hsl(var(--chart-2)) 0%, hsl(var(--chart-2)) ${(parseFloat(impactScore) / 5) * 100}%, transparent ${(parseFloat(impactScore) / 5) * 100}%, transparent 100%)`,
+                  background: `linear-gradient(to top, ${parseFloat(impactScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'} 0%, ${parseFloat(impactScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'} ${(parseFloat(impactScore) / 5) * 100}%, transparent ${(parseFloat(impactScore) / 5) * 100}%, transparent 100%)`,
                   opacity: 0.1
                 }}
               />
@@ -701,12 +717,15 @@ const Reports = () => {
                 <CardTitle className="text-lg flex items-center gap-2">
                   <TrendingUp className="w-5 h-5" />
                   Hatás Index
+                  {parseFloat(impactScore) < 2.5 && (
+                    <AlertTriangle className="w-4 h-4 ml-1" style={{ color: '#ff0033' }} />
+                  )}
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
               <CardContent className="relative z-10 flex flex-col justify-between" style={{ minHeight: '280px' }}>
                 <div className="text-center w-full px-4 flex-1 flex flex-col justify-center">
-                  <div className="text-6xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>
+                  <div className="text-6xl font-bold" style={{ color: parseFloat(impactScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))' }}>
                     {impactScore}
                   </div>
                   
@@ -717,7 +736,7 @@ const Reports = () => {
                         className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
                         style={{ 
                           left: `calc(${((parseFloat(impactScore) - 1) / 4) * 100}% - 8px)`,
-                          backgroundColor: 'hsl(var(--chart-2))'
+                          backgroundColor: parseFloat(impactScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
                         }}
                       />
                     </div>
@@ -732,6 +751,11 @@ const Reports = () => {
                 </div>
                 <p className="text-xs text-muted-foreground text-center px-2 pb-2">
                   Ennyire hasznos segítség a program összeségében.
+                  {parseFloat(impactScore) < 2.5 && (
+                    <span className="block mt-2 font-medium" style={{ color: '#ff0033' }}>
+                      ⚠ Alacsony hatékonyság - szolgáltatás fejlesztés szükséges
+                    </span>
+                  )}
                 </p>
               </CardContent>
             </Card>
