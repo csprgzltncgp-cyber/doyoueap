@@ -74,8 +74,12 @@ const CombinedPreferences = ({ selectedAuditId, audits, onAuditChange, packageTy
       {/* Tabok */}
       <Tabs defaultValue="non-users" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="non-users">Azok, akik eddig nem vették igénybe a programot</TabsTrigger>
-          <TabsTrigger value="users">A program aktív felhasználói</TabsTrigger>
+          <TabsTrigger value="non-users">
+            {isMobile ? "Nem használók" : "Azok, akik eddig nem vették igénybe a programot"}
+          </TabsTrigger>
+          <TabsTrigger value="users">
+            {isMobile ? "Aktív használók" : "A program aktív felhasználói"}
+          </TabsTrigger>
         </TabsList>
         
         <TabsContent value="non-users" className="mt-6">
