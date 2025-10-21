@@ -520,7 +520,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
             {/* Magyarázó szöveg mindig lent, balra zárva */}
             <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
               {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) < 2.5 ? (
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs" style={{ color: '#ff0033' }}>
                   Alacsony tudásszint - A használók nem ismerik kellően az EAP programot.
                 </p>
               ) : (
