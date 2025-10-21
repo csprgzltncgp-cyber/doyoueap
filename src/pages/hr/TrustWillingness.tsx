@@ -654,47 +654,55 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
             </CardTitle>
             <CardDescription>1-5 skála</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 relative z-10">
-            <div className="text-center">
-              <div 
-                className="text-6xl font-bold" 
-                style={{ 
-                  color: parseFloat(overallAnonymityScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
-                }}
-              >
-                {overallAnonymityScore}
+          <CardContent className="relative z-10 flex flex-col min-h-[320px]">
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-center w-full">
+                <div 
+                  className="text-6xl font-bold" 
+                  style={{ 
+                    color: parseFloat(overallAnonymityScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                  }}
+                >
+                  {overallAnonymityScore}
+                </div>
+                
+                {/* Számegyenes vizualizáció */}
+                <div className="mt-4 px-8">
+                  <div className="relative h-2 bg-gray-400 rounded-full">
+                    <div 
+                      className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
+                      style={{ 
+                        left: `calc(${((parseFloat(overallAnonymityScore) - 1) / 4) * 100}% - 8px)`,
+                        backgroundColor: parseFloat(overallAnonymityScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                      }}
+                    />
+                  </div>
+                  <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                  </div>
+                </div>
               </div>
-              
-              {/* Számegyenes vizualizáció */}
-              <div className="mt-4 px-8">
-                <div className="relative h-2 bg-gray-400 rounded-full">
-                  <div 
-                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
-                    style={{ 
-                      left: `calc(${((parseFloat(overallAnonymityScore) - 1) / 4) * 100}% - 8px)`,
-                      backgroundColor: parseFloat(overallAnonymityScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
-                    }}
-                  />
+            </div>
+            
+            {/* Magyarázó szöveg mindig lent, balra zárva */}
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+              {parseFloat(overallAnonymityScore) < 2.5 ? (
+                <div className="flex items-start gap-2">
+                  <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
+                  <p className="text-xs" style={{ color: '#ff0033' }}>
+                    Alacsony bizalom - A munkavállalók nem bíznak abban, hogy adataik védve vannak az EAP használat során.
+                  </p>
                 </div>
-                <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                  <span>1</span>
-                  <span>2</span>
-                  <span>3</span>
-                  <span>4</span>
-                  <span>5</span>
-                </div>
-              </div>
-
-              {parseFloat(overallAnonymityScore) < 2.5 && (
-                <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
-                  <AlertTriangle className="h-5 w-5" />
-                  <span>Alacsony bizalom</span>
-                </div>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  Az Anonimitás Bizalom azt mutatja, hogy mennyire bíznak a munkavállalók abban, hogy az EAP használat során adataik védve vannak. Az érték 1-5 skálán mozog.
+                </p>
               )}
             </div>
-            <p className="text-sm text-muted-foreground text-center px-2">
-              Az Anonimitás Bizalom azt mutatja, hogy mennyire bíznak a munkavállalók abban, hogy az EAP használat során adataik védve vannak. Az érték 1-5 skálán mozog.
-            </p>
           </CardContent>
         </Card>
 
@@ -726,47 +734,55 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
             </CardTitle>
             <CardDescription>1-5 skála (fordított)</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 relative z-10">
-            <div className="text-center">
-              <div 
-                className="text-6xl font-bold" 
-                style={{ 
-                  color: parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : 'hsl(var(--chart-2))'
-                }}
-              >
-                {overallEmployerFearScore}
+          <CardContent className="relative z-10 flex flex-col min-h-[320px]">
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-center w-full">
+                <div 
+                  className="text-6xl font-bold" 
+                  style={{ 
+                    color: parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                  }}
+                >
+                  {overallEmployerFearScore}
+                </div>
+                
+                {/* Számegyenes vizualizáció */}
+                <div className="mt-4 px-8">
+                  <div className="relative h-2 bg-gray-400 rounded-full">
+                    <div 
+                      className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
+                      style={{ 
+                        left: `calc(${((parseFloat(overallEmployerFearScore) - 1) / 4) * 100}% - 8px)`,
+                        backgroundColor: parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                      }}
+                    />
+                  </div>
+                  <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                  </div>
+                </div>
               </div>
-              
-              {/* Számegyenes vizualizáció */}
-              <div className="mt-4 px-8">
-                <div className="relative h-2 bg-gray-400 rounded-full">
-                  <div 
-                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
-                    style={{ 
-                      left: `calc(${((parseFloat(overallEmployerFearScore) - 1) / 4) * 100}% - 8px)`,
-                      backgroundColor: parseFloat(overallEmployerFearScore) > 3.5 ? '#ff0033' : 'hsl(var(--chart-2))'
-                    }}
-                  />
+            </div>
+            
+            {/* Magyarázó szöveg mindig lent, balra zárva */}
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+              {parseFloat(overallEmployerFearScore) > 3.5 ? (
+                <div className="flex items-start gap-2">
+                  <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
+                  <p className="text-xs" style={{ color: '#ff0033' }}>
+                    Magas félelem - A munkavállalók félnek attól, hogy a munkaadó megtudja az EAP használatát.
+                  </p>
                 </div>
-                <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                  <span>1</span>
-                  <span>2</span>
-                  <span>3</span>
-                  <span>4</span>
-                  <span>5</span>
-                </div>
-              </div>
-
-              {parseFloat(overallEmployerFearScore) > 3.5 && (
-                <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
-                  <AlertTriangle className="h-5 w-5" />
-                  <span>Magas félelem</span>
-                </div>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  A Munkaadói Félelem azt mutatja, hogy mennyire félnek a munkavállalók attól, hogy a munkaadó megtudja az EAP használatát. Az érték 1-5 skálán mozog, ahol a magasabb érték nagyobb félelmet jelent.
+                </p>
               )}
             </div>
-            <p className="text-sm text-muted-foreground text-center px-2">
-              A Munkaadói Félelem azt mutatja, hogy mennyire félnek a munkavállalók attól, hogy a munkaadó megtudja az EAP használatát. Az érték 1-5 skálán mozog, ahol a magasabb érték nagyobb félelmet jelent.
-            </p>
           </CardContent>
         </Card>
       </div>

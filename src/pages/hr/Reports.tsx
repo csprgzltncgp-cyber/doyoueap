@@ -620,40 +620,50 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
-              <CardContent className="relative z-10 flex flex-col justify-between" style={{ minHeight: '280px' }}>
-                <div className="text-center w-full px-4 flex-1 flex flex-col justify-center">
-                  <div className="text-6xl font-bold" style={{ color: parseFloat(trustScore) < 3 ? '#ff0033' : 'hsl(var(--chart-2))' }}>
-                    {trustScore}
-                  </div>
-                  
-                  {/* Számegyenes vizualizáció */}
-                  <div className="mt-6 px-8">
-                    <div className="relative h-2 bg-gray-400 rounded-full">
-                      <div 
-                        className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
-                        style={{ 
-                          left: `calc(${((parseFloat(trustScore) - 1) / 4) * 100}% - 8px)`,
-                          backgroundColor: parseFloat(trustScore) < 3 ? '#ff0033' : 'hsl(var(--chart-2))'
-                        }}
-                      />
+              <CardContent className="relative z-10 flex flex-col min-h-[320px]">
+                <div className="flex-1 flex items-center justify-center">
+                  <div className="text-center w-full px-4">
+                    <div className="text-6xl font-bold" style={{ color: parseFloat(trustScore) < 3 ? '#ff0033' : 'hsl(var(--chart-2))' }}>
+                      {trustScore}
                     </div>
-                    <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                      <span>1</span>
-                      <span>2</span>
-                      <span>3</span>
-                      <span>4</span>
-                      <span>5</span>
+                    
+                    {/* Számegyenes vizualizáció */}
+                    <div className="mt-6 px-8">
+                      <div className="relative h-2 bg-gray-400 rounded-full">
+                        <div 
+                          className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
+                          style={{ 
+                            left: `calc(${((parseFloat(trustScore) - 1) / 4) * 100}% - 8px)`,
+                            backgroundColor: parseFloat(trustScore) < 3 ? '#ff0033' : 'hsl(var(--chart-2))'
+                          }}
+                        />
+                      </div>
+                      <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                        <span>1</span>
+                        <span>2</span>
+                        <span>3</span>
+                        <span>4</span>
+                        <span>5</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground text-center px-2 pb-2">
-                  Átfogó bizalmi mutató (anonimitás, félelmek, jövőbeli használat)
-                  {parseFloat(trustScore) < 3 && (
-                    <span className="block mt-2 font-medium" style={{ color: '#ff0033' }}>
-                      ⚠ Alacsony bizalom - transzparencia és bizalomépítés szükséges
-                    </span>
+                
+                {/* Magyarázó szöveg mindig lent, balra zárva */}
+                <div className="bg-muted/30 p-3 rounded-md text-left">
+                  {parseFloat(trustScore) < 3 ? (
+                    <div className="flex items-start gap-2">
+                      <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
+                      <p className="text-xs" style={{ color: '#ff0033' }}>
+                        Alacsony bizalom - transzparencia és bizalomépítés szükséges
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">
+                      Átfogó bizalmi mutató (anonimitás, félelmek, jövőbeli használat)
+                    </p>
                   )}
-                </p>
+                </div>
               </CardContent>
             </Card>
 
@@ -723,40 +733,50 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
-              <CardContent className="relative z-10 flex flex-col justify-between" style={{ minHeight: '280px' }}>
-                <div className="text-center w-full px-4 flex-1 flex flex-col justify-center">
-                  <div className="text-6xl font-bold" style={{ color: parseFloat(impactScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))' }}>
-                    {impactScore}
-                  </div>
-                  
-                  {/* Számegyenes vizualizáció */}
-                  <div className="mt-6 px-8">
-                    <div className="relative h-2 bg-gray-400 rounded-full">
-                      <div 
-                        className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
-                        style={{ 
-                          left: `calc(${((parseFloat(impactScore) - 1) / 4) * 100}% - 8px)`,
-                          backgroundColor: parseFloat(impactScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
-                        }}
-                      />
+              <CardContent className="relative z-10 flex flex-col min-h-[320px]">
+                <div className="flex-1 flex items-center justify-center">
+                  <div className="text-center w-full px-4">
+                    <div className="text-6xl font-bold" style={{ color: parseFloat(impactScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))' }}>
+                      {impactScore}
                     </div>
-                    <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                      <span>1</span>
-                      <span>2</span>
-                      <span>3</span>
-                      <span>4</span>
-                      <span>5</span>
+                    
+                    {/* Számegyenes vizualizáció */}
+                    <div className="mt-6 px-8">
+                      <div className="relative h-2 bg-gray-400 rounded-full">
+                        <div 
+                          className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
+                          style={{ 
+                            left: `calc(${((parseFloat(impactScore) - 1) / 4) * 100}% - 8px)`,
+                            backgroundColor: parseFloat(impactScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))'
+                          }}
+                        />
+                      </div>
+                      <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                        <span>1</span>
+                        <span>2</span>
+                        <span>3</span>
+                        <span>4</span>
+                        <span>5</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground text-center px-2 pb-2">
-                  Ennyire hasznos segítség a program összeségében.
-                  {parseFloat(impactScore) < 2.5 && (
-                    <span className="block mt-2 font-medium" style={{ color: '#ff0033' }}>
-                      ⚠ Alacsony hatékonyság - szolgáltatás fejlesztés szükséges
-                    </span>
+                
+                {/* Magyarázó szöveg mindig lent, balra zárva */}
+                <div className="bg-muted/30 p-3 rounded-md text-left">
+                  {parseFloat(impactScore) < 2.5 ? (
+                    <div className="flex items-start gap-2">
+                      <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
+                      <p className="text-xs" style={{ color: '#ff0033' }}>
+                        Alacsony hatékonyság - szolgáltatás fejlesztés szükséges
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">
+                      Ennyire hasznos segítség a program összeségében.
+                    </p>
                   )}
-                </p>
+                </div>
               </CardContent>
             </Card>
           </div>
