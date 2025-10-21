@@ -626,7 +626,7 @@ const Reports = () => {
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
               <CardContent className="relative z-10 flex flex-col min-h-[320px]">
-                <div className="flex-1 flex items-center justify-center">
+                <div className="flex-1 flex items-center justify-center min-h-[200px]">
                   <div className="text-center w-full px-4">
                     <div className="text-6xl font-bold" style={{ color: parseFloat(trustScore) < 3 ? '#ff0033' : 'hsl(var(--chart-2))' }}>
                       {trustScore}
@@ -741,7 +741,7 @@ const Reports = () => {
                 <CardDescription>1-5 skála</CardDescription>
               </CardHeader>
               <CardContent className="relative z-10 flex flex-col min-h-[320px]">
-                <div className="flex-1 flex items-center justify-center">
+                <div className="flex-1 flex items-center justify-center min-h-[200px]">
                   <div className="text-center w-full px-4">
                     <div className="text-6xl font-bold" style={{ color: parseFloat(impactScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))' }}>
                       {impactScore}
