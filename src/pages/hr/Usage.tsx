@@ -419,12 +419,9 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
             </div>
             <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
               {parseFloat(planToUseRate) < 10 ? (
-                <div className="flex items-start gap-2">
-                  <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
-                  <p className="text-xs" style={{ color: '#ff0033' }}>
-                    Kevesen tervezik konkrétan - érdemes a program előnyeit jobban kommunikálni
-                  </p>
-                </div>
+                <p className="text-xs" style={{ color: '#ff0033' }}>
+                  Kevesen tervezik konkrétan - érdemes a program előnyeit jobban kommunikálni
+                </p>
               ) : (
                 <p className="text-xs text-muted-foreground">
                   {parseFloat(planToUseRate) >= 30 

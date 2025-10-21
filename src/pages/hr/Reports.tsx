@@ -587,12 +587,9 @@ const Reports = () => {
                     A válaszolók közül ennyien tudtak a programról
                   </p>
                   {awarenessRate < 50 && (
-                    <div className="flex items-start gap-2 mt-2">
-                      <AlertTriangle className="h-4 w-4 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
-                      <span className="text-xs font-medium" style={{ color: '#ff0033' }}>
-                        Alacsony ismertség - több kommunikáció szükséges
-                      </span>
-                    </div>
+                    <span className="text-xs font-medium block mt-2" style={{ color: '#ff0033' }}>
+                      Alacsony ismertség - több kommunikáció szükséges
+                    </span>
                   )}
                 </div>
               </CardContent>
@@ -657,12 +654,9 @@ const Reports = () => {
                 {/* Magyarázó szöveg mindig lent, balra zárva */}
                 <div className="bg-muted/30 p-3 rounded-md text-left">
                   {parseFloat(trustScore) < 3 ? (
-                    <div className="flex items-start gap-2">
-                      <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
-                      <p className="text-xs" style={{ color: '#ff0033' }}>
-                        Alacsony bizalom - transzparencia és bizalomépítés szükséges
-                      </p>
-                    </div>
+                    <p className="text-xs" style={{ color: '#ff0033' }}>
+                      Alacsony bizalom - transzparencia és bizalomépítés szükséges
+                    </p>
                   ) : (
                     <p className="text-xs text-muted-foreground">
                       Átfogó bizalmi mutató (anonimitás, félelmek, jövőbeli használat)
@@ -772,12 +766,9 @@ const Reports = () => {
                 {/* Magyarázó szöveg mindig lent, balra zárva */}
                 <div className="bg-muted/30 p-3 rounded-md text-left">
                   {parseFloat(impactScore) < 2.5 ? (
-                    <div className="flex items-start gap-2">
-                      <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
-                      <p className="text-xs" style={{ color: '#ff0033' }}>
-                        Alacsony hatékonyság - szolgáltatás fejlesztés szükséges
-                      </p>
-                    </div>
+                    <p className="text-xs" style={{ color: '#ff0033' }}>
+                      Alacsony hatékonyság - szolgáltatás fejlesztés szükséges
+                    </p>
                   ) : (
                     <p className="text-xs text-muted-foreground">
                       Ennyire hasznos segítség a program összeségében.

@@ -608,12 +608,9 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
             {/* Magyarázó szöveg mindig lent, balra zárva */}
             <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
               {parseFloat(likelihoodScore) < 3.0 ? (
-                <div className="flex items-start gap-2">
-                  <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
-                  <p className="text-xs" style={{ color: '#ff0033' }}>
-                    Alacsony hajlandóság - A munkavállalók nem valószínű, hogy újra igénybe vennék a szolgáltatást.
-                  </p>
-                </div>
+                <p className="text-xs" style={{ color: '#ff0033' }}>
+                  Alacsony hajlandóság - A munkavállalók nem valószínű, hogy újra igénybe vennék a szolgáltatást.
+                </p>
               ) : (
                 <p className="text-xs text-muted-foreground">
                   A Jövőbeli Használat azt mutatja, hogy milyen valószínűséggel venne újra igénybe az EAP szolgáltatást. Az érték 1-5 skálán mozog.
@@ -688,12 +685,9 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
             {/* Magyarázó szöveg mindig lent, balra zárva */}
             <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
               {parseFloat(overallAnonymityScore) < 2.5 ? (
-                <div className="flex items-start gap-2">
-                  <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
-                  <p className="text-xs" style={{ color: '#ff0033' }}>
-                    Alacsony bizalom - A munkavállalók nem bíznak abban, hogy adataik védve vannak az EAP használat során.
-                  </p>
-                </div>
+                <p className="text-xs" style={{ color: '#ff0033' }}>
+                  Alacsony bizalom - A munkavállalók nem bíznak abban, hogy adataik védve vannak az EAP használat során.
+                </p>
               ) : (
                 <p className="text-xs text-muted-foreground">
                   Az Anonimitás Bizalom azt mutatja, hogy mennyire bíznak a munkavállalók abban, hogy az EAP használat során adataik védve vannak. Az érték 1-5 skálán mozog.
@@ -768,12 +762,9 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
             {/* Magyarázó szöveg mindig lent, balra zárva */}
             <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
               {parseFloat(overallEmployerFearScore) > 3.5 ? (
-                <div className="flex items-start gap-2">
-                  <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
-                  <p className="text-xs" style={{ color: '#ff0033' }}>
-                    Magas félelem - A munkavállalók félnek attól, hogy a munkaadó megtudja az EAP használatát.
-                  </p>
-                </div>
+                <p className="text-xs" style={{ color: '#ff0033' }}>
+                  Magas félelem - A munkavállalók félnek attól, hogy a munkaadó megtudja az EAP használatát.
+                </p>
               ) : (
                 <p className="text-xs text-muted-foreground">
                   A Munkaadói Félelem azt mutatja, hogy mennyire félnek a munkavállalók attól, hogy a munkaadó megtudja az EAP használatát. Az érték 1-5 skálán mozog, ahol a magasabb érték nagyobb félelmet jelent.

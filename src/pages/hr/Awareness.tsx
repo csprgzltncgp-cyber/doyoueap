@@ -560,10 +560,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
             </div>
             <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
               {parseFloat(redirectRate) > 50 && (
-                <div className="flex items-start gap-2 mb-2">
-                  <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5 text-[#ff0033]" />
-                  <span className="text-sm text-[#ff0033]">Magas tájékozatlanság</span>
-                </div>
+                <span className="text-sm text-[#ff0033]">Magas tájékozatlanság</span>
               )}
               <p className="text-xs text-muted-foreground">
                 A válaszolók közül ennyien NEM tudtak a programról
