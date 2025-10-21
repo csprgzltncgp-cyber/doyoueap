@@ -5,12 +5,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { Download, Activity, Clock, Users, MessageSquare, Phone } from 'lucide-react';
+import { Download, Activity, Clock, Users, MessageSquare, Phone, AlertTriangle } from 'lucide-react';
 import fourScoreLogo from '@/assets/4score_logo.svg';
 import { GaugeChart } from '@/components/ui/gauge-chart';
 import { Progress } from '@/components/ui/progress';
 import { formatAuditName } from '@/lib/auditUtils';
 import { ReportNavigation } from '@/components/navigation/ReportNavigation';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 interface UsageProps {
   selectedAuditId: string;
@@ -334,6 +335,20 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
           </div>
         </div>
       </div>
+
+      {/* Figyelmeztetés alacsony közeljövőbeni tervekhez */}
+      {parseFloat(planToUseRate) < 10 && (
+        <Alert className="border-[#ff0033] bg-transparent">
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-5 w-5" />
+          <AlertTitle className="text-[#ff0033]">Alacsony konkrét tervezési szándék észlelve</AlertTitle>
+          <AlertDescription className="text-[#ff0033]">
+            A nem használók mindössze {planToUseRate}%-a ({planToUseYes} fő) tervezi konkrétan igénybe venni a közeljövőben a programot.
+            Ez arra utal, hogy bár lehet általános hajlandóság, nincs azonnali elköteleződés.
+            Javasolt intézkedések: egyszerűsíteni a hozzáférést, bemutatni konkrét példákat, 
+            rövid távú incentívák (pl. gyors bejelentkezési lehetőség, próbaszesszió).
+          </AlertDescription>
+        </Alert>
+      )}
 
       {/* 1. sor: Használat Index és Közeljövőbeni Tervek */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
