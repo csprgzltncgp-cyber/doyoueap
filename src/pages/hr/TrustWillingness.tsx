@@ -467,7 +467,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
       {/* 1. sor: Fő bizalmi mutatók */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Bizalmi Index (from Reports overview page) */}
-        <Card className="relative overflow-hidden border-2 border-[#3366ff]" id="trust-index-card">
+        <Card className={`relative overflow-hidden border-2 ${overallTrustIndex < 3 ? 'border-[#ff0033]' : 'border-[#3366ff]'}`} id="trust-index-card">
           <div 
             className="absolute inset-0 transition-all duration-500"
             style={{

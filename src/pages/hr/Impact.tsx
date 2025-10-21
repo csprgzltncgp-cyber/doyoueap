@@ -421,7 +421,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
       {/* Main Metrics */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* Average Impact - MOVED TO FIRST POSITION */}
-        <Card id="impact-avg-card" className="border-2 border-[#3366ff] relative overflow-hidden">
+        <Card id="impact-avg-card" className={`border-2 ${avgImpact < 2.5 ? 'border-[#ff0033]' : 'border-[#3366ff]'} relative overflow-hidden`}>
           <div 
             className="absolute inset-0 transition-all duration-500"
             style={{
