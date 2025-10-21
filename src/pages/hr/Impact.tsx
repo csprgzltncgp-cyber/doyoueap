@@ -547,14 +547,14 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
             <div className="bg-muted/30 p-3 rounded-md mt-4">
               <p className="text-xs text-muted-foreground">
                 {npsData.npsScore >= 50
-                  ? '✓ Kiváló NPS - Sokan ajánlanák a programot kollégáiknak.'
+                  ? 'Kiváló NPS - Sokan ajánlanák a programot kollégáiknak.'
                   : npsData.npsScore >= 30
-                  ? '✓ Jó NPS - A programot általában ajánlanák.'
+                  ? 'Jó NPS - A programot általában ajánlanák.'
                   : npsData.npsScore > 0
-                  ? '→ Fejleszthető NPS - Van tér a javításra.'
+                  ? 'Fejleszthető NPS - Van tér a javításra.'
                   : npsData.npsScore === 0
-                  ? '→ Semleges NPS - Ajánlók és kritikusok egyensúlyban vannak.'
-                  : 'ℹ Negatív NPS - Több kritikus, mint ajánló. Javasolt: részletes felhasználói interjúk, gyenge pontok azonosítása, szolgáltatás minőségének fejlesztése.'}
+                  ? 'Semleges NPS - Ajánlók és kritikusok egyensúlyban vannak.'
+                  : 'Negatív NPS - Több kritikus, mint ajánló. Javasolt: részletes felhasználói interjúk, gyenge pontok azonosítása, szolgáltatás minőségének fejlesztése.'}
               </p>
             </div>
           </CardContent>
