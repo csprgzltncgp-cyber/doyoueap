@@ -361,7 +361,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
       {/* Figyelmeztetés az NPS-hez */}
       {npsData.npsScore < 0 && (
         <Alert className="border-[#ff0033] bg-transparent">
-          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-5 w-5" />
           <AlertTitle className="text-[#ff0033]">Negatív NPS észlelve</AlertTitle>
           <AlertDescription className="text-[#ff0033]">
             Az NPS érték negatív ({npsData.npsScore}), ami azt jelenti, hogy több kritikus, mint ajánló. 
@@ -374,7 +374,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
       {/* Figyelmeztetés az átlagos hatáshoz */}
       {avgImpact < 2.5 && (
         <Alert className="border-[#ff0033] bg-transparent">
-          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-5 w-5" />
           <AlertTitle className="text-[#ff0033]">Alacsony hatékonyság észlelve</AlertTitle>
           <AlertDescription className="text-[#ff0033]">
             Az átlagos hatás érték alacsony ({avgImpact.toFixed(1)}), ami 2.5 alatt van. 
@@ -409,7 +409,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
         
         return (
           <Alert key={item.metric} className="border-[#ff0033] bg-transparent">
-            <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+            <AlertTriangle style={{ color: '#ff0033' }} className="h-5 w-5" />
             <AlertTitle className="text-[#ff0033]">Alacsony {item.metric}</AlertTitle>
             <AlertDescription className="text-[#ff0033]">
               {warningText}
@@ -483,7 +483,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
 
               {avgImpact < 2.5 && (
                 <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
-                  <AlertTriangle className="w-4 h-4" />
+                  <AlertTriangle className="h-5 w-5" />
                   <span>Alacsony hatékonyság</span>
                 </div>
               )}
@@ -639,7 +639,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
 
                     {isLow && (
                       <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
-                        <AlertTriangle className="w-4 h-4" />
+                        <AlertTriangle className="h-5 w-5" />
                         <span>Alacsony érték</span>
                       </div>
                     )}
@@ -695,7 +695,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
           </div>
           {avgImpact < 2.5 && (
             <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
-              <AlertTriangle className="w-4 h-4" />
+              <AlertTriangle className="h-5 w-5" />
               <span>Alacsony hatékonyság</span>
             </div>
           )}

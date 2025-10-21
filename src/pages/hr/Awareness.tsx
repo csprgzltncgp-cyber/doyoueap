@@ -297,7 +297,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
       {/* Figyelmeztetés a tájékozatlansághoz */}
       {parseFloat(redirectRate) > 50 && (
         <Alert className="border-[#ff0033] bg-transparent">
-          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-5 w-5" />
           <AlertTitle className="text-[#ff0033]">Magas tájékozatlanság észlelve</AlertTitle>
           <AlertDescription className="text-[#ff0033]">
             A válaszadók {redirectRate}%-a ({redirectResponses.length} fő) nem tudott az EAP programról. 
@@ -311,7 +311,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
       {/* Figyelmeztetés az alacsony megértéshez */}
       {parseFloat(overallUnderstandingScore) < 2.5 && (
         <Alert className="border-[#ff0033] bg-transparent">
-          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-5 w-5" />
           <AlertTitle className="text-[#ff0033]">Alacsony megértési szint észlelve</AlertTitle>
           <AlertDescription className="text-[#ff0033]">
             Az általános megértési szint {overallUnderstandingScore}, ami 2.5 alatt van.
@@ -325,7 +325,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
       {/* Figyelmeztetés az alacsony tudásszinthez */}
       {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) < 2.5 && (
         <Alert className="border-[#ff0033] bg-transparent">
-          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-5 w-5" />
           <AlertTitle className="text-[#ff0033]">Alacsony tudásszint észlelve</AlertTitle>
           <AlertDescription className="text-[#ff0033]">
             A használók tudásszintje {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length).toFixed(1)}, ami 2.5 alatt van.
@@ -507,7 +507,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
 
                 {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) < 2.5 && (
                   <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
-                    <AlertTriangle className="w-4 h-4" />
+                    <AlertTriangle className="h-5 w-5" />
                     <span>Alacsony tudásszint</span>
                   </div>
                 )}
@@ -550,7 +550,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
             </div>
             {parseFloat(redirectRate) > 50 && (
               <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
-                <AlertTriangle className="w-4 h-4" />
+                <AlertTriangle className="h-5 w-5" />
                 <span>Magas tájékozatlanság</span>
               </div>
             )}

@@ -565,7 +565,7 @@ const Reports = () => {
                   <Eye className="w-5 h-5" />
                   Ismertség Index
                   {awarenessRate < 50 && (
-                    <AlertTriangle className="w-4 h-4 ml-1" style={{ color: '#ff0033' }} />
+                    <AlertTriangle className="h-5 w-5 ml-1" style={{ color: '#ff0033' }} />
                   )}
                 </CardTitle>
                 <CardDescription>A program ismeretének aránya</CardDescription>
@@ -615,7 +615,7 @@ const Reports = () => {
                   <Shield className="w-5 h-5" />
                   Bizalmi Index
                   {parseFloat(trustScore) < 3 && (
-                    <AlertTriangle className="w-4 h-4 ml-1" style={{ color: '#ff0033' }} />
+                    <AlertTriangle className="h-5 w-5 ml-1" style={{ color: '#ff0033' }} />
                   )}
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>
@@ -718,7 +718,7 @@ const Reports = () => {
                   <TrendingUp className="w-5 h-5" />
                   Hatás Index
                   {parseFloat(impactScore) < 2.5 && (
-                    <AlertTriangle className="w-4 h-4 ml-1" style={{ color: '#ff0033' }} />
+                    <AlertTriangle className="h-5 w-5 ml-1" style={{ color: '#ff0033' }} />
                   )}
                 </CardTitle>
                 <CardDescription>1-5 skála</CardDescription>

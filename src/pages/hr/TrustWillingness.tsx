@@ -411,7 +411,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
       {/* Figyelmeztetés az alacsony bizalmi indexhez */}
       {overallTrustIndex < 3 && (
         <Alert className="border-[#ff0033] bg-transparent">
-          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-5 w-5" />
           <AlertTitle className="text-[#ff0033]">Alacsony bizalmi szint észlelve</AlertTitle>
           <AlertDescription className="text-[#ff0033]">
             Az átfogó bizalmi index {overallTrustIndex.toFixed(1)} pont, ami 3.0 alatt van. 
@@ -425,7 +425,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
       {/* Figyelmeztetés az alacsony anonimitási bizalomhoz */}
       {parseFloat(overallAnonymityScore) < 2.5 && (
         <Alert className="border-[#ff0033] bg-transparent">
-          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-5 w-5" />
           <AlertTitle className="text-[#ff0033]">Alacsony anonimitási bizalom észlelve</AlertTitle>
           <AlertDescription className="text-[#ff0033]">
             Az anonimitási bizalom {overallAnonymityScore}, ami 2.5 alatt van.
@@ -439,7 +439,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
       {/* Figyelmeztetés a magas munkaadói félelemhez */}
       {parseFloat(overallEmployerFearScore) > 3.5 && (
         <Alert className="border-[#ff0033] bg-transparent">
-          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-5 w-5" />
           <AlertTitle className="text-[#ff0033]">Magas munkaadói félelem észlelve</AlertTitle>
           <AlertDescription className="text-[#ff0033]">
             A munkaadói félelemszint {overallEmployerFearScore}, ami 3.5 felett van.
@@ -453,7 +453,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
       {/* Figyelmeztetés az alacsony használati hajlandósághoz */}
       {parseFloat(likelihoodScore) < 3.0 && (
         <Alert className="border-[#ff0033] bg-transparent">
-          <AlertTriangle style={{ color: '#ff0033' }} className="h-4 w-4" />
+          <AlertTriangle style={{ color: '#ff0033' }} className="h-5 w-5" />
           <AlertTitle className="text-[#ff0033]">Alacsony használati hajlandóság észlelve</AlertTitle>
           <AlertDescription className="text-[#ff0033]">
             A jövőbeli használati hajlandóság {likelihoodScore}, ami 3.0 alatt van.
@@ -528,7 +528,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
 
                 {overallTrustIndex < 3 && (
                   <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
-                    <AlertTriangle className="w-4 h-4" />
+                    <AlertTriangle className="h-5 w-5" />
                     <span>Alacsony bizalmi szint</span>
                   </div>
                 )}
@@ -601,7 +601,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
 
               {parseFloat(likelihoodScore) < 3.0 && (
                 <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
-                  <AlertTriangle className="w-4 h-4" />
+                  <AlertTriangle className="h-5 w-5" />
                   <span>Alacsony hajlandóság</span>
                 </div>
               )}
@@ -673,7 +673,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
 
               {parseFloat(overallAnonymityScore) < 2.5 && (
                 <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
-                  <AlertTriangle className="w-4 h-4" />
+                  <AlertTriangle className="h-5 w-5" />
                   <span>Alacsony bizalom</span>
                 </div>
               )}
@@ -745,7 +745,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
 
               {parseFloat(overallEmployerFearScore) > 3.5 && (
                 <div className="flex items-center gap-2 mt-2 text-[#ff0033] text-sm justify-center">
-                  <AlertTriangle className="w-4 h-4" />
+                  <AlertTriangle className="h-5 w-5" />
                   <span>Magas félelem</span>
                 </div>
               )}
