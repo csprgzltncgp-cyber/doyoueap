@@ -404,7 +404,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
             <CardDescription>1-5 skála</CardDescription>
           </CardHeader>
           <CardContent className="relative z-10 flex flex-col min-h-[320px]">
-            <div className="flex-1 flex items-center justify-center min-h-[200px]">
+            <div className="flex-none flex items-center justify-center" style={{ height: '200px' }}>
               <div className="text-center w-full">
                 <div 
                   className="text-6xl font-bold" 
@@ -484,7 +484,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
             <CardDescription>Használók átlaga (1-5 skála)</CardDescription>
           </CardHeader>
           <CardContent className="relative z-10 flex flex-col min-h-[320px]">
-            <div className="flex-1 flex items-center justify-center min-h-[200px]">
+            <div className="flex-none flex items-center justify-center" style={{ height: '200px' }}>
               <div className="text-center w-full">
                 <div 
                   className="text-6xl font-bold" 
