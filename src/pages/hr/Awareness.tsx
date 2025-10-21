@@ -440,12 +440,9 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
             {/* Magyarázó szöveg mindig lent, balra zárva */}
             <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
               {parseFloat(overallUnderstandingScore) < 2.5 ? (
-                <div className="flex items-start gap-2">
-                  <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
-                  <p className="text-xs" style={{ color: '#ff0033' }}>
-                    Alacsony megértési szint - A munkavállalók nem értik kellően, mire való az EAP program.
-                  </p>
-                </div>
+                <p className="text-xs" style={{ color: '#ff0033' }}>
+                  Alacsony megértési szint - A munkavállalók nem értik kellően, mire való az EAP program.
+                </p>
               ) : (
                 <p className="text-xs text-muted-foreground">
                   Az Általános Megértés azt mutatja, hogy a munkavállalók mennyire értik, mire való az EAP program. Az érték 1-5 skálán mozog, ahol az 5 a legmagasabb megértési szintet jelenti.
@@ -520,12 +517,9 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
             {/* Magyarázó szöveg mindig lent, balra zárva */}
             <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
               {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) < 2.5 ? (
-                <div className="flex items-start gap-2">
-                  <AlertTriangle className="h-4 w-4 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
-                  <p className="text-xs" style={{ color: '#ff0033' }}>
-                    Alacsony tudásszint - A használók nem ismerik kellően az EAP programot.
-                  </p>
-                </div>
+                <p className="text-xs" style={{ color: '#ff0033' }}>
+                  Alacsony tudásszint - A használók nem ismerik kellően az EAP programot.
+                </p>
               ) : (
                 <p className="text-xs text-muted-foreground">
                   Az Általános Tudásszint azt mutatja, hogy a használók mennyire ismerik az EAP programot: megértés, használati mód, elérhetőség. Az érték 1-5 skálán mozog.

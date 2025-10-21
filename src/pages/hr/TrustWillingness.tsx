@@ -531,12 +531,9 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
             {/* Magyarázó szöveg mindig lent, balra zárva */}
             <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
               {overallTrustIndex < 3 ? (
-                <div className="flex items-start gap-2">
-                  <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
-                  <p className="text-xs" style={{ color: '#ff0033' }}>
-                    Alacsony bizalmi szint - A munkavállalók nem bíznak kellőképpen az EAP program anonimitásában és biztonságában.
-                  </p>
-                </div>
+                <p className="text-xs" style={{ color: '#ff0033' }}>
+                  Alacsony bizalmi szint - A munkavállalók nem bíznak kellőképpen az EAP program anonimitásában és biztonságában.
+                </p>
               ) : (
                 <p className="text-xs text-muted-foreground">
                   A Bizalmi Index azt mutatja, hogy mennyire bíznak a munkavállalók az EAP program anonimitásában, függetlenségében és biztonságában. Az érték 1-5 skálán mozog.

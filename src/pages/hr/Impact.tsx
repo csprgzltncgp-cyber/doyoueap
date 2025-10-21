@@ -487,12 +487,9 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
             {/* Magyarázó szöveg mindig lent, balra zárva */}
             <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
               {avgImpact < 2.5 ? (
-                <div className="flex items-start gap-2">
-                  <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
-                  <p className="text-xs" style={{ color: '#ff0033' }}>
-                    Alacsony hatékonyság - A program nem segít kellőképpen az öt fő területen.
-                  </p>
-                </div>
+                <p className="text-xs" style={{ color: '#ff0033' }}>
+                  Alacsony hatékonyság - A program nem segít kellőképpen az öt fő területen.
+                </p>
               ) : (
                 <p className="text-xs text-muted-foreground">
                   A Hatás Index azt mutatja, hogy mennyire segített a program összeségében az öt fő területen (elégedettség, problémamegoldás, wellbeing, teljesítmény, konzisztencia).
