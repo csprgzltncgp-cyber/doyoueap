@@ -369,16 +369,18 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
             </CardTitle>
             <CardDescription>Jövőbeli használati szándék</CardDescription>
           </CardHeader>
-          <CardContent>
-            <GaugeChart 
-              value={parseFloat(usageScore)} 
-              maxValue={100}
-              size={240}
-              label={`${usageScore}%`}
-              sublabel={`${usedLikelihoodValues.length + wouldUseTotal} válasz`}
-              cornerRadius={30}
-            />
-            <div className="bg-muted/30 p-3 rounded-md mt-4">
+          <CardContent className="flex flex-col min-h-[320px]">
+            <div className="flex-1 flex items-center justify-center">
+              <GaugeChart 
+                value={parseFloat(usageScore)} 
+                maxValue={100}
+                size={240}
+                label={`${usageScore}%`}
+                sublabel={`${usedLikelihoodValues.length + wouldUseTotal} válasz`}
+                cornerRadius={30}
+              />
+            </div>
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
               <p className="text-xs text-muted-foreground">
                 {parseFloat(usageScore) >= 70 
                   ? 'Magas a jövőbeli használati hajlandóság.'
@@ -404,16 +406,18 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
             <CardTitle className="text-lg">Közeljövőbeni Tervek</CardTitle>
             <CardDescription>Tervezed igénybe venni a közeljövőben?</CardDescription>
           </CardHeader>
-          <CardContent>
-            <GaugeChart 
-              value={parseFloat(planToUseRate)} 
-              maxValue={100}
-              size={240}
-              label={`${planToUseRate}%`}
-              sublabel={`${planToUseYes} / ${planToUseTotal} fő tervezi`}
-              cornerRadius={30}
-            />
-            <div className="bg-muted/30 p-3 rounded-md mt-4">
+          <CardContent className="flex flex-col min-h-[320px]">
+            <div className="flex-1 flex items-center justify-center">
+              <GaugeChart 
+                value={parseFloat(planToUseRate)} 
+                maxValue={100}
+                size={240}
+                label={`${planToUseRate}%`}
+                sublabel={`${planToUseYes} / ${planToUseTotal} fő tervezi`}
+                cornerRadius={30}
+              />
+            </div>
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
               {parseFloat(planToUseRate) < 10 ? (
                 <div className="flex items-start gap-2">
                   <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
@@ -452,18 +456,22 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
             </CardTitle>
             <CardDescription>Összes válaszadóból</CardDescription>
           </CardHeader>
-          <CardContent>
-            <GaugeChart 
-              value={parseFloat(usageRate)} 
-              maxValue={100}
-              size={220}
-              label={`${usageRate}%`}
-              sublabel={`${usedResponses.length} / ${totalCount} fő`}
-              cornerRadius={30}
-            />
-            <p className="text-xs text-muted-foreground text-center mt-4">
-              A válaszolók közül ennyien használták a programot
-            </p>
+          <CardContent className="flex flex-col min-h-[320px]">
+            <div className="flex-1 flex items-center justify-center">
+              <GaugeChart 
+                value={parseFloat(usageRate)} 
+                maxValue={100}
+                size={220}
+                label={`${usageRate}%`}
+                sublabel={`${usedResponses.length} / ${totalCount} fő`}
+                cornerRadius={30}
+              />
+            </div>
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+              <p className="text-xs text-muted-foreground">
+                A válaszolók közül ennyien használták a programot
+              </p>
+            </div>
           </CardContent>
         </Card>
 
@@ -484,18 +492,22 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
             </CardTitle>
             <CardDescription>Hozzátartozók is igénybe vették</CardDescription>
           </CardHeader>
-          <CardContent>
-            <GaugeChart 
-              value={parseFloat(familyRate)} 
-              maxValue={100}
-              size={220}
-              label={`${familyRate}%`}
-              sublabel={`${familyYes} / ${familyTotal} fő`}
-              cornerRadius={30}
-            />
-            <p className="text-xs text-muted-foreground text-center mt-4">
-              A használók közül ennyien családtaggal együtt vették igénybe
-            </p>
+          <CardContent className="flex flex-col min-h-[320px]">
+            <div className="flex-1 flex items-center justify-center">
+              <GaugeChart 
+                value={parseFloat(familyRate)} 
+                maxValue={100}
+                size={220}
+                label={`${familyRate}%`}
+                sublabel={`${familyYes} / ${familyTotal} fő`}
+                cornerRadius={30}
+              />
+            </div>
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+              <p className="text-xs text-muted-foreground">
+                A használók közül ennyien családtaggal együtt vették igénybe
+              </p>
+            </div>
           </CardContent>
         </Card>
 
@@ -516,20 +528,24 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
             </CardTitle>
             <CardDescription>Legtöbbet használt szolgáltatás</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="flex flex-col min-h-[320px]">
             {topTopic ? (
               <>
-                <GaugeChart 
-                  value={usedResponses.length > 0 ? parseFloat(((topTopic.value / usedResponses.length) * 100).toFixed(0)) : 0} 
-                  maxValue={100}
-                  size={220}
-                  label={`${usedResponses.length > 0 ? ((topTopic.value / usedResponses.length) * 100).toFixed(0) : 0}%`}
-                  sublabel={topTopic.name}
-                  cornerRadius={30}
-                />
-                <p className="text-xs text-muted-foreground text-center mt-4">
-                  {parseFloat(avgTopicsPerUser) >= 2 ? 'A használók átlagosan több témában is igénybe veszik a szolgáltatást' : 'A használók általában egy-két témában veszik igénybe'}
-                </p>
+                <div className="flex-1 flex items-center justify-center">
+                  <GaugeChart 
+                    value={usedResponses.length > 0 ? parseFloat(((topTopic.value / usedResponses.length) * 100).toFixed(0)) : 0} 
+                    maxValue={100}
+                    size={220}
+                    label={`${usedResponses.length > 0 ? ((topTopic.value / usedResponses.length) * 100).toFixed(0) : 0}%`}
+                    sublabel={topTopic.name}
+                    cornerRadius={30}
+                  />
+                </div>
+                <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+                  <p className="text-xs text-muted-foreground">
+                    {parseFloat(avgTopicsPerUser) >= 2 ? 'A használók átlagosan több témában is igénybe veszik a szolgáltatást' : 'A használók általában egy-két témában veszik igénybe'}
+                  </p>
+                </div>
               </>
             ) : (
               <p className="text-sm text-muted-foreground text-center">Nincs adat</p>
@@ -554,20 +570,24 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
             </CardTitle>
             <CardDescription>Preferált elérési mód</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="flex flex-col min-h-[320px]">
             {topChannel ? (
               <>
-                <GaugeChart 
-                  value={usedResponses.length > 0 ? parseFloat(((topChannel.value / usedResponses.length) * 100).toFixed(0)) : 0} 
-                  maxValue={100}
-                  size={220}
-                  label={`${usedResponses.length > 0 ? ((topChannel.value / usedResponses.length) * 100).toFixed(0) : 0}%`}
-                  sublabel={topChannel.name}
-                  cornerRadius={30}
-                />
-                <p className="text-xs text-muted-foreground text-center mt-4">
-                  {parseFloat(avgChannelsPerUser) >= 2 ? 'A használók többféle csatornát is kipróbálnak' : 'A használók általában egy csatornát preferálnak'}
-                </p>
+                <div className="flex-1 flex items-center justify-center">
+                  <GaugeChart 
+                    value={usedResponses.length > 0 ? parseFloat(((topChannel.value / usedResponses.length) * 100).toFixed(0)) : 0} 
+                    maxValue={100}
+                    size={220}
+                    label={`${usedResponses.length > 0 ? ((topChannel.value / usedResponses.length) * 100).toFixed(0) : 0}%`}
+                    sublabel={topChannel.name}
+                    cornerRadius={30}
+                  />
+                </div>
+                <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+                  <p className="text-xs text-muted-foreground">
+                    {parseFloat(avgChannelsPerUser) >= 2 ? 'A használók többféle csatornát is kipróbálnak' : 'A használók általában egy csatornát preferálnak'}
+                  </p>
+                </div>
               </>
             ) : (
               <p className="text-sm text-muted-foreground text-center">Nincs adat</p>

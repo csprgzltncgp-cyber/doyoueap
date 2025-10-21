@@ -355,8 +355,8 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
             </CardTitle>
             <CardDescription>A program ismeretének aránya</CardDescription>
           </CardHeader>
-          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-            <div className="flex items-center justify-center flex-1 w-full">
+          <CardContent className="relative z-10 flex flex-col min-h-[320px]">
+            <div className="flex-1 flex items-center justify-center">
               <GaugeChart 
                 value={parseFloat(awarenessRate)} 
                 maxValue={100}
@@ -367,9 +367,11 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
                 gaugeColor="hsl(var(--chart-2))"
               />
             </div>
-            <p className="text-xs text-muted-foreground text-center px-2 mt-4">
-              Az Ismertség Index azt mutatja, hogy a felmérésben résztvevők hány százaléka tudott az EAP programról.
-            </p>
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+              <p className="text-xs text-muted-foreground">
+                Az Ismertség Index azt mutatja, hogy a felmérésben résztvevők hány százaléka tudott az EAP programról.
+              </p>
+            </div>
           </CardContent>
         </Card>
 
@@ -550,8 +552,8 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
             </CardTitle>
             <CardDescription>Tájékozatlan munkavállalók</CardDescription>
           </CardHeader>
-          <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-            <div className="flex items-center justify-center flex-1 w-full">
+          <CardContent className="relative z-10 flex flex-col min-h-[320px]">
+            <div className="flex-1 flex items-center justify-center">
               <GaugeChart 
                 value={parseFloat(redirectRate)} 
                 maxValue={100}
@@ -562,15 +564,17 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
                 gaugeColor={parseFloat(redirectRate) > 50 ? '#ff0033' : undefined}
               />
             </div>
-            {parseFloat(redirectRate) > 50 && (
-              <div className="flex items-center gap-2 mt-4 text-[#ff0033] text-sm justify-center">
-                <AlertTriangle className="h-5 w-5" />
-                <span>Magas tájékozatlanság</span>
-              </div>
-            )}
-            <p className="text-xs text-muted-foreground text-center mt-4">
-              A válaszolók közül ennyien NEM tudtak a programról
-            </p>
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+              {parseFloat(redirectRate) > 50 && (
+                <div className="flex items-start gap-2 mb-2">
+                  <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5 text-[#ff0033]" />
+                  <span className="text-sm text-[#ff0033]">Magas tájékozatlanság</span>
+                </div>
+              )}
+              <p className="text-xs text-muted-foreground">
+                A válaszolók közül ennyien NEM tudtak a programról
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>

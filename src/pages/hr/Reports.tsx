@@ -570,8 +570,8 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>A program ismeretének aránya</CardDescription>
               </CardHeader>
-              <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-                <div className="flex items-center justify-center flex-1 w-full">
+              <CardContent className="relative z-10 flex flex-col min-h-[320px]">
+                <div className="flex-1 flex items-center justify-center">
                   <GaugeChart
                     value={awarenessRate} 
                     maxValue={100}
@@ -582,14 +582,19 @@ const Reports = () => {
                     gaugeColor="hsl(var(--chart-2))"
                   />
                 </div>
-                <p className="text-xs text-muted-foreground text-center px-2">
-                  A válaszolók közül ennyien tudtak a programról
+                <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+                  <p className="text-xs text-muted-foreground">
+                    A válaszolók közül ennyien tudtak a programról
+                  </p>
                   {awarenessRate < 50 && (
-                    <span className="block mt-2 font-medium" style={{ color: '#ff0033' }}>
-                      ⚠ Alacsony ismertség - több kommunikáció szükséges
-                    </span>
+                    <div className="flex items-start gap-2 mt-2">
+                      <AlertTriangle className="h-4 w-4 flex-shrink-0 mt-0.5" style={{ color: '#ff0033' }} />
+                      <span className="text-xs font-medium" style={{ color: '#ff0033' }}>
+                        Alacsony ismertség - több kommunikáció szükséges
+                      </span>
+                    </div>
                   )}
-                </p>
+                </div>
               </CardContent>
             </Card>
 
@@ -684,8 +689,8 @@ const Reports = () => {
                 </CardTitle>
                 <CardDescription>Jövőbeli használati szándék</CardDescription>
               </CardHeader>
-              <CardContent className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '280px' }}>
-                <div className="flex items-center justify-center flex-1 w-full">
+              <CardContent className="relative z-10 flex flex-col min-h-[320px]">
+                <div className="flex-1 flex items-center justify-center">
                   <GaugeChart 
                     value={parseFloat(usageScore)} 
                     maxValue={100}
@@ -696,13 +701,15 @@ const Reports = () => {
                     gaugeColor="hsl(var(--chart-2))"
                   />
                 </div>
-                <p className="text-xs text-muted-foreground text-center px-2">
-                  {parseFloat(usageScore) >= 70 
-                    ? 'Magas a jövőbeli használati hajlandóság.'
-                    : parseFloat(usageScore) >= 40
-                    ? 'Közepes a nyitottság a program jövőbeni használatára.'
-                    : 'Alacsony a jövőbeni használati szándék - érdemes a bizalomépítésre és kommunikációra fókuszálni.'}
-                </p>
+                <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+                  <p className="text-xs text-muted-foreground">
+                    {parseFloat(usageScore) >= 70 
+                      ? 'Magas a jövőbeli használati hajlandóság.'
+                      : parseFloat(usageScore) >= 40
+                      ? 'Közepes a nyitottság a program jövőbeni használatára.'
+                      : 'Alacsony a jövőbeni használati szándék - érdemes a bizalomépítésre és kommunikációra fókuszálni.'}
+                  </p>
+                </div>
               </CardContent>
             </Card>
 
