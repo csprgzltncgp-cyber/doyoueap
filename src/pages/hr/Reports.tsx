@@ -627,13 +627,13 @@ const Reports = () => {
               </CardHeader>
               <CardContent className="relative z-10 flex flex-col min-h-[320px]">
                 <div className="flex-1 flex items-center justify-center min-h-[200px]">
-                  <div className="text-center w-full px-4">
+                  <div className="text-center w-full py-4">
                     <div className="text-6xl font-bold" style={{ color: parseFloat(trustScore) < 3 ? '#ff0033' : 'hsl(var(--chart-2))' }}>
                       {trustScore}
                     </div>
                     
                     {/* Számegyenes vizualizáció */}
-                    <div className="mt-6 px-8">
+                    <div className="mt-8 px-8">
                       <div className="relative h-2 bg-gray-400 rounded-full">
                         <div 
                           className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
@@ -742,13 +742,13 @@ const Reports = () => {
               </CardHeader>
               <CardContent className="relative z-10 flex flex-col min-h-[320px]">
                 <div className="flex-1 flex items-center justify-center min-h-[200px]">
-                  <div className="text-center w-full px-4">
+                  <div className="text-center w-full py-4">
                     <div className="text-6xl font-bold" style={{ color: parseFloat(impactScore) < 2.5 ? '#ff0033' : 'hsl(var(--chart-2))' }}>
                       {impactScore}
                     </div>
                     
                     {/* Számegyenes vizualizáció */}
-                    <div className="mt-6 px-8">
+                    <div className="mt-8 px-8">
                       <div className="relative h-2 bg-gray-400 rounded-full">
                         <div 
                           className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
