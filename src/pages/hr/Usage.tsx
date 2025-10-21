@@ -376,7 +376,7 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
         </Card>
 
         {/* Közeljövőbeni Tervek */}
-        <Card id="plan-to-use-card">
+        <Card id="plan-to-use-card" className={`border-2 ${parseFloat(planToUseRate) < 10 ? 'border-[#ff0033]' : 'border-[#3366ff]'}`}>
           <CardHeader className="relative">
             <Button
               variant="ghost"
