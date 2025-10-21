@@ -519,9 +519,15 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
             
             {/* Magyarázó szöveg mindig lent, balra zárva */}
             <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
-              <p className="text-xs text-muted-foreground">
-                Az Általános Tudásszint azt mutatja, hogy a használók mennyire ismerik az EAP programot: megértés, használati mód, elérhetőség. Az érték 1-5 skálán mozog.
-              </p>
+              {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) < 2.5 ? (
+                <p className="text-xs text-muted-foreground">
+                  Alacsony tudásszint - A használók nem ismerik kellően az EAP programot.
+                </p>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  Az Általános Tudásszint azt mutatja, hogy a használók mennyire ismerik az EAP programot: megértés, használati mód, elérhetőség. Az érték 1-5 skálán mozog.
+                </p>
+              )}
             </div>
           </CardContent>
         </Card>
