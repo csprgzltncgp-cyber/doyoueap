@@ -929,18 +929,18 @@ const Reports = () => {
                   <strong>Nem használók:</strong> Akik eddig nem vették igénybe a programot<br/>
                   <strong>Nem tudtak róla:</strong> Azok, akik nem hallottak a programról
                 </p>
-                <div className="h-[250px] flex items-center justify-center">
+                <div className="h-[300px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
                         data={pieData}
                         cx="50%"
                         cy="50%"
-                        labelLine={false}
-                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                        outerRadius={80}
-                        fill="#8884d8"
+                        innerRadius={60}
+                        outerRadius={120}
+                        paddingAngle={2}
                         dataKey="value"
+                        label={false}
                       >
                         {pieData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={entry.color} />
@@ -949,6 +949,23 @@ const Reports = () => {
                       <Tooltip />
                     </PieChart>
                   </ResponsiveContainer>
+                </div>
+                <div className="flex flex-wrap gap-4 justify-center mt-4">
+                  {pieData.map((entry, index) => {
+                    const total = pieData.reduce((sum, item) => sum + item.value, 0);
+                    const percentage = total > 0 ? ((entry.value / total) * 100).toFixed(0) : 0;
+                    return (
+                      <div key={index} className="flex items-center gap-2">
+                        <div 
+                          className="w-3 h-3 rounded-full" 
+                          style={{ backgroundColor: entry.color }}
+                        />
+                        <span className="text-sm text-foreground">
+                          {entry.name}: {percentage}%
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>

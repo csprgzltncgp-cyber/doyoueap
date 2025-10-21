@@ -454,38 +454,42 @@ const Demographics = ({ selectedAuditId, audits, onAuditChange, packageType, com
               <CardDescription>A válaszadók három csoportba sorolása az EAP program ismerete és használata alapján</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center gap-8">
-                <div className="h-[300px] flex-1">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={categoryData}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={100}
-                        fill="#8884d8"
-                        dataKey="value"
-                      >
-                        {categoryData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-                
-                <div className="flex flex-col gap-3">
-                  {categoryData.map((entry, index) => (
-                    <div key={entry.name} className="flex items-center gap-2">
-                      <div 
-                        className="w-3 h-3 rounded-full" 
-                        style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                      />
-                      <span className="text-sm text-foreground">{entry.name}</span>
-                    </div>
-                  ))}
-                </div>
+              <div className="h-[300px] flex items-center justify-center">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={categoryData.map((item, index) => ({
+                        ...item,
+                        color: COLORS[index % COLORS.length]
+                      }))}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={120}
+                      paddingAngle={2}
+                      dataKey="value"
+                      label={false}
+                    >
+                      {categoryData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="flex flex-wrap gap-4 justify-center mt-4">
+                {categoryData.map((entry, index) => (
+                  <div key={entry.name} className="flex items-center gap-2">
+                    <div 
+                      className="w-3 h-3 rounded-full" 
+                      style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                    />
+                    <span className="text-sm text-foreground">
+                      {entry.name}: {entry.value} ({entry.percentage}%)
+                    </span>
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>
