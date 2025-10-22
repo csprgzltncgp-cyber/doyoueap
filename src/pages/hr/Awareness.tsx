@@ -364,9 +364,16 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
                 label={`${awarenessRate}%`}
                 sublabel={`${awarenessResponses.length} / ${totalCount} fő`}
                 cornerRadius={30}
-                gaugeColor="hsl(var(--chart-2))"
+                gaugeColor={parseFloat(awarenessRate) < 50 ? '#ff0033' : 'hsl(var(--chart-2))'}
               />
             </div>
+            {parseFloat(awarenessRate) < 50 && (
+              <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
+                <p className="text-xs" style={{ color: '#ff0033' }}>
+                  ! Alacsony ismertség - A munkavállalók kevesebb mint fele tudott az EAP programról.
+                </p>
+              </div>
+            )}
             <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
               <p className="text-xs text-muted-foreground">
                 Az Ismertség Index azt mutatja, hogy a felmérésben résztvevők hány százaléka tudott az EAP programról.
@@ -437,17 +444,18 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
               </div>
             </div>
             
-            {/* Magyarázó szöveg mindig lent, balra zárva */}
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
-              {parseFloat(overallUnderstandingScore) < 2.5 ? (
+            {/* Figyelmeztető és magyarázó szövegek */}
+            {parseFloat(overallUnderstandingScore) < 2.5 && (
+              <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
                 <p className="text-xs" style={{ color: '#ff0033' }}>
-                  Alacsony megértési szint - A munkavállalók nem értik kellően, mire való az EAP program.
+                  ! Alacsony megértési szint - A munkavállalók nem értik kellően, mire való az EAP program.
                 </p>
-              ) : (
-                <p className="text-xs text-muted-foreground">
-                  Az Általános Megértés azt mutatja, hogy a munkavállalók mennyire értik, mire való az EAP program. Az érték 1-5 skálán mozog, ahol az 5 a legmagasabb megértési szintet jelenti.
-                </p>
-              )}
+              </div>
+            )}
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+              <p className="text-xs text-muted-foreground">
+                Az Általános Megértés azt mutatja, hogy a munkavállalók mennyire értik, mire való az EAP program. Az érték 1-5 skálán mozog, ahol az 5 a legmagasabb megértési szintet jelenti.
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -514,17 +522,18 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
               </div>
             </div>
             
-            {/* Magyarázó szöveg mindig lent, balra zárva */}
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
-              {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) < 2.5 ? (
+            {/* Figyelmeztető és magyarázó szövegek */}
+            {(awarenessProfileData.reduce((sum, item) => sum + item.score, 0) / awarenessProfileData.length) < 2.5 && (
+              <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
                 <p className="text-xs" style={{ color: '#ff0033' }}>
-                  Alacsony tudásszint - A használók nem ismerik kellően az EAP programot.
+                  ! Alacsony tudásszint - A használók nem ismerik kellően az EAP programot.
                 </p>
-              ) : (
-                <p className="text-xs text-muted-foreground">
-                  Az Általános Tudásszint azt mutatja, hogy a használók mennyire ismerik az EAP programot: megértés, használati mód, elérhetőség. Az érték 1-5 skálán mozog.
-                </p>
-              )}
+              </div>
+            )}
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+              <p className="text-xs text-muted-foreground">
+                Az Általános Tudásszint azt mutatja, hogy a használók mennyire ismerik az EAP programot: megértés, használati mód, elérhetőség. Az érték 1-5 skálán mozog.
+              </p>
             </div>
           </CardContent>
         </Card>

@@ -484,17 +484,18 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
               </div>
             </div>
             
-            {/* Magyarázó szöveg mindig lent, balra zárva */}
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
-              {avgImpact < 2.5 ? (
+            {/* Figyelmeztető és magyarázó szövegek */}
+            {avgImpact < 2.5 && (
+              <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
                 <p className="text-xs" style={{ color: '#ff0033' }}>
-                  Alacsony hatékonyság - A program nem segít kellőképpen az öt fő területen.
+                  ! Alacsony hatékonyság - A program nem segít kellőképpen az öt fő területen.
                 </p>
-              ) : (
-                <p className="text-xs text-muted-foreground">
-                  A Hatás Index azt mutatja, hogy mennyire segített a program összeségében az öt fő területen (elégedettség, problémamegoldás, wellbeing, teljesítmény, konzisztencia).
-                </p>
-              )}
+              </div>
+            )}
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+              <p className="text-xs text-muted-foreground">
+                A Hatás Index azt mutatja, hogy mennyire segített a program összeségében az öt fő területen (elégedettség, problémamegoldás, wellbeing, teljesítmény, konzisztencia).
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -645,17 +646,18 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
                     </div>
                   </div>
                   
-                  {/* Magyarázó szöveg mindig lent, balra zárva */}
-                  <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
-                    {isLow ? (
+                  {/* Figyelmeztető és magyarázó szövegek */}
+                  {isLow && (
+                    <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
                       <p className="text-xs" style={{ color: '#ff0033' }}>
-                        Alacsony érték - {description}
+                        ! Alacsony érték - {description}
                       </p>
-                    ) : (
-                      <p className="text-xs text-muted-foreground">
-                        {description}
-                      </p>
-                    )}
+                    </div>
+                  )}
+                  <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+                    <p className="text-xs text-muted-foreground">
+                      {description}
+                    </p>
                   </div>
                 </CardContent>
               </Card>

@@ -528,17 +528,18 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
               </div>
             </div>
             
-            {/* Magyarázó szöveg mindig lent, balra zárva */}
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
-              {overallTrustIndex < 3 ? (
+            {/* Figyelmeztető és magyarázó szövegek */}
+            {overallTrustIndex < 3 && (
+              <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
                 <p className="text-xs" style={{ color: '#ff0033' }}>
-                  Alacsony bizalmi szint - A munkavállalók nem bíznak kellőképpen az EAP program anonimitásában és biztonságában.
+                  ! Alacsony bizalmi szint - A munkavállalók nem bíznak kellőképpen az EAP program anonimitásában és biztonságában.
                 </p>
-              ) : (
-                <p className="text-xs text-muted-foreground">
-                  A Bizalmi Index azt mutatja, hogy mennyire bíznak a munkavállalók az EAP program anonimitásában, függetlenségében és biztonságában. Az érték 1-5 skálán mozog.
-                </p>
-              )}
+              </div>
+            )}
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+              <p className="text-xs text-muted-foreground">
+                A Bizalmi Index azt mutatja, hogy mennyire bíznak a munkavállalók az EAP program anonimitásában, függetlenségében és biztonságában. Az érték 1-5 skálán mozog.
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -605,17 +606,18 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
               </div>
             </div>
             
-            {/* Magyarázó szöveg mindig lent, balra zárva */}
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
-              {parseFloat(likelihoodScore) < 3.0 ? (
+            {/* Figyelmeztető és magyarázó szövegek */}
+            {parseFloat(likelihoodScore) < 3.0 && (
+              <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
                 <p className="text-xs" style={{ color: '#ff0033' }}>
-                  Alacsony hajlandóság - A munkavállalók nem valószínű, hogy újra igénybe vennék a szolgáltatást.
+                  ! Alacsony hajlandóság - A munkavállalók nem valószínű, hogy újra igénybe vennék a szolgáltatást.
                 </p>
-              ) : (
-                <p className="text-xs text-muted-foreground">
-                  A Jövőbeli Használat azt mutatja, hogy milyen valószínűséggel venne újra igénybe az EAP szolgáltatást. Az érték 1-5 skálán mozog.
-                </p>
-              )}
+              </div>
+            )}
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+              <p className="text-xs text-muted-foreground">
+                A Jövőbeli Használat azt mutatja, hogy milyen valószínűséggel venne újra igénybe az EAP szolgáltatást. Az érték 1-5 skálán mozog.
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -682,17 +684,18 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
               </div>
             </div>
             
-            {/* Magyarázó szöveg mindig lent, balra zárva */}
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
-              {parseFloat(overallAnonymityScore) < 2.5 ? (
+            {/* Figyelmeztető és magyarázó szövegek */}
+            {parseFloat(overallAnonymityScore) < 2.5 && (
+              <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
                 <p className="text-xs" style={{ color: '#ff0033' }}>
-                  Alacsony bizalom - A munkavállalók nem bíznak abban, hogy adataik védve vannak az EAP használat során.
+                  ! Alacsony bizalom - A munkavállalók nem bíznak abban, hogy adataik védve vannak az EAP használat során.
                 </p>
-              ) : (
-                <p className="text-xs text-muted-foreground">
-                  Az Anonimitás Bizalom azt mutatja, hogy mennyire bíznak a munkavállalók abban, hogy az EAP használat során adataik védve vannak. Az érték 1-5 skálán mozog.
-                </p>
-              )}
+              </div>
+            )}
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+              <p className="text-xs text-muted-foreground">
+                Az Anonimitás Bizalom azt mutatja, hogy mennyire bíznak a munkavállalók abban, hogy az EAP használat során adataik védve vannak. Az érték 1-5 skálán mozog.
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -759,17 +762,18 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
               </div>
             </div>
             
-            {/* Magyarázó szöveg mindig lent, balra zárva */}
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
-              {parseFloat(overallEmployerFearScore) > 3.5 ? (
+            {/* Figyelmeztető és magyarázó szövegek */}
+            {parseFloat(overallEmployerFearScore) > 3.5 && (
+              <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
                 <p className="text-xs" style={{ color: '#ff0033' }}>
-                  Magas félelem - A munkavállalók félnek attól, hogy a munkaadó megtudja az EAP használatát.
+                  ! Magas félelem - A munkavállalók félnek attól, hogy a munkaadó megtudja az EAP használatát.
                 </p>
-              ) : (
-                <p className="text-xs text-muted-foreground">
-                  A Munkaadói Félelem azt mutatja, hogy mennyire félnek a munkavállalók attól, hogy a munkaadó megtudja az EAP használatát. Az érték 1-5 skálán mozog, ahol a magasabb érték nagyobb félelmet jelent.
-                </p>
-              )}
+              </div>
+            )}
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+              <p className="text-xs text-muted-foreground">
+                A Munkaadói Félelem azt mutatja, hogy mennyire félnek a munkavállalók attól, hogy a munkaadó megtudja az EAP használatát. Az érték 1-5 skálán mozog, ahol a magasabb érték nagyobb félelmet jelent.
+              </p>
             </div>
           </CardContent>
         </Card>

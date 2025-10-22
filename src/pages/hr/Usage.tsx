@@ -378,15 +378,19 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
                 label={`${usageScore}%`}
                 sublabel={`${usedLikelihoodValues.length + wouldUseTotal} válasz`}
                 cornerRadius={30}
+                gaugeColor={parseFloat(usageScore) < 40 ? '#ff0033' : 'hsl(var(--chart-2))'}
               />
             </div>
+            {parseFloat(usageScore) < 40 && (
+              <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
+                <p className="text-xs" style={{ color: '#ff0033' }}>
+                  ! Alacsony használati szándék - Érdemes a bizalomépítésre és kommunikációra fókuszálni.
+                </p>
+              </div>
+            )}
             <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
               <p className="text-xs text-muted-foreground">
-                {parseFloat(usageScore) >= 70 
-                  ? 'Magas a jövőbeli használati hajlandóság.'
-                  : parseFloat(usageScore) >= 40
-                  ? 'Közepes a nyitottság a program jövőbeni használatára.'
-                  : 'Alacsony a jövőbeni használati szándék - érdemes a bizalomépítésre és kommunikációra fókuszálni.'}
+                A Használat Index azt mutatja, hogy a munkavállalók mennyire szándékoznak igénybe venni a jövőben az EAP programot. Az érték 0-100% skálán mozog.
               </p>
             </div>
           </CardContent>
@@ -415,20 +419,24 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
                 label={`${planToUseRate}%`}
                 sublabel={`${planToUseYes} / ${planToUseTotal} fő tervezi`}
                 cornerRadius={30}
+                gaugeColor={parseFloat(planToUseRate) < 10 ? '#ff0033' : 'hsl(var(--chart-2))'}
               />
             </div>
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
-              {parseFloat(planToUseRate) < 10 ? (
+            {parseFloat(planToUseRate) < 10 && (
+              <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
                 <p className="text-xs" style={{ color: '#ff0033' }}>
-                  Kevesen tervezik konkrétan - érdemes a program előnyeit jobban kommunikálni
+                  ! Kevesen tervezik konkrétan - Érdemes a program előnyeit jobban kommunikálni.
                 </p>
-              ) : (
-                <p className="text-xs text-muted-foreground">
-                  {parseFloat(planToUseRate) >= 30 
-                    ? 'Sokan konkrétan tervezik a program igénybevételét' 
-                    : 'Néhányan aktívan fontolgatják a használatot'}
-                </p>
-              )}
+              </div>
+            )}
+            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+              <p className="text-xs text-muted-foreground">
+                {parseFloat(planToUseRate) >= 30 
+                  ? 'Sokan konkrétan tervezik a program igénybevételét' 
+                  : parseFloat(planToUseRate) >= 10
+                  ? 'Néhányan aktívan fontolgatják a használatot'
+                  : 'A közeljövőbeni tervezés azt mutatja, hogy a nem használók közül hányan tervezik konkrétan igénybe venni a közeljövőben az EAP programot.'}
+              </p>
             </div>
           </CardContent>
         </Card>
