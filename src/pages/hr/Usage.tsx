@@ -432,10 +432,10 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
             <div className="bg-muted/30 p-3 rounded-md text-left">
               <p className="text-xs text-muted-foreground">
                 {parseFloat(planToUseRate) >= 30 
-                  ? 'Sokan konkrétan tervezik a program igénybevételét.' 
+                  ? 'Kiváló eredmény - Jelentős érdeklődés mutatkozik a program iránt a közeli jövőben.' 
                   : parseFloat(planToUseRate) >= 10
-                  ? 'Néhányan aktívan fontolgatják a használatot.'
-                  : 'A közeljövőbeni tervezés azt mutatja, hogy a nem használók közül hányan tervezik konkrétan igénybe venni a közeljövőben az EAP programot.'}
+                  ? 'Mérsékelt érdeklődés - Van potenciál, de további ösztönzés szükséges.'
+                  : 'Azok aránya, akik konkrétan tervezik a közeljövőben igénybe venni a programot (akik eddig nem használták).'}
               </p>
             </div>
           </CardContent>

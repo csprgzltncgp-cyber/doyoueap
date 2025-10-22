@@ -708,10 +708,10 @@ const Reports = () => {
                 <div className="bg-muted/30 p-3 rounded-md text-left">
                   <p className="text-xs text-muted-foreground">
                     {parseFloat(usageScore) >= 70 
-                      ? 'Magas a jövőbeli használati hajlandóság.'
+                      ? 'Kiváló eredmény - A munkavállalók többsége szívesen venne igénybe az EAP programot a jövőben.'
                       : parseFloat(usageScore) >= 40
-                      ? 'Közepes a nyitottság a program jövőbeni használatára.'
-                      : 'A munkavállalók jövőbeni használati szándéka (0-100% skálán).'}
+                      ? 'Megfelelő eredmény - Közepes érdeklődés mutatkozik a program iránt.'
+                      : 'Jövőbeni használati hajlandóság (használók és nem használók együtt, 0-100% skálán).'}
                   </p>
                 </div>
               </CardContent>
