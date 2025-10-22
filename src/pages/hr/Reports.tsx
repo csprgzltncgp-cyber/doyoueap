@@ -651,17 +651,18 @@ const Reports = () => {
                   </div>
                 </div>
                 
-                {/* Magyarázó szöveg mindig lent, balra zárva */}
-                <div className="bg-muted/30 p-3 rounded-md text-left">
-                  {parseFloat(trustScore) < 3 ? (
+                {/* Figyelmeztető és magyarázó szövegek */}
+                {parseFloat(trustScore) < 3 && (
+                  <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
                     <p className="text-xs" style={{ color: '#ff0033' }}>
-                      Alacsony bizalom - transzparencia és bizalomépítés szükséges
+                      ! Alacsony bizalom - Transzparencia és bizalomépítés szükséges.
                     </p>
-                  ) : (
-                    <p className="text-xs text-muted-foreground">
-                      Átfogó bizalmi mutató (anonimitás, félelmek, jövőbeli használat)
-                    </p>
-                  )}
+                  </div>
+                )}
+                <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+                  <p className="text-xs text-muted-foreground">
+                    Átfogó bizalmi mutató (anonimitás, félelmek, jövőbeli használat).
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -763,17 +764,18 @@ const Reports = () => {
                   </div>
                 </div>
                 
-                {/* Magyarázó szöveg mindig lent, balra zárva */}
-                <div className="bg-muted/30 p-3 rounded-md text-left">
-                  {parseFloat(impactScore) < 2.5 ? (
+                {/* Figyelmeztető és magyarázó szövegek */}
+                {parseFloat(impactScore) < 2.5 && (
+                  <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
                     <p className="text-xs" style={{ color: '#ff0033' }}>
-                      Alacsony hatékonyság - szolgáltatás fejlesztés szükséges
+                      ! Alacsony hatékonyság - Szolgáltatás fejlesztés szükséges.
                     </p>
-                  ) : (
-                    <p className="text-xs text-muted-foreground">
-                      Ennyire hasznos segítség a program összeségében.
-                    </p>
-                  )}
+                  </div>
+                )}
+                <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+                  <p className="text-xs text-muted-foreground">
+                    Ennyire hasznos segítség a program összeségében.
+                  </p>
                 </div>
               </CardContent>
             </Card>
