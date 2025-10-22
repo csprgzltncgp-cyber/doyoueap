@@ -545,7 +545,14 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
               </div>
             </div>
             
-            <div className="bg-muted/30 p-3 rounded-md mt-4">
+            {npsData.npsScore < 0 && (
+              <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
+                <p className="text-xs" style={{ color: '#ff0033' }}>
+                  ! Negatív NPS - Sürgős beavatkozás szükséges a program javításához.
+                </p>
+              </div>
+            )}
+            <div className="bg-muted/30 p-3 rounded-md text-left">
               <p className="text-xs text-muted-foreground">
                 {npsData.npsScore >= 50
                   ? 'Kiváló NPS - Sokan ajánlanák a programot kollégáiknak.'
@@ -555,7 +562,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
                   ? 'Fejleszthető NPS - Van tér a javításra.'
                   : npsData.npsScore === 0
                   ? 'Semleges NPS - Ajánlók és kritikusok egyensúlyban vannak.'
-                  : 'Negatív NPS - Több kritikus, mint ajánló. Javasolt: részletes felhasználói interjúk, gyenge pontok azonosítása, szolgáltatás minőségének fejlesztése.'}
+                  : 'Az NPS (Net Promoter Score) azt méri, hányan ajánlanák a programot másoknak. Értéke -100 és +100 között mozog.'}
               </p>
             </div>
           </CardContent>
@@ -650,13 +657,13 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
                   {isLow && (
                     <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
                       <p className="text-xs" style={{ color: '#ff0033' }}>
-                        ! Alacsony érték - {description}
+                        ! Alacsony érték - Fejlesztésre szorul ezen a területen.
                       </p>
                     </div>
                   )}
-                  <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+                  <div className="bg-muted/30 p-3 rounded-md text-left">
                     <p className="text-xs text-muted-foreground">
-                      {description}
+                      {description}.
                     </p>
                   </div>
                 </CardContent>
