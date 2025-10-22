@@ -388,7 +388,7 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
                 </p>
               </div>
             )}
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+            <div className="bg-muted/30 p-3 rounded-md text-left">
               <p className="text-xs text-muted-foreground">
                 A Használat Index azt mutatja, hogy a munkavállalók mennyire szándékoznak igénybe venni a jövőben az EAP programot. Az érték 0-100% skálán mozog.
               </p>
@@ -429,12 +429,12 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
                 </p>
               </div>
             )}
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+            <div className="bg-muted/30 p-3 rounded-md text-left">
               <p className="text-xs text-muted-foreground">
                 {parseFloat(planToUseRate) >= 30 
-                  ? 'Sokan konkrétan tervezik a program igénybevételét' 
+                  ? 'Sokan konkrétan tervezik a program igénybevételét.' 
                   : parseFloat(planToUseRate) >= 10
-                  ? 'Néhányan aktívan fontolgatják a használatot'
+                  ? 'Néhányan aktívan fontolgatják a használatot.'
                   : 'A közeljövőbeni tervezés azt mutatja, hogy a nem használók közül hányan tervezik konkrétan igénybe venni a közeljövőben az EAP programot.'}
               </p>
             </div>

@@ -536,7 +536,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
                 </p>
               </div>
             )}
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+            <div className="bg-muted/30 p-3 rounded-md text-left">
               <p className="text-xs text-muted-foreground">
                 A Bizalmi Index azt mutatja, hogy mennyire bíznak a munkavállalók az EAP program anonimitásában, függetlenségében és biztonságában. Az érték 1-5 skálán mozog.
               </p>
@@ -614,7 +614,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
                 </p>
               </div>
             )}
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+            <div className="bg-muted/30 p-3 rounded-md text-left">
               <p className="text-xs text-muted-foreground">
                 A Jövőbeli Használat azt mutatja, hogy milyen valószínűséggel venne újra igénybe az EAP szolgáltatást. Az érték 1-5 skálán mozog.
               </p>

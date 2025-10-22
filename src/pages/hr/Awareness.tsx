@@ -374,7 +374,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
                 </p>
               </div>
             )}
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+            <div className="bg-muted/30 p-3 rounded-md text-left">
               <p className="text-xs text-muted-foreground">
                 Az Ismertség Index azt mutatja, hogy a felmérésben résztvevők hány százaléka tudott az EAP programról.
               </p>
@@ -452,7 +452,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
                 </p>
               </div>
             )}
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+            <div className="bg-muted/30 p-3 rounded-md text-left">
               <p className="text-xs text-muted-foreground">
                 Az Általános Megértés azt mutatja, hogy a munkavállalók mennyire értik, mire való az EAP program. Az érték 1-5 skálán mozog, ahol az 5 a legmagasabb megértési szintet jelenti.
               </p>
@@ -567,12 +567,16 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
                 gaugeColor={parseFloat(redirectRate) > 50 ? '#ff0033' : undefined}
               />
             </div>
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
-              {parseFloat(redirectRate) > 50 && (
-                <span className="text-sm text-[#ff0033]">Magas tájékozatlanság</span>
-              )}
+            {parseFloat(redirectRate) > 50 && (
+              <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
+                <p className="text-xs" style={{ color: '#ff0033' }}>
+                  ! Magas tájékozatlanság - A válaszolók több mint fele nem tudott az EAP programról.
+                </p>
+              </div>
+            )}
+            <div className="bg-muted/30 p-3 rounded-md text-left">
               <p className="text-xs text-muted-foreground">
-                A válaszolók közül ennyien NEM tudtak a programról
+                A válaszolók közül ennyien NEM tudtak a programról.
               </p>
             </div>
           </CardContent>

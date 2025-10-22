@@ -492,7 +492,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
                 </p>
               </div>
             )}
-            <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+            <div className="bg-muted/30 p-3 rounded-md text-left">
               <p className="text-xs text-muted-foreground">
                 A Hatás Index azt mutatja, hogy mennyire segített a program összeségében az öt fő területen (elégedettség, problémamegoldás, wellbeing, teljesítmény, konzisztencia).
               </p>

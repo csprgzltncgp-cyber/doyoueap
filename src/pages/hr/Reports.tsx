@@ -579,18 +579,20 @@ const Reports = () => {
                     label={`${awarenessScore}%`}
                     sublabel={`${awarenessResponses.length} / ${totalResponses} fő`}
                     cornerRadius={30}
-                    gaugeColor="hsl(var(--chart-2))"
+                    gaugeColor={awarenessRate < 50 ? '#ff0033' : 'hsl(var(--chart-2))'}
                   />
                 </div>
-                <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+                {awarenessRate < 50 && (
+                  <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
+                    <p className="text-xs" style={{ color: '#ff0033' }}>
+                      ! Alacsony ismertség - Több kommunikáció szükséges.
+                    </p>
+                  </div>
+                )}
+                <div className="bg-muted/30 p-3 rounded-md text-left">
                   <p className="text-xs text-muted-foreground">
-                    A válaszolók közül ennyien tudtak a programról
+                    A válaszolók közül ennyien tudtak a programról.
                   </p>
-                  {awarenessRate < 50 && (
-                    <span className="text-xs font-medium block mt-2" style={{ color: '#ff0033' }}>
-                      Alacsony ismertség - több kommunikáció szükséges
-                    </span>
-                  )}
                 </div>
               </CardContent>
             </Card>
@@ -659,7 +661,7 @@ const Reports = () => {
                     </p>
                   </div>
                 )}
-                <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+                <div className="bg-muted/30 p-3 rounded-md text-left">
                   <p className="text-xs text-muted-foreground">
                     Átfogó bizalmi mutató (anonimitás, félelmek, jövőbeli használat).
                   </p>
@@ -693,16 +695,23 @@ const Reports = () => {
                     label={`${usageScore}%`}
                     sublabel={`${usedLikelihoodValues.length + wouldUseTotal} válasz`}
                     cornerRadius={30}
-                    gaugeColor="hsl(var(--chart-2))"
+                    gaugeColor={parseFloat(usageScore) < 40 ? '#ff0033' : 'hsl(var(--chart-2))'}
                   />
                 </div>
-                <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+                {parseFloat(usageScore) < 40 && (
+                  <div className="bg-muted/30 p-3 rounded-md text-left mb-2">
+                    <p className="text-xs" style={{ color: '#ff0033' }}>
+                      ! Alacsony használati szándék - Érdemes a bizalomépítésre és kommunikációra fókuszálni.
+                    </p>
+                  </div>
+                )}
+                <div className="bg-muted/30 p-3 rounded-md text-left">
                   <p className="text-xs text-muted-foreground">
                     {parseFloat(usageScore) >= 70 
                       ? 'Magas a jövőbeli használati hajlandóság.'
                       : parseFloat(usageScore) >= 40
                       ? 'Közepes a nyitottság a program jövőbeni használatára.'
-                      : 'Alacsony a jövőbeni használati szándék - érdemes a bizalomépítésre és kommunikációra fókuszálni.'}
+                      : 'A munkavállalók jövőbeni használati szándéka (0-100% skálán).'}
                   </p>
                 </div>
               </CardContent>
@@ -772,7 +781,7 @@ const Reports = () => {
                     </p>
                   </div>
                 )}
-                <div className="bg-muted/30 p-3 rounded-md text-left mt-4">
+                <div className="bg-muted/30 p-3 rounded-md text-left">
                   <p className="text-xs text-muted-foreground">
                     Ennyire hasznos segítség a program összeségében.
                   </p>
