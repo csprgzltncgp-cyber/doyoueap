@@ -109,7 +109,7 @@ const Bemutatkozas = () => {
               </CardHeader>
               <CardContent className="space-y-6">
                 <p className="text-lg">
-                  Az EAP Pulse egy gyors és kíméletes „pulzusmérő" a futó EAP-programokhoz. Rövid, mobilbarát kérdőívekkel rendszeresen visszajelzést kérünk a munkatársaktól, majd az eredményeket a 4Score keretben jelenítjük meg – így egy pillantással látszik, mennyire ismert a program, mennyire bíznak benne és használják, valamint milyen kézzelfogható hatást ér el.
+                  Az EAP Pulse egy innovatív eszköz, amely valós időben méri az EAP-programok pulzusát. Rövid, mobilbarát kérdőívekkel rendszeresen visszajelzést kérünk a munkatársaktól, majd az eredményeket a 4Score keretben jelenítjük meg – így egy pillantással látszik, mennyire ismert a program, mennyire bíznak benne és használják, valamint milyen kézzelfogható hatást ér el.
                 </p>
                 <p className="text-muted-foreground">
                   A Pulse nem helyettesíti az EAP-szolgáltatódat, hanem kiegészíti: több adatot ad a HR és a szolgáltató kezébe, hogy megalapozottabb döntések születhessenek a kommunikáció, a fejlesztés és a vezetői riportok terén. A cél közös: átlátható, hiteles kép a menedzsment felé, és egyre értékesebb, hasznosabb program a munkatársak számára.
@@ -146,7 +146,7 @@ const Bemutatkozas = () => {
               </CardHeader>
               <CardContent className="space-y-6">
                 <p className="text-lg">
-                  Az EAP Pulse egy gyors és kíméletes „pulzusmérő" a futó EAP-programokhoz. Rövid, mobilbarát kérdőívekkel rendszeresen visszajelzést kérünk a munkatársaktól, majd az eredményeket a 4Score keretben jelenítjük meg – így egy pillantással látszik, mennyire ismert a program, mennyire bíznak benne és használják, valamint milyen kézzelfogható hatást ér el.
+                  Az EAP Pulse egy innovatív eszköz, amely valós időben méri az EAP-programok pulzusát. Rövid, mobilbarát kérdőívekkel rendszeresen visszajelzést kérünk a munkatársaktól, majd az eredményeket a 4Score keretben jelenítjük meg – így egy pillantással látszik, mennyire ismert a program, mennyire bíznak benne és használják, valamint milyen kézzelfogható hatást ér el.
                 </p>
                 <p className="text-muted-foreground">
                   A Pulse nem helyettesíti az EAP-szolgáltatódat, hanem kiegészíti: több adatot ad a HR és a szolgáltató kezébe, hogy megalapozottabb döntések születhessenek a kommunikáció, a fejlesztés és a vezetői riportok terén. A cél közös: átlátható, hiteles kép a menedzsment felé, és egyre értékesebb, hasznosabb program a munkatársak számára.
@@ -185,7 +185,7 @@ const Bemutatkozas = () => {
               </CardHeader>
               <CardContent className="space-y-6">
                 <p className="text-lg">
-                  Az EAP Pulse egy gyors és kíméletes „pulzusmérő" a futó EAP-programokhoz. Rövid, mobilbarát kérdőívekkel rendszeresen visszajelzést kérünk a munkatársaktól, majd az eredményeket a 4Score keretben jelenítjük meg – így egy pillantással látszik, mennyire ismert a program, mennyire bíznak benne és használják, valamint milyen kézzelfogható hatást ér el.
+                  Az EAP Pulse egy innovatív eszköz, amely valós időben méri az EAP-programok pulzusát. Rövid, mobilbarát kérdőívekkel rendszeresen visszajelzést kérünk a munkatársaktól, majd az eredményeket a 4Score keretben jelenítjük meg – így egy pillantással látszik, mennyire ismert a program, mennyire bíznak benne és használják, valamint milyen kézzelfogható hatást ér el.
                 </p>
                 <p className="text-muted-foreground">
                   A Pulse nem helyettesíti az EAP-szolgáltatódat, hanem kiegészíti: több adatot ad a HR és a szolgáltató kezébe, hogy megalapozottabb döntések születhessenek a kommunikáció, a fejlesztés és a vezetői riportok terén. A cél közös: átlátható, hiteles kép a menedzsment felé, és egyre értékesebb, hasznosabb program a munkatársak számára.
