@@ -16,10 +16,10 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // API kulcs validálás
+    // API key validation
     const apiKey = req.headers.get('X-API-Key');
     if (!apiKey) {
-      throw new Error('API key required');
+      throw new Error('Authentication required');
     }
 
     const { data: apiKeyData, error: keyError } = await supabase
@@ -29,22 +29,23 @@ serve(async (req) => {
       .eq('is_active', true)
       .single();
 
-    if (keyError || !apiKeyData) {
-      throw new Error('Invalid API key');
+    if (keyError || !apiKeyData || !apiKeyData.is_active || 
+        (apiKeyData.expires_at && new Date(apiKeyData.expires_at) < new Date())) {
+      console.error('[api-get-audits] Auth failed:', {
+        keyExists: !!apiKeyData,
+        isActive: apiKeyData?.is_active,
+        isExpired: apiKeyData?.expires_at ? new Date(apiKeyData.expires_at) < new Date() : false
+      });
+      throw new Error('Authentication failed');
     }
 
-    // Ellenőrizzük a lejáratot
-    if (apiKeyData.expires_at && new Date(apiKeyData.expires_at) < new Date()) {
-      throw new Error('API key expired');
-    }
-
-    // Frissítjük az utolsó használat időpontját
+    // Update last_used_at timestamp
     await supabase
       .from('api_keys')
       .update({ last_used_at: new Date().toISOString() })
       .eq('id', apiKeyData.id);
 
-    // Lekérjük az audit-okat
+    // Fetch audits
     const { data: audits, error: auditsError } = await supabase
       .from('audits')
       .select(`
@@ -69,7 +70,7 @@ serve(async (req) => {
       throw auditsError;
     }
 
-    // Naplózzuk a hívást
+    // Log the API call
     await supabase.from('api_logs').insert({
       api_key_id: apiKeyData.id,
       endpoint: '/api-get-audits',
@@ -89,24 +90,18 @@ serve(async (req) => {
   } catch (error) {
     console.error('[api-get-audits] Error:', error);
     
-    // Return user-friendly error message
-    let userMessage = 'Hiba történt a lekérdezés során';
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
     let statusCode = 400;
     
-    if (error instanceof Error) {
-      if (error.message.includes('API key')) {
-        userMessage = 'Érvénytelen API kulcs';
-        statusCode = 401;
-      } else if (error.message.includes('expired')) {
-        userMessage = 'Az API kulcs lejárt';
-        statusCode = 401;
-      }
+    // Generic error messages to prevent information leakage
+    if (errorMessage.includes('Authentication')) {
+      statusCode = 401;
     }
     
     return new Response(
       JSON.stringify({ 
         error: 'QUERY_FAILED',
-        message: userMessage 
+        message: errorMessage
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

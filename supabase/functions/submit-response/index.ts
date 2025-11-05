@@ -1,12 +1,26 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 
+// Input validation interface
+interface SubmitResponseRequest {
+  audit_id: string;
+  responses: Record<string, unknown>;
+  participant_id?: string;
+  email?: string;
+  email_consent?: boolean;
+  employee_metadata?: Record<string, unknown>;
+}
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const SERVER_SECRET = Deno.env.get('SERVER_SECRET') || 'default-secret-change-in-production';
+// CRITICAL: SERVER_SECRET is required for secure participant hashing
+const SERVER_SECRET = Deno.env.get('SERVER_SECRET');
+if (!SERVER_SECRET) {
+  console.error('CRITICAL: SERVER_SECRET environment variable not configured');
+}
 
 // Generate draw token (12 char alfanumeric with prefix)
 function generateDrawToken(): string {
@@ -51,6 +65,15 @@ serve(async (req) => {
   }
 
   try {
+    // Validate SERVER_SECRET is configured
+    if (!SERVER_SECRET) {
+      console.error('Server configuration error: SERVER_SECRET not set');
+      return new Response(
+        JSON.stringify({ error: 'Server configuration error. Please contact the administrator.' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
@@ -62,18 +85,62 @@ serve(async (req) => {
       }
     );
 
-    const { 
-      audit_id, 
-      responses, 
-      participant_id, 
-      email, 
-      email_consent,
-      employee_metadata 
-    } = await req.json();
-
-    if (!audit_id || !responses) {
-      throw new Error('audit_id and responses are required');
+    // Parse and validate request body
+    const body = await req.json();
+    
+    // Validate required fields
+    if (!body.audit_id || typeof body.audit_id !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'Invalid request: audit_id is required and must be a string' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
+
+    if (!body.responses || typeof body.responses !== 'object') {
+      return new Response(
+        JSON.stringify({ error: 'Invalid request: responses is required and must be an object' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // UUID validation regex
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(body.audit_id)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid request: audit_id must be a valid UUID' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validate email format if provided
+    if (body.email && typeof body.email === 'string') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(body.email) || body.email.length > 255) {
+        return new Response(
+          JSON.stringify({ error: 'Invalid request: email must be a valid email address' }),
+          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+    }
+
+    // Validate participant_id length if provided
+    if (body.participant_id && (typeof body.participant_id !== 'string' || body.participant_id.length > 255)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid request: participant_id must be a string with max 255 characters' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validate JSON payload size (max 50KB)
+    const bodySize = JSON.stringify(body).length;
+    if (bodySize > 50000) {
+      return new Response(
+        JSON.stringify({ error: 'Request too large: maximum 50KB allowed' }),
+        { status: 413, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const { audit_id, responses, participant_id, email, email_consent, employee_metadata } = body as SubmitResponseRequest;
 
     console.log(`[submit-response] Submitting response for audit ${audit_id}`);
     console.log(`[submit-response] participant_id:`, participant_id);

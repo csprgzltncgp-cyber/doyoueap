@@ -20,7 +20,33 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { token, userId }: ApprovalRequest = await req.json();
+    const body = await req.json();
+    
+    // Validate required fields
+    if (!body.token || typeof body.token !== 'string' || body.token.length > 255) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid token format' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (!body.userId || typeof body.userId !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'Invalid userId format' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // UUID validation
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(body.userId)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid userId format' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const { token, userId }: ApprovalRequest = body;
     
     console.log('Approving admin access:', { token, userId });
 
@@ -39,6 +65,18 @@ const handler = async (req: Request): Promise<Response> => {
 
     if (approvalError || !approvalData) {
       console.error('Invalid token:', approvalError);
+      return new Response(
+        JSON.stringify({ success: false, message: "Érvénytelen jóváhagyási link" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // CRITICAL: Cross-validate that the userId in the token matches the userId in the request
+    if (approvalData.user_id !== userId) {
+      console.error('[approve-admin-access] Token/userId mismatch');
       return new Response(
         JSON.stringify({ success: false, message: "Érvénytelen jóváhagyási link" }),
         {

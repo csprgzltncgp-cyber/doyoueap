@@ -1,6 +1,14 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
 
+// Input validation interface
+interface ApiSubmitRequest {
+  auditId: string;
+  responses: Record<string, unknown>;
+  employeeMetadata?: Record<string, unknown>;
+  participantIdHash?: string;
+}
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-api-key',
@@ -16,10 +24,10 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // API kulcs validálás
+    // API key validation
     const apiKey = req.headers.get('X-API-Key');
     if (!apiKey) {
-      throw new Error('API key required');
+      throw new Error('Authentication required');
     }
 
     const { data: apiKeyData, error: keyError } = await supabase
@@ -29,22 +37,63 @@ serve(async (req) => {
       .eq('is_active', true)
       .single();
 
-    if (keyError || !apiKeyData) {
-      throw new Error('Invalid API key');
+    if (keyError || !apiKeyData || !apiKeyData.is_active || 
+        (apiKeyData.expires_at && new Date(apiKeyData.expires_at) < new Date())) {
+      console.error('[api-submit-response] Auth failed:', {
+        keyExists: !!apiKeyData,
+        isActive: apiKeyData?.is_active,
+        isExpired: apiKeyData?.expires_at ? new Date(apiKeyData.expires_at) < new Date() : false
+      });
+      throw new Error('Authentication failed');
     }
 
-    // Ellenőrizzük a lejáratot
-    if (apiKeyData.expires_at && new Date(apiKeyData.expires_at) < new Date()) {
-      throw new Error('API key expired');
+    // Parse and validate request body
+    const body = await req.json();
+
+    // Validate required fields
+    if (!body.auditId || typeof body.auditId !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'Invalid request: auditId is required and must be a string' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
-    const { auditId, responses, employeeMetadata, participantIdHash } = await req.json();
-
-    if (!auditId || !responses) {
-      throw new Error('Missing required fields: auditId, responses');
+    if (!body.responses || typeof body.responses !== 'object') {
+      return new Response(
+        JSON.stringify({ error: 'Invalid request: responses is required and must be an object' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
-    // Ellenőrizzük, hogy az audit létezik és aktív
+    // UUID validation
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(body.auditId)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid request: auditId must be a valid UUID' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validate participantIdHash length if provided
+    if (body.participantIdHash && (typeof body.participantIdHash !== 'string' || body.participantIdHash.length > 255)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid request: participantIdHash must be a string with max 255 characters' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validate JSON payload size (max 50KB)
+    const bodySize = JSON.stringify(body).length;
+    if (bodySize > 50000) {
+      return new Response(
+        JSON.stringify({ error: 'Request too large: maximum 50KB allowed' }),
+        { status: 413, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const { auditId, responses, employeeMetadata, participantIdHash } = body as ApiSubmitRequest;
+
+    // Check if audit exists and is active
     const { data: audit, error: auditError } = await supabase
       .from('audits')
       .select('*')
@@ -57,13 +106,13 @@ serve(async (req) => {
       throw new Error('Audit not found or inactive');
     }
 
-    // Generálunk egy draw token-t, ha szükséges
+    // Generate a draw token if needed
     let drawToken = null;
     if (audit.draw_mode) {
       drawToken = crypto.randomUUID();
     }
 
-    // Mentjük a választ
+    // Save the response
     const { data: response, error: responseError } = await supabase
       .from('audit_responses')
       .insert({
@@ -80,13 +129,13 @@ serve(async (req) => {
       throw responseError;
     }
 
-    // Frissítjük az utolsó használat időpontját
+    // Update last_used_at timestamp
     await supabase
       .from('api_keys')
       .update({ last_used_at: new Date().toISOString() })
       .eq('id', apiKeyData.id);
 
-    // Naplózzuk a hívást
+    // Log the API call
     await supabase.from('api_logs').insert({
       api_key_id: apiKeyData.id,
       endpoint: '/api-submit-response',
@@ -111,27 +160,22 @@ serve(async (req) => {
   } catch (error) {
     console.error('[api-submit-response] Error:', error);
     
-    // Return user-friendly error message without exposing internal details
-    let userMessage = 'Hiba történt a művelet során';
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
     let statusCode = 400;
     
-    if (error instanceof Error) {
-      if (error.message.includes('API key')) {
-        userMessage = 'Érvénytelen API kulcs';
-        statusCode = 401;
-      } else if (error.message.includes('expired')) {
-        userMessage = 'Az API kulcs lejárt';
-        statusCode = 401;
-      } else if (error.message.includes('Audit not found')) {
-        userMessage = 'A felmérés nem található vagy nem elérhető';
-        statusCode = 404;
-      }
+    // Generic error messages to prevent information leakage
+    if (errorMessage.includes('Authentication')) {
+      statusCode = 401;
+    } else if (errorMessage.includes('not found')) {
+      statusCode = 404;
+    } else if (errorMessage.includes('Request too large')) {
+      statusCode = 413;
     }
     
     return new Response(
       JSON.stringify({ 
         error: 'OPERATION_FAILED',
-        message: userMessage 
+        message: errorMessage
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

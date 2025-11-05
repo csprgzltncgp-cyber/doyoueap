@@ -1162,10 +1162,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      generate_access_token: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
+      generate_access_token: { Args: never; Returns: string }
       get_audit_for_survey: {
         Args: { _access_token: string }
         Returns: {
@@ -1197,10 +1194,7 @@ export type Database = {
           user_id: string
         }[]
       }
-      get_user_company_name: {
-        Args: { _user_id: string }
-        Returns: string
-      }
+      get_user_company_name: { Args: { _user_id: string }; Returns: string }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
@@ -1232,10 +1226,7 @@ export type Database = {
           verified: boolean
         }[]
       }
-      verify_email_with_token: {
-        Args: { _token: string }
-        Returns: Json
-      }
+      verify_email_with_token: { Args: { _token: string }; Returns: Json }
     }
     Enums: {
       app_role: "admin" | "hr"
