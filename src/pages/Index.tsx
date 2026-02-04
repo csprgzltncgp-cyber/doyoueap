@@ -205,7 +205,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Navigation */}
-      <header className="border-b fixed md:sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50 w-full">
+      <header
+        className={`${user && role === 'hr' && section ? '' : 'border-b'} fixed md:sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50 w-full`}
+      >
         {/* Main Navigation */}
         <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center relative">
           <div className="flex items-center gap-2">
