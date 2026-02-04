@@ -364,7 +364,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
                 label={`${awarenessRate}%`}
                 sublabel={`${awarenessResponses.length} / ${totalCount} fő`}
                 cornerRadius={30}
-                gaugeColor={parseFloat(awarenessRate) < 50 ? '#ff0033' : 'hsl(var(--chart-2))'}
+                gaugeColor={parseFloat(awarenessRate) < 50 ? '#ff0033' : '#ffc107'}
               />
             </div>
             {parseFloat(awarenessRate) < 50 && (
@@ -564,7 +564,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
                 label={`${redirectRate}%`}
                 sublabel={`${redirectResponses.length} / ${totalCount} fő`}
                 cornerRadius={30}
-                gaugeColor={parseFloat(redirectRate) > 50 ? '#ff0033' : undefined}
+                gaugeColor={parseFloat(redirectRate) > 50 ? '#ff0033' : '#ffc107'}
               />
             </div>
             {parseFloat(redirectRate) > 50 && (

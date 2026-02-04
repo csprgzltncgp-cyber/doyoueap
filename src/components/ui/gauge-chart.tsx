@@ -44,7 +44,7 @@ export const GaugeChart = ({
             background={{ fill: 'hsl(var(--muted))' }}
             dataKey="value"
             cornerRadius={cornerRadius}
-            fill={gaugeColor || '#3366ff'}
+            fill={gaugeColor || '#ffc107'}
             isAnimationActive={false}
           />
           <text 
