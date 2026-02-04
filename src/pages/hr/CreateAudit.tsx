@@ -49,7 +49,7 @@ const CreateAudit = () => {
   const [targetResponses, setTargetResponses] = useState<number | null>(null);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [customColors, setCustomColors] = useState({
-    primary: '#3b82f6',
+    primary: '#04565f',
     secondary: '#8b5cf6',
     accent: '#10b981',
     background: '#f3f4f6',
