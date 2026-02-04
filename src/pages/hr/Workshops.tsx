@@ -320,6 +320,7 @@ const WorkshopCard = ({ workshop }: { workshop: Workshop }) => {
               variant="ghost" 
               size="sm" 
               className="w-full justify-between hover:bg-muted/50"
+              onClick={(e) => e.stopPropagation()}
             >
               <span className="text-xs">
                 {isOpen ? "Részletek elrejtése" : "Részletek megtekintése"}
