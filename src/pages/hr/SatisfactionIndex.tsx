@@ -97,9 +97,9 @@ const SatisfactionIndex = () => {
         </Card>
 
         {/* Stats Cards */}
-        <div className="space-y-4">
+        <div className="flex flex-col gap-4">
           {/* Rating Card */}
-          <Card>
+          <Card className="flex-1">
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-[#82f5ae]/20 rounded-lg">
@@ -120,7 +120,7 @@ const SatisfactionIndex = () => {
           </Card>
 
           {/* Responses Card */}
-          <Card>
+          <Card className="flex-1">
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-[#ffc107]/20 rounded-lg">
@@ -141,7 +141,7 @@ const SatisfactionIndex = () => {
           </Card>
 
           {/* Best Month Card */}
-          <Card>
+          <Card className="flex-1">
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-[#04565f]/10 rounded-lg">
