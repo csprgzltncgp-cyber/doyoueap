@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, Target, BarChart3, TrendingUp, Download, FileEdit, Settings as SettingsIcon, Trophy, Code, Building2 } from 'lucide-react';
+import { Menu, Target, BarChart3, TrendingUp, Download, FileEdit, Settings as SettingsIcon, Trophy, Code, Building2, Map, Calendar, AlertTriangle, Gift, ThumbsUp, PieChart, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -294,6 +294,90 @@ export function MobileDashboardNav({ section, subSection, onNavigate, hasAudits 
           >
             <Download className="h-4 w-4" />
             <span>Export</span>
+          </button>
+
+          <button
+            onClick={() => handleNavClick('health-map')}
+            className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
+              section === 'health-map' 
+                ? 'bg-[#3572ef] text-white font-semibold' 
+                : 'hover:bg-muted'
+            }`}
+          >
+            <Map className="h-4 w-4" />
+            <span>Egészség Térkép</span>
+          </button>
+
+          <button
+            onClick={() => handleNavClick('workshops')}
+            className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
+              section === 'workshops' 
+                ? 'bg-[#3572ef] text-white font-semibold' 
+                : 'hover:bg-muted'
+            }`}
+          >
+            <Calendar className="h-4 w-4" />
+            <span>Workshopok</span>
+          </button>
+
+          <button
+            onClick={() => handleNavClick('crisis')}
+            className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
+              section === 'crisis' 
+                ? 'bg-[#3572ef] text-white font-semibold' 
+                : 'hover:bg-muted'
+            }`}
+          >
+            <AlertTriangle className="h-4 w-4" />
+            <span>Krízis Intervenciók</span>
+          </button>
+
+          <button
+            onClick={() => handleNavClick('lottery')}
+            className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
+              section === 'lottery' 
+                ? 'bg-[#3572ef] text-white font-semibold' 
+                : 'hover:bg-muted'
+            }`}
+          >
+            <Gift className="h-4 w-4" />
+            <span>Nyereményjáték</span>
+          </button>
+
+          <button
+            onClick={() => handleNavClick('satisfaction')}
+            className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
+              section === 'satisfaction' 
+                ? 'bg-[#3572ef] text-white font-semibold' 
+                : 'hover:bg-muted'
+            }`}
+          >
+            <ThumbsUp className="h-4 w-4" />
+            <span>Elégedettségi Index</span>
+          </button>
+
+          <button
+            onClick={() => handleNavClick('program-usage')}
+            className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
+              section === 'program-usage' 
+                ? 'bg-[#3572ef] text-white font-semibold' 
+                : 'hover:bg-muted'
+            }`}
+          >
+            <PieChart className="h-4 w-4" />
+            <span>Program Használat</span>
+          </button>
+
+          <button
+            onClick={() => handleNavClick('data-submission')}
+            className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
+              section === 'data-submission' 
+                ? 'bg-[#3572ef] text-white font-semibold' 
+                : 'hover:bg-muted'
+            }`}
+          >
+            <Upload className="h-4 w-4" />
+            <span>Adatok Küldése</span>
           </button>
 
 
