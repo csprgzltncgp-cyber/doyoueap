@@ -11,7 +11,7 @@ import { Progress } from '@/components/ui/progress';
 import { formatAuditName } from '@/lib/auditUtils';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { ReportNavigation } from '@/components/navigation/ReportNavigation';
-import fourScoreLogo from "@/assets/4score_logo.svg";
+import fourScoreLogo from "@/assets/4score_logo.png";
 
 interface TrustWillingnessProps {
   selectedAuditId: string;

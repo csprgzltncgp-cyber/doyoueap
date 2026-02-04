@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Download, AlertTriangle, TrendingUp } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { ReportNavigation } from '@/components/navigation/ReportNavigation';
-import fourScoreLogo from '@/assets/4score_logo.svg';
+import fourScoreLogo from '@/assets/4score_logo.png';
 
 // NOTE: "Audit" in code represents "Felmérés" (EAP Pulse Survey) in the UI
 interface Audit {
