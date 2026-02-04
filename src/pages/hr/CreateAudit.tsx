@@ -381,6 +381,7 @@ const CreateAudit = () => {
         <Progress 
           value={((packageType === 'partner' ? currentStep + 1 : currentStep) / totalSteps) * 100} 
           className="h-3 bg-background/50"
+          style={{ '--progress-background': '#82f5ae' } as React.CSSProperties}
         />
       </div>
 
