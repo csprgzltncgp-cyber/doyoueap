@@ -450,12 +450,12 @@ export function MagazinContent() {
               <h4 className="font-medium mb-4">Kapcsolat</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <a href="mailto:info@doyoueap.com" className="hover:text-foreground transition-colors">
-                    info@doyoueap.com
+                  <a href="mailto:eap@cgpeu.com" className="hover:text-foreground transition-colors">
+                    eap@cgpeu.com
                   </a>
                 </li>
                 <li>
-                  <button onClick={() => window.location.href = 'mailto:info@doyoueap.com'} className="hover:text-foreground transition-colors">
+                  <button onClick={() => window.location.href = 'mailto:eap@cgpeu.com'} className="hover:text-foreground transition-colors">
                     Kapcsolatfelvétel
                   </button>
                 </li>
