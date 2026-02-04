@@ -6,8 +6,6 @@ const corsHeaders = {
 }
 
 const DEMO_EMAIL = 'zoltan.csepregi@cgpeu.com'
-const DEMO_PASSWORD = 'demo123456'
-const DEMO_NAME = 'Csepregi Zoltán'
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -25,7 +23,7 @@ Deno.serve(async (req) => {
       }
     })
 
-    // Check if demo user exists
+    // Check if user exists
     const { data: existingUsers, error: listError } = await supabaseAdmin.auth.admin.listUsers()
     
     if (listError) {
@@ -33,75 +31,40 @@ Deno.serve(async (req) => {
       throw listError
     }
 
-    const demoUser = existingUsers.users.find(u => u.email === DEMO_EMAIL)
+    const targetUser = existingUsers.users.find(u => u.email === DEMO_EMAIL)
 
-    if (!demoUser) {
-      // Create demo user if it doesn't exist
-      const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
-        email: DEMO_EMAIL,
-        password: DEMO_PASSWORD,
-        email_confirm: true,
-        user_metadata: {
-          full_name: DEMO_NAME
-        }
-      })
-
-      if (createError) {
-        console.error('Error creating demo user:', createError)
-        throw createError
-      }
-
-      console.log('Demo user created:', newUser.user?.id)
-
-      // Create profile for demo user
-      const { error: profileError } = await supabaseAdmin
-        .from('profiles')
-        .upsert({
-          id: newUser.user!.id,
-          email: DEMO_EMAIL,
-          full_name: DEMO_NAME,
-          company_name: 'Demo Cég Kft.',
-          employee_count: '100-500'
-        })
-
-      if (profileError) {
-        console.error('Error creating profile:', profileError)
-      }
-
-      // Add HR role to demo user
-      const { error: roleError } = await supabaseAdmin
-        .from('user_roles')
-        .upsert({
-          user_id: newUser.user!.id,
-          role: 'hr'
-        })
-
-      if (roleError) {
-        console.error('Error adding role:', roleError)
-      }
+    if (!targetUser) {
+      throw new Error(`User ${DEMO_EMAIL} not found`)
     }
 
-    // Sign in the demo user and return session
-    const { data: signInData, error: signInError } = await supabaseAdmin.auth.admin.generateLink({
+    // Generate a magic link for the user using admin API
+    const { data: linkData, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
       type: 'magiclink',
       email: DEMO_EMAIL,
     })
 
-    if (signInError) {
-      console.error('Error generating link:', signInError)
-      throw signInError
+    if (linkError) {
+      console.error('Error generating magic link:', linkError)
+      throw linkError
     }
 
-    // Use regular client to sign in with password
+    // Extract the token from the magic link and create a session
+    const token = linkData.properties?.hashed_token
+    
+    if (!token) {
+      throw new Error('Failed to generate authentication token')
+    }
+
+    // Use the OTP to verify and create session
     const supabaseClient = createClient(supabaseUrl, Deno.env.get('SUPABASE_ANON_KEY')!)
     
-    const { data: session, error: sessionError } = await supabaseClient.auth.signInWithPassword({
-      email: DEMO_EMAIL,
-      password: DEMO_PASSWORD
+    const { data: session, error: sessionError } = await supabaseClient.auth.verifyOtp({
+      token_hash: token,
+      type: 'magiclink'
     })
 
     if (sessionError) {
-      console.error('Error signing in:', sessionError)
+      console.error('Error verifying OTP:', sessionError)
       throw sessionError
     }
 
