@@ -230,20 +230,20 @@ const Index = () => {
             {/* HIDDEN: Bemutatkozás menu item */}
             {/* HIDDEN: Árak és Csomagok menu item */}
             {/* HIDDEN: Magazin menu item */}
+          </nav>
+          <div className="flex items-center gap-4">
             {user && role === 'hr' && (
               <button
                 onClick={() => navigate('/?section=focus')}
-                className={`text-sm border border-transparent transition-colors px-3 py-2 rounded-md ${
+                className={`text-sm border border-transparent transition-colors px-3 py-2 rounded-md hidden md:flex ${
                   section 
-                    ? 'bg-[#3572ef] text-white font-semibold' 
-                    : 'hover:bg-muted'
+                    ? 'bg-[#04565f] text-white font-semibold' 
+                    : 'bg-[#04565f] text-white hover:bg-[#04565f]/90'
                 }`}
               >
                 Dashboard
               </button>
             )}
-          </nav>
-          <div className="flex items-center gap-4">
             {user ? (
               <Button onClick={handleLogout} variant="outline" className="hidden md:flex">
                 Kilépés
