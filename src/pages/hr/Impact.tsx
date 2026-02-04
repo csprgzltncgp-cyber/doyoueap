@@ -529,7 +529,7 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
               </div>
 
               {/* Scale */}
-              <div className="relative h-12 rounded-full mb-8" style={{ background: 'linear-gradient(to right, #45d0cf, #6610f2)' }}>
+              <div className="relative h-12 rounded-full mb-8" style={{ background: 'linear-gradient(to right, #6610f2, #82f5ae)' }}>
                 {/* Indicator */}
                 <div 
                   className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 transition-all duration-500"
