@@ -142,6 +142,25 @@ export function MobileDashboardNav({ section, subSection, onNavigate, hasAudits 
               </AccordionTrigger>
               <AccordionContent className="pb-0 pt-2 pl-4">
                 <div className="flex flex-col gap-1">
+                  {/* Program Riportok Section */}
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                    Program riportok
+                  </div>
+                  <button
+                    onClick={() => handleNavClick('reports', 'program')}
+                    className={`px-4 py-2 rounded-md text-left text-sm ${
+                      subSection === 'program'
+                        ? 'bg-muted font-medium' 
+                        : 'hover:bg-muted/50'
+                    }`}
+                  >
+                    Negyedéves riport
+                  </button>
+
+                  {/* EAP Pulse Riportok Section */}
+                  <div className="px-2 py-1.5 mt-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider border-t border-muted pt-3">
+                    EAP Pulse riportok
+                  </div>
                   <button
                     onClick={() => handleNavClick('reports', 'overview')}
                     className={`px-4 py-2 rounded-md text-left text-sm ${

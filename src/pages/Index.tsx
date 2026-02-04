@@ -17,6 +17,7 @@ import dashboardPreview from '@/assets/dashboard-preview.jpg';
 import Focus from './hr/Focus';
 import EAPAudit from './hr/EAPAudit';
 import Reports from './hr/Reports';
+import ProgramReports from './hr/ProgramReports';
 import Export from './hr/Export';
 
 import Settings from './hr/Settings';
@@ -171,6 +172,10 @@ const Index = () => {
             return <EAPAudit />;
         }
       case 'reports':
+        // Check if it's EAP Pulse reports (existing) or Program reports (new)
+        if (subSection === 'program') {
+          return <ProgramReports />;
+        }
         return <Reports />;
       case 'export':
         return <Export />;
@@ -407,7 +412,27 @@ const Index = () => {
                     Riportok
                   </button>
                   {openSubmenu === 'reports' && (
-                    <div className="absolute top-full left-0 mt-2 bg-white rounded-md shadow-lg py-2 min-w-[200px] z-50">
+                    <div className="absolute top-full left-0 mt-2 bg-white rounded-md shadow-lg py-2 min-w-[220px] z-50">
+                      {/* Program Riportok Section */}
+                      <div className="px-4 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider border-b border-gray-100 mb-1">
+                        Program riportok
+                      </div>
+                      <button
+                        onClick={() => {
+                          setSearchParams({ section: 'reports', sub: 'program' });
+                          setOpenSubmenu(null);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          subSection === 'program' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        Negyedéves riport
+                      </button>
+
+                      {/* EAP Pulse Riportok Section */}
+                      <div className="px-4 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider border-b border-t border-gray-100 mt-2 mb-1">
+                        EAP Pulse riportok
+                      </div>
                       <button
                         onClick={() => {
                           setSearchParams({ section: 'reports', sub: 'overview' });
