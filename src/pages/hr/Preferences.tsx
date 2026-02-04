@@ -200,7 +200,7 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
                   <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="value" fill="#3366ff" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="value" fill="#04565f" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -234,7 +234,7 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
                   <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="value" fill="#3366ff" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="value" fill="#04565f" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -271,7 +271,7 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
                   <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="value" fill="#3366ff" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="value" fill="#04565f" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -305,7 +305,7 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
                   <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="value" fill="#3366ff" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="value" fill="#04565f" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -341,7 +341,7 @@ const Preferences = ({ selectedAuditId, audits, onAuditChange }: PreferencesProp
                   <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="value" fill="#3366ff" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="value" fill="#04565f" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
