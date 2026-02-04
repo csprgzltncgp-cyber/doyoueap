@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { Download, Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase, Heart, GraduationCap } from "lucide-react";
+
+import { Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase, Heart, GraduationCap } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 import { Progress } from "@/components/ui/progress";
 import { GaugeChart } from "@/components/ui/gauge-chart";
@@ -247,17 +247,11 @@ const ProgramReports = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">Program Riportok</h2>
-          <p className="text-muted-foreground">
-            Negyedéves statisztikák és program teljesítmény
-          </p>
-        </div>
-        <Button variant="outline" className="gap-2">
-          <Download className="h-4 w-4" />
-          Exportálás
-        </Button>
+      <div>
+        <h2 className="text-2xl font-bold">Program Riportok</h2>
+        <p className="text-muted-foreground">
+          Negyedéves statisztikák és program teljesítmény
+        </p>
       </div>
 
       {/* Country Tabs */}
@@ -276,7 +270,7 @@ const ProgramReports = () => {
       </Tabs>
 
       {/* Year and Quarter Navigation */}
-      <Card className="border-muted">
+      <Card>
         <CardContent className="py-4">
           <div className="flex items-center justify-center gap-6">
             {/* Year Selector */}
@@ -360,7 +354,7 @@ const ProgramReports = () => {
       {/* Main Statistics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Total Cases */}
-        <Card className="border-muted">
+        <Card>
           <CardContent className="pt-6">
             <div className="text-center">
               <p className="text-sm text-muted-foreground mb-2">Összes eset</p>
@@ -377,7 +371,7 @@ const ProgramReports = () => {
         </Card>
 
         {/* Total Consultations */}
-        <Card className="border-muted">
+        <Card>
           <CardContent className="pt-6">
             <div className="text-center">
               <p className="text-sm text-muted-foreground mb-2">Összes konzultáció</p>
@@ -394,7 +388,7 @@ const ProgramReports = () => {
         </Card>
 
         {/* Online Logins */}
-        <Card className="border-muted">
+        <Card>
           <CardContent className="pt-6">
             <div className="text-center">
               <p className="text-sm text-muted-foreground mb-2">Online belépések</p>
@@ -413,7 +407,7 @@ const ProgramReports = () => {
 
       {/* Secondary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="border-muted">
+        <Card>
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
@@ -425,7 +419,7 @@ const ProgramReports = () => {
           </CardContent>
         </Card>
 
-        <Card className="border-muted">
+        <Card>
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
@@ -437,7 +431,7 @@ const ProgramReports = () => {
           </CardContent>
         </Card>
 
-        <Card className="border-muted">
+        <Card>
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
@@ -453,7 +447,7 @@ const ProgramReports = () => {
       {/* Problem Types & Demographics */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Problem Types Radar */}
-        <Card className="border-muted">
+        <Card className="relative overflow-hidden">
           <CardHeader>
             <CardTitle className="text-lg">Problématípusok megoszlása</CardTitle>
             <CardDescription>A konzultációk témái százalékos arányban</CardDescription>
@@ -501,7 +495,7 @@ const ProgramReports = () => {
         </Card>
 
         {/* Gender & Age Distribution */}
-        <Card className="border-muted">
+        <Card className="relative overflow-hidden">
           <CardHeader>
             <CardTitle className="text-lg">Demográfia</CardTitle>
             <CardDescription>Nemek és korosztályok eloszlása</CardDescription>
@@ -577,7 +571,7 @@ const ProgramReports = () => {
       {/* Consultation Mode & Usage */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Consultation Mode */}
-        <Card className="border-muted">
+        <Card>
           <CardHeader>
             <CardTitle className="text-lg">Konzultáció módja</CardTitle>
             <CardDescription>Személyes, telefon, online</CardDescription>
@@ -629,7 +623,7 @@ const ProgramReports = () => {
         </Card>
 
         {/* Usage Rate */}
-        <Card className="border-muted">
+        <Card>
           <CardHeader>
             <CardTitle className="text-lg">Program kihasználtság</CardTitle>
             <CardDescription>Éves igénybevételi arány</CardDescription>
@@ -655,7 +649,7 @@ const ProgramReports = () => {
         </Card>
 
         {/* Satisfaction Score */}
-        <Card className="border-muted">
+        <Card>
           <CardHeader>
             <CardTitle className="text-lg">Elégedettség</CardTitle>
             <CardDescription>Ügyfélelégedettségi index (1-5)</CardDescription>
@@ -704,7 +698,7 @@ const ProgramReports = () => {
       </div>
 
       {/* Family Status */}
-      <Card className="border-muted">
+      <Card>
         <CardHeader>
           <CardTitle className="text-lg">Munkavállaló / Családtag arány</CardTitle>
           <CardDescription>A szolgáltatást igénybe vevők megoszlása</CardDescription>
@@ -750,7 +744,7 @@ const ProgramReports = () => {
       </Card>
 
       {/* Global Comparison */}
-      <Card className="border-muted bg-gradient-to-r from-[#04565f] to-[#004144]">
+      <Card className="bg-gradient-to-r from-[#04565f] to-[#004144]">
         <CardContent className="py-8">
           <div className="flex items-center justify-between text-white">
             <div className="flex items-center gap-4">
