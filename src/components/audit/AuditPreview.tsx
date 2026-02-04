@@ -65,7 +65,7 @@ export const AuditPreview = ({ auditData, onNext, onBack }: AuditPreviewProps) =
   const [selectedBranch, setSelectedBranch] = useState<string>('know_and_use');
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
 
-  const primaryColor = auditData.customColors?.primary || '#3b82f6';
+  const primaryColor = auditData.customColors?.primary || '#04565f';
   const hasLottery = !!auditData.giftId;
 
   useEffect(() => {

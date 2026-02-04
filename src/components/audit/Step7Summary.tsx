@@ -301,7 +301,8 @@ export const Step7Summary = ({ auditData, selectedCompanyName, onSubmit, onBack,
           onClick={onSubmit} 
           disabled={loading}
           size="lg"
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+          className="text-white"
+          style={{ backgroundColor: '#04565f' }}
         >
           {loading ? 'Felmérés indítása...' : 'Felmérés indítása'}
         </Button>
