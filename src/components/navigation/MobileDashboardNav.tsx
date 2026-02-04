@@ -356,7 +356,7 @@ export function MobileDashboardNav({ section, subSection, onNavigate, hasAudits 
                         : 'hover:bg-muted/50'
                     }`}
                   >
-                    Krízis Intervenciók
+                    Krízisintervenciók
                   </button>
                   <button
                     onClick={() => handleNavClick('lottery')}
