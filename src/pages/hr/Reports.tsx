@@ -1043,7 +1043,7 @@ const Reports = () => {
                     <span className="text-sm">NPS pontszám</span>
                     <span className="font-semibold">{npsScore}/10</span>
                   </div>
-                  <Progress value={parseFloat(npsScore) * 10} style={{ '--progress-background': '#ffc107' } as React.CSSProperties} className="h-3" />
+                  <Progress value={parseFloat(npsScore) * 10} style={{ '--progress-background': '#04565f' } as React.CSSProperties} className="h-3" />
                   <p className="text-xs text-muted-foreground">Mennyire valószínű, hogy ajánlaná a szolgáltatást</p>
                 </div>
                 <div className="space-y-2">
@@ -1051,7 +1051,7 @@ const Reports = () => {
                     <span className="text-sm">Problémamegoldás</span>
                     <span className="font-semibold">{problemSolvingScore}/5</span>
                   </div>
-                  <Progress value={parseFloat(problemSolvingScore) * 20} style={{ '--progress-background': '#ffc107' } as React.CSSProperties} className="h-3" />
+                  <Progress value={parseFloat(problemSolvingScore) * 20} style={{ '--progress-background': '#04565f' } as React.CSSProperties} className="h-3" />
                   <p className="text-xs text-muted-foreground">Mennyire hatékony volt a program a problémák kezelésében</p>
                 </div>
                 <div className="space-y-2">
@@ -1059,7 +1059,7 @@ const Reports = () => {
                     <span className="text-sm">Teljesítmény</span>
                     <span className="font-semibold">{performanceScore}/5</span>
                   </div>
-                  <Progress value={parseFloat(performanceScore) * 20} style={{ '--progress-background': '#ffc107' } as React.CSSProperties} className="h-3" />
+                  <Progress value={parseFloat(performanceScore) * 20} style={{ '--progress-background': '#04565f' } as React.CSSProperties} className="h-3" />
                   <p className="text-xs text-muted-foreground">Teljesítmény javulása a program használata után</p>
                 </div>
                 <div className="space-y-2">
@@ -1067,7 +1067,7 @@ const Reports = () => {
                     <span className="text-sm">Jóllét</span>
                     <span className="font-semibold">{wellbeingScore}/5</span>
                   </div>
-                  <Progress value={parseFloat(wellbeingScore) * 20} style={{ '--progress-background': '#ffc107' } as React.CSSProperties} className="h-3" />
+                  <Progress value={parseFloat(wellbeingScore) * 20} style={{ '--progress-background': '#04565f' } as React.CSSProperties} className="h-3" />
                   <p className="text-xs text-muted-foreground">Jóllét javulása a program használata után</p>
                 </div>
                 <div className="space-y-2">
@@ -1075,7 +1075,7 @@ const Reports = () => {
                     <span className="text-sm">Konzisztencia</span>
                     <span className="font-semibold">{consistencyScore}/5</span>
                   </div>
-                  <Progress value={parseFloat(consistencyScore) * 20} style={{ '--progress-background': '#ffc107' } as React.CSSProperties} className="h-3" />
+                  <Progress value={parseFloat(consistencyScore) * 20} style={{ '--progress-background': '#04565f' } as React.CSSProperties} className="h-3" />
                   <p className="text-xs text-muted-foreground">Mennyire volt konzisztens a szolgáltatás minősége minden alkalommal</p>
                 </div>
               </CardContent>
