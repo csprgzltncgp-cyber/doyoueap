@@ -1051,7 +1051,7 @@ const TrustWillingness = ({ selectedAuditId, audits, onAuditChange, packageType,
                 </div>
                 <Progress 
                   value={item.percentage} 
-                  style={{ '--progress-background': '#3366ff' } as React.CSSProperties}
+                  style={{ '--progress-background': '#04565f' } as React.CSSProperties}
                   className="h-3"
                 />
               </div>
