@@ -339,7 +339,7 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
       {/* 1. sor: Fő ismertségi mutatók */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Ismertség Index (4Score) */}
-        <Card className={`relative overflow-hidden border-2 ${parseFloat(awarenessRate) < 50 ? 'border-[#ff0033]' : 'border-[#3366ff]'}`} id="overall-awareness-card">
+        <Card className="relative overflow-hidden" id="overall-awareness-card">
           <CardHeader className="relative z-10" style={{ minHeight: '120px' }}>
             <Button
               variant="ghost"
