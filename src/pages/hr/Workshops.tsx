@@ -254,8 +254,15 @@ const getStatusConfig = (status: WorkshopStatus) => {
   }
 };
 
-const WorkshopCard = ({ workshop }: { workshop: Workshop }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const WorkshopCard = ({
+  workshop,
+  isOpen,
+  onOpenChange,
+}: {
+  workshop: Workshop;
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+}) => {
   const statusConfig = getStatusConfig(workshop.status);
 
   return (
@@ -314,13 +321,13 @@ const WorkshopCard = ({ workshop }: { workshop: Workshop }) => {
         </div>
 
         {/* Expandable details */}
-        <Collapsible open={isOpen} onOpenChange={setIsOpen} className="mt-4">
+        <Collapsible open={isOpen} onOpenChange={onOpenChange} className="mt-4">
           <CollapsibleTrigger asChild>
             <Button 
               variant="ghost" 
               size="sm" 
               className="w-full justify-between hover:bg-muted/50"
-              onClick={(e) => e.stopPropagation()}
+              onPointerDown={(e) => e.stopPropagation()}
             >
               <span className="text-xs">
                 {isOpen ? "Részletek elrejtése" : "Részletek megtekintése"}
@@ -417,6 +424,8 @@ const Workshops = () => {
   const [selectedCountry, setSelectedCountry] = useState("HU");
   const workshops = mockWorkshops[selectedCountry] || [];
 
+  const [openById, setOpenById] = useState<Record<string, boolean>>({});
+
   const countByStatus = (status: WorkshopStatus) =>
     workshops.filter((w) => w.status === status).length;
 
@@ -471,7 +480,17 @@ const Workshops = () => {
             {mockWorkshops[country].length > 0 ? (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {mockWorkshops[country].map((workshop) => (
-                  <WorkshopCard key={workshop.id} workshop={workshop} />
+                  <WorkshopCard
+                    key={workshop.id}
+                    workshop={workshop}
+                    isOpen={!!openById[workshop.id]}
+                    onOpenChange={(open) =>
+                      setOpenById((prev) => ({
+                        ...prev,
+                        [workshop.id]: open,
+                      }))
+                    }
+                  />
                 ))}
               </div>
             ) : (
