@@ -670,7 +670,7 @@ const Index = () => {
                           section === 'crisis' ? 'bg-gray-100 font-medium' : ''
                         }`}
                       >
-                        Krízis Intervenciók
+                        Krízisintervenciók
                       </button>
                       <button
                         onClick={() => {
