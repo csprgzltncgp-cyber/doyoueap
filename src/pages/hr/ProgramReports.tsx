@@ -15,37 +15,25 @@ const MOCK_COUNTRIES = [
   { id: 'cz', name: 'Csehország' },
 ];
 
-interface QuarterData {
-  quarter: number;
-  year: number;
-  hasData: boolean;
-  isCurrent: boolean;
-}
+// Available years with their quarters
+const AVAILABLE_YEARS = [2023, 2024];
 
-const generateQuarters = (startYear: number, startQuarter: number, count: number): QuarterData[] => {
-  const quarters: QuarterData[] = [];
-  let year = startYear;
-  let quarter = startQuarter;
-  
-  for (let i = 0; i < count; i++) {
-    quarters.push({
-      quarter,
-      year,
-      hasData: true,
-      isCurrent: i === count - 1,
-    });
-    
-    quarter++;
-    if (quarter > 4) {
-      quarter = 1;
-      year++;
-    }
+const getQuartersForYear = (year: number): { quarter: number; hasData: boolean }[] => {
+  if (year === 2023) {
+    return [
+      { quarter: 1, hasData: false },
+      { quarter: 2, hasData: false },
+      { quarter: 3, hasData: true },
+      { quarter: 4, hasData: true },
+    ];
   }
-  
-  return quarters;
+  return [
+    { quarter: 1, hasData: true },
+    { quarter: 2, hasData: true },
+    { quarter: 3, hasData: false },
+    { quarter: 4, hasData: false },
+  ];
 };
-
-const MOCK_QUARTERS = generateQuarters(2023, 3, 6);
 
 // Mock data for each country - comprehensive data matching Laravel reports
 interface CountryReportData {
@@ -213,11 +201,12 @@ const PROBLEM_TYPE_COLORS = [
 
 const ProgramReports = () => {
   const [selectedCountry, setSelectedCountry] = useState(MOCK_COUNTRIES[0].id);
-  const [selectedQuarterIndex, setSelectedQuarterIndex] = useState(MOCK_QUARTERS.length - 1);
+  const [selectedYear, setSelectedYear] = useState(2024);
+  const [selectedQuarter, setSelectedQuarter] = useState(2);
   const [showCumulated, setShowCumulated] = useState(false);
 
   const currentData = MOCK_DATA_BY_COUNTRY[selectedCountry];
-  const selectedQuarter = MOCK_QUARTERS[selectedQuarterIndex];
+  const quartersForYear = getQuartersForYear(selectedYear);
 
   // Prepare chart data
   const problemTypeData = [
@@ -251,18 +240,6 @@ const ProgramReports = () => {
     { subject: 'Egészség', value: currentData.problemTypes.health, fullMark: 100 },
     { subject: 'Coaching', value: currentData.problemTypes.coaching, fullMark: 100 },
   ];
-
-  const handlePrevQuarter = () => {
-    if (selectedQuarterIndex > 0) {
-      setSelectedQuarterIndex(selectedQuarterIndex - 1);
-    }
-  };
-
-  const handleNextQuarter = () => {
-    if (selectedQuarterIndex < MOCK_QUARTERS.length - 1) {
-      setSelectedQuarterIndex(selectedQuarterIndex + 1);
-    }
-  };
 
   const getValue = (data: { current: number; cumulated: number }) => 
     showCumulated ? data.cumulated : data.current;
@@ -298,37 +275,64 @@ const ProgramReports = () => {
         </TabsList>
       </Tabs>
 
-      {/* Quarter Navigation */}
+      {/* Year and Quarter Navigation */}
       <Card className="border-muted">
         <CardContent className="py-4">
-          <div className="flex items-center justify-center gap-8">
-            {MOCK_QUARTERS.map((q, index) => (
-              <button
-                key={`${q.year}-${q.quarter}`}
-                onClick={() => q.hasData && setSelectedQuarterIndex(index)}
-                disabled={!q.hasData}
-                className={`flex flex-col items-center transition-all ${
-                  !q.hasData ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'
-                }`}
-              >
-                <div 
-                  className={`h-3 w-3 rounded-full mb-1 transition-all ${
-                    index === selectedQuarterIndex
-                      ? 'bg-[#04565f] ring-4 ring-[#82f5ae]/50 scale-125'
-                      : index < selectedQuarterIndex
-                        ? 'bg-[#04565f]'
-                        : 'bg-muted-foreground/30'
+          <div className="flex items-center justify-center gap-6">
+            {/* Year Selector */}
+            <div className="flex items-center gap-2">
+              {AVAILABLE_YEARS.map((year) => (
+                <button
+                  key={year}
+                  onClick={() => {
+                    setSelectedYear(year);
+                    const quarters = getQuartersForYear(year);
+                    const firstAvailable = quarters.find(q => q.hasData);
+                    if (firstAvailable) setSelectedQuarter(firstAvailable.quarter);
+                  }}
+                  className={`px-3 py-1 rounded-md text-sm font-medium transition-all ${
+                    selectedYear === year
+                      ? 'bg-[#04565f] text-white'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
                   }`}
-                />
-                <span className={`text-xs ${
-                  index === selectedQuarterIndex 
-                    ? 'text-[#04565f] font-semibold' 
-                    : 'text-muted-foreground'
-                }`}>
-                  {QUARTER_LABELS[q.quarter]}'{String(q.year).slice(-2)}
-                </span>
-              </button>
-            ))}
+                >
+                  {year}
+                </button>
+              ))}
+            </div>
+
+            <div className="w-px h-6 bg-border" />
+
+            {/* Quarter Selector */}
+            <div className="flex items-center gap-4">
+              {quartersForYear.map((q) => (
+                <button
+                  key={q.quarter}
+                  onClick={() => q.hasData && setSelectedQuarter(q.quarter)}
+                  disabled={!q.hasData}
+                  className={`flex flex-col items-center transition-all ${
+                    !q.hasData ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'
+                  }`}
+                >
+                  <div 
+                    className={`h-3 w-3 rounded-full mb-1 transition-all ${
+                      q.quarter === selectedQuarter
+                        ? 'bg-[#04565f] ring-4 ring-[#82f5ae]/50 scale-125'
+                        : q.hasData
+                          ? 'bg-[#04565f]'
+                          : 'bg-muted-foreground/30'
+                    }`}
+                  />
+                  <span className={`text-xs ${
+                    q.quarter === selectedQuarter 
+                      ? 'text-[#04565f] font-semibold' 
+                      : 'text-muted-foreground'
+                  }`}>
+                    {QUARTER_LABELS[q.quarter]}
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
         </CardContent>
       </Card>
