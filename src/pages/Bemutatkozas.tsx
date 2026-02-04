@@ -92,7 +92,7 @@ const Bemutatkozas = () => {
               Kezdje el most
             </Button>
             <Button size="lg" variant="outline" onClick={() => {
-              window.location.href = 'mailto:info@doyoueap.com';
+              window.location.href = 'mailto:eap@cgpeu.com';
             }}>
               Tudjon meg többet
             </Button>

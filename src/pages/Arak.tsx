@@ -65,7 +65,7 @@ const Arak = () => {
 
   const handlePackageClick = (pkgName: string) => {
     if (pkgName === 'Enterprise') {
-      window.location.href = 'mailto:info@doyoueap.com';
+      window.location.href = 'mailto:eap@cgpeu.com';
     } else {
       if (user) {
         navigate('/?section=focus');
@@ -245,7 +245,7 @@ const Arak = () => {
               <Button 
                 className="w-full bg-[#050c9c] hover:bg-[#050c9c]/90" 
                 variant="default"
-                onClick={() => window.location.href = 'mailto:info@doyoueap.com'}
+                onClick={() => window.location.href = 'mailto:eap@cgpeu.com'}
               >
                 Kérj egyedi ajánlatot
               </Button>
