@@ -422,8 +422,8 @@ const Focus = () => {
                     </div>
                     {audit.daysRemaining !== null && audit.daysRemaining >= 0 && (
                       <Badge 
-                        variant={audit.daysRemaining < 7 ? 'destructive' : 'outline'}
-                        className={`gap-1.5 px-3 py-1.5 ${audit.daysRemaining >= 7 ? 'bg-foreground text-background border-foreground' : ''}`}
+                        variant="outline"
+                        className="gap-1.5 px-3 py-1.5 bg-[#82f5ae] text-foreground border-[#82f5ae]"
                       >
                         <Clock className="h-3.5 w-3.5" />
                         <span className="font-semibold">{audit.daysRemaining}</span>
@@ -546,7 +546,7 @@ const Focus = () => {
                         </span>
                       </div>
                     </div>
-                    <Badge variant="secondary" className="gap-1.5 px-3 py-1.5">
+                    <Badge variant="outline" className="gap-1.5 px-3 py-1.5 bg-[#04565f] text-white border-[#04565f]">
                       <CheckCircle2 className="h-3.5 w-3.5" />
                       Lezárva
                     </Badge>
