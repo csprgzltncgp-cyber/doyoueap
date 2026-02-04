@@ -292,6 +292,7 @@ const CrisisCard = ({
               size="sm" 
               className="w-full justify-between hover:bg-muted/50"
               onPointerDown={(e) => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
             >
               <span className="text-xs">
                 {isOpen ? "Részletek elrejtése" : "Részletek megtekintése"}
@@ -360,7 +361,8 @@ const CrisisInterventions = () => {
   const [selectedCountry, setSelectedCountry] = useState("HU");
   const interventions = mockCrisisInterventions[selectedCountry] || [];
 
-  const [openById, setOpenById] = useState<Record<string, boolean>>({});
+  // Ensure at most one card is open at a time.
+  const [openId, setOpenId] = useState<string | null>(null);
 
   const countByStatus = (status: CrisisStatus) =>
     interventions.filter((c) => c.status === status).length;
@@ -419,13 +421,8 @@ const CrisisInterventions = () => {
                   <CrisisCard
                     key={crisis.id}
                     crisis={crisis}
-                    isOpen={!!openById[crisis.id]}
-                    onOpenChange={(open) =>
-                      setOpenById((prev) => ({
-                        ...prev,
-                        [crisis.id]: open,
-                      }))
-                    }
+                    isOpen={openId === crisis.id}
+                    onOpenChange={(open) => setOpenId(open ? crisis.id : null)}
                   />
                 ))}
               </div>

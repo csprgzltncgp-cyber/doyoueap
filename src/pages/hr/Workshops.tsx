@@ -328,6 +328,7 @@ const WorkshopCard = ({
               size="sm" 
               className="w-full justify-between hover:bg-muted/50"
               onPointerDown={(e) => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
             >
               <span className="text-xs">
                 {isOpen ? "Részletek elrejtése" : "Részletek megtekintése"}
@@ -424,7 +425,8 @@ const Workshops = () => {
   const [selectedCountry, setSelectedCountry] = useState("HU");
   const workshops = mockWorkshops[selectedCountry] || [];
 
-  const [openById, setOpenById] = useState<Record<string, boolean>>({});
+  // Ensure at most one card is open at a time.
+  const [openId, setOpenId] = useState<string | null>(null);
 
   const countByStatus = (status: WorkshopStatus) =>
     workshops.filter((w) => w.status === status).length;
@@ -483,13 +485,8 @@ const Workshops = () => {
                   <WorkshopCard
                     key={workshop.id}
                     workshop={workshop}
-                    isOpen={!!openById[workshop.id]}
-                    onOpenChange={(open) =>
-                      setOpenById((prev) => ({
-                        ...prev,
-                        [workshop.id]: open,
-                      }))
-                    }
+                    isOpen={openId === workshop.id}
+                    onOpenChange={(open) => setOpenId(open ? workshop.id : null)}
                   />
                 ))}
               </div>
