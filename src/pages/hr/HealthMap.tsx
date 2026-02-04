@@ -150,9 +150,10 @@ const HealthMapRow = ({
       </div>
       
       {/* Grid cells */}
-      <div className="grid grid-cols-6 gap-1 relative" style={{ minHeight: '120px' }}>
-        {AGE_GROUPS.map((ageGroup) => {
+      <div className="grid grid-cols-6 gap-0 relative" style={{ minHeight: '120px' }}>
+        {AGE_GROUPS.map((ageGroup, colIdx) => {
           const cellCircles = rowCircles.filter(c => c.ageId === ageGroup.id);
+          const isLastColumn = colIdx === AGE_GROUPS.length - 1;
           
           return (
             <div 
@@ -161,6 +162,8 @@ const HealthMapRow = ({
                 flex items-center justify-center gap-1 p-2
                 ${isLight ? theme.lightClass : theme.darkClass}
                 min-h-[100px] md:min-h-[120px]
+                ${bgTheme === 'transparent' ? 'border-b border-r border-gray-200' : ''}
+                ${bgTheme === 'transparent' && isLastColumn ? 'border-r-0' : ''}
               `}
             >
               {cellCircles.map((circle, idx) => (
