@@ -322,8 +322,6 @@ const ProgramReports = () => {
               <p className="text-xs text-muted-foreground">Egy negyedév adatai</p>
             </div>
 
-            {/* Divider */}
-            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-16 w-px bg-border" />
 
             {/* Right Side: Cumulation Selection */}
             <div className={`flex flex-col items-center gap-3 p-4 rounded-lg transition-all ${activeMode === 'cumulated' ? 'bg-muted/30 ring-1 ring-[#04565f]/20' : ''}`}>
