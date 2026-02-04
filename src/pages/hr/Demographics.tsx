@@ -256,7 +256,7 @@ const Demographics = ({ selectedAuditId, audits, onAuditChange, packageType, com
   };
 
   
-  const COLORS = ['#000099', 'hsl(var(--chart-3))', 'hsl(var(--chart-2))'];
+  const COLORS = ['#000099', 'hsl(var(--chart-3))', '#004144'];
 
   if (loading) {
     return (
@@ -553,7 +553,7 @@ const Demographics = ({ selectedAuditId, audits, onAuditChange, packageType, com
                     </div>
                     <Progress 
                       value={percentage} 
-                      style={{ '--progress-background': '#3366ff' } as React.CSSProperties}
+                      style={{ '--progress-background': '#04565f' } as React.CSSProperties}
                       className="h-3"
                     />
                   </div>
@@ -588,7 +588,7 @@ const Demographics = ({ selectedAuditId, audits, onAuditChange, packageType, com
                     </div>
                     <Progress 
                       value={percentage} 
-                      style={{ '--progress-background': '#3366ff' } as React.CSSProperties}
+                      style={{ '--progress-background': '#04565f' } as React.CSSProperties}
                       className="h-3"
                     />
                   </div>
