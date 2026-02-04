@@ -410,7 +410,7 @@ export default function AuditQuestionnaire() {
                   <div className="flex items-center justify-center text-sm text-muted-foreground">
                     <span>Lépés {progress.current} / {progress.total}</span>
                   </div>
-                  <Progress value={progress.percent} className="flex-1" />
+                  <Progress value={progress.percent} className="flex-1" style={{ '--progress-background': '#82f5ae' } as React.CSSProperties} />
                 </div>
               );
             })()}
