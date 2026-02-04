@@ -258,7 +258,7 @@ const Index = () => {
 
         {/* Dashboard Sub-Navigation */}
         {user && role === 'hr' && section && (
-          <div className="border-t bg-gradient-to-r from-muted/50 to-background">
+          <div className="border-t border-border bg-gradient-to-r from-muted/50 to-background">
             <div className="max-w-7xl mx-auto px-4 py-3">
               <div className="flex items-center">
                 <MobileDashboardNav 
@@ -282,8 +282,8 @@ const Index = () => {
                   }}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                     section === 'focus' 
-                      ? 'text-white font-semibold border-white' 
-                      : 'text-white/80 border-transparent hover:text-white'
+                      ? 'text-foreground font-semibold border-foreground' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
                   <Target className="h-4 w-4" />
@@ -301,8 +301,8 @@ const Index = () => {
                     }}
                     className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                       section === 'eap-pulse' 
-                        ? 'text-white font-semibold border-white' 
-                        : 'text-white/80 border-transparent hover:text-white'
+                        ? 'text-foreground font-semibold border-foreground' 
+                        : 'text-muted-foreground border-transparent hover:text-foreground'
                     }`}
                   >
                     <Activity className="h-4 w-4" />
@@ -402,8 +402,8 @@ const Index = () => {
                     }}
                     className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                       section === 'reports' 
-                        ? 'text-white font-semibold border-white' 
-                        : 'text-white/80 border-transparent hover:text-white'
+                        ? 'text-foreground font-semibold border-foreground' 
+                        : 'text-muted-foreground border-transparent hover:text-foreground'
                     }`}
                   >
                     <BarChart3 className="h-4 w-4" />
@@ -564,8 +564,8 @@ const Index = () => {
                   }}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                     section === 'export' 
-                      ? 'text-white font-semibold border-white' 
-                      : 'text-white/80 border-transparent hover:text-white'
+                      ? 'text-foreground font-semibold border-foreground' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
                   <Download className="h-4 w-4" />
@@ -580,8 +580,8 @@ const Index = () => {
                       }}
                       className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                         section === 'api' 
-                          ? 'text-white font-semibold border-white' 
-                          : 'text-white/80 border-transparent hover:text-white'
+                          ? 'text-foreground font-semibold border-foreground' 
+                          : 'text-muted-foreground border-transparent hover:text-foreground'
                       }`}
                     >
                       <Code className="h-4 w-4" />
@@ -594,8 +594,8 @@ const Index = () => {
                       }}
                       className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                         section === 'partner-center' 
-                          ? 'text-white font-semibold border-white' 
-                          : 'text-white/80 border-transparent hover:text-white'
+                          ? 'text-foreground font-semibold border-foreground' 
+                          : 'text-muted-foreground border-transparent hover:text-foreground'
                       }`}
                     >
                       <Building2 className="h-4 w-4" />
@@ -611,8 +611,8 @@ const Index = () => {
                     }}
                     className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                       section === 'api' 
-                        ? 'text-white font-semibold border-white' 
-                        : 'text-white/80 border-transparent hover:text-white'
+                        ? 'text-foreground font-semibold border-foreground' 
+                        : 'text-muted-foreground border-transparent hover:text-foreground'
                     }`}
                   >
                     <Code className="h-4 w-4" />
@@ -626,8 +626,8 @@ const Index = () => {
                   }}
                   className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
                     section === 'settings' 
-                      ? 'text-white font-semibold border-white' 
-                      : 'text-white/80 border-transparent hover:text-white'
+                      ? 'text-foreground font-semibold border-foreground' 
+                      : 'text-muted-foreground border-transparent hover:text-foreground'
                   }`}
                 >
                   <SettingsIcon className="h-4 w-4" />
