@@ -26,6 +26,14 @@ interface Audit {
   partner_company_id?: string | null;
 }
 
+// Quarters configuration for Program Reports
+const QUARTERS = [
+  { id: 1, label: 'Q1', hasData: true },
+  { id: 2, label: 'Q2', hasData: true },
+  { id: 3, label: 'Q3', hasData: true },
+  { id: 4, label: 'Q4', hasData: true },
+];
+
 const Export = () => {
   const { packageType } = usePackage();
   const [audits, setAudits] = useState<Audit[]>([]);
@@ -36,6 +44,12 @@ const Export = () => {
   const [exporting, setExporting] = useState(false);
   const [exportHistory, setExportHistory] = useState<any[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(true);
+  
+  // Report type selection: 'eap' for EAP Pulse or 'program' for Program Reports
+  const [reportType, setReportType] = useState<'eap' | 'program'>('eap');
+  
+  // Quarter selection for Program Reports
+  const [selectedQuarter, setSelectedQuarter] = useState<number>(2);
 
   useEffect(() => {
     if (packageType === 'partner') {
@@ -1106,6 +1120,24 @@ const Export = () => {
           </div>
         </div>
         
+        {/* Report Type Tabs */}
+        <Tabs value={reportType} onValueChange={(v) => setReportType(v as 'eap' | 'program')} className="w-full">
+          <TabsList className="bg-muted/50 p-1">
+            <TabsTrigger 
+              value="eap"
+              className="data-[state=active]:bg-[#04565f] data-[state=active]:text-white"
+            >
+              EAP Pulse riportok
+            </TabsTrigger>
+            <TabsTrigger 
+              value="program"
+              className="data-[state=active]:bg-[#04565f] data-[state=active]:text-white"
+            >
+              Program riportok
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+        
         <div className="flex flex-col md:flex-row md:items-end gap-4">
           <div className="flex flex-col md:flex-row gap-4 md:ml-auto">
             {/* Company selector for partner users - always visible */}
@@ -1130,8 +1162,8 @@ const Export = () => {
               </div>
             )}
 
-            {/* Audit selector - only show if there are audits and conditions are met */}
-            {audits.length > 0 && (packageType !== 'partner' || (packageType === 'partner' && selectedCompanyId && selectedCompanyId !== 'all')) && (
+            {/* EAP Pulse: Audit selector */}
+            {reportType === 'eap' && audits.length > 0 && (packageType !== 'partner' || (packageType === 'partner' && selectedCompanyId && selectedCompanyId !== 'all')) && (
               <div className="flex-1 md:max-w-[300px]">
                 <label className="text-xs text-muted-foreground mb-1.5 block">
                   Felmérés kiválasztása
@@ -1150,11 +1182,39 @@ const Export = () => {
                 </Select>
               </div>
             )}
+
+            {/* Program Reports: Quarter selector */}
+            {reportType === 'program' && (
+              <div className="flex-1 md:max-w-[300px]">
+                <label className="text-xs text-muted-foreground mb-1.5 block">
+                  Negyedév kiválasztása
+                </label>
+                <div className="flex items-center gap-1">
+                  {QUARTERS.map((q) => (
+                    <button
+                      key={q.id}
+                      onClick={() => q.hasData && setSelectedQuarter(q.id)}
+                      disabled={!q.hasData}
+                      className={`
+                        px-4 py-2 text-sm font-medium rounded-lg transition-all
+                        ${!q.hasData ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}
+                        ${selectedQuarter === q.id
+                          ? 'bg-[#04565f] text-white' 
+                          : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                        }
+                      `}
+                    >
+                      {q.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
-      {/* Show message if no audits for selected company */}
-      {packageType === 'partner' && selectedCompanyId && selectedCompanyId !== 'all' && audits.length === 0 && (
+      {/* Show message if no audits for selected company - EAP mode only */}
+      {reportType === 'eap' && packageType === 'partner' && selectedCompanyId && selectedCompanyId !== 'all' && audits.length === 0 && (
         <Card className="border-dashed border-2 my-6">
           <CardContent className="py-12 text-center">
             <Building2 className="h-12 w-12 text-muted-foreground/40 mx-auto mb-3" />
