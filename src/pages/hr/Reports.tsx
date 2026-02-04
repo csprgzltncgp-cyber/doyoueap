@@ -817,7 +817,7 @@ const Reports = () => {
                       <svg
                         viewBox="0 0 24 24"
                         fill="none"
-                        stroke="#3572ef"
+                        stroke="#04565f"
                         strokeWidth="1.5"
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -897,7 +897,7 @@ const Reports = () => {
                       <svg
                         viewBox="0 0 24 24"
                         fill="none"
-                        stroke="#3572ef"
+                        stroke="#04565f"
                         strokeWidth="1.5"
                         strokeLinecap="round"
                         strokeLinejoin="round"
