@@ -441,7 +441,7 @@ const Gifts = () => {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-destructive hover:text-destructive"
+                        className="text-foreground hover:text-foreground"
                         onClick={() => {
                           setGiftToDelete(gift);
                           setDeleteDialogOpen(true);
@@ -474,7 +474,7 @@ const Gifts = () => {
                       </span>
                     )}
                     {canDeleteGift(gift) && (
-                      <span className="text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-700">
+                      <span className="text-xs px-2 py-1 rounded-full bg-[#ff66ff20] text-purple-700 border border-purple-300">
                         Egyedi
                       </span>
                     )}
