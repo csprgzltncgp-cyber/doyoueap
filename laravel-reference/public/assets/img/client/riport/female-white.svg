@@ -1,0 +1,13 @@
+<svg id="Réteg_1" data-name="Réteg 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.08 46.51">
+    <defs>
+        <style>.cls-1{fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:1.75px;}</style>
+    </defs>
+    <path class="cls-1"
+          d="M243.45,240.16c0,.38,0,.76,0,1.15,0,5.48,3,9.92,6.73,9.92s6.72-4.44,6.72-9.92a13.13,13.13,0,0,0-1.52-6.3,26.43,26.43,0,0,1-16.16,5.08"
+          transform="translate(-229.98 -226.76)"/>
+    <path class="cls-1" d="M261.83,248.81v-11a10.16,10.16,0,0,0-10.16-10.16h-3.3a10.15,10.15,0,0,0-10.15,10.16v11"
+          transform="translate(-229.98 -226.76)"/>
+    <path class="cls-1"
+          d="M231,272.4s-.58-10.12.61-13.21c2.39-6.23,10.46-5.69,10.46-5.69l.2.34,7.87,13.79L258,253.5s8.07-.54,10.47,5.69c1.18,3.09.61,13.21.61,13.21"
+          transform="translate(-229.98 -226.76)"/>
+</svg>

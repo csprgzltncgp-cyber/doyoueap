@@ -1,0 +1,60 @@
+<?php
+
+return [
+    'asset' => 'Asset',
+    'name' => 'Name',
+    'equipments' => 'Equipment',
+    'types' => 'Types',
+    'waste' => 'Waste',
+    'storage' => 'Storage',
+    'inventory_name' => 'name',
+    'type' => 'Equipment type',
+    'own_id' => 'Own ID',
+    'cgp_id' => 'CGP ID',
+    'date_of_purchase' => 'Date of purchase',
+    'phone_number' => 'Phone number',
+    'pin' => 'PIN',
+    'puk' => 'PUK',
+    'provider' => 'Provider',
+    'package' => 'Package',
+    'country' => 'Country',
+    'discard' => 'Discard',
+    'discard_reason' => 'Reason for discarding',
+    'discard_date' => 'Discard date',
+    'recycling_method' => 'Recycle method',
+    'ascending_by_date' => 'Order by date ascending',
+    'descending_by_date' => 'Order by date descending',
+    'select_type' => 'Choose type',
+    'create_asset' => 'New equipment',
+    'download_inventory' => 'Download inventory',
+    'download_waste' => 'Download waste',
+    'download_storage' => 'Download storage',
+    'delete' => 'Delete',
+    'forward' => 'Forward',
+    'select_owner' => 'Choose a new colleague',
+    'add' => 'Add asset',
+
+    'warning_delete_item_title' => 'Are you sure you want to delete the item?',
+    'warning_delete_item_text' => 'This procedure cannot be undone!',
+    'warning_delete_owner_title' => 'Are you sure you want to delete the owner?',
+
+    'warning_store_item' => 'Are you sure you want to put this asset into the storage?',
+    'to_storage' => 'To Storage',
+
+    'validation_error' => 'The fields highlighted with red are required!',
+    'validation_owner_required' => 'You must select a new owner!',
+
+    'validation_errors' => [
+        'name_required' => 'Equipment name is required!',
+        'own_id_required' => 'Equipment own id is required!',
+        'date_of_purchase_required' => 'Equipment date of purchase is required!',
+        'phone_number_required' => 'Equipment phone number is required!',
+        'pin_required' => 'Equipment PIN is required!',
+        'provider_required' => 'Equipment provider is required!',
+        'package_required' => 'Equipment package is required!',
+    ],
+
+    'inventory_empty' => 'Please add at least one item before saving!',
+
+    'own_id_error' => 'This own ID already exists!',
+];

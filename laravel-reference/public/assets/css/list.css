@@ -1,0 +1,81 @@
+.list-element {
+    padding: 10px 10px;
+    background-color: rgb(222, 240, 241);
+    color: black;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.list-element p {
+    margin-bottom: 0px;
+}
+
+.activate-button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0px solid black;
+    border-radius: 0px;
+    color: rgb(115, 144, 52);
+    outline: none !important;
+    margin-left: 5px;
+    background: transparent;
+}
+
+.activate-button.deactivated {
+    color: rgb(219, 11, 32);
+}
+
+
+.activate-button.pending {
+    color: rgb(212, 199, 31);
+}
+
+.list-element:last-child {
+    margin-bottom: 20px;
+}
+
+button.delete-button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0px solid black;
+    border-radius: 0px;
+    color: #7c2469;
+    outline: none !important;
+    margin-left: 5px;
+    background: transparent;
+}
+
+button.mail-resend-button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0px solid black;
+    border-radius: 0px;
+    color: rgb(212, 199, 31);
+    outline: none !important;
+    margin-left: 5px;
+    background: transparent;
+}
+
+.list-element button.caret-left {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0px solid black;
+    border-radius: 0px;
+    background: transparent;
+    outline: none !important;
+}
+
+.case-list-in.active {
+    color: white;
+    background: rgb(0, 87, 95);
+}
+
+
+.rotated-icon{
+    transform: rotate(180deg);
+    color: white;
+}

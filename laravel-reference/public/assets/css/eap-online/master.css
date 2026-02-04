@@ -1,0 +1,35 @@
+.lis-element-div {
+    width: 100%;
+    display: none;
+}
+
+.lis-element-div.active {
+    display: block !important;
+}
+
+.lis-element-div-c {
+    display: none;
+}
+
+.lis-element-div-c.active {
+    display: block !important;
+}
+
+.list-element.col-12 {
+    display: inline-block !important;
+}
+
+a#filter, #reset_search {
+    color: white;
+    font-weight: bold;
+    background-color: rgb(89, 198, 198);
+    border-radius: 0px;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 2px solid transparent;
+    outline: none !important;
+}

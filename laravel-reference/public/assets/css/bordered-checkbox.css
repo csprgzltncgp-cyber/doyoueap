@@ -1,0 +1,15 @@
+.checkbox-container .checkmark:after {
+    display: none !important;
+}
+
+.checkbox-container:active input ~ .checkmark {
+    background: rgba(89, 198, 198, 0.5) !important;
+}
+
+.checkbox-container:active input ~ .checkmark .unchecked {
+    display: none;
+}
+
+.checkbox-container:active input ~ .checkmark .checked {
+    display: block !important;
+}

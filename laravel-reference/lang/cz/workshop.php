@@ -1,0 +1,115 @@
+<?php
+
+return [
+    'saved_workshops' => 'Uložené workshopy',
+    'expert_price_error' => 'Zadání ceny je možné až po zadání experta!',
+    'outsource_error' => 'Zadání experta je možné až po vyplnění povinných polí!',
+    'outsourced_success' => 'Outsourcing úspěšný, workshop je na správném datu!',
+    'created_at' => 'Datum:',
+    'closed_workshops' => 'Uzavřené workshopy',
+    'back_to_list' => 'Zpět na seznam',
+    'view_workshop' => 'Zobrazit workshop',
+    'company_contact_name' => 'Kontaktní jméno společnosti',
+    'company_email' => 'E-mailová adresa společnosti',
+    'company_phone' => 'Telefonní číslo společnosti',
+    'country' => 'Lokalita workshopu',
+    'city' => 'Město',
+    'expert_email' => 'E-mailová adresa experta',
+    'expert_phone' => 'Telefonní číslo experta',
+    'start_time' => 'Čas zahájení',
+    'end_time' => 'Čas ukončení',
+    'full_time' => 'Doba trvání',
+    'workshop_theme' => 'Téma workshopu',
+    'activity_id' => 'ID aktivity',
+    'language' => 'Jazyk',
+    'contract_price' => 'Cena smlouvy',
+    'contract_holder' => 'Držitel smlouvy',
+    'contract_date' => 'Datum smlouvy',
+    'free' => 'Zdarma',
+    'expert_out_price' => 'Cena experta',
+    'expert_in_price' => 'Nabídka experta',
+    'number_of_participants' => 'Počet účastníků',
+    'not_specified' => 'Není specifikováno',
+
+    'workshop_data' => 'Data workshopu',
+    'save_workshop' => 'Dokončit workshop',
+
+    'select_language' => 'Specifikujte jazyk',
+    'hu' => 'Maďarsko',
+    'pl' => 'Polsko',
+    'en' => 'Angličtina',
+    'sl' => 'Slovenština',
+    'ch' => 'Čeština',
+
+    'hour' => 'hodina',
+    'minute' => 'minuta',
+
+    'select_activity_id' => 'Vyberte ID aktivity',
+    'select_theme' => 'Téma workshopu - (max. 20 znaků)',
+    'select_expert_pls' => 'Vyberte experta',
+    'select_city_pls' => 'Vyberte město',
+    'select_country_pls' => 'Vyberte zemi',
+    'select_company_pls' => 'Vyberte společnost',
+
+    'workshop' => 'Meditovat nový workshop',
+    'workshop_list' => 'Workshopy',
+    'new_workshop' => 'Meditovat nový workshop',
+    'workshop_serial_number' => 'Sériové číslo workshopu',
+    'expert' => 'Expert',
+    'select' => 'Vyberte!',
+    'company_name' => 'Název společnosti',
+    'status' => 'Stav',
+    'date' => 'Datum',
+    'filter' => 'Filtr',
+    'apply_filter' => 'Nový filtr',
+    'filter_result' => 'Výsledek filtru',
+    'no_filter_result' => 'Žádné výsledky filtru!',
+
+    'closed' => 'Uzavřeno',
+    'active' => 'Aktivní',
+    'under_agreement' => 'Podle dohody',
+    'in_progress' => 'V procesu',
+    'select_button' => 'VYBRAT',
+    'price_change_admin' => 'Nová nabídka od CGP Europe!',
+    'price_change_expert' => 'Cena změněna expertem!',
+    'price_accepted' => 'Nabídka přijata CGP Europe!',
+    'workshop_denied' => 'Workshop zamítnut',
+
+    'accept_expert_offer' => 'Přijmout nabídku experta',
+    'close_workshop' => 'Uzavřít',
+    'workshop_status_change_title' => 'Stav workshopu',
+
+    'accept' => 'Přijmout',
+    'accepted' => 'Přijato',
+    'denied' => 'Odmítnout',
+
+    'available_workshop' => 'Workshop dostupný',
+
+    'end_period' => 'Konec doby použití',
+
+    'under_organization' => 'WORKSHOP pod organizací',
+    'used' => 'VYUŽITÝ WORKSHOP',
+    'available' => 'Dostupný WORKSHOP',
+
+    'invoiceable_after' => 'Měsíc fakturace',
+
+    'invalid_file_extension' => 'Neplatný typ souboru!',
+    'created_by' => 'Vytvořeno',
+
+    'data_error' => 'Vyplňte všechna pole před uzavřením workshopu!',
+
+    'type' => 'Typ',
+    'gift' => 'Dárek',
+    'paid' => 'Placeno',
+
+    'overall_feedback' => 'Celkové hodnocení',
+    'question_1' => 'Cíle a podrobnosti prezentace byly jasně definovány:',
+    'question_2' => 'Obsah byl dobře organizován a snadno sledovatelný:',
+    'question_3' => 'Prezentující byl znalý tématu prezentace:',
+    'question_4' => 'Cíle prezentace byly dosaženy:',
+    'question_5' => 'Cíle a podrobnosti prezentace byly jasně definovány:',
+
+    'msg_expert_already_booked' => 'Pozor! Vybraný expert má již na tento den naplánovaný workshop!',
+
+    'msg_activity_id_exists' => 'Workshop s tímto ID aktivity již existuje: (#activity_id). Vyberte jiné.',
+];

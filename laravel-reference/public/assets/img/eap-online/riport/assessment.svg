@@ -1,0 +1,19 @@
+<svg id="Réteg_1" data-name="Réteg 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45.67 62.76">
+    <defs>
+        <style>
+            .cls-1,.cls-2,.cls-3{fill:none;stroke:#00575f;stroke-linecap:round;}.cls-1{stroke-miterlimit:10;}.cls-1,.cls-3{stroke-width:1.75px;}.cls-2,.cls-3{stroke-linejoin:round;}.cls-2{stroke-width:1.88px;}
+        </style>
+    </defs>
+    <path class="cls-1"
+          d="M291.62,398.24h-2.48a4.31,4.31,0,0,0-4.31,4.31v44.57a4.31,4.31,0,0,0,4.31,4.31h35.29a4.31,4.31,0,0,0,4.31-4.31V402.55a4.31,4.31,0,0,0-4.31-4.31H322"
+          transform="translate(-283.95 -389.55)"/>
+    <path class="cls-2" d="M311.13,413.63h11.13" transform="translate(-283.95 -389.55)"/>
+    <path class="cls-2" d="M311.13,419.3h7" transform="translate(-283.95 -389.55)"/>
+    <path class="cls-2" d="M311.13,434.86h11.13" transform="translate(-283.95 -389.55)"/>
+    <path class="cls-2" d="M311.13,440.53h7" transform="translate(-283.95 -389.55)"/>
+    <polyline class="cls-3" points="10.8 24.63 14.99 29.04 22.95 19.47"/>
+    <path class="cls-3" d="M311.13,394.8a4.38,4.38,0,1,0-8.76,0h-5.91v7.31h20.65V394.8Z"
+          transform="translate(-283.95 -389.55)"/>
+    <polyline class="cls-3" points="16.88 20.29 7.52 20.29 7.52 33.55 20.79 33.55 20.79 27.5"/>
+    <rect class="cls-3" x="7.52" y="41.68" width="13.26" height="12.59"/>
+</svg>

@@ -1,0 +1,126 @@
+p.categorize {
+    padding: 10px 15px;
+    background: rgb(89, 198, 198);
+    color: white;
+}
+
+.error {
+    background: rgb(219, 11, 32) !important;
+    color: white;
+}
+
+.error-text {
+    color: rgb(219, 11, 32) !important;
+}
+
+a.closeModal {
+    list-style: none;
+    padding: 10px 20px;
+    border-radius: 0px;
+    background-color: #85487Daa;
+    color: white;
+    border: 0px solid black;
+    margin-right: auto;
+    margin-left: auto;
+    font-weight: bold;
+    display: block;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    width: 100px;
+    text-align: center;
+    transition: 1s;
+}
+
+a.closeModal:hover {
+    background-color: #85487D;
+    transition: 1s;
+    text-decoration: none;
+}
+
+select {
+    display: block;
+    appearance: none !important;
+    -moz-appearance: none !important;
+    -webkit-appearance: none !important;
+    border: 2px solid rgb(89, 198, 198) !important;
+    padding: 10px 0px 10px 15px !important;
+    width: 100% !important;
+    margin-bottom: 20px !important;
+    border-radius: 0px !important;
+    outline: none !important;
+    color: rgb(89, 198, 198) !important;
+}
+
+.modal-body button {
+    list-style: none;
+    padding: 10px 20px;
+    border-radius: 0px;
+    background-color: rgb(0, 87, 95);
+    display: inline-block;
+    color: white;
+    border: 0px solid black;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    display: block;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    text-align: center;
+}
+
+#customer-satisfaction-not-possible .checkmark {
+    background-color: rgb(89, 198, 198);
+}
+
+.list-elem {
+    background: rgb(222, 240, 241);
+    color: black;
+    text-transform: uppercase;
+    margin-right: 10px;
+    min-width: 200px;
+}
+
+.list-elem:hover {
+    color: black;
+}
+
+a.button {
+    padding: 20px 40px;
+    background: rgb(0, 87, 95);
+    border: none;
+    color: white;
+    text-transform: uppercase;
+    margin-right: 10px;
+}
+
+.list-element button, .list-element a {
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.list-element button.delete-button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    border: 0px solid black;
+    color: #007bff;
+    outline: none;
+}
+
+.list-element {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.checkbox-container {
+    width: 300px;
+    font-size: 16px;
+    margin: 0 !important;
+}

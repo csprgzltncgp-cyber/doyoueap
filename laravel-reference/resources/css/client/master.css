@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: Calibri;
+        font-weight: 300;
+        src: url('/assets/fonts/CALIBRIL.TTF');
+    }
+
+    @font-face {
+        font-family: Calibri;
+        font-weight: 800;
+        src: url('/assets/fonts/CALIBRIB.TTF');
+    }
+
+    @font-face {
+        font-family: LoRes;
+        font-weight: 300;
+        src: url('/assets/fonts/LoRes.ttf');
+    }
+
+    @font-face {
+        font-family: Oswald;
+        font-weight: 600;
+        src: url('/assets/fonts/Oswald-VariableFont_wght.ttf');
+    }
+}
+
+[x-cloak] {
+    display: none !important;
+}
+
+.toggle-bg:after {
+    content: '';
+    @apply absolute top-0.5 left-0.5 bg-white rounded-full h-5 w-5 transition shadow-sm;
+}
+
+input:checked + .toggle-bg:after {
+    transform: translateX(100%);
+    @apply border-white;
+}
+
+input:checked + .toggle-bg {
+    @apply bg-purple border-purple;
+}
+
+.current_cases {
+    @apply text-opacity-20;
+    pointer-events: none !important;
+}
+
+.bg-dashboard {
+    background-image: url('/assets/img/client/dashboard.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-login {
+    background-image: url('/assets/img/client/login.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-workshop {
+    background-image: url('/assets/img/client/workshop.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-crisis {
+    background-image: url('/assets/img/client/crisis.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-password {
+    background-image: url('/assets/img/client/password.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-prizegame {
+    background-image: url('/assets/img/client/prizegame.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-riport {
+    background-image: url('/assets/img/client/riport.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-eap-riport {
+    background-image: url('/assets/img/client/eap-riport.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-health-map {
+    background-image: url('/assets/img/client/health-map.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-force-change-password {
+    background-image: url('/assets/img/client/force-change-password.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-program-usage {
+    background-image: url('/assets/img/client/program-usage.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-volume-request {
+    background-image: url('/assets/img/client/volume-request.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}

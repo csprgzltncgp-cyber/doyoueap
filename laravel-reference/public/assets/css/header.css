@@ -1,0 +1,33 @@
+header{
+    /* background-color: rgb(0,87,95); */
+    height:102px;
+    width: 458px;
+    margin-bottom: 29px;
+    margin-top: 123px;
+    font-family: CalibriB;
+  }
+
+  header #logo{
+    max-height: 100px;
+    height:100%;
+    margin-bottom:10px;
+    margin-right: 12px;
+  }
+
+  header p{
+    color:white;
+    font-size: 2rem;
+    margin-bottom:0px;
+  }
+
+  body{
+    overflow: hidden;
+  }
+
+  @media screen and (max-width:500px){
+    header{
+      height: 100%;
+      width: 100%;
+      padding-left: 15px;
+    }
+  }

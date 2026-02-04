@@ -1,0 +1,149 @@
+#outlook a {
+    padding: 0;
+}
+
+button{
+    background-color:rgb(89,198,198);
+    color:white;
+    font-weight: bold;
+    display: block;
+    appearance:none;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    padding:10px 15px;
+    border:0px solid black;
+    text-align: center;
+    outline: none !important;
+    font-size: 15px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    cursor: pointer;
+}
+
+input[type="text"]{
+    display: block;
+    appearance:none !important;
+    -moz-appearance:none !important;
+    -webkit-appearance:none !important;
+    border:2px solid rgb(89,198,198) !important;
+    padding:10px 0px 10px 15px!important;
+    width: 100% !important;
+    margin-bottom:20px !important;
+    border-radius: 0px !important;
+    outline: none !important;
+    color:rgb(89,198,198) !important;
+}
+
+input[type=radio]{
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-clip: content-box;
+    border: 2px solid rgba(89,198,198);
+    background-color: #fff;
+}
+
+input[type="radio"]:checked {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-clip: content-box;
+    background-color: rgb(89,198,198);
+    border: 2px solid rgb(89,198,198);
+}
+
+p{
+    font-family: CalibriI !important;
+    font-size: 16px !important;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+table,
+td {
+    border-collapse: collapse;
+    mso-table-lspace: 0pt;
+    mso-table-rspace: 0pt;
+}
+
+img {
+    border: 0;
+    height: auto;
+    line-height: 100%;
+    outline: none;
+    text-decoration: none;
+    -ms-interpolation-mode: bicubic;
+}
+
+p {
+    display: block;
+    margin: 13px 0;
+}
+
+.moz-text-html .mj-column-per-100 {
+    width: 100% !important;
+    max-width: 100%;
+}
+
+.moz-text-html .mj-column-per-50 {
+    width: 50% !important;
+    max-width: 50%;
+}
+
+.moz-text-html .mj-column-per-10 {
+    width: 10% !important;
+    max-width: 10%;
+}
+
+.moz-text-html .mj-column-per-90 {
+    width: 90% !important;
+    max-width: 90%;
+}
+
+.signature{
+    z-index: 2;
+    position: absolute;
+    top: -38px;
+    left: 35%;
+    width: 110px;
+    height: 80px;
+}
+
+@media only screen and (min-width:480px) {
+    .mj-column-per-100 {
+    width: 100% !important;
+    max-width: 100%;
+    }
+
+    .mj-column-per-50 {
+    width: 50% !important;
+    max-width: 50%;
+    }
+
+    .mj-column-per-10 {
+    width: 10% !important;
+    max-width: 10%;
+    }
+
+    .mj-column-per-90 {
+    width: 90% !important;
+    max-width: 90%;
+    }
+}
+
+@media only screen and (max-width:480px) {
+    table.mj-full-width-mobile {
+    width: 100% !important;
+    }
+
+    td.mj-full-width-mobile {
+    width: auto !important;
+    }
+}

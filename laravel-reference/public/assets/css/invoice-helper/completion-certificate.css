@@ -1,0 +1,158 @@
+.certificate-holder{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+}
+
+.certificate-holder .left{
+    width: 50%;
+    display: flex;
+    margin-right: 10px;
+}
+
+.certificate-holder .right{
+    width: 50%;
+    margin-left: 10px;
+}
+
+.certificate-holder .left .box{
+    border: 2px solid #59c6c6;
+    width: 100%;
+    min-height: 750px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.box{
+    position: relative;
+}
+
+.header{
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #00575f;
+}
+
+.header img{
+    height: 90%;
+    width: 90%;
+    object-fit: cover;
+}
+
+.header .green-logo{
+    margin-left: auto;
+    margin-right: 20px;
+    margin-top: auto;
+    margin-bottom: 20px;
+    height: 30px;
+}
+
+.box h1{
+    color: black !important;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    font-size: 25px !important;
+}
+
+.attribute{
+    margin-bottom: 5px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.attribute span.bold{
+    flex: 1 0 auto;
+    font-weight: bold;
+    margin-right: 2px;
+}
+
+.attribute span.normal{
+    font-family: CalibriI;
+    font-weight: normal;
+}
+
+.alt{
+    margin-top: 15px;
+    margin-left: 50px;
+    margin-right: 50px;
+    font-family: CalibriI;
+    font-weight: normal;
+    font-size: 10px;
+}
+
+.signature-holder{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.signature{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.signature span{
+    margin-top: 10px;
+}
+
+.signature .line{
+    width: 100%;
+    height: 1px;
+    background-color: black;
+}
+
+.signature .alt{
+    margin-top: 0;
+}
+
+.right{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: min-content;
+    gap: 20px;
+}
+
+.right p{
+    height: 70px;
+}
+
+.right .button{
+    margin: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    height: min-content;
+    cursor: pointer;
+}
+
+.right .button svg{
+    margin-right: 10px;
+}
+
+.button.active{
+    background-color: #a33095 !important;
+    color: white;
+}
+
+.button.loading{
+    opacity: 0.5;
+    cursor: not-allowed;
+}

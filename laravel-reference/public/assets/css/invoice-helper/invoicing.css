@@ -1,0 +1,136 @@
+.contract-holder-selector{
+    color: #59c6c6;
+    display: flex;
+    align-items: center;
+}
+
+.contract-holder-selector select, .order-holder select{
+    appearance: none;
+    border: 0;
+    color: #59c6c6;
+    outline: none !important;
+}
+
+.menu-point-selector{
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.menu-point-selector .menu-point{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 60px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    margin-right: 5px;
+    background-color: #59c6c6;
+    color: #00575f;
+    text-transform: uppercase;
+    font-size: 22px;
+    cursor: pointer;
+    margin-bottom: 25px;
+}
+
+.menu-point.active{
+    background-color: #00575f;
+    color: #fff;
+}
+
+.menu-point-holder{
+    position: relative;
+}
+
+.sub-menu-point-holder{
+    margin-top: 5px;
+    margin-bottom: 30px;
+    width: 100%;
+    display: none;
+    gap: 5px;
+}
+
+.sub-menu-point{
+    width: 100%;
+    padding: 10px 0;
+    min-width: 100px;
+    background-color: #59c6c6;
+    cursor: pointer;
+    color: #fff !important;
+    text-align: center;
+}
+
+.sub-menu-point.active{
+    background-color: #00575f;
+    color: white;
+}
+
+.sub-menu-point:hover{
+    background-color: #00575f;
+    color: white;
+}
+
+.country-holder{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.country-box{
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    padding: 12px 30px !important;
+}
+
+.bordered-line{
+   background: transparent;
+   border: 2px solid #59c6c6;
+   padding: 15px;
+}
+
+.search-container{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    width: 100% !important;
+}
+
+.order-holder{
+    display: flex;
+    align-items: center;
+    color: #59c6c6;
+}
+
+.search-holder{
+    display: flex;
+    align-items: center;
+    flex: 1 0 auto;
+    margin-left: 20px;
+}
+
+.search-holder input{
+    flex: 1 0 auto;
+    border: 2px solid rgb(89,198,198);
+    padding: 10px 0px 10px 15px;
+    outline: none !important;
+}
+
+.load-more-container{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.load-more-container + img{
+    margin: 20px auto;
+    height: 50px;
+    width: 50px;
+}

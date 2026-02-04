@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 249.95 136.74">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9, .cls-10, .cls-11, .cls-12, .cls-13, .cls-14, .cls-15, .cls-16, .cls-17, .cls-18, .cls-19, .cls-20, .cls-21, .cls-22, .cls-23, .cls-24, .cls-25 {
+        stroke-width: 0px;
+      }
+
+      .cls-26 {
+        mix-blend-mode: multiply;
+      }
+
+      .cls-2 {
+        fill: url(#Névtelen_színátmenet_201);
+      }
+
+      .cls-3 {
+        fill: url(#Névtelen_színátmenet_200);
+      }
+
+      .cls-4 {
+        fill: url(#Névtelen_színátmenet_197);
+      }
+
+      .cls-5 {
+        fill: url(#Névtelen_színátmenet_195);
+      }
+
+      .cls-6 {
+        fill: url(#Névtelen_színátmenet_199);
+      }
+
+      .cls-7 {
+        fill: url(#Névtelen_színátmenet_198);
+      }
+
+      .cls-8 {
+        fill: url(#Névtelen_színátmenet_192);
+      }
+
+      .cls-9 {
+        fill: url(#Névtelen_színátmenet_189);
+      }
+
+      .cls-10 {
+        fill: url(#Névtelen_színátmenet_190);
+      }
+
+      .cls-11 {
+        fill: url(#Névtelen_színátmenet_193);
+      }
+
+      .cls-12 {
+        fill: url(#Névtelen_színátmenet_196);
+      }
+
+      .cls-13 {
+        fill: url(#Névtelen_színátmenet_191);
+      }
+
+      .cls-14 {
+        fill: url(#Névtelen_színátmenet_194);
+      }
+
+      .cls-15 {
+        fill: url(#Névtelen_színátmenet_188);
+      }
+
+      .cls-16 {
+        fill: url(#Névtelen_színátmenet_187);
+      }
+
+      .cls-17 {
+        fill: url(#Névtelen_színátmenet_183);
+      }
+
+      .cls-18 {
+        fill: url(#Névtelen_színátmenet_184);
+      }
+
+      .cls-19 {
+        fill: url(#Névtelen_színátmenet_182);
+      }
+
+      .cls-20 {
+        fill: url(#Névtelen_színátmenet_186);
+      }
+
+      .cls-21 {
+        fill: url(#Névtelen_színátmenet_185);
+      }
+
+      .cls-22 {
+        fill: url(#linear-gradient-2);
+      }
+
+      .cls-23 {
+        fill: url(#linear-gradient-3);
+      }
+
+      .cls-27 {
+        isolation: isolate;
+      }
+
+      .cls-24 {
+        fill: #1000c3;
+      }
+
+      .cls-25 {
+        fill: #030354;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="40.16" y1="0" x2="195.56" y2="155.41" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".24" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_201" data-name="Névtelen színátmenet 201" x1="39.77" y1=".38" x2="194.33" y2="154.94" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f9f9f9"/>
+      <stop offset="0" stop-color="#f9f9f9"/>
+      <stop offset=".24" stop-color="#f9f9f9"/>
+      <stop offset="1" stop-color="#fdfdfd"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_200" data-name="Névtelen színátmenet 200" x1="39.39" y1=".75" x2="193.1" y2="154.46" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f3f3f3"/>
+      <stop offset="0" stop-color="#f3f3f3"/>
+      <stop offset=".24" stop-color="#f3f3f3"/>
+      <stop offset="1" stop-color="#fafafa"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_199" data-name="Névtelen színátmenet 199" x1="39" y1="1.13" x2="191.87" y2="153.99" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ededed"/>
+      <stop offset="0" stop-color="#ededed"/>
+      <stop offset=".24" stop-color="#ededed"/>
+      <stop offset="1" stop-color="#f8f8f8"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_198" data-name="Névtelen színátmenet 198" x1="38.62" y1="1.5" x2="190.63" y2="153.52" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e7e7e7"/>
+      <stop offset="0" stop-color="#e7e7e7"/>
+      <stop offset=".24" stop-color="#e7e7e7"/>
+      <stop offset="1" stop-color="#f6f6f6"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_197" data-name="Névtelen színátmenet 197" x1="38.24" y1="1.88" x2="189.4" y2="153.04" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e1e1e1"/>
+      <stop offset="0" stop-color="#e1e1e1"/>
+      <stop offset=".24" stop-color="#e1e1e1"/>
+      <stop offset="1" stop-color="#f4f4f4"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_196" data-name="Névtelen színátmenet 196" x1="37.86" y1="2.25" x2="188.17" y2="152.57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#dbdbdb"/>
+      <stop offset="0" stop-color="#dbdbdb"/>
+      <stop offset=".24" stop-color="#dbdbdb"/>
+      <stop offset="1" stop-color="#f1f1f1"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_195" data-name="Névtelen színátmenet 195" x1="37.47" y1="2.63" x2="186.94" y2="152.09" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d5d5d5"/>
+      <stop offset="0" stop-color="#d5d5d5"/>
+      <stop offset=".24" stop-color="#d5d5d5"/>
+      <stop offset="1" stop-color="#efefef"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_194" data-name="Névtelen színátmenet 194" x1="37.09" y1="3.01" x2="185.7" y2="151.62" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#cfcfcf"/>
+      <stop offset="0" stop-color="#cfcfcf"/>
+      <stop offset=".24" stop-color="#cfcfcf"/>
+      <stop offset="1" stop-color="#ededed"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_193" data-name="Névtelen színátmenet 193" x1="36.71" y1="3.38" x2="184.47" y2="151.14" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#c9c9c9"/>
+      <stop offset="0" stop-color="#c9c9c9"/>
+      <stop offset=".24" stop-color="#c9c9c9"/>
+      <stop offset=".85" stop-color="#e2e2e2"/>
+      <stop offset="1" stop-color="#eaeaea"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_192" data-name="Névtelen színátmenet 192" x1="36.33" y1="3.76" x2="183.24" y2="150.67" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#c3c3c3"/>
+      <stop offset="0" stop-color="#c3c3c3"/>
+      <stop offset=".24" stop-color="#c3c3c3"/>
+      <stop offset=".69" stop-color="#d7d7d7"/>
+      <stop offset="1" stop-color="#e8e8e8"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_191" data-name="Névtelen színátmenet 191" x1="35.95" y1="4.14" x2="182.01" y2="150.2" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#bcbcbc"/>
+      <stop offset="0" stop-color="#bcbcbc"/>
+      <stop offset=".24" stop-color="#bcbcbc"/>
+      <stop offset=".59" stop-color="#ccc"/>
+      <stop offset="1" stop-color="#e6e6e6"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_190" data-name="Névtelen színátmenet 190" x1="35.57" y1="4.52" x2="180.77" y2="149.72" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#b6b6b6"/>
+      <stop offset="0" stop-color="#b6b6b6"/>
+      <stop offset=".24" stop-color="#b6b6b6"/>
+      <stop offset=".53" stop-color="#c4c4c4"/>
+      <stop offset="1" stop-color="#e4e4e4"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_189" data-name="Névtelen színátmenet 189" x1="35.19" y1="4.89" x2="179.54" y2="149.25" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#b0b0b0"/>
+      <stop offset="0" stop-color="#b0b0b0"/>
+      <stop offset=".24" stop-color="#b0b0b0"/>
+      <stop offset=".49" stop-color="#bcbcbc"/>
+      <stop offset=".95" stop-color="#dcdcdc"/>
+      <stop offset="1" stop-color="#e1e1e1"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_188" data-name="Névtelen színátmenet 188" x1="34.81" y1="5.27" x2="178.31" y2="148.77" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#aaa"/>
+      <stop offset="0" stop-color="#aaa"/>
+      <stop offset=".24" stop-color="#aaa"/>
+      <stop offset=".46" stop-color="#b4b4b4"/>
+      <stop offset=".85" stop-color="#d1d1d1"/>
+      <stop offset="1" stop-color="#dfdfdf"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_187" data-name="Névtelen színátmenet 187" x1="34.43" y1="5.65" x2="177.08" y2="148.3" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a4a4a4"/>
+      <stop offset="0" stop-color="#a4a4a4"/>
+      <stop offset=".24" stop-color="#a4a4a4"/>
+      <stop offset=".44" stop-color="#adadad"/>
+      <stop offset=".77" stop-color="#c7c7c7"/>
+      <stop offset="1" stop-color="#ddd"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_186" data-name="Névtelen színátmenet 186" x1="34.05" y1="6.03" x2="175.84" y2="147.83" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9e9e9e"/>
+      <stop offset="0" stop-color="#9e9e9e"/>
+      <stop offset=".24" stop-color="#9e9e9e"/>
+      <stop offset=".43" stop-color="#a6a6a6"/>
+      <stop offset=".72" stop-color="#bebebe"/>
+      <stop offset="1" stop-color="#dadada"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_185" data-name="Névtelen színátmenet 185" x1="33.67" y1="6.41" x2="174.61" y2="147.35" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#989898"/>
+      <stop offset="0" stop-color="#989898"/>
+      <stop offset=".24" stop-color="#989898"/>
+      <stop offset=".41" stop-color="#9f9f9f"/>
+      <stop offset=".68" stop-color="#b5b5b5"/>
+      <stop offset="1" stop-color="#d8d8d8"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_184" data-name="Névtelen színátmenet 184" x1="33.3" y1="6.8" x2="173.38" y2="146.88" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#929292"/>
+      <stop offset="0" stop-color="#929292"/>
+      <stop offset=".24" stop-color="#929292"/>
+      <stop offset=".4" stop-color="#999"/>
+      <stop offset=".65" stop-color="#adadad"/>
+      <stop offset=".94" stop-color="#cecece"/>
+      <stop offset="1" stop-color="#d6d6d6"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_183" data-name="Névtelen színátmenet 183" x1="32.92" y1="7.18" x2="172.15" y2="146.4" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8c8c8c"/>
+      <stop offset="0" stop-color="#8c8c8c"/>
+      <stop offset=".24" stop-color="#8c8c8c"/>
+      <stop offset=".4" stop-color="#929292"/>
+      <stop offset=".62" stop-color="#a5a5a5"/>
+      <stop offset=".88" stop-color="#c3c3c3"/>
+      <stop offset="1" stop-color="#d4d4d4"/>
+    </linearGradient>
+    <linearGradient id="Névtelen_színátmenet_182" data-name="Névtelen színátmenet 182" x1="32.54" y1="7.56" x2="170.91" y2="145.93" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#868686"/>
+      <stop offset="0" stop-color="#868686"/>
+      <stop offset=".24" stop-color="#868686"/>
+      <stop offset=".39" stop-color="#8c8c8c"/>
+      <stop offset=".6" stop-color="#9d9d9d"/>
+      <stop offset=".84" stop-color="#bababa"/>
+      <stop offset="1" stop-color="#d1d1d1"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="32.17" y1="7.94" x2="169.68" y2="145.45" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="gray"/>
+      <stop offset=".24" stop-color="gray"/>
+      <stop offset=".39" stop-color="#858585"/>
+      <stop offset=".59" stop-color="#969696"/>
+      <stop offset=".81" stop-color="#b1b1b1"/>
+      <stop offset="1" stop-color="#cfcfcf"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="3.61" y1="8.49" x2="197.99" y2="88.52" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f7f7f7"/>
+      <stop offset=".32" stop-color="#fbfbfb"/>
+      <stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+  </defs>
+  <g class="cls-27">
+    <g id="NEW">
+      <g class="cls-26">
+        <g>
+          <path class="cls-1" d="M235.63,53.73C173.29,28.67,107.48,13.74,40.98,8.82,27.03,40.66,13.76,72.78,1.16,105.18c64.69,6.54,127.66,16.82,191.31,30.27,13.6,2.94,25.32,1.15,30.39-8.42,8.72-16.46,17.38-32.73,25.97-48.81,3.92-7.34-2.94-20.36-13.2-24.5Z"/>
+          <path class="cls-2" d="M235.02,54.5C172.81,29.29,107.15,14.17,40.81,9.01,26.89,40.77,13.67,72.81,1.11,105.13c64.82,6.25,127.86,16.21,191.63,29.45,12.95,2.8,24.11,1.1,28.94-8.02,8.7-16.44,17.35-32.68,25.92-48.73,3.74-6.99-2.8-19.39-12.57-23.33Z"/>
+          <path class="cls-3" d="M234.41,55.28C172.33,29.92,106.81,14.6,40.63,9.2,26.75,40.88,13.59,72.84,1.05,105.09c64.96,5.95,128.05,15.61,191.94,28.63,12.3,2.66,22.91,1.04,27.49-7.62,8.69-16.41,17.31-32.63,25.87-48.65,3.55-6.64-2.66-18.42-11.94-22.17Z"/>
+          <path class="cls-6" d="M233.8,56.06C171.84,30.55,106.48,15.04,40.45,9.39,26.6,41,13.5,72.88.99,105.04c65.09,5.66,128.24,15,192.25,27.81,11.66,2.52,21.7.99,26.05-7.22,8.67-16.38,17.28-32.57,25.82-48.57,3.36-6.29-2.52-17.45-11.32-21Z"/>
+          <path class="cls-7" d="M233.18,56.84C171.36,31.18,106.15,15.47,40.28,9.58,26.46,41.11,13.42,72.91.94,105c65.23,5.36,128.44,14.4,192.56,26.99,11.01,2.38,20.5.93,24.6-6.81,8.65-16.35,17.24-32.52,25.77-48.49,3.18-5.94-2.38-16.48-10.69-19.83Z"/>
+          <path class="cls-4" d="M232.57,57.62C170.87,31.81,105.82,15.9,40.1,9.76,26.32,41.22,13.33,72.94.88,104.95c65.37,5.06,128.63,13.8,192.88,26.16,10.36,2.24,19.29.88,23.15-6.41,8.63-16.33,17.21-32.47,25.72-48.42,2.99-5.59-2.24-15.51-10.06-18.67Z"/>
+          <path class="cls-12" d="M231.96,58.4C170.39,32.44,105.48,16.33,39.92,9.95,26.18,41.34,13.25,72.97.83,104.91c65.5,4.77,128.83,13.19,193.19,25.34,9.71,2.1,18.08.82,21.7-6.01,8.62-16.3,17.17-32.41,25.66-48.34,2.8-5.24-2.1-14.54-9.43-17.5Z"/>
+          <path class="cls-5" d="M231.35,59.18C169.91,33.06,105.15,16.76,39.75,10.14,26.04,41.45,13.16,73.01.77,104.86c65.64,4.47,129.02,12.59,193.5,24.52,9.07,1.96,16.88.77,20.26-5.61,8.6-16.27,17.14-32.36,25.61-48.26,2.62-4.89-1.96-13.57-8.8-16.33Z"/>
+          <path class="cls-14" d="M230.73,59.96C169.42,33.69,104.82,17.19,39.57,10.33,25.9,41.56,13.08,73.04.72,104.82c65.77,4.17,129.21,11.98,193.82,23.7,8.42,1.82,15.67.71,18.81-5.21,8.58-16.25,17.1-32.31,25.56-48.18,2.43-4.54-1.82-12.6-8.17-15.17Z"/>
+          <path class="cls-11" d="M230.12,60.74C168.94,34.32,104.49,17.62,39.39,10.52,25.76,41.68,12.99,73.07.66,104.77c65.91,3.88,129.41,11.38,194.13,22.88,7.77,1.68,14.47.66,17.36-4.81,8.56-16.22,17.07-32.25,25.51-48.1,2.24-4.19-1.68-11.63-7.54-14Z"/>
+          <path class="cls-8" d="M229.51,61.52C168.46,34.95,104.16,18.06,39.22,10.71,25.62,41.79,12.91,73.11.61,104.73c66.05,3.58,129.6,10.77,194.44,22.06,7.12,1.54,13.26.6,15.92-4.41,8.55-16.19,17.03-32.2,25.46-48.02,2.06-3.84-1.54-10.66-6.91-12.83Z"/>
+          <path class="cls-13" d="M228.9,62.3C167.97,35.58,103.82,18.49,39.04,10.9,25.48,41.9,12.82,73.14.55,104.68c66.18,3.28,129.8,10.17,194.76,21.23,6.48,1.4,12.06.55,14.47-4.01,8.53-16.17,17-32.15,25.4-47.95,1.87-3.49-1.4-9.7-6.29-11.67Z"/>
+          <path class="cls-10" d="M228.28,63.07C167.49,36.21,103.49,18.92,38.86,11.09,25.34,42.02,12.74,73.17.5,104.64c66.32,2.99,129.99,9.57,195.07,20.41,5.83,1.26,10.85.49,13.02-3.61,8.51-16.14,16.96-32.09,25.35-47.87,1.68-3.14-1.26-8.73-5.66-10.5Z"/>
+          <path class="cls-9" d="M227.67,63.85C167.01,36.83,103.16,19.35,38.69,11.27,25.2,42.13,12.65,73.21.44,104.59c66.45,2.69,130.18,8.96,195.38,19.59,5.18,1.12,9.65.44,11.58-3.21,8.49-16.11,16.93-32.04,25.3-47.79,1.49-2.8-1.12-7.76-5.03-9.33Z"/>
+          <path class="cls-15" d="M227.06,64.63C166.52,37.46,102.83,19.78,38.51,11.46,25.06,42.24,12.57,73.24.39,104.55c66.59,2.39,130.38,8.36,195.7,18.77,4.53.98,8.44.38,10.13-2.81,8.47-16.08,16.89-31.99,25.25-47.71,1.31-2.45-.98-6.79-4.4-8.17Z"/>
+          <path class="cls-16" d="M226.45,65.41C166.04,38.09,102.5,20.21,38.33,11.65,24.92,42.36,12.48,73.27.33,104.5c66.73,2.1,130.57,7.75,196.01,17.95,3.89.84,7.23.33,8.68-2.41,8.46-16.06,16.86-31.94,25.2-47.63,1.12-2.1-.84-5.82-3.77-7Z"/>
+          <path class="cls-20" d="M225.84,66.19C165.56,38.72,102.16,20.64,38.16,11.84,24.78,42.47,12.4,73.31.28,104.46c66.86,1.8,130.77,7.15,196.32,17.12,3.24.7,6.03.27,7.23-2,8.44-16.03,16.82-31.88,25.15-47.55.93-1.75-.7-4.85-3.14-5.83Z"/>
+          <path class="cls-21" d="M225.22,66.97C165.07,39.35,101.83,21.08,37.98,12.03,24.64,42.58,12.31,73.34.22,104.41c67,1.5,130.96,6.55,196.63,16.3,2.59.56,4.82.22,5.79-1.6,8.42-16,16.79-31.83,25.09-47.48.75-1.4-.56-3.88-2.51-4.67Z"/>
+          <path class="cls-18" d="M224.61,67.75C164.59,39.98,101.5,21.51,37.8,12.22,24.5,42.7,12.23,73.37.17,104.37c67.13,1.21,131.15,5.94,196.95,15.48,1.94.42,3.62.16,4.34-1.2,8.4-15.98,16.75-31.78,25.04-47.4.56-1.05-.42-2.91-1.89-3.5Z"/>
+          <path class="cls-17" d="M224,68.53C164.11,40.61,101.17,21.94,37.63,12.41,24.36,42.81,12.14,73.41.11,104.32c67.27.91,131.35,5.34,197.26,14.66,1.3.28,2.41.11,2.89-.8,8.39-15.95,16.72-31.72,24.99-47.32.37-.7-.28-1.94-1.26-2.33Z"/>
+          <path class="cls-19" d="M223.39,69.31C163.62,41.23,100.83,22.37,37.45,12.6,24.22,42.92,12.06,73.44.06,104.28c67.41.61,131.54,4.73,197.57,13.84.65.14,1.21.05,1.45-.4,8.37-15.92,16.68-31.67,24.94-47.24.19-.35-.14-.97-.63-1.17Z"/>
+          <path class="cls-22" d="M222.77,70.09C163.14,41.86,100.5,22.8,37.27,12.78,24.08,43.04,11.97,73.47,0,104.23c67.54.32,131.74,4.13,197.89,13.02h0c8.35-15.9,16.65-31.62,24.89-47.16h0Z"/>
+        </g>
+      </g>
+      <path class="cls-25" d="M222.73,1.06C161.83,4.47,60.98,6.15,0,6.63v97.6c60.84.17,121.24-1.07,182.03-3.82,6.23-.28,11.87-4.32,14.28-10.18,10.92-26.62,21.83-53.3,32.74-80.02,1.89-4.63-1.43-9.43-6.32-9.15Z"/>
+      <path class="cls-24" d="M221.74.01C161.34,3.39,60.48,6.13,0,6.63v96.55c60.37.15,120.73-1.09,181.04-3.81,6.23-.28,11.87-4.32,14.28-10.18,10.92-26.62,21.83-53.3,32.74-80.02,1.89-4.63-1.43-9.43-6.32-9.15Z"/>
+      <path class="cls-23" d="M216.24,10.65C156.15,13.92,60.18,15.62,0,16.04v76.35c60.19.08,124.37-.71,184.5-3.47,10.58-26.05,21.16-52.14,31.74-78.27Z"/>
+      <g>
+        <path class="cls-24" d="M63.06,35.14c1.51-2.28,4.61-5.01,8.8-5.08,6.27-.1,11.39,3.48,11.39,12.7v34c-3.44.07-6.87.13-10.3.19v-32.83c0-3.53-1.93-5.58-5.11-5.53-2.85.04-4.78,2.16-4.78,5.69v32.83c-3.44.04-6.87.09-10.31.13V31.5c3.44-.04,6.87-.09,10.31-.13v3.76Z"/>
+        <path class="cls-24" d="M99.92,54.63v9.97c0,3.36,2.09,4.97,5.45,4.89,3.36-.08,5.44-1.98,5.44-5.17v-2.59c3.44-.09,6.87-.19,10.31-.29v1.26c0,10.3-6.62,14.69-15.75,14.92-9.12.23-15.77-3.73-15.76-14.12v-19.29c0-10.38,6.63-14.63,15.76-14.86,9.13-.23,15.74,3.76,15.75,14.06v10.65c-7.07.21-14.13.4-21.2.56ZM110.81,46.81v-4.43c0-3.19-2.09-4.98-5.44-4.89-3.35.08-5.45,1.81-5.45,5.17v4.43c3.63-.09,7.26-.18,10.89-.27Z"/>
+        <path class="cls-24" d="M134.35,29.69c1.76,11.86,3.52,23.73,5.28,35.59.03,0,.05,0,.08,0,1.93-11.99,3.85-23.99,5.78-35.98,2.46-.09,4.92-.18,7.37-.27,1.93,11.85,3.85,23.71,5.78,35.55.03,0,.06,0,.09,0,1.76-11.99,3.52-23.98,5.28-35.99,3.55-.14,7.09-.29,10.64-.45-2.93,15.38-5.86,30.75-8.79,46.13-4.16.17-8.32.33-12.49.49-1.39-9.05-2.79-18.1-4.18-27.16-.03,0-.06,0-.09,0-1.37,9.15-2.73,18.31-4.11,27.46-4.16.15-8.32.29-12.48.42-2.93-15.15-5.86-30.31-8.79-45.48,3.55-.1,7.09-.22,10.64-.33Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+#add-new-case {
+    color: white;
+    padding: 20px 20px;
+    border-radius: 0px;
+    background-color: rgb(212, 132, 55);
+    display: inline-block;
+    margin-top: 80px;
+    font-weight: bold;
+    width: 300px;
+}
+

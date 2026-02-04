@@ -1,0 +1,65 @@
+.swal-survey input[type=radio]{
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-clip: content-box;
+    border: 0px solid #dadada;
+    background-color: #dadada;
+}
+
+.swal-survey input[type="radio"]:checked {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-clip: content-box;
+    background-color: rgb(89,198,198);
+    border: 0px solid rgb(89,198,198);
+}
+
+.swal-survey div {
+    max-height: 40px;
+}
+
+.swal2-close {
+    border: 3px solid #ccc!important;
+    border-radius: 25px!important;
+    padding-bottom: 2px!important;
+    font-size: 15px!important;
+    font-weight: bold!important;
+    margin: 16px!important;
+    outline: none !important;
+}
+
+.survey-answer {
+    font-family: 'CalibriI'!important;
+}
+
+.swal2-html-container {
+    max-height: 30em!important;
+    overflow-y: scroll!important;
+    width: 100%!important;
+}
+
+/* width */
+.swal2-html-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+.swal2-html-container::-webkit-scrollbar-track {
+    background: #fff;
+    margin-top: 20px;
+}
+
+/* Handle */
+.swal2-html-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    width: 5px;
+}
+
+/* Handle on hover */
+.swal2-html-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

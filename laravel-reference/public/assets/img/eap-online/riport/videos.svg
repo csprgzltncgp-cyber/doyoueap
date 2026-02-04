@@ -1,0 +1,14 @@
+<svg id="Réteg_1" data-name="Réteg 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45.67 33.69">
+    <defs>
+        <style>
+            .cls-1,.cls-2{fill:none;stroke:#00575f;stroke-linejoin:round;stroke-width:1.75px;}.cls-2{stroke-linecap:round;}
+        </style>
+    </defs>
+    <circle fill="#00575f" cx="5.36" cy="4.93" r="0.86"/>
+    <circle fill="#00575f" cx="8.2" cy="4.93" r="0.86"/>
+    <path class="cls-1"
+          d="M703,392.56H667.67a4.32,4.32,0,0,1-4.3-4.31V364.92a4.31,4.31,0,0,1,4.3-4.31H703a4.31,4.31,0,0,1,4.3,4.31v23.33A4.31,4.31,0,0,1,703,392.56Z"
+          transform="translate(-662.49 -359.74)"/>
+    <path class="cls-1" d="M663.6,368.34h43.45" transform="translate(-662.49 -359.74)"/>
+    <polygon class="cls-2" points="18.22 13.74 18.22 28.52 29.09 21.18 18.22 13.74"/>
+</svg>

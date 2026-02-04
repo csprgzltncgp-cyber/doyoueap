@@ -1,0 +1,484 @@
+form#invoice_add {
+    max-width: 100%;
+}
+
+form#invoice_add button[type="submit"] {
+    width: max-content;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.chosen-choices {
+    margin-bottom: 0px !important;
+}
+
+input:read-only {
+    cursor: not-allowed;
+}
+
+button.deleteInvoice, button.event {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    outline: none !important;
+    background: none;
+    border: 0px solid black;
+}
+
+.list-element button, .list-element a {
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.list-element {
+    padding: 0px 0px;
+    background: transparent;
+    cursor: default !important;
+}
+
+.list-element > * {
+    padding: 20px 20px;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.list-element > div {
+    display: flex;
+}
+
+.list-element a.edit-invoice {
+    background: rgb(0, 87, 95);
+    color: white;
+    text-transform: uppercase;
+}
+
+.list-element button.deleteInvoice {
+    opacity: .1;
+    background: #7c2469;
+    color: white;
+    transition: .3s all ease;
+    -webkit-transition: .3s all ease;
+    -moz-transition: .3s all ease;
+}
+
+.list-element button.deleteInvoice:hover {
+    opacity: 1;
+}
+
+.list-element button.event {
+    background: rgb(89, 198, 198);
+    color: white;
+}
+
+.list-element > span.data {
+    background: rgb(222, 240, 241);
+    padding: 20px 20px;
+    margin-right: 10px;
+}
+
+.list-element > span.listed_in_a_bank {
+    background: rgb(0, 87, 95) !important;
+    color: white;
+}
+
+.invoice-data-changed, .invoice-changed-input {
+    background: #f2da2f !important;
+}
+
+.list-element button.delete-button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    border: 0px solid black;
+    color: #007bff;
+    outline: none;
+}
+
+.list-element button.event {
+    transition: .3s all ease;
+    -webkit-transition: .3s all ease;
+    -moz-transition: .3s all ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0px solid transparent;
+}
+
+.list-element button.event:hover {
+    opacity: 1;
+}
+
+.list-element button.event.active {
+    opacity: 1;
+}
+
+.list-element button.event#invoice_expired_and_not_paid:hover {
+    background: rgb(124, 36, 105, .7);
+}
+
+.list-element button.event#invoice_expired_and_not_paid.active {
+    background: rgb(124, 36, 105, 1);
+}
+
+.list-element button.event#invoice_paid:hover {
+    background: rgba(0, 87, 95, .7);
+}
+
+.list-element button.event#invoice_paid.active {
+    background: rgba(0, 87, 95, 1);
+}
+
+.list-element {
+    cursor: pointer;;
+}
+
+.form-group-inner {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-group-inner input, .form-group-inner select {
+    width: 90% !important;
+    margin-bottom: 0px !important;
+}
+
+.form-group-inner button {
+    width: 5% !important;
+    text-align: center;
+}
+
+.form-group-inner button.edit svg {
+    display: none;
+}
+
+.form-group-inner button.edit svg.active {
+    display: block;
+}
+
+.button-holder {
+    display: flex;
+    justify-content: space-between;
+}
+
+button.edit.focused {
+    background: #7c2469;
+}
+
+.trigger-file-upload {
+    display: block;
+    width: auto;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+#uploaded-file-name button {
+    background: transparent;
+    color: black;
+    padding: 0px 0px;
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+    margin-left: 5px;
+}
+
+button#add-case-button {
+    width: 200px;
+    text-align: center;
+}
+
+form[name="add-case"] {
+    width: 100%;
+    max-width: 100%;
+}
+
+form[name="add-case"] button {
+    width: max-content;
+    text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+#invoice-error {
+    font-family: CalibriB;
+    color: red;
+}
+
+ul#cases {
+    display: flex;
+    padding-left: 0px !important;
+    border: 0px solid transparent !important;
+}
+
+ul#cases li {
+    list-style: none;
+    color: white;
+    background: rgb(89, 198, 198);
+    padding: 10px 10px;
+    margin-bottom: 3px;
+    display: inline-flex;
+    width: max-content;
+    margin-right: 5px;
+}
+
+ul#cases li button {
+    padding: 0px 0px;
+    margin-left: 5px;
+}
+
+ul#invoice-list {
+    padding-left: 0px;
+}
+
+ul#invoice-list li {
+    display: inline-block;
+    list-style: none;
+    padding: 20px 20px;
+    border-radius: 0px;
+    background-color: rgb(222, 240, 241);
+    display: inline-block;
+    color: black;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+p#main-infos {
+    color: white;
+    padding: 20px 20px;
+    border-radius: 0px;
+    background-color: rgb(0, 87, 95);
+    display: inline-block;
+    font-weight: bold;
+}
+
+a#back-to-list, a#email-send {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: rgb(0, 87, 93);
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: block;
+    cursor: pointer;;
+}
+
+.invoice-list-action, .invoice-info {
+    background: rgb(222, 240, 241);
+    padding: 20px 20px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    bordeR: 0px solid transparent;
+    outline: none !important;
+    margin-right: 10px;
+}
+
+.invoice-list-action.listed-in-a-bank.done {
+    background: #7c2469;
+    color: white;
+}
+
+.payment-due {
+    background: red;
+    color: white;
+}
+
+.additional-invoice-items {
+    background: transparent !important;
+    border: 2px solid red !important;
+    color: red !important;
+}
+
+.expert-invoice-paid {
+    background: rgb(145, 183, 82) !important;
+    color: white;
+}
+
+.expert-invoice-not-paid {
+    background: #7c2469;
+    color: white;
+}
+
+#invoice-view-link-holder {
+    display: flex;
+    justify-content: space-between;
+}
+
+#invoice_payment_sent {
+    background: #c36e26;
+    cursor: auto;
+}
+
+.add-new-invoice {
+    color: #007bff !important;
+}
+
+#back-to-invoices-list {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: rgb(0, 87, 93);
+    display: block;
+}
+
+#invoice-submenus {
+    padding-left: 0px;
+    max-width: 100%;
+}
+
+#invoice-submenus li {
+    list-style: none;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+#invoice-submenus li a {
+    margin-right: 10px;
+    display: inline-block;
+    background: rgb(89, 198, 198);
+    padding: 20px 20px !important;
+    color: white !important;
+}
+
+#invoice-submenus a:last-child {
+    margin-right: 0px;
+}
+
+.invoice-expired-and-not-paid-event {
+    background: #7c2469 !important;
+    color: white !important;
+}
+
+.admin-invoice-index-download {
+    color: black !important;
+}
+
+
+span.data .fa-exclamation-triangle {
+    color: #f2da2f;
+}
+
+
+.invoice-data-changed .fa-exclamation-triangle {
+    color: black !important;
+}
+
+.listed_in_a_bank .fa-exclamation-triangle {
+    color: #f2da2f !important;
+}
+
+a#filter {
+    color: white;
+    font-weight: bold;
+    background-color: rgb(89, 198, 198);
+    border-radius: 0px;
+    text-transform: uppercase;
+    padding: 10px 40px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 2px solid transparent;
+    outline: none !important;
+}
+
+.downloaded-invoice {
+    background: rgb(0, 87, 95);
+    color: white !important;
+}
+
+.invoice-deleted-by-expert {
+    background: #c36e26;
+    color: white !important;
+}
+
+.invoice-delete-by-expert {
+    display: inline-block;
+    overflow: hidden;
+    border: 0px solid black;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-bottom: 1rem;
+    color: black;
+    text-transform: uppercase;
+    background-color: rgb(222, 240, 241);
+    outline: none !important;
+    padding: 20px 20px;
+    font-weight: bold;
+    transition: .3s all ease;
+    -webkit-transition: .3s all ease;
+    -moz-transition: .3s all ease;
+}
+
+.invoice-delete-by-expert:hover {
+    color: white;
+}
+
+.invoice-delete-by-expert:hover {
+    background: rgb(89, 198, 198);
+}
+
+.opacity-40 {
+    opacity: 0.4;
+}
+
+.rotated-icon{
+    transform: rotate(180deg);
+    color: white;
+}
+
+.load-more-cases {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearnce: none;
+    border: 0px solid transparent;
+    cursor: pointer;
+    color: white;
+    text-transform: uppercase;
+    background: rgb(89, 198, 198);
+    display: block;
+    margin-bottom: 45px;
+    padding: 10px 20px;
+    outline: none !important;
+    width: 250px;
+}
+
+.spinner {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    padding: 10px 20px;
+}
+
+input.dark{
+    color: rgb(0,87,95) !important;
+    border-color: rgb(0,87,95) !important;
+}
+
+input.dark::placeholder{
+    color: rgb(0,87,95) !important;
+}
+
+.button {
+    padding: 10px 30px 10px 40px;
+    background: rgb(89, 198, 198);
+    color: white;
+    text-transform: uppercase;
+    border: none;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+.button:hover{
+    color: white;
+    text-decoration: none;
+}

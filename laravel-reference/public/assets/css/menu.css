@@ -1,0 +1,105 @@
+#content #menu {
+    width: 284px;
+    z-index: 9;
+    right: 0;
+    top: 0;
+    position: absolute;
+}
+
+#content #menu #menu-list-holder ul li {
+    list-style: none;
+    font-weight: bold;
+    color: white;
+    padding: 10px 30px 18px 30px;
+}
+
+#content #menu #menu-list-holder ul li:last-child {
+    padding-bottom: 15px;
+}
+
+#content #menu #menu-list-holder ul li.active a {
+    text-decoration: underline;
+}
+
+#content #menu #menu-list-holder ul li a {
+    color: white;
+}
+
+#content #menu #menu-list-holder ul {
+    padding-left: 0px;
+    margin-bottom: 0px;
+}
+
+#content #menu #menu-list-holder {
+    position: relative;
+    background-color: rgb(0,87,95);
+    border-radius: 12px;
+}
+
+#content #menu #menu-list-holder #arrow {
+    left: 0px;
+    color: white !important;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0px solid white;
+    border-radius: 0px;
+    padding: 0px 0px;
+    background: transparent;
+    outline: none !important;
+    bottom: -55px;
+    font-size: 2rem;
+}
+
+#content #menu #menu-button {
+    position: relative;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0px solid white;
+    border-radius: 12px;
+    outline: none !important;
+    background-color: rgb(0,87,95);
+    width: 100%;
+    color: white;
+    font-weight: bold;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+#fake-menu-button {
+    position: relative;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0px solid white;
+    border-radius: 12px;
+    outline: none !important;
+    background-color: rgb(0,87,95);
+    width: 100%;
+    color: white;
+    font-weight: bold;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.menu-shadow {
+    -webkit-box-shadow: 0 0 50px 5px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 50px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 50px 5px rgba(0, 0, 0, 0.5);
+}
+
+.menu-btn {
+    height:64px;
+}
+
+.menu-row {
+    margin-bottom: 0px
+}
+
+@media screen and (max-width: 991px) {
+    #content #menu {
+        width: 100%;
+        position: relative!important;
+    }
+}

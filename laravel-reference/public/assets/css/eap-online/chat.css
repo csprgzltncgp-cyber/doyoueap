@@ -1,0 +1,143 @@
+.chat-container {
+    width: 800px;
+    height: 602px;
+    position: relative;
+    border: 3px solid rgb(222, 240, 241);
+    padding: 30px 30px 15px 30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat{
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 20px;
+    overflow-y: auto;
+    max-height: fit-content;
+}
+
+#userVideo {
+    width: 200px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border: 3px solid rgb(222, 240, 241);
+    z-index: 2;
+    background-color: white;
+}
+
+#userVideo video{
+    width: 200px;
+}
+
+#partnerVideo {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: white;
+}
+
+#partnerVideo video{
+    width: 100%;
+    height: 100%;
+}
+
+.button {
+    padding: 10px 20px;
+    background: rgb(89, 198, 198);
+    color: white;
+    text-transform: uppercase;
+    border: none;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+h1 {
+    color: rgb(34, 85, 94);
+    padding-top: 30px;
+    font-size: 1.7rem;
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+}
+
+::backdrop {
+    background-color: white !important;
+}
+
+.expertMessage, .clientMessage{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-width: 40%;
+}
+
+.expertMessage span, .clientMessage span{
+    font-size: small;
+}
+
+.expertMessage p, .clientMessage p{
+    padding: 10px;
+    border-radius: 10px;
+    word-wrap: break-word;
+}
+
+.clientMessage p{
+    background-color: rgb(222, 240, 241);
+    width: fit-content !important;
+}
+
+.expertMessage p{
+    background-color: rgb(89, 198, 198);
+    color: white;
+    width: fit-content !important;
+}
+
+.expertMessage{
+    align-self: flex-end;
+}
+
+.clientMessage{
+    align-self: flex-start;
+}
+
+.clientMessage span{
+    font-size: small;
+}
+
+#message-form{
+    display: flex;
+    justify-content: space-between;
+}
+
+#message-form textarea{
+    border: none;
+    height: 100%;
+    margin: 0;
+    height: 100%;
+    margin-bottom: 0 !important;
+}
+
+#message-form button{
+    padding: 10px 20px;
+    background: rgb(89, 198, 198);
+    color: white;
+    text-transform: uppercase;
+    border: none;
+}
+
+#client-is-typing{
+    min-height: 15px;
+    font-size: small;
+    bottom: 10px;
+    left: 20px;
+    font-style: italic;
+}

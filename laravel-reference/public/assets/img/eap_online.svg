@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Réteg_1" data-name="Réteg 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 123.48 94.33">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #231f20;
+        stroke-miterlimit: 10;
+        stroke-width: 2.5px;
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="M118.93,1h-58.3c-1.96,0-3.56,1.7-3.56,3.8v16.23h9.97c2.94,0,5.31,2.38,5.31,5.31v25.44h22.85l16.85,14.27v-14.27h6.87c1.96,0,3.55-1.7,3.55-3.8V4.8c0-2.1-1.59-3.8-3.55-3.8Z"/>
+  <polygon class="cls-1" points="90.31 31.7 80.77 37.21 80.77 26.2 80.77 15.18 90.31 20.69 99.85 26.2 90.31 31.7"/>
+  <path class="cls-1" d="M62.94,24.67H6.31c-2.93,0-5.31,2.38-5.31,5.31v44.24c0,2.93,2.38,5.31,5.31,5.31h3.54v12.39l12.39-12.39h40.7c2.94,0,5.31-2.38,5.31-5.31V29.98c0-2.93-2.37-5.31-5.31-5.31Z"/>
+  <rect class="cls-1" x="11.73" y="58.66" width="46.01" height="3.54"/>
+  <rect class="cls-1" x="11.73" y="49.81" width="46.01" height="3.54"/>
+  <rect class="cls-1" x="11.73" y="40.96" width="46.01" height="3.54"/>
+</svg>

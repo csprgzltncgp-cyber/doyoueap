@@ -1,0 +1,225 @@
+@font-face {
+  font-family: CalibriB;
+  src: url('../fonts/CALIBRIB.TTF');
+}
+
+@font-face {
+  font-family: CalibriI;
+  src: url('../fonts/CALIBRIL.TTF');
+}
+
+#content{
+  background-color:white;
+  min-height:calc(100vh - 190px);
+  position: relative;
+}
+
+.max-content-width {
+    margin-right: auto !important;
+    margin-left: auto !important;
+    max-width: 2060px;
+}
+
+body{
+  overflow: auto;
+  font-family: CalibriB, sans-serif;
+}
+
+#content h1{
+  color:rgb(34,85,94);
+  padding-top: 30px;
+  font-size: 1.7rem;
+}
+
+.case-list-in {
+    padding: 20px 20px;
+    background: rgb(222,240,241);
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.case-list-in button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0px solid black;
+    border-radius: 0px;
+    background: transparent;
+    outline: none !important;
+}
+
+
+textarea {
+    list-style: none;
+    padding: 10px 20px;
+    border-radius: 0px;
+    background-color: rgb(222,240,241);
+    display: inline-block;
+    width: 100%;
+    color: black;
+    outline: none;
+    border: 0px solid black;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    display: block;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    margin-bottom: 20px !important;
+}
+
+
+#content .button-holder .button{
+    color:white;
+    font-weight: bold;
+    background-color:rgb(89,198,198);
+    border-radius: 0px;
+    text-transform: uppercase;
+    padding:10px 40px;
+    display: inline-block;
+    -webkit-user-select: none; /* Safari 3.1+ */
+    -moz-user-select: none; /* Firefox 2+ */
+    -ms-user-select: none; /* IE 10+ */
+    user-select: none; /* Standard syntax */
+    border:2px solid transparent;
+    outline: none !important;
+}
+
+.less-opacity{
+  opacity:.1;
+}
+
+.myBtn{
+    float:left;
+}
+
+#content .button-holder .button:first-child, #content .button-holder .myBtn:first-child{
+  margin-right:10px;
+}
+
+#content .button-holder .button:last-child, #content .button-holder .myBtn:last-child{
+  float:right !important;
+}
+
+@media screen and (max-width:1185px){
+    .container-lg {
+      width:80%;
+    }
+  }
+
+@media screen and (max-width:991px){
+  #content h1{
+    margin-top:50px;
+  }
+
+  .container-lg {
+    width:100%;
+  }
+}
+
+#logged-in-as{
+  color:white;
+  text-align: center;
+  margin-bottom:0px;
+  padding:5px 5px;
+  background: #7c2469;
+}
+
+#multiple-accounts{
+  text-align: center;
+  color:white;
+  margin-bottom: 0px;
+  padding: 5px 5px;
+  background: #7c2469;
+}
+
+#multiple-accounts button{
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  background:transparent;
+  outline:none !important;
+  border:0px solid transparent;
+  color:white;
+  opacity:.1;
+}
+
+#multiple-accounts button.active, #multiple-accounts button:hover{
+  opacity:1;
+}
+
+.swal2-icon.swal2-info{
+  color:rgb(89,198,198) !important;
+  border-color:rgb(89,198,198) !important;
+}
+
+.breadcrumb{
+    background: transparent;
+    padding-left: 0;
+}
+
+.breadcrumb-item.active{
+    border: none !important;
+}
+
+.swal2-confirm {
+    background-color: rgb(0,87,95)!important;
+}
+
+.swal2-cancel {
+    background-color: #7c2469 !important;
+}
+
+
+/* DASHBOARD BUTTONS */
+:root {
+    --btn-height: 64px;
+    --btn-max-width: auto;
+    --btn-min-width: 180px;
+    --btn-func-width: auto;
+    --btn-func-height: 48px;
+    --btn-margin-right: 15px;
+    --btn-margin-left: 0px;
+    --btn-margin-bottom: 15px;
+    --btn-margin-x: 15px;
+    --btn-margin-y: 15px;
+    --btn-padding-x: 25px;
+}
+
+.btn-radius {
+    border-radius: 12px !important;
+    height: var(--btn-height) !important;
+    max-width: var(--btn-max-width) !important;
+    min-width: var(--btn-min-width) !important;
+    width: auto;
+    padding-left: var(--btn-padding-x) !important;
+    padding-right: var(--btn-padding-x) !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    margin-right: var(--btn-margin-right) !important;
+    margin-left: var(--btn-margin-left);
+    margin-bottom: var(--btn-margin-bottom) !important;
+    display: flex;
+    justify-content: center!important;
+    align-items: center!important;
+}
+
+.btn-radius-icon {
+    border-radius: 12px !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    margin-right: 15px !important;
+    justify-content: center!important;
+    align-items: center!important;
+}
+
+/* Used to clamp width on buttons that are in a col class parent element a would grow to the
+full witdh of that parent element when displayed as flex */
+.btn-max-width {
+    max-width: 180px !important;
+}
+
+.btn-input-field-height {
+    height: auto!important;
+}
+/* DASHBOARD BUTTONS */

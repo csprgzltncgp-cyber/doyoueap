@@ -1,0 +1,177 @@
+/* Link button class: link-button */
+button.link-button {
+    outline: none;
+    background: transparent;
+    border: none;
+    color: #007bff;
+    font-family: CalibriB, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+/* Select input class: select-input */
+.select-input{
+    display: block;
+    border: 2px solid rgb(89,198,198) !important;
+    padding: 10px 0px 10px 15px!important;
+    width: 100% !important;
+    margin-bottom: 20px !important;
+    border-radius: 0px !important;
+    outline: none !important;
+    color: rgb(89,198,198) !important;
+    min-height: 48px;
+    width: 100%;
+}
+
+.select-input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgb(89,198,198) !important;
+}
+
+.select-input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgb(89,198,198) !important;
+}
+
+.select-input::-ms-input-placeholder { /* Microsoft Edge */
+    color: rgb(89,198,198) !important;
+}
+
+/* Text input class: text-input */
+.text-input{
+    display: block;
+    border: 2px solid rgb(89,198,198) !important;
+    padding: 10px 0px 10px 15px!important;
+    width: 100% !important;
+    margin-bottom: 20px !important;
+    border-radius: 0px !important;
+    outline: none !important;
+    color: rgb(89,198,198) !important;
+    min-height: 48px;
+    width: 100%;
+}
+
+.number-input{
+    display: block;
+    border: 2px solid rgb(89,198,198) !important;
+    padding: 10px 0px 10px 15px!important;
+    width: 100% !important;
+    margin-bottom: 20px !important;
+    border-radius: 0px !important;
+    outline: none !important;
+    color: rgb(89,198,198) !important;
+    min-height: 48px;
+    width: 100%;
+}
+
+.text-input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgb(89,198,198) !important;
+}
+
+.text-input-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgb(89,198,198) !important;
+}
+
+.text-input::-ms-input-placeholder { /* Microsoft Edge */
+    color: rgb(89,198,198) !important;
+}
+
+/* Color input class: color-input */
+.color-input{
+    display: block;
+    border: 2px solid rgb(89,198,198) !important;
+    width: 100% !important;
+    margin-bottom: 20px !important;
+    border-radius: 0px !important;
+    outline: none !important;
+    min-height: 48px;
+    width: 100%;
+}
+
+/* Default form class: form-content */
+.form-content{
+    width: 350px;
+    margin-top: 30px;
+}
+
+/* Form content submit class: form-content-submit */
+.form-content-submit{
+    background-color: rgb(89,198,198);
+    color: white;
+    font-weight: bold;
+    display: block;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    padding: 10px 15px;
+    width: 100%;
+    border-radius: 0px;
+    border: 0px solid black;
+    outline: none !important;
+    text-align: center;
+}
+
+/* Form content back class: form-content-back */
+.form-content-back{
+    background-color: rgb(89,198,198);
+    color: white !important;
+    font-weight: bold;
+    display: block;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    padding: 10px 15px;
+    width: 100%;
+    border-radius: 0px;
+    border: 0px solid black;
+    outline: none !important;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* Default h1 title class: default-h1 */
+.default-h1{
+    color: rgb(34,85,94);
+    padding-top: 30px;
+    font-size: 1.7rem;
+}
+
+/* Default h2 title class: default-h2 */
+.default-h2{
+    color: rgb(34,85,94);
+    font-size: 1.3rem;
+}
+
+/* No left padding class: no-left-padding*/
+.no-left-padding{
+    padding-left: 0px;
+}
+
+/* Blue list box element class: list-blue-box */
+.list-blue-box{
+    list-style: none;
+    position: relative;
+    background-color: rgb(222,240,241);
+    padding: 10px 10px;
+    margin-bottom: 5px;
+    cursor: move;
+}
+
+/* Text align right class: text-align-right */
+.text-align-right{
+    text-align: right;
+}
+
+/* Margin bottom null class: margin-bottom-null */
+.margin-bottom-null{
+    margin-bottom: 0;
+}
+
+
+/* Default modifycation definication */
+.no-padding-left{
+    padding-left: 0px;
+}
+
+.no-padding-right{
+    padding-right: 0px;
+}

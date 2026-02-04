@@ -1,0 +1,75 @@
+.relative-country-holder{
+  position: relative;
+  width:100%;
+}
+
+div.value{
+  width:100%;
+  position: relative;
+}
+
+div.value span.country-value{
+  position: absolute;
+  top:0px;
+}
+
+
+div.values-table-holder{
+  width:100%;
+}
+
+div.value span.country-value input{
+  height: 19px;
+  text-align: center;
+}
+
+.relative-country-holder > div{
+  position: absolute;
+  top:6px;
+  font-size: 10px;
+  width: max-content;
+}
+
+.value-text{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 16%;
+  display: inline-block;
+  position: sticky;
+  left: 0;
+  min-width: 280px;
+  background: white;
+  z-index: 999;
+  padding-left: 15px;
+}
+
+.riportcategory-name{
+  height:50px;
+  display: flex;
+  align-items: center;
+}
+
+.riportcategory-name.top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom:0;
+}
+
+.riportcategory-name.bottom{
+  margin-top:0px;
+}
+
+.riportsubcategory-holder{
+  margin-top:30px;
+}
+
+.prev-data{
+  margin-left: 10px;
+  margin-right: 10px;
+  opacity: 60%;
+}
+
+input[type=number]{
+  text-align: center;
+}

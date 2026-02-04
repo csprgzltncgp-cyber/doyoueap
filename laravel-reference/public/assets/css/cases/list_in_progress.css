@@ -1,0 +1,169 @@
+.case-list-in-progress {
+    margin-bottom: 10px;
+    /*height:64px;*/
+    height: max-content;
+}
+
+.case-list-in-progress p, .case-list-in-progress a {
+    display: inline;
+    /*float:left;*/
+    padding: 20px 20px;
+    font-weight: bold;
+}
+
+.case-list-in-progress p:first-child {
+    padding: 20px 20px;
+    background: rgb(222, 240, 241);
+}
+
+.case-list-in-progress a {
+    color: white;
+    text-transform: uppercase;;
+    background-color: rgb(0, 87, 95);
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.case-list-in-progress p:last-child {
+    color: white;
+    /*margin-left:15px;*/
+}
+
+.case-list-in-progress p:not(:first-child) {
+    color: White;
+    margin-right: 15px;
+}
+
+.case-list-in-progress p.danger {
+    background-color: rgb(219, 12, 32);
+}
+
+.case-list-in-progress p.warning {
+    background-color: rgb(235, 127, 48);
+}
+
+.case-list-in-progress p.success {
+    background-color: rgb(145, 183, 82);
+}
+
+._3month, .interrupted {
+    background-color: rgb(219, 11, 32);
+}
+
+._wpo-info-required {
+    background-color:rgb(163 48 149);
+  }
+
+._2month {
+    background-color: rgb(235, 126, 48);
+}
+
+.closeable {
+    background-color: rgb(145, 183, 82) !important;
+    color: white !important;
+    cursor: pointer;
+}
+
+.case-list-in-progress p {
+    max-width: 75%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;;
+}
+
+.case-list-in-progress p:first-child {
+    max-width: 55%;
+}
+
+.case-list-in-progress a {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-bottom: 1rem;
+}
+
+.case-list-holder {
+    margin-top: 20px;
+}
+
+.not-accepted {
+    background-color: #E9811B !important;
+}
+
+.delete-button-from-list {
+    display: inline-block;
+    overflow: hidden;
+    border: 0 solid black;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-bottom: 1rem;
+    color: white;
+    text-transform: uppercase;
+    background-color: rgb(222, 240, 241);
+    outline: none !important;
+    padding: 20px 20px;
+    font-weight: bold;
+    transition: .3s all ease;
+    -webkit-transition: .3s all ease;
+    -moz-transition: .3s all ease;
+    margin-right: 20px;
+}
+
+.delete-button-from-list:hover {
+    background: rgb(89, 198, 198);
+}
+
+.load-more-cases {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearnce: none;
+    border: 0 solid transparent;
+    cursor: pointer;
+    color: white;
+    text-transform: uppercase;
+    background: rgb(89, 198, 198);
+    display: block;
+    margin-bottom: 45px;
+    padding: 10px 20px;
+    outline: none !important;
+    width: 250px;
+}
+
+.cases-list i.fa-sync-alt {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.case-list-in-progress-country.active {
+    background-color: rgb(0, 87, 95);
+    color: white;
+}
+
+.case-list-in.active {
+    background-color: rgb(0, 87, 95);
+    color: white;
+}
+
+.spinner {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    padding: 10px 20px;
+}
+
+@media screen and (max-width: 768px) {
+    .case-list-in-progress p, .case-list-in-progress a {
+        float: left;
+        margin-bottom: 1rem;
+    }
+
+    .case-list-in-progress p:first-child {
+        max-width: 100%;
+        width: 100%
+    }
+}

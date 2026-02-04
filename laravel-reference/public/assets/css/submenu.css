@@ -1,0 +1,23 @@
+.list-elem {
+    padding: 20px 40px;
+    background: rgb(0, 87, 95);
+    color: white;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-elem:hover {
+    color: white;
+}
+
+.list-holder {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr;
+    grid-gap: 20px;
+}
+
+.list-elem {
+    text-align: center;
+}

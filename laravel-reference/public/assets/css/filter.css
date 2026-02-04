@@ -1,0 +1,54 @@
+.filter-holder .filter{
+  background:rgb(89,198,198);
+  color:white;
+  padding:15px 20px;
+  position: relative;
+  margin-bottom:5px;
+}
+
+.filter-holder .filter p{
+  margin-bottom:0px !important;
+  font-weight: bold;
+}
+
+form button.button{
+  background-color:rgb(89,198,198);
+  color:white;
+  font-weight: bold;
+  display: block;
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  padding:10px 15px;
+  border-radius: 0px;
+  border:0px solid black;
+  text-align: left;
+  outline: none !important;
+}
+
+.filter button.filter-button{
+  position: absolute;
+  top:0px;
+  right:0px;
+  font-weight: bold;
+  padding:0px 20px;
+  height:100%;
+  font-size: 32px;
+  color:white;
+  outline:none !important;
+  border:0px solid transparent;
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  background-color:rgb(0,87,95);
+}
+
+.filter input, .filter select{
+  margin-top:5px;
+  border:0px solid transparent;
+  padding:5px 10px;
+  outline:none !important;
+  width: 80%;
+  border-radius: 0px;
+  height:36px;
+}

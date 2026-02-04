@@ -1,0 +1,23 @@
+ul#sortable{
+  padding-left:0px;
+
+}
+
+ul#sortable li{
+  list-style: none;
+  position: relative;
+  background-color: rgb(222,240,241);
+  padding:10px 10px;
+  margin-bottom:5px;
+  cursor: move;
+}
+
+ul#sortable li button{
+  position: absolute;
+  right:10px;
+  appearance:none;
+  -webkit-appearance:none;
+  background: transparent;
+  border:0px solid transparent;
+  outline:none !important;
+}

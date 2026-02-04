@@ -1,0 +1,226 @@
+.case-title p {
+    color: white;
+    padding: 20px 20px;
+    border-radius: 0px;
+    background-color: rgb(0, 87, 95);
+    display: inline-block;
+    font-weight: bold;
+}
+
+.case-details ul {
+    padding-left: 0px;
+}
+
+.case-details {
+    margin-bottom: 50px;
+    display: block;
+}
+
+.case-details ul li {
+    float: left;
+    list-style: none;
+    padding: 20px 20px;
+    border-radius: 0px;
+    background-color: rgb(222, 240, 241);
+    display: inline-block;
+    color: black;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.back-button a {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: rgb(0, 87, 93);
+    margin-top: 30px;
+    display: block;
+}
+
+
+.case-details ul li.upload {
+    cursor: pointer;
+}
+
+.case-details ul li button {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    outline: none !important;
+    border: 0px solid black;
+    font-weight: bold;
+    padding: 0px 0px;
+    text-align: left;
+}
+
+.modal form button {
+    list-style: none;
+    padding: 10px 20px;
+    border-radius: 0px;
+    background-color: rgb(0, 87, 95);
+    display: inline-block;
+    color: white;
+    border: 0px solid black;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    display: block;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+}
+
+.modal form select {
+    list-style: none;
+    padding: 10px 20px;
+    border-radius: 0px;
+    background-color: rgb(222, 240, 241);
+    color: black;
+    outline: none;
+    border: 0px solid black;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    display: block;
+    width: 70%;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+a.button.confirmed {
+    background-color: #7c2469 !important;
+    text-decoration: none !important;
+}
+
+a.button {
+    cursor: pointer;
+}
+
+input {
+    background-color: rgb(222, 239, 241);
+    color: black;
+    margin-bottom: 10px;
+    border: 0px;
+    border-radius: 0px;
+    outline: none !important;
+    padding: 10px 20px 10px 20px;
+    width: 100%;
+    text-align: left;
+}
+
+input::-webkit-input-placeholder { /* Edge */
+    color: black;
+}
+
+input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: black;
+}
+
+input::placeholder {
+    color: black;
+}
+
+.not-editable {
+    cursor: not-allowed;
+}
+
+#cant-assing-case {
+    display: block;
+}
+
+#cant-assing-case.active {
+    background-color: #7c2469 !important;
+}
+
+#cant-assing-case i {
+    margin-right: 5px;
+}
+
+#expert-did-not-assign {
+    background-color: #E9811B !important;
+}
+
+#expert-did-not-assign i {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+input[name="customer-satisfaction-not-possible"] {
+    width: auto;
+    margin-right: 5px;
+}
+
+
+#customer-satisfaction-not-possible.container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 0px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+#customer-satisfaction-not-possible.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+#customer-satisfaction-not-possible .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: white;
+}
+
+/* On mouse-over, add a grey background color */
+#customer-satisfaction-not-possible.container:hover input ~ .checkmark {
+    background-color: rgb(89, 198, 198);
+}
+
+/* When the checkbox is checked, add a blue background */
+#customer-satisfaction-not-possible.container input:checked ~ .checkmark {
+    background-color: rgb(89, 198, 198);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+#customer-satisfaction-not-possible .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+#customer-satisfaction-not-possible.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+#customer-satisfaction-not-possible.container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 8px;
+    height: 14px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.consultation--deleted {
+    background-color: rgb(219, 11, 32) !important;
+    color: white !important;
+}

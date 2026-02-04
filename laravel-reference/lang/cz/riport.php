@@ -1,0 +1,131 @@
+<?php
+
+return [
+    'cumulated_alt' => 'UZAVŘENÉ PŘÍPADY + přerušené případy + případy nedostupného klienta',
+
+    'health_map' => 'MAPA ZDRAVÍ',
+    'law' => 'Právní',
+    'under_19' => 'DO 19 LET',
+    'from_20_to_29' => '20-29 LET',
+    'from_30_to_39' => '30-39 LET',
+    'from_40_to_49' => '40-49 LET',
+    'from_50_to_59' => '50-59 LET',
+    'above_60' => 'NAD 60 LET',
+    'health_map_desc' => 'S pomocí naší nové Mapy duševního zdraví můžete jednoduše a přehledně analyzovat oblasti EAP, které nejčastěji využívají vaši zaměstnanci. Informace jsou zobrazeny podle věkových a pohlavních kategorií pro nejpopulárnější oblasti. Data se kumulují měsíc po měsíci, takže v dlouhodobém horizontu budou výsledky na této mapě přesnější. Tato mapa může být ideální podporou pro HR tým při plánování a tvorbě interní komunikace o EAP a při rozhodování o možných tématech budoucích workshopů. Na mapě jsou zobrazeny také typy poradenství EAP a věkové kategorie. Výsledky jsou v této mřížce znázorněny menšími nebo většími kruhy podle věkových kategorií – větší kruh představuje vyšší využití a menší nižší.',
+    'prize_game_desc' => 'Počet účastníků soutěže o ceny můžete vidět po posunutí dolů. Data se neustále aktualizují podle počtu lidí účastnících se hry. Po skončení soutěže o ceny může být losování zahájeno tlačítkem „Začít losování“ a zastaveno tlačítkem „Zastavit losování“. Kde se číslo zastaví, účastník spojený s zobrazeným číslem vyhrává a jejich údaje se zobrazí pod číslem. Losování může pokračovat stisknutím tlačítka „Začít losování“ a následným stisknutím tlačítka „Zastavit losování“, dokud není dosaženo požadovaného počtu vítězů.',
+    'live' => 'ŽIVĚ',
+
+    'news' => 'Nové! Workshop digitální rovnováhy',
+    'number_of_calls' => 'Počet případů',
+    'in_progress_cases' => 'Aktuální, probíhající konzultace',
+    'in_progress_cases_short' => 'AKTIVNÍ PŘÍPADY KE KONCI SLEDOVANÉHO OBDOBÍ',
+    'closed_cases' => 'UZAVŘENÉ PŘÍPADY',
+    'cumulate' => 'KUMULOVAT',
+    'cumulated_numbers' => 'VŠECHNY KUMULOVANÉ INTERAKCE A VYUŽITÍ EAP',
+    'interrupted_cases' => 'Přerušené případy',
+    'client_unreachable_cases' => 'PŘÍPADY NEDOSTUPNÝCH KLIENTŮ',
+    'workshop_participants' => 'ÚČASTNÍCI WORKSHOPŮ',
+    'orientation_participants' => 'ÚČASTNÍCI ORIENTAČNÍCH SCHŮZEK',
+    'health_day_participants' => 'Účastníci dne zdraví',
+    'expert_outplacement_participants' => 'ÚČASTNÍCI PORADENSTVÍ NA MÍSTĚ',
+    'prizegame_participants' => 'Účastníci soutěže o ceny',
+    'valeo_workplace_1' => 'Využití EAP na místě',
+    'valeo_workplace_2' => 'Využití EAP na místě',
+    'hydro_workplace' => 'Využití EAP na místě',
+    'pse_workplace' => 'Využití EAP na místě',
+    'michelin_workplace' => 'Využití EAP na místě',
+    'sk_battery_workplace' => 'Využití EAP na místě',
+    'grupa_workplace' => 'Využití EAP na místě',
+    'robert_bosch_workplace' => 'Využití EAP na místě',
+    'gsk_workplace' => 'Využití EAP na místě',
+    'johnson_and_johnson_workplace' => 'Využití EAP na místě',
+    'syngenta_workplace' => 'Využití EAP na místě',
+    'nestle_workplace' => 'Využití EAP na místě',
+    'mahle_pl_workplace' => 'Využití EAP na místě',
+    'lpp_workplace' => 'Využití EAP na místě',
+    'amrest_workplace' => 'Využití EAP podle skupin společností',
+    'crisis_participants' => 'Účastníci krizové intervence',
+    'eap_logins' => 'Přihlášení do EAP online',
+    'record' => 'NEJČASTĚJI VYUŽÍVANÉ PORADENSTVÍ PODLE POHLAVÍ A VĚKU',
+    'record_problem_type' => 'Typ problému',
+    'record_gender' => 'Pohlaví',
+    'record_age' => 'Věk',
+    'gender_x_problem_type' => 'Rozdělení žen a mužů podle typu problému',
+    'age_x_problem_type' => 'Věkové rozdělení podle typu problému',
+    'download' => 'STÁHNOUT EAP REPORT ve formátu excel',
+
+    'problem_type' => 'PROBLÉM PODLE TYPU',
+    'is_crisis' => 'Krizová výzva',
+    'problem_details' => 'ROZPIS PODLE DETAILŮ PROBLÉMU',
+    'gender' => 'ROZDĚLENÍ PODLE POHLAVÍ',
+    'employee_or_family_member' => 'ROZDĚLENÍ PODLE ZAMĚSTNANCE / RODINNÉHO PŘÍSLUŠNÍKA',
+    'age' => 'ROZDĚLENÍ PODLE VĚKU',
+    'language' => 'ROZDĚLENÍ PODLE JAZYKA PORADENSTVÍ',
+    'source' => 'ROZDĚLENÍ PODLE ZDROJE DOPORUČENÍ',
+    'type_of_problem' => 'ROZDĚLENÍ PODLE TYPU PORADENSTVÍ',
+    'place_of_receipt' => 'ROZDĚLENÍ PODLE ZPŮSOBU KONTAKTOVÁNÍ PROGRAMU',
+
+    'onsite_consultations_number' => 'Počet konzultací na místě',
+
+    'statistics_are_rounded' => 'Matematická pravidla zaokrouhlování jsou použita ve statistickém přehledu. Data obsažená ve statistickém přehledu jsou vyhrazena společností CGP Europe Kft. až do konce daného kalendářního roku. Pokud si přejete uložit data ze statistického přehledu, prosím, stáhněte si excelovou verzi za každé čtvrtletí.',
+
+    'welcome' => [
+        'page1' => [
+            'title' => 'Vítejte na novém klientském dashboardu!',
+            'text' => 'S potěšením vám představujeme náš kompletně obnovený Klientský Dashboard. Trvalo nám téměř rok digitálního vývoje, který skončil obnovou Klientského Dashboardu. Tyto vývoje zahrnovaly zlepšení naší platformy EAP Online, aktualizaci aplikace EAP chat a zavedení mnoha nových funkcí do aplikace my EAP. Práce byla náročná, ale zároveň inspirující. Doufáme, že jsme nejen zlepšili (a udělali atraktivnější) vzhled každé platformy, ale také je učinili přístupnějšími a efektivnějšími pro uživatele. Nejúžasnější částí celého tohoto procesu je nový Klient, který nyní nazýváme EAP Dashboard. Než začnete prozkoumávat novou stránku, rádi bychom s vámi sdíleli některé z nejdůležitějších detailů vývojového procesu.',
+        ],
+        'page2' => [
+            'title' => 'Data jsou užitečná pouze tehdy, pokud jsou snadno pochopitelná',
+            'text' => 'Nové reportovací menu EAP dashboardu je rychle a snadno pochopitelné. Tím poskytuje uživateli informativnější zobrazení statistik EAP programu.',
+            'psychology' => 'Psychologické',
+        ],
+        'page3' => [
+            'title1' => 'Nové grafy,',
+            'title2' => 'Nové závěry',
+            'text' => 'Obnovene menu používá nové a vylepšené grafy pro prezentaci statistických dat EAP programu, aby bylo možné získat nové závěry při používání programu.',
+            'finance' => 'Finanční',
+            'female' => 'Žena',
+        ],
+        'page4' => [
+            'title1' => 'Reportovací systém,',
+            'title2' => 'který je pro bezpečnost každého',
+            'text' => 'Anonymita zaměstnanců, kteří používají EAP program, je jedním z nejdůležitějších kritérií poradenského procesu, ale také nám záleží na tom, aby zaměstnanci zůstali neidentifikovatelní i z reportovaných statistických dat. Aby byla zajištěna bezpečnost zaměstnanců/identifikace nebude probíhat, naše reporty neobsahují regionální lokalizační data.',
+        ],
+        'page5' => [
+            'title1' => 'Co je ještě informativnější než reporty?',
+            'title2' => 'Mentální mapa zdraví',
+            'text' => 'Nový bod menu poskytne užitečné informace o aktuálním duševním stavu společnosti a ukáže problémy, se kterými se zaměstnanci nejvíce potýkají a jak je překonávají. Poskytne podrobný pohled na povahu těchto problémů a procento lidí, které se jich dotýkají.',
+        ],
+
+        'continue_to_dashboard' => 'Přejít na nový EAP Dashboard.',
+        'next' => 'Další',
+    ],
+
+    'partial_sum' => 'Součet probíhajících a uzavřených případů',
+    'sum' => 'Součet probíhajících, uzavřených, přerušených a nedostupných případů klientů',
+
+    '1_quarter' => 'Q1',
+    '2_quarter' => 'Q2',
+    '3_quarter' => 'Q3',
+    '4_quarter' => 'Q4',
+
+    'quarter' => 'Čtvrtletí',
+
+    'in_progress_cases_info' => 'Nové případy přijaté během sledovaného období, s probíhajícími poradenskými konzultacemi.',
+    'closed_cases_info' => 'Nové případy přijaté během sledovaného období, poradenské konzultace skončily.',
+    'interrupted_cases_info' => 'Nové případy přijaté během sledovaného období, konzultace přerušeny zaměstnancem z důvodů nezávislých na vůli experta.',
+    'client_unreachable_cases_info' => 'Nové případy přijaté během sledovaného období, kdy expert nebyl schopen kontaktovat zaměstnance.',
+    'cumulated_info' => 'UZAVŘENÉ PŘÍPADY + PROBÍHAJÍCÍ PŘÍPADY + PŘERUŠENÉ PŘÍPADY + PŘÍPADY NEDOSTUPNÝCH KLIENTŮ + ÚČASTNÍCI WORKSHOPŮ + ÚČASTNÍCI KRIZOVÝCH INTERVENCÍ + ÚČASTNÍCI ORIENTAČNÍCH SCHŮZEK + ÚČASTNÍCI DNŮ ZDRAVÍ + ÚČASTNÍCI PORADENSTVÍ NA MÍSTĚ + ÚČASTNÍCI SOUTĚŽÍ O CENU + PŘIHLÁŠENÍ DO EAP ONLINE',
+    'not_registered' => 'Není registrováno!',
+
+    'total' => 'Celkem',
+
+    'no_available_data' => 'Momentálně nejsou k dispozici žádná data.',
+    'no_data_to_enter' => 'Žádná data k zadání',
+
+    'volume_request' => 'Počet zaměstnanců',
+    'volume_request_closed' => 'Datové období pro měsíc bylo uzavřeno!',
+
+    'consultations' => 'Konzultace pro uzavřené případy',
+    'consultations_ongoing' => 'KONZULTACE PRO AKTIVNÍ PŘÍPADY KE KONCI SLEDOVANÉHO OBDOBÍ',
+];

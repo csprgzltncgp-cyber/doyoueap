@@ -1,0 +1,263 @@
+a#filter {
+    color: white;
+    font-weight: bold;
+    background-color: rgb(89, 198, 198);
+    border-radius: 0;
+    text-transform: uppercase;
+    padding: 10px 40px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 2px solid transparent;
+    outline: none !important;
+}
+
+.list-element button, .list-element a {
+    margin-right: 15px;
+    display: inline-block;
+}
+
+.list-element {
+    padding: 0 0;
+    background: transparent;
+    cursor: default !important;
+}
+
+.list-element > * {
+    padding: 20px 20px;
+    float: left;
+    margin-bottom: 15px;
+}
+
+.list-element > div {
+    display: flex;
+}
+
+.list-element a.edit-workshop {
+    background: rgb(0, 87, 95);
+    color: white;
+    text-transform: uppercase;
+}
+
+.list-element button.pay-workshop {
+    background: rgb(222, 240, 241);
+    padding: 20px 20px;
+    border: none;
+}
+
+.list-element button.paid {
+    background: rgb(127, 64, 116) !important;
+    color: white !important;
+}
+
+.list-element button.event {
+    background: rgb(89, 198, 198);
+    color: white;
+}
+
+.list-element > span.data {
+    background: rgb(222, 240, 241);
+    padding: 20px 20px;
+    margin-right: 10px;
+}
+
+.list-element > span.active {
+    background: rgb(0, 87, 95) !important;
+    color: white;
+}
+
+.list-element > span.closed {
+    background: rgb(127, 64, 116) !important;
+    color: white;
+}
+
+.workshop-info {
+    display: flex;
+    padding: 20px 20px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0 solid transparent;
+    outline: none !important;
+    margin-right: 10px;
+}
+
+.workshop-price-changed {
+    background: #f2da2f !important;
+}
+
+.workshop-price-accepted {
+    background: #c36e26 !important;
+    color: white;
+}
+
+.workshop-denied {
+    background: rgb(219, 11, 32) !important;
+    color: white !important;
+}
+
+.workshop-price-changed .fa-exclamation-triangle {
+    margin-right: 5px;
+    color: black !important;
+}
+
+.workshop-denied .fa-exclamation-triangle {
+    margin-right: 5px;
+    color: white !important;
+}
+
+.list-element button.delete-button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    border: 0 solid black;
+    color: #007bff;
+    outline: none;
+}
+
+.list-element button.event {
+    transition: .3s all ease;
+    -webkit-transition: .3s all ease;
+    -moz-transition: .3s all ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0 solid transparent;
+}
+
+.list-element button.event:hover {
+    opacity: 1;
+}
+
+.list-element button.event.active {
+    opacity: 1;
+}
+
+.list-element {
+    cursor: pointer;
+    padding: 0 !important;
+}
+
+#workshop-submenus {
+    padding-left: 0;
+    max-width: 100%;
+}
+
+#workshop-submenus li {
+    list-style: none;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+#workshop-submenus li a {
+    margin-right: 10px;
+    display: inline-block;
+    background: rgb(89, 198, 198);
+    padding: 20px 20px !important;
+    color: white !important;
+}
+
+#workshop-submenus a:last-child {
+    margin-right: 0;
+}
+
+i.fa-exclamation-triangle {
+    float: right;
+    color: #f2da2f;
+}
+
+i.fa-exclamation-circle {
+    float: right;
+    color: #ff041d;
+}
+
+i.fa-check-circle {
+    float: right;
+    color: rgb(0, 87, 95);
+}
+
+i.fa-plus-circle {
+    float: right;
+    color: #0d4197;
+}
+
+i.fa {
+    font-size: 22px !important;
+}
+
+.lis-element-div {
+    width: 100%;
+    display: none;
+}
+
+.lis-element-div.active {
+    display: block !important;
+}
+
+i.fas.fa-caret-left.icon.active {
+    -ms-transform: rotate(-90deg); /* IE 9 */
+    transform: rotate(-90deg);
+}
+
+
+.lis-element-div-c {
+    display: none;
+}
+
+.lis-element-div-c.active {
+    display: block !important;
+}
+
+.list-element.col-12 {
+    display: inline-block !important;
+}
+
+select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+.delete-button-from-list:hover {
+    background: rgb(0, 87, 95);
+    transition: all;
+    transition-duration: 300ms;
+}
+
+.rotated-icon{
+    transform: rotate(180deg);
+    color: white;
+}
+
+.case-list-in.active{
+    background: rgb(0, 87, 95);
+    color: white;
+}
+
+.load-more-cases {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearnce: none;
+    border: 0px solid transparent;
+    cursor: pointer;
+    color: white;
+    text-transform: uppercase;
+    background: rgb(89, 198, 198);
+    display: block;
+    margin-bottom: 45px;
+    padding: 10px 20px;
+    outline: none !important;
+    width: 250px;
+}
+
+.spinner {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    padding: 10px 20px;
+}

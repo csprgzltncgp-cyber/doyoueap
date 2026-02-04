@@ -1,0 +1,47 @@
+#customer-satisfaction-index-holder{
+  text-align: center;
+  margin-top:30px;
+  border-left:1px solid rgb(0,87,95);
+  border-right:1px solid rgb(0,87,95);
+  margin-bottom: 100px;
+}
+
+#customer-satisfaction-index-holder img{
+  margin: 0 auto;
+  display:block;
+  height:175px;
+}
+
+#customer-satisfaction-index-holder p{
+  text-align:center;
+  font-size: 90px;
+  font-weight: bold;
+  color: rgb(148,184,83);
+  margin-top: 16px;
+  line-height: 6rem;
+}
+
+#excel-export-holders > p{
+  font-weight: normal;
+  font-size: 18px;
+}
+
+#customer-satisfaction-index-holder p.not-ready{
+  font-size: 16px;
+  padding:15px 0;
+  color:black;
+}
+
+p#interval{
+  padding:15px 15px;
+  width:max-content;
+  font-family: CalibriI;
+  background-color:rgb(221,240,241);
+  margin-top:25px;
+  margin-bottom:25px;
+}
+
+p#interval span{
+  font-weight: bold;
+  font-family: CalibriB;
+}

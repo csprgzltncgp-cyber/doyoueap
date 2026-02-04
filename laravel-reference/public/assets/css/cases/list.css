@@ -1,0 +1,77 @@
+.case-list-holder .case-list{
+  padding:20px 20px;
+  background-color:rgb(222,240,241);
+  color:black;
+  width:32%;
+  float:left;
+  margin-bottom:2%;
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+.case-list-holder .case-list.selected{
+  background-color:rgb(89,198,198) !important;
+  color:white !important;
+}
+
+#selectButton.active, #selectAllButton.active{
+  border:2px solid rgb(89,198,198) !important;
+  background-color:rgb(222,240,241) !important;
+  color:rgb(89,198,198) !important;
+}
+
+.case-list-holder .case-list:nth-child(3n+1),.case-list:nth-child(3n+2){
+  margin-right:2%;
+}
+
+.case-list-holder{
+  margin-top:20px;
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  /*justify-content: space-between;*/
+}
+
+.case-list-holder .case-list p{
+  margin-bottom:2px;
+}
+
+.case-list-holder .case-list h2{
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+}
+
+._3month{
+  background-color:rgb(219,11,32);
+}
+
+._2month{
+  background-color:rgb(235,126,48);
+}
+
+ul.pagination{
+  margin: 0 auto;
+  margin-bottom:20px;
+}
+
+.page-item.active .page-link{
+  background-color:rgb(0,87,95);
+  border-color:rgb(0,87,95);
+}
+
+.page-link{
+  color:rgb(0,87,95);
+}
+
+@media screen and (max-width:991px){
+  .case-list-holder .case-list{
+    width: 100%;
+    margin-right:0px;
+  }
+
+  #content .button-holder .button{
+    width: 100%;
+    margin-bottom:2%;
+    text-align: center;
+  }
+}

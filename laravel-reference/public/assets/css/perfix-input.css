@@ -1,0 +1,98 @@
+.input-group-text{
+    background: transparent !important;
+    border-left: 2px solid rgb(89,198,198) !important;
+    border-top: 2px solid rgb(89,198,198) !important;
+    border-bottom: 2px solid rgb(89,198,198) !important;
+    border-right: 0px !important;
+    color: rgb(89,198,198) !important;
+    border-radius: 0px !important;
+}
+
+.input-group-text.dark{
+    background: transparent !important;
+    border-left: 2px solid rgb(0,87,95) !important;
+    border-top: 2px solid rgb(0,87,95) !important;
+    border-bottom: 2px solid rgb(0,87,95) !important;
+    border-right: 0px !important;
+    color: rgb(0,87,95) !important;
+    border-radius: 0px !important;
+}
+
+.input-group-append .input-group-text{
+    background: transparent !important;
+    border-right: 2px solid rgb(89,198,198) !important;
+    border-top: 2px solid rgb(89,198,198) !important;
+    border-bottom: 2px solid rgb(89,198,198) !important;
+    border-left: 0px !important;
+    color: rgb(89,198,198) !important;
+    border-radius: 0px !important;
+}
+
+.input-group-append .input-group-text.dark{
+    background: transparent !important;
+    border-right: 2px solid rgb(0,87,95) !important;
+    border-top: 2px solid rgb(0,87,95) !important;
+    border-bottom: 2px solid rgb(0,87,95) !important;
+    border-left: 0px !important;
+    color: rgb(0,87,95) !important;
+    border-radius: 0px !important;
+}
+
+.input-group input{
+    border-left: 0px !important;
+    padding-left: 0 !important;
+    color: black !important;
+    margin-bottom: 0 !important;
+    flex:1;
+}
+
+.input-group select{
+    border-left: 0px !important;
+    padding-left: 0 !important;
+    color: black !important;
+    margin-bottom: 0 !important;
+    flex:1;
+}
+
+.input-group select.dark{
+    border-color: rgb(0,87,95) !important;
+}
+
+.input-group input.dark{
+    border-color: rgb(0,87,95) !important;
+}
+
+.chosen-choices{
+    border-left: 0px !important;
+    padding-left: 0 !important;
+    color: black !important;
+    margin-bottom: 0 !important;
+    flex:1;
+}
+
+.chosen-container-active .chosen-choices{
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+}
+
+.input-group{
+    margin-bottom: 20px;
+}
+
+.input-group.yellow .input-group-text{
+    border-color: #ffc107 !important;
+    color:white !important;
+    background: #ffc107 !important;
+}
+
+.input-group.yellow input{
+    border-color: #ffc107 !important;
+    color:white !important;
+    background: #ffc107 !important;
+}
+
+.input-group.yellow select{
+    border-color: #ffc107 !important;
+    color:white !important;
+    background: #ffc107 !important;
+}

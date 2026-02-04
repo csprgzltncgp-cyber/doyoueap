@@ -1,0 +1,49 @@
+.eq-data {
+    border:2px solid rgb(89,198,198) !important;
+    padding:10px 0px 10px 15px!important;
+    margin-bottom: 0px !important;
+    border-radius: 0px !important;
+    outline: none !important;
+  }
+
+.eq-title {
+    color:rgb(89,198,198) !important;
+    width: 100% !important;
+}
+
+.cgreen {
+    color:rgb(89,198,198) !important;
+}
+
+.modal-input {
+    background-color: rgb(222, 239, 241);
+    border: 0px !important;
+    color: black;
+    margin-bottom: 10px;
+    border: 0px;
+    border-radius: 0px;
+    outline: none !important;
+    padding: 10px 20px 10px 20px;
+    width: 70%;
+    text-align: left;
+}
+
+.modal form button {
+    float: left;
+    background-color: rgb(0, 87, 95);
+    outline: none;
+    text-align: center;
+    width: 100px;
+}
+
+.required-border {
+    border: 2px solid red;
+}
+
+.error-txt {
+    color: red;
+}
+
+form {
+    max-width: 500px!important;
+}
