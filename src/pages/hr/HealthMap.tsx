@@ -264,41 +264,38 @@ const HealthMap = () => {
         </CardContent>
       </Card>
 
-      {/* Summary Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* Summary Stats - 3 cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
-            <p className="text-2xl font-bold text-[#6610f2]">
-              {currentCircles.filter(c => c.gender === 'female').length}
+            <p className="text-lg font-bold text-[#04565f]">
+              Legmagasabb igénybevétel:
             </p>
-            <p className="text-xs text-muted-foreground">Női adatpontok</p>
+            <p className="text-sm text-muted-foreground">Pszichológiai tanácsadás</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
-            <p className="text-2xl font-bold text-[#82f5ae]">
-              {currentCircles.filter(c => c.gender === 'male').length}
+            <p className="text-lg font-bold text-[#6610f2]">
+              Legtöbb igénybevevő nem szerint:
             </p>
-            <p className="text-xs text-muted-foreground">Férfi adatpontok</p>
+            <p className="text-sm text-muted-foreground">
+              {currentCircles.filter(c => c.gender === 'female').length >= 
+               currentCircles.filter(c => c.gender === 'male').length ? 'Nő' : 'Férfi'}
+            </p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
-            <p className="text-2xl font-bold text-[#04565f]">
-              {currentCircles.filter(c => c.problemTypeId === 1).length}
+            <p className="text-lg font-bold text-[#ffc107]">
+              Legaktívabb korcsoport:
             </p>
-            <p className="text-xs text-muted-foreground">Pszichológia</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-4 pb-4 text-center">
-            <p className="text-2xl font-bold text-[#ffc107]">
+            <p className="text-sm text-muted-foreground">
               {AGE_GROUPS.find(ag => 
                 currentCircles.filter(c => c.ageId === ag.id).length === 
                 Math.max(...AGE_GROUPS.map(a => currentCircles.filter(c => c.ageId === a.id).length))
               )?.label || '-'}
             </p>
-            <p className="text-xs text-muted-foreground">Legaktívabb korcsoport</p>
           </CardContent>
         </Card>
       </div>
