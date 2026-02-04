@@ -218,8 +218,8 @@ export default function IndustryManagement() {
                       <span
                         className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                           industry.is_active
-                            ? "bg-chart-2/20 text-chart-1"
-                            : "bg-muted text-muted-foreground"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-gray-100 text-gray-800"
                         }`}
                       >
                         {industry.is_active ? "Aktív" : "Inaktív"}
