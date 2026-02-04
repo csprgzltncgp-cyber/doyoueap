@@ -349,15 +349,15 @@ const Focus = () => {
             </p>
           </div>
           <div className="hidden md:flex gap-3">
-            <div className="bg-white border border-border rounded-lg p-4 text-center min-w-[100px] shadow-md">
+            <div className="bg-[#82f5ae] border border-[#82f5ae] rounded-lg p-4 text-center min-w-[100px] shadow-md">
               <TrendingUp className="h-5 w-5 text-foreground mx-auto mb-1" />
               <div className="text-2xl font-bold text-foreground">{activeAudits.length}</div>
               <div className="text-xs text-foreground font-medium">Aktív</div>
             </div>
-            <div className="bg-white border border-border rounded-lg p-4 text-center min-w-[100px] shadow-md">
-              <Award className="h-5 w-5 text-foreground mx-auto mb-1" />
-              <div className="text-2xl font-bold text-foreground">{expiredAudits.length}</div>
-              <div className="text-xs text-foreground font-medium">Lezárt</div>
+            <div className="bg-[#04565f] border border-[#04565f] rounded-lg p-4 text-center min-w-[100px] shadow-md">
+              <Award className="h-5 w-5 text-white mx-auto mb-1" />
+              <div className="text-2xl font-bold text-white">{expiredAudits.length}</div>
+              <div className="text-xs text-white font-medium">Lezárt</div>
             </div>
           </div>
         </div>
