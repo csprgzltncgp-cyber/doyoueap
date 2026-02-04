@@ -219,7 +219,7 @@ const CrisisCard = ({ crisis }: { crisis: CrisisIntervention }) => {
               {statusConfig.label}
             </Badge>
             <CardTitle className="text-base font-semibold">
-              Krízis Intervenció
+              Krízisintervenció
             </CardTitle>
             <p className="text-xs text-muted-foreground mt-1">
               #{crisis.activityId}
@@ -358,9 +358,9 @@ const CrisisInterventions = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold">Krízis Intervenciók</h2>
+        <h2 className="text-2xl font-bold">Krízisintervenciók</h2>
         <p className="text-muted-foreground">
-          Krízis intervenciók áttekintése és kezelése
+          Krízisintervenciók áttekintése és kezelése
         </p>
       </div>
 
@@ -413,7 +413,7 @@ const CrisisInterventions = () => {
               <Card className="border-dashed border-2">
                 <CardContent className="py-12 text-center">
                   <p className="text-muted-foreground">
-                    Nincsenek krízis intervenciók ebben az országban.
+                    Nincsenek krízisintervenciók ebben az országban.
                   </p>
                 </CardContent>
               </Card>
