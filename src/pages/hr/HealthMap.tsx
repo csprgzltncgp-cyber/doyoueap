@@ -271,7 +271,16 @@ const HealthMap = () => {
             <p className="text-lg font-bold text-foreground">
               Legmagasabb igénybevétel:
             </p>
-            <p className="text-sm text-[#04565f] font-medium">Pszichológiai tanácsadás</p>
+            <p className="text-sm text-[#04565f] font-medium">
+              {(() => {
+                const problemCounts = PROBLEM_TYPES.map(pt => ({
+                  name: pt.name,
+                  count: currentCircles.filter(c => c.problemTypeId === pt.id).length
+                }));
+                const maxProblem = problemCounts.reduce((max, p) => p.count > max.count ? p : max, problemCounts[0]);
+                return maxProblem?.name || '-';
+              })()}
+            </p>
           </CardContent>
         </Card>
         <Card>
