@@ -31,24 +31,9 @@ export function MobileNav({ user, role, section, onNavigate, onLogout }: MobileN
           <SheetTitle>Menü</SheetTitle>
         </SheetHeader>
         <nav className="flex flex-col gap-4 mt-6">
-          <button
-            onClick={() => handleNavClick('/bemutatkozas')}
-            className="text-left px-4 py-2 rounded-md hover:bg-muted transition-colors"
-          >
-            Bemutatkozás
-          </button>
-          <button
-            onClick={() => handleNavClick('/arak')}
-            className="text-left px-4 py-2 rounded-md hover:bg-muted transition-colors"
-          >
-            Árak és Csomagok
-          </button>
-          <button
-            onClick={() => handleNavClick('/magazin')}
-            className="text-left px-4 py-2 rounded-md hover:bg-muted transition-colors"
-          >
-            Magazin
-          </button>
+          {/* HIDDEN: Bemutatkozás menu item */}
+          {/* HIDDEN: Árak és Csomagok menu item */}
+          {/* HIDDEN: Magazin menu item */}
           {user && role === 'hr' && (
             <button
               onClick={() => handleNavClick('/?section=focus')}
