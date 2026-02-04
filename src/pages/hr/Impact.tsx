@@ -698,8 +698,8 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
                 <Radar
                   name="Impact"
                   dataKey="average"
-                  stroke={avgImpact < 2.5 ? '#ff0033' : '#3366ff'}
-                  fill={avgImpact < 2.5 ? '#ff0033' : '#3366ff'}
+                  stroke={avgImpact < 2.5 ? '#ff0033' : '#82f5ae'}
+                  fill={avgImpact < 2.5 ? '#ff0033' : '#82f5ae'}
                   fillOpacity={0.6}
                 />
                 <Tooltip />
