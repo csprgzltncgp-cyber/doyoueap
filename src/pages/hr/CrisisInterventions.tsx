@@ -305,7 +305,7 @@ const CrisisCard = ({
             </Button>
           </CollapsibleTrigger>
           
-          <CollapsibleContent className="pt-3 space-y-3">
+          <CollapsibleContent className="space-y-3 overflow-hidden data-[state=open]:pt-3">
             <div className="border-t pt-3 space-y-2 text-sm">
               {/* Expert */}
               <div className="flex items-start gap-2">
