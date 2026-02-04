@@ -82,7 +82,7 @@ const SatisfactionIndex = () => {
               size={400}
               label={`${currentData.value.toFixed(1).replace('.', ',')} / 10`}
             />
-            <div className="-mt-8 text-center">
+            <div className="-mt-16 text-center">
               <p className="text-2xl font-bold text-[#04565f]">
                 {getRatingLabel(currentData.value)}
               </p>
