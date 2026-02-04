@@ -292,7 +292,7 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange, packageType, compa
                   </div>
                   <Progress 
                     value={percentage} 
-                    style={{ '--progress-background': '#3366ff' } as React.CSSProperties}
+                    style={{ '--progress-background': '#04565f' } as React.CSSProperties}
                     className="h-3"
                   />
                 </div>
@@ -333,7 +333,7 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange, packageType, compa
                   </div>
                   <Progress 
                     value={percentage} 
-                    style={{ '--progress-background': '#3366ff' } as React.CSSProperties}
+                    style={{ '--progress-background': '#04565f' } as React.CSSProperties}
                     className="h-3"
                   />
                 </div>
@@ -374,7 +374,7 @@ const Motivation = ({ selectedAuditId, audits, onAuditChange, packageType, compa
                   </div>
                   <Progress 
                     value={percentage} 
-                    style={{ '--progress-background': '#3366ff' } as React.CSSProperties}
+                    style={{ '--progress-background': '#04565f' } as React.CSSProperties}
                     className="h-3"
                   />
                 </div>
