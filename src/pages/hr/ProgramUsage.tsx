@@ -320,7 +320,7 @@ const ProgramUsage = () => {
             </div>
             <Progress 
               value={currentData.dominantGender.percentage} 
-              className="h-3 [&>div]:bg-[#04565f]"
+              className="h-3 [&>div]:bg-[#82f5ae]"
             />
           </CardContent>
         </Card>
@@ -345,7 +345,7 @@ const ProgramUsage = () => {
             </div>
             <Progress 
               value={currentData.dominantAgeGroup.percentage} 
-              className="h-3 [&>div]:bg-[#04565f]"
+              className="h-3 [&>div]:bg-[#82f5ae]"
             />
           </CardContent>
         </Card>
