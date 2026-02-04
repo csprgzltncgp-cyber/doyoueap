@@ -2,17 +2,17 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Download, Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase, Heart, GraduationCap, ChevronLeft, ChevronRight } from "lucide-react";
+import { Download, Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase, Heart, GraduationCap } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 import { Progress } from "@/components/ui/progress";
 import { GaugeChart } from "@/components/ui/gauge-chart";
 
 // Mock data for program reports - Countries
 const MOCK_COUNTRIES = [
-  { id: 'hu', name: 'Magyarország', flag: '🇭🇺' },
-  { id: 'ro', name: 'Románia', flag: '🇷🇴' },
-  { id: 'sk', name: 'Szlovákia', flag: '🇸🇰' },
-  { id: 'cz', name: 'Csehország', flag: '🇨🇿' },
+  { id: 'hu', name: 'Magyarország' },
+  { id: 'ro', name: 'Románia' },
+  { id: 'sk', name: 'Szlovákia' },
+  { id: 'cz', name: 'Csehország' },
 ];
 
 interface QuarterData {
@@ -290,9 +290,8 @@ const ProgramReports = () => {
             <TabsTrigger 
               key={country.id} 
               value={country.id}
-              className="gap-2 data-[state=active]:bg-[#04565f] data-[state=active]:text-white"
+              className="data-[state=active]:bg-[#04565f] data-[state=active]:text-white"
             >
-              <span>{country.flag}</span>
               {country.name}
             </TabsTrigger>
           ))}
@@ -302,54 +301,34 @@ const ProgramReports = () => {
       {/* Quarter Navigation */}
       <Card className="border-muted">
         <CardContent className="py-4">
-          <div className="flex items-center justify-between">
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={handlePrevQuarter}
-              disabled={selectedQuarterIndex === 0}
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </Button>
-            
-            <div className="flex items-center gap-8">
-              {MOCK_QUARTERS.map((q, index) => (
-                <button
-                  key={`${q.year}-${q.quarter}`}
-                  onClick={() => q.hasData && setSelectedQuarterIndex(index)}
-                  disabled={!q.hasData}
-                  className={`flex flex-col items-center transition-all ${
-                    !q.hasData ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'
+          <div className="flex items-center justify-center gap-8">
+            {MOCK_QUARTERS.map((q, index) => (
+              <button
+                key={`${q.year}-${q.quarter}`}
+                onClick={() => q.hasData && setSelectedQuarterIndex(index)}
+                disabled={!q.hasData}
+                className={`flex flex-col items-center transition-all ${
+                  !q.hasData ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'
+                }`}
+              >
+                <div 
+                  className={`h-3 w-3 rounded-full mb-1 transition-all ${
+                    index === selectedQuarterIndex
+                      ? 'bg-[#04565f] ring-4 ring-[#82f5ae]/50 scale-125'
+                      : index < selectedQuarterIndex
+                        ? 'bg-[#04565f]'
+                        : 'bg-muted-foreground/30'
                   }`}
-                >
-                  <div 
-                    className={`h-3 w-3 rounded-full mb-1 transition-all ${
-                      index === selectedQuarterIndex
-                        ? 'bg-[#04565f] ring-4 ring-[#82f5ae]/50 scale-125'
-                        : index < selectedQuarterIndex
-                          ? 'bg-[#04565f]'
-                          : 'bg-muted-foreground/30'
-                    }`}
-                  />
-                  <span className={`text-xs ${
-                    index === selectedQuarterIndex 
-                      ? 'text-[#04565f] font-semibold' 
-                      : 'text-muted-foreground'
-                  }`}>
-                    {QUARTER_LABELS[q.quarter]}'{String(q.year).slice(-2)}
-                  </span>
-                </button>
-              ))}
-            </div>
-            
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={handleNextQuarter}
-              disabled={selectedQuarterIndex === MOCK_QUARTERS.length - 1}
-            >
-              <ChevronRight className="h-5 w-5" />
-            </Button>
+                />
+                <span className={`text-xs ${
+                  index === selectedQuarterIndex 
+                    ? 'text-[#04565f] font-semibold' 
+                    : 'text-muted-foreground'
+                }`}>
+                  {QUARTER_LABELS[q.quarter]}'{String(q.year).slice(-2)}
+                </span>
+              </button>
+            ))}
           </div>
         </CardContent>
       </Card>
@@ -375,13 +354,13 @@ const ProgramReports = () => {
       </div>
 
       {/* Main Statistics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Closed Cases */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Total Cases */}
         <Card className="border-muted">
           <CardContent className="pt-6">
             <div className="text-center">
-              <p className="text-sm text-muted-foreground mb-2">Lezárt esetek</p>
-              <p className="text-4xl font-bold" style={{ color: CHART_COLORS.primary }}>
+              <p className="text-sm text-muted-foreground mb-2">Összes eset</p>
+              <p className="text-4xl font-bold" style={{ color: CHART_COLORS.accent }}>
                 {getValue(currentData.closedCases)}
               </p>
               {!showCumulated && (
@@ -393,28 +372,11 @@ const ProgramReports = () => {
           </CardContent>
         </Card>
 
-        {/* Interrupted Cases */}
+        {/* Total Consultations */}
         <Card className="border-muted">
           <CardContent className="pt-6">
             <div className="text-center">
-              <p className="text-sm text-muted-foreground mb-2">Megszakított</p>
-              <p className="text-4xl font-bold" style={{ color: CHART_COLORS.accent }}>
-                {getValue(currentData.interruptedCases)}
-              </p>
-              {!showCumulated && (
-                <p className="text-xs text-muted-foreground mt-1">
-                  Össz: {currentData.interruptedCases.cumulated}
-                </p>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Consultations */}
-        <Card className="border-muted">
-          <CardContent className="pt-6">
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground mb-2">Konzultációk</p>
+              <p className="text-sm text-muted-foreground mb-2">Összes konzultáció</p>
               <p className="text-4xl font-bold" style={{ color: CHART_COLORS.secondary }}>
                 {getValue(currentData.totalConsultations)}
               </p>
