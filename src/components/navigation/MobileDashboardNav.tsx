@@ -126,18 +126,22 @@ export function MobileDashboardNav({ section, subSection, onNavigate, hasAudits 
             </AccordionItem>
           </Accordion>
 
-          <Accordion type="single" collapsible defaultValue={section === 'reports' ? 'reports' : undefined}>
-            <AccordionItem value="reports" className="border-none">
+          <Accordion type="single" collapsible defaultValue={
+            section === 'reports' || section === 'health-map' || section === 'satisfaction' || section === 'program-usage' 
+              ? 'statistics' 
+              : undefined
+          }>
+            <AccordionItem value="statistics" className="border-none">
               <AccordionTrigger 
                 className={`px-4 py-3 rounded-md hover:no-underline ${
-                  section === 'reports' 
+                  section === 'reports' || section === 'health-map' || section === 'satisfaction' || section === 'program-usage'
                     ? 'bg-[#3572ef] text-white' 
                     : 'hover:bg-muted'
                 }`}
               >
                 <div className="flex items-center gap-3">
                   <TrendingUp className="h-4 w-4" />
-                  <span>Riportok</span>
+                  <span>Statisztikák</span>
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pb-0 pt-2 pl-4">
@@ -155,6 +159,36 @@ export function MobileDashboardNav({ section, subSection, onNavigate, hasAudits 
                     }`}
                   >
                     Negyedéves riport
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('health-map')}
+                    className={`px-4 py-2 rounded-md text-left text-sm ${
+                      section === 'health-map'
+                        ? 'bg-muted font-medium' 
+                        : 'hover:bg-muted/50'
+                    }`}
+                  >
+                    Egészség Térkép
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('satisfaction')}
+                    className={`px-4 py-2 rounded-md text-left text-sm ${
+                      section === 'satisfaction'
+                        ? 'bg-muted font-medium' 
+                        : 'hover:bg-muted/50'
+                    }`}
+                  >
+                    Elégedettségi Index
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('program-usage')}
+                    className={`px-4 py-2 rounded-md text-left text-sm ${
+                      section === 'program-usage'
+                        ? 'bg-muted font-medium' 
+                        : 'hover:bg-muted/50'
+                    }`}
+                  >
+                    Program Használat
                   </button>
 
                   {/* EAP Pulse Riportok Section */}
@@ -284,6 +318,61 @@ export function MobileDashboardNav({ section, subSection, onNavigate, hasAudits 
             </AccordionItem>
           </Accordion>
 
+          <Accordion type="single" collapsible defaultValue={
+            section === 'workshops' || section === 'crisis' || section === 'lottery' 
+              ? 'events' 
+              : undefined
+          }>
+            <AccordionItem value="events" className="border-none">
+              <AccordionTrigger 
+                className={`px-4 py-3 rounded-md hover:no-underline ${
+                  section === 'workshops' || section === 'crisis' || section === 'lottery'
+                    ? 'bg-[#3572ef] text-white' 
+                    : 'hover:bg-muted'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <Calendar className="h-4 w-4" />
+                  <span>Események</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="pb-0 pt-2 pl-4">
+                <div className="flex flex-col gap-1">
+                  <button
+                    onClick={() => handleNavClick('workshops')}
+                    className={`px-4 py-2 rounded-md text-left text-sm ${
+                      section === 'workshops'
+                        ? 'bg-muted font-medium' 
+                        : 'hover:bg-muted/50'
+                    }`}
+                  >
+                    Workshopok
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('crisis')}
+                    className={`px-4 py-2 rounded-md text-left text-sm ${
+                      section === 'crisis'
+                        ? 'bg-muted font-medium' 
+                        : 'hover:bg-muted/50'
+                    }`}
+                  >
+                    Krízis Intervenciók
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('lottery')}
+                    className={`px-4 py-2 rounded-md text-left text-sm ${
+                      section === 'lottery'
+                        ? 'bg-muted font-medium' 
+                        : 'hover:bg-muted/50'
+                    }`}
+                  >
+                    Nyereményjáték
+                  </button>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+
           <button
             onClick={() => handleNavClick('export')}
             className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
@@ -297,78 +386,6 @@ export function MobileDashboardNav({ section, subSection, onNavigate, hasAudits 
           </button>
 
           <button
-            onClick={() => handleNavClick('health-map')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
-              section === 'health-map' 
-                ? 'bg-[#3572ef] text-white font-semibold' 
-                : 'hover:bg-muted'
-            }`}
-          >
-            <Map className="h-4 w-4" />
-            <span>Egészség Térkép</span>
-          </button>
-
-          <button
-            onClick={() => handleNavClick('workshops')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
-              section === 'workshops' 
-                ? 'bg-[#3572ef] text-white font-semibold' 
-                : 'hover:bg-muted'
-            }`}
-          >
-            <Calendar className="h-4 w-4" />
-            <span>Workshopok</span>
-          </button>
-
-          <button
-            onClick={() => handleNavClick('crisis')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
-              section === 'crisis' 
-                ? 'bg-[#3572ef] text-white font-semibold' 
-                : 'hover:bg-muted'
-            }`}
-          >
-            <AlertTriangle className="h-4 w-4" />
-            <span>Krízis Intervenciók</span>
-          </button>
-
-          <button
-            onClick={() => handleNavClick('lottery')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
-              section === 'lottery' 
-                ? 'bg-[#3572ef] text-white font-semibold' 
-                : 'hover:bg-muted'
-            }`}
-          >
-            <Gift className="h-4 w-4" />
-            <span>Nyereményjáték</span>
-          </button>
-
-          <button
-            onClick={() => handleNavClick('satisfaction')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
-              section === 'satisfaction' 
-                ? 'bg-[#3572ef] text-white font-semibold' 
-                : 'hover:bg-muted'
-            }`}
-          >
-            <ThumbsUp className="h-4 w-4" />
-            <span>Elégedettségi Index</span>
-          </button>
-
-          <button
-            onClick={() => handleNavClick('program-usage')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
-              section === 'program-usage' 
-                ? 'bg-[#3572ef] text-white font-semibold' 
-                : 'hover:bg-muted'
-            }`}
-          >
-            <PieChart className="h-4 w-4" />
-            <span>Program Használat</span>
-          </button>
-
-          <button
             onClick={() => handleNavClick('data-submission')}
             className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left ${
               section === 'data-submission' 
@@ -379,7 +396,6 @@ export function MobileDashboardNav({ section, subSection, onNavigate, hasAudits 
             <Upload className="h-4 w-4" />
             <span>Adatok Küldése</span>
           </button>
-
 
           {packageType === 'partner' && (
             <>
