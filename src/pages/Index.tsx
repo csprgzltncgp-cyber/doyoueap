@@ -275,15 +275,15 @@ const Index = () => {
                 />
               </div>
               <nav className="hidden md:flex gap-6 justify-center">
-                <button
+				<button
                   onClick={() => {
                     setSearchParams({ section: 'focus' });
                     setOpenSubmenu(null);
                   }}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
                     section === 'focus' 
-                      ? 'text-foreground font-semibold border-foreground' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+							? 'text-foreground font-semibold' 
+							: 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   <Target className="h-4 w-4" />
@@ -299,10 +299,10 @@ const Index = () => {
                         setOpenSubmenu('eap-pulse');
                       }
                     }}
-                    className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+						className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
                       section === 'eap-pulse' 
-                        ? 'text-foreground font-semibold border-foreground' 
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
+								? 'text-foreground font-semibold' 
+								: 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     <Activity className="h-4 w-4" />
@@ -400,10 +400,10 @@ const Index = () => {
                         setOpenSubmenu('reports');
                       }
                     }}
-                    className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+						className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
                       section === 'reports' 
-                        ? 'text-foreground font-semibold border-foreground' 
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
+								? 'text-foreground font-semibold' 
+								: 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     <BarChart3 className="h-4 w-4" />
@@ -562,10 +562,10 @@ const Index = () => {
                     setSearchParams({ section: 'export' });
                     setOpenSubmenu(null);
                   }}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
                     section === 'export' 
-                      ? 'text-foreground font-semibold border-foreground' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+							? 'text-foreground font-semibold' 
+							: 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   <Download className="h-4 w-4" />
@@ -578,10 +578,10 @@ const Index = () => {
                         setSearchParams({ section: 'api' });
                         setOpenSubmenu(null);
                       }}
-                      className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+						className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
                         section === 'api' 
-                          ? 'text-foreground font-semibold border-foreground' 
-                          : 'text-muted-foreground border-transparent hover:text-foreground'
+								? 'text-foreground font-semibold' 
+								: 'text-muted-foreground hover:text-foreground'
                       }`}
                     >
                       <Code className="h-4 w-4" />
@@ -592,10 +592,10 @@ const Index = () => {
                         setSearchParams({ section: 'partner-center' });
                         setOpenSubmenu(null);
                       }}
-                      className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+						className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
                         section === 'partner-center' 
-                          ? 'text-foreground font-semibold border-foreground' 
-                          : 'text-muted-foreground border-transparent hover:text-foreground'
+								? 'text-foreground font-semibold' 
+								: 'text-muted-foreground hover:text-foreground'
                       }`}
                     >
                       <Building2 className="h-4 w-4" />
@@ -609,10 +609,10 @@ const Index = () => {
                       setSearchParams({ section: 'api' });
                       setOpenSubmenu(null);
                     }}
-                    className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+						className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
                       section === 'api' 
-                        ? 'text-foreground font-semibold border-foreground' 
-                        : 'text-muted-foreground border-transparent hover:text-foreground'
+								? 'text-foreground font-semibold' 
+								: 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     <Code className="h-4 w-4" />
@@ -624,10 +624,10 @@ const Index = () => {
                     setSearchParams({ section: 'settings' });
                     setOpenSubmenu(null);
                   }}
-                  className={`text-sm transition-colors flex items-center gap-2 pb-2 border-b-2 ${
+					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
                     section === 'settings' 
-                      ? 'text-foreground font-semibold border-foreground' 
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
+							? 'text-foreground font-semibold' 
+							: 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   <SettingsIcon className="h-4 w-4" />
