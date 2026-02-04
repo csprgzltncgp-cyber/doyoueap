@@ -282,8 +282,8 @@ const Index = () => {
         {/* Dashboard Sub-Navigation */}
         {user && role === 'hr' && section && (
           <div className="border-t-2 border-border bg-gradient-to-r from-muted/50 to-background">
-            <div className="max-w-7xl mx-auto px-4 py-3">
-              <div className="flex items-center">
+            <div className="max-w-7xl mx-auto px-4 py-2">
+              <div className="flex items-center md:hidden">
                 <MobileDashboardNav 
                   section={section}
                   subSection={subSection}
@@ -297,16 +297,18 @@ const Index = () => {
                   }}
                 />
               </div>
-              <nav className="hidden md:flex gap-6 justify-center">
-				<button
+              
+              {/* First row - Main navigation */}
+              <nav className="hidden md:flex gap-6 justify-center pb-2">
+                <button
                   onClick={() => {
                     setSearchParams({ section: 'focus' });
                     setOpenSubmenu(null);
                   }}
-					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                  className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
                     section === 'focus' 
-							? 'text-foreground font-semibold' 
-							: 'text-muted-foreground hover:text-foreground'
+                      ? 'text-foreground font-semibold' 
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   <Target className="h-4 w-4" />
@@ -315,17 +317,16 @@ const Index = () => {
                 <div className="relative group">
                   <button
                     onClick={() => {
-                      console.log('Clicked EAP Pulse navigation');
                       if (openSubmenu === 'eap-pulse') {
                         setOpenSubmenu(null);
                       } else {
                         setOpenSubmenu('eap-pulse');
                       }
                     }}
-						className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                    className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
                       section === 'eap-pulse' 
-								? 'text-foreground font-semibold' 
-								: 'text-muted-foreground hover:text-foreground'
+                        ? 'text-foreground font-semibold' 
+                        : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     <Activity className="h-4 w-4" />
@@ -416,17 +417,16 @@ const Index = () => {
                 <div className="relative group">
                   <button
                     onClick={() => {
-                      console.log('Clicked Riportok navigation');
                       if (openSubmenu === 'reports') {
                         setOpenSubmenu(null);
                       } else {
                         setOpenSubmenu('reports');
                       }
                     }}
-						className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                    className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
                       section === 'reports' 
-								? 'text-foreground font-semibold' 
-								: 'text-muted-foreground hover:text-foreground'
+                        ? 'text-foreground font-semibold' 
+                        : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     <BarChart3 className="h-4 w-4" />
@@ -434,7 +434,6 @@ const Index = () => {
                   </button>
                   {openSubmenu === 'reports' && (
                     <div className="absolute top-full left-0 mt-2 bg-white rounded-md shadow-lg py-2 min-w-[220px] z-50">
-                      {/* Program Riportok Section */}
                       <div className="px-4 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider border-b border-gray-100 mb-1">
                         Program riportok
                       </div>
@@ -449,8 +448,6 @@ const Index = () => {
                       >
                         Negyedéves riport
                       </button>
-
-                      {/* EAP Pulse Riportok Section */}
                       <div className="px-4 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider border-b border-t border-gray-100 mt-2 mb-1">
                         EAP Pulse riportok
                       </div>
@@ -605,10 +602,10 @@ const Index = () => {
                     setSearchParams({ section: 'export' });
                     setOpenSubmenu(null);
                   }}
-					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                  className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
                     section === 'export' 
-							? 'text-foreground font-semibold' 
-							: 'text-muted-foreground hover:text-foreground'
+                      ? 'text-foreground font-semibold' 
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   <Download className="h-4 w-4" />
@@ -616,16 +613,37 @@ const Index = () => {
                 </button>
                 <button
                   onClick={() => {
+                    setSearchParams({ section: 'settings' });
+                    setOpenSubmenu(null);
+                  }}
+                  className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                    section === 'settings' 
+                      ? 'text-foreground font-semibold' 
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <SettingsIcon className="h-4 w-4" />
+                  Beállítások
+                </button>
+              </nav>
+              
+              {/* Second row - Program Data navigation */}
+              <nav className="hidden md:flex gap-4 justify-center border-t border-border/50 pt-2">
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider self-center mr-2">
+                  Program adatok:
+                </span>
+                <button
+                  onClick={() => {
                     setSearchParams({ section: 'health-map' });
                     setOpenSubmenu(null);
                   }}
-					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                  className={`text-xs transition-colors flex items-center gap-1.5 px-2 py-1 rounded-md ${
                     section === 'health-map' 
-							? 'text-foreground font-semibold' 
-							: 'text-muted-foreground hover:text-foreground'
+                      ? 'text-foreground font-semibold bg-muted' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                   }`}
                 >
-                  <Map className="h-4 w-4" />
+                  <Map className="h-3.5 w-3.5" />
                   Egészség Térkép
                 </button>
                 <button
@@ -633,13 +651,13 @@ const Index = () => {
                     setSearchParams({ section: 'workshops' });
                     setOpenSubmenu(null);
                   }}
-					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                  className={`text-xs transition-colors flex items-center gap-1.5 px-2 py-1 rounded-md ${
                     section === 'workshops' 
-							? 'text-foreground font-semibold' 
-							: 'text-muted-foreground hover:text-foreground'
+                      ? 'text-foreground font-semibold bg-muted' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                   }`}
                 >
-                  <Calendar className="h-4 w-4" />
+                  <Calendar className="h-3.5 w-3.5" />
                   Workshopok
                 </button>
                 <button
@@ -647,13 +665,13 @@ const Index = () => {
                     setSearchParams({ section: 'crisis' });
                     setOpenSubmenu(null);
                   }}
-					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                  className={`text-xs transition-colors flex items-center gap-1.5 px-2 py-1 rounded-md ${
                     section === 'crisis' 
-							? 'text-foreground font-semibold' 
-							: 'text-muted-foreground hover:text-foreground'
+                      ? 'text-foreground font-semibold bg-muted' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                   }`}
                 >
-                  <AlertTriangle className="h-4 w-4" />
+                  <AlertTriangle className="h-3.5 w-3.5" />
                   Krízis Intervenciók
                 </button>
                 <button
@@ -661,13 +679,13 @@ const Index = () => {
                     setSearchParams({ section: 'lottery' });
                     setOpenSubmenu(null);
                   }}
-					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                  className={`text-xs transition-colors flex items-center gap-1.5 px-2 py-1 rounded-md ${
                     section === 'lottery' 
-							? 'text-foreground font-semibold' 
-							: 'text-muted-foreground hover:text-foreground'
+                      ? 'text-foreground font-semibold bg-muted' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                   }`}
                 >
-                  <Gift className="h-4 w-4" />
+                  <Gift className="h-3.5 w-3.5" />
                   Nyereményjáték
                 </button>
                 <button
@@ -675,106 +693,42 @@ const Index = () => {
                     setSearchParams({ section: 'satisfaction' });
                     setOpenSubmenu(null);
                   }}
-					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                  className={`text-xs transition-colors flex items-center gap-1.5 px-2 py-1 rounded-md ${
                     section === 'satisfaction' 
-							? 'text-foreground font-semibold' 
-							: 'text-muted-foreground hover:text-foreground'
+                      ? 'text-foreground font-semibold bg-muted' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                   }`}
                 >
-                  <ThumbsUp className="h-4 w-4" />
-                  Elégedettségi Index
+                  <ThumbsUp className="h-3.5 w-3.5" />
+                  Elégedettség
                 </button>
                 <button
                   onClick={() => {
                     setSearchParams({ section: 'program-usage' });
                     setOpenSubmenu(null);
                   }}
-					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                  className={`text-xs transition-colors flex items-center gap-1.5 px-2 py-1 rounded-md ${
                     section === 'program-usage' 
-							? 'text-foreground font-semibold' 
-							: 'text-muted-foreground hover:text-foreground'
+                      ? 'text-foreground font-semibold bg-muted' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                   }`}
                 >
-                  <PieChart className="h-4 w-4" />
-                  Program Használat
+                  <PieChart className="h-3.5 w-3.5" />
+                  Használat
                 </button>
                 <button
                   onClick={() => {
                     setSearchParams({ section: 'data-submission' });
                     setOpenSubmenu(null);
                   }}
-					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                  className={`text-xs transition-colors flex items-center gap-1.5 px-2 py-1 rounded-md ${
                     section === 'data-submission' 
-							? 'text-foreground font-semibold' 
-							: 'text-muted-foreground hover:text-foreground'
+                      ? 'text-foreground font-semibold bg-muted' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                   }`}
                 >
-                  <Upload className="h-4 w-4" />
+                  <Upload className="h-3.5 w-3.5" />
                   Adatok Küldése
-                </button>
-{/* API menu hidden
-                {packageType === 'partner' && (
-                  <>
-                    <button
-                      onClick={() => {
-                        setSearchParams({ section: 'api' });
-                        setOpenSubmenu(null);
-                      }}
-						className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
-                        section === 'api' 
-								? 'text-foreground font-semibold' 
-								: 'text-muted-foreground hover:text-foreground'
-                      }`}
-                    >
-                      <Code className="h-4 w-4" />
-                      API
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSearchParams({ section: 'partner-center' });
-                        setOpenSubmenu(null);
-                      }}
-						className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
-                        section === 'partner-center' 
-								? 'text-foreground font-semibold' 
-								: 'text-muted-foreground hover:text-foreground'
-                      }`}
-                    >
-                      <Building2 className="h-4 w-4" />
-                      Partner Központ
-                    </button>
-                  </>
-                )}
-                {packageType === 'enterprise' && (
-                  <button
-                    onClick={() => {
-                      setSearchParams({ section: 'api' });
-                      setOpenSubmenu(null);
-                    }}
-						className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
-                      section === 'api' 
-								? 'text-foreground font-semibold' 
-								: 'text-muted-foreground hover:text-foreground'
-                    }`}
-                  >
-                    <Code className="h-4 w-4" />
-                    API
-                  </button>
-                )}
-                */}
-                <button
-                  onClick={() => {
-                    setSearchParams({ section: 'settings' });
-                    setOpenSubmenu(null);
-                  }}
-					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
-                    section === 'settings' 
-							? 'text-foreground font-semibold' 
-							: 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  <SettingsIcon className="h-4 w-4" />
-                  Beállítások
                 </button>
               </nav>
             </div>
