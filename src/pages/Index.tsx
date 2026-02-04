@@ -573,6 +573,7 @@ const Index = () => {
                   <Download className="h-4 w-4" />
                   Export
                 </button>
+{/* API menu hidden
                 {packageType === 'partner' && (
                   <>
                     <button
@@ -621,6 +622,7 @@ const Index = () => {
                     API
                   </button>
                 )}
+                */}
                 <button
                   onClick={() => {
                     setSearchParams({ section: 'settings' });
