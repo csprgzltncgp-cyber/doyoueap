@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Carlito', 'Calibri', 'Arial', 'sans-serif'],
+        sans: ['Calibri', 'Arial', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
