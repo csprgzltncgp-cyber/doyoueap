@@ -24,23 +24,18 @@ const AdminDashboard = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-8 py-6">
-        <Tabs defaultValue="companies" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6 max-w-4xl">
-            <TabsTrigger value="companies">Cégek</TabsTrigger>
-            <TabsTrigger value="industries">Iparágak</TabsTrigger>
+        <Tabs defaultValue="gifts" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-3 max-w-xl">
+            {/* HIDDEN: Cégek tab */}
+            {/* HIDDEN: Iparágak tab */}
             <TabsTrigger value="gifts">Nyereményjáték</TabsTrigger>
             <TabsTrigger value="magazine">Magazin</TabsTrigger>
-            <TabsTrigger value="newsletter">Hírlevél</TabsTrigger>
+            {/* HIDDEN: Hírlevél tab */}
             <TabsTrigger value="communication">Kommunikáció</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="companies" className="space-y-4">
-            <CompanyManagement />
-          </TabsContent>
-
-          <TabsContent value="industries" className="space-y-4">
-            <IndustryManagement />
-          </TabsContent>
+          {/* HIDDEN: Companies TabsContent */}
+          {/* HIDDEN: Industries TabsContent */}
 
           <TabsContent value="gifts" className="space-y-4">
             <GiftManagement />
@@ -50,9 +45,7 @@ const AdminDashboard = () => {
             <MagazineManagement />
           </TabsContent>
 
-          <TabsContent value="newsletter" className="space-y-4">
-            <NewsletterManagement />
-          </TabsContent>
+          {/* HIDDEN: Newsletter TabsContent */}
 
           <TabsContent value="communication" className="space-y-4">
             <CommunicationTemplates />
