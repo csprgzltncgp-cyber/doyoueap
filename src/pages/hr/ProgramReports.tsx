@@ -15,25 +15,13 @@ const MOCK_COUNTRIES = [
   { id: 'cz', name: 'Csehország' },
 ];
 
-// Available years with their quarters
-const AVAILABLE_YEARS = [2023, 2024];
-
-const getQuartersForYear = (year: number): { quarter: number; hasData: boolean }[] => {
-  if (year === 2023) {
-    return [
-      { quarter: 1, hasData: false },
-      { quarter: 2, hasData: false },
-      { quarter: 3, hasData: true },
-      { quarter: 4, hasData: true },
-    ];
-  }
-  return [
-    { quarter: 1, hasData: true },
-    { quarter: 2, hasData: true },
-    { quarter: 3, hasData: false },
-    { quarter: 4, hasData: false },
-  ];
-};
+// Quarters configuration
+const QUARTERS = [
+  { id: 1, label: 'Q1', hasData: true },
+  { id: 2, label: 'Q2', hasData: true },
+  { id: 3, label: 'Q3', hasData: true },
+  { id: 4, label: 'Q4', hasData: true },
+];
 
 // Mock data for each country - comprehensive data matching Laravel reports
 interface CountryReportData {
@@ -175,12 +163,6 @@ const MOCK_DATA_BY_COUNTRY: Record<string, CountryReportData> = {
   },
 };
 
-const QUARTER_LABELS: Record<number, string> = {
-  1: 'Q1',
-  2: 'Q2',
-  3: 'Q3',
-  4: 'Q4',
-};
 
 // Color palette for charts
 const CHART_COLORS = {
@@ -201,12 +183,48 @@ const PROBLEM_TYPE_COLORS = [
 
 const ProgramReports = () => {
   const [selectedCountry, setSelectedCountry] = useState(MOCK_COUNTRIES[0].id);
-  const [selectedYear, setSelectedYear] = useState(2024);
-  const [selectedQuarter, setSelectedQuarter] = useState(2);
-  const [showCumulated, setShowCumulated] = useState(false);
+  // Range selection: fromQuarter to toQuarter (both inclusive)
+  const [fromQuarter, setFromQuarter] = useState(2);
+  const [toQuarter, setToQuarter] = useState(2);
 
   const currentData = MOCK_DATA_BY_COUNTRY[selectedCountry];
-  const quartersForYear = getQuartersForYear(selectedYear);
+  
+  // Check if it's a range (cumulated) or single quarter
+  const isCumulated = fromQuarter !== toQuarter;
+  
+  // Generate range label
+  const getRangeLabel = () => {
+    if (fromQuarter === toQuarter) {
+      return `Q${fromQuarter}`;
+    }
+    return `Q${fromQuarter} - Q${toQuarter}`;
+  };
+
+  // Handle quarter click - toggle selection or extend range
+  const handleQuarterClick = (quarterId: number) => {
+    if (fromQuarter === toQuarter) {
+      // Currently single quarter selected
+      if (quarterId === fromQuarter) {
+        // Clicking same quarter - do nothing
+        return;
+      }
+      // Extend to range
+      if (quarterId < fromQuarter) {
+        setFromQuarter(quarterId);
+      } else {
+        setToQuarter(quarterId);
+      }
+    } else {
+      // Currently range selected - reset to single quarter
+      setFromQuarter(quarterId);
+      setToQuarter(quarterId);
+    }
+  };
+
+  // Check if a quarter is in the selected range
+  const isInRange = (quarterId: number) => {
+    return quarterId >= fromQuarter && quarterId <= toQuarter;
+  };
 
   // Prepare chart data
   const problemTypeData = [
@@ -242,7 +260,7 @@ const ProgramReports = () => {
   ];
 
   const getValue = (data: { current: number; cumulated: number }) => 
-    showCumulated ? data.cumulated : data.current;
+    isCumulated ? data.cumulated : data.current;
 
   return (
     <div className="space-y-6">
@@ -269,87 +287,58 @@ const ProgramReports = () => {
         </TabsList>
       </Tabs>
 
-      {/* Year and Quarter Navigation */}
+      {/* Quarter Range Selector */}
       <Card>
-        <CardContent className="py-4">
-          <div className="flex items-center justify-center gap-6">
-            {/* Year Selector */}
+        <CardContent className="py-5">
+          <div className="flex flex-col items-center gap-4">
+            <p className="text-sm text-muted-foreground">
+              Válassz egy negyedévet, vagy kattints kettőre a kumuláláshoz
+            </p>
+            
             <div className="flex items-center gap-2">
-              {AVAILABLE_YEARS.map((year) => (
-                <button
-                  key={year}
-                  onClick={() => {
-                    setSelectedYear(year);
-                    const quarters = getQuartersForYear(year);
-                    const firstAvailable = quarters.find(q => q.hasData);
-                    if (firstAvailable) setSelectedQuarter(firstAvailable.quarter);
-                  }}
-                  className={`px-3 py-1 rounded-md text-sm font-medium transition-all ${
-                    selectedYear === year
-                      ? 'bg-[#04565f] text-white'
-                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                  }`}
-                >
-                  {year}
-                </button>
-              ))}
+              {QUARTERS.map((q) => {
+                const inRange = isInRange(q.id);
+                const isStart = q.id === fromQuarter;
+                const isEnd = q.id === toQuarter;
+                const isMiddle = inRange && !isStart && !isEnd;
+                
+                return (
+                  <button
+                    key={q.id}
+                    onClick={() => q.hasData && handleQuarterClick(q.id)}
+                    disabled={!q.hasData}
+                    className={`
+                      relative px-5 py-2.5 text-sm font-medium transition-all
+                      ${!q.hasData ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}
+                      ${inRange 
+                        ? 'bg-[#04565f] text-white' 
+                        : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                      }
+                      ${isStart && isCumulated ? 'rounded-l-lg rounded-r-none' : ''}
+                      ${isEnd && isCumulated ? 'rounded-r-lg rounded-l-none' : ''}
+                      ${isMiddle ? 'rounded-none' : ''}
+                      ${!isCumulated ? 'rounded-lg' : ''}
+                    `}
+                  >
+                    {q.label}
+                  </button>
+                );
+              })}
             </div>
-
-            <div className="w-px h-6 bg-border" />
-
-            {/* Quarter Selector */}
-            <div className="flex items-center gap-4">
-              {quartersForYear.map((q) => (
-                <button
-                  key={q.quarter}
-                  onClick={() => q.hasData && setSelectedQuarter(q.quarter)}
-                  disabled={!q.hasData}
-                  className={`flex flex-col items-center transition-all ${
-                    !q.hasData ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'
-                  }`}
-                >
-                  <div 
-                    className={`h-3 w-3 rounded-full mb-1 transition-all ${
-                      q.quarter === selectedQuarter
-                        ? 'bg-[#04565f] ring-4 ring-[#82f5ae]/50 scale-125'
-                        : q.hasData
-                          ? 'bg-[#04565f]'
-                          : 'bg-muted-foreground/30'
-                    }`}
-                  />
-                  <span className={`text-xs ${
-                    q.quarter === selectedQuarter 
-                      ? 'text-[#04565f] font-semibold' 
-                      : 'text-muted-foreground'
-                  }`}>
-                    {QUARTER_LABELS[q.quarter]}
-                  </span>
-                </button>
-              ))}
+            
+            {/* Range indicator */}
+            <div className="flex items-center gap-2 text-sm">
+              <span className="text-muted-foreground">Kiválasztva:</span>
+              <span className="font-semibold text-[#04565f]">{getRangeLabel()}</span>
+              {isCumulated && (
+                <span className="text-xs bg-[#82f5ae]/20 text-[#04565f] px-2 py-0.5 rounded-full">
+                  Kumulált
+                </span>
+              )}
             </div>
           </div>
         </CardContent>
       </Card>
-
-      {/* Toggle: Current vs Cumulated */}
-      <div className="flex items-center justify-center gap-4">
-        <span className={`text-sm ${!showCumulated ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
-          Aktuális negyedév
-        </span>
-        <button
-          onClick={() => setShowCumulated(!showCumulated)}
-          className={`relative w-14 h-7 rounded-full transition-colors ${
-            showCumulated ? 'bg-[#04565f]' : 'bg-muted'
-          }`}
-        >
-          <div className={`absolute top-1 w-5 h-5 rounded-full bg-white shadow transition-transform ${
-            showCumulated ? 'translate-x-8' : 'translate-x-1'
-          }`} />
-        </button>
-        <span className={`text-sm ${showCumulated ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
-          Kumulált ({currentData.cumulatedText})
-        </span>
-      </div>
 
       {/* Main Statistics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -361,7 +350,7 @@ const ProgramReports = () => {
               <p className="text-4xl font-bold" style={{ color: CHART_COLORS.accent }}>
                 {getValue(currentData.closedCases)}
               </p>
-              {!showCumulated && (
+              {!isCumulated && (
                 <p className="text-xs text-muted-foreground mt-1">
                   Össz: {currentData.closedCases.cumulated}
                 </p>
@@ -378,7 +367,7 @@ const ProgramReports = () => {
               <p className="text-4xl font-bold" style={{ color: CHART_COLORS.secondary }}>
                 {getValue(currentData.totalConsultations)}
               </p>
-              {!showCumulated && (
+              {!isCumulated && (
                 <p className="text-xs text-muted-foreground mt-1">
                   Össz: {currentData.totalConsultations.cumulated}
                 </p>
@@ -395,7 +384,7 @@ const ProgramReports = () => {
               <p className="text-4xl font-bold" style={{ color: CHART_COLORS.tertiary }}>
                 {getValue(currentData.onlineLogins)}
               </p>
-              {!showCumulated && (
+              {!isCumulated && (
                 <p className="text-xs text-muted-foreground mt-1">
                   Össz: {currentData.onlineLogins.cumulated}
                 </p>
