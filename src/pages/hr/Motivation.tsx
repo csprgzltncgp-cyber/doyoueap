@@ -8,7 +8,7 @@ import { formatAuditName } from '@/lib/auditUtils';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import { ReportNavigation } from '@/components/navigation/ReportNavigation';
-import fourScoreLogo from "@/assets/4score_logo.svg";
+import fourScoreLogo from "@/assets/4score_logo.png";
 
 interface MotivationProps {
   selectedAuditId: string;
