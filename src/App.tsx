@@ -52,7 +52,7 @@ const App = () => (
           <Route 
             path="/dashboard" 
             element={
-              <ProtectedRoute allowedRoles={['hr', 'admin']}>
+              <ProtectedRoute allowedRoles={['hr']}>
                 <Index />
               </ProtectedRoute>
             } 
@@ -61,7 +61,7 @@ const App = () => (
           <Route 
             path="/hr/metrics-test" 
             element={
-              <ProtectedRoute allowedRoles={['hr', 'admin']}>
+              <ProtectedRoute allowedRoles={['hr']}>
                 <MetricsTest />
               </ProtectedRoute>
             } 
@@ -69,7 +69,7 @@ const App = () => (
           <Route 
             path="/hr/comparison-test" 
             element={
-              <ProtectedRoute allowedRoles={['hr', 'admin']}>
+              <ProtectedRoute allowedRoles={['hr']}>
                 <ComparisonTest />
               </ProtectedRoute>
             } 
