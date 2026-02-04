@@ -416,7 +416,7 @@ const CrisisInterventions = () => {
         {Object.keys(mockCrisisInterventions).map((country) => (
           <TabsContent key={country} value={country} className="mt-6">
             {mockCrisisInterventions[country].length > 0 ? (
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="grid items-start gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {mockCrisisInterventions[country].map((crisis) => (
                   <CrisisCard
                     key={crisis.id}
