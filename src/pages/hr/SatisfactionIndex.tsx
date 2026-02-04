@@ -75,7 +75,7 @@ const SatisfactionIndex = () => {
               Ügyfélelégedettségi mutató 1-10 skálán
             </CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col items-center pb-4">
+          <CardContent className="flex flex-col items-center pb-8">
             <GaugeChart 
               value={currentData.value * 10} 
               maxValue={100}
