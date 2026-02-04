@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowRight, CheckCircle, TrendingUp, Users, FileText, Award, BarChart3, Settings as SettingsIcon, Download, FileEdit, PlayCircle, ClipboardList, Eye, Shield, Activity, Target, Heart, UsersRound, LineChart, GitCompare, Code, Building2 } from 'lucide-react';
+import { ArrowRight, CheckCircle, TrendingUp, Users, FileText, Award, BarChart3, Settings as SettingsIcon, Download, FileEdit, PlayCircle, ClipboardList, Eye, Shield, Activity, Target, Heart, UsersRound, LineChart, GitCompare, Code, Building2, Map, Calendar, AlertTriangle, Gift, ThumbsUp, PieChart, Upload } from 'lucide-react';
 import { RegistrationWizard } from '@/components/registration/RegistrationWizard';
 import { MobileNav } from '@/components/navigation/MobileNav';
 import { MobileDashboardNav } from '@/components/navigation/MobileDashboardNav';
@@ -19,6 +19,13 @@ import EAPAudit from './hr/EAPAudit';
 import Reports from './hr/Reports';
 import ProgramReports from './hr/ProgramReports';
 import Export from './hr/Export';
+import HealthMap from './hr/HealthMap';
+import Workshops from './hr/Workshops';
+import CrisisInterventions from './hr/CrisisInterventions';
+import Lottery from './hr/Lottery';
+import SatisfactionIndex from './hr/SatisfactionIndex';
+import ProgramUsage from './hr/ProgramUsage';
+import DataSubmission from './hr/DataSubmission';
 
 import Settings from './hr/Settings';
 import Raffles from './hr/Raffles';
@@ -179,6 +186,20 @@ const Index = () => {
         return <Reports />;
       case 'export':
         return <Export />;
+      case 'health-map':
+        return <HealthMap />;
+      case 'workshops':
+        return <Workshops />;
+      case 'crisis':
+        return <CrisisInterventions />;
+      case 'lottery':
+        return <Lottery />;
+      case 'satisfaction':
+        return <SatisfactionIndex />;
+      case 'program-usage':
+        return <ProgramUsage />;
+      case 'data-submission':
+        return <DataSubmission />;
       case 'api':
         // Only Enterprise and Partner can access API
         if (packageType === 'enterprise' || packageType === 'partner') {
@@ -592,6 +613,104 @@ const Index = () => {
                 >
                   <Download className="h-4 w-4" />
                   Export
+                </button>
+                <button
+                  onClick={() => {
+                    setSearchParams({ section: 'health-map' });
+                    setOpenSubmenu(null);
+                  }}
+					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                    section === 'health-map' 
+							? 'text-foreground font-semibold' 
+							: 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <Map className="h-4 w-4" />
+                  Egészség Térkép
+                </button>
+                <button
+                  onClick={() => {
+                    setSearchParams({ section: 'workshops' });
+                    setOpenSubmenu(null);
+                  }}
+					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                    section === 'workshops' 
+							? 'text-foreground font-semibold' 
+							: 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <Calendar className="h-4 w-4" />
+                  Workshopok
+                </button>
+                <button
+                  onClick={() => {
+                    setSearchParams({ section: 'crisis' });
+                    setOpenSubmenu(null);
+                  }}
+					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                    section === 'crisis' 
+							? 'text-foreground font-semibold' 
+							: 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <AlertTriangle className="h-4 w-4" />
+                  Krízis Intervenciók
+                </button>
+                <button
+                  onClick={() => {
+                    setSearchParams({ section: 'lottery' });
+                    setOpenSubmenu(null);
+                  }}
+					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                    section === 'lottery' 
+							? 'text-foreground font-semibold' 
+							: 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <Gift className="h-4 w-4" />
+                  Nyereményjáték
+                </button>
+                <button
+                  onClick={() => {
+                    setSearchParams({ section: 'satisfaction' });
+                    setOpenSubmenu(null);
+                  }}
+					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                    section === 'satisfaction' 
+							? 'text-foreground font-semibold' 
+							: 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <ThumbsUp className="h-4 w-4" />
+                  Elégedettségi Index
+                </button>
+                <button
+                  onClick={() => {
+                    setSearchParams({ section: 'program-usage' });
+                    setOpenSubmenu(null);
+                  }}
+					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                    section === 'program-usage' 
+							? 'text-foreground font-semibold' 
+							: 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <PieChart className="h-4 w-4" />
+                  Program Használat
+                </button>
+                <button
+                  onClick={() => {
+                    setSearchParams({ section: 'data-submission' });
+                    setOpenSubmenu(null);
+                  }}
+					className={`text-sm transition-colors flex items-center gap-2 pb-2 ${
+                    section === 'data-submission' 
+							? 'text-foreground font-semibold' 
+							: 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <Upload className="h-4 w-4" />
+                  Adatok Küldése
                 </button>
 {/* API menu hidden
                 {packageType === 'partner' && (
