@@ -321,7 +321,7 @@ const ProgramUsage = () => {
             <Progress 
               value={currentData.dominantGender.percentage} 
               className="h-3"
-              style={{ '--progress-background': '#82f5ae' } as React.CSSProperties}
+              style={{ '--progress-background': '#04565f' } as React.CSSProperties}
             />
           </CardContent>
         </Card>
@@ -347,7 +347,7 @@ const ProgramUsage = () => {
             <Progress 
               value={currentData.dominantAgeGroup.percentage} 
               className="h-3"
-              style={{ '--progress-background': '#82f5ae' } as React.CSSProperties}
+              style={{ '--progress-background': '#04565f' } as React.CSSProperties}
             />
           </CardContent>
         </Card>
