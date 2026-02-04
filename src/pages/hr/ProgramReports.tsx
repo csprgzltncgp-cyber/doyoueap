@@ -32,6 +32,21 @@ interface CountryReportData {
   unreachableCases: { current: number; cumulated: number };
   inProgressCases: number;
   
+  // Live cases by type
+  liveCases: {
+    psychology: { current: number; cumulated: number };
+    law: { current: number; cumulated: number };
+    finance: { current: number; cumulated: number };
+    healthCoaching: { current: number; cumulated: number };
+  };
+  
+  // Record highlights
+  recordHighlights: {
+    mostFrequentProblem: string;
+    dominantGender: { label: string; percentage: number };
+    dominantAgeGroup: { label: string; percentage: number };
+  };
+  
   // Consultations & activities
   totalConsultations: { current: number; cumulated: number };
   onsiteConsultations: { current: number; cumulated: number };
@@ -83,6 +98,17 @@ const MOCK_DATA_BY_COUNTRY: Record<string, CountryReportData> = {
     interruptedCases: { current: 8, cumulated: 42 },
     unreachableCases: { current: 5, cumulated: 28 },
     inProgressCases: 12,
+    liveCases: {
+      psychology: { current: 28, cumulated: 195 },
+      law: { current: 8, cumulated: 58 },
+      finance: { current: 6, cumulated: 42 },
+      healthCoaching: { current: 3, cumulated: 25 },
+    },
+    recordHighlights: {
+      mostFrequentProblem: 'Szorongás, stressz',
+      dominantGender: { label: 'Nő', percentage: 62 },
+      dominantAgeGroup: { label: '36-45 év', percentage: 35 },
+    },
     totalConsultations: { current: 156, cumulated: 892 },
     onsiteConsultations: { current: 24, cumulated: 145 },
     workshopParticipants: { current: 120, cumulated: 560 },
@@ -104,6 +130,17 @@ const MOCK_DATA_BY_COUNTRY: Record<string, CountryReportData> = {
     interruptedCases: { current: 5, cumulated: 28 },
     unreachableCases: { current: 3, cumulated: 18 },
     inProgressCases: 8,
+    liveCases: {
+      psychology: { current: 18, cumulated: 126 },
+      law: { current: 6, cumulated: 42 },
+      finance: { current: 5, cumulated: 28 },
+      healthCoaching: { current: 3, cumulated: 14 },
+    },
+    recordHighlights: {
+      mostFrequentProblem: 'Depresszió',
+      dominantGender: { label: 'Nő', percentage: 65 },
+      dominantAgeGroup: { label: '26-35 év', percentage: 32 },
+    },
     totalConsultations: { current: 98, cumulated: 542 },
     onsiteConsultations: { current: 18, cumulated: 98 },
     workshopParticipants: { current: 80, cumulated: 340 },
@@ -125,6 +162,17 @@ const MOCK_DATA_BY_COUNTRY: Record<string, CountryReportData> = {
     interruptedCases: { current: 4, cumulated: 22 },
     unreachableCases: { current: 2, cumulated: 14 },
     inProgressCases: 6,
+    liveCases: {
+      psychology: { current: 14, cumulated: 108 },
+      law: { current: 6, cumulated: 36 },
+      finance: { current: 5, cumulated: 24 },
+      healthCoaching: { current: 3, cumulated: 12 },
+    },
+    recordHighlights: {
+      mostFrequentProblem: 'Munkahelyi konfliktus',
+      dominantGender: { label: 'Nő', percentage: 60 },
+      dominantAgeGroup: { label: '36-45 év', percentage: 32 },
+    },
     totalConsultations: { current: 76, cumulated: 420 },
     onsiteConsultations: { current: 12, cumulated: 72 },
     workshopParticipants: { current: 60, cumulated: 280 },
@@ -146,6 +194,17 @@ const MOCK_DATA_BY_COUNTRY: Record<string, CountryReportData> = {
     interruptedCases: { current: 6, cumulated: 32 },
     unreachableCases: { current: 4, cumulated: 20 },
     inProgressCases: 10,
+    liveCases: {
+      psychology: { current: 22, cumulated: 147 },
+      law: { current: 7, cumulated: 49 },
+      finance: { current: 6, cumulated: 33 },
+      healthCoaching: { current: 3, cumulated: 16 },
+    },
+    recordHighlights: {
+      mostFrequentProblem: 'Párkapcsolati probléma',
+      dominantGender: { label: 'Nő', percentage: 63 },
+      dominantAgeGroup: { label: '36-45 év', percentage: 33 },
+    },
     totalConsultations: { current: 112, cumulated: 620 },
     onsiteConsultations: { current: 20, cumulated: 115 },
     workshopParticipants: { current: 90, cumulated: 420 },
@@ -359,8 +418,8 @@ const ProgramReports = () => {
         </CardContent>
       </Card>
 
-      {/* Main Statistics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* Main Statistics Grid - Point 1: Fő mutatók */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {/* Total Cases */}
         <Card>
           <CardContent className="pt-6">
@@ -395,11 +454,28 @@ const ProgramReports = () => {
           </CardContent>
         </Card>
 
+        {/* Workshop Participants */}
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground mb-2">Workshop résztvevők</p>
+              <p className="text-4xl font-bold" style={{ color: CHART_COLORS.primary }}>
+                {getValue(currentData.workshopParticipants)}
+              </p>
+              {!isCumulated && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  Össz: {currentData.workshopParticipants.cumulated}
+                </p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Online Logins */}
         <Card>
           <CardContent className="pt-6">
             <div className="text-center">
-              <p className="text-sm text-muted-foreground mb-2">Online belépések</p>
+              <p className="text-sm text-muted-foreground mb-2">EAP Online belépések</p>
               <p className="text-4xl font-bold" style={{ color: CHART_COLORS.tertiary }}>
                 {getValue(currentData.onlineLogins)}
               </p>
@@ -413,20 +489,125 @@ const ProgramReports = () => {
         </Card>
       </div>
 
+      {/* Point 2: Élő esetek típusonként */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Élő esetek típusonként</CardTitle>
+          <CardDescription>A folyamatban lévő esetek megoszlása szolgáltatás típus szerint</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {/* Psychology */}
+            <div className="flex flex-col items-center p-4 bg-muted/30 rounded-lg">
+              <Brain className="h-8 w-8 mb-2" style={{ color: CHART_COLORS.primary }} />
+              <p className="text-sm text-muted-foreground text-center">Pszichológia</p>
+              <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.primary }}>
+                {getValue(currentData.liveCases.psychology)}
+              </p>
+              {!isCumulated && (
+                <p className="text-xs text-muted-foreground">
+                  Össz: {currentData.liveCases.psychology.cumulated}
+                </p>
+              )}
+            </div>
+
+            {/* Law */}
+            <div className="flex flex-col items-center p-4 bg-muted/30 rounded-lg">
+              <Scale className="h-8 w-8 mb-2" style={{ color: CHART_COLORS.secondary }} />
+              <p className="text-sm text-muted-foreground text-center">Jogi tanácsadás</p>
+              <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.secondary }}>
+                {getValue(currentData.liveCases.law)}
+              </p>
+              {!isCumulated && (
+                <p className="text-xs text-muted-foreground">
+                  Össz: {currentData.liveCases.law.cumulated}
+                </p>
+              )}
+            </div>
+
+            {/* Finance */}
+            <div className="flex flex-col items-center p-4 bg-muted/30 rounded-lg">
+              <Briefcase className="h-8 w-8 mb-2" style={{ color: CHART_COLORS.tertiary }} />
+              <p className="text-sm text-muted-foreground text-center">Pénzügyi tanácsadás</p>
+              <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.tertiary }}>
+                {getValue(currentData.liveCases.finance)}
+              </p>
+              {!isCumulated && (
+                <p className="text-xs text-muted-foreground">
+                  Össz: {currentData.liveCases.finance.cumulated}
+                </p>
+              )}
+            </div>
+
+            {/* Health Coaching */}
+            <div className="flex flex-col items-center p-4 bg-muted/30 rounded-lg">
+              <Heart className="h-8 w-8 mb-2" style={{ color: CHART_COLORS.accent }} />
+              <p className="text-sm text-muted-foreground text-center">Egészség coaching</p>
+              <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.accent }}>
+                {getValue(currentData.liveCases.healthCoaching)}
+              </p>
+              {!isCumulated && (
+                <p className="text-xs text-muted-foreground">
+                  Össz: {currentData.liveCases.healthCoaching.cumulated}
+                </p>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Point 3: Rekord kiemelések */}
+      <Card className="bg-gradient-to-r from-[#04565f]/5 to-[#82f5ae]/10">
+        <CardHeader>
+          <CardTitle className="text-lg">Az időszak kiemelései</CardTitle>
+          <CardDescription>A legjellemzőbb statisztikák a kiválasztott időszakban</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Most Frequent Problem */}
+            <div className="flex flex-col items-center text-center p-4 bg-background/80 rounded-lg shadow-sm">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mb-3" style={{ backgroundColor: `${CHART_COLORS.primary}20` }}>
+                <Brain className="h-6 w-6" style={{ color: CHART_COLORS.primary }} />
+              </div>
+              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Leggyakoribb probléma</p>
+              <p className="text-lg font-bold" style={{ color: CHART_COLORS.primary }}>
+                {currentData.recordHighlights.mostFrequentProblem}
+              </p>
+            </div>
+
+            {/* Dominant Gender */}
+            <div className="flex flex-col items-center text-center p-4 bg-background/80 rounded-lg shadow-sm">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mb-3" style={{ backgroundColor: `${CHART_COLORS.secondary}30` }}>
+                <Users className="h-6 w-6" style={{ color: CHART_COLORS.primary }} />
+              </div>
+              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Többség neme</p>
+              <p className="text-lg font-bold" style={{ color: CHART_COLORS.primary }}>
+                {currentData.recordHighlights.dominantGender.label}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {currentData.recordHighlights.dominantGender.percentage}%
+              </p>
+            </div>
+
+            {/* Dominant Age Group */}
+            <div className="flex flex-col items-center text-center p-4 bg-background/80 rounded-lg shadow-sm">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mb-3" style={{ backgroundColor: `${CHART_COLORS.accent}20` }}>
+                <TrendingUp className="h-6 w-6" style={{ color: CHART_COLORS.accent }} />
+              </div>
+              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Legaktívabb korosztály</p>
+              <p className="text-lg font-bold" style={{ color: CHART_COLORS.accent }}>
+                {currentData.recordHighlights.dominantAgeGroup.label}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {currentData.recordHighlights.dominantAgeGroup.percentage}%
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Secondary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Workshop résztvevők</p>
-                <p className="text-2xl font-bold">{getValue(currentData.workshopParticipants)}</p>
-              </div>
-              <Users className="h-8 w-8 text-muted-foreground/50" />
-            </div>
-          </CardContent>
-        </Card>
-
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
@@ -447,6 +628,18 @@ const ProgramReports = () => {
                 <p className="text-2xl font-bold">{getValue(currentData.onsiteConsultations)}</p>
               </div>
               <Users className="h-8 w-8 text-muted-foreground/50" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground">Folyamatban lévő esetek</p>
+                <p className="text-2xl font-bold">{currentData.inProgressCases}</p>
+              </div>
+              <TrendingUp className="h-8 w-8 text-muted-foreground/50" />
             </div>
           </CardContent>
         </Card>
