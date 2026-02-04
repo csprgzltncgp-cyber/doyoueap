@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { RegistrationWizard } from '@/components/registration/RegistrationWizard';
+import { toast } from '@/hooks/use-toast';
 import logo from '@/assets/logo.png';
 
 const Auth = () => {
@@ -33,8 +35,43 @@ const Auth = () => {
 
   const handleDemoLogin = async () => {
     setIsLoading(true);
-    // Demo login with predefined credentials
-    await signIn('demo@eappulse.com', 'demo123456');
+    try {
+      // Call the demo-login edge function
+      const { data, error } = await supabase.functions.invoke('demo-login');
+      
+      if (error) {
+        console.error('Demo login error:', error);
+        toast({
+          title: 'Hiba',
+          description: 'Nem sikerült a demo bejelentkezés.',
+          variant: 'destructive',
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      if (data?.session) {
+        // Set the session manually
+        await supabase.auth.setSession({
+          access_token: data.session.access_token,
+          refresh_token: data.session.refresh_token
+        });
+        
+        toast({
+          title: 'Sikeres bejelentkezés',
+          description: 'Üdvözöljük a demo verzióban!',
+        });
+        
+        navigate('/?section=focus');
+      }
+    } catch (err) {
+      console.error('Demo login error:', err);
+      toast({
+        title: 'Hiba',
+        description: 'Váratlan hiba történt.',
+        variant: 'destructive',
+      });
+    }
     setIsLoading(false);
   };
 
