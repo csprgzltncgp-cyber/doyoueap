@@ -72,6 +72,7 @@ const Auth = () => {
             </Button>
           </form>
           
+          {/* Registration section hidden
           <div className="mt-4 text-center border-t pt-4">
             <p className="text-sm text-muted-foreground mb-2">
               Még nincs fiókja?
@@ -84,6 +85,7 @@ const Auth = () => {
               Céges regisztráció
             </Button>
           </div>
+          */}
         </CardContent>
       </Card>
     </div>
