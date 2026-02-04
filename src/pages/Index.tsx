@@ -258,7 +258,7 @@ const Index = () => {
 
         {/* Dashboard Sub-Navigation */}
         {user && role === 'hr' && section && (
-          <div className="border-t bg-gradient-to-r from-[#3572ef] to-[#3abef9]">
+          <div className="border-t bg-gradient-to-r from-[#04565f] to-[#82f5ae]">
             <div className="max-w-7xl mx-auto px-4 py-3">
               <div className="flex items-center">
                 <MobileDashboardNav 
