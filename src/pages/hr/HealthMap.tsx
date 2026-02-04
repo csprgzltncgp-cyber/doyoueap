@@ -268,18 +268,18 @@ const HealthMap = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
-            <p className="text-lg font-bold text-[#04565f]">
+            <p className="text-lg font-bold text-foreground">
               Legmagasabb igénybevétel:
             </p>
-            <p className="text-sm text-muted-foreground">Pszichológiai tanácsadás</p>
+            <p className="text-sm text-[#04565f] font-medium">Pszichológiai tanácsadás</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
-            <p className="text-lg font-bold text-[#6610f2]">
+            <p className="text-lg font-bold text-foreground">
               Legtöbb igénybevevő nem szerint:
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-[#04565f] font-medium">
               {currentCircles.filter(c => c.gender === 'female').length >= 
                currentCircles.filter(c => c.gender === 'male').length ? 'Nő' : 'Férfi'}
             </p>
@@ -287,10 +287,10 @@ const HealthMap = () => {
         </Card>
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
-            <p className="text-lg font-bold text-[#ffc107]">
+            <p className="text-lg font-bold text-foreground">
               Legaktívabb korcsoport:
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-[#04565f] font-medium">
               {AGE_GROUPS.find(ag => 
                 currentCircles.filter(c => c.ageId === ag.id).length === 
                 Math.max(...AGE_GROUPS.map(a => currentCircles.filter(c => c.ageId === a.id).length))
