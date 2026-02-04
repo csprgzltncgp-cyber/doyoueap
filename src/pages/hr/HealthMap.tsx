@@ -140,11 +140,26 @@ const HealthMapRow = ({
   const rowCircles = circles.filter(c => c.problemTypeId === problemType.id);
   const theme = BACKGROUND_THEMES.find(t => t.id === bgTheme) || BACKGROUND_THEMES[0];
   
+  // Text color based on background theme
+  const getTextColor = () => {
+    switch (bgTheme) {
+      case 'green':
+        return 'text-[#04565f]/20';
+      case 'light-grey':
+      case 'medium-grey':
+        return 'text-gray-400/40';
+      case 'transparent':
+        return 'text-muted-foreground/15';
+      default:
+        return 'text-muted-foreground/10';
+    }
+  };
+  
   return (
     <div className="relative">
       {/* Background label */}
       <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
-        <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-muted-foreground/10 uppercase whitespace-nowrap select-none">
+        <span className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold ${getTextColor()} uppercase whitespace-nowrap select-none`}>
           {problemType.name}
         </span>
       </div>
