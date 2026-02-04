@@ -256,7 +256,7 @@ const Demographics = ({ selectedAuditId, audits, onAuditChange, packageType, com
   };
 
   
-  const COLORS = ['#000099', 'hsl(var(--chart-3))', '#004144'];
+  const COLORS = ['#04565f', 'hsl(var(--chart-3))', '#004144'];
 
   if (loading) {
     return (
