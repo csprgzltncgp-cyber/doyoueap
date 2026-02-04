@@ -353,7 +353,7 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
       {/* 1. sor: Használat Index és Közeljövőbeni Tervek */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Használat Index */}
-        <Card id="would-use-future-card" className={`border-2 ${parseFloat(usageScore) < 40 ? 'border-[#ff0033]' : 'border-[#3366ff]'}`}>
+        <Card id="would-use-future-card">
           <CardHeader className="relative">
             <Button
               variant="ghost"
