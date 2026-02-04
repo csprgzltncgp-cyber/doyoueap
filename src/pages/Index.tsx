@@ -41,7 +41,7 @@ const Index = () => {
 
   const handleGetStarted = () => {
     if (user) {
-      navigate("/dashboard?section=focus");
+      navigate("/?section=focus");
     } else {
       navigate("/auth");
     }
@@ -52,9 +52,14 @@ const Index = () => {
   const subSection = searchParams.get('sub') || '';
 
   useEffect(() => {
+    // Redirect admin users to their dedicated dashboard
+    if (!loading && user && role === 'admin') {
+      navigate('/admin');
+    }
+    
     // If on /dashboard route without section, redirect to focus
-    if (!loading && user && (role === 'hr' || role === 'admin') && window.location.pathname === '/dashboard' && !section) {
-      navigate('/dashboard?section=focus');
+    if (!loading && user && role === 'hr' && window.location.pathname === '/dashboard' && !section) {
+      navigate('/?section=focus');
     }
   }, [user, role, loading, navigate, section, setSearchParams]);
 
@@ -151,7 +156,7 @@ const Index = () => {
 
   // Render dashboard content if user is logged in and has selected a dashboard section
   const renderDashboardContent = () => {
-    if (!user || (role !== 'hr' && role !== 'admin')) return null;
+    if (!user || role !== 'hr') return null;
 
     switch (section) {
       case 'dashboard':
@@ -229,9 +234,9 @@ const Index = () => {
             {/* HIDDEN: Magazin menu item */}
           </nav>
           <div className="flex items-center gap-4">
-            {user && (role === 'hr' || role === 'admin') && (
+            {user && role === 'hr' && (
               <button
-                onClick={() => navigate('/dashboard?section=focus')}
+                onClick={() => navigate('/?section=focus')}
                 className={`text-sm border border-transparent transition-colors px-3 py-2 rounded-md hidden md:flex ${
                   section 
                     ? 'bg-[#04565f] text-white font-semibold' 

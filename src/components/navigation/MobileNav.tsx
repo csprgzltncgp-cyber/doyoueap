@@ -34,9 +34,9 @@ export function MobileNav({ user, role, section, onNavigate, onLogout }: MobileN
           {/* HIDDEN: Bemutatkozás menu item */}
           {/* HIDDEN: Árak és Csomagok menu item */}
           {/* HIDDEN: Magazin menu item */}
-          {user && (role === 'hr' || role === 'admin') && (
+          {user && role === 'hr' && (
             <button
-              onClick={() => handleNavClick('/dashboard?section=focus')}
+              onClick={() => handleNavClick('/?section=focus')}
               className={`text-left px-4 py-2 rounded-md transition-colors ${
                 section 
                   ? 'bg-[#3572ef] text-white font-semibold' 
