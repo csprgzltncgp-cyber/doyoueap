@@ -242,8 +242,8 @@ const getStatusConfig = (status: WorkshopStatus) => {
     case "organizing":
       return {
         label: "Szervezés alatt",
-        bgClass: "bg-yellow-500",
-        textClass: "text-yellow-950",
+        bgClass: "bg-[#ffc107]",
+        textClass: "text-gray-900",
       };
     case "available":
       return {
@@ -440,7 +440,7 @@ const Workshops = () => {
         </Card>
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
-            <p className="text-2xl font-bold text-yellow-600">
+            <p className="text-2xl font-bold text-[#ffc107]">
               {countByStatus("organizing")}
             </p>
             <p className="text-xs text-muted-foreground">Szervezés alatt</p>
