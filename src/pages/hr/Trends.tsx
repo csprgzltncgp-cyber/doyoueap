@@ -184,12 +184,12 @@ const Trends = () => {
   };
 
   const getTrendIcon = (current: number, previous: number, metric?: string) => {
-    if (!previous) return <Minus className="h-8 w-8" style={{ color: '#3572ef' }} />;
+    if (!previous) return <Minus className="h-8 w-8" style={{ color: '#04565f' }} />;
     const diff = current - previous;
     
-    if (diff > 0.5) return <TrendingUp className="h-8 w-8" style={{ color: '#3572ef' }} />;
-    if (diff < -0.5) return <TrendingDown className="h-8 w-8" style={{ color: '#3572ef' }} />;
-    return <Minus className="h-8 w-8" style={{ color: '#3572ef' }} />;
+    if (diff > 0.5) return <TrendingUp className="h-8 w-8" style={{ color: '#04565f' }} />;
+    if (diff < -0.5) return <TrendingDown className="h-8 w-8" style={{ color: '#04565f' }} />;
+    return <Minus className="h-8 w-8" style={{ color: '#04565f' }} />;
   };
 
   const getTrendText = (current: number, previous: number) => {
@@ -389,21 +389,21 @@ const Trends = () => {
                         type="monotone" 
                         dataKey="awareness" 
                         name="Ismertség" 
-                        stroke="#3572ef" 
+                        stroke="#04565f" 
                         strokeWidth={2}
                       />
                       <Line 
                         type="monotone" 
                         dataKey="trust" 
                         name="Bizalom" 
-                        stroke="#3abef9" 
+                        stroke="#82f5ae" 
                         strokeWidth={2}
                       />
                       <Line 
                         type="monotone" 
                         dataKey="impact" 
                         name="Elégedettség" 
-                        stroke="#050c9c" 
+                        stroke="#004144" 
                         strokeWidth={2}
                         strokeDasharray="5 5"
                       />
@@ -454,7 +454,7 @@ const Trends = () => {
                         type="monotone" 
                         dataKey="usage" 
                         name="Használati arány" 
-                        stroke="#3572ef" 
+                        stroke="#82f5ae" 
                         strokeWidth={2}
                       />
                     </LineChart>
