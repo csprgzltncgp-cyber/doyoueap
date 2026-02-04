@@ -5,9 +5,9 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-const DEMO_EMAIL = 'demo@eappulse.com'
+const DEMO_EMAIL = 'zoltan.csepregi@cgpeu.com'
 const DEMO_PASSWORD = 'demo123456'
-const DEMO_NAME = 'Demo Felhasználó'
+const DEMO_NAME = 'Csepregi Zoltán'
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
