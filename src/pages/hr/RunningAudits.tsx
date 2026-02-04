@@ -739,7 +739,7 @@ const RunningAudits = () => {
             
             if (target) {
               const percentage = Math.min((metrics.responsesCount / target) * 100, 100);
-              return <Progress value={percentage} className="h-2" />;
+              return <Progress value={percentage} className="h-2" style={{ '--progress-background': '#04565f' } as React.CSSProperties} />;
             }
             return null;
           })()}
