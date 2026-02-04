@@ -211,15 +211,15 @@ const HealthMap = () => {
             <div className="border-l pl-6 flex items-center gap-4">
               <div className="flex items-center gap-1">
                 <div className="w-4 h-4 rounded-full bg-muted-foreground/40" />
-                <span className="text-xs text-muted-foreground">Kis</span>
+                <span className="text-xs text-muted-foreground">Kisebb igénybevétel</span>
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-6 h-6 rounded-full bg-muted-foreground/40" />
-                <span className="text-xs text-muted-foreground">Közepes</span>
+                <span className="text-xs text-muted-foreground">Közepes igénybevétel</span>
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-8 h-8 rounded-full bg-muted-foreground/40" />
-                <span className="text-xs text-muted-foreground">Nagy</span>
+                <span className="text-xs text-muted-foreground">Nagy igénybevétel</span>
               </div>
             </div>
           </div>
