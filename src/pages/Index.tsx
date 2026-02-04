@@ -244,7 +244,7 @@ const Index = () => {
               alt="doyoueap" 
               className="h-8 cursor-pointer" 
               onClick={() => {
-                setSearchParams({});
+                navigate('/');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }} 
             />
