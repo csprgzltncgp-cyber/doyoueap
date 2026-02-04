@@ -11,7 +11,7 @@ import { QuestionRenderer } from '@/components/survey/QuestionRenderer';
 import { Progress } from '@/components/ui/progress';
 import { Globe, Download } from 'lucide-react';
 import jsPDF from 'jspdf';
-import logo from '@/assets/eap-pulse-logo-blue.png';
+import logo from '@/assets/doyoueap-logo.png';
 
 interface Questionnaire {
   title: string;
