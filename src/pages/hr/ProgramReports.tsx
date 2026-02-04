@@ -498,10 +498,10 @@ const ProgramReports = () => {
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {/* Psychology */}
-            <div className="flex flex-col items-center p-4 bg-muted/30 rounded-lg">
-              <Brain className="h-8 w-8 mb-2" style={{ color: CHART_COLORS.primary }} />
+            <div className="flex flex-col items-center p-4 bg-destructive/10 rounded-lg border border-destructive/20">
+              <Brain className="h-8 w-8 mb-2 text-destructive" />
               <p className="text-sm text-muted-foreground text-center">Pszichológia</p>
-              <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.primary }}>
+              <p className="text-3xl font-bold mt-1 text-destructive">
                 {getValue(currentData.liveCases.psychology)}
               </p>
               {!isCumulated && (
@@ -512,10 +512,10 @@ const ProgramReports = () => {
             </div>
 
             {/* Law */}
-            <div className="flex flex-col items-center p-4 bg-muted/30 rounded-lg">
-              <Scale className="h-8 w-8 mb-2" style={{ color: CHART_COLORS.secondary }} />
+            <div className="flex flex-col items-center p-4 bg-destructive/10 rounded-lg border border-destructive/20">
+              <Scale className="h-8 w-8 mb-2 text-destructive" />
               <p className="text-sm text-muted-foreground text-center">Jogi tanácsadás</p>
-              <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.secondary }}>
+              <p className="text-3xl font-bold mt-1 text-destructive">
                 {getValue(currentData.liveCases.law)}
               </p>
               {!isCumulated && (
@@ -526,10 +526,10 @@ const ProgramReports = () => {
             </div>
 
             {/* Finance */}
-            <div className="flex flex-col items-center p-4 bg-muted/30 rounded-lg">
-              <Briefcase className="h-8 w-8 mb-2" style={{ color: CHART_COLORS.tertiary }} />
+            <div className="flex flex-col items-center p-4 bg-destructive/10 rounded-lg border border-destructive/20">
+              <Briefcase className="h-8 w-8 mb-2 text-destructive" />
               <p className="text-sm text-muted-foreground text-center">Pénzügyi tanácsadás</p>
-              <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.tertiary }}>
+              <p className="text-3xl font-bold mt-1 text-destructive">
                 {getValue(currentData.liveCases.finance)}
               </p>
               {!isCumulated && (
@@ -540,10 +540,10 @@ const ProgramReports = () => {
             </div>
 
             {/* Health Coaching */}
-            <div className="flex flex-col items-center p-4 bg-muted/30 rounded-lg">
-              <Heart className="h-8 w-8 mb-2" style={{ color: CHART_COLORS.accent }} />
+            <div className="flex flex-col items-center p-4 bg-destructive/10 rounded-lg border border-destructive/20">
+              <Heart className="h-8 w-8 mb-2 text-destructive" />
               <p className="text-sm text-muted-foreground text-center">Egészség coaching</p>
-              <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.accent }}>
+              <p className="text-3xl font-bold mt-1 text-destructive">
                 {getValue(currentData.liveCases.healthCoaching)}
               </p>
               {!isCumulated && (
