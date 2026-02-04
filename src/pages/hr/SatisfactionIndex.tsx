@@ -79,7 +79,7 @@ const SatisfactionIndex = () => {
             <GaugeChart 
               value={currentData.value * 10} 
               maxValue={100}
-              size={220}
+              size={280}
               label={`${currentData.value.toFixed(1).replace('.', ',')} / 10`}
             />
             <div className="mt-4 text-center">
