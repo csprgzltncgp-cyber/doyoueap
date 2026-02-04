@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
 
 import { Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase, Heart, GraduationCap } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
@@ -183,47 +184,52 @@ const PROBLEM_TYPE_COLORS = [
 
 const ProgramReports = () => {
   const [selectedCountry, setSelectedCountry] = useState(MOCK_COUNTRIES[0].id);
-  // Range selection: fromQuarter to toQuarter (both inclusive)
-  const [fromQuarter, setFromQuarter] = useState(2);
-  const [toQuarter, setToQuarter] = useState(2);
+  
+  // Simple quarter selection mode (left side)
+  const [selectedQuarter, setSelectedQuarter] = useState(2);
+  
+  // Cumulation mode (right side) - which quarters to add together
+  const [cumulatedQuarters, setCumulatedQuarters] = useState<number[]>([]);
+  
+  // Active mode: 'single' or 'cumulated'
+  const [activeMode, setActiveMode] = useState<'single' | 'cumulated'>('single');
 
   const currentData = MOCK_DATA_BY_COUNTRY[selectedCountry];
   
-  // Check if it's a range (cumulated) or single quarter
-  const isCumulated = fromQuarter !== toQuarter;
+  // Check if cumulation mode is active with at least one quarter selected
+  const isCumulated = activeMode === 'cumulated' && cumulatedQuarters.length > 0;
   
-  // Generate range label
-  const getRangeLabel = () => {
-    if (fromQuarter === toQuarter) {
-      return `Q${fromQuarter}`;
-    }
-    return `Q${fromQuarter} - Q${toQuarter}`;
+  // Handle simple quarter selection (left side)
+  const handleQuarterSelect = (quarterId: number) => {
+    setSelectedQuarter(quarterId);
+    setActiveMode('single');
   };
-
-  // Handle quarter click - toggle selection or extend range
-  const handleQuarterClick = (quarterId: number) => {
-    if (fromQuarter === toQuarter) {
-      // Currently single quarter selected
-      if (quarterId === fromQuarter) {
-        // Clicking same quarter - do nothing
-        return;
+  
+  // Handle cumulation toggle (right side)
+  const handleCumulationToggle = (quarterId: number) => {
+    setActiveMode('cumulated');
+    setCumulatedQuarters(prev => {
+      if (prev.includes(quarterId)) {
+        const newQuarters = prev.filter(q => q !== quarterId);
+        // If no quarters left, switch back to single mode
+        if (newQuarters.length === 0) {
+          setActiveMode('single');
+        }
+        return newQuarters;
       }
-      // Extend to range
-      if (quarterId < fromQuarter) {
-        setFromQuarter(quarterId);
-      } else {
-        setToQuarter(quarterId);
-      }
-    } else {
-      // Currently range selected - reset to single quarter
-      setFromQuarter(quarterId);
-      setToQuarter(quarterId);
-    }
+      return [...prev, quarterId].sort();
+    });
   };
-
-  // Check if a quarter is in the selected range
-  const isInRange = (quarterId: number) => {
-    return quarterId >= fromQuarter && quarterId <= toQuarter;
+  
+  // Get label for current selection
+  const getSelectionLabel = () => {
+    if (activeMode === 'single') {
+      return `Q${selectedQuarter}`;
+    }
+    if (cumulatedQuarters.length === 0) {
+      return 'Válassz negyedéveket';
+    }
+    return cumulatedQuarters.map(q => `Q${q}`).join(' + ');
   };
 
   // Prepare chart data
@@ -287,55 +293,70 @@ const ProgramReports = () => {
         </TabsList>
       </Tabs>
 
-      {/* Quarter Range Selector */}
+      {/* Quarter Selection Panel - Split: Left = Single, Right = Cumulated */}
       <Card>
         <CardContent className="py-5">
-          <div className="flex flex-col items-center gap-4">
-            <p className="text-sm text-muted-foreground">
-              Válassz egy negyedévet, vagy kattints kettőre a kumuláláshoz
-            </p>
-            
-            <div className="flex items-center gap-2">
-              {QUARTERS.map((q) => {
-                const inRange = isInRange(q.id);
-                const isStart = q.id === fromQuarter;
-                const isEnd = q.id === toQuarter;
-                const isMiddle = inRange && !isStart && !isEnd;
-                
-                return (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            {/* Left Side: Simple Quarter Selection */}
+            <div className={`flex flex-col items-center gap-3 p-4 rounded-lg transition-all ${activeMode === 'single' ? 'bg-muted/30 ring-1 ring-[#04565f]/20' : ''}`}>
+              <p className="text-sm font-medium text-foreground">Negyedév választás</p>
+              <div className="flex items-center gap-2">
+                {QUARTERS.map((q) => (
                   <button
                     key={q.id}
-                    onClick={() => q.hasData && handleQuarterClick(q.id)}
+                    onClick={() => q.hasData && handleQuarterSelect(q.id)}
                     disabled={!q.hasData}
                     className={`
-                      relative px-5 py-2.5 text-sm font-medium transition-all
+                      px-4 py-2 text-sm font-medium rounded-lg transition-all
                       ${!q.hasData ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}
-                      ${inRange 
+                      ${activeMode === 'single' && selectedQuarter === q.id
                         ? 'bg-[#04565f] text-white' 
                         : 'bg-muted text-muted-foreground hover:bg-muted/80'
                       }
-                      ${isStart && isCumulated ? 'rounded-l-lg rounded-r-none' : ''}
-                      ${isEnd && isCumulated ? 'rounded-r-lg rounded-l-none' : ''}
-                      ${isMiddle ? 'rounded-none' : ''}
-                      ${!isCumulated ? 'rounded-lg' : ''}
                     `}
                   >
                     {q.label}
                   </button>
-                );
-              })}
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground">Egy negyedév adatai</p>
             </div>
-            
-            {/* Range indicator */}
-            <div className="flex items-center gap-2 text-sm">
-              <span className="text-muted-foreground">Kiválasztva:</span>
-              <span className="font-semibold text-[#04565f]">{getRangeLabel()}</span>
-              {isCumulated && (
-                <span className="text-xs bg-[#82f5ae]/20 text-[#04565f] px-2 py-0.5 rounded-full">
-                  Kumulált
-                </span>
-              )}
+
+            {/* Divider */}
+            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-16 w-px bg-border" />
+
+            {/* Right Side: Cumulation Selection */}
+            <div className={`flex flex-col items-center gap-3 p-4 rounded-lg transition-all ${activeMode === 'cumulated' ? 'bg-muted/30 ring-1 ring-[#04565f]/20' : ''}`}>
+              <p className="text-sm font-medium text-foreground">Kumulálás</p>
+              <div className="flex items-center gap-4">
+                {QUARTERS.map((q) => (
+                  <label
+                    key={q.id}
+                    className={`flex items-center gap-2 cursor-pointer ${!q.hasData ? 'opacity-30 cursor-not-allowed' : ''}`}
+                  >
+                    <Checkbox
+                      checked={cumulatedQuarters.includes(q.id)}
+                      onCheckedChange={() => q.hasData && handleCumulationToggle(q.id)}
+                      disabled={!q.hasData}
+                      className="data-[state=checked]:bg-[#04565f] data-[state=checked]:border-[#04565f]"
+                    />
+                    <span className="text-sm font-medium">{q.label}</span>
+                  </label>
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground">Több negyedév összesítve</p>
             </div>
+          </div>
+
+          {/* Selection indicator */}
+          <div className="flex items-center justify-center gap-2 text-sm mt-4 pt-4 border-t">
+            <span className="text-muted-foreground">Kiválasztva:</span>
+            <span className="font-semibold text-[#04565f]">{getSelectionLabel()}</span>
+            {isCumulated && (
+              <span className="text-xs bg-[#82f5ae]/20 text-[#04565f] px-2 py-0.5 rounded-full">
+                Kumulált
+              </span>
+            )}
           </div>
         </CardContent>
       </Card>
