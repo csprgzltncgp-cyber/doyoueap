@@ -206,8 +206,15 @@ const getStatusConfig = (status: CrisisStatus) => {
   }
 };
 
-const CrisisCard = ({ crisis }: { crisis: CrisisIntervention }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const CrisisCard = ({
+  crisis,
+  isOpen,
+  onOpenChange,
+}: {
+  crisis: CrisisIntervention;
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+}) => {
   const statusConfig = getStatusConfig(crisis.status);
 
   return (
@@ -278,13 +285,13 @@ const CrisisCard = ({ crisis }: { crisis: CrisisIntervention }) => {
         </div>
 
         {/* Expandable details */}
-        <Collapsible open={isOpen} onOpenChange={setIsOpen} className="mt-4">
+        <Collapsible open={isOpen} onOpenChange={onOpenChange} className="mt-4">
           <CollapsibleTrigger asChild>
             <Button 
               variant="ghost" 
               size="sm" 
               className="w-full justify-between hover:bg-muted/50"
-              onClick={(e) => e.stopPropagation()}
+              onPointerDown={(e) => e.stopPropagation()}
             >
               <span className="text-xs">
                 {isOpen ? "Részletek elrejtése" : "Részletek megtekintése"}
@@ -353,6 +360,8 @@ const CrisisInterventions = () => {
   const [selectedCountry, setSelectedCountry] = useState("HU");
   const interventions = mockCrisisInterventions[selectedCountry] || [];
 
+  const [openById, setOpenById] = useState<Record<string, boolean>>({});
+
   const countByStatus = (status: CrisisStatus) =>
     interventions.filter((c) => c.status === status).length;
 
@@ -407,7 +416,17 @@ const CrisisInterventions = () => {
             {mockCrisisInterventions[country].length > 0 ? (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {mockCrisisInterventions[country].map((crisis) => (
-                  <CrisisCard key={crisis.id} crisis={crisis} />
+                  <CrisisCard
+                    key={crisis.id}
+                    crisis={crisis}
+                    isOpen={!!openById[crisis.id]}
+                    onOpenChange={(open) =>
+                      setOpenById((prev) => ({
+                        ...prev,
+                        [crisis.id]: open,
+                      }))
+                    }
+                  />
                 ))}
               </div>
             ) : (
