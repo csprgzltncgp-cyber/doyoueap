@@ -444,14 +444,14 @@ export default function MagazineManagement() {
                   <TableCell>{format(new Date(article.published_date), 'yyyy.MM.dd')}</TableCell>
                   <TableCell>
                     <span className={`px-2 py-1 rounded text-xs ${
-                      article.is_published ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                      article.is_published ? 'bg-chart-2/20 text-chart-1' : 'bg-muted text-muted-foreground'
                     }`}>
                       {article.is_published ? 'Publikált' : 'Piszkozat'}
                     </span>
                   </TableCell>
                   <TableCell>
                     {article.is_featured && (
-                      <span className="px-2 py-1 rounded text-xs bg-yellow-100 text-yellow-800">
+                      <span className="px-2 py-1 rounded text-xs bg-[hsl(var(--magazine-yellow))]/20 text-[hsl(var(--chart-1))]">
                         Kiemelt
                       </span>
                     )}
