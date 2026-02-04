@@ -529,13 +529,13 @@ const Impact = ({ selectedAuditId, audits, onAuditChange, packageType, companies
               </div>
 
               {/* Scale */}
-              <div className="relative h-12 rounded-full mb-8" style={{ background: 'linear-gradient(to right, rgba(51, 102, 255, 0.3), rgba(51, 102, 255, 0.6), rgba(51, 102, 255, 1))' }}>
+              <div className="relative h-12 rounded-full mb-8" style={{ background: 'linear-gradient(to right, #45d0cf, #6610f2)' }}>
                 {/* Indicator */}
                 <div 
                   className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 transition-all duration-500"
                   style={{ left: `${((npsData.npsScore + 100) / 200) * 100}%` }}
                 >
-                  <div className="w-6 h-6 rounded-full shadow-lg" style={{ backgroundColor: '#050c9c', border: '3px solid #ffffff' }}></div>
+                  <div className="w-6 h-6 rounded-full shadow-lg" style={{ backgroundColor: '#6610f2', border: '3px solid #ffffff' }}></div>
                 </div>
                 
                 {/* Scale markers */}
