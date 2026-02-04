@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Badge } from "@/components/ui/badge";
 
 // Mock countries matching ProgramReports
 const MOCK_COUNTRIES = [
@@ -10,14 +8,6 @@ const MOCK_COUNTRIES = [
   { id: 'ro', name: 'Románia' },
   { id: 'sk', name: 'Szlovákia' },
   { id: 'cz', name: 'Csehország' },
-];
-
-// Quarters configuration
-const QUARTERS = [
-  { id: 1, label: 'Q1', hasData: true },
-  { id: 2, label: 'Q2', hasData: true },
-  { id: 3, label: 'Q3', hasData: true },
-  { id: 4, label: 'Q4', hasData: true },
 ];
 
 // Problem types (rows) - matching Laravel structure
@@ -178,42 +168,8 @@ const HealthMapRow = ({
 
 const HealthMap = () => {
   const [selectedCountry, setSelectedCountry] = useState(MOCK_COUNTRIES[0].id);
-  const [selectedQuarter, setSelectedQuarter] = useState(2);
-  const [cumulatedQuarters, setCumulatedQuarters] = useState<number[]>([]);
-  const [activeMode, setActiveMode] = useState<'single' | 'cumulated'>('single');
   
   const currentCircles = MOCK_HEALTH_DATA[selectedCountry] || [];
-  
-  const handleQuarterSelect = (quarterId: number) => {
-    setSelectedQuarter(quarterId);
-    setActiveMode('single');
-  };
-  
-  const handleCumulationToggle = (quarterId: number) => {
-    setActiveMode('cumulated');
-    setCumulatedQuarters(prev => {
-      if (prev.includes(quarterId)) {
-        const newQuarters = prev.filter(q => q !== quarterId);
-        if (newQuarters.length === 0) {
-          setActiveMode('single');
-        }
-        return newQuarters;
-      }
-      return [...prev, quarterId].sort();
-    });
-  };
-  
-  const getSelectionLabel = () => {
-    if (activeMode === 'single') {
-      return `Q${selectedQuarter}`;
-    }
-    if (cumulatedQuarters.length === 0) {
-      return 'Válassz negyedéveket';
-    }
-    return cumulatedQuarters.map(q => `Q${q}`).join(' + ');
-  };
-  
-  const isCumulated = activeMode === 'cumulated' && cumulatedQuarters.length > 0;
 
   return (
     <div className="space-y-6">
@@ -239,71 +195,6 @@ const HealthMap = () => {
           ))}
         </TabsList>
       </Tabs>
-
-      {/* Quarter Selection Panel */}
-      <Card>
-        <CardContent className="py-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-            {/* Left Side: Simple Quarter Selection */}
-            <div className={`flex flex-col items-center gap-3 p-4 rounded-lg transition-all ${activeMode === 'single' ? 'bg-muted/30 ring-1 ring-[#04565f]/20' : ''}`}>
-              <p className="text-sm font-medium text-foreground">Negyedév választás</p>
-              <div className="flex items-center gap-2">
-                {QUARTERS.map((q) => (
-                  <button
-                    key={q.id}
-                    onClick={() => q.hasData && handleQuarterSelect(q.id)}
-                    disabled={!q.hasData}
-                    className={`
-                      px-4 py-2 text-sm font-medium rounded-lg transition-all
-                      ${!q.hasData ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}
-                      ${activeMode === 'single' && selectedQuarter === q.id
-                        ? 'bg-[#04565f] text-white' 
-                        : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                      }
-                    `}
-                  >
-                    {q.label}
-                  </button>
-                ))}
-              </div>
-              <p className="text-xs text-muted-foreground">Egy negyedév adatai</p>
-            </div>
-
-            {/* Right Side: Cumulation Selection */}
-            <div className={`flex flex-col items-center gap-3 p-4 rounded-lg transition-all ${activeMode === 'cumulated' ? 'bg-muted/30 ring-1 ring-[#04565f]/20' : ''}`}>
-              <p className="text-sm font-medium text-foreground">Kumulálás</p>
-              <div className="flex items-center gap-4">
-                {QUARTERS.map((q) => (
-                  <label
-                    key={q.id}
-                    className={`flex items-center gap-2 cursor-pointer ${!q.hasData ? 'opacity-30 cursor-not-allowed' : ''}`}
-                  >
-                    <Checkbox
-                      checked={cumulatedQuarters.includes(q.id)}
-                      onCheckedChange={() => q.hasData && handleCumulationToggle(q.id)}
-                      disabled={!q.hasData}
-                      className="data-[state=checked]:bg-[#04565f] data-[state=checked]:border-[#04565f]"
-                    />
-                    <span className="text-sm font-medium">{q.label}</span>
-                  </label>
-                ))}
-              </div>
-              <p className="text-xs text-muted-foreground">Több negyedév összesítve</p>
-            </div>
-          </div>
-
-          {/* Selection indicator */}
-          <div className="flex items-center justify-center gap-2 text-sm mt-4 pt-4 border-t">
-            <span className="text-muted-foreground">Kiválasztva:</span>
-            <span className="font-semibold text-[#04565f]">{getSelectionLabel()}</span>
-            {isCumulated && (
-              <span className="text-xs bg-[#82f5ae]/20 text-[#04565f] px-2 py-0.5 rounded-full">
-                Kumulált
-              </span>
-            )}
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Legend */}
       <Card>
