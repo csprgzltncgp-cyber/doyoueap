@@ -231,9 +231,9 @@ const Compare = () => {
 
   const getTrendIcon = (current: number, previous: number) => {
     const diff = current - previous;
-    if (diff > 0.5) return <TrendingUp className="h-8 w-8" style={{ color: '#3572ef' }} />;
-    if (diff < -0.5) return <TrendingDown className="h-8 w-8" style={{ color: '#3572ef' }} />;
-    return <Minus className="h-8 w-8" style={{ color: '#3572ef' }} />;
+    if (diff > 0.5) return <TrendingUp className="h-8 w-8" style={{ color: '#04565f' }} />;
+    if (diff < -0.5) return <TrendingDown className="h-8 w-8" style={{ color: '#04565f' }} />;
+    return <Minus className="h-8 w-8" style={{ color: '#04565f' }} />;
   };
 
   const getTrendText = (current: number, previous: number) => {
@@ -388,7 +388,7 @@ const Compare = () => {
                             </div>
                           </div>
                           <div className="text-sm">
-                            <span style={{ color: '#3572ef' }}>
+                            <span style={{ color: '#04565f' }}>
                               {diff > 0 ? '+' : ''}{diff.toFixed(1)}{isUsage ? '%' : ''} különbség
                             </span>
                           </div>
@@ -414,8 +414,8 @@ const Compare = () => {
                         <YAxis />
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey="first" name="Első felmérés" fill="#3572ef" radius={[8, 8, 0, 0]} />
-                        <Bar dataKey="second" name="Második felmérés" fill="#3abef9" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="first" name="Első felmérés" fill="#04565f" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="second" name="Második felmérés" fill="#82f5ae" radius={[8, 8, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </CardContent>
@@ -436,8 +436,8 @@ const Compare = () => {
                         <YAxis />
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey="first" name="Első felmérés" fill="#3572ef" radius={[8, 8, 0, 0]} />
-                        <Bar dataKey="second" name="Második felmérés" fill="#3abef9" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="first" name="Első felmérés" fill="#04565f" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="second" name="Második felmérés" fill="#82f5ae" radius={[8, 8, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -457,8 +457,8 @@ const Compare = () => {
                         <YAxis />
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey="first" name="Első felmérés" fill="#3572ef" radius={[8, 8, 0, 0]} />
-                        <Bar dataKey="second" name="Második felmérés" fill="#3abef9" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="first" name="Első felmérés" fill="#04565f" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="second" name="Második felmérés" fill="#82f5ae" radius={[8, 8, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -479,8 +479,8 @@ const Compare = () => {
                           <YAxis domain={[0, 10]} />
                           <Tooltip />
                           <Legend />
-                          <Bar dataKey="first" name="Első felmérés" fill="#3572ef" radius={[8, 8, 0, 0]} />
-                          <Bar dataKey="second" name="Második felmérés" fill="#3abef9" radius={[8, 8, 0, 0]} />
+                          <Bar dataKey="first" name="Első felmérés" fill="#04565f" radius={[8, 8, 0, 0]} />
+                          <Bar dataKey="second" name="Második felmérés" fill="#82f5ae" radius={[8, 8, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </CardContent>
@@ -503,8 +503,8 @@ const Compare = () => {
                           <YAxis />
                           <Tooltip />
                           <Legend />
-                          <Bar dataKey="first" name="Első felmérés" fill="#3572ef" radius={[8, 8, 0, 0]} />
-                          <Bar dataKey="second" name="Második felmérés" fill="#3abef9" radius={[8, 8, 0, 0]} />
+                          <Bar dataKey="first" name="Első felmérés" fill="#04565f" radius={[8, 8, 0, 0]} />
+                          <Bar dataKey="second" name="Második felmérés" fill="#82f5ae" radius={[8, 8, 0, 0]} />
                         </BarChart>
                       </ResponsiveContainer>
                     </CardContent>
@@ -523,8 +523,8 @@ const Compare = () => {
                           <YAxis />
                           <Tooltip />
                           <Legend />
-                          <Bar dataKey="first" name="Első felmérés" fill="#3572ef" radius={[8, 8, 0, 0]} />
-                          <Bar dataKey="second" name="Második felmérés" fill="#3abef9" radius={[8, 8, 0, 0]} />
+                          <Bar dataKey="first" name="Első felmérés" fill="#04565f" radius={[8, 8, 0, 0]} />
+                          <Bar dataKey="second" name="Második felmérés" fill="#82f5ae" radius={[8, 8, 0, 0]} />
                         </BarChart>
                       </ResponsiveContainer>
                     </CardContent>
