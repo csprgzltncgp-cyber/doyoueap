@@ -115,17 +115,30 @@ const HealthCircle = ({
   );
 };
 
+// Background color themes
+type BackgroundTheme = 'green' | 'light-grey' | 'medium-grey' | 'transparent';
+
+const BACKGROUND_THEMES: { id: BackgroundTheme; name: string; lightClass: string; darkClass: string }[] = [
+  { id: 'green', name: 'Zöld', lightClass: 'bg-[#82f5ae]/30', darkClass: 'bg-[#82f5ae]/20' },
+  { id: 'light-grey', name: 'Világos szürke', lightClass: 'bg-gray-100', darkClass: 'bg-gray-50' },
+  { id: 'medium-grey', name: 'Közepes szürke', lightClass: 'bg-gray-200', darkClass: 'bg-gray-100' },
+  { id: 'transparent', name: 'Átlátszó', lightClass: 'bg-muted/20', darkClass: 'bg-muted/10' },
+];
+
 // Row component for each problem type
 const HealthMapRow = ({ 
   problemType, 
   circles, 
-  isLight 
+  isLight,
+  bgTheme
 }: { 
   problemType: typeof PROBLEM_TYPES[0]; 
   circles: HealthCircle[];
   isLight: boolean;
+  bgTheme: BackgroundTheme;
 }) => {
   const rowCircles = circles.filter(c => c.problemTypeId === problemType.id);
+  const theme = BACKGROUND_THEMES.find(t => t.id === bgTheme) || BACKGROUND_THEMES[0];
   
   return (
     <div className="relative">
@@ -146,7 +159,7 @@ const HealthMapRow = ({
               key={ageGroup.id}
               className={`
                 flex items-center justify-center gap-1 p-2
-                ${isLight ? 'bg-[#82f5ae]/30' : 'bg-[#82f5ae]/20'}
+                ${isLight ? theme.lightClass : theme.darkClass}
                 min-h-[100px] md:min-h-[120px]
               `}
             >
@@ -168,17 +181,40 @@ const HealthMapRow = ({
 
 const HealthMap = () => {
   const [selectedCountry, setSelectedCountry] = useState(MOCK_COUNTRIES[0].id);
+  const [bgTheme, setBgTheme] = useState<BackgroundTheme>('light-grey');
   
   const currentCircles = MOCK_HEALTH_DATA[selectedCountry] || [];
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h2 className="text-2xl font-bold">Egészség Térkép</h2>
-        <p className="text-muted-foreground">
-          Problématípusok megoszlása korosztályonként és nem szerint
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h2 className="text-2xl font-bold">Egészség Térkép</h2>
+          <p className="text-muted-foreground">
+            Problématípusok megoszlása korosztályonként és nem szerint
+          </p>
+        </div>
+        
+        {/* Background Theme Selector */}
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground">Háttér:</span>
+          <div className="flex gap-1">
+            {BACKGROUND_THEMES.map((theme) => (
+              <button
+                key={theme.id}
+                onClick={() => setBgTheme(theme.id)}
+                className={`px-3 py-1.5 text-xs rounded-md transition-colors ${
+                  bgTheme === theme.id 
+                    ? 'bg-[#04565f] text-white' 
+                    : 'bg-muted hover:bg-muted/80 text-muted-foreground'
+                }`}
+              >
+                {theme.name}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Country Tabs */}
@@ -241,6 +277,7 @@ const HealthMap = () => {
                   problemType={pt}
                   circles={currentCircles}
                   isLight={idx % 2 === 0}
+                  bgTheme={bgTheme}
                 />
               ))}
             </div>
