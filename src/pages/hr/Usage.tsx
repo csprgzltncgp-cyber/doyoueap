@@ -378,7 +378,7 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
                 label={`${usageScore}%`}
                 sublabel={`${usedLikelihoodValues.length + wouldUseTotal} válasz`}
                 cornerRadius={30}
-                gaugeColor={parseFloat(usageScore) < 40 ? '#ff0033' : 'hsl(var(--chart-2))'}
+                gaugeColor={parseFloat(usageScore) < 40 ? '#ff0033' : '#ffc107'}
               />
             </div>
             {parseFloat(usageScore) < 40 && (
@@ -419,7 +419,7 @@ const Usage = ({ selectedAuditId, audits, onAuditChange, packageType, companies 
                 label={`${planToUseRate}%`}
                 sublabel={`${planToUseYes} / ${planToUseTotal} fő tervezi`}
                 cornerRadius={30}
-                gaugeColor={parseFloat(planToUseRate) < 10 ? '#ff0033' : 'hsl(var(--chart-2))'}
+                gaugeColor={parseFloat(planToUseRate) < 10 ? '#ff0033' : '#ffc107'}
               />
             </div>
             {parseFloat(planToUseRate) < 10 && (

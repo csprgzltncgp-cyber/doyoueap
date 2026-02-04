@@ -579,7 +579,7 @@ const Reports = () => {
                     label={`${awarenessScore}%`}
                     sublabel={`${awarenessResponses.length} / ${totalResponses} fő`}
                     cornerRadius={30}
-                    gaugeColor={awarenessRate < 50 ? '#ff0033' : 'hsl(var(--chart-2))'}
+                    gaugeColor={awarenessRate < 50 ? '#ff0033' : '#ffc107'}
                   />
                 </div>
                 {awarenessRate < 50 && (
@@ -695,7 +695,7 @@ const Reports = () => {
                     label={`${usageScore}%`}
                     sublabel={`${usedLikelihoodValues.length + wouldUseTotal} válasz`}
                     cornerRadius={30}
-                    gaugeColor={parseFloat(usageScore) < 40 ? '#ff0033' : 'hsl(var(--chart-2))'}
+                    gaugeColor={parseFloat(usageScore) < 40 ? '#ff0033' : '#ffc107'}
                   />
                 </div>
                 {parseFloat(usageScore) < 40 && (
