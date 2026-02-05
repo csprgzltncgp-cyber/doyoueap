@@ -1160,6 +1160,36 @@ export type Database = {
         }
         Relationships: []
       }
+      value_type_mappings_cache: {
+        Row: {
+          company_id: number
+          created_at: string
+          fetched_at: string
+          id: string
+          language_id: number
+          mappings: Json
+          updated_at: string
+        }
+        Insert: {
+          company_id: number
+          created_at?: string
+          fetched_at?: string
+          id?: string
+          language_id?: number
+          mappings?: Json
+          updated_at?: string
+        }
+        Update: {
+          company_id?: number
+          created_at?: string
+          fetched_at?: string
+          id?: string
+          language_id?: number
+          mappings?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

@@ -273,9 +273,8 @@ function delay(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-// In-memory cache for value type mappings (edge runtime may be reused between requests)
-let valueTypeMappingCache: { data: ValueTypeMapping; fetchedAt: number } | null = null
-const VALUE_TYPE_MAPPING_TTL_MS = 1000 * 60 * 60 // 1 hour
+// Cache TTL for Supabase-stored mappings (24 hours)
+const MAPPING_CACHE_TTL_MS = 1000 * 60 * 60 * 24
 
 // Only fetch the types we actually display in Program Reports
 const REQUIRED_VALUE_TYPE_IDS = new Set<string>([
@@ -291,17 +290,67 @@ const REQUIRED_VALUE_TYPE_IDS = new Set<string>([
   String(RIPORT_VALUE_TYPES.TYPE_LANGUAGE),
 ])
 
-// Fetch value type mappings from Laravel API with rate limiting + caching
-async function fetchValueTypeMappings(
+// Get value type mappings from Supabase cache (or fetch & cache if expired)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function getValueTypeMappings(
+  supabaseClient: any,
   companyId: number,
   laravelApiToken: string,
-  languageId: number = 2 // Hungarian
+  languageId: number = 2
 ): Promise<ValueTypeMapping> {
-  // Return cached mappings if still fresh
-  if (valueTypeMappingCache && Date.now() - valueTypeMappingCache.fetchedAt < VALUE_TYPE_MAPPING_TTL_MS) {
-    return valueTypeMappingCache.data
+  // Step 1: Check Supabase cache
+  const { data: cached, error: cacheError } = await supabaseClient
+    .from('value_type_mappings_cache')
+    .select('mappings, fetched_at')
+    .eq('company_id', companyId)
+    .eq('language_id', languageId)
+    .single()
+
+  if (!cacheError && cached) {
+    const fetchedAt = new Date(cached.fetched_at).getTime()
+    const age = Date.now() - fetchedAt
+
+    if (age < MAPPING_CACHE_TTL_MS) {
+      console.log(`Using cached mappings for company ${companyId} (age: ${Math.round(age / 1000 / 60)} minutes)`)
+      return cached.mappings as ValueTypeMapping
+    }
+    console.log(`Cache expired for company ${companyId}, refreshing...`)
+  } else {
+    console.log(`No cache found for company ${companyId}, fetching fresh mappings...`)
   }
 
+  // Step 2: Fetch fresh mappings from Laravel API
+  const mapping = await fetchValueTypeMappingsFromLaravel(companyId, laravelApiToken, languageId)
+
+  // Step 3: Store in Supabase cache (upsert)
+  if (Object.keys(mapping).length > 0) {
+    const { error: upsertError } = await supabaseClient
+      .from('value_type_mappings_cache')
+      .upsert({
+        company_id: companyId,
+        language_id: languageId,
+        mappings: mapping,
+        fetched_at: new Date().toISOString(),
+      }, {
+        onConflict: 'company_id,language_id'
+      })
+
+    if (upsertError) {
+      console.error('Failed to cache mappings:', upsertError)
+    } else {
+      console.log(`Cached mappings for company ${companyId}`)
+    }
+  }
+
+  return mapping
+}
+
+// Fetch value type mappings from Laravel API (slow, rate-limited)
+async function fetchValueTypeMappingsFromLaravel(
+  companyId: number,
+  laravelApiToken: string,
+  languageId: number
+): Promise<ValueTypeMapping> {
   const mapping: ValueTypeMapping = {}
 
   try {
@@ -330,47 +379,31 @@ async function fetchValueTypeMappings(
       return REQUIRED_VALUE_TYPE_IDS.has(String(t.type))
     })
 
-    console.log(`Fetching ${caseInputTypes.length} required case_input_values types`)
+    console.log(`Fetching ${caseInputTypes.length} required case_input_values types from Laravel`)
 
-    // Step 2: Fetch values in small batches with delay to avoid rate limiting
-    // (Laravel is very sensitive to burst traffic)
-    const BATCH_SIZE = 2
-    const DELAY_MS = 600
+    // Step 2: Fetch values one at a time with delay (safest for rate limiting)
+    for (const typeItem of caseInputTypes) {
+      const type = String(typeItem.type)
 
-    for (let i = 0; i < caseInputTypes.length; i += BATCH_SIZE) {
-      const batch = caseInputTypes.slice(i, i + BATCH_SIZE)
-
-      // Fetch batch in parallel (tiny parallelism)
-      const batchPromises = batch.map(async (typeItem: { type: string | number }) => {
-        const type = String(typeItem.type)
-
-        try {
-          const valuesResponse = await fetch(
-            `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`,
-            {
-              headers: {
-                'Authorization': `Bearer ${laravelApiToken}`,
-                'Accept': 'application/json',
-              },
-            }
-          )
-
-          if (!valuesResponse.ok) {
-            console.error(`Failed to fetch values for type ${type}:`, valuesResponse.status)
-            return { type, values: [] }
+      try {
+        const valuesResponse = await fetch(
+          `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${laravelApiToken}`,
+              'Accept': 'application/json',
+            },
           }
+        )
 
-          const valuesData = await valuesResponse.json()
-          return { type, values: valuesData.data || [] }
-        } catch (error) {
-          console.error(`Error fetching values for type ${type}:`, error)
-          return { type, values: [] }
+        if (!valuesResponse.ok) {
+          console.error(`Failed to fetch values for type ${type}:`, valuesResponse.status)
+          continue
         }
-      })
 
-      const batchResults = await Promise.all(batchPromises)
+        const valuesData = await valuesResponse.json()
+        const values = valuesData.data || []
 
-      for (const { type, values } of batchResults) {
         if (values.length > 0) {
           mapping[type] = {}
           for (const item of values) {
@@ -378,17 +411,15 @@ async function fetchValueTypeMappings(
           }
           console.log(`Fetched mapping for type ${type}: ${Object.keys(mapping[type]).length} values`)
         }
+      } catch (error) {
+        console.error(`Error fetching values for type ${type}:`, error)
       }
 
-      if (i + BATCH_SIZE < caseInputTypes.length) {
-        await delay(DELAY_MS)
-      }
+      // Delay between each request to avoid rate limiting
+      await delay(800)
     }
-
-    // Store successful result in cache
-    valueTypeMappingCache = { data: mapping, fetchedAt: Date.now() }
   } catch (error) {
-    console.error('Error fetching value type mappings:', error)
+    console.error('Error fetching value type mappings from Laravel:', error)
   }
 
   return mapping
@@ -460,8 +491,9 @@ Deno.serve(async (req) => {
 
     console.log('Fetching riport data for company:', profile.laravel_company_id, riportRequest)
 
-    // Fetch value type mappings from Laravel API
-    const valueTypeMappings = await fetchValueTypeMappings(
+    // Fetch value type mappings (from Supabase cache or Laravel API)
+    const valueTypeMappings = await getValueTypeMappings(
+      supabaseClient,
       profile.laravel_company_id,
       laravelApiToken,
       2 // Hungarian language ID
