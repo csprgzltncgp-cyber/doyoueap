@@ -264,7 +264,7 @@ const Index = () => {
                     : 'bg-[#04565f] text-white hover:bg-[#04565f]/90'
                 }`}
               >
-                Dashboard
+                EAP Dashboard
               </button>
             )}
             {user ? (
@@ -273,7 +273,7 @@ const Index = () => {
               </Button>
             ) : (
               <Button onClick={() => navigate('/auth')} className="hidden md:flex">
-                Bejelentkezés
+                EAP Dashboard bejelentkezés
               </Button>
             )}
           </div>
