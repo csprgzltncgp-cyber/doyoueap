@@ -17,21 +17,27 @@
  - "data": Az adatok tömbje
  
  Példa válasz formátum:
- {
-   "text": "Itt van a kért riport a probléma típusokról...",
-   "charts": [
-      {
-        "type": "pie",
-        "title": "Probléma típusok megoszlása",
-        "data": [
-          {"name": "Pszichológia", "value": 45, "color": "#04565f"},
-          {"name": "Jog", "value": 25, "color": "#82f5ae"},
-          {"name": "Pénzügy", "value": 20, "color": "#004144"},
-          {"name": "Egyéb", "value": 10, "color": "#6610f2"}
-        ]
-     }
-   ]
- }
+{
+    "text": "Itt van a kért riport a probléma típusokról...",
+    "charts": [
+       {
+         "type": "pie",
+         "title": "Probléma típusok megoszlása",
+         "data": [
+           {"name": "Pszichológia", "value": 45},
+           {"name": "Jog", "value": 25},
+           {"name": "Pénzügy", "value": 20},
+           {"name": "Egyéb", "value": 10}
+         ]
+      }
+    ]
+  }
+
+KÖRDIAGRAM SZÍNEZÉSI SZABÁLY (NE ADJ MEG SZÍNEKET, A FRONTEND KEZELI):
+- 1. körcikk: sötétzöld (#04565f)
+- 2. körcikk: világoszöld (#82f5ae)
+- 3. körcikk: mélyzöld (#004144)
+- 4+ körcikk: a világoszöld egyre halványabb verziói
  
  Progress bar esetén:
  {
@@ -69,7 +75,7 @@
    ]
  }
  
-Használj valósághű demo adatokat, amelyek egy tipikus EAP programra jellemzőek. A színpaletta KÖTELEZŐEN csak ezeket a színeket használhatja: #04565f (sötétzöld - primary), #82f5ae (világoszöld), #004144 (mélyzöld), #ffc107 (sárga), #6610f2 (lila). SOHA NE HASZNÁLJ kék (#3572ef) vagy zöld (#10b981) színeket!
+Használj valósághű demo adatokat, amelyek egy tipikus EAP programra jellemzőek. KÖRDIAGRAMOKNÁL NE ADJ MEG SZÍNEKET - a frontend automatikusan kezeli a színezést a következő szabály szerint: 1. sötétzöld, 2. világoszöld, 3. mélyzöld, 4+ halványított zöldek.
 
  Mindig CSAK VALID JSON-t adj vissza, semmi mást. Ne használj markdown code block-ot.`;
  

@@ -77,9 +77,13 @@
                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                  labelLine={false}
                >
-                {chart.data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color || ['#04565f', '#82f5ae', '#004144', '#ffc107', '#6610f2'][index % 5]} />
-                  ))}
+                {chart.data.map((entry, index) => {
+                    // Pie chart color rule: dark green, green, light green, then faded greens
+                    const pieColors = ['#04565f', '#82f5ae', '#004144'];
+                    const getFadedGreen = (i: number) => `rgba(130, 245, 174, ${0.7 - (i - 3) * 0.15})`;
+                    const defaultColor = index < 3 ? pieColors[index] : getFadedGreen(index);
+                    return <Cell key={`cell-${index}`} fill={entry.color || defaultColor} />;
+                  })}
                </Pie>
                <Tooltip />
              </PieChart>
