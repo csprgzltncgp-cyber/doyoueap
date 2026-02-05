@@ -159,13 +159,15 @@
    const [messages, setMessages] = useState<ChatMessage[]>([]);
    const [input, setInput] = useState('');
    const [isLoading, setIsLoading] = useState(false);
-   const scrollRef = useRef<HTMLDivElement>(null);
- 
-   useEffect(() => {
-     if (scrollRef.current) {
-       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-     }
-   }, [messages]);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isLoading]);
  
    const sendMessage = async (messageText?: string) => {
      const text = messageText || input.trim();
@@ -248,7 +250,7 @@
            </CardHeader>
            <CardContent className="flex-1 flex flex-col overflow-hidden">
              {/* Messages */}
-             <ScrollArea className="flex-1 pr-4" ref={scrollRef}>
+             <ScrollArea className="flex-1 pr-4">
                <div className="space-y-4">
                  {messages.length === 0 && (
                    <div className="text-center text-muted-foreground py-8">
@@ -301,8 +303,11 @@
                        <span>Riport készítése...</span>
                      </div>
                    </div>
-                 )}
-               </div>
+                  )}
+                  
+                  {/* Auto-scroll anchor */}
+                  <div ref={messagesEndRef} />
+                </div>
              </ScrollArea>
  
              {/* Input */}
