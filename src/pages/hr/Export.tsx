@@ -9,6 +9,7 @@ import { formatAuditName } from '@/lib/auditUtils';
 import { exportableCharts } from '@/lib/exportUtils';
 import { exportAllChartsToPPT } from '@/lib/pptExportUtils';
 import { Presentation, Image as ImageIcon, Download, FileSpreadsheet, History, Trash2, Building2 } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { usePackage } from '@/hooks/usePackage';
 
 let exportIframe: HTMLIFrameElement | null = null;
@@ -1225,6 +1226,8 @@ const Export = () => {
       )}
       </div>
 
+      {/* EAP Pulse Reports Export Panels */}
+      {reportType === 'eap' && (
       <div className={`grid gap-6 ${packageType === 'starter' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
 
         {/* PowerPoint - Only for Professional, Enterprise and Partner */}
@@ -1505,6 +1508,82 @@ const Export = () => {
           </CardContent>
         </Card>
       </div>
+      )}
+
+      {/* Program Reports Export Panels */}
+      {reportType === 'program' && (
+      <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
+        {/* Excel Export for Program Reports */}
+        <Card className="flex flex-col">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <FileSpreadsheet className="h-5 w-5" />
+              Excel Export
+            </CardTitle>
+            <CardDescription>
+              Negyedéves statisztikai adatok táblázatban
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 flex-1 flex flex-col">
+            <div className="text-sm space-y-2 flex-1">
+              <p><strong>Tartalom:</strong></p>
+              <ul className="list-disc list-inside ml-4 space-y-1">
+                <li>Fő mutatók - Összes eset, konzultáció, workshop résztvevők</li>
+                <li>Élő esetek - Pszichológia, Jog, Pénzügy, Health Coaching</li>
+                <li>Probléma típusok és alcsoportok</li>
+                <li>Demográfia - Nem, kapcsolat, életkor megoszlások</li>
+                <li>Konzultáció módja - Személyes, telefon, online, videó</li>
+                <li>Kombinált statisztikák - Nem × Probléma, Kor × Probléma</li>
+              </ul>
+            </div>
+            <Button 
+              onClick={() => toast.info('Program riport Excel export fejlesztés alatt')} 
+              disabled={exporting}
+              variant="outline"
+              className="w-full"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Excel Letöltése
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* PDF Export for Program Reports */}
+        <Card className="flex flex-col">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <FileText className="h-5 w-5" />
+              PDF Export
+            </CardTitle>
+            <CardDescription>
+              Negyedéves riport nyomtatható formátumban
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 flex-1 flex flex-col">
+            <div className="text-sm space-y-2 flex-1">
+              <p><strong>Tartalom:</strong></p>
+              <ul className="list-disc list-inside ml-4 space-y-1">
+                <li>Összefoglaló oldal - Fő mutatók és kiemelések</li>
+                <li>Programhasználat - Használati %, legjobb hónap</li>
+                <li>Részletes statisztikák - Grafikonok és diagramok</li>
+                <li>Egészség térkép - Probléma/korcsoport mátrix</li>
+                <li>Elégedettségi index - PSI mutató</li>
+                <li>Kombinált elemzések - Kereszttáblázatok</li>
+              </ul>
+            </div>
+            <Button 
+              onClick={() => toast.info('Program riport PDF export fejlesztés alatt')} 
+              disabled={exporting}
+              variant="outline"
+              className="w-full"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              PDF Letöltése
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+      )}
 
       {/* Export History */}
       <Card>
@@ -1514,12 +1593,16 @@ const Export = () => {
             Export Előzmények
           </CardTitle>
           <CardDescription>
-            Letöltött fájlok listája
+            {reportType === 'program' ? 'Letöltött negyedéves riportok' : 'Letöltött fájlok listája'}
           </CardDescription>
         </CardHeader>
         <CardContent>
           {loadingHistory ? (
             <p className="text-muted-foreground text-center py-8">Betöltés...</p>
+          ) : reportType === 'program' ? (
+            <p className="text-muted-foreground text-center py-8">
+              A program riport exportálási előzmények hamarosan elérhetők lesznek.
+            </p>
           ) : exportHistory.length === 0 ? (
             <p className="text-muted-foreground text-center py-8">Még nincs export előzmény</p>
           ) : (
