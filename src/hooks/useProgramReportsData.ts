@@ -104,81 +104,105 @@ interface UseProgramReportsDataOptions {
   periodType?: 'quarter' | 'month';
 }
 
-// Translation mappings for Hungarian labels (API now returns actual values, not IDs)
+// Translation mappings for Hungarian labels
+// API returns case_input_value IDs - these are stable and language-independent
 export const VALUE_TRANSLATIONS = {
-  // Problem types - API returns: "Pszichológiai", "Jogi", "Pénzügyi", etc.
+  // Problem types (case_input_id = 7) - Permission IDs
+  // Mapped from Laravel permissions table
   problemTypes: {
-    'Pszichológiai': 'Pszichológia',
-    'Jogi': 'Jog',
-    'Pénzügyi': 'Pénzügy',
-    'Egészségügyi': 'Egészség',
-    'Coaching': 'Coaching',
-    // Keep direct mappings for already translated values
-    'Pszichológia': 'Pszichológia',
-    'Jog': 'Jog',
-    'Pénzügy': 'Pénzügy',
-    'Egészség': 'Egészség',
+    // Permission IDs for main problem types
+    '1': 'Pszichológia',
+    '2': 'Jog',
+    '3': 'Pénzügy',
+    '4': 'Egészség',
+    '5': 'Coaching',
+    '6': 'Munkajog',
+    '7': 'Adójog',
   },
-  // Gender - API returns: "Male", "Female"
+  // Gender (case_input_id = 10) - case_input_value IDs
   gender: {
-    'Male': 'Férfi',
-    'Female': 'Nő',
-    'Férfi': 'Férfi',
-    'Nő': 'Nő',
+    '9': 'Férfi',      // Male
+    '10': 'Nő',        // Female
+    '208': 'Egyéb',    // Other/Unknown
   },
-  // Age groups - API returns: "under 20", "between 20 and 29", etc.
+  // Age groups (case_input_id = 11) - case_input_value IDs
   age: {
-    'under 20': '20 alatt',
-    'between 20 and 29': '20-29',
-    'between 30 and 39': '30-39',
-    'between 40 and 49': '40-49',
-    'between 50 and 59': '50-59',
-    'above 59': '60+',
-    // Hungarian variants
-    '18 alatt': '18 alatt',
-    '18-25': '18-25',
-    '26-35': '26-35',
-    '36-45': '36-45',
-    '46-55': '46-55',
-    '56+': '56+',
+    '11': '18 alatt',
+    '12': '18-25',
+    '13': '26-35',
+    '14': '36-45',
+    '15': '46-55',
+    '16': '56+',
+    // Alternative age group IDs
+    '269': '20 alatt',
+    '270': '20-29',
+    '271': '30-39',
+    '272': '40-49',
+    '273': '50-59',
+    '274': '60+',
   },
-  // Employee or family member - API returns: "Employee", "Family Member"
+  // Employee or family member (case_input_id = 9) - case_input_value IDs
   employeeOrFamily: {
-    'Employee': 'Dolgozó',
-    'Family Member': 'Családtag',
-    'Dolgozó': 'Dolgozó',
-    'Családtag': 'Családtag',
+    '7': 'Dolgozó',    // Employee
+    '8': 'Családtag',  // Family Member
   },
-  // Place of receipt / consultation mode - API returns actual text values
+  // Place of receipt / consultation mode (case_input_id = 6) - case_input_value IDs
   placeOfReceipt: {
-    'Phone': 'Telefon',
-    'Video': 'Videó',
-    'In-Person': 'Személyes',
-    'Online': 'Online',
-    'EAP Online/Mobile Application': 'EAP Online/Mobil',
-    'Telefon': 'Telefon',
-    'Személyes': 'Személyes',
-    'Videó': 'Videó',
+    '1': 'Személyes',   // In-Person
+    '2': 'Telefon',     // Phone
+    '3': 'Videó',       // Video
+    '4': 'Online',      // Online
+    '5': 'Chat',        // Chat
+    '6': 'E-mail',      // Email
+    '163': 'EAP Online/Mobil', // EAP Online/Mobile Application
   },
-  // Crisis - API returns: "Yes", "No"
+  // Crisis (case_input_id = 3) - case_input_value IDs
   crisis: {
-    'Yes': 'Igen',
-    'No': 'Nem',
-    'Igen': 'Igen',
-    'Nem': 'Nem',
+    '17': 'Igen',      // Yes
+    '18': 'Nem',       // No
   },
-  // Source - API returns actual text values
+  // Source (case_input_id = 12) - case_input_value IDs
   source: {
-    'Website': 'Weboldal',
-    'Phone': 'Telefon',
-    'Email': 'E-mail',
-    'Personal': 'Személyes',
-    'Poster/Flyer': 'Poster/Szórólap',
-    'HR Recommendation': 'HR ajánlás',
-    'Colleague': 'Kolléga',
-    'Other': 'Egyéb',
-    'Family member': 'Családtag',
-    'I have used the program before': 'Korábbi felhasználó',
+    '19': 'Weboldal',
+    '20': 'Telefon',
+    '21': 'E-mail',
+    '22': 'Személyes',
+    '23': 'Poster/Szórólap',
+    '24': 'HR ajánlás',
+    '25': 'Kolléga',
+    '26': 'Családtag',
+    '27': 'Korábbi felhasználó',
+    '28': 'Egyéb',
+    // Alternative source IDs
+    '159': 'Weboldal',
+    '160': 'Telefon',
+    '161': 'E-mail',
+    '162': 'HR ajánlás',
+    '164': 'Kolléga',
+    '165': 'Egyéb',
+  },
+  // Language (case_input_id = 32) - uses language_skill IDs
+  language: {
+    '1': 'Magyar',
+    '2': 'Angol',
+    '3': 'Német',
+    '4': 'Cseh',
+    '5': 'Szlovák',
+    '6': 'Lengyel',
+    '7': 'Román',
+    '8': 'Francia',
+    '9': 'Spanyol',
+    '10': 'Olasz',
+    '11': 'Orosz',
+    '12': 'Ukrán',
+    '13': 'Szerb',
+    '14': 'Horvát',
+    '15': 'Szlovén',
+    '16': 'Bolgár',
+    '17': 'Görög',
+    '18': 'Török',
+    '19': 'Portugál',
+    '20': 'Holland',
   },
 };
 
