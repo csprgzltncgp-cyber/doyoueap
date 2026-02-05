@@ -20,7 +20,7 @@ import { Step5Languages } from '@/components/audit/Step5Languages';
 import { Step6ProgramName } from '@/components/audit/Step6ProgramName';
 import { Step7Summary } from '@/components/audit/Step7Summary';
 import { AuditPreview } from '@/components/audit/AuditPreview';
-import eapPulseLogo from '@/assets/eap-pulse-logo-new.png';
+import eapPulseLogo from '@/assets/eap-pulse-logo-cgp.png';
 
 const CreateAudit = () => {
   const { user } = useAuth();

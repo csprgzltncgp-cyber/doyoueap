@@ -5,7 +5,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
 import { QuestionRenderer } from '@/components/survey/QuestionRenderer';
 import { Eye, ChevronRight, ChevronLeft } from 'lucide-react';
-import logo from '@/assets/eap-pulse-logo-new.png';
+import logo from '@/assets/eap-pulse-logo-cgp.png';
 import { supabase } from '@/integrations/supabase/client';
 
 interface AuditPreviewProps {
