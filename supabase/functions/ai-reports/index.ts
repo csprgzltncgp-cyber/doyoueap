@@ -20,15 +20,15 @@
  {
    "text": "Itt van a kért riport a probléma típusokról...",
    "charts": [
-     {
-       "type": "pie",
-       "title": "Probléma típusok megoszlása",
-       "data": [
-         {"name": "Pszichológia", "value": 45, "color": "#04565f"},
-         {"name": "Jog", "value": 25, "color": "#3572ef"},
-         {"name": "Pénzügy", "value": 20, "color": "#10b981"},
-         {"name": "Egyéb", "value": 10, "color": "#f59e0b"}
-       ]
+      {
+        "type": "pie",
+        "title": "Probléma típusok megoszlása",
+        "data": [
+          {"name": "Pszichológia", "value": 45, "color": "#04565f"},
+          {"name": "Jog", "value": 25, "color": "#82f5ae"},
+          {"name": "Pénzügy", "value": 20, "color": "#004144"},
+          {"name": "Egyéb", "value": 10, "color": "#6610f2"}
+        ]
      }
    ]
  }
@@ -69,8 +69,8 @@
    ]
  }
  
- Használj valósághű demo adatokat, amelyek egy tipikus EAP programra jellemzőek. A színpaletta legyen összhangban: #04565f (primary), #3572ef (accent), #10b981 (success), #f59e0b (warning), #ef4444 (error).
- 
+Használj valósághű demo adatokat, amelyek egy tipikus EAP programra jellemzőek. A színpaletta KÖTELEZŐEN csak ezeket a színeket használhatja: #04565f (sötétzöld - primary), #82f5ae (világoszöld), #004144 (mélyzöld), #ffc107 (sárga), #6610f2 (lila). SOHA NE HASZNÁLJ kék (#3572ef) vagy zöld (#10b981) színeket!
+
  Mindig CSAK VALID JSON-t adj vissza, semmi mást. Ne használj markdown code block-ot.`;
  
  serve(async (req) => {
