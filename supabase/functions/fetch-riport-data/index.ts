@@ -268,7 +268,12 @@ function findMostCommon(distribution: Record<string, number>): { key: string; co
   }
 }
 
-// Fetch value type mappings from Laravel API
+// Helper: delay function
+function delay(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+// Fetch value type mappings from Laravel API with rate limiting
 async function fetchValueTypeMappings(
   companyId: number,
   laravelApiToken: string,
@@ -296,41 +301,63 @@ async function fetchValueTypeMappings(
     const typesData = await typesResponse.json()
     const types = typesData.data || []
 
-    // Step 2: For each type, fetch its values
-    for (const typeItem of types) {
-      const type = typeItem.type
-      const source = typeItem.source
+    // Filter to only case_input_values types
+    const caseInputTypes = types.filter((t: { source: string }) => t.source === 'case_input_values')
+    
+    console.log(`Found ${caseInputTypes.length} case_input_values types to fetch`)
 
-      // Only fetch case_input_values for now
-      if (source !== 'case_input_values') {
-        continue
-      }
+    // Step 2: Fetch values in batches with delay to avoid rate limiting
+    const BATCH_SIZE = 5 // Process 5 types at a time
+    const DELAY_MS = 200 // 200ms delay between batches
 
-      const valuesResponse = await fetch(
-        `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`,
-        {
-          headers: {
-            'Authorization': `Bearer ${laravelApiToken}`,
-            'Accept': 'application/json',
-          },
+    for (let i = 0; i < caseInputTypes.length; i += BATCH_SIZE) {
+      const batch = caseInputTypes.slice(i, i + BATCH_SIZE)
+      
+      // Fetch batch in parallel
+      const batchPromises = batch.map(async (typeItem: { type: string }) => {
+        const type = typeItem.type
+        
+        try {
+          const valuesResponse = await fetch(
+            `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`,
+            {
+              headers: {
+                'Authorization': `Bearer ${laravelApiToken}`,
+                'Accept': 'application/json',
+              },
+            }
+          )
+
+          if (!valuesResponse.ok) {
+            console.error(`Failed to fetch values for type ${type}:`, valuesResponse.status)
+            return { type, values: [] }
+          }
+
+          const valuesData = await valuesResponse.json()
+          return { type, values: valuesData.data || [] }
+        } catch (error) {
+          console.error(`Error fetching values for type ${type}:`, error)
+          return { type, values: [] }
         }
-      )
+      })
 
-      if (!valuesResponse.ok) {
-        console.error(`Failed to fetch values for type ${type}:`, valuesResponse.status)
-        continue
+      const batchResults = await Promise.all(batchPromises)
+
+      // Build mappings from batch results
+      for (const { type, values } of batchResults) {
+        if (values.length > 0) {
+          mapping[type] = {}
+          for (const item of values) {
+            mapping[type][item.value] = item.label
+          }
+          console.log(`Fetched mapping for type ${type}: ${Object.keys(mapping[type]).length} values`)
+        }
       }
 
-      const valuesData = await valuesResponse.json()
-      const values = valuesData.data || []
-
-      // Build mapping for this type: value (ID) -> label
-      mapping[type] = {}
-      for (const item of values) {
-        mapping[type][item.value] = item.label
+      // Add delay between batches to avoid rate limiting
+      if (i + BATCH_SIZE < caseInputTypes.length) {
+        await delay(DELAY_MS)
       }
-
-      console.log(`Fetched mapping for type ${type}:`, mapping[type])
     }
   } catch (error) {
     console.error('Error fetching value type mappings:', error)
