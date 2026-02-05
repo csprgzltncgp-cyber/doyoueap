@@ -654,17 +654,23 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
               </ResponsiveContainer>
             </div>
             <div className="flex flex-wrap gap-4 justify-center mt-4">
-              {frequencyChartData.map((entry, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <div 
-                    className="w-3 h-3 rounded-full" 
-                    style={{ backgroundColor: `hsl(var(--chart-${(index % 4) + 1}))` }}
-                  />
-                  <span className="text-sm text-foreground">
-                    {entry.name}: {entry.value}
-                  </span>
-                </div>
-              ))}
+              {frequencyChartData.map((entry, index) => {
+                // Legend color rule: mélyzöld, sötétzöld, világoszöld, then faded sötétzöld
+                const pieColors = ['#004144', '#04565f', '#82f5ae'];
+                const getFadedDarkGreen = (i: number) => `rgba(4, 86, 95, ${0.7 - (i - 3) * 0.15})`;
+                const color = index < 3 ? pieColors[index] : getFadedDarkGreen(index);
+                return (
+                  <div key={index} className="flex items-center gap-2">
+                    <div 
+                      className="w-3 h-3 rounded-full" 
+                      style={{ backgroundColor: color }}
+                    />
+                    <span className="text-sm text-foreground">
+                      {entry.name}: {entry.value}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </CardContent>
         </Card>
