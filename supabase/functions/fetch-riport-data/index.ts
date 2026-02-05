@@ -273,12 +273,35 @@ function delay(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-// Fetch value type mappings from Laravel API with rate limiting
+// In-memory cache for value type mappings (edge runtime may be reused between requests)
+let valueTypeMappingCache: { data: ValueTypeMapping; fetchedAt: number } | null = null
+const VALUE_TYPE_MAPPING_TTL_MS = 1000 * 60 * 60 // 1 hour
+
+// Only fetch the types we actually display in Program Reports
+const REQUIRED_VALUE_TYPE_IDS = new Set<string>([
+  String(RIPORT_VALUE_TYPES.TYPE_IS_CRISIS),
+  String(RIPORT_VALUE_TYPES.TYPE_PLACE_OF_RECEIPT),
+  String(RIPORT_VALUE_TYPES.TYPE_PROBLEM_TYPE),
+  String(RIPORT_VALUE_TYPES.TYPE_EMPLOYEE_OR_FAMILY_MEMBER),
+  String(RIPORT_VALUE_TYPES.TYPE_GENDER),
+  String(RIPORT_VALUE_TYPES.TYPE_AGE),
+  String(RIPORT_VALUE_TYPES.TYPE_SOURCE),
+  String(RIPORT_VALUE_TYPES.TYPE_PROBLEM_DETAILS),
+  String(RIPORT_VALUE_TYPES.TYPE_TYPE_OF_PROBLEM),
+  String(RIPORT_VALUE_TYPES.TYPE_LANGUAGE),
+])
+
+// Fetch value type mappings from Laravel API with rate limiting + caching
 async function fetchValueTypeMappings(
   companyId: number,
   laravelApiToken: string,
   languageId: number = 2 // Hungarian
 ): Promise<ValueTypeMapping> {
+  // Return cached mappings if still fresh
+  if (valueTypeMappingCache && Date.now() - valueTypeMappingCache.fetchedAt < VALUE_TYPE_MAPPING_TTL_MS) {
+    return valueTypeMappingCache.data
+  }
+
   const mapping: ValueTypeMapping = {}
 
   try {
@@ -301,22 +324,26 @@ async function fetchValueTypeMappings(
     const typesData = await typesResponse.json()
     const types = typesData.data || []
 
-    // Filter to only case_input_values types
-    const caseInputTypes = types.filter((t: { source: string }) => t.source === 'case_input_values')
-    
-    console.log(`Found ${caseInputTypes.length} case_input_values types to fetch`)
+    // Filter to only case_input_values types we actually need
+    const caseInputTypes = types.filter((t: { source: string; type: string | number }) => {
+      if (t.source !== 'case_input_values') return false
+      return REQUIRED_VALUE_TYPE_IDS.has(String(t.type))
+    })
 
-    // Step 2: Fetch values in batches with delay to avoid rate limiting
-    const BATCH_SIZE = 5 // Process 5 types at a time
-    const DELAY_MS = 200 // 200ms delay between batches
+    console.log(`Fetching ${caseInputTypes.length} required case_input_values types`)
+
+    // Step 2: Fetch values in small batches with delay to avoid rate limiting
+    // (Laravel is very sensitive to burst traffic)
+    const BATCH_SIZE = 2
+    const DELAY_MS = 600
 
     for (let i = 0; i < caseInputTypes.length; i += BATCH_SIZE) {
       const batch = caseInputTypes.slice(i, i + BATCH_SIZE)
-      
-      // Fetch batch in parallel
-      const batchPromises = batch.map(async (typeItem: { type: string }) => {
-        const type = typeItem.type
-        
+
+      // Fetch batch in parallel (tiny parallelism)
+      const batchPromises = batch.map(async (typeItem: { type: string | number }) => {
+        const type = String(typeItem.type)
+
         try {
           const valuesResponse = await fetch(
             `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`,
@@ -343,7 +370,6 @@ async function fetchValueTypeMappings(
 
       const batchResults = await Promise.all(batchPromises)
 
-      // Build mappings from batch results
       for (const { type, values } of batchResults) {
         if (values.length > 0) {
           mapping[type] = {}
@@ -354,11 +380,13 @@ async function fetchValueTypeMappings(
         }
       }
 
-      // Add delay between batches to avoid rate limiting
       if (i + BATCH_SIZE < caseInputTypes.length) {
         await delay(DELAY_MS)
       }
     }
+
+    // Store successful result in cache
+    valueTypeMappingCache = { data: mapping, fetchedAt: Date.now() }
   } catch (error) {
     console.error('Error fetching value type mappings:', error)
   }
