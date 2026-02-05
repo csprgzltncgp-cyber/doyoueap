@@ -30,6 +30,13 @@ const RIPORT_VALUE_TYPES = {
   TYPE_ONSITE_CONSULTATION_STATUS: 601,
 }
 
+// Value type mapping cache
+interface ValueTypeMapping {
+  [type: string]: {
+    [value: string]: string // value -> label
+  }
+}
+
 interface RiportRequest {
   company_id: number
   country_id?: number | null
@@ -261,6 +268,77 @@ function findMostCommon(distribution: Record<string, number>): { key: string; co
   }
 }
 
+// Fetch value type mappings from Laravel API
+async function fetchValueTypeMappings(
+  companyId: number,
+  laravelApiToken: string,
+  languageId: number = 2 // Hungarian
+): Promise<ValueTypeMapping> {
+  const mapping: ValueTypeMapping = {}
+
+  try {
+    // Step 1: Get all value types
+    const typesResponse = await fetch(
+      `${LARAVEL_API_URL}/riports/value-types?company_id=${companyId}&language_id=${languageId}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${laravelApiToken}`,
+          'Accept': 'application/json',
+        },
+      }
+    )
+
+    if (!typesResponse.ok) {
+      console.error('Failed to fetch value types:', typesResponse.status)
+      return mapping
+    }
+
+    const typesData = await typesResponse.json()
+    const types = typesData.data || []
+
+    // Step 2: For each type, fetch its values
+    for (const typeItem of types) {
+      const type = typeItem.type
+      const source = typeItem.source
+
+      // Only fetch case_input_values for now
+      if (source !== 'case_input_values') {
+        continue
+      }
+
+      const valuesResponse = await fetch(
+        `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${laravelApiToken}`,
+            'Accept': 'application/json',
+          },
+        }
+      )
+
+      if (!valuesResponse.ok) {
+        console.error(`Failed to fetch values for type ${type}:`, valuesResponse.status)
+        continue
+      }
+
+      const valuesData = await valuesResponse.json()
+      const values = valuesData.data || []
+
+      // Build mapping for this type: value (ID) -> label
+      mapping[type] = {}
+      for (const item of values) {
+        mapping[type][item.value] = item.label
+      }
+
+      console.log(`Fetched mapping for type ${type}:`, mapping[type])
+    }
+  } catch (error) {
+    console.error('Error fetching value type mappings:', error)
+  }
+
+  return mapping
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders })
@@ -326,6 +404,15 @@ Deno.serve(async (req) => {
     }
 
     console.log('Fetching riport data for company:', profile.laravel_company_id, riportRequest)
+
+    // Fetch value type mappings from Laravel API
+    const valueTypeMappings = await fetchValueTypeMappings(
+      profile.laravel_company_id,
+      laravelApiToken,
+      2 // Hungarian language ID
+    )
+
+    console.log('Fetched value type mappings:', valueTypeMappings)
 
     // Call Laravel API
     const laravelResponse = await fetch(`${LARAVEL_API_URL}/riports/summary`, {
@@ -401,6 +488,8 @@ Deno.serve(async (req) => {
           processed_statistics: processedStats,
           statistics_percentages: statsPercentages,
           highlights,
+          // Add value type mappings
+          value_type_mappings: valueTypeMappings,
         },
       }),
       {
