@@ -34,6 +34,15 @@ const getRatingLabel = (value: number): string => {
   return 'Fejlesztendő';
 };
 
+const getSatisfactionColor = (value: number): string => {
+  if (value >= 9) return '#04565f'; // Sötétzöld - Kiváló
+  if (value >= 8) return '#82f5ae'; // Világoszöld - Nagyon jó
+  if (value >= 7) return '#ffc107'; // Sárga - Jó
+  if (value >= 6) return '#ffc107'; // Sárga - Megfelelő
+  if (value >= 5) return '#ea892b'; // Narancs - Elfogadható
+  return '#ff0033'; // Piros - Fejlesztendő
+};
+
 const SatisfactionIndex = () => {
   const [selectedCountry, setSelectedCountry] = useState(MOCK_COUNTRIES[0].id);
   
@@ -81,6 +90,7 @@ const SatisfactionIndex = () => {
               maxValue={100}
               size={400}
               label={`${currentData.value.toFixed(1).replace('.', ',')} / 10`}
+              gaugeColor={getSatisfactionColor(currentData.value)}
             />
             <div className="-mt-16 text-center">
               <p className="text-2xl font-bold text-[#04565f]">
@@ -170,22 +180,21 @@ const SatisfactionIndex = () => {
         <CardContent>
           <div className="flex flex-wrap gap-3 justify-center">
             {[
-              { range: '9-10', label: 'Kiváló', color: '#04565f' },
-              { range: '8-8.9', label: 'Nagyon jó', color: '#82f5ae' },
-              { range: '7-7.9', label: 'Jó', color: '#ffc107' },
-              { range: '6-6.9', label: 'Megfelelő', color: '#ffc107' },
-              { range: '5-5.9', label: 'Elfogadható', color: '#ff9800' },
-              { range: '1-4.9', label: 'Fejlesztendő', color: '#f44336' },
+              { label: 'Kiváló', color: '#04565f' },
+              { label: 'Nagyon jó', color: '#82f5ae' },
+              { label: 'Jó', color: '#ffc107' },
+              { label: 'Megfelelő', color: '#ffc107' },
+              { label: 'Elfogadható', color: '#ea892b' },
+              { label: 'Fejlesztendő', color: '#ff0033' },
             ].map((item) => (
               <div 
-                key={item.range}
+                key={item.label}
                 className="flex items-center gap-2 px-3 py-2 bg-muted/50 rounded-lg"
               >
                 <div 
                   className="w-3 h-3 rounded-full" 
                   style={{ backgroundColor: item.color }}
                 />
-                <span className="text-sm font-medium">{item.range}:</span>
                 <span className="text-sm text-muted-foreground">{item.label}</span>
               </div>
             ))}
