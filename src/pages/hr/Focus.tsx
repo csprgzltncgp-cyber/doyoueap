@@ -345,7 +345,7 @@ const Focus = () => {
         <div className="relative z-10 flex items-start justify-between">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold text-foreground">
-              {getGreeting()} {userName || 'Felhasználó'}!
+              {getGreeting()}, {userName || 'Felhasználó'}!
             </h1>
             <p className="text-muted-foreground text-lg max-w-2xl">
               Üdv újra itt! Itt találja a futó felmérések áttekintését és a letöltési előzményeit.
