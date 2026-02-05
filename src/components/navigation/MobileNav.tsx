@@ -43,7 +43,7 @@ export function MobileNav({ user, role, section, onNavigate, onLogout }: MobileN
                   : 'hover:bg-muted'
               }`}
             >
-              Dashboard
+                EAP Dashboard
             </button>
           )}
           <div className="border-t pt-4 mt-4">
@@ -53,7 +53,7 @@ export function MobileNav({ user, role, section, onNavigate, onLogout }: MobileN
               </Button>
             ) : (
               <Button onClick={() => handleNavClick('/auth')} className="w-full">
-                Bejelentkezés
+                EAP Dashboard bejelentkezés
               </Button>
             )}
           </div>
