@@ -310,10 +310,11 @@ const ProgramReports = () => {
     unreachableCases: { current: processedStats.caseNumbers.clientUnreachable, cumulated: processedStats.caseNumbers.clientUnreachable },
     inProgressCases: processedStats.caseNumbers.inProgress,
     liveCases: {
-      psychology: { current: processedStats.problemTypes['1'] || 0, cumulated: processedStats.problemTypes['1'] || 0 },
-      law: { current: processedStats.problemTypes['2'] || 0, cumulated: processedStats.problemTypes['2'] || 0 },
-      finance: { current: processedStats.problemTypes['3'] || 0, cumulated: processedStats.problemTypes['3'] || 0 },
-      healthCoaching: { current: processedStats.problemTypes['4'] || 0, cumulated: processedStats.problemTypes['4'] || 0 },
+      // API now returns text values like "Pszichológiai", "Jogi", etc.
+      psychology: { current: processedStats.problemTypes['Pszichológiai'] || 0, cumulated: processedStats.problemTypes['Pszichológiai'] || 0 },
+      law: { current: processedStats.problemTypes['Jogi'] || 0, cumulated: processedStats.problemTypes['Jogi'] || 0 },
+      finance: { current: processedStats.problemTypes['Pénzügyi'] || 0, cumulated: processedStats.problemTypes['Pénzügyi'] || 0 },
+      healthCoaching: { current: processedStats.problemTypes['Egészségügyi'] || processedStats.problemTypes['Coaching'] || 0, cumulated: processedStats.problemTypes['Egészségügyi'] || processedStats.problemTypes['Coaching'] || 0 },
     },
     recordHighlights: {
       mostFrequentProblem: highlights?.mostFrequentProblem ? translateValue('problemTypes', highlights.mostFrequentProblem.key) : mockData.recordHighlights.mostFrequentProblem,
@@ -331,32 +332,37 @@ const ProgramReports = () => {
     workshopParticipants: { current: processedStats.activities.workshop, cumulated: processedStats.activities.workshop },
     crisisParticipants: { current: processedStats.activities.crisis, cumulated: processedStats.activities.crisis },
     onlineLogins: { current: 0, cumulated: 0 }, // Not available in current API
+    // API now returns text keys like "Pszichológiai" in percentages
     problemTypes: statsPercentages?.problemTypes ? {
-      psychology: statsPercentages.problemTypes['1'] || 0,
-      law: statsPercentages.problemTypes['2'] || 0,
-      finance: statsPercentages.problemTypes['3'] || 0,
-      health: statsPercentages.problemTypes['4'] || 0,
-      coaching: statsPercentages.problemTypes['5'] || 0,
+      psychology: statsPercentages.problemTypes['Pszichológiai'] || 0,
+      law: statsPercentages.problemTypes['Jogi'] || 0,
+      finance: statsPercentages.problemTypes['Pénzügyi'] || 0,
+      health: statsPercentages.problemTypes['Egészségügyi'] || 0,
+      coaching: statsPercentages.problemTypes['Coaching'] || 0,
     } : mockData.problemTypes,
+    // API now returns: "Male", "Female"
     genderDistribution: statsPercentages?.gender ? {
-      male: statsPercentages.gender['9'] || 0,
-      female: statsPercentages.gender['10'] || 0,
+      male: statsPercentages.gender['Male'] || 0,
+      female: statsPercentages.gender['Female'] || 0,
     } : mockData.genderDistribution,
+    // API now returns: "under 20", "between 20 and 29", etc.
     ageDistribution: statsPercentages?.age ? {
-      '18-25': statsPercentages.age['12'] || 0,
-      '26-35': statsPercentages.age['13'] || 0,
-      '36-45': statsPercentages.age['14'] || 0,
-      '46-55': statsPercentages.age['15'] || 0,
-      '56+': statsPercentages.age['16'] || 0,
+      '18-25': statsPercentages.age['under 20'] || statsPercentages.age['between 20 and 29'] || 0,
+      '26-35': statsPercentages.age['between 30 and 39'] || 0,
+      '36-45': statsPercentages.age['between 40 and 49'] || 0,
+      '46-55': statsPercentages.age['between 50 and 59'] || 0,
+      '56+': statsPercentages.age['above 59'] || 0,
     } : mockData.ageDistribution,
+    // API now returns: "Employee", "Family Member"
     familyStatus: statsPercentages?.employeeOrFamily ? {
-      employee: statsPercentages.employeeOrFamily['7'] || 0,
-      familyMember: statsPercentages.employeeOrFamily['8'] || 0,
+      employee: statsPercentages.employeeOrFamily['Employee'] || 0,
+      familyMember: statsPercentages.employeeOrFamily['Family Member'] || 0,
     } : mockData.familyStatus,
+    // API now returns text values for consultation mode
     consultationMode: statsPercentages?.placeOfReceipt ? {
-      inPerson: statsPercentages.placeOfReceipt['5'] || 0,
-      phone: statsPercentages.placeOfReceipt['3'] || 0,
-      online: statsPercentages.placeOfReceipt['4'] || 0,
+      inPerson: statsPercentages.placeOfReceipt['In-Person'] || statsPercentages.placeOfReceipt['Személyes'] || 0,
+      phone: statsPercentages.placeOfReceipt['Phone'] || statsPercentages.placeOfReceipt['Telefon'] || 0,
+      online: statsPercentages.placeOfReceipt['Online'] || statsPercentages.placeOfReceipt['EAP Online/Mobile Application'] || 0,
     } : mockData.consultationMode,
     usageRate: mockData.usageRate,
     globalUsageComparison: mockData.globalUsageComparison,
