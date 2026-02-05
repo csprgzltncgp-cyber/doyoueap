@@ -26,6 +26,7 @@ import Lottery from './hr/Lottery';
 import SatisfactionIndex from './hr/SatisfactionIndex';
 import ProgramUsage from './hr/ProgramUsage';
 import DataSubmission from './hr/DataSubmission';
+import AIReports from './hr/AIReports';
 
 import Settings from './hr/Settings';
 import Raffles from './hr/Raffles';
@@ -198,6 +199,8 @@ const Index = () => {
         return <SatisfactionIndex />;
       case 'program-usage':
         return <ProgramUsage />;
+      case 'ai-reports':
+        return <AIReports />;
       case 'data-submission':
         return <DataSubmission />;
       case 'api':
@@ -480,6 +483,17 @@ const Index = () => {
                         }`}
                       >
                         Program Használat
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSearchParams({ section: 'ai-reports' });
+                          setOpenSubmenu(null);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          section === 'ai-reports' ? 'bg-gray-100 font-medium' : ''
+                        }`}
+                      >
+                        AI Riportok
                       </button>
                       <div className="px-4 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider border-b border-t border-gray-100 mt-2 mb-1">
                         EAP Pulse riportok
