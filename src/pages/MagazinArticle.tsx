@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Calendar, Clock, User, Share2, ArrowLeft, TrendingUp, Heart } from 'lucide-react';
-import logo from '@/assets/logo.png';
+import logo from '@/assets/logo_black.png';
 import journalistLogo from '@/assets/thejournalist_logo.png';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
