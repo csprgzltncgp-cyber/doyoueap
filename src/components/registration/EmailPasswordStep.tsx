@@ -101,7 +101,7 @@ export const EmailPasswordStep = ({ onContinue, onBack }: EmailPasswordStepProps
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
         <div className="flex items-center gap-2 mb-4">
-          <img src="/src/assets/doyoueap-logo.png" alt="doyoueap" className="h-8" />
+          <img src="/src/assets/logo_black_v2.png" alt="doyoueap" className="h-8" />
         </div>
         <CardTitle>Fiók létrehozása</CardTitle>
         <CardDescription>

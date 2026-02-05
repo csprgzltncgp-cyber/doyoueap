@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Switch } from '@/components/ui/switch';
 import { RegistrationWizard } from '@/components/registration/RegistrationWizard';
 import { toast } from '@/hooks/use-toast';
-import logo from '@/assets/logo.png';
+import logo from '@/assets/logo_black_v2.png';
 
 const Auth = () => {
   const [email, setEmail] = useState('');

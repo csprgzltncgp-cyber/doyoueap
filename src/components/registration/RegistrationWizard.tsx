@@ -11,7 +11,7 @@ import { PaymentStep } from './PaymentStep';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import logo from '@/assets/doyoueap-logo.png';
+import logo from '@/assets/logo_black_v2.png';
 
 export interface RegistrationData {
   // Company data

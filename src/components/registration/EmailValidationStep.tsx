@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, CheckCircle, Clock, RefreshCw } from 'lucide-react';
-import logo from '@/assets/doyoueap-logo.png';
+import logo from '@/assets/logo_black_v2.png';
 
 interface EmailValidationStepProps {
   email: string;

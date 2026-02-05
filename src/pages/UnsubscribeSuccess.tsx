@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import logo from '@/assets/doyoueap-logo.png';
+import logo from '@/assets/logo_black_v2.png';
 
 const UnsubscribeSuccess = () => {
   const navigate = useNavigate();
