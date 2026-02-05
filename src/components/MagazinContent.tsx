@@ -153,7 +153,7 @@ export function MagazinContent() {
                 onClick={() => navigate('/unsubscribe-success')}
                 className="text-sm font-medium text-black uppercase tracking-wide hover:text-foreground/70 transition-colors cursor-pointer text-right"
               >
-                Az EAP-világ<br />szakfolyóirata
+                A CGP Europe<br />EAP-Magazinja
               </button>
             </div>
           </div>
