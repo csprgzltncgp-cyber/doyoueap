@@ -159,6 +159,14 @@ const getUsageRating = (value: number): string => {
   return 'Fejlesztendő';
 };
 
+const getUsageColor = (value: number): string => {
+  if (value >= 5) return '#04565f'; // Sötétzöld
+  if (value >= 4) return '#82f5ae'; // Világoszöld
+  if (value >= 3) return '#ffc107'; // Sárga
+  if (value >= 2) return '#ea892b'; // Narancs
+  return '#ff0033'; // Piros
+};
+
 const ProgramUsage = () => {
   const [selectedCountry, setSelectedCountry] = useState(MOCK_COUNTRIES[0].id);
   const [selectedYear, setSelectedYear] = useState('2024');
@@ -224,6 +232,7 @@ const ProgramUsage = () => {
               maxValue={100}
               size={400}
               label={`${currentData.usagePercent.toFixed(1).replace('.', ',')}%`}
+              gaugeColor={getUsageColor(currentData.usagePercent)}
             />
             <div className="-mt-16 text-center">
               <p className="text-2xl font-bold text-[#04565f]">
@@ -364,8 +373,8 @@ const ProgramUsage = () => {
             {[
               { range: '5%+', label: 'Kiemelkedő', color: '#04565f' },
               { range: '4-5%', label: 'Magas', color: '#82f5ae' },
-              { range: '3-4%', label: 'Átlag feletti', color: '#ea892b' },
-              { range: '2-3%', label: 'Átlagos', color: 'rgba(234, 137, 43, 0.6)' },
+              { range: '3-4%', label: 'Átlag feletti', color: '#ffc107' },
+              { range: '2-3%', label: 'Átlagos', color: '#ea892b' },
               { range: '<2%', label: 'Fejlesztendő', color: '#ff0033' },
             ].map((item) => (
               <div 
