@@ -4,7 +4,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Calendar, Clock, User, Share2, ArrowLeft, TrendingUp, Heart } from 'lucide-react';
-import logo from '@/assets/logo_black_v2.png';
 import journalistLogo from '@/assets/thejournalist_logo.png';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -146,37 +145,22 @@ const MagazinArticle = () => {
               onLogout={signOut}
             />
             <img 
-              src={logo} 
-              alt="EAP Pulse" 
+              src={journalistLogo} 
+              alt="The EAP Journalist" 
               className="h-8 cursor-pointer" 
               onClick={() => navigate('/')}
             />
           </div>
           <nav className="hidden md:flex gap-6 items-center absolute left-1/2 -translate-x-1/2">
-            <button
-              onClick={() => navigate('/bemutatkozas')}
-              className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
-            >
-              Bemutatkozás
-            </button>
-            <button
-              onClick={() => navigate('/arak')}
-              className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
-            >
-              Árak és Csomagok
-            </button>
-            <button
-              onClick={() => navigate('/magazin')}
-              className="text-sm bg-white border border-black font-semibold transition-colors px-3 py-2 rounded-md"
-            >
-              Magazin
-            </button>
+            {/* HIDDEN: Bemutatkozás menu item */}
+            {/* HIDDEN: Árak és Csomagok menu item */}
+            {/* HIDDEN: Magazin menu item */}
             {user && role === 'hr' && (
               <button
                 onClick={() => navigate('/?section=focus')}
                 className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
               >
-                Dashboard
+                EAP Dashboard
               </button>
             )}
           </nav>
@@ -188,7 +172,7 @@ const MagazinArticle = () => {
                 </Button>
               ) : (
                 <Button onClick={() => navigate('/auth')} className="hidden md:flex">
-                  Bejelentkezés
+                  EAP Dashboard bejelentkezés
                 </Button>
               )
             )}
