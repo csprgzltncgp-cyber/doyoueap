@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import { Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase, Heart, GraduationCap, Building2 } from "lucide-react";
+import { Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase, Heart, GraduationCap, Building2, Globe } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 import { Progress } from "@/components/ui/progress";
 import { GaugeChart } from "@/components/ui/gauge-chart";
@@ -470,21 +470,26 @@ const ProgramReports = () => {
         </Card>
       )}
 
-      {/* Country Tabs - from API */}
+      {/* Country Selector */}
       {!loading && countries.length > 0 && (
-        <Tabs value={String(selectedCountryId)} onValueChange={(v) => setSelectedCountryId(Number(v))}>
-          <TabsList className="bg-muted/50 p-1">
-            {countries.map((country) => (
-              <TabsTrigger 
-                key={country.id} 
-                value={String(country.id)}
-                className="data-[state=active]:bg-[#04565f] data-[state=active]:text-white"
-              >
-                {country.name}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
+        <div className="flex items-center gap-3">
+          <Globe className="h-5 w-5 text-[#04565f]" />
+          <Select 
+            value={String(selectedCountryId)} 
+            onValueChange={(v) => setSelectedCountryId(Number(v))}
+          >
+            <SelectTrigger className="w-[200px] border-[#04565f]/30 focus:ring-[#04565f]">
+              <SelectValue placeholder="Válassz országot" />
+            </SelectTrigger>
+            <SelectContent>
+              {countries.map((country) => (
+                <SelectItem key={country.id} value={String(country.id)}>
+                  {country.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       )}
 
       {/* Quarter Selection Panel - Split: Left = Single, Right = Cumulated */}
