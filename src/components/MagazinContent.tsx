@@ -325,7 +325,7 @@ export function MagazinContent() {
                 <CardHeader>
                   <CardTitle>Hírlevél Feliratkozás</CardTitle>
                   <CardDescription className="text-white/90">
-                    Heti összefoglaló a legújabb cikkekről
+                    Havi összefoglaló a CGP Europe legújabb újdonságairól, híreiről
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
