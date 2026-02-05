@@ -77,9 +77,9 @@
                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                  labelLine={false}
                >
-                 {chart.data.map((entry, index) => (
-                   <Cell key={`cell-${index}`} fill={entry.color || ['#04565f', '#3572ef', '#10b981', '#f59e0b', '#ef4444'][index % 5]} />
-                 ))}
+                {chart.data.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color || ['#04565f', '#82f5ae', '#004144', '#ffc107', '#6610f2'][index % 5]} />
+                  ))}
                </Pie>
                <Tooltip />
              </PieChart>
