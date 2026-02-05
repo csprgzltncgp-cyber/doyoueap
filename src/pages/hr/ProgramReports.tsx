@@ -1,20 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Skeleton } from "@/components/ui/skeleton";
 
-import { Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase, Heart, GraduationCap } from "lucide-react";
+import { Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase, Heart, GraduationCap, Building2 } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 import { Progress } from "@/components/ui/progress";
 import { GaugeChart } from "@/components/ui/gauge-chart";
-
-// Mock data for program reports - Countries
-const MOCK_COUNTRIES = [
-  { id: 'hu', name: 'Magyarország' },
-  { id: 'ro', name: 'Románia' },
-  { id: 'sk', name: 'Szlovákia' },
-  { id: 'cz', name: 'Csehország' },
-];
+import { useProgramReportsData } from "@/hooks/useProgramReportsData";
 
 // Quarters configuration
 const QUARTERS = [
@@ -242,18 +236,46 @@ const PROBLEM_TYPE_COLORS = [
 ];
 
 const ProgramReports = () => {
-  const [selectedCountry, setSelectedCountry] = useState(MOCK_COUNTRIES[0].id);
-  
-  // Simple quarter selection mode (left side)
-  const [selectedQuarter, setSelectedQuarter] = useState(2);
+  // Quarter selection
+  const [selectedQuarter, setSelectedQuarter] = useState(4);
+  const [selectedYear] = useState(2024);
+  const [selectedCountryId, setSelectedCountryId] = useState<number | null>(null);
   
   // Cumulation mode (right side) - which quarters to add together
   const [cumulatedQuarters, setCumulatedQuarters] = useState<number[]>([]);
   
   // Active mode: 'single' or 'cumulated'
   const [activeMode, setActiveMode] = useState<'single' | 'cumulated'>('single');
-
-  const currentData = MOCK_DATA_BY_COUNTRY[selectedCountry];
+  
+  // Fetch data from Laravel API
+  const { data: apiData, loading, error } = useProgramReportsData({
+    quarter: selectedQuarter,
+    year: selectedYear,
+    countryId: selectedCountryId,
+  });
+  
+  // Derived data from API
+  const countries = apiData?.countries || [];
+  const companyName = apiData?.company?.name?.trim() || '';
+  
+  // Set first country as default when data loads
+  useEffect(() => {
+    if (countries.length > 0 && selectedCountryId === null) {
+      setSelectedCountryId(countries[0].id);
+    }
+  }, [countries, selectedCountryId]);
+  
+  // Calculate customer satisfaction average for selected country
+  const customerSatisfactionValues = apiData?.customer_satisfaction_values || [];
+  const countryCSValues = customerSatisfactionValues.filter(
+    (v: { country_id: string }) => v.country_id === String(selectedCountryId)
+  );
+  const avgSatisfaction = countryCSValues.length > 0
+    ? countryCSValues.reduce((sum: number, v: { value: string }) => sum + Number(v.value), 0) / countryCSValues.length
+    : 0;
+  
+  // Use mock data for detailed statistics (until API provides riport_values)
+  const currentData = MOCK_DATA_BY_COUNTRY['hu'];
   
   // Check if cumulation mode is active with at least one quarter selected
   const isCumulated = activeMode === 'cumulated' && cumulatedQuarters.length > 0;
@@ -329,28 +351,62 @@ const ProgramReports = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h2 className="text-2xl font-bold">Program Riportok</h2>
-        <p className="text-muted-foreground">
-          Negyedéves statisztikák és program teljesítmény
-        </p>
+      {/* Header with Company Name */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">Program Riportok</h2>
+          <p className="text-muted-foreground">
+            Negyedéves statisztikák és program teljesítmény
+          </p>
+        </div>
+        {companyName && (
+          <div className="flex items-center gap-2 px-4 py-2 bg-[#04565f]/10 rounded-lg">
+            <Building2 className="h-5 w-5 text-[#04565f]" />
+            <span className="font-semibold text-[#04565f]">{companyName}</span>
+          </div>
+        )}
       </div>
 
-      {/* Country Tabs */}
-      <Tabs value={selectedCountry} onValueChange={setSelectedCountry}>
-        <TabsList className="bg-muted/50 p-1">
-          {MOCK_COUNTRIES.map((country) => (
-            <TabsTrigger 
-              key={country.id} 
-              value={country.id}
-              className="data-[state=active]:bg-[#04565f] data-[state=active]:text-white"
-            >
-              {country.name}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs>
+      {/* Loading/Error State */}
+      {loading && (
+        <Card>
+          <CardContent className="py-8">
+            <div className="flex items-center justify-center gap-3">
+              <Skeleton className="h-8 w-32" />
+              <Skeleton className="h-8 w-32" />
+              <Skeleton className="h-8 w-32" />
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {error && (
+        <Card className="border-destructive">
+          <CardContent className="py-4">
+            <div className="flex items-center gap-2 text-destructive">
+              <AlertCircle className="h-5 w-5" />
+              <span>Hiba történt az adatok betöltése során: {error}</span>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Country Tabs - from API */}
+      {!loading && countries.length > 0 && (
+        <Tabs value={String(selectedCountryId)} onValueChange={(v) => setSelectedCountryId(Number(v))}>
+          <TabsList className="bg-muted/50 p-1">
+            {countries.map((country) => (
+              <TabsTrigger 
+                key={country.id} 
+                value={String(country.id)}
+                className="data-[state=active]:bg-[#04565f] data-[state=active]:text-white"
+              >
+                {country.name}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
+      )}
 
       {/* Quarter Selection Panel - Split: Left = Single, Right = Cumulated */}
       <Card>
@@ -858,22 +914,29 @@ const ProgramReports = () => {
           </CardContent>
         </Card>
 
-        {/* Satisfaction Score */}
+        {/* Satisfaction Score - from API */}
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">Elégedettség</CardTitle>
-            <CardDescription>Ügyfélelégedettségi index (1-5)</CardDescription>
+            <CardDescription>
+              Ügyfélelégedettségi index (1-10)
+              {countryCSValues.length > 0 && (
+                <span className="ml-2 text-xs text-muted-foreground">
+                  ({countryCSValues.length} értékelés alapján)
+                </span>
+              )}
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col items-center">
               <div className="relative">
                 <div 
                   className="text-6xl font-bold"
-                  style={{ color: currentData.satisfactionScore >= 4 ? CHART_COLORS.primary : CHART_COLORS.accent }}
+                  style={{ color: avgSatisfaction >= 8 ? CHART_COLORS.primary : avgSatisfaction >= 6 ? CHART_COLORS.accent : '#ff0033' }}
                 >
-                  {currentData.satisfactionScore}
+                  {avgSatisfaction > 0 ? avgSatisfaction.toFixed(1) : '-'}
                 </div>
-                <div className="text-sm text-muted-foreground text-center mt-1">/ 5.0</div>
+                <div className="text-sm text-muted-foreground text-center mt-1">/ 10</div>
               </div>
               
               {/* Visual scale */}
@@ -882,24 +945,24 @@ const ProgramReports = () => {
                   <div 
                     className="absolute top-0 left-0 h-full rounded-full transition-all"
                     style={{ 
-                      width: `${(currentData.satisfactionScore / 5) * 100}%`,
-                      backgroundColor: currentData.satisfactionScore >= 4 ? CHART_COLORS.primary : CHART_COLORS.accent
+                      width: `${(avgSatisfaction / 10) * 100}%`,
+                      backgroundColor: avgSatisfaction >= 8 ? CHART_COLORS.primary : avgSatisfaction >= 6 ? CHART_COLORS.accent : '#ff0033'
                     }}
                   />
-                  <div 
-                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
-                    style={{ 
-                      left: `calc(${(currentData.satisfactionScore / 5) * 100}% - 8px)`,
-                      backgroundColor: currentData.satisfactionScore >= 4 ? CHART_COLORS.primary : CHART_COLORS.accent
-                    }}
-                  />
+                  {avgSatisfaction > 0 && (
+                    <div 
+                      className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-background shadow-md"
+                      style={{ 
+                        left: `calc(${(avgSatisfaction / 10) * 100}% - 8px)`,
+                        backgroundColor: avgSatisfaction >= 8 ? CHART_COLORS.primary : avgSatisfaction >= 6 ? CHART_COLORS.accent : '#ff0033'
+                      }}
+                    />
+                  )}
                 </div>
                 <div className="flex justify-between mt-1 text-xs text-muted-foreground">
                   <span>1</span>
-                  <span>2</span>
-                  <span>3</span>
-                  <span>4</span>
                   <span>5</span>
+                  <span>10</span>
                 </div>
               </div>
             </div>
