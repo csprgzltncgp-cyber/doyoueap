@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Switch } from '@/components/ui/switch';
+
 import { RegistrationWizard } from '@/components/registration/RegistrationWizard';
 import { toast } from '@/hooks/use-toast';
 import logo from '@/assets/logo_black_v2.png';
@@ -16,7 +16,6 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showRegistration, setShowRegistration] = useState(false);
-  const [isGuestMode, setIsGuestMode] = useState(true);
   const { signIn, user } = useAuth();
   const navigate = useNavigate();
 
@@ -33,25 +32,6 @@ const Auth = () => {
     setIsLoading(false);
   };
 
-  const handleGuestLogin = async () => {
-    setIsLoading(true);
-    try {
-      // Guest login with fixed credentials
-      const guestEmail = 'guest@doyoueap.com';
-      const guestPassword = 'Guest2024!';
-      
-      await signIn(guestEmail, guestPassword);
-    } catch (err) {
-      console.error('Guest login error:', err);
-      toast({
-        title: 'Hiba',
-        description: 'Váratlan hiba történt.',
-        variant: 'destructive',
-      });
-    }
-    setIsLoading(false);
-  };
-
   if (showRegistration) {
     return <RegistrationWizard />;
   }
@@ -65,69 +45,35 @@ const Auth = () => {
           </div>
           <CardTitle>Bejelentkezés</CardTitle>
           <CardDescription>
-            {isGuestMode ? 'Vendég belépés a rendszerbe' : 'Jelentkezzen be fiókjába'}
+            Jelentkezzen be fiókjába
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {/* Mode Switch */}
-          <div className="flex items-center justify-between mb-6 p-3 bg-muted/50 rounded-lg">
-            <div className="flex items-center gap-2">
-              <span className={`text-sm ${!isGuestMode ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
-                Jelszavas
-              </span>
-              <Switch
-                checked={isGuestMode}
-                onCheckedChange={setIsGuestMode}
+          <form onSubmit={handleSignIn} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
-              <span className={`text-sm ${isGuestMode ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
-                Vendég
-              </span>
             </div>
-          </div>
-
-          {isGuestMode ? (
-            /* Guest Login */
-            <div className="space-y-4">
-              <p className="text-sm text-muted-foreground text-center">
-                Lépjen be vendégként a rendszer kipróbálásához.
-              </p>
-              <Button 
-                onClick={handleGuestLogin} 
-                className="w-full" 
-                style={{ backgroundColor: '#04565f' }}
-                disabled={isLoading}
-              >
-                {isLoading ? 'Folyamatban...' : 'Vendég belépés'}
-              </Button>
+            <div className="space-y-2">
+              <Label htmlFor="password">Jelszó</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
-          ) : (
-            /* Password Login */
-            <form onSubmit={handleSignIn} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Jelszó</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? 'Folyamatban...' : 'Bejelentkezés'}
-              </Button>
-            </form>
-          )}
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? 'Folyamatban...' : 'Bejelentkezés'}
+            </Button>
+          </form>
           
           {/* Registration section hidden
           <div className="mt-4 text-center border-t pt-4">
