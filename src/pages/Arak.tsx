@@ -90,40 +90,20 @@ const Arak = () => {
             />
             <img 
               src={logo} 
-              alt="EAP Pulse" 
+              alt="doyoueap" 
               className="h-8 cursor-pointer" 
               onClick={() => navigate('/')}
             />
           </div>
-          <nav className="hidden md:flex gap-6 items-center absolute left-1/2 -translate-x-1/2">
-            <button
-              onClick={() => navigate('/bemutatkozas')}
-              className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
-            >
-              Bemutatkozás
-            </button>
-            <button
-              onClick={() => navigate('/arak')}
-              className="text-sm bg-white border border-black font-semibold transition-colors px-3 py-2 rounded-md"
-            >
-              Árak és Csomagok
-            </button>
-            <button
-              onClick={() => navigate('/magazin')}
-              className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
-            >
-              Magazin
-            </button>
+          <div className="flex items-center gap-4">
             {user && role === 'hr' && (
               <button
                 onClick={() => navigate('/?section=focus')}
-                className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
+                className="text-sm bg-[#04565f] text-white transition-colors px-3 py-2 rounded-md hover:bg-[#04565f]/90 hidden md:flex"
               >
-                Dashboard
+                EAP Dashboard
               </button>
             )}
-          </nav>
-          <div className="flex items-center gap-4">
             {!loading && (
               user ? (
                 <Button onClick={signOut} variant="outline" className="hidden md:flex">
@@ -131,7 +111,7 @@ const Arak = () => {
                 </Button>
               ) : (
                 <Button onClick={() => navigate('/auth')} className="hidden md:flex">
-                  Bejelentkezés
+                  EAP Dashboard bejelentkezés
                 </Button>
               )
             )}
