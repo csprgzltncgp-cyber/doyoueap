@@ -641,9 +641,13 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
                     paddingAngle={2}
                     dataKey="value"
                   >
-                    {frequencyChartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={`hsl(var(--chart-${(index % 4) + 1}))`} />
-                    ))}
+                    {frequencyChartData.map((entry, index) => {
+                      // Pie chart color rule: dark green, green, light green, then faded greens
+                      const pieColors = ['#04565f', '#82f5ae', '#004144'];
+                      const getFadedGreen = (i: number) => `rgba(130, 245, 174, ${0.7 - (i - 3) * 0.15})`;
+                      const color = index < 3 ? pieColors[index] : getFadedGreen(index);
+                      return <Cell key={`cell-${index}`} fill={color} />;
+                    })}
                   </Pie>
                   <Tooltip />
                 </PieChart>
