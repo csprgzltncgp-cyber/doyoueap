@@ -248,7 +248,7 @@ const ProgramReports = () => {
   const [activeMode, setActiveMode] = useState<'single' | 'cumulated'>('single');
   
   // Fetch data from Laravel API
-  const { data: apiData, loading, error } = useProgramReportsData({
+  const { data: apiData, loading, error, refetch } = useProgramReportsData({
     quarter: selectedQuarter,
     year: selectedYear,
     countryId: selectedCountryId,
@@ -265,6 +265,13 @@ const ProgramReports = () => {
     }
   }, [countries, selectedCountryId]);
   
+  // Refetch when country changes
+  useEffect(() => {
+    if (selectedCountryId !== null) {
+      refetch();
+    }
+  }, [selectedCountryId, refetch]);
+  
   // Calculate customer satisfaction average for selected country
   const customerSatisfactionValues = apiData?.customer_satisfaction_values || [];
   const countryCSValues = customerSatisfactionValues.filter(
@@ -274,8 +281,10 @@ const ProgramReports = () => {
     ? countryCSValues.reduce((sum: number, v: { value: string }) => sum + Number(v.value), 0) / countryCSValues.length
     : 0;
   
-  // Use mock data for detailed statistics (until API provides riport_values)
-  const currentData = MOCK_DATA_BY_COUNTRY['hu'];
+  // Get mock data for selected country based on API country code
+  const selectedCountry = countries.find(c => c.id === selectedCountryId);
+  const countryCode = selectedCountry?.code?.toLowerCase() || 'hu';
+  const currentData = MOCK_DATA_BY_COUNTRY[countryCode] || MOCK_DATA_BY_COUNTRY['hu'];
   
   // Check if cumulation mode is active with at least one quarter selected
   const isCumulated = activeMode === 'cumulated' && cumulatedQuarters.length > 0;
