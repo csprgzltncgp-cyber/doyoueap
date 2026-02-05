@@ -38,7 +38,7 @@ const Magazin = () => {
                 onClick={() => navigate('/?section=focus')}
                 className="text-sm border border-transparent transition-colors px-3 py-2 rounded-md hover:bg-muted"
               >
-                Dashboard
+                EAP Dashboard
               </button>
             )}
           </nav>
@@ -50,7 +50,7 @@ const Magazin = () => {
                 </Button>
               ) : (
                 <Button onClick={() => navigate('/auth')} className="hidden md:flex">
-                  Bejelentkezés
+                EAP Dashboard bejelentkezés
                 </Button>
               )
             )}
