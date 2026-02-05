@@ -8,7 +8,7 @@ import { Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase,
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 import { Progress } from "@/components/ui/progress";
 import { GaugeChart } from "@/components/ui/gauge-chart";
-import { useProgramReportsData, translateDistribution, VALUE_TRANSLATIONS, translateValue } from "@/hooks/useProgramReportsData";
+import { useProgramReportsData, getValueLabel, translateDistributionFromApi, RIPORT_VALUE_TYPE_IDS } from "@/hooks/useProgramReportsData";
 
 // Quarters configuration
 const QUARTERS = [
@@ -293,6 +293,7 @@ const ProgramReports = () => {
   const processedStats = apiData?.processed_statistics;
   const statsPercentages = apiData?.statistics_percentages;
   const highlights = apiData?.highlights;
+  const valueTypeMappings = apiData?.value_type_mappings;
   
   // Get mock data for selected country based on API country code (fallback)
   const selectedCountry = countries.find(c => c.id === selectedCountryId);
@@ -310,20 +311,22 @@ const ProgramReports = () => {
     unreachableCases: { current: processedStats.caseNumbers.clientUnreachable, cumulated: processedStats.caseNumbers.clientUnreachable },
     inProgressCases: processedStats.caseNumbers.inProgress,
     liveCases: {
-      // API now returns text values like "Pszichológiai", "Jogi", etc.
+      // API now returns IDs - use mapping to get labels, then sum by translated labels
       psychology: { current: processedStats.problemTypes['Pszichológiai'] || 0, cumulated: processedStats.problemTypes['Pszichológiai'] || 0 },
       law: { current: processedStats.problemTypes['Jogi'] || 0, cumulated: processedStats.problemTypes['Jogi'] || 0 },
       finance: { current: processedStats.problemTypes['Pénzügyi'] || 0, cumulated: processedStats.problemTypes['Pénzügyi'] || 0 },
       healthCoaching: { current: processedStats.problemTypes['Egészségügyi'] || processedStats.problemTypes['Coaching'] || 0, cumulated: processedStats.problemTypes['Egészségügyi'] || processedStats.problemTypes['Coaching'] || 0 },
     },
     recordHighlights: {
-      mostFrequentProblem: highlights?.mostFrequentProblem ? translateValue('problemTypes', highlights.mostFrequentProblem.key) : mockData.recordHighlights.mostFrequentProblem,
+      mostFrequentProblem: highlights?.mostFrequentProblem 
+        ? getValueLabel(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.PROBLEM_TYPE, highlights.mostFrequentProblem.key) 
+        : mockData.recordHighlights.mostFrequentProblem,
       dominantGender: highlights?.dominantGender ? { 
-        label: translateValue('gender', highlights.dominantGender.key), 
+        label: getValueLabel(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.GENDER, highlights.dominantGender.key), 
         percentage: highlights.dominantGender.percentage 
       } : mockData.recordHighlights.dominantGender,
       dominantAgeGroup: highlights?.dominantAgeGroup ? { 
-        label: translateValue('age', highlights.dominantAgeGroup.key), 
+        label: getValueLabel(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.AGE, highlights.dominantAgeGroup.key), 
         percentage: highlights.dominantAgeGroup.percentage 
       } : mockData.recordHighlights.dominantAgeGroup,
     },
