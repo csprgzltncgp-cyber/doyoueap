@@ -219,7 +219,9 @@ function processRiportValues(riportValues: RiportValue[], countryId: number | nu
     }
   }
 
-  // Calculate total cases
+  // Calculate total cases (closed + interrupted + clientUnreachable)
+  // Note: in_progress is NOT included because it comes from Cases table, not riport_values
+  // Based on TYPE_STATUS values: confirmed, interrupted(_confirmed), client_unreachable(_confirmed)
   stats.caseNumbers.total = stats.caseNumbers.closed + stats.caseNumbers.interrupted + stats.caseNumbers.clientUnreachable
 
   return stats
