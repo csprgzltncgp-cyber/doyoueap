@@ -72,7 +72,9 @@ const Focus = () => {
       }
       
       if (data?.full_name) {
-        setUserName(data.full_name);
+        // Extract first name only for greeting
+        const firstName = data.full_name.split(' ')[0];
+        setUserName(firstName);
       }
       
       // Store employee count for later use (only for non-partners)
@@ -342,7 +344,7 @@ const Focus = () => {
         <div className="relative z-10 flex items-start justify-between">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold text-foreground">
-              {getGreeting()}, {userName || 'Felhasználó'}!
+              {getGreeting()} {userName || 'Felhasználó'}!
             </h1>
             <p className="text-muted-foreground text-lg max-w-2xl">
               Üdv újra itt! Itt találja a futó felmérések áttekintését és a letöltési előzményeit.
