@@ -72,8 +72,9 @@ const Focus = () => {
       }
       
       if (data?.full_name) {
-        // Extract first name only for greeting
-        const firstName = data.full_name.split(' ')[0];
+        // Extract first name (given name) for greeting - in Hungarian format it's the second part
+        const nameParts = data.full_name.split(' ');
+        const firstName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : nameParts[0];
         setUserName(firstName);
       }
       
