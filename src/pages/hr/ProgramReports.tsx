@@ -238,7 +238,7 @@ const PROBLEM_TYPE_COLORS = [
 const ProgramReports = () => {
   // Quarter selection
   const [selectedQuarter, setSelectedQuarter] = useState(4);
-  const [selectedYear] = useState(2024);
+  const [selectedYear] = useState(new Date().getFullYear());
   const [selectedCountryId, setSelectedCountryId] = useState<number | null>(null);
   
   // Cumulation mode (right side) - which quarters to add together
