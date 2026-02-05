@@ -15,6 +15,7 @@ interface RiportRequest {
   year?: number | null
   include_customer_satisfaction?: boolean
   include_customer_satisfaction_values?: boolean
+  riport_values_limit?: number
 }
 
 Deno.serve(async (req) => {
@@ -77,6 +78,7 @@ Deno.serve(async (req) => {
       year: requestParams.year ?? null,
       include_customer_satisfaction: requestParams.include_customer_satisfaction ?? true,
       include_customer_satisfaction_values: requestParams.include_customer_satisfaction_values ?? true,
+      riport_values_limit: requestParams.riport_values_limit ?? 1000,
     }
 
     console.log('Fetching riport data for company:', profile.laravel_company_id, riportRequest)
