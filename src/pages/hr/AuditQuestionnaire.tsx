@@ -6,7 +6,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { QuestionRenderer } from "@/components/survey/QuestionRenderer";
 import { Progress } from "@/components/ui/progress";
 import { Info } from "lucide-react";
-import logo from "@/assets/eap-pulse-logo-new.png";
+import logo from "@/assets/eap-pulse-logo-cgp.png";
 
 interface Questionnaire {
   title: string;
