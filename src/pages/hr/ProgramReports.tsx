@@ -8,7 +8,7 @@ import { Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase,
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 import { Progress } from "@/components/ui/progress";
 import { GaugeChart } from "@/components/ui/gauge-chart";
-import { useProgramReportsData } from "@/hooks/useProgramReportsData";
+import { useProgramReportsData, translateDistribution, VALUE_TRANSLATIONS, translateValue } from "@/hooks/useProgramReportsData";
 
 // Quarters configuration
 const QUARTERS = [
@@ -275,16 +275,86 @@ const ProgramReports = () => {
   // Calculate customer satisfaction average for selected country
   const customerSatisfactionValues = apiData?.customer_satisfaction_values || [];
   const countryCSValues = customerSatisfactionValues.filter(
-    (v: { country_id: string }) => v.country_id === String(selectedCountryId)
+    (v) => String(v.country_id) === String(selectedCountryId)
   );
   const avgSatisfaction = countryCSValues.length > 0
-    ? countryCSValues.reduce((sum: number, v: { value: string }) => sum + Number(v.value), 0) / countryCSValues.length
+    ? countryCSValues.reduce((sum: number, v) => sum + Number(v.value), 0) / countryCSValues.length
     : 0;
   
-  // Get mock data for selected country based on API country code
+  // Get processed statistics from API (or fallback to mock data)
+  const processedStats = apiData?.processed_statistics;
+  const statsPercentages = apiData?.statistics_percentages;
+  const highlights = apiData?.highlights;
+  
+  // Get mock data for selected country based on API country code (fallback)
   const selectedCountry = countries.find(c => c.id === selectedCountryId);
   const countryCode = selectedCountry?.code?.toLowerCase() || 'hu';
-  const currentData = MOCK_DATA_BY_COUNTRY[countryCode] || MOCK_DATA_BY_COUNTRY['hu'];
+  const mockData = MOCK_DATA_BY_COUNTRY[countryCode] || MOCK_DATA_BY_COUNTRY['hu'];
+  
+  // Use real data if available, otherwise fallback to mock
+  const hasRealData = processedStats !== null && processedStats !== undefined;
+  
+  // Build currentData object from real or mock data
+  const currentData = hasRealData ? {
+    closedCases: { current: processedStats.caseNumbers.closed, cumulated: processedStats.caseNumbers.closed },
+    interruptedCases: { current: processedStats.caseNumbers.interrupted, cumulated: processedStats.caseNumbers.interrupted },
+    unreachableCases: { current: processedStats.caseNumbers.clientUnreachable, cumulated: processedStats.caseNumbers.clientUnreachable },
+    inProgressCases: processedStats.caseNumbers.inProgress,
+    liveCases: {
+      psychology: { current: processedStats.problemTypes['1'] || 0, cumulated: processedStats.problemTypes['1'] || 0 },
+      law: { current: processedStats.problemTypes['2'] || 0, cumulated: processedStats.problemTypes['2'] || 0 },
+      finance: { current: processedStats.problemTypes['3'] || 0, cumulated: processedStats.problemTypes['3'] || 0 },
+      healthCoaching: { current: processedStats.problemTypes['4'] || 0, cumulated: processedStats.problemTypes['4'] || 0 },
+    },
+    recordHighlights: {
+      mostFrequentProblem: highlights?.mostFrequentProblem ? translateValue('problemTypes', highlights.mostFrequentProblem.key) : mockData.recordHighlights.mostFrequentProblem,
+      dominantGender: highlights?.dominantGender ? { 
+        label: translateValue('gender', highlights.dominantGender.key), 
+        percentage: highlights.dominantGender.percentage 
+      } : mockData.recordHighlights.dominantGender,
+      dominantAgeGroup: highlights?.dominantAgeGroup ? { 
+        label: translateValue('age', highlights.dominantAgeGroup.key), 
+        percentage: highlights.dominantAgeGroup.percentage 
+      } : mockData.recordHighlights.dominantAgeGroup,
+    },
+    totalConsultations: { current: processedStats.consultations.total, cumulated: processedStats.consultations.total },
+    onsiteConsultations: { current: processedStats.consultations.onsite, cumulated: processedStats.consultations.onsite },
+    workshopParticipants: { current: processedStats.activities.workshop, cumulated: processedStats.activities.workshop },
+    crisisParticipants: { current: processedStats.activities.crisis, cumulated: processedStats.activities.crisis },
+    onlineLogins: { current: 0, cumulated: 0 }, // Not available in current API
+    problemTypes: statsPercentages?.problemTypes ? {
+      psychology: statsPercentages.problemTypes['1'] || 0,
+      law: statsPercentages.problemTypes['2'] || 0,
+      finance: statsPercentages.problemTypes['3'] || 0,
+      health: statsPercentages.problemTypes['4'] || 0,
+      coaching: statsPercentages.problemTypes['5'] || 0,
+    } : mockData.problemTypes,
+    genderDistribution: statsPercentages?.gender ? {
+      male: statsPercentages.gender['9'] || 0,
+      female: statsPercentages.gender['10'] || 0,
+    } : mockData.genderDistribution,
+    ageDistribution: statsPercentages?.age ? {
+      '18-25': statsPercentages.age['12'] || 0,
+      '26-35': statsPercentages.age['13'] || 0,
+      '36-45': statsPercentages.age['14'] || 0,
+      '46-55': statsPercentages.age['15'] || 0,
+      '56+': statsPercentages.age['16'] || 0,
+    } : mockData.ageDistribution,
+    familyStatus: statsPercentages?.employeeOrFamily ? {
+      employee: statsPercentages.employeeOrFamily['7'] || 0,
+      familyMember: statsPercentages.employeeOrFamily['8'] || 0,
+    } : mockData.familyStatus,
+    consultationMode: statsPercentages?.placeOfReceipt ? {
+      inPerson: statsPercentages.placeOfReceipt['5'] || 0,
+      phone: statsPercentages.placeOfReceipt['3'] || 0,
+      online: statsPercentages.placeOfReceipt['4'] || 0,
+    } : mockData.consultationMode,
+    usageRate: mockData.usageRate,
+    globalUsageComparison: mockData.globalUsageComparison,
+    bestMonth: mockData.bestMonth,
+    satisfactionScore: avgSatisfaction || mockData.satisfactionScore,
+    cumulatedText: mockData.cumulatedText,
+  } : mockData;
   
   // Check if cumulation mode is active with at least one quarter selected
   const isCumulated = activeMode === 'cumulated' && cumulatedQuarters.length > 0;
