@@ -129,6 +129,12 @@ function processRiportValues(riportValues: RiportValue[], countryId: number | nu
     crisis: {},
   }
 
+  // Debug: collect all STATUS values for logging
+  const statusValues = filteredValues
+    .filter(v => v.type === RIPORT_VALUE_TYPES.TYPE_STATUS)
+    .map(v => ({ id: v.id, value: v.value, country_id: v.country_id }))
+  console.log('STATUS (type 501) values:', JSON.stringify(statusValues))
+
   // Process each value
   for (const rv of filteredValues) {
     switch (rv.type) {
