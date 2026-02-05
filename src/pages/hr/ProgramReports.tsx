@@ -21,6 +21,7 @@ const QUARTERS = [
 // Mock data for each country - comprehensive data matching Laravel reports
 interface CountryReportData {
   // Case statistics
+  totalCases: { current: number; cumulated: number };
   closedCases: { current: number; cumulated: number };
   interruptedCases: { current: number; cumulated: number };
   unreachableCases: { current: number; cumulated: number };
@@ -88,6 +89,7 @@ interface CountryReportData {
 
 const MOCK_DATA_BY_COUNTRY: Record<string, CountryReportData> = {
   hu: {
+    totalCases: { current: 58, cumulated: 390 },
     closedCases: { current: 45, cumulated: 320 },
     interruptedCases: { current: 8, cumulated: 42 },
     unreachableCases: { current: 5, cumulated: 28 },
@@ -120,6 +122,7 @@ const MOCK_DATA_BY_COUNTRY: Record<string, CountryReportData> = {
     cumulatedText: '2023. Q3 - 2024. Q4',
   },
   ro: {
+    totalCases: { current: 40, cumulated: 256 },
     closedCases: { current: 32, cumulated: 210 },
     interruptedCases: { current: 5, cumulated: 28 },
     unreachableCases: { current: 3, cumulated: 18 },
@@ -152,6 +155,7 @@ const MOCK_DATA_BY_COUNTRY: Record<string, CountryReportData> = {
     cumulatedText: '2023. Q3 - 2024. Q4',
   },
   sk: {
+    totalCases: { current: 34, cumulated: 216 },
     closedCases: { current: 28, cumulated: 180 },
     interruptedCases: { current: 4, cumulated: 22 },
     unreachableCases: { current: 2, cumulated: 14 },
@@ -184,6 +188,7 @@ const MOCK_DATA_BY_COUNTRY: Record<string, CountryReportData> = {
     cumulatedText: '2023. Q3 - 2024. Q4',
   },
   cz: {
+    totalCases: { current: 48, cumulated: 297 },
     closedCases: { current: 38, cumulated: 245 },
     interruptedCases: { current: 6, cumulated: 32 },
     unreachableCases: { current: 4, cumulated: 20 },
@@ -299,6 +304,7 @@ const ProgramReports = () => {
   
   // Build currentData object from real or mock data
   const currentData = hasRealData ? {
+    totalCases: { current: processedStats.caseNumbers.total, cumulated: processedStats.caseNumbers.total },
     closedCases: { current: processedStats.caseNumbers.closed, cumulated: processedStats.caseNumbers.closed },
     interruptedCases: { current: processedStats.caseNumbers.interrupted, cumulated: processedStats.caseNumbers.interrupted },
     unreachableCases: { current: processedStats.caseNumbers.clientUnreachable, cumulated: processedStats.caseNumbers.clientUnreachable },
@@ -592,11 +598,11 @@ const ProgramReports = () => {
             <div className="text-center">
               <p className="text-sm text-muted-foreground mb-2">Összes eset</p>
               <p className="text-4xl font-bold" style={{ color: CHART_COLORS.accent }}>
-                {getValue(currentData.closedCases)}
+                {getValue(currentData.totalCases)}
               </p>
               {!isCumulated && (
                 <p className="text-xs text-muted-foreground mt-1">
-                  Össz: {currentData.closedCases.cumulated}
+                  Össz: {currentData.totalCases.cumulated}
                 </p>
               )}
             </div>
