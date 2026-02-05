@@ -11,7 +11,7 @@ import { ArrowRight, CheckCircle, TrendingUp, Users, FileText, Award, BarChart3,
 import { RegistrationWizard } from '@/components/registration/RegistrationWizard';
 import { MobileNav } from '@/components/navigation/MobileNav';
 import { MobileDashboardNav } from '@/components/navigation/MobileDashboardNav';
-import logo from '@/assets/doyoueap-logo-header.png';
+import logo from '@/assets/logo_black_v2.png';
 import { MagazinContent } from '@/components/MagazinContent';
 import dashboardPreview from '@/assets/dashboard-preview.jpg';
 import Focus from './hr/Focus';

@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
-import logo from '@/assets/logo.png';
+import logo from '@/assets/logo_black_v2.png';
 
 const ApproveAdmin = () => {
   const [searchParams] = useSearchParams();
