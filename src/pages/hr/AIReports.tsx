@@ -335,12 +335,12 @@
                <Button
                  key={index}
                  variant="outline"
-                 className="w-full justify-start text-left h-auto py-3 px-4"
+                  className="w-full justify-start text-left h-auto py-3 px-4 whitespace-normal"
                  onClick={() => sendMessage(prompt)}
                  disabled={isLoading}
                >
                  <Sparkles className="h-4 w-4 mr-2 flex-shrink-0 text-[#04565f]" />
-                 <span className="text-sm">{prompt}</span>
+                  <span className="text-sm break-words">{prompt}</span>
                </Button>
              ))}
            </CardContent>
