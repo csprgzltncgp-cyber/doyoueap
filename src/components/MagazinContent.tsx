@@ -463,7 +463,7 @@ export function MagazinContent() {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-            © 2025 doyoueap. Minden jog fenntartva.
+            © 2025 CGP Europe. Minden jog fenntartva.
           </div>
         </div>
       </footer>
