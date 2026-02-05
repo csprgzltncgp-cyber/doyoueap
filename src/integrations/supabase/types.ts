@@ -986,6 +986,7 @@ export type Database = {
           full_name: string | null
           id: string
           industry: string | null
+          laravel_company_id: number | null
           postal_code: string | null
           preferred_languages: string[] | null
           selected_package: string | null
@@ -1011,6 +1012,7 @@ export type Database = {
           full_name?: string | null
           id: string
           industry?: string | null
+          laravel_company_id?: number | null
           postal_code?: string | null
           preferred_languages?: string[] | null
           selected_package?: string | null
@@ -1036,6 +1038,7 @@ export type Database = {
           full_name?: string | null
           id?: string
           industry?: string | null
+          laravel_company_id?: number | null
           postal_code?: string | null
           preferred_languages?: string[] | null
           selected_package?: string | null
