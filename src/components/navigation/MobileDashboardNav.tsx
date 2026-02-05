@@ -190,6 +190,16 @@ export function MobileDashboardNav({ section, subSection, onNavigate, hasAudits 
                   >
                     Program Használat
                   </button>
+                  <button
+                    onClick={() => handleNavClick('ai-reports')}
+                    className={`px-4 py-2 rounded-md text-left text-sm ${
+                      section === 'ai-reports'
+                        ? 'bg-muted font-medium' 
+                        : 'hover:bg-muted/50'
+                    }`}
+                  >
+                    AI Riportok
+                  </button>
 
                   {/* EAP Pulse Riportok Section */}
                   <div className="px-2 py-1.5 mt-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider border-t border-muted pt-3">
