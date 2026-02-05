@@ -6,7 +6,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Download, Activity, Clock, Users, MessageSquare, Phone, AlertTriangle } from 'lucide-react';
-import fourScoreLogo from '@/assets/4score_logo.png';
+import fourScoreLogo from '@/assets/4score_logo_cgp.png';
 import { GaugeChart } from '@/components/ui/gauge-chart';
 import { Progress } from '@/components/ui/progress';
 import { formatAuditName } from '@/lib/auditUtils';
