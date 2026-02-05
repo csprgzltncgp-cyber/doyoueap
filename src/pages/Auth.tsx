@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import { supabase } from '@/integrations/supabase/client';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,7 +16,7 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showRegistration, setShowRegistration] = useState(false);
-  const [isDemoMode, setIsDemoMode] = useState(true);
+  const [isGuestMode, setIsGuestMode] = useState(true);
   const { signIn, user } = useAuth();
   const navigate = useNavigate();
 
@@ -33,39 +33,16 @@ const Auth = () => {
     setIsLoading(false);
   };
 
-  const handleDemoLogin = async () => {
+  const handleGuestLogin = async () => {
     setIsLoading(true);
     try {
-      // Call the demo-login edge function
-      const { data, error } = await supabase.functions.invoke('demo-login');
+      // Guest login with fixed credentials
+      const guestEmail = 'guest@doyoueap.com';
+      const guestPassword = 'Guest2024!';
       
-      if (error) {
-        console.error('Demo login error:', error);
-        toast({
-          title: 'Hiba',
-          description: 'Nem sikerült a demo bejelentkezés.',
-          variant: 'destructive',
-        });
-        setIsLoading(false);
-        return;
-      }
-
-      if (data?.session) {
-        // Set the session manually
-        await supabase.auth.setSession({
-          access_token: data.session.access_token,
-          refresh_token: data.session.refresh_token
-        });
-        
-        toast({
-          title: 'Sikeres bejelentkezés',
-          description: 'Üdvözöljük a demo verzióban!',
-        });
-        
-        navigate('/?section=focus');
-      }
+      await signIn(guestEmail, guestPassword);
     } catch (err) {
-      console.error('Demo login error:', err);
+      console.error('Guest login error:', err);
       toast({
         title: 'Hiba',
         description: 'Váratlan hiba történt.',
@@ -88,39 +65,39 @@ const Auth = () => {
           </div>
           <CardTitle>Bejelentkezés</CardTitle>
           <CardDescription>
-            {isDemoMode ? 'Demo verzió kipróbálása' : 'Jelentkezzen be fiókjába'}
+            {isGuestMode ? 'Vendég belépés a rendszerbe' : 'Jelentkezzen be fiókjába'}
           </CardDescription>
         </CardHeader>
         <CardContent>
           {/* Mode Switch */}
           <div className="flex items-center justify-between mb-6 p-3 bg-muted/50 rounded-lg">
             <div className="flex items-center gap-2">
-              <span className={`text-sm ${!isDemoMode ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
+              <span className={`text-sm ${!isGuestMode ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
                 Jelszavas
               </span>
               <Switch
-                checked={isDemoMode}
-                onCheckedChange={setIsDemoMode}
+                checked={isGuestMode}
+                onCheckedChange={setIsGuestMode}
               />
-              <span className={`text-sm ${isDemoMode ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
-                Demo
+              <span className={`text-sm ${isGuestMode ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
+                Vendég
               </span>
             </div>
           </div>
 
-          {isDemoMode ? (
-            /* Demo Login */
+          {isGuestMode ? (
+            /* Guest Login */
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground text-center">
-                Próbálja ki a rendszert demo módban, felhasználónév és jelszó nélkül.
+                Lépjen be vendégként a rendszer kipróbálásához.
               </p>
               <Button 
-                onClick={handleDemoLogin} 
+                onClick={handleGuestLogin} 
                 className="w-full" 
                 style={{ backgroundColor: '#04565f' }}
                 disabled={isLoading}
               >
-                {isLoading ? 'Folyamatban...' : 'Demo belépés'}
+                {isLoading ? 'Folyamatban...' : 'Vendég belépés'}
               </Button>
             </div>
           ) : (
