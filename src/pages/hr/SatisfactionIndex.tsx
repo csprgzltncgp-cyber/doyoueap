@@ -180,21 +180,22 @@ const SatisfactionIndex = () => {
         <CardContent>
           <div className="flex flex-wrap gap-3 justify-center">
             {[
-              { label: 'Kiváló', color: '#04565f' },
-              { label: 'Nagyon jó', color: '#82f5ae' },
-              { label: 'Jó', color: '#ffc107' },
-              { label: 'Megfelelő', color: '#ffc107' },
-              { label: 'Elfogadható', color: '#ea892b' },
-              { label: 'Fejlesztendő', color: '#ff0033' },
+              { range: '9-10', label: 'Kiváló', color: '#04565f' },
+              { range: '8-9', label: 'Nagyon jó', color: '#82f5ae' },
+              { range: '7-8', label: 'Jó', color: '#ffc107' },
+              { range: '6-7', label: 'Megfelelő', color: '#ffc107' },
+              { range: '5-6', label: 'Elfogadható', color: '#ea892b' },
+              { range: '<5', label: 'Fejlesztendő', color: '#ff0033' },
             ].map((item) => (
               <div 
-                key={item.label}
+                key={item.range}
                 className="flex items-center gap-2 px-3 py-2 bg-muted/50 rounded-lg"
               >
                 <div 
                   className="w-3 h-3 rounded-full" 
                   style={{ backgroundColor: item.color }}
                 />
+                <span className="text-sm font-medium">{item.range}:</span>
                 <span className="text-sm text-muted-foreground">{item.label}</span>
               </div>
             ))}
