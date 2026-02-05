@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Clock, User, TrendingUp, Calendar, ChevronRight } from 'lucide-react';
-import logoBlack from '@/assets/logo-black.png';
+import journalistLogo from '@/assets/thejournalist_logo_2.png';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { 
@@ -112,8 +112,8 @@ export function MagazinContent() {
           <div className="flex md:hidden flex-col items-center gap-2">
             <div className="flex-shrink-0">
               <img 
-                src={logoBlack} 
-                alt="doyoueap"
+                src={journalistLogo} 
+                alt="The EAP Journalist!"
                 className="h-16 object-contain"
               />
             </div>
@@ -141,8 +141,8 @@ export function MagazinContent() {
             {/* Center: Logo */}
             <div className="flex-shrink-0">
               <img 
-                src={logoBlack} 
-                alt="doyoueap" 
+                src={journalistLogo} 
+                alt="The EAP Journalist!" 
                 className="h-24 object-contain"
               />
             </div>
