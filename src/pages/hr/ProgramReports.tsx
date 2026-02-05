@@ -4,7 +4,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import { Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase, Heart, GraduationCap, Building2, Globe } from "lucide-react";
+import { Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase, Heart, GraduationCap, Building2 } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 import { Progress } from "@/components/ui/progress";
 import { GaugeChart } from "@/components/ui/gauge-chart";
@@ -235,10 +235,13 @@ const PROBLEM_TYPE_COLORS = [
   CHART_COLORS.highlight,
 ];
 
+// Available years for selection
+const AVAILABLE_YEARS = [2025, 2024, 2023, 2022];
+
 const ProgramReports = () => {
   // Quarter selection
   const [selectedQuarter, setSelectedQuarter] = useState(4);
-  const [selectedYear] = useState(new Date().getFullYear());
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedCountryId, setSelectedCountryId] = useState<number | null>(null);
   
   // Cumulation mode (right side) - which quarters to add together
@@ -470,27 +473,25 @@ const ProgramReports = () => {
         </Card>
       )}
 
-      {/* Country Selector */}
-      {!loading && countries.length > 0 && (
-        <div className="flex items-center gap-3">
-          <Globe className="h-5 w-5 text-[#04565f]" />
-          <Select 
-            value={String(selectedCountryId)} 
-            onValueChange={(v) => setSelectedCountryId(Number(v))}
-          >
-            <SelectTrigger className="w-[200px] border-[#04565f]/30 focus:ring-[#04565f]">
-              <SelectValue placeholder="Válassz országot" />
-            </SelectTrigger>
-            <SelectContent>
-              {countries.map((country) => (
-                <SelectItem key={country.id} value={String(country.id)}>
-                  {country.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      )}
+      {/* Year Selector */}
+      <div className="flex items-center gap-3">
+        <span className="text-sm font-medium text-muted-foreground">Év:</span>
+        <Select 
+          value={String(selectedYear)} 
+          onValueChange={(v) => setSelectedYear(Number(v))}
+        >
+          <SelectTrigger className="w-[120px] border-[#04565f]/30 focus:ring-[#04565f]">
+            <SelectValue placeholder="Válassz évet" />
+          </SelectTrigger>
+          <SelectContent>
+            {AVAILABLE_YEARS.map((year) => (
+              <SelectItem key={year} value={String(year)}>
+                {year}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
       {/* Quarter Selection Panel - Split: Left = Single, Right = Cumulated */}
       <Card>
