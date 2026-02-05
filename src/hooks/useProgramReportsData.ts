@@ -104,57 +104,81 @@ interface UseProgramReportsDataOptions {
   periodType?: 'quarter' | 'month';
 }
 
-// Translation mappings for Hungarian labels (based on Laravel case_input_values)
+// Translation mappings for Hungarian labels (API now returns actual values, not IDs)
 export const VALUE_TRANSLATIONS = {
-  // Problem types (case_input_id = 7)
+  // Problem types - API returns: "Pszichológiai", "Jogi", "Pénzügyi", etc.
   problemTypes: {
-    '1': 'Pszichológia',
-    '2': 'Jog',
-    '3': 'Pénzügy',
-    '4': 'Egészség',
-    '5': 'Coaching',
+    'Pszichológiai': 'Pszichológia',
+    'Jogi': 'Jog',
+    'Pénzügyi': 'Pénzügy',
+    'Egészségügyi': 'Egészség',
+    'Coaching': 'Coaching',
+    // Keep direct mappings for already translated values
+    'Pszichológia': 'Pszichológia',
+    'Jog': 'Jog',
+    'Pénzügy': 'Pénzügy',
+    'Egészség': 'Egészség',
   },
-  // Gender (case_input_id = 10)
+  // Gender - API returns: "Male", "Female"
   gender: {
-    '9': 'Férfi',
-    '10': 'Nő',
+    'Male': 'Férfi',
+    'Female': 'Nő',
+    'Férfi': 'Férfi',
+    'Nő': 'Nő',
   },
-  // Age groups (case_input_id = 11)
+  // Age groups - API returns: "under 20", "between 20 and 29", etc.
   age: {
-    '11': '18 alatt',
-    '12': '18-25',
-    '13': '26-35',
-    '14': '36-45',
-    '15': '46-55',
-    '16': '56+',
+    'under 20': '20 alatt',
+    'between 20 and 29': '20-29',
+    'between 30 and 39': '30-39',
+    'between 40 and 49': '40-49',
+    'between 50 and 59': '50-59',
+    'above 59': '60+',
+    // Hungarian variants
+    '18 alatt': '18 alatt',
+    '18-25': '18-25',
+    '26-35': '26-35',
+    '36-45': '36-45',
+    '46-55': '46-55',
+    '56+': '56+',
   },
-  // Employee or family member (case_input_id = 9)
+  // Employee or family member - API returns: "Employee", "Family Member"
   employeeOrFamily: {
-    '7': 'Dolgozó',
-    '8': 'Családtag',
+    'Employee': 'Dolgozó',
+    'Family Member': 'Családtag',
+    'Dolgozó': 'Dolgozó',
+    'Családtag': 'Családtag',
   },
-  // Place of receipt / consultation mode (case_input_id = 6)
+  // Place of receipt / consultation mode - API returns actual text values
   placeOfReceipt: {
-    '3': 'Telefon',
-    '4': 'Online',
-    '5': 'Személyes',
-    '6': 'Videó',
+    'Phone': 'Telefon',
+    'Video': 'Videó',
+    'In-Person': 'Személyes',
+    'Online': 'Online',
+    'EAP Online/Mobile Application': 'EAP Online/Mobil',
+    'Telefon': 'Telefon',
+    'Személyes': 'Személyes',
+    'Videó': 'Videó',
   },
-  // Crisis (case_input_id = 3)
+  // Crisis - API returns: "Yes", "No"
   crisis: {
-    '1': 'Igen',
-    '2': 'Nem',
+    'Yes': 'Igen',
+    'No': 'Nem',
+    'Igen': 'Igen',
+    'Nem': 'Nem',
   },
-  // Source (case_input_id = 12)
+  // Source - API returns actual text values
   source: {
-    '18': 'Weboldal',
-    '19': 'Telefon',
-    '20': 'E-mail',
-    '21': 'Személyes',
-    '22': 'Poster/Szórólap',
-    '23': 'HR ajánlás',
-    '24': 'Kolléga',
-    '25': 'Egyéb',
+    'Website': 'Weboldal',
+    'Phone': 'Telefon',
+    'Email': 'E-mail',
+    'Personal': 'Személyes',
+    'Poster/Flyer': 'Poster/Szórólap',
+    'HR Recommendation': 'HR ajánlás',
+    'Colleague': 'Kolléga',
+    'Other': 'Egyéb',
+    'Family member': 'Családtag',
+    'I have used the program before': 'Korábbi felhasználó',
   },
 };
 
