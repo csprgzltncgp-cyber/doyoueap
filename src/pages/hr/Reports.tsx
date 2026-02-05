@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Download, Eye, Shield, Activity, Target, Users, TrendingUp, Presentation, RefreshCw, Building2, AlertTriangle } from "lucide-react";
-import fourScoreLogo from "@/assets/4score_logo.png";
+import fourScoreLogo from "@/assets/4score_logo_cgp.png";
 import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, BarChart, Bar, XAxis, YAxis, RadialBarChart, RadialBar, Legend } from "recharts";
 import { formatAuditName } from "@/lib/auditUtils";
