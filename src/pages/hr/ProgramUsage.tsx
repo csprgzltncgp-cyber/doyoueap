@@ -266,7 +266,7 @@ const ProgramUsage = () => {
           <Card className="flex-1">
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-[#ffc107]/20 rounded-lg">
+                <div className="p-3 bg-[#ea892b]/20 rounded-lg">
                   <Calendar className="h-6 w-6 text-[#04565f]" />
                 </div>
                 <div className="flex-1">
@@ -330,7 +330,7 @@ const ProgramUsage = () => {
         <Card>
           <CardHeader className="pb-3">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-[#ffc107]/20 rounded-lg">
+              <div className="p-2 bg-[#ea892b]/20 rounded-lg">
                 <Clock className="h-5 w-5 text-[#04565f]" />
               </div>
               <div>
@@ -364,9 +364,9 @@ const ProgramUsage = () => {
             {[
               { range: '5%+', label: 'Kiemelkedő', color: '#04565f' },
               { range: '4-5%', label: 'Magas', color: '#82f5ae' },
-              { range: '3-4%', label: 'Átlag feletti', color: '#ffc107' },
-              { range: '2-3%', label: 'Átlagos', color: '#ff9800' },
-              { range: '<2%', label: 'Fejlesztendő', color: '#f44336' },
+              { range: '3-4%', label: 'Átlag feletti', color: '#ea892b' },
+              { range: '2-3%', label: 'Átlagos', color: 'rgba(234, 137, 43, 0.6)' },
+              { range: '<2%', label: 'Fejlesztendő', color: '#ff0033' },
             ].map((item) => (
               <div 
                 key={item.range}
