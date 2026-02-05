@@ -642,10 +642,10 @@ const Awareness = ({ selectedAuditId, audits, onAuditChange, packageType, compan
                     dataKey="value"
                   >
                     {frequencyChartData.map((entry, index) => {
-                      // Pie chart color rule: dark green, green, light green, then faded greens
-                      const pieColors = ['#04565f', '#82f5ae', '#004144'];
-                      const getFadedGreen = (i: number) => `rgba(130, 245, 174, ${0.7 - (i - 3) * 0.15})`;
-                      const color = index < 3 ? pieColors[index] : getFadedGreen(index);
+                      // Pie chart color rule: mélyzöld, sötétzöld, világoszöld, then faded sötétzöld
+                      const pieColors = ['#004144', '#04565f', '#82f5ae'];
+                      const getFadedDarkGreen = (i: number) => `rgba(4, 86, 95, ${0.7 - (i - 3) * 0.15})`;
+                      const color = index < 3 ? pieColors[index] : getFadedDarkGreen(index);
                       return <Cell key={`cell-${index}`} fill={color} />;
                     })}
                   </Pie>
