@@ -221,8 +221,9 @@ function processRiportValues(riportValues: RiportValue[], countryId: number | nu
         break
 
       case RIPORT_VALUE_TYPES.TYPE_PROBLEM_TYPE:
-        // Only count closed cases (is_ongoing = false or null)
-        if (!rv.is_ongoing) {
+        // Only count closed cases (is_ongoing = 0 or false or null)
+        // API returns 0/1 as numbers, not boolean
+        if (rv.is_ongoing === 0 || rv.is_ongoing === false || rv.is_ongoing === null) {
           stats.problemTypes[rv.value] = (stats.problemTypes[rv.value] || 0) + 1
         }
         break
@@ -236,15 +237,17 @@ function processRiportValues(riportValues: RiportValue[], countryId: number | nu
         break
 
       case RIPORT_VALUE_TYPES.TYPE_GENDER:
-        // Only count closed cases (is_ongoing = false or null)
-        if (!rv.is_ongoing) {
+        // Only count closed cases (is_ongoing = 0 or false or null)
+        // API returns 0/1 as numbers, not boolean
+        if (rv.is_ongoing === 0 || rv.is_ongoing === false || rv.is_ongoing === null) {
           stats.gender[rv.value] = (stats.gender[rv.value] || 0) + 1
         }
         break
 
       case RIPORT_VALUE_TYPES.TYPE_AGE:
-        // Only count closed cases (is_ongoing = false or null)
-        if (!rv.is_ongoing) {
+        // Only count closed cases (is_ongoing = 0 or false or null)
+        // API returns 0/1 as numbers, not boolean
+        if (rv.is_ongoing === 0 || rv.is_ongoing === false || rv.is_ongoing === null) {
           stats.age[rv.value] = (stats.age[rv.value] || 0) + 1
         }
         break
