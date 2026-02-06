@@ -541,10 +541,6 @@ async function fetchValueTypeMappingsFromLaravel(
       // Delay between each request to avoid rate limiting
       await delay(800)
     }
-
-      // Delay between each request to avoid rate limiting
-      await delay(800)
-    }
   } catch (error) {
     console.error('Error fetching value type mappings from Laravel:', error)
   }
