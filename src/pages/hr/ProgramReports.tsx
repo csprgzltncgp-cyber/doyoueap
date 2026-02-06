@@ -276,7 +276,7 @@ const ProgramReports = () => {
   // 'mock' = Uses hardcoded mock data, no API calls
   // 'api'  = Fetches real data from the Laravel API
   // ============================================================
-  const DATA_SOURCE_MODE = 'mock' as 'mock' | 'api';
+  const DATA_SOURCE_MODE = 'api' as 'mock' | 'api';
   const isMockMode = DATA_SOURCE_MODE === 'mock';
 
   // Quarter selection
