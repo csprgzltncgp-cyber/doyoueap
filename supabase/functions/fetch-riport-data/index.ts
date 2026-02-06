@@ -229,6 +229,10 @@ function processRiportValues(riportValues: RiportValue[], countryId: number | nu
         stats.typeOfProblem[rv.value] = (stats.typeOfProblem[rv.value] || 0) + 1
         break
 
+      case RIPORT_VALUE_TYPES.TYPE_PROBLEM_DETAILS:
+        stats.problemDetails[rv.value] = (stats.problemDetails[rv.value] || 0) + 1
+        break
+
       case RIPORT_VALUE_TYPES.TYPE_GENDER:
         stats.gender[rv.value] = (stats.gender[rv.value] || 0) + 1
         break
@@ -256,6 +260,30 @@ function processRiportValues(riportValues: RiportValue[], countryId: number | nu
       case RIPORT_VALUE_TYPES.TYPE_IS_CRISIS:
         stats.crisis[rv.value] = (stats.crisis[rv.value] || 0) + 1
         break
+    }
+  }
+
+  // Build cross-tabulations: gender × problem type
+  for (const connId of Object.keys(connectionToProblemType)) {
+    const problemType = connectionToProblemType[connId]
+    const gender = connectionToGender[connId]
+    if (problemType && gender) {
+      if (!stats.genderByProblemType[problemType]) {
+        stats.genderByProblemType[problemType] = {}
+      }
+      stats.genderByProblemType[problemType][gender] = (stats.genderByProblemType[problemType][gender] || 0) + 1
+    }
+  }
+
+  // Build cross-tabulations: age × problem type
+  for (const connId of Object.keys(connectionToProblemType)) {
+    const problemType = connectionToProblemType[connId]
+    const age = connectionToAge[connId]
+    if (problemType && age) {
+      if (!stats.ageByProblemType[problemType]) {
+        stats.ageByProblemType[problemType] = {}
+      }
+      stats.ageByProblemType[problemType][age] = (stats.ageByProblemType[problemType][age] || 0) + 1
     }
   }
 
