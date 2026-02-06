@@ -436,12 +436,12 @@ async function fetchValueTypeMappingsFromLaravel(
     )
 
     if (!typesResponse.ok) {
-      console.error('Failed to fetch value types:', typesResponse.status)
-      return mapping
+      console.error('Failed to fetch value types index:', typesResponse.status)
+      // Continue anyway: some installations block the index but still allow fetching values by type id.
     }
 
-    const typesData = await typesResponse.json()
-    const types = typesData.data || []
+    const typesData = typesResponse.ok ? await typesResponse.json() : {}
+    const types = (typesData as any)?.data || []
 
     // Some backends don't list every required type in the value-types index (or they are under different sources).
     // We still need deterministic ID -> label mappings for the report, so fetch the required type IDs directly.
