@@ -451,22 +451,51 @@ async function fetchValueTypeMappingsFromLaravel(
     // Step 2: Fetch values one at a time with delay (safest for rate limiting)
     for (const type of requiredTypeIds) {
       try {
-        const valuesResponse = await fetch(
-          `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`,
-          {
+        const candidateUrls: string[] = []
+
+        // Default (works for most types)
+        candidateUrls.push(
+          `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`
+        )
+
+        // Some installations return empty results for certain types when filtering by company_id and/or language_id.
+        // For type=7 (Problem Type), retry a few variants.
+        if (type === '7') {
+          candidateUrls.push(`${LARAVEL_API_URL}/riports/value-types/${type}/values?language_id=${languageId}`)
+          candidateUrls.push(`${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}`)
+          candidateUrls.push(`${LARAVEL_API_URL}/riports/value-types/${type}/values`)
+        }
+
+        let valuesData: any = null
+        for (const url of candidateUrls) {
+          const valuesResponse = await fetch(url, {
             headers: {
               'Authorization': `Bearer ${laravelApiToken}`,
               'Accept': 'application/json',
             },
-          }
-        )
+          })
 
-        if (!valuesResponse.ok) {
-          console.error(`Failed to fetch values for type ${type}:`, valuesResponse.status)
-          continue
+          if (!valuesResponse.ok) {
+            console.error(`Failed to fetch values for type ${type} (${url}):`, valuesResponse.status)
+            continue
+          }
+
+          valuesData = await valuesResponse.json()
+
+          const rawPreview = valuesData?.data ?? valuesData?.values
+          const hasAny = Array.isArray(rawPreview)
+            ? rawPreview.length > 0
+            : rawPreview && typeof rawPreview === 'object' && Object.keys(rawPreview).length > 0
+
+          if (hasAny) {
+            break
+          }
         }
 
-        const valuesData = await valuesResponse.json()
+        if (!valuesData) {
+          console.warn(`No response data for type ${type}`)
+          continue
+        }
 
         // Laravel responses can vary by endpoint: sometimes `data` is an array of {value,label},
         // sometimes it's a plain object map.
