@@ -128,6 +128,7 @@ export const RIPORT_VALUE_TYPE_IDS = {
   GENDER: '10',
   AGE: '11',
   SOURCE: '12',
+  PROBLEM_DETAILS: '16',
   LANGUAGE: '32',
 };
 
