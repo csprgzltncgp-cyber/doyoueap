@@ -332,7 +332,9 @@ function delay(ms: number): Promise<void> {
 const MAPPING_CACHE_TTL_MS = 1000 * 60 * 60 * 24
 
 // Only fetch the types we actually display in Program Reports
+// NOTE: Some installations expose Problem Type labels under type=5 (legacy), while riport_values use type=7.
 const REQUIRED_VALUE_TYPE_IDS = new Set<string>([
+  '5',
   String(RIPORT_VALUE_TYPES.TYPE_IS_CRISIS),
   String(RIPORT_VALUE_TYPES.TYPE_PLACE_OF_RECEIPT),
   String(RIPORT_VALUE_TYPES.TYPE_PROBLEM_TYPE),
@@ -365,11 +367,21 @@ async function getValueTypeMappings(
     const fetchedAt = new Date(cached.fetched_at).getTime()
     const age = Date.now() - fetchedAt
 
-    if (age < MAPPING_CACHE_TTL_MS) {
+    const cachedMappings = cached.mappings as ValueTypeMapping
+    const hasAllRequiredTypes = Array.from(REQUIRED_VALUE_TYPE_IDS).every((typeId) => {
+      return cachedMappings?.[typeId] && Object.keys(cachedMappings[typeId]).length > 0
+    })
+
+    if (age < MAPPING_CACHE_TTL_MS && hasAllRequiredTypes) {
       console.log(`Using cached mappings for company ${companyId} (age: ${Math.round(age / 1000 / 60)} minutes)`)
-      return cached.mappings as ValueTypeMapping
+      return cachedMappings
     }
-    console.log(`Cache expired for company ${companyId}, refreshing...`)
+
+    if (!hasAllRequiredTypes) {
+      console.log(`Cached mappings missing required types for company ${companyId}, refreshing...`)
+    } else {
+      console.log(`Cache expired for company ${companyId}, refreshing...`)
+    }
   } else {
     console.log(`No cache found for company ${companyId}, fetching fresh mappings...`)
   }
@@ -428,19 +440,16 @@ async function fetchValueTypeMappingsFromLaravel(
     const typesData = await typesResponse.json()
     const types = typesData.data || []
 
-    // Filter to only case_input_values types we actually need
-    const caseInputTypes = types.filter((t: { source: string; type: string | number }) => {
-      if (t.source !== 'case_input_values') return false
-      return REQUIRED_VALUE_TYPE_IDS.has(String(t.type))
-    })
+    // Some backends don't list every required type in the value-types index (or they are under different sources).
+    // We still need deterministic ID -> label mappings for the report, so fetch the required type IDs directly.
+    const requiredTypeIds = Array.from(REQUIRED_VALUE_TYPE_IDS)
 
-    console.log(`Fetching ${caseInputTypes.length} required case_input_values types from Laravel`)
+    console.log(
+      `Value-types index returned ${types.length} items; fetching ${requiredTypeIds.length} required types directly from Laravel`
+    )
 
     // Step 2: Fetch values one at a time with delay (safest for rate limiting)
-    for (const typeItem of caseInputTypes) {
-      const type = String(typeItem.type)
-
-      try {
+    for (const type of requiredTypeIds) {
         const valuesResponse = await fetch(
           `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`,
           {
