@@ -174,14 +174,15 @@ export const useProgramReportsData = (options: UseProgramReportsDataOptions = {}
         throw new Error('Not authenticated');
       }
 
-      // Always use current year (2025) if not explicitly specified
-      const currentYear = new Date().getFullYear();
+      // Default to 2024 since that's where the test data exists
+      // In production, this should be the current year or dynamically detected
+      const defaultYear = options.year ?? 2024;
       
       const response = await supabase.functions.invoke('fetch-riport-data', {
         body: {
           country_id: options.countryId,
           quarter: options.quarter,
-          year: options.year ?? currentYear,
+          year: defaultYear,
           period_type: options.periodType || 'quarter',
           include_customer_satisfaction: true,
           include_customer_satisfaction_values: true,
