@@ -481,7 +481,7 @@ const ProgramReports = () => {
       finance: { current: processedStats.problemTypes['Pénzügyi'] || 0, cumulated: processedStats.problemTypes['Pénzügyi'] || 0 },
       healthCoaching: { current: processedStats.problemTypes['Egészségügyi'] || processedStats.problemTypes['Coaching'] || 0, cumulated: processedStats.problemTypes['Egészségügyi'] || processedStats.problemTypes['Coaching'] || 0 },
     },
-    // Calculate highlights from statsPercentages (already translated labels)
+    // Calculate highlights from statsPercentages using API value type mappings
     recordHighlights: (() => {
       // Find most frequent problem from statsPercentages.problemTypes
       const problemTypesPercentages = statsPercentages?.problemTypes || {};
@@ -504,27 +504,18 @@ const ProgramReports = () => {
         ? ageEntries.sort((a, b) => b[1] - a[1])[0] 
         : null;
 
-      // Translate gender labels (API returns "Male", "Female")
-      const translateGender = (key: string) => {
-        const genderMap: Record<string, string> = { 'Male': 'Férfi', 'Female': 'Nő' };
-        return genderMap[key] || key;
-      };
-
-      // Translate age labels to user-friendly format
-      const translateAge = (key: string) => {
-        const ageMap: Record<string, string> = {
-          'under 20': '20 év alatt',
-          'between 20 and 29': '20-29 év',
-          'between 30 and 39': '30-39 év',
-          'between 40 and 49': '40-49 év',
-          'between 50 and 59': '50-59 év',
-          'above 59': '60 év felett',
-        };
-        return ageMap[key] || key;
-      };
+      // Use API value type mappings for translation
+      const translateProblemType = (key: string) => 
+        getValueLabel(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.PROBLEM_TYPE, key);
+      
+      const translateGender = (key: string) => 
+        getValueLabel(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.GENDER, key);
+      
+      const translateAge = (key: string) => 
+        getValueLabel(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.AGE, key);
 
       return {
-        mostFrequentProblem: topProblem ? topProblem[0] : null,
+        mostFrequentProblem: topProblem ? translateProblemType(topProblem[0]) : null,
         dominantGender: topGender ? { 
           label: translateGender(topGender[0]), 
           percentage: topGender[1] 
