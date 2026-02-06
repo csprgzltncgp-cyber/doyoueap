@@ -481,19 +481,60 @@ const ProgramReports = () => {
       finance: { current: processedStats.problemTypes['Pénzügyi'] || 0, cumulated: processedStats.problemTypes['Pénzügyi'] || 0 },
       healthCoaching: { current: processedStats.problemTypes['Egészségügyi'] || processedStats.problemTypes['Coaching'] || 0, cumulated: processedStats.problemTypes['Egészségügyi'] || processedStats.problemTypes['Coaching'] || 0 },
     },
-    recordHighlights: {
-      mostFrequentProblem: highlights?.mostFrequentProblem 
-        ? getValueLabel(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.PROBLEM_TYPE, highlights.mostFrequentProblem.key) 
-        : null,
-      dominantGender: highlights?.dominantGender ? { 
-        label: getValueLabel(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.GENDER, highlights.dominantGender.key), 
-        percentage: highlights.dominantGender.percentage 
-      } : null,
-      dominantAgeGroup: highlights?.dominantAgeGroup ? { 
-        label: getValueLabel(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.AGE, highlights.dominantAgeGroup.key), 
-        percentage: highlights.dominantAgeGroup.percentage 
-      } : null,
-    },
+    // Calculate highlights from statsPercentages (already translated labels)
+    recordHighlights: (() => {
+      // Find most frequent problem from statsPercentages.problemTypes
+      const problemTypesPercentages = statsPercentages?.problemTypes || {};
+      const problemEntries = Object.entries(problemTypesPercentages).filter(([, v]) => v > 0);
+      const topProblem = problemEntries.length > 0 
+        ? problemEntries.sort((a, b) => b[1] - a[1])[0] 
+        : null;
+      
+      // Find dominant gender from statsPercentages.gender
+      const genderPercentages = statsPercentages?.gender || {};
+      const genderEntries = Object.entries(genderPercentages).filter(([, v]) => v > 0);
+      const topGender = genderEntries.length > 0 
+        ? genderEntries.sort((a, b) => b[1] - a[1])[0] 
+        : null;
+      
+      // Find dominant age group from statsPercentages.age
+      const agePercentages = statsPercentages?.age || {};
+      const ageEntries = Object.entries(agePercentages).filter(([, v]) => v > 0);
+      const topAge = ageEntries.length > 0 
+        ? ageEntries.sort((a, b) => b[1] - a[1])[0] 
+        : null;
+
+      // Translate gender labels (API returns "Male", "Female")
+      const translateGender = (key: string) => {
+        const genderMap: Record<string, string> = { 'Male': 'Férfi', 'Female': 'Nő' };
+        return genderMap[key] || key;
+      };
+
+      // Translate age labels to user-friendly format
+      const translateAge = (key: string) => {
+        const ageMap: Record<string, string> = {
+          'under 20': '20 év alatt',
+          'between 20 and 29': '20-29 év',
+          'between 30 and 39': '30-39 év',
+          'between 40 and 49': '40-49 év',
+          'between 50 and 59': '50-59 év',
+          'above 59': '60 év felett',
+        };
+        return ageMap[key] || key;
+      };
+
+      return {
+        mostFrequentProblem: topProblem ? topProblem[0] : null,
+        dominantGender: topGender ? { 
+          label: translateGender(topGender[0]), 
+          percentage: topGender[1] 
+        } : null,
+        dominantAgeGroup: topAge ? { 
+          label: translateAge(topAge[0]), 
+          percentage: topAge[1] 
+        } : null,
+      };
+    })(),
     totalConsultations: { current: processedStats.consultations.total, cumulated: processedStats.consultations.total },
     onsiteConsultations: { current: processedStats.consultations.onsite, cumulated: processedStats.consultations.onsite },
     workshopParticipants: { current: processedStats.activities.workshop, cumulated: processedStats.activities.workshop },
