@@ -907,9 +907,13 @@ const ProgramReports = () => {
               <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.highlight }}>
                 {getValue(currentData.liveCases.psychology)}
               </p>
-              {!isCumulated && (
+              {isCumulated ? (
+                <p className="text-xs text-[#04565f] font-medium">
+                  {getCumulatedLabel()}
+                </p>
+              ) : (
                 <p className="text-xs text-muted-foreground">
-                  Össz: {currentData.liveCases.psychology.cumulated}
+                  Éves össz: {currentData.liveCases.psychology.cumulated}
                 </p>
               )}
             </div>
@@ -921,9 +925,13 @@ const ProgramReports = () => {
               <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.highlight }}>
                 {getValue(currentData.liveCases.law)}
               </p>
-              {!isCumulated && (
+              {isCumulated ? (
+                <p className="text-xs text-[#04565f] font-medium">
+                  {getCumulatedLabel()}
+                </p>
+              ) : (
                 <p className="text-xs text-muted-foreground">
-                  Össz: {currentData.liveCases.law.cumulated}
+                  Éves össz: {currentData.liveCases.law.cumulated}
                 </p>
               )}
             </div>
@@ -935,9 +943,13 @@ const ProgramReports = () => {
               <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.highlight }}>
                 {getValue(currentData.liveCases.finance)}
               </p>
-              {!isCumulated && (
+              {isCumulated ? (
+                <p className="text-xs text-[#04565f] font-medium">
+                  {getCumulatedLabel()}
+                </p>
+              ) : (
                 <p className="text-xs text-muted-foreground">
-                  Össz: {currentData.liveCases.finance.cumulated}
+                  Éves össz: {currentData.liveCases.finance.cumulated}
                 </p>
               )}
             </div>
@@ -949,9 +961,13 @@ const ProgramReports = () => {
               <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.highlight }}>
                 {getValue(currentData.liveCases.healthCoaching)}
               </p>
-              {!isCumulated && (
+              {isCumulated ? (
+                <p className="text-xs text-[#04565f] font-medium">
+                  {getCumulatedLabel()}
+                </p>
+              ) : (
                 <p className="text-xs text-muted-foreground">
-                  Össz: {currentData.liveCases.healthCoaching.cumulated}
+                  Éves össz: {currentData.liveCases.healthCoaching.cumulated}
                 </p>
               )}
             </div>
