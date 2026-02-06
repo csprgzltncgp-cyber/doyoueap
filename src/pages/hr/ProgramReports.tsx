@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import { Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase, Heart, GraduationCap, Building2 } from "lucide-react";
+import { Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase, Heart, GraduationCap, Building2, Globe, Megaphone, FileText, Languages } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 import { Progress } from "@/components/ui/progress";
 import { GaugeChart } from "@/components/ui/gauge-chart";
-import { useProgramReportsData, getValueLabel, translateDistributionFromApi, RIPORT_VALUE_TYPE_IDS } from "@/hooks/useProgramReportsData";
+import { useProgramReportsData, getValueLabel, RIPORT_VALUE_TYPE_IDS } from "@/hooks/useProgramReportsData";
+import { DistributionChart } from "@/components/reports/DistributionChart";
+import { CrossTabChart } from "@/components/reports/CrossTabChart";
 
 // Quarters configuration
 const QUARTERS = [
