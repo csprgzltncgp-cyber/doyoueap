@@ -438,9 +438,8 @@ async function fetchValueTypeMappingsFromLaravel(
     const typesData = await typesResponse.json()
     const types = typesData.data || []
 
-    // Filter to only case_input_values types we actually need
-    const caseInputTypes = types.filter((t: { source: string; type: string | number }) => {
-      if (t.source !== 'case_input_values') return false
+    // Filter to only the types we actually need (source can vary by backend implementation)
+    const requiredTypes = types.filter((t: { type: string | number }) => {
       return REQUIRED_VALUE_TYPE_IDS.has(String(t.type))
     })
 
