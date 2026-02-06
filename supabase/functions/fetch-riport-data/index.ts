@@ -306,6 +306,44 @@ function toPercentages(distribution: Record<string, number>): Record<string, num
   return result
 }
 
+// Translate distribution keys using value type mappings
+function translateDistributionKeys(
+  distribution: Record<string, number>,
+  mappings: ValueTypeMapping | undefined,
+  typeId: string
+): Record<string, number> {
+  if (!mappings || !mappings[typeId]) return distribution
+  
+  const result: Record<string, number> = {}
+  for (const [key, value] of Object.entries(distribution)) {
+    const label = mappings[typeId][key] || key
+    result[label] = value
+  }
+  return result
+}
+
+// Translate nested cross-tabulation keys
+function translateCrossTabKeys(
+  crossTab: Record<string, Record<string, number>>,
+  outerMappings: ValueTypeMapping | undefined,
+  outerTypeId: string,
+  innerMappings: ValueTypeMapping | undefined,
+  innerTypeId: string
+): Record<string, Record<string, number>> {
+  if (!outerMappings && !innerMappings) return crossTab
+  
+  const result: Record<string, Record<string, number>> = {}
+  for (const [outerKey, innerObj] of Object.entries(crossTab)) {
+    const outerLabel = outerMappings?.[outerTypeId]?.[outerKey] || outerKey
+    result[outerLabel] = {}
+    for (const [innerKey, value] of Object.entries(innerObj)) {
+      const innerLabel = innerMappings?.[innerTypeId]?.[innerKey] || innerKey
+      result[outerLabel][innerLabel] = value
+    }
+  }
+  return result
+}
+
 // Find the most common value in a distribution
 function findMostCommon(distribution: Record<string, number>): { key: string; count: number; percentage: number } | null {
   const entries = Object.entries(distribution)
