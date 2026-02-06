@@ -300,12 +300,7 @@ const ProgramReports = () => {
     }
   }, [countries, selectedCountryId]);
   
-  // Refetch when country changes
-  useEffect(() => {
-    if (selectedCountryId !== null) {
-      refetch();
-    }
-  }, [selectedCountryId, refetch]);
+  // Note: No need to manually refetch - the hook already refetches when countryId changes
   
   // Calculate customer satisfaction average for selected country
   const customerSatisfactionValues = apiData?.customer_satisfaction_values || [];
