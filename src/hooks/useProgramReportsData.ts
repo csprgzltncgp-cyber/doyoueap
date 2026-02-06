@@ -161,10 +161,19 @@ export function translateDistributionFromApi(
 
 export const useProgramReportsData = (options: UseProgramReportsDataOptions = {}) => {
   const [data, setData] = useState<RiportSummaryResponse | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(options.enabled !== false);
   const [error, setError] = useState<string | null>(null);
 
+  // Check if hook is enabled (default: true)
+  const isEnabled = options.enabled !== false;
+
   const fetchData = useCallback(async () => {
+    if (!isEnabled) {
+      // If disabled, do nothing
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
@@ -204,11 +213,13 @@ export const useProgramReportsData = (options: UseProgramReportsDataOptions = {}
     } finally {
       setLoading(false);
     }
-  }, [options.countryId, options.quarter, options.year, options.periodType]);
+  }, [options.countryId, options.quarter, options.year, options.periodType, isEnabled]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (isEnabled) {
+      fetchData();
+    }
+  }, [fetchData, isEnabled]);
 
   return { data, loading, error, refetch: fetchData };
 };

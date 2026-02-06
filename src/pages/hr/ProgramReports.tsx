@@ -455,9 +455,9 @@ const ProgramReports = () => {
     },
   };
 
-  const statsPercentages = forceMockData ? mockStatsPercentages : apiData?.statistics_percentages;
-  const highlights = forceMockData ? null : apiData?.highlights;
-  const valueTypeMappings = forceMockData ? mockValueTypeMappings : apiData?.value_type_mappings;
+  const statsPercentages = isMockMode ? mockStatsPercentages : apiData?.statistics_percentages;
+  const highlights = isMockMode ? null : apiData?.highlights;
+  const valueTypeMappings = isMockMode ? mockValueTypeMappings : apiData?.value_type_mappings;
   
   // Get mock data for selected country based on country code
   const selectedCountry = countries.find(c => c.id === selectedCountryId);
