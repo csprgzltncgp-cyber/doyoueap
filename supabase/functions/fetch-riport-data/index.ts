@@ -86,6 +86,8 @@ interface ProcessedStatistics {
   problemTypes: Record<string, number>
   // Type of problem (subcategories)
   typeOfProblem: Record<string, number>
+  // Problem details (subcategories)
+  problemDetails: Record<string, number>
   // Demographics
   gender: Record<string, number>
   age: Record<string, number>
@@ -96,6 +98,10 @@ interface ProcessedStatistics {
   source: Record<string, number>
   // Crisis
   crisis: Record<string, number>
+  // Cross-tabulations: gender × problem type
+  genderByProblemType: Record<string, Record<string, number>>
+  // Cross-tabulations: age × problem type
+  ageByProblemType: Record<string, Record<string, number>>
 }
 
 function processRiportValues(riportValues: RiportValue[], countryId: number | null): ProcessedStatistics {
