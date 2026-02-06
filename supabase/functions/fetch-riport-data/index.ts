@@ -371,13 +371,17 @@ async function getValueTypeMappings(
       return cachedMappings?.[typeId] && Object.keys(cachedMappings[typeId]).length > 0
     })
 
-    if (age < MAPPING_CACHE_TTL_MS && hasAllRequiredTypes) {
-      console.log(`Using cached mappings for company ${companyId} (age: ${Math.round(age / 1000 / 60)} minutes)`)
+    // Extra validation: riport_values often contain numeric IDs (e.g. "1") for type=7.
+    // If the cached mapping uses non-numeric keys (e.g. "psychological"), labels won't resolve.
+    const problemTypeHasNumericKeys = Object.keys(cachedMappings?.['7'] ?? {}).some((k) => /^\d+$/.test(k))
+
+    if (age < MAPPING_CACHE_TTL_MS && hasAllRequiredTypes && problemTypeHasNumericKeys) {
+      console.log(`Using cached mappings for company ${companyId} (age: ${Math.round(age / 1000 / 60)} minutes)`) 
       return cachedMappings
     }
 
-    if (!hasAllRequiredTypes) {
-      console.log(`Cached mappings missing required types for company ${companyId}, refreshing...`)
+    if (!hasAllRequiredTypes || !problemTypeHasNumericKeys) {
+      console.log(`Cached mappings missing required/usable types for company ${companyId}, refreshing...`)
     } else {
       console.log(`Cache expired for company ${companyId}, refreshing...`)
     }
@@ -432,12 +436,12 @@ async function fetchValueTypeMappingsFromLaravel(
     )
 
     if (!typesResponse.ok) {
-      console.error('Failed to fetch value types:', typesResponse.status)
-      return mapping
+      console.error('Failed to fetch value types index:', typesResponse.status)
+      // Continue anyway: some installations block the index but still allow fetching values by type id.
     }
 
-    const typesData = await typesResponse.json()
-    const types = typesData.data || []
+    const typesData = typesResponse.ok ? await typesResponse.json() : {}
+    const types = (typesData as any)?.data || []
 
     // Some backends don't list every required type in the value-types index (or they are under different sources).
     // We still need deterministic ID -> label mappings for the report, so fetch the required type IDs directly.
@@ -448,21 +452,24 @@ async function fetchValueTypeMappingsFromLaravel(
     )
 
     // Step 2: Fetch values one at a time with delay (safest for rate limiting)
-    for (const type of requiredTypeIds) {
+        for (const type of requiredTypeIds) {
       try {
         const candidateUrls: string[] = []
 
-        // Default (works for most types)
-        candidateUrls.push(
-          `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`
-        )
-
         // Some installations return empty results for certain types when filtering by company_id and/or language_id.
-        // For type=7 (Problem Type), retry a few variants.
+        // For type=7 (Problem Type), the most reliable endpoint is often the param-less one.
         if (type === '7') {
+          candidateUrls.push(`${LARAVEL_API_URL}/riports/value-types/${type}/values`)
           candidateUrls.push(`${LARAVEL_API_URL}/riports/value-types/${type}/values?language_id=${languageId}`)
           candidateUrls.push(`${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}`)
-          candidateUrls.push(`${LARAVEL_API_URL}/riports/value-types/${type}/values`)
+          candidateUrls.push(
+            `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`
+          )
+        } else {
+          // Default (works for most types)
+          candidateUrls.push(
+            `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`
+          )
         }
 
         let valuesData: any = null
@@ -503,7 +510,8 @@ async function fetchValueTypeMappingsFromLaravel(
         if (Array.isArray(raw) && raw.length > 0) {
           mapping[type] = {}
           for (const item of raw as Array<Record<string, unknown>>) {
-            const value = String(item.value ?? item.id ?? '')
+            // Prefer numeric IDs as keys when present (riport_values store numeric IDs as strings).
+            const value = String(item.id ?? item.value ?? '')
             const label = String(item.label ?? item.name ?? item.title ?? '')
             if (value && label) {
               mapping[type][value] = label
@@ -529,10 +537,6 @@ async function fetchValueTypeMappingsFromLaravel(
       } catch (error) {
         console.error(`Error fetching values for type ${type}:`, error)
       }
-
-      // Delay between each request to avoid rate limiting
-      await delay(800)
-    }
 
       // Delay between each request to avoid rate limiting
       await delay(800)
@@ -611,12 +615,11 @@ Deno.serve(async (req) => {
     console.log('Fetching riport data for company:', profile.laravel_company_id, riportRequest)
 
     // Fetch value type mappings (from Supabase cache or Laravel API)
-    // Language IDs: 1 = Hungarian (Magyar), 2 = Polish, etc.
     const valueTypeMappings = await getValueTypeMappings(
       supabaseClient,
       profile.laravel_company_id,
       laravelApiToken,
-      1 // Hungarian language ID (Magyar)
+      1
     )
 
     console.log('Fetched value type mappings:', valueTypeMappings)
