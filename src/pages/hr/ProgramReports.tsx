@@ -309,9 +309,10 @@ const ProgramReports = () => {
     { id: 4, name: 'Csehország', code: 'CZ' },
   ];
   
-  // Derived data
-  const countries = forceMockData ? MOCK_COUNTRIES : (apiData?.countries || []);
-  const companyName = forceMockData ? '' : (apiData?.company?.name?.trim() || '');
+  // Derived data - use mock data when in mock mode
+  const isMockMode = DATA_SOURCE_MODE === 'mock';
+  const countries = isMockMode ? MOCK_COUNTRIES : (apiData?.countries || []);
+  const companyName = isMockMode ? '' : (apiData?.company?.name?.trim() || '');
   
   // Set first country as default when data loads
   useEffect(() => {
@@ -320,8 +321,8 @@ const ProgramReports = () => {
     }
   }, [countries, selectedCountryId]);
   
-  // Calculate customer satisfaction average for selected country
-  const customerSatisfactionValues = forceMockData ? [] : (apiData?.customer_satisfaction_values || []);
+  // Calculate customer satisfaction average for selected country (only in API mode)
+  const customerSatisfactionValues = isMockMode ? [] : (apiData?.customer_satisfaction_values || []);
   const countryCSValues = customerSatisfactionValues.filter(
     (v) => String(v.country_id) === String(selectedCountryId)
   );
@@ -329,8 +330,8 @@ const ProgramReports = () => {
     ? countryCSValues.reduce((sum: number, v) => sum + Number(v.value), 0) / countryCSValues.length
     : 0;
   
-  // Get processed statistics from API (ignored while forceMockData=true)
-  const processedStats = forceMockData ? null : apiData?.processed_statistics;
+  // Get processed statistics from API (null in mock mode)
+  const processedStats = isMockMode ? null : apiData?.processed_statistics;
 
   const mockValueTypeMappings: ValueTypeMapping = {
     [RIPORT_VALUE_TYPE_IDS.PROBLEM_TYPE]: {
