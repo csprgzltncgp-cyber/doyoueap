@@ -452,21 +452,24 @@ async function fetchValueTypeMappingsFromLaravel(
     )
 
     // Step 2: Fetch values one at a time with delay (safest for rate limiting)
-    for (const type of requiredTypeIds) {
+        for (const type of requiredTypeIds) {
       try {
         const candidateUrls: string[] = []
 
-        // Default (works for most types)
-        candidateUrls.push(
-          `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`
-        )
-
         // Some installations return empty results for certain types when filtering by company_id and/or language_id.
-        // For type=7 (Problem Type), retry a few variants.
+        // For type=7 (Problem Type), the most reliable endpoint is often the param-less one.
         if (type === '7') {
+          candidateUrls.push(`${LARAVEL_API_URL}/riports/value-types/${type}/values`)
           candidateUrls.push(`${LARAVEL_API_URL}/riports/value-types/${type}/values?language_id=${languageId}`)
           candidateUrls.push(`${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}`)
-          candidateUrls.push(`${LARAVEL_API_URL}/riports/value-types/${type}/values`)
+          candidateUrls.push(
+            `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`
+          )
+        } else {
+          // Default (works for most types)
+          candidateUrls.push(
+            `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`
+          )
         }
 
         let valuesData: any = null
