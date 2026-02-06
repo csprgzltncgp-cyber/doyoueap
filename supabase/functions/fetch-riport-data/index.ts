@@ -365,11 +365,21 @@ async function getValueTypeMappings(
     const fetchedAt = new Date(cached.fetched_at).getTime()
     const age = Date.now() - fetchedAt
 
-    if (age < MAPPING_CACHE_TTL_MS) {
+    const cachedMappings = cached.mappings as ValueTypeMapping
+    const hasAllRequiredTypes = Array.from(REQUIRED_VALUE_TYPE_IDS).every((typeId) => {
+      return cachedMappings?.[typeId] && Object.keys(cachedMappings[typeId]).length > 0
+    })
+
+    if (age < MAPPING_CACHE_TTL_MS && hasAllRequiredTypes) {
       console.log(`Using cached mappings for company ${companyId} (age: ${Math.round(age / 1000 / 60)} minutes)`)
-      return cached.mappings as ValueTypeMapping
+      return cachedMappings
     }
-    console.log(`Cache expired for company ${companyId}, refreshing...`)
+
+    if (!hasAllRequiredTypes) {
+      console.log(`Cached mappings missing required types for company ${companyId}, refreshing...`)
+    } else {
+      console.log(`Cache expired for company ${companyId}, refreshing...`)
+    }
   } else {
     console.log(`No cache found for company ${companyId}, fetching fresh mappings...`)
   }
