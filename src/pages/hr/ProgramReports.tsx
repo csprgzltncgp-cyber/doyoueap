@@ -120,7 +120,7 @@ const MOCK_DATA_BY_COUNTRY: Record<string, CountryReportData> = {
     usageRate: 4.8,
     globalUsageComparison: 3.2,
     bestMonth: 'Október',
-    satisfactionScore: 4.6,
+    satisfactionScore: 9.5,
     cumulatedText: '2023. Q3 - 2024. Q4',
   },
   ro: {
@@ -153,7 +153,7 @@ const MOCK_DATA_BY_COUNTRY: Record<string, CountryReportData> = {
     usageRate: 3.9,
     globalUsageComparison: 2.6,
     bestMonth: 'November',
-    satisfactionScore: 4.4,
+    satisfactionScore: 9.2,
     cumulatedText: '2023. Q3 - 2024. Q4',
   },
   sk: {
@@ -186,7 +186,7 @@ const MOCK_DATA_BY_COUNTRY: Record<string, CountryReportData> = {
     usageRate: 3.5,
     globalUsageComparison: 2.3,
     bestMonth: 'Szeptember',
-    satisfactionScore: 4.5,
+    satisfactionScore: 8.8,
     cumulatedText: '2023. Q3 - 2024. Q4',
   },
   cz: {
@@ -219,7 +219,7 @@ const MOCK_DATA_BY_COUNTRY: Record<string, CountryReportData> = {
     usageRate: 4.2,
     globalUsageComparison: 2.8,
     bestMonth: 'Október',
-    satisfactionScore: 4.5,
+    satisfactionScore: 9.0,
     cumulatedText: '2023. Q3 - 2024. Q4',
   },
 };
