@@ -10,6 +10,7 @@ import { GaugeChart } from "@/components/ui/gauge-chart";
 import { useProgramReportsData, getValueLabel, RIPORT_VALUE_TYPE_IDS } from "@/hooks/useProgramReportsData";
 import { DistributionChart } from "@/components/reports/DistributionChart";
 import { CrossTabChart } from "@/components/reports/CrossTabChart";
+import { EapOnlineReportSection } from "@/components/reports/EapOnlineReportSection";
 
 // Quarters configuration
 const QUARTERS = [
