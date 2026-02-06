@@ -375,7 +375,7 @@ const ProgramReports = () => {
     },
   };
 
-  const mockStatsPercentages: StatisticsPercentages = {
+  const mockStatsPercentages = {
     problemTypes: {
       pszicho: 42,
       jog: 18,
