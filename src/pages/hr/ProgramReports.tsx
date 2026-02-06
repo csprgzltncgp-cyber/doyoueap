@@ -475,11 +475,11 @@ const ProgramReports = () => {
     unreachableCases: { current: processedStats.caseNumbers.clientUnreachable, cumulated: processedStats.caseNumbers.clientUnreachable },
     inProgressCases: processedStats.caseNumbers.inProgress,
     liveCases: {
-      // API now returns IDs - use mapping to get labels, then sum by translated labels
-      psychology: { current: processedStats.problemTypes['Pszichológiai'] || 0, cumulated: processedStats.problemTypes['Pszichológiai'] || 0 },
-      law: { current: processedStats.problemTypes['Jogi'] || 0, cumulated: processedStats.problemTypes['Jogi'] || 0 },
-      finance: { current: processedStats.problemTypes['Pénzügyi'] || 0, cumulated: processedStats.problemTypes['Pénzügyi'] || 0 },
-      healthCoaching: { current: processedStats.problemTypes['Egészségügyi'] || processedStats.problemTypes['Coaching'] || 0, cumulated: processedStats.problemTypes['Egészségügyi'] || processedStats.problemTypes['Coaching'] || 0 },
+      // Use translated labels from API (Psychological, Legal, Financial, etc.)
+      psychology: { current: processedStats.problemTypes['Psychological'] || processedStats.problemTypes['1'] || 0, cumulated: processedStats.problemTypes['Psychological'] || processedStats.problemTypes['1'] || 0 },
+      law: { current: processedStats.problemTypes['Legal'] || processedStats.problemTypes['2'] || 0, cumulated: processedStats.problemTypes['Legal'] || processedStats.problemTypes['2'] || 0 },
+      finance: { current: processedStats.problemTypes['Financial'] || processedStats.problemTypes['3'] || 0, cumulated: processedStats.problemTypes['Financial'] || processedStats.problemTypes['3'] || 0 },
+      healthCoaching: { current: processedStats.problemTypes['Health Coaching'] || processedStats.problemTypes['7'] || processedStats.problemTypes['Coaching'] || processedStats.problemTypes['11'] || 0, cumulated: processedStats.problemTypes['Health Coaching'] || processedStats.problemTypes['7'] || processedStats.problemTypes['Coaching'] || processedStats.problemTypes['11'] || 0 },
     },
     // Calculate highlights from statsPercentages using API value type mappings
     recordHighlights: (() => {
