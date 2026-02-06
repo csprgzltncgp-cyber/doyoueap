@@ -546,45 +546,44 @@ const ProgramReports = () => {
       female: statsPercentages.gender['Female'] || statsPercentages.gender['Nő'] || statsPercentages.gender['10'] || 0,
     } : mockData.genderDistribution,
 
-    // Age buckets: API may return English keys (under 20, between...) OR already-translated Hungarian labels.
+    // Age buckets: API returns Hungarian labels like "20-29 év között", "30-39 év között", etc.
+    // We use these directly instead of trying to map to different bucket names
     ageDistribution: statsPercentages?.age ? (() => {
       const age = statsPercentages.age;
-
-      const mapHuAgeKeyToBucket = (k: string): keyof CountryReportData['ageDistribution'] | null => {
-        const key = k.toLowerCase();
-        if (key.includes('19')) return '18-25';
-        if (key.includes('20-29') || key.includes('20 – 29') || key.includes('20 –29')) return '18-25';
-        if (key.includes('30-39')) return '26-35';
-        if (key.includes('40-49')) return '36-45';
-        if (key.includes('50-59')) return '46-55';
-        if (key.includes('60')) return '56+';
-        return null;
-      };
-
-      const result: CountryReportData['ageDistribution'] = {
-        '18-25': 0,
-        '26-35': 0,
-        '36-45': 0,
-        '46-55': 0,
-        '56+': 0,
-      };
-
-      // Prefer legacy English keys if present
-      result['18-25'] += (age['under 20'] || 0) + (age['between 20 and 29'] || 0);
-      result['26-35'] += age['between 30 and 39'] || 0;
-      result['36-45'] += age['between 40 and 49'] || 0;
-      result['46-55'] += age['between 50 and 59'] || 0;
-      result['56+'] += age['above 59'] || 0;
-
-      // Also fold in already-translated Hungarian labels
-      for (const [k, v] of Object.entries(age)) {
-        const bucket = mapHuAgeKeyToBucket(k);
-        if (bucket) {
-          result[bucket] += Number(v) || 0;
+      
+      // Create result with dynamic keys from API, filtering out "Nem ismert" (Unknown)
+      const result: Record<string, number> = {};
+      
+      for (const [key, value] of Object.entries(age)) {
+        // Skip unknown/empty entries
+        if (key.toLowerCase().includes('nem ismert') || key.toLowerCase().includes('unknown')) {
+          continue;
         }
+        
+        // Shorten Hungarian labels for display: "20-29 év között" -> "20-29"
+        let displayKey = key;
+        if (key.includes('év között')) {
+          displayKey = key.replace(' év között', '');
+        } else if (key.includes('év alatt')) {
+          displayKey = '<20';
+        } else if (key.includes('év felett') || key.includes('above')) {
+          displayKey = '60+';
+        } else if (key.includes('under 20')) {
+          displayKey = '<20';
+        } else if (key.includes('between')) {
+          // "between 20 and 29" -> "20-29"
+          const match = key.match(/between\s+(\d+)\s+and\s+(\d+)/i);
+          if (match) {
+            displayKey = `${match[1]}-${match[2]}`;
+          }
+        } else if (key.includes('above 59')) {
+          displayKey = '60+';
+        }
+        
+        result[displayKey] = Number(value) || 0;
       }
-
-      return result;
+      
+      return result as CountryReportData['ageDistribution'];
     })() : mockData.ageDistribution,
     // API may return: "Employee", "Family Member" OR Hungarian: "Munkavállaló", "Családtag"
     familyStatus: statsPercentages?.employeeOrFamily ? {
