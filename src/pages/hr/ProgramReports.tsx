@@ -271,6 +271,9 @@ function buildLabelMap(
 }
 
 const ProgramReports = () => {
+  // Force mock data mode (so you can review the UI with consistent non-zero cards)
+  const forceMockData = true;
+
   // Quarter selection
   const [selectedQuarter, setSelectedQuarter] = useState(4);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -281,17 +284,27 @@ const ProgramReports = () => {
   
   // Active mode: 'single' or 'cumulated'
   const [activeMode, setActiveMode] = useState<'single' | 'cumulated'>('single');
-  
-  // Fetch data from Laravel API
-  const { data: apiData, loading, error, refetch } = useProgramReportsData({
+
+  // Fetch data from API (kept for later, but ignored while forceMockData=true)
+  const { data: apiData, loading: apiLoading, error: apiError } = useProgramReportsData({
     quarter: selectedQuarter,
     year: selectedYear,
     countryId: selectedCountryId,
   });
+
+  const loading = forceMockData ? false : apiLoading;
+  const error = forceMockData ? null : apiError;
+
+  const MOCK_COUNTRIES: Array<{ id: number; name: string; code: string }> = [
+    { id: 1, name: 'Magyarország', code: 'HU' },
+    { id: 2, name: 'Románia', code: 'RO' },
+    { id: 3, name: 'Szlovákia', code: 'SK' },
+    { id: 4, name: 'Csehország', code: 'CZ' },
+  ];
   
-  // Derived data from API
-  const countries = apiData?.countries || [];
-  const companyName = apiData?.company?.name?.trim() || '';
+  // Derived data
+  const countries = forceMockData ? MOCK_COUNTRIES : (apiData?.countries || []);
+  const companyName = forceMockData ? '' : (apiData?.company?.name?.trim() || '');
   
   // Set first country as default when data loads
   useEffect(() => {
@@ -300,10 +313,8 @@ const ProgramReports = () => {
     }
   }, [countries, selectedCountryId]);
   
-  // Note: No need to manually refetch - the hook already refetches when countryId changes
-  
   // Calculate customer satisfaction average for selected country
-  const customerSatisfactionValues = apiData?.customer_satisfaction_values || [];
+  const customerSatisfactionValues = forceMockData ? [] : (apiData?.customer_satisfaction_values || []);
   const countryCSValues = customerSatisfactionValues.filter(
     (v) => String(v.country_id) === String(selectedCountryId)
   );
@@ -311,13 +322,136 @@ const ProgramReports = () => {
     ? countryCSValues.reduce((sum: number, v) => sum + Number(v.value), 0) / countryCSValues.length
     : 0;
   
-  // Get processed statistics from API (or fallback to mock data)
-  const processedStats = apiData?.processed_statistics;
-  const statsPercentages = apiData?.statistics_percentages;
-  const highlights = apiData?.highlights;
-  const valueTypeMappings = apiData?.value_type_mappings;
+  // Get processed statistics from API (ignored while forceMockData=true)
+  const processedStats = forceMockData ? null : apiData?.processed_statistics;
+
+  const mockValueTypeMappings: ValueTypeMapping = {
+    [RIPORT_VALUE_TYPE_IDS.PROBLEM_TYPE]: {
+      pszicho: 'Pszichológia',
+      jog: 'Jogi',
+      penzugy: 'Pénzügy',
+      egeszseg: 'Egészség',
+      coaching: 'Coaching',
+    },
+    [RIPORT_VALUE_TYPE_IDS.GENDER]: {
+      Male: 'Férfi',
+      Female: 'Nő',
+    },
+    [RIPORT_VALUE_TYPE_IDS.AGE]: {
+      'under 20': '18-25',
+      'between 20 and 29': '18-25',
+      'between 30 and 39': '26-35',
+      'between 40 and 49': '36-45',
+      'between 50 and 59': '46-55',
+      'above 59': '56+',
+    },
+    [RIPORT_VALUE_TYPE_IDS.PROBLEM_DETAILS]: {
+      stressz: 'Stressz / kiégés',
+      szorongas: 'Szorongás',
+      kapcsolat: 'Kapcsolati nehézség',
+      munkahely: 'Munkahelyi konfliktus',
+      alvas: 'Alvásprobléma',
+    },
+    [RIPORT_VALUE_TYPE_IDS.LANGUAGE]: {
+      hu: 'Magyar',
+      en: 'Angol',
+      de: 'Német',
+      ro: 'Román',
+      sk: 'Szlovák',
+      cz: 'Cseh',
+    },
+    [RIPORT_VALUE_TYPE_IDS.PLACE_OF_RECEIPT]: {
+      InPerson: 'Személyes',
+      Phone: 'Telefon',
+      Online: 'Online',
+      Email: 'E-mail',
+    },
+    [RIPORT_VALUE_TYPE_IDS.SOURCE]: {
+      hr: 'HR',
+      manager: 'Vezető',
+      intranet: 'Intranet',
+      poster: 'Plakát',
+      colleague: 'Kolléga',
+    },
+  };
+
+  const mockStatsPercentages = {
+    problemTypes: {
+      pszicho: 42,
+      jog: 18,
+      penzugy: 22,
+      egeszseg: 10,
+      coaching: 8,
+    },
+    typeOfProblem: {},
+    problemDetails: {
+      stressz: 28,
+      szorongas: 22,
+      kapcsolat: 18,
+      munkahely: 20,
+      alvas: 12,
+    },
+    gender: {
+      Male: 38,
+      Female: 62,
+    },
+    age: {
+      'between 20 and 29': 28,
+      'between 30 and 39': 30,
+      'between 40 and 49': 22,
+      'between 50 and 59': 14,
+      'above 59': 6,
+    },
+    employeeOrFamily: {
+      Employee: 78,
+      'Family Member': 22,
+    },
+    placeOfReceipt: {
+      InPerson: 25,
+      Phone: 45,
+      Online: 25,
+      Email: 5,
+    },
+    language: {
+      hu: 68,
+      en: 18,
+      de: 6,
+      ro: 4,
+      sk: 2,
+      cz: 2,
+    },
+    source: {
+      hr: 35,
+      manager: 20,
+      intranet: 18,
+      poster: 15,
+      colleague: 12,
+    },
+    crisis: {
+      Yes: 8,
+      No: 92,
+    },
+    genderByProblemType: {
+      pszicho: { Male: 34, Female: 66 },
+      jog: { Male: 48, Female: 52 },
+      penzugy: { Male: 42, Female: 58 },
+      egeszseg: { Male: 40, Female: 60 },
+      coaching: { Male: 36, Female: 64 },
+    },
+    ageByProblemType: {
+      pszicho: { 'between 20 and 29': 30, 'between 30 and 39': 28, 'between 40 and 49': 22, 'between 50 and 59': 14, 'above 59': 6 },
+      jog: { 'between 20 and 29': 22, 'between 30 and 39': 32, 'between 40 and 49': 26, 'between 50 and 59': 14, 'above 59': 6 },
+      penzugy: { 'between 20 and 29': 26, 'between 30 and 39': 30, 'between 40 and 49': 24, 'between 50 and 59': 14, 'above 59': 6 },
+      egeszseg: { 'between 20 and 29': 28, 'between 30 and 39': 28, 'between 40 and 49': 24, 'between 50 and 59': 14, 'above 59': 6 },
+      coaching: { 'between 20 and 29': 32, 'between 30 and 39': 26, 'between 40 and 49': 22, 'between 50 and 59': 14, 'above 59': 6 },
+    },
+  };
+
+  const statsPercentages = forceMockData ? mockStatsPercentages : apiData?.statistics_percentages;
+  const highlights = forceMockData ? null : apiData?.highlights;
+  const valueTypeMappings = forceMockData ? mockValueTypeMappings : apiData?.value_type_mappings;
   
-  // Get mock data for selected country based on API country code (fallback)
+  // Get mock data for selected country based on country code
   const selectedCountry = countries.find(c => c.id === selectedCountryId);
   const countryCode = selectedCountry?.code?.toLowerCase() || 'hu';
   const mockData = MOCK_DATA_BY_COUNTRY[countryCode] || MOCK_DATA_BY_COUNTRY['hu'];
