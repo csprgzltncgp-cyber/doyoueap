@@ -332,7 +332,9 @@ function delay(ms: number): Promise<void> {
 const MAPPING_CACHE_TTL_MS = 1000 * 60 * 60 * 24
 
 // Only fetch the types we actually display in Program Reports
+// NOTE: Some installations expose Problem Type labels under type=5 (legacy), while riport_values use type=7.
 const REQUIRED_VALUE_TYPE_IDS = new Set<string>([
+  '5',
   String(RIPORT_VALUE_TYPES.TYPE_IS_CRISIS),
   String(RIPORT_VALUE_TYPES.TYPE_PLACE_OF_RECEIPT),
   String(RIPORT_VALUE_TYPES.TYPE_PROBLEM_TYPE),
