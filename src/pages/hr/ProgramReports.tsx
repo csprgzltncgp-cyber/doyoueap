@@ -1212,6 +1212,12 @@ const ProgramReports = () => {
         />
       )}
 
+      {/* EAP Online Platform Report Section */}
+      <EapOnlineReportSection 
+        countryCode={countryCode} 
+        isCumulated={isCumulated} 
+      />
+
       {/* Global Comparison */}
       <Card className="bg-gradient-to-r from-[#04565f] to-[#004144]">
         <CardContent className="py-8">
