@@ -591,11 +591,11 @@ const ProgramReports = () => {
       employee: statsPercentages.employeeOrFamily['Employee'] || 0,
       familyMember: statsPercentages.employeeOrFamily['Family Member'] || 0,
     } : mockData.familyStatus,
-    // API now returns text values for consultation mode
+    // Consultation mode: API may return already-translated Hungarian labels or legacy English/partial values
     consultationMode: statsPercentages?.placeOfReceipt ? {
       inPerson: statsPercentages.placeOfReceipt['In-Person'] || statsPercentages.placeOfReceipt['Személyes'] || 0,
       phone: statsPercentages.placeOfReceipt['Phone'] || statsPercentages.placeOfReceipt['Telefon'] || 0,
-      online: statsPercentages.placeOfReceipt['Online'] || statsPercentages.placeOfReceipt['EAP Online/Mobile Application'] || 0,
+      online: statsPercentages.placeOfReceipt['Online'] || statsPercentages.placeOfReceipt['EAP Online/Mobile Application'] || statsPercentages.placeOfReceipt['EAP Online/Mobil alkalmazás'] || 0,
     } : mockData.consultationMode,
     usageRate: mockData.usageRate,
     globalUsageComparison: mockData.globalUsageComparison,
