@@ -271,6 +271,9 @@ function buildLabelMap(
 }
 
 const ProgramReports = () => {
+  // Force mock data mode (so you can review the UI with consistent non-zero cards)
+  const forceMockData = true;
+
   // Quarter selection
   const [selectedQuarter, setSelectedQuarter] = useState(4);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -281,17 +284,27 @@ const ProgramReports = () => {
   
   // Active mode: 'single' or 'cumulated'
   const [activeMode, setActiveMode] = useState<'single' | 'cumulated'>('single');
-  
-  // Fetch data from Laravel API
-  const { data: apiData, loading, error, refetch } = useProgramReportsData({
+
+  // Fetch data from API (kept for later, but ignored while forceMockData=true)
+  const { data: apiData, loading: apiLoading, error: apiError } = useProgramReportsData({
     quarter: selectedQuarter,
     year: selectedYear,
     countryId: selectedCountryId,
   });
+
+  const loading = forceMockData ? false : apiLoading;
+  const error = forceMockData ? null : apiError;
+
+  const MOCK_COUNTRIES: Array<{ id: number; name: string; code: string }> = [
+    { id: 1, name: 'Magyarország', code: 'HU' },
+    { id: 2, name: 'Románia', code: 'RO' },
+    { id: 3, name: 'Szlovákia', code: 'SK' },
+    { id: 4, name: 'Csehország', code: 'CZ' },
+  ];
   
-  // Derived data from API
-  const countries = apiData?.countries || [];
-  const companyName = apiData?.company?.name?.trim() || '';
+  // Derived data
+  const countries = forceMockData ? MOCK_COUNTRIES : (apiData?.countries || []);
+  const companyName = forceMockData ? '' : (apiData?.company?.name?.trim() || '');
   
   // Set first country as default when data loads
   useEffect(() => {
@@ -300,10 +313,8 @@ const ProgramReports = () => {
     }
   }, [countries, selectedCountryId]);
   
-  // Note: No need to manually refetch - the hook already refetches when countryId changes
-  
   // Calculate customer satisfaction average for selected country
-  const customerSatisfactionValues = apiData?.customer_satisfaction_values || [];
+  const customerSatisfactionValues = forceMockData ? [] : (apiData?.customer_satisfaction_values || []);
   const countryCSValues = customerSatisfactionValues.filter(
     (v) => String(v.country_id) === String(selectedCountryId)
   );
@@ -311,13 +322,13 @@ const ProgramReports = () => {
     ? countryCSValues.reduce((sum: number, v) => sum + Number(v.value), 0) / countryCSValues.length
     : 0;
   
-  // Get processed statistics from API (or fallback to mock data)
-  const processedStats = apiData?.processed_statistics;
-  const statsPercentages = apiData?.statistics_percentages;
-  const highlights = apiData?.highlights;
-  const valueTypeMappings = apiData?.value_type_mappings;
+  // Get processed statistics from API (ignored while forceMockData=true)
+  const processedStats = forceMockData ? null : apiData?.processed_statistics;
+  const statsPercentages = forceMockData ? null : apiData?.statistics_percentages;
+  const highlights = forceMockData ? null : apiData?.highlights;
+  const valueTypeMappings = forceMockData ? undefined : apiData?.value_type_mappings;
   
-  // Get mock data for selected country based on API country code (fallback)
+  // Get mock data for selected country based on country code
   const selectedCountry = countries.find(c => c.id === selectedCountryId);
   const countryCode = selectedCountry?.code?.toLowerCase() || 'hu';
   const mockData = MOCK_DATA_BY_COUNTRY[countryCode] || MOCK_DATA_BY_COUNTRY['hu'];
