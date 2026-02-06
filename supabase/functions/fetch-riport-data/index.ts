@@ -481,7 +481,7 @@ async function fetchValueTypeMappingsFromLaravel(
 
           valuesData = await valuesResponse.json()
 
-          const rawPreview = valuesData?.data ?? valuesData?.values
+          const rawPreview = valuesData?.data?.data ?? valuesData?.data ?? valuesData?.values
           const hasAny = Array.isArray(rawPreview)
             ? rawPreview.length > 0
             : rawPreview && typeof rawPreview === 'object' && Object.keys(rawPreview).length > 0
