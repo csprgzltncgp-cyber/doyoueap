@@ -438,18 +438,16 @@ async function fetchValueTypeMappingsFromLaravel(
     const typesData = await typesResponse.json()
     const types = typesData.data || []
 
-    // Filter to only the types we actually need (source can vary by backend implementation)
-    const requiredTypes = types.filter((t: { type: string | number }) => {
-      return REQUIRED_VALUE_TYPE_IDS.has(String(t.type))
-    })
+    // Some backends don't list every required type in the value-types index (or they are under different sources).
+    // We still need deterministic ID -> label mappings for the report, so fetch the required type IDs directly.
+    const requiredTypeIds = Array.from(REQUIRED_VALUE_TYPE_IDS)
 
-    console.log(`Fetching ${requiredTypes.length} required value types from Laravel`)
+    console.log(
+      `Value-types index returned ${types.length} items; fetching ${requiredTypeIds.length} required types directly from Laravel`
+    )
 
     // Step 2: Fetch values one at a time with delay (safest for rate limiting)
-    for (const typeItem of requiredTypes) {
-      const type = String(typeItem.type)
-
-      try {
+    for (const type of requiredTypeIds) {
         const valuesResponse = await fetch(
           `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`,
           {
