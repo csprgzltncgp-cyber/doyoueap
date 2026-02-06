@@ -1141,72 +1141,76 @@ const ProgramReports = () => {
       </Card>
 
       {/* NEW SECTIONS: Problem Details, Language, Source, Cross-tabs */}
-      
+
       {/* Problem Details Distribution */}
-      {statsPercentages?.problemDetails && Object.keys(statsPercentages.problemDetails).length > 0 && (
-        <DistributionChart
-          title="A probléma részletei szerinti megoszlás"
-          description="Az esetek részletes problématípus szerinti bontása"
-          data={translateDistribution(statsPercentages.problemDetails, valueTypeMappings, RIPORT_VALUE_TYPE_IDS.PROBLEM_DETAILS)}
-          type="bar"
-          icon={FileText}
-        />
-      )}
+      <DistributionChart
+        title="A probléma részletei szerinti megoszlás"
+        description="Az esetek részletes problématípus szerinti bontása"
+        data={translateDistribution(
+          statsPercentages?.problemDetails ?? {},
+          valueTypeMappings,
+          RIPORT_VALUE_TYPE_IDS.PROBLEM_DETAILS
+        )}
+        type="bar"
+        icon={FileText}
+      />
 
       {/* Language Distribution */}
-      {statsPercentages?.language && Object.keys(statsPercentages.language).length > 0 && (
-        <DistributionChart
-          title="A tanácsadás nyelve szerinti megoszlás"
-          description="Milyen nyelven zajlottak a konzultációk"
-          data={translateDistribution(statsPercentages.language, valueTypeMappings, RIPORT_VALUE_TYPE_IDS.LANGUAGE)}
-          type="pie"
-          icon={Languages}
-        />
-      )}
+      <DistributionChart
+        title="A tanácsadás nyelve szerinti megoszlás"
+        description="Milyen nyelven zajlottak a konzultációk"
+        data={translateDistribution(
+          statsPercentages?.language ?? {},
+          valueTypeMappings,
+          RIPORT_VALUE_TYPE_IDS.LANGUAGE
+        )}
+        type="pie"
+        icon={Languages}
+      />
 
       {/* Place of Receipt Distribution (Program access method) */}
-      {statsPercentages?.placeOfReceipt && Object.keys(statsPercentages.placeOfReceipt).length > 0 && (
-        <DistributionChart
-          title="A program elérésének eszköze szerinti megoszlás"
-          description="Hogyan vették fel az ügyfelek a kapcsolatot"
-          data={translateDistribution(statsPercentages.placeOfReceipt, valueTypeMappings, RIPORT_VALUE_TYPE_IDS.PLACE_OF_RECEIPT)}
-          type="pie"
-          icon={Globe}
-        />
-      )}
+      <DistributionChart
+        title="A program elérésének eszköze szerinti megoszlás"
+        description="Hogyan vették fel az ügyfelek a kapcsolatot"
+        data={translateDistribution(
+          statsPercentages?.placeOfReceipt ?? {},
+          valueTypeMappings,
+          RIPORT_VALUE_TYPE_IDS.PLACE_OF_RECEIPT
+        )}
+        type="pie"
+        icon={Globe}
+      />
 
       {/* Source Distribution (How they heard about the program) */}
-      {statsPercentages?.source && Object.keys(statsPercentages.source).length > 0 && (
-        <DistributionChart
-          title="A programról való értesülés szerinti megoszlás"
-          description="Honnan hallottak a programról az ügyfelek"
-          data={translateDistribution(statsPercentages.source, valueTypeMappings, RIPORT_VALUE_TYPE_IDS.SOURCE)}
-          type="bar"
-          icon={Megaphone}
-        />
-      )}
+      <DistributionChart
+        title="A programról való értesülés szerinti megoszlás"
+        description="Honnan hallottak a programról az ügyfelek"
+        data={translateDistribution(
+          statsPercentages?.source ?? {},
+          valueTypeMappings,
+          RIPORT_VALUE_TYPE_IDS.SOURCE
+        )}
+        type="bar"
+        icon={Megaphone}
+      />
 
       {/* Cross-tabulation: Gender by Problem Type */}
-      {statsPercentages?.genderByProblemType && Object.keys(statsPercentages.genderByProblemType).length > 0 && (
-        <CrossTabChart
-          title="A nők és a férfiak megoszlása probléma típusonként"
-          description="Nemek szerinti bontás az egyes problématípusokon belül"
-          data={statsPercentages.genderByProblemType}
-          labelMap={buildLabelMap(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.PROBLEM_TYPE)}
-          categoryLabelMap={buildLabelMap(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.GENDER)}
-        />
-      )}
+      <CrossTabChart
+        title="A nők és a férfiak megoszlása probléma típusonként"
+        description="Nemek szerinti bontás az egyes problématípusokon belül"
+        data={statsPercentages?.genderByProblemType ?? {}}
+        labelMap={buildLabelMap(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.PROBLEM_TYPE)}
+        categoryLabelMap={buildLabelMap(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.GENDER)}
+      />
 
       {/* Cross-tabulation: Age by Problem Type */}
-      {statsPercentages?.ageByProblemType && Object.keys(statsPercentages.ageByProblemType).length > 0 && (
-        <CrossTabChart
-          title="Életkor megoszlása probléma típusonként"
-          description="Korosztályok szerinti bontás az egyes problématípusokon belül"
-          data={statsPercentages.ageByProblemType}
-          labelMap={buildLabelMap(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.PROBLEM_TYPE)}
-          categoryLabelMap={buildLabelMap(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.AGE)}
-        />
-      )}
+      <CrossTabChart
+        title="Életkor megoszlása probléma típusonként"
+        description="Korosztályok szerinti bontás az egyes problématípusokon belül"
+        data={statsPercentages?.ageByProblemType ?? {}}
+        labelMap={buildLabelMap(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.PROBLEM_TYPE)}
+        categoryLabelMap={buildLabelMap(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.AGE)}
+      />
 
       {/* EAP Online Platform Report Section */}
       <EapOnlineReportSection 
