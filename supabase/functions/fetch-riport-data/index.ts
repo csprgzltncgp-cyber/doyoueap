@@ -507,7 +507,8 @@ async function fetchValueTypeMappingsFromLaravel(
         if (Array.isArray(raw) && raw.length > 0) {
           mapping[type] = {}
           for (const item of raw as Array<Record<string, unknown>>) {
-            const value = String(item.value ?? item.id ?? '')
+            // Prefer numeric IDs as keys when present (riport_values store numeric IDs as strings).
+            const value = String(item.id ?? item.value ?? '')
             const label = String(item.label ?? item.name ?? item.title ?? '')
             if (value && label) {
               mapping[type][value] = label
