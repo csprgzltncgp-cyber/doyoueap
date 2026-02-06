@@ -484,15 +484,15 @@ const ProgramReports = () => {
     recordHighlights: {
       mostFrequentProblem: highlights?.mostFrequentProblem 
         ? getValueLabel(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.PROBLEM_TYPE, highlights.mostFrequentProblem.key) 
-        : mockData.recordHighlights.mostFrequentProblem,
+        : null,
       dominantGender: highlights?.dominantGender ? { 
         label: getValueLabel(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.GENDER, highlights.dominantGender.key), 
         percentage: highlights.dominantGender.percentage 
-      } : mockData.recordHighlights.dominantGender,
+      } : null,
       dominantAgeGroup: highlights?.dominantAgeGroup ? { 
         label: getValueLabel(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.AGE, highlights.dominantAgeGroup.key), 
         percentage: highlights.dominantAgeGroup.percentage 
-      } : mockData.recordHighlights.dominantAgeGroup,
+      } : null,
     },
     totalConsultations: { current: processedStats.consultations.total, cumulated: processedStats.consultations.total },
     onsiteConsultations: { current: processedStats.consultations.onsite, cumulated: processedStats.consultations.onsite },
