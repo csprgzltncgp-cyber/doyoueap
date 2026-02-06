@@ -450,6 +450,7 @@ async function fetchValueTypeMappingsFromLaravel(
 
     // Step 2: Fetch values one at a time with delay (safest for rate limiting)
     for (const type of requiredTypeIds) {
+      try {
         const valuesResponse = await fetch(
           `${LARAVEL_API_URL}/riports/value-types/${type}/values?company_id=${companyId}&language_id=${languageId}`,
           {
@@ -466,18 +467,44 @@ async function fetchValueTypeMappingsFromLaravel(
         }
 
         const valuesData = await valuesResponse.json()
-        const values = valuesData.data || []
 
-        if (values.length > 0) {
+        // Laravel responses can vary by endpoint: sometimes `data` is an array of {value,label},
+        // sometimes it's a plain object map.
+        const raw = (valuesData?.data ?? valuesData?.values ?? []) as unknown
+
+        if (Array.isArray(raw) && raw.length > 0) {
           mapping[type] = {}
-          for (const item of values) {
-            mapping[type][item.value] = item.label
+          for (const item of raw as Array<Record<string, unknown>>) {
+            const value = String(item.value ?? item.id ?? '')
+            const label = String(item.label ?? item.name ?? item.title ?? '')
+            if (value && label) {
+              mapping[type][value] = label
+            }
           }
+        } else if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
+          const entries = Object.entries(raw as Record<string, unknown>)
+          if (entries.length > 0) {
+            mapping[type] = {}
+            for (const [value, label] of entries) {
+              if (label != null) {
+                mapping[type][String(value)] = String(label)
+              }
+            }
+          }
+        }
+
+        if (mapping[type] && Object.keys(mapping[type]).length > 0) {
           console.log(`Fetched mapping for type ${type}: ${Object.keys(mapping[type]).length} values`)
+        } else {
+          console.warn(`No mapping values returned for type ${type}`)
         }
       } catch (error) {
         console.error(`Error fetching values for type ${type}:`, error)
       }
+
+      // Delay between each request to avoid rate limiting
+      await delay(800)
+    }
 
       // Delay between each request to avoid rate limiting
       await delay(800)
