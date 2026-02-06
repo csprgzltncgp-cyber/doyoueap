@@ -443,10 +443,10 @@ async function fetchValueTypeMappingsFromLaravel(
       return REQUIRED_VALUE_TYPE_IDS.has(String(t.type))
     })
 
-    console.log(`Fetching ${caseInputTypes.length} required case_input_values types from Laravel`)
+    console.log(`Fetching ${requiredTypes.length} required value types from Laravel`)
 
     // Step 2: Fetch values one at a time with delay (safest for rate limiting)
-    for (const typeItem of caseInputTypes) {
+    for (const typeItem of requiredTypes) {
       const type = String(typeItem.type)
 
       try {
