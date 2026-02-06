@@ -709,8 +709,8 @@ Deno.serve(async (req) => {
         requestParams.country_id ?? null
       )
 
-      // Calculate percentages for distributions
-      statsPercentages = {
+      // Calculate percentages for distributions, then translate keys using mappings
+      const rawPercentages = {
         problemTypes: toPercentages(processedStats.problemTypes),
         typeOfProblem: toPercentages(processedStats.typeOfProblem),
         problemDetails: toPercentages(processedStats.problemDetails),
@@ -721,16 +721,42 @@ Deno.serve(async (req) => {
         language: toPercentages(processedStats.language),
         source: toPercentages(processedStats.source),
         crisis: toPercentages(processedStats.crisis),
-        // Cross-tabulations (raw counts)
-        genderByProblemType: processedStats.genderByProblemType,
-        ageByProblemType: processedStats.ageByProblemType,
       }
 
-      // Calculate highlights
+      // Translate keys using value type mappings
+      statsPercentages = {
+        problemTypes: translateDistributionKeys(rawPercentages.problemTypes, valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_PROBLEM_TYPE)),
+        typeOfProblem: translateDistributionKeys(rawPercentages.typeOfProblem, valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_TYPE_OF_PROBLEM)),
+        problemDetails: translateDistributionKeys(rawPercentages.problemDetails, valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_PROBLEM_DETAILS)),
+        gender: translateDistributionKeys(rawPercentages.gender, valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_GENDER)),
+        age: translateDistributionKeys(rawPercentages.age, valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_AGE)),
+        employeeOrFamily: translateDistributionKeys(rawPercentages.employeeOrFamily, valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_EMPLOYEE_OR_FAMILY_MEMBER)),
+        placeOfReceipt: translateDistributionKeys(rawPercentages.placeOfReceipt, valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_PLACE_OF_RECEIPT)),
+        language: translateDistributionKeys(rawPercentages.language, valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_LANGUAGE)),
+        source: translateDistributionKeys(rawPercentages.source, valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_SOURCE)),
+        crisis: translateDistributionKeys(rawPercentages.crisis, valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_IS_CRISIS)),
+        // Cross-tabulations with translated keys
+        genderByProblemType: translateCrossTabKeys(
+          processedStats.genderByProblemType,
+          valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_PROBLEM_TYPE),
+          valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_GENDER)
+        ),
+        ageByProblemType: translateCrossTabKeys(
+          processedStats.ageByProblemType,
+          valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_PROBLEM_TYPE),
+          valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_AGE)
+        ),
+      }
+
+      // Calculate highlights with translated keys
+      const translatedProblemTypes = translateDistributionKeys(processedStats.problemTypes, valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_PROBLEM_TYPE))
+      const translatedGender = translateDistributionKeys(processedStats.gender, valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_GENDER))
+      const translatedAge = translateDistributionKeys(processedStats.age, valueTypeMappings, String(RIPORT_VALUE_TYPES.TYPE_AGE))
+
       highlights = {
-        mostFrequentProblem: findMostCommon(processedStats.problemTypes),
-        dominantGender: findMostCommon(processedStats.gender),
-        dominantAgeGroup: findMostCommon(processedStats.age),
+        mostFrequentProblem: findMostCommon(translatedProblemTypes),
+        dominantGender: findMostCommon(translatedGender),
+        dominantAgeGroup: findMostCommon(translatedAge),
       }
     }
 
