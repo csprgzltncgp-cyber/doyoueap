@@ -223,7 +223,7 @@ const MOCK_EAP_ONLINE_DATA: Record<string, EapOnlineData> = {
         'Stresszkezelés': 186,
         'Mentális egészség': 149,
         'Munka-magánélet egyensúly': 112,
-        'Pénzügyi tanácsok', count: 89,
+        'Pénzügyi tanácsok': 89,
         'Családi kapcsolatok': 52,
         'Önfejlesztés': 24,
       },
