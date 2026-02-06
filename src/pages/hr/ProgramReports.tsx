@@ -279,9 +279,9 @@ const ProgramReports = () => {
   const DATA_SOURCE_MODE = 'api' as 'mock' | 'api';
   const isMockMode = DATA_SOURCE_MODE === 'mock';
 
-  // Quarter selection
+  // Quarter selection - use 2025 as default for real data
   const [selectedQuarter, setSelectedQuarter] = useState(4);
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedYear, setSelectedYear] = useState(2025);
   const [selectedCountryId, setSelectedCountryId] = useState<number | null>(null);
   
   // Cumulation mode (right side) - which quarters to add together
