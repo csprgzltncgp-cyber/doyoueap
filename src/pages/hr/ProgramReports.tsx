@@ -219,7 +219,7 @@ const MOCK_DATA_BY_COUNTRY: Record<string, CountryReportData> = {
     usageRate: 4.2,
     globalUsageComparison: 2.8,
     bestMonth: 'Október',
-    satisfactionScore: 4.5,
+    satisfactionScore: 9.0,
     cumulatedText: '2023. Q3 - 2024. Q4',
   },
 };
