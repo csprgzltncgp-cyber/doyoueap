@@ -133,6 +133,7 @@ function processRiportValues(riportValues: RiportValue[], countryId: number | nu
     },
     problemTypes: {},
     typeOfProblem: {},
+    problemDetails: {},
     gender: {},
     age: {},
     employeeOrFamily: {},
@@ -140,6 +141,26 @@ function processRiportValues(riportValues: RiportValue[], countryId: number | nu
     language: {},
     source: {},
     crisis: {},
+    genderByProblemType: {},
+    ageByProblemType: {},
+  }
+
+  // Build connection maps for cross-tabulation
+  const connectionToProblemType: Record<string, string> = {}
+  const connectionToGender: Record<string, string> = {}
+  const connectionToAge: Record<string, string> = {}
+  
+  // First pass: collect connection_id mappings
+  for (const rv of filteredValues) {
+    if (rv.connection_id) {
+      if (rv.type === RIPORT_VALUE_TYPES.TYPE_PROBLEM_TYPE) {
+        connectionToProblemType[rv.connection_id] = rv.value
+      } else if (rv.type === RIPORT_VALUE_TYPES.TYPE_GENDER) {
+        connectionToGender[rv.connection_id] = rv.value
+      } else if (rv.type === RIPORT_VALUE_TYPES.TYPE_AGE) {
+        connectionToAge[rv.connection_id] = rv.value
+      }
+    }
   }
 
   // Debug: collect all STATUS values for logging
