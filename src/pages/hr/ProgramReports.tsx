@@ -311,7 +311,6 @@ const ProgramReports = () => {
   ];
   
   // Derived data - use mock data when in mock mode
-  const isMockMode = DATA_SOURCE_MODE === 'mock';
   const countries = isMockMode ? MOCK_COUNTRIES : (apiData?.countries || []);
   const companyName = isMockMode ? '' : (apiData?.company?.name?.trim() || '');
   
