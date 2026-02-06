@@ -484,15 +484,15 @@ const ProgramReports = () => {
     recordHighlights: {
       mostFrequentProblem: highlights?.mostFrequentProblem 
         ? getValueLabel(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.PROBLEM_TYPE, highlights.mostFrequentProblem.key) 
-        : mockData.recordHighlights.mostFrequentProblem,
+        : null,
       dominantGender: highlights?.dominantGender ? { 
         label: getValueLabel(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.GENDER, highlights.dominantGender.key), 
         percentage: highlights.dominantGender.percentage 
-      } : mockData.recordHighlights.dominantGender,
+      } : null,
       dominantAgeGroup: highlights?.dominantAgeGroup ? { 
         label: getValueLabel(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.AGE, highlights.dominantAgeGroup.key), 
         percentage: highlights.dominantAgeGroup.percentage 
-      } : mockData.recordHighlights.dominantAgeGroup,
+      } : null,
     },
     totalConsultations: { current: processedStats.consultations.total, cumulated: processedStats.consultations.total },
     onsiteConsultations: { current: processedStats.consultations.onsite, cumulated: processedStats.consultations.onsite },
@@ -989,9 +989,13 @@ const ProgramReports = () => {
                 <Brain className="h-6 w-6" style={{ color: CHART_COLORS.primary }} />
               </div>
               <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Leggyakoribb probléma</p>
-              <p className="text-lg font-bold" style={{ color: CHART_COLORS.primary }}>
-                {currentData.recordHighlights.mostFrequentProblem}
-              </p>
+              {currentData.recordHighlights.mostFrequentProblem ? (
+                <p className="text-lg font-bold" style={{ color: CHART_COLORS.primary }}>
+                  {currentData.recordHighlights.mostFrequentProblem}
+                </p>
+              ) : (
+                <p className="text-sm text-muted-foreground italic">Nincs adat</p>
+              )}
             </div>
 
             {/* Dominant Gender */}
@@ -1000,12 +1004,18 @@ const ProgramReports = () => {
                 <Users className="h-6 w-6" style={{ color: CHART_COLORS.primary }} />
               </div>
               <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Többség neme</p>
-              <p className="text-lg font-bold" style={{ color: CHART_COLORS.primary }}>
-                {currentData.recordHighlights.dominantGender.label}
-              </p>
-              <p className="text-sm text-muted-foreground">
-                {currentData.recordHighlights.dominantGender.percentage}%
-              </p>
+              {currentData.recordHighlights.dominantGender ? (
+                <>
+                  <p className="text-lg font-bold" style={{ color: CHART_COLORS.primary }}>
+                    {currentData.recordHighlights.dominantGender.label}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {currentData.recordHighlights.dominantGender.percentage}%
+                  </p>
+                </>
+              ) : (
+                <p className="text-sm text-muted-foreground italic">Nincs adat</p>
+              )}
             </div>
 
             {/* Dominant Age Group */}
@@ -1014,12 +1024,18 @@ const ProgramReports = () => {
                 <TrendingUp className="h-6 w-6" style={{ color: CHART_COLORS.accent }} />
               </div>
               <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Legaktívabb korosztály</p>
-              <p className="text-lg font-bold" style={{ color: CHART_COLORS.accent }}>
-                {currentData.recordHighlights.dominantAgeGroup.label}
-              </p>
-              <p className="text-sm text-muted-foreground">
-                {currentData.recordHighlights.dominantAgeGroup.percentage}%
-              </p>
+              {currentData.recordHighlights.dominantAgeGroup ? (
+                <>
+                  <p className="text-lg font-bold" style={{ color: CHART_COLORS.accent }}>
+                    {currentData.recordHighlights.dominantAgeGroup.label}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {currentData.recordHighlights.dominantAgeGroup.percentage}%
+                  </p>
+                </>
+              ) : (
+                <p className="text-sm text-muted-foreground italic">Nincs adat</p>
+              )}
             </div>
           </div>
         </CardContent>
