@@ -615,12 +615,11 @@ Deno.serve(async (req) => {
     console.log('Fetching riport data for company:', profile.laravel_company_id, riportRequest)
 
     // Fetch value type mappings (from Supabase cache or Laravel API)
-    // NOTE: We use language_id=2 to match the labels seen on the reference dashboard (e.g. "psychological", "female").
     const valueTypeMappings = await getValueTypeMappings(
       supabaseClient,
       profile.laravel_company_id,
       laravelApiToken,
-      2
+      1
     )
 
     console.log('Fetched value type mappings:', valueTypeMappings)
