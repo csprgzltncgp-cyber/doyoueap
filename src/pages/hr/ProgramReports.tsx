@@ -271,8 +271,12 @@ function buildLabelMap(
 }
 
 const ProgramReports = () => {
-  // Force mock data mode (so you can review the UI with consistent non-zero cards)
-  const forceMockData = true;
+  // ============================================================
+  // DATA SOURCE MODE - Set to 'mock' or 'api'
+  // 'mock' = Uses hardcoded mock data, no API calls
+  // 'api'  = Fetches real data from the Laravel API
+  // ============================================================
+  const DATA_SOURCE_MODE: 'mock' | 'api' = 'mock';
 
   // Quarter selection
   const [selectedQuarter, setSelectedQuarter] = useState(4);
@@ -285,15 +289,18 @@ const ProgramReports = () => {
   // Active mode: 'single' or 'cumulated'
   const [activeMode, setActiveMode] = useState<'single' | 'cumulated'>('single');
 
-  // Fetch data from API (kept for later, but ignored while forceMockData=true)
+  // Fetch data from API ONLY when in 'api' mode
+  // When in 'mock' mode, the hook is still called but with enabled: false
   const { data: apiData, loading: apiLoading, error: apiError } = useProgramReportsData({
     quarter: selectedQuarter,
     year: selectedYear,
     countryId: selectedCountryId,
+    enabled: DATA_SOURCE_MODE === 'api', // Disable API calls in mock mode
   });
 
-  const loading = forceMockData ? false : apiLoading;
-  const error = forceMockData ? null : apiError;
+  // Loading/error states only apply in API mode
+  const loading = DATA_SOURCE_MODE === 'api' ? apiLoading : false;
+  const error = DATA_SOURCE_MODE === 'api' ? apiError : null;
 
   const MOCK_COUNTRIES: Array<{ id: number; name: string; code: string }> = [
     { id: 1, name: 'Magyarország', code: 'HU' },
