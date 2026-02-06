@@ -244,6 +244,31 @@ const PROBLEM_TYPE_COLORS = [
 // Available years for selection
 const AVAILABLE_YEARS = [2025, 2024, 2023, 2022];
 
+// Helper: translate distribution using value type mappings
+import type { ValueTypeMapping } from "@/hooks/useProgramReportsData";
+
+function translateDistribution(
+  distribution: Record<string, number>,
+  mappings: ValueTypeMapping | undefined,
+  typeId: string
+): Record<string, number> {
+  const result: Record<string, number> = {};
+  for (const [valueId, count] of Object.entries(distribution)) {
+    const label = mappings?.[typeId]?.[valueId] || valueId;
+    result[label] = count;
+  }
+  return result;
+}
+
+// Helper: build a label map from value type mappings for a specific type
+function buildLabelMap(
+  mappings: ValueTypeMapping | undefined,
+  typeId: string
+): Record<string, string> {
+  if (!mappings || !mappings[typeId]) return {};
+  return mappings[typeId];
+}
+
 const ProgramReports = () => {
   // Quarter selection
   const [selectedQuarter, setSelectedQuarter] = useState(4);
