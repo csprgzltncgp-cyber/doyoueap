@@ -236,11 +236,17 @@ function processRiportValues(riportValues: RiportValue[], countryId: number | nu
         break
 
       case RIPORT_VALUE_TYPES.TYPE_GENDER:
-        stats.gender[rv.value] = (stats.gender[rv.value] || 0) + 1
+        // Only count closed cases (is_ongoing = false or null)
+        if (!rv.is_ongoing) {
+          stats.gender[rv.value] = (stats.gender[rv.value] || 0) + 1
+        }
         break
 
       case RIPORT_VALUE_TYPES.TYPE_AGE:
-        stats.age[rv.value] = (stats.age[rv.value] || 0) + 1
+        // Only count closed cases (is_ongoing = false or null)
+        if (!rv.is_ongoing) {
+          stats.age[rv.value] = (stats.age[rv.value] || 0) + 1
+        }
         break
 
       case RIPORT_VALUE_TYPES.TYPE_EMPLOYEE_OR_FAMILY_MEMBER:
