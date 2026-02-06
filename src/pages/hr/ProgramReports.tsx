@@ -475,11 +475,11 @@ const ProgramReports = () => {
     unreachableCases: { current: processedStats.caseNumbers.clientUnreachable, cumulated: processedStats.caseNumbers.clientUnreachable },
     inProgressCases: processedStats.caseNumbers.inProgress,
     liveCases: {
-      // API now returns IDs - use mapping to get labels, then sum by translated labels
-      psychology: { current: processedStats.problemTypes['Pszichológiai'] || 0, cumulated: processedStats.problemTypes['Pszichológiai'] || 0 },
-      law: { current: processedStats.problemTypes['Jogi'] || 0, cumulated: processedStats.problemTypes['Jogi'] || 0 },
-      finance: { current: processedStats.problemTypes['Pénzügyi'] || 0, cumulated: processedStats.problemTypes['Pénzügyi'] || 0 },
-      healthCoaching: { current: processedStats.problemTypes['Egészségügyi'] || processedStats.problemTypes['Coaching'] || 0, cumulated: processedStats.problemTypes['Egészségügyi'] || processedStats.problemTypes['Coaching'] || 0 },
+      // Use translated labels from API (Psychological, Legal, Financial, etc.)
+      psychology: { current: processedStats.problemTypes['Psychological'] || processedStats.problemTypes['1'] || 0, cumulated: processedStats.problemTypes['Psychological'] || processedStats.problemTypes['1'] || 0 },
+      law: { current: processedStats.problemTypes['Legal'] || processedStats.problemTypes['2'] || 0, cumulated: processedStats.problemTypes['Legal'] || processedStats.problemTypes['2'] || 0 },
+      finance: { current: processedStats.problemTypes['Financial'] || processedStats.problemTypes['3'] || 0, cumulated: processedStats.problemTypes['Financial'] || processedStats.problemTypes['3'] || 0 },
+      healthCoaching: { current: processedStats.problemTypes['Health Coaching'] || processedStats.problemTypes['7'] || processedStats.problemTypes['Coaching'] || processedStats.problemTypes['11'] || 0, cumulated: processedStats.problemTypes['Health Coaching'] || processedStats.problemTypes['7'] || processedStats.problemTypes['Coaching'] || processedStats.problemTypes['11'] || 0 },
     },
     // Calculate highlights from statsPercentages using API value type mappings
     recordHighlights: (() => {
@@ -531,13 +531,13 @@ const ProgramReports = () => {
     workshopParticipants: { current: processedStats.activities.workshop, cumulated: processedStats.activities.workshop },
     crisisParticipants: { current: processedStats.activities.crisis, cumulated: processedStats.activities.crisis },
     onlineLogins: { current: 0, cumulated: 0 }, // Not available in current API
-    // API now returns text keys like "Pszichológiai" in percentages
+    // API returns translated labels from valueTypeMappings
     problemTypes: statsPercentages?.problemTypes ? {
-      psychology: statsPercentages.problemTypes['Pszichológiai'] || 0,
-      law: statsPercentages.problemTypes['Jogi'] || 0,
-      finance: statsPercentages.problemTypes['Pénzügyi'] || 0,
-      health: statsPercentages.problemTypes['Egészségügyi'] || 0,
-      coaching: statsPercentages.problemTypes['Coaching'] || 0,
+      psychology: statsPercentages.problemTypes['Psychological'] || statsPercentages.problemTypes['Pszichológiai'] || statsPercentages.problemTypes['psychological'] || 0,
+      law: statsPercentages.problemTypes['Legal'] || statsPercentages.problemTypes['Jogi'] || statsPercentages.problemTypes['legal'] || 0,
+      finance: statsPercentages.problemTypes['Financial'] || statsPercentages.problemTypes['Pénzügyi'] || statsPercentages.problemTypes['financial'] || 0,
+      health: statsPercentages.problemTypes['Health Coaching'] || statsPercentages.problemTypes['Egészségügyi'] || statsPercentages.problemTypes['health'] || 0,
+      coaching: statsPercentages.problemTypes['Coaching'] || statsPercentages.problemTypes['coaching'] || 0,
     } : mockData.problemTypes,
     // API now returns: "Male", "Female"
     genderDistribution: statsPercentages?.gender ? {
