@@ -371,13 +371,17 @@ async function getValueTypeMappings(
       return cachedMappings?.[typeId] && Object.keys(cachedMappings[typeId]).length > 0
     })
 
-    if (age < MAPPING_CACHE_TTL_MS && hasAllRequiredTypes) {
-      console.log(`Using cached mappings for company ${companyId} (age: ${Math.round(age / 1000 / 60)} minutes)`)
+    // Extra validation: riport_values often contain numeric IDs (e.g. "1") for type=7.
+    // If the cached mapping uses non-numeric keys (e.g. "psychological"), labels won't resolve.
+    const problemTypeHasNumericKeys = Object.keys(cachedMappings?.['7'] ?? {}).some((k) => /^\d+$/.test(k))
+
+    if (age < MAPPING_CACHE_TTL_MS && hasAllRequiredTypes && problemTypeHasNumericKeys) {
+      console.log(`Using cached mappings for company ${companyId} (age: ${Math.round(age / 1000 / 60)} minutes)`) 
       return cachedMappings
     }
 
-    if (!hasAllRequiredTypes) {
-      console.log(`Cached mappings missing required types for company ${companyId}, refreshing...`)
+    if (!hasAllRequiredTypes || !problemTypeHasNumericKeys) {
+      console.log(`Cached mappings missing required/usable types for company ${companyId}, refreshing...`)
     } else {
       console.log(`Cache expired for company ${companyId}, refreshing...`)
     }
