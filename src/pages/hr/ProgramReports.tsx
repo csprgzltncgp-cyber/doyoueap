@@ -764,9 +764,13 @@ const ProgramReports = () => {
               <p className="text-4xl font-bold" style={{ color: CHART_COLORS.accent }}>
                 {getValue(currentData.totalCases)}
               </p>
-              {!isCumulated && (
+              {isCumulated ? (
+                <p className="text-xs text-[#04565f] font-medium mt-1">
+                  {getCumulatedLabel()}
+                </p>
+              ) : (
                 <p className="text-xs text-muted-foreground mt-1">
-                  Össz: {currentData.totalCases.cumulated}
+                  Éves össz: {currentData.totalCases.cumulated}
                 </p>
               )}
             </div>
@@ -781,9 +785,13 @@ const ProgramReports = () => {
               <p className="text-4xl font-bold" style={{ color: CHART_COLORS.secondary }}>
                 {getValue(currentData.totalConsultations)}
               </p>
-              {!isCumulated && (
+              {isCumulated ? (
+                <p className="text-xs text-[#04565f] font-medium mt-1">
+                  {getCumulatedLabel()}
+                </p>
+              ) : (
                 <p className="text-xs text-muted-foreground mt-1">
-                  Össz: {currentData.totalConsultations.cumulated}
+                  Éves össz: {currentData.totalConsultations.cumulated}
                 </p>
               )}
             </div>
@@ -798,9 +806,13 @@ const ProgramReports = () => {
               <p className="text-4xl font-bold" style={{ color: CHART_COLORS.primary }}>
                 {getValue(currentData.workshopParticipants)}
               </p>
-              {!isCumulated && (
+              {isCumulated ? (
+                <p className="text-xs text-[#04565f] font-medium mt-1">
+                  {getCumulatedLabel()}
+                </p>
+              ) : (
                 <p className="text-xs text-muted-foreground mt-1">
-                  Össz: {currentData.workshopParticipants.cumulated}
+                  Éves össz: {currentData.workshopParticipants.cumulated}
                 </p>
               )}
             </div>
@@ -815,9 +827,13 @@ const ProgramReports = () => {
               <p className="text-4xl font-bold" style={{ color: CHART_COLORS.tertiary }}>
                 {getValue(currentData.onlineLogins)}
               </p>
-              {!isCumulated && (
+              {isCumulated ? (
+                <p className="text-xs text-[#04565f] font-medium mt-1">
+                  {getCumulatedLabel()}
+                </p>
+              ) : (
                 <p className="text-xs text-muted-foreground mt-1">
-                  Össz: {currentData.onlineLogins.cumulated}
+                  Éves össz: {currentData.onlineLogins.cumulated}
                 </p>
               )}
             </div>
@@ -832,9 +848,13 @@ const ProgramReports = () => {
               <p className="text-4xl font-bold" style={{ color: CHART_COLORS.highlight }}>
                 {getValue(currentData.crisisParticipants)}
               </p>
-              {!isCumulated && (
+              {isCumulated ? (
+                <p className="text-xs text-[#04565f] font-medium mt-1">
+                  {getCumulatedLabel()}
+                </p>
+              ) : (
                 <p className="text-xs text-muted-foreground mt-1">
-                  Össz: {currentData.crisisParticipants.cumulated}
+                  Éves össz: {currentData.crisisParticipants.cumulated}
                 </p>
               )}
             </div>
@@ -849,9 +869,13 @@ const ProgramReports = () => {
               <p className="text-4xl font-bold" style={{ color: CHART_COLORS.primary }}>
                 {getValue(currentData.onsiteConsultations)}
               </p>
-              {!isCumulated && (
+              {isCumulated ? (
+                <p className="text-xs text-[#04565f] font-medium mt-1">
+                  {getCumulatedLabel()}
+                </p>
+              ) : (
                 <p className="text-xs text-muted-foreground mt-1">
-                  Össz: {currentData.onsiteConsultations.cumulated}
+                  Éves össz: {currentData.onsiteConsultations.cumulated}
                 </p>
               )}
             </div>
