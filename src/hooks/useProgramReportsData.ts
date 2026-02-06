@@ -174,9 +174,8 @@ export const useProgramReportsData = (options: UseProgramReportsDataOptions = {}
         throw new Error('Not authenticated');
       }
 
-      // Default to 2024 since that's where the test data exists
-      // In production, this should be the current year or dynamically detected
-      const defaultYear = options.year ?? 2024;
+      // Default to 2025 for current year data
+      const defaultYear = options.year ?? 2025;
       
       const response = await supabase.functions.invoke('fetch-riport-data', {
         body: {
