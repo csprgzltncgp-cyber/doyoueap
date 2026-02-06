@@ -86,6 +86,8 @@ interface ProcessedStatistics {
   problemTypes: Record<string, number>
   // Type of problem (subcategories)
   typeOfProblem: Record<string, number>
+  // Problem details (subcategories)
+  problemDetails: Record<string, number>
   // Demographics
   gender: Record<string, number>
   age: Record<string, number>
@@ -96,6 +98,10 @@ interface ProcessedStatistics {
   source: Record<string, number>
   // Crisis
   crisis: Record<string, number>
+  // Cross-tabulations: gender × problem type
+  genderByProblemType: Record<string, Record<string, number>>
+  // Cross-tabulations: age × problem type
+  ageByProblemType: Record<string, Record<string, number>>
 }
 
 function processRiportValues(riportValues: RiportValue[], countryId: number | null): ProcessedStatistics {
@@ -127,6 +133,7 @@ function processRiportValues(riportValues: RiportValue[], countryId: number | nu
     },
     problemTypes: {},
     typeOfProblem: {},
+    problemDetails: {},
     gender: {},
     age: {},
     employeeOrFamily: {},
@@ -134,6 +141,26 @@ function processRiportValues(riportValues: RiportValue[], countryId: number | nu
     language: {},
     source: {},
     crisis: {},
+    genderByProblemType: {},
+    ageByProblemType: {},
+  }
+
+  // Build connection maps for cross-tabulation
+  const connectionToProblemType: Record<string, string> = {}
+  const connectionToGender: Record<string, string> = {}
+  const connectionToAge: Record<string, string> = {}
+  
+  // First pass: collect connection_id mappings
+  for (const rv of filteredValues) {
+    if (rv.connection_id) {
+      if (rv.type === RIPORT_VALUE_TYPES.TYPE_PROBLEM_TYPE) {
+        connectionToProblemType[rv.connection_id] = rv.value
+      } else if (rv.type === RIPORT_VALUE_TYPES.TYPE_GENDER) {
+        connectionToGender[rv.connection_id] = rv.value
+      } else if (rv.type === RIPORT_VALUE_TYPES.TYPE_AGE) {
+        connectionToAge[rv.connection_id] = rv.value
+      }
+    }
   }
 
   // Debug: collect all STATUS values for logging
@@ -202,6 +229,10 @@ function processRiportValues(riportValues: RiportValue[], countryId: number | nu
         stats.typeOfProblem[rv.value] = (stats.typeOfProblem[rv.value] || 0) + 1
         break
 
+      case RIPORT_VALUE_TYPES.TYPE_PROBLEM_DETAILS:
+        stats.problemDetails[rv.value] = (stats.problemDetails[rv.value] || 0) + 1
+        break
+
       case RIPORT_VALUE_TYPES.TYPE_GENDER:
         stats.gender[rv.value] = (stats.gender[rv.value] || 0) + 1
         break
@@ -229,6 +260,30 @@ function processRiportValues(riportValues: RiportValue[], countryId: number | nu
       case RIPORT_VALUE_TYPES.TYPE_IS_CRISIS:
         stats.crisis[rv.value] = (stats.crisis[rv.value] || 0) + 1
         break
+    }
+  }
+
+  // Build cross-tabulations: gender × problem type
+  for (const connId of Object.keys(connectionToProblemType)) {
+    const problemType = connectionToProblemType[connId]
+    const gender = connectionToGender[connId]
+    if (problemType && gender) {
+      if (!stats.genderByProblemType[problemType]) {
+        stats.genderByProblemType[problemType] = {}
+      }
+      stats.genderByProblemType[problemType][gender] = (stats.genderByProblemType[problemType][gender] || 0) + 1
+    }
+  }
+
+  // Build cross-tabulations: age × problem type
+  for (const connId of Object.keys(connectionToProblemType)) {
+    const problemType = connectionToProblemType[connId]
+    const age = connectionToAge[connId]
+    if (problemType && age) {
+      if (!stats.ageByProblemType[problemType]) {
+        stats.ageByProblemType[problemType] = {}
+      }
+      stats.ageByProblemType[problemType][age] = (stats.ageByProblemType[problemType][age] || 0) + 1
     }
   }
 
@@ -525,6 +580,7 @@ Deno.serve(async (req) => {
     let statsPercentages: {
       problemTypes: Record<string, number>
       typeOfProblem: Record<string, number>
+      problemDetails: Record<string, number>
       gender: Record<string, number>
       age: Record<string, number>
       employeeOrFamily: Record<string, number>
@@ -532,6 +588,8 @@ Deno.serve(async (req) => {
       language: Record<string, number>
       source: Record<string, number>
       crisis: Record<string, number>
+      genderByProblemType: Record<string, Record<string, number>>
+      ageByProblemType: Record<string, Record<string, number>>
     } | null = null
     let highlights: {
       mostFrequentProblem: { key: string; count: number; percentage: number } | null
@@ -549,6 +607,7 @@ Deno.serve(async (req) => {
       statsPercentages = {
         problemTypes: toPercentages(processedStats.problemTypes),
         typeOfProblem: toPercentages(processedStats.typeOfProblem),
+        problemDetails: toPercentages(processedStats.problemDetails),
         gender: toPercentages(processedStats.gender),
         age: toPercentages(processedStats.age),
         employeeOrFamily: toPercentages(processedStats.employeeOrFamily),
@@ -556,6 +615,9 @@ Deno.serve(async (req) => {
         language: toPercentages(processedStats.language),
         source: toPercentages(processedStats.source),
         crisis: toPercentages(processedStats.crisis),
+        // Cross-tabulations (raw counts)
+        genderByProblemType: processedStats.genderByProblemType,
+        ageByProblemType: processedStats.ageByProblemType,
       }
 
       // Calculate highlights

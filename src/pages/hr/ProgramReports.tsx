@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import { Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase, Heart, GraduationCap, Building2 } from "lucide-react";
+import { Users, Phone, Laptop, AlertCircle, TrendingUp, Brain, Scale, Briefcase, Heart, GraduationCap, Building2, Globe, Megaphone, FileText, Languages } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 import { Progress } from "@/components/ui/progress";
 import { GaugeChart } from "@/components/ui/gauge-chart";
-import { useProgramReportsData, getValueLabel, translateDistributionFromApi, RIPORT_VALUE_TYPE_IDS } from "@/hooks/useProgramReportsData";
+import { useProgramReportsData, getValueLabel, RIPORT_VALUE_TYPE_IDS } from "@/hooks/useProgramReportsData";
+import { DistributionChart } from "@/components/reports/DistributionChart";
+import { CrossTabChart } from "@/components/reports/CrossTabChart";
 
 // Quarters configuration
 const QUARTERS = [
@@ -242,6 +243,31 @@ const PROBLEM_TYPE_COLORS = [
 
 // Available years for selection
 const AVAILABLE_YEARS = [2025, 2024, 2023, 2022];
+
+// Helper: translate distribution using value type mappings
+import type { ValueTypeMapping } from "@/hooks/useProgramReportsData";
+
+function translateDistribution(
+  distribution: Record<string, number>,
+  mappings: ValueTypeMapping | undefined,
+  typeId: string
+): Record<string, number> {
+  const result: Record<string, number> = {};
+  for (const [valueId, count] of Object.entries(distribution)) {
+    const label = mappings?.[typeId]?.[valueId] || valueId;
+    result[label] = count;
+  }
+  return result;
+}
+
+// Helper: build a label map from value type mappings for a specific type
+function buildLabelMap(
+  mappings: ValueTypeMapping | undefined,
+  typeId: string
+): Record<string, string> {
+  if (!mappings || !mappings[typeId]) return {};
+  return mappings[typeId];
+}
 
 const ProgramReports = () => {
   // Quarter selection
@@ -1116,6 +1142,74 @@ const ProgramReports = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* NEW SECTIONS: Problem Details, Language, Source, Cross-tabs */}
+      
+      {/* Problem Details Distribution */}
+      {statsPercentages?.problemDetails && Object.keys(statsPercentages.problemDetails).length > 0 && (
+        <DistributionChart
+          title="A probléma részletei szerinti megoszlás"
+          description="Az esetek részletes problématípus szerinti bontása"
+          data={translateDistribution(statsPercentages.problemDetails, valueTypeMappings, RIPORT_VALUE_TYPE_IDS.PROBLEM_DETAILS)}
+          type="bar"
+          icon={FileText}
+        />
+      )}
+
+      {/* Language Distribution */}
+      {statsPercentages?.language && Object.keys(statsPercentages.language).length > 0 && (
+        <DistributionChart
+          title="A tanácsadás nyelve szerinti megoszlás"
+          description="Milyen nyelven zajlottak a konzultációk"
+          data={translateDistribution(statsPercentages.language, valueTypeMappings, RIPORT_VALUE_TYPE_IDS.LANGUAGE)}
+          type="pie"
+          icon={Languages}
+        />
+      )}
+
+      {/* Place of Receipt Distribution (Program access method) */}
+      {statsPercentages?.placeOfReceipt && Object.keys(statsPercentages.placeOfReceipt).length > 0 && (
+        <DistributionChart
+          title="A program elérésének eszköze szerinti megoszlás"
+          description="Hogyan vették fel az ügyfelek a kapcsolatot"
+          data={translateDistribution(statsPercentages.placeOfReceipt, valueTypeMappings, RIPORT_VALUE_TYPE_IDS.PLACE_OF_RECEIPT)}
+          type="pie"
+          icon={Globe}
+        />
+      )}
+
+      {/* Source Distribution (How they heard about the program) */}
+      {statsPercentages?.source && Object.keys(statsPercentages.source).length > 0 && (
+        <DistributionChart
+          title="A programról való értesülés szerinti megoszlás"
+          description="Honnan hallottak a programról az ügyfelek"
+          data={translateDistribution(statsPercentages.source, valueTypeMappings, RIPORT_VALUE_TYPE_IDS.SOURCE)}
+          type="bar"
+          icon={Megaphone}
+        />
+      )}
+
+      {/* Cross-tabulation: Gender by Problem Type */}
+      {statsPercentages?.genderByProblemType && Object.keys(statsPercentages.genderByProblemType).length > 0 && (
+        <CrossTabChart
+          title="A nők és a férfiak megoszlása probléma típusonként"
+          description="Nemek szerinti bontás az egyes problématípusokon belül"
+          data={statsPercentages.genderByProblemType}
+          labelMap={buildLabelMap(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.PROBLEM_TYPE)}
+          categoryLabelMap={buildLabelMap(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.GENDER)}
+        />
+      )}
+
+      {/* Cross-tabulation: Age by Problem Type */}
+      {statsPercentages?.ageByProblemType && Object.keys(statsPercentages.ageByProblemType).length > 0 && (
+        <CrossTabChart
+          title="Életkor megoszlása probléma típusonként"
+          description="Korosztályok szerinti bontás az egyes problématípusokon belül"
+          data={statsPercentages.ageByProblemType}
+          labelMap={buildLabelMap(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.PROBLEM_TYPE)}
+          categoryLabelMap={buildLabelMap(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.AGE)}
+        />
+      )}
 
       {/* Global Comparison */}
       <Card className="bg-gradient-to-r from-[#04565f] to-[#004144]">

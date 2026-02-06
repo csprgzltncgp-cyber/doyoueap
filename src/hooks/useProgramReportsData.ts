@@ -46,6 +46,7 @@ interface ProcessedStatistics {
   };
   problemTypes: Record<string, number>;
   typeOfProblem: Record<string, number>;
+  problemDetails: Record<string, number>;
   gender: Record<string, number>;
   age: Record<string, number>;
   employeeOrFamily: Record<string, number>;
@@ -53,11 +54,14 @@ interface ProcessedStatistics {
   language: Record<string, number>;
   source: Record<string, number>;
   crisis: Record<string, number>;
+  genderByProblemType: Record<string, Record<string, number>>;
+  ageByProblemType: Record<string, Record<string, number>>;
 }
 
 interface StatisticsPercentages {
   problemTypes: Record<string, number>;
   typeOfProblem: Record<string, number>;
+  problemDetails: Record<string, number>;
   gender: Record<string, number>;
   age: Record<string, number>;
   employeeOrFamily: Record<string, number>;
@@ -65,6 +69,8 @@ interface StatisticsPercentages {
   language: Record<string, number>;
   source: Record<string, number>;
   crisis: Record<string, number>;
+  genderByProblemType: Record<string, Record<string, number>>;
+  ageByProblemType: Record<string, Record<string, number>>;
 }
 
 interface Highlights {
@@ -122,6 +128,7 @@ export const RIPORT_VALUE_TYPE_IDS = {
   GENDER: '10',
   AGE: '11',
   SOURCE: '12',
+  PROBLEM_DETAILS: '16',
   LANGUAGE: '32',
 };
 
