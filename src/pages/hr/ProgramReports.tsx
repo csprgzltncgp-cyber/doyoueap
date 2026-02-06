@@ -603,7 +603,7 @@ const ProgramReports = () => {
       </Card>
 
       {/* Main Statistics Grid - Point 1: Fő mutatók */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {/* Total Cases */}
         <Card>
           <CardContent className="pt-6">
@@ -666,6 +666,40 @@ const ProgramReports = () => {
               {!isCumulated && (
                 <p className="text-xs text-muted-foreground mt-1">
                   Össz: {currentData.onlineLogins.cumulated}
+                </p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Crisis Intervention - moved here */}
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground mb-2">Krízisintervenció</p>
+              <p className="text-4xl font-bold" style={{ color: CHART_COLORS.highlight }}>
+                {getValue(currentData.crisisParticipants)}
+              </p>
+              {!isCumulated && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  Össz: {currentData.crisisParticipants.cumulated}
+                </p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Onsite Consultations - moved here */}
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground mb-2">Helyszíni konzultáció</p>
+              <p className="text-4xl font-bold" style={{ color: CHART_COLORS.primary }}>
+                {getValue(currentData.onsiteConsultations)}
+              </p>
+              {!isCumulated && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  Össz: {currentData.onsiteConsultations.cumulated}
                 </p>
               )}
             </div>
@@ -799,44 +833,6 @@ const ProgramReports = () => {
         </CardContent>
       </Card>
 
-      {/* Secondary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Krízisintervenció</p>
-                <p className="text-2xl font-bold">{getValue(currentData.crisisParticipants)}</p>
-              </div>
-              <AlertCircle className="h-8 w-8 text-muted-foreground/50" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Helyszíni konzultáció</p>
-                <p className="text-2xl font-bold">{getValue(currentData.onsiteConsultations)}</p>
-              </div>
-              <Users className="h-8 w-8 text-muted-foreground/50" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Folyamatban lévő esetek</p>
-                <p className="text-2xl font-bold">{currentData.inProgressCases}</p>
-              </div>
-              <TrendingUp className="h-8 w-8 text-muted-foreground/50" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
 
       {/* Problem Types & Demographics */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
