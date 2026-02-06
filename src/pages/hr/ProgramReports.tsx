@@ -324,9 +324,132 @@ const ProgramReports = () => {
   
   // Get processed statistics from API (ignored while forceMockData=true)
   const processedStats = forceMockData ? null : apiData?.processed_statistics;
-  const statsPercentages = forceMockData ? null : apiData?.statistics_percentages;
+
+  const mockValueTypeMappings: ValueTypeMapping = {
+    [RIPORT_VALUE_TYPE_IDS.PROBLEM_TYPE]: {
+      pszicho: 'Pszichológia',
+      jog: 'Jogi',
+      penzugy: 'Pénzügy',
+      egeszseg: 'Egészség',
+      coaching: 'Coaching',
+    },
+    [RIPORT_VALUE_TYPE_IDS.GENDER]: {
+      Male: 'Férfi',
+      Female: 'Nő',
+    },
+    [RIPORT_VALUE_TYPE_IDS.AGE]: {
+      'under 20': '18-25',
+      'between 20 and 29': '18-25',
+      'between 30 and 39': '26-35',
+      'between 40 and 49': '36-45',
+      'between 50 and 59': '46-55',
+      'above 59': '56+',
+    },
+    [RIPORT_VALUE_TYPE_IDS.PROBLEM_DETAILS]: {
+      stressz: 'Stressz / kiégés',
+      szorongas: 'Szorongás',
+      kapcsolat: 'Kapcsolati nehézség',
+      munkahely: 'Munkahelyi konfliktus',
+      alvas: 'Alvásprobléma',
+    },
+    [RIPORT_VALUE_TYPE_IDS.LANGUAGE]: {
+      hu: 'Magyar',
+      en: 'Angol',
+      de: 'Német',
+      ro: 'Román',
+      sk: 'Szlovák',
+      cz: 'Cseh',
+    },
+    [RIPORT_VALUE_TYPE_IDS.PLACE_OF_RECEIPT]: {
+      InPerson: 'Személyes',
+      Phone: 'Telefon',
+      Online: 'Online',
+      Email: 'E-mail',
+    },
+    [RIPORT_VALUE_TYPE_IDS.SOURCE]: {
+      hr: 'HR',
+      manager: 'Vezető',
+      intranet: 'Intranet',
+      poster: 'Plakát',
+      colleague: 'Kolléga',
+    },
+  };
+
+  const mockStatsPercentages: StatisticsPercentages = {
+    problemTypes: {
+      pszicho: 42,
+      jog: 18,
+      penzugy: 22,
+      egeszseg: 10,
+      coaching: 8,
+    },
+    typeOfProblem: {},
+    problemDetails: {
+      stressz: 28,
+      szorongas: 22,
+      kapcsolat: 18,
+      munkahely: 20,
+      alvas: 12,
+    },
+    gender: {
+      Male: 38,
+      Female: 62,
+    },
+    age: {
+      'between 20 and 29': 28,
+      'between 30 and 39': 30,
+      'between 40 and 49': 22,
+      'between 50 and 59': 14,
+      'above 59': 6,
+    },
+    employeeOrFamily: {
+      Employee: 78,
+      'Family Member': 22,
+    },
+    placeOfReceipt: {
+      InPerson: 25,
+      Phone: 45,
+      Online: 25,
+      Email: 5,
+    },
+    language: {
+      hu: 68,
+      en: 18,
+      de: 6,
+      ro: 4,
+      sk: 2,
+      cz: 2,
+    },
+    source: {
+      hr: 35,
+      manager: 20,
+      intranet: 18,
+      poster: 15,
+      colleague: 12,
+    },
+    crisis: {
+      Yes: 8,
+      No: 92,
+    },
+    genderByProblemType: {
+      pszicho: { Male: 34, Female: 66 },
+      jog: { Male: 48, Female: 52 },
+      penzugy: { Male: 42, Female: 58 },
+      egeszseg: { Male: 40, Female: 60 },
+      coaching: { Male: 36, Female: 64 },
+    },
+    ageByProblemType: {
+      pszicho: { 'between 20 and 29': 30, 'between 30 and 39': 28, 'between 40 and 49': 22, 'between 50 and 59': 14, 'above 59': 6 },
+      jog: { 'between 20 and 29': 22, 'between 30 and 39': 32, 'between 40 and 49': 26, 'between 50 and 59': 14, 'above 59': 6 },
+      penzugy: { 'between 20 and 29': 26, 'between 30 and 39': 30, 'between 40 and 49': 24, 'between 50 and 59': 14, 'above 59': 6 },
+      egeszseg: { 'between 20 and 29': 28, 'between 30 and 39': 28, 'between 40 and 49': 24, 'between 50 and 59': 14, 'above 59': 6 },
+      coaching: { 'between 20 and 29': 32, 'between 30 and 39': 26, 'between 40 and 49': 22, 'between 50 and 59': 14, 'above 59': 6 },
+    },
+  };
+
+  const statsPercentages = forceMockData ? mockStatsPercentages : apiData?.statistics_percentages;
   const highlights = forceMockData ? null : apiData?.highlights;
-  const valueTypeMappings = forceMockData ? undefined : apiData?.value_type_mappings;
+  const valueTypeMappings = forceMockData ? mockValueTypeMappings : apiData?.value_type_mappings;
   
   // Get mock data for selected country based on country code
   const selectedCountry = countries.find(c => c.id === selectedCountryId);
