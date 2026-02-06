@@ -488,50 +488,26 @@ const ProgramReports = () => {
         </Card>
       )}
 
-      {/* Year & Country Selectors */}
-      <div className="flex items-center gap-6 flex-wrap">
-        {/* Year Selector */}
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-muted-foreground">Év:</span>
-          <Select 
-            value={String(selectedYear)} 
-            onValueChange={(v) => setSelectedYear(Number(v))}
-          >
-            <SelectTrigger className="w-[100px] border-[#04565f]/30 focus:ring-[#04565f]">
-              <SelectValue placeholder="Válassz évet" />
-            </SelectTrigger>
-            <SelectContent>
-              {AVAILABLE_YEARS.map((year) => (
-                <SelectItem key={year} value={String(year)}>
-                  {year}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Country Selector */}
-        {!loading && countries.length > 0 && (
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-muted-foreground">Ország:</span>
-            <Select 
-              value={String(selectedCountryId)} 
-              onValueChange={(v) => setSelectedCountryId(Number(v))}
+      {/* Country Tabs */}
+      {!loading && countries.length > 0 && (
+        <div className="flex items-center gap-1 p-1 bg-muted/50 rounded-lg w-fit">
+          {countries.map((country) => (
+            <button
+              key={country.id}
+              onClick={() => setSelectedCountryId(country.id)}
+              className={`
+                px-4 py-2 text-sm font-medium rounded-md transition-all
+                ${selectedCountryId === country.id
+                  ? 'bg-[#04565f] text-white shadow-sm' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                }
+              `}
             >
-              <SelectTrigger className="w-[160px] border-[#04565f]/30 focus:ring-[#04565f]">
-                <SelectValue placeholder="Válassz országot" />
-              </SelectTrigger>
-              <SelectContent>
-                {countries.map((country) => (
-                  <SelectItem key={country.id} value={String(country.id)}>
-                    {country.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        )}
-      </div>
+              {country.name}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Quarter Selection Panel - Split: Left = Single, Right = Cumulated */}
       <Card>
