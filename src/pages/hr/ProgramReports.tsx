@@ -712,10 +712,10 @@ const ProgramReports = () => {
         <CardHeader>
           <div className="flex items-center gap-3">
             <CardTitle className="text-lg">Élő esetek típusonként</CardTitle>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-full bg-destructive text-destructive-foreground">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-full" style={{ backgroundColor: `${CHART_COLORS.highlight}20`, color: CHART_COLORS.highlight }}>
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive-foreground opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-destructive-foreground"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: CHART_COLORS.highlight }}></span>
+                <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: CHART_COLORS.highlight }}></span>
               </span>
               ÉLŐ
             </span>
@@ -725,10 +725,10 @@ const ProgramReports = () => {
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {/* Psychology */}
-            <div className="flex flex-col items-center p-4 bg-destructive/10 rounded-lg border border-destructive/20">
-              <Brain className="h-8 w-8 mb-2 text-destructive" />
+            <div className="flex flex-col items-center p-4 rounded-lg border" style={{ backgroundColor: `${CHART_COLORS.highlight}10`, borderColor: `${CHART_COLORS.highlight}30` }}>
+              <Brain className="h-8 w-8 mb-2" style={{ color: CHART_COLORS.highlight }} />
               <p className="text-sm text-muted-foreground text-center">Pszichológia</p>
-              <p className="text-3xl font-bold mt-1 text-destructive">
+              <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.highlight }}>
                 {getValue(currentData.liveCases.psychology)}
               </p>
               {!isCumulated && (
@@ -739,10 +739,10 @@ const ProgramReports = () => {
             </div>
 
             {/* Law */}
-            <div className="flex flex-col items-center p-4 bg-destructive/10 rounded-lg border border-destructive/20">
-              <Scale className="h-8 w-8 mb-2 text-destructive" />
+            <div className="flex flex-col items-center p-4 rounded-lg border" style={{ backgroundColor: `${CHART_COLORS.highlight}10`, borderColor: `${CHART_COLORS.highlight}30` }}>
+              <Scale className="h-8 w-8 mb-2" style={{ color: CHART_COLORS.highlight }} />
               <p className="text-sm text-muted-foreground text-center">Jogi tanácsadás</p>
-              <p className="text-3xl font-bold mt-1 text-destructive">
+              <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.highlight }}>
                 {getValue(currentData.liveCases.law)}
               </p>
               {!isCumulated && (
@@ -753,10 +753,10 @@ const ProgramReports = () => {
             </div>
 
             {/* Finance */}
-            <div className="flex flex-col items-center p-4 bg-destructive/10 rounded-lg border border-destructive/20">
-              <Briefcase className="h-8 w-8 mb-2 text-destructive" />
+            <div className="flex flex-col items-center p-4 rounded-lg border" style={{ backgroundColor: `${CHART_COLORS.highlight}10`, borderColor: `${CHART_COLORS.highlight}30` }}>
+              <Briefcase className="h-8 w-8 mb-2" style={{ color: CHART_COLORS.highlight }} />
               <p className="text-sm text-muted-foreground text-center">Pénzügyi tanácsadás</p>
-              <p className="text-3xl font-bold mt-1 text-destructive">
+              <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.highlight }}>
                 {getValue(currentData.liveCases.finance)}
               </p>
               {!isCumulated && (
@@ -767,10 +767,10 @@ const ProgramReports = () => {
             </div>
 
             {/* Health Coaching */}
-            <div className="flex flex-col items-center p-4 bg-destructive/10 rounded-lg border border-destructive/20">
-              <Heart className="h-8 w-8 mb-2 text-destructive" />
+            <div className="flex flex-col items-center p-4 rounded-lg border" style={{ backgroundColor: `${CHART_COLORS.highlight}10`, borderColor: `${CHART_COLORS.highlight}30` }}>
+              <Heart className="h-8 w-8 mb-2" style={{ color: CHART_COLORS.highlight }} />
               <p className="text-sm text-muted-foreground text-center">Egészség coaching</p>
-              <p className="text-3xl font-bold mt-1 text-destructive">
+              <p className="text-3xl font-bold mt-1" style={{ color: CHART_COLORS.highlight }}>
                 {getValue(currentData.liveCases.healthCoaching)}
               </p>
               {!isCumulated && (
