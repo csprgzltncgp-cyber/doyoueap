@@ -221,7 +221,10 @@ function processRiportValues(riportValues: RiportValue[], countryId: number | nu
         break
 
       case RIPORT_VALUE_TYPES.TYPE_PROBLEM_TYPE:
-        stats.problemTypes[rv.value] = (stats.problemTypes[rv.value] || 0) + 1
+        // Only count closed cases (is_ongoing = false or null)
+        if (!rv.is_ongoing) {
+          stats.problemTypes[rv.value] = (stats.problemTypes[rv.value] || 0) + 1
+        }
         break
 
       case RIPORT_VALUE_TYPES.TYPE_TYPE_OF_PROBLEM:
