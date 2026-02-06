@@ -117,6 +117,7 @@ interface UseProgramReportsDataOptions {
   quarter?: number | null;
   year?: number | null;
   periodType?: 'quarter' | 'month';
+  enabled?: boolean; // If false, the hook will not fetch data (for mock mode)
 }
 
 // Riport value type constants matching Laravel
