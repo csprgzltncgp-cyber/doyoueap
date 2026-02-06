@@ -120,7 +120,7 @@ const MOCK_DATA_BY_COUNTRY: Record<string, CountryReportData> = {
     usageRate: 4.8,
     globalUsageComparison: 3.2,
     bestMonth: 'Október',
-    satisfactionScore: 4.6,
+    satisfactionScore: 9.5,
     cumulatedText: '2023. Q3 - 2024. Q4',
   },
   ro: {
