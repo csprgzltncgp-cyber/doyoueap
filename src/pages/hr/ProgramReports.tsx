@@ -531,13 +531,13 @@ const ProgramReports = () => {
     workshopParticipants: { current: processedStats.activities.workshop, cumulated: processedStats.activities.workshop },
     crisisParticipants: { current: processedStats.activities.crisis, cumulated: processedStats.activities.crisis },
     onlineLogins: { current: 0, cumulated: 0 }, // Not available in current API
-    // API now returns text keys like "Pszichológiai" in percentages
+    // API returns translated labels from valueTypeMappings
     problemTypes: statsPercentages?.problemTypes ? {
-      psychology: statsPercentages.problemTypes['Pszichológiai'] || 0,
-      law: statsPercentages.problemTypes['Jogi'] || 0,
-      finance: statsPercentages.problemTypes['Pénzügyi'] || 0,
-      health: statsPercentages.problemTypes['Egészségügyi'] || 0,
-      coaching: statsPercentages.problemTypes['Coaching'] || 0,
+      psychology: statsPercentages.problemTypes['Psychological'] || statsPercentages.problemTypes['Pszichológiai'] || statsPercentages.problemTypes['psychological'] || 0,
+      law: statsPercentages.problemTypes['Legal'] || statsPercentages.problemTypes['Jogi'] || statsPercentages.problemTypes['legal'] || 0,
+      finance: statsPercentages.problemTypes['Financial'] || statsPercentages.problemTypes['Pénzügyi'] || statsPercentages.problemTypes['financial'] || 0,
+      health: statsPercentages.problemTypes['Health Coaching'] || statsPercentages.problemTypes['Egészségügyi'] || statsPercentages.problemTypes['health'] || 0,
+      coaching: statsPercentages.problemTypes['Coaching'] || statsPercentages.problemTypes['coaching'] || 0,
     } : mockData.problemTypes,
     // API now returns: "Male", "Female"
     genderDistribution: statsPercentages?.gender ? {
