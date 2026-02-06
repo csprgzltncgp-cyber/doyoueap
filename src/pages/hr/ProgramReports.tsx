@@ -276,7 +276,8 @@ const ProgramReports = () => {
   // 'mock' = Uses hardcoded mock data, no API calls
   // 'api'  = Fetches real data from the Laravel API
   // ============================================================
-  const DATA_SOURCE_MODE: 'mock' | 'api' = 'mock';
+  const DATA_SOURCE_MODE = 'mock' as 'mock' | 'api';
+  const isMockMode = DATA_SOURCE_MODE === 'mock';
 
   // Quarter selection
   const [selectedQuarter, setSelectedQuarter] = useState(4);
@@ -290,17 +291,17 @@ const ProgramReports = () => {
   const [activeMode, setActiveMode] = useState<'single' | 'cumulated'>('single');
 
   // Fetch data from API ONLY when in 'api' mode
-  // When in 'mock' mode, the hook is still called but with enabled: false
+  // When in 'mock' mode, the hook is disabled and won't make any API calls
   const { data: apiData, loading: apiLoading, error: apiError } = useProgramReportsData({
     quarter: selectedQuarter,
     year: selectedYear,
     countryId: selectedCountryId,
-    enabled: DATA_SOURCE_MODE === 'api', // Disable API calls in mock mode
+    enabled: !isMockMode, // Disable API calls in mock mode
   });
 
   // Loading/error states only apply in API mode
-  const loading = DATA_SOURCE_MODE === 'api' ? apiLoading : false;
-  const error = DATA_SOURCE_MODE === 'api' ? apiError : null;
+  const loading = !isMockMode ? apiLoading : false;
+  const error = !isMockMode ? apiError : null;
 
   const MOCK_COUNTRIES: Array<{ id: number; name: string; code: string }> = [
     { id: 1, name: 'Magyarország', code: 'HU' },
