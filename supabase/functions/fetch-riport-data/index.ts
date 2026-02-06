@@ -497,8 +497,8 @@ async function fetchValueTypeMappingsFromLaravel(
         }
 
         // Laravel responses can vary by endpoint: sometimes `data` is an array of {value,label},
-        // sometimes it's a plain object map.
-        const raw = (valuesData?.data ?? valuesData?.values ?? []) as unknown
+        // sometimes it's paginated as `data.data`, and sometimes it's a plain object map.
+        const raw = (valuesData?.data?.data ?? valuesData?.data ?? valuesData?.values ?? []) as unknown
 
         if (Array.isArray(raw) && raw.length > 0) {
           mapping[type] = {}
