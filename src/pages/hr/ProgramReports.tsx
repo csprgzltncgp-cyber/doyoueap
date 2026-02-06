@@ -271,8 +271,13 @@ function buildLabelMap(
 }
 
 const ProgramReports = () => {
-  // Force mock data mode (so you can review the UI with consistent non-zero cards)
-  const forceMockData = true;
+  // ============================================================
+  // DATA SOURCE MODE - Set to 'mock' or 'api'
+  // 'mock' = Uses hardcoded mock data, no API calls
+  // 'api'  = Fetches real data from the Laravel API
+  // ============================================================
+  const DATA_SOURCE_MODE = 'mock' as 'mock' | 'api';
+  const isMockMode = DATA_SOURCE_MODE === 'mock';
 
   // Quarter selection
   const [selectedQuarter, setSelectedQuarter] = useState(4);
@@ -285,15 +290,18 @@ const ProgramReports = () => {
   // Active mode: 'single' or 'cumulated'
   const [activeMode, setActiveMode] = useState<'single' | 'cumulated'>('single');
 
-  // Fetch data from API (kept for later, but ignored while forceMockData=true)
+  // Fetch data from API ONLY when in 'api' mode
+  // When in 'mock' mode, the hook is disabled and won't make any API calls
   const { data: apiData, loading: apiLoading, error: apiError } = useProgramReportsData({
     quarter: selectedQuarter,
     year: selectedYear,
     countryId: selectedCountryId,
+    enabled: !isMockMode, // Disable API calls in mock mode
   });
 
-  const loading = forceMockData ? false : apiLoading;
-  const error = forceMockData ? null : apiError;
+  // Loading/error states only apply in API mode
+  const loading = !isMockMode ? apiLoading : false;
+  const error = !isMockMode ? apiError : null;
 
   const MOCK_COUNTRIES: Array<{ id: number; name: string; code: string }> = [
     { id: 1, name: 'Magyarország', code: 'HU' },
@@ -302,9 +310,9 @@ const ProgramReports = () => {
     { id: 4, name: 'Csehország', code: 'CZ' },
   ];
   
-  // Derived data
-  const countries = forceMockData ? MOCK_COUNTRIES : (apiData?.countries || []);
-  const companyName = forceMockData ? '' : (apiData?.company?.name?.trim() || '');
+  // Derived data - use mock data when in mock mode
+  const countries = isMockMode ? MOCK_COUNTRIES : (apiData?.countries || []);
+  const companyName = isMockMode ? '' : (apiData?.company?.name?.trim() || '');
   
   // Set first country as default when data loads
   useEffect(() => {
@@ -313,8 +321,8 @@ const ProgramReports = () => {
     }
   }, [countries, selectedCountryId]);
   
-  // Calculate customer satisfaction average for selected country
-  const customerSatisfactionValues = forceMockData ? [] : (apiData?.customer_satisfaction_values || []);
+  // Calculate customer satisfaction average for selected country (only in API mode)
+  const customerSatisfactionValues = isMockMode ? [] : (apiData?.customer_satisfaction_values || []);
   const countryCSValues = customerSatisfactionValues.filter(
     (v) => String(v.country_id) === String(selectedCountryId)
   );
@@ -322,8 +330,8 @@ const ProgramReports = () => {
     ? countryCSValues.reduce((sum: number, v) => sum + Number(v.value), 0) / countryCSValues.length
     : 0;
   
-  // Get processed statistics from API (ignored while forceMockData=true)
-  const processedStats = forceMockData ? null : apiData?.processed_statistics;
+  // Get processed statistics from API (null in mock mode)
+  const processedStats = isMockMode ? null : apiData?.processed_statistics;
 
   const mockValueTypeMappings: ValueTypeMapping = {
     [RIPORT_VALUE_TYPE_IDS.PROBLEM_TYPE]: {
@@ -447,9 +455,9 @@ const ProgramReports = () => {
     },
   };
 
-  const statsPercentages = forceMockData ? mockStatsPercentages : apiData?.statistics_percentages;
-  const highlights = forceMockData ? null : apiData?.highlights;
-  const valueTypeMappings = forceMockData ? mockValueTypeMappings : apiData?.value_type_mappings;
+  const statsPercentages = isMockMode ? mockStatsPercentages : apiData?.statistics_percentages;
+  const highlights = isMockMode ? null : apiData?.highlights;
+  const valueTypeMappings = isMockMode ? mockValueTypeMappings : apiData?.value_type_mappings;
   
   // Get mock data for selected country based on country code
   const selectedCountry = countries.find(c => c.id === selectedCountryId);
