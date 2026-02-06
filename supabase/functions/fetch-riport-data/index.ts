@@ -580,6 +580,7 @@ Deno.serve(async (req) => {
     let statsPercentages: {
       problemTypes: Record<string, number>
       typeOfProblem: Record<string, number>
+      problemDetails: Record<string, number>
       gender: Record<string, number>
       age: Record<string, number>
       employeeOrFamily: Record<string, number>
@@ -587,6 +588,8 @@ Deno.serve(async (req) => {
       language: Record<string, number>
       source: Record<string, number>
       crisis: Record<string, number>
+      genderByProblemType: Record<string, Record<string, number>>
+      ageByProblemType: Record<string, Record<string, number>>
     } | null = null
     let highlights: {
       mostFrequentProblem: { key: string; count: number; percentage: number } | null
@@ -604,6 +607,7 @@ Deno.serve(async (req) => {
       statsPercentages = {
         problemTypes: toPercentages(processedStats.problemTypes),
         typeOfProblem: toPercentages(processedStats.typeOfProblem),
+        problemDetails: toPercentages(processedStats.problemDetails),
         gender: toPercentages(processedStats.gender),
         age: toPercentages(processedStats.age),
         employeeOrFamily: toPercentages(processedStats.employeeOrFamily),
@@ -611,6 +615,9 @@ Deno.serve(async (req) => {
         language: toPercentages(processedStats.language),
         source: toPercentages(processedStats.source),
         crisis: toPercentages(processedStats.crisis),
+        // Cross-tabulations (raw counts)
+        genderByProblemType: processedStats.genderByProblemType,
+        ageByProblemType: processedStats.ageByProblemType,
       }
 
       // Calculate highlights
