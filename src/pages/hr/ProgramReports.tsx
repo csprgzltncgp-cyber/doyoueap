@@ -586,10 +586,10 @@ const ProgramReports = () => {
 
       return result;
     })() : mockData.ageDistribution,
-    // API now returns: "Employee", "Family Member"
+    // API may return: "Employee", "Family Member" OR Hungarian: "Munkavállaló", "Családtag"
     familyStatus: statsPercentages?.employeeOrFamily ? {
-      employee: statsPercentages.employeeOrFamily['Employee'] || 0,
-      familyMember: statsPercentages.employeeOrFamily['Family Member'] || 0,
+      employee: statsPercentages.employeeOrFamily['Employee'] || statsPercentages.employeeOrFamily['Munkavállaló'] || 0,
+      familyMember: statsPercentages.employeeOrFamily['Family Member'] || statsPercentages.employeeOrFamily['Családtag'] || 0,
     } : mockData.familyStatus,
     // Consultation mode: API may return already-translated Hungarian labels or legacy English/partial values
     consultationMode: statsPercentages?.placeOfReceipt ? {
