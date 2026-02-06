@@ -10,6 +10,7 @@ import { GaugeChart } from "@/components/ui/gauge-chart";
 import { useProgramReportsData, getValueLabel, RIPORT_VALUE_TYPE_IDS } from "@/hooks/useProgramReportsData";
 import { DistributionChart } from "@/components/reports/DistributionChart";
 import { CrossTabChart } from "@/components/reports/CrossTabChart";
+import { EapOnlineReportSection } from "@/components/reports/EapOnlineReportSection";
 
 // Quarters configuration
 const QUARTERS = [
@@ -1210,6 +1211,12 @@ const ProgramReports = () => {
           categoryLabelMap={buildLabelMap(valueTypeMappings, RIPORT_VALUE_TYPE_IDS.AGE)}
         />
       )}
+
+      {/* EAP Online Platform Report Section */}
+      <EapOnlineReportSection 
+        countryCode={countryCode} 
+        isCumulated={isCumulated} 
+      />
 
       {/* Global Comparison */}
       <Card className="bg-gradient-to-r from-[#04565f] to-[#004144]">
